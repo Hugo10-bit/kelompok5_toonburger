@@ -101,7 +101,6 @@
                 <!-- Mascot & Text inside Arc -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center pt-2 sm:pt-3">
                     <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-14 sm:h-16 lg:h-18 w-auto object-contain drop-shadow-md">
-                    <span class="font-brand text-white text-xs sm:text-sm tracking-widest uppercase mt-1">TOON BURGER</span>
                 </div>
             </div>
         </div>
