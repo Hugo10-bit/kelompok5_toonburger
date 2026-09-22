@@ -56,7 +56,7 @@
     <header class="bg-white text-gray-800 border-b border-[#E6DEC8] px-6 py-3 flex items-center justify-between flex-shrink-0 shadow-xs">
         <div class="flex items-center gap-4">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
-                <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-9 w-9 object-contain">
+                <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-9 w-auto object-contain">
                 <span class="font-brand text-xl text-toon-granite">TOON BURGER</span>
             </a>
             <div class="h-5 w-px bg-gray-200"></div>

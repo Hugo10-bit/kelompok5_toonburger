@@ -90,7 +90,7 @@
                 <!-- Logo -->
                 <div class="flex items-center gap-6">
                     <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                        <img src="{{ asset('images/logo.png') }}" alt="BiteRush Logo" class="h-10 sm:h-12 w-auto object-contain transition group-hover:scale-105">
+                        <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo" class="h-12 sm:h-14 w-auto object-contain transition group-hover:scale-105">
                     </a>
 
                     <!-- Nav Links -->
@@ -240,7 +240,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
                 <div class="space-y-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="BiteRush" class="h-10 w-auto">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-12 w-auto object-contain">
                     <p class="text-xs text-gray-400 leading-relaxed">
                         Nikmati sensasi burger premium terbaik dengan 100% daging sapi Australia, brioche bun lembut, dan saus lezat khas BiteRush.
                     </p>

@@ -123,16 +123,12 @@
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white text-gray-800 border-r border-[#E6DEC8] flex flex-col justify-between flex-shrink-0 min-h-screen -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex shadow-2xl md:shadow-sm">
         <div>
             <!-- Logo Section -->
-            <div class="p-5 border-b border-[#EFE5D0] flex items-center justify-between">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger Logo" class="h-11 w-11 object-contain drop-shadow-xs transition group-hover:scale-105">
-                    <div>
-                        <span class="font-brand text-xl text-toon-granite block tracking-wide leading-none">TOON BURGER</span>
-                        <span class="text-[9px] font-extrabold uppercase tracking-widest text-gray-400 block mt-0.5">Admin Dashboard</span>
-                    </div>
+            <div class="p-4 sm:p-5 border-b border-[#EFE5D0] flex items-center justify-between md:justify-center relative">
+                <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group py-1 text-center w-full">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-16 sm:h-20 w-auto object-contain drop-shadow-xs transition group-hover:scale-105">
                 </a>
                 <!-- Mobile Close Button -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-3 top-3 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -255,7 +251,7 @@
                     </svg>
                 </button>
                 <div class="md:hidden flex items-center gap-2">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-8 w-8 object-contain">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-8 w-auto object-contain">
                     <span class="font-brand text-toon-granite text-lg">TOON BURGER</span>
                 </div>
             </div>

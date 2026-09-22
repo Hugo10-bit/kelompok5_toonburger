@@ -100,7 +100,7 @@
 
                 <!-- Mascot & Text inside Arc -->
                 <div class="absolute inset-0 flex flex-col items-center justify-center pt-2 sm:pt-3">
-                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-14 sm:h-16 lg:h-18 w-auto object-contain drop-shadow-md">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-16 sm:h-20 lg:h-22 w-auto object-contain drop-shadow-md">
                 </div>
             </div>
         </div>
