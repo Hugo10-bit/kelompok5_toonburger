@@ -29,6 +29,10 @@ Route::get('/rapip', function () {
     return view('welcome rapip ');
 });
 
+Route::get('/rizky', function () {
+    return view('welcome rizky ');
+});
+
 // Main Menu & Catalog (Home)
 Route::get('/', [MenuController::class, 'index'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
