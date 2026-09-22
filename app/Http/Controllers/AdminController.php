@@ -261,6 +261,110 @@ class AdminController extends Controller
     }
 
     /**
+     * Product Categories Management.
+     */
+    public function categories()
+    {
+        $categories = Category::withCount('products')->orderBy('sort_order')->get();
+        return view('admin.categories', compact('categories'));
+    }
+
+    /**
+     * Store new product category.
+     */
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        $maxSort = Category::max('sort_order') ?? 0;
+
+        Category::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name) . '-' . rand(10, 99),
+            'sort_order' => $request->sort_order ?? ($maxSort + 1),
+            'is_active' => true,
+        ]);
+
+        return back()->with('success', "Kategori '{$request->name}' berhasil ditambahkan!");
+    }
+
+    /**
+     * Update product category.
+     */
+    public function updateCategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'sort_order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $category->update([
+            'name' => $request->name,
+            'sort_order' => $request->sort_order ?? $category->sort_order,
+            'is_active' => $request->has('is_active') ? $request->boolean('is_active') : $category->is_active,
+        ]);
+
+        return back()->with('success', "Kategori '{$category->name}' berhasil diperbarui!");
+    }
+
+    /**
+     * Delete product category.
+     */
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
+        if ($category->products()->count() > 0) {
+            return back()->with('error', "Kategori '{$category->name}' masih memiliki menu produk dan tidak dapat dihapus.");
+        }
+        $category->delete();
+
+        return back()->with('success', "Kategori '{$category->name}' berhasil dihapus.");
+    }
+
+    /**
+     * Admin Profile Settings.
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('admin.profile', compact('user'));
+    }
+
+    /**
+     * Update Admin Profile.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'phone_number' => 'nullable|string|max:30',
+            'password' => 'nullable|string|min:6|confirmed',
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->filled('phone_number')) {
+            $user->phone_number = $request->phone_number;
+        }
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Profil admin berhasil diperbarui!');
+    }
+
+    /**
      * Coupons Management.
      */
     public function coupons()

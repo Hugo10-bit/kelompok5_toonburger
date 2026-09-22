@@ -83,6 +83,16 @@ Route::middleware('auth')->group(function () {
             Route::get('/tables', [AdminController::class, 'tables'])->name('tables');
             Route::post('/tables/{id}/status', [AdminController::class, 'updateTableStatus'])->name('tables.status');
 
+            // Category Management
+            Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
+            Route::post('/categories/store', [AdminController::class, 'storeCategory'])->name('categories.store');
+            Route::post('/categories/{id}/update', [AdminController::class, 'updateCategory'])->name('categories.update');
+            Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+
+            // Admin Profile Management
+            Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+            Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+
             // Coupons Management
             Route::get('/coupons', [AdminController::class, 'coupons'])->name('coupons');
             Route::post('/coupons/store', [AdminController::class, 'storeCoupon'])->name('coupons.store');

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>POS Kasir - BiteRush</title>
+    <title>POS Kasir - Toon Burger</title>
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,46 +18,61 @@
             theme: {
                 extend: {
                     colors: {
+                        toon: {
+                            granite: '#466967',
+                            'granite-dark': '#344E4C',
+                            wheat: '#F1D9B3',
+                            rust: '#C1502D',
+                            cream: '#FAF1E1',
+                            dark: '#263A38',
+                        },
                         bites: {
-                            yellow: '#FFC72C',
-                            'yellow-dark': '#E8A400',
-                            orange: '#F9961F',
-                            red: '#D92625',
-                            dark: '#121212',
-                            bg: '#F8F6F0',
+                            yellow: '#466967',
+                            'yellow-dark': '#344E4C',
+                            orange: '#F1D9B3',
+                            red: '#C1502D',
+                            dark: '#263A38',
+                            bg: '#FAF1E1',
                         }
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
+                        luckiest: ['"Luckiest Guy"', 'cursive'],
+                        courier: ['"Courier New"', 'Courier', 'monospace'],
                     }
                 }
             }
         }
     </script>
-    <style>body { font-family: 'Poppins', sans-serif; }</style>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .font-brand { font-family: 'Luckiest Guy', cursive; }
+        .font-mono-code { font-family: 'Courier New', Courier, monospace; }
+    </style>
 </head>
-<body class="h-full bg-gray-100 flex flex-col antialiased overflow-hidden">
+<body class="h-full bg-[#FAF1E1] flex flex-col antialiased overflow-hidden">
 
     <!-- TOP BAR -->
-    <header class="bg-bites-dark text-white px-6 py-3 flex items-center justify-between flex-shrink-0 shadow-md">
+    <header class="bg-white text-gray-800 border-b border-[#E6DEC8] px-6 py-3 flex items-center justify-between flex-shrink-0 shadow-xs">
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-                <img src="{{ asset('images/logo.png') }}" alt="BiteRush" class="h-8 w-auto">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
+                <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-9 w-9 object-contain">
+                <span class="font-brand text-xl text-toon-granite">TOON BURGER</span>
             </a>
-            <div class="h-5 w-px bg-white/20"></div>
-            <span class="bg-amber-400 text-black font-black text-xs px-2.5 py-0.5 rounded uppercase tracking-wider">
+            <div class="h-5 w-px bg-gray-200"></div>
+            <span class="bg-toon-granite text-white font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider">
                 POINT OF SALE
             </span>
-            <span class="text-xs text-gray-300">Kasir: <strong>{{ Auth::user()->name }}</strong></span>
+            <span class="text-xs text-gray-500">Kasir: <strong class="text-gray-900">{{ Auth::user()->name }}</strong></span>
         </div>
 
         <div class="flex items-center gap-3 text-xs">
-            <span id="pos-clock" class="font-mono font-bold text-yellow-300">00:00:00</span>
-            <a href="{{ route('admin.orders') }}" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg font-bold transition">
-                Kitchen Board
+            <span id="pos-clock" class="font-mono-code font-black text-toon-granite bg-toon-cream px-2.5 py-1 rounded-full border border-toon-granite/20">00:00:00</span>
+            <a href="{{ route('admin.orders') }}" class="bg-toon-cream hover:bg-toon-wheat text-toon-granite px-3 py-1.5 rounded-full font-bold transition">
+                Proses Pesanan
             </a>
-            <a href="{{ route('admin.dashboard') }}" class="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg font-bold transition">
-                Admin
+            <a href="{{ route('admin.dashboard') }}" class="bg-toon-granite hover:bg-toon-granite-dark text-white px-3.5 py-1.5 rounded-full font-bold transition shadow-xs">
+                Kembali ke Dashboard
             </a>
         </div>
     </header>
@@ -187,7 +202,7 @@
                 </div>
 
                 <!-- Process Button -->
-                <button onclick="submitPosOrder()" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-3.5 rounded-2xl shadow-lg transition active:scale-98 text-sm flex items-center justify-center gap-2">
+                <button onclick="submitPosOrder()" class="w-full bg-toon-granite hover:bg-toon-granite-dark text-white font-black py-3.5 rounded-full shadow-md transition active:scale-98 text-sm flex items-center justify-center gap-2">
                     <span>Bayar &amp; Proses Pesanan</span>
                 </button>
             </div>
