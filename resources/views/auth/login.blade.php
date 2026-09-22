@@ -1,759 +1,386 @@
+@php
+    $errors = $errors ?? new \Illuminate\Support\ViewErrorBag;
+    $currentMode = (isset($mode) && $mode === 'register') || request()->is('register') || old('form_type') === 'register' ? 'register' : 'login';
+@endphp
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full w-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>BitesRush! - Login</title>
+    <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        toon: {
+                            granite: '#466967',
+                            'granite-dark': '#344E4C',
+                            wheat: '#F1D9B3',
+                            rust: '#C1502D',
+                            cream: '#FAF1E1',
+                            dark: '#263A38',
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                        luckiest: ['"Luckiest Guy"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         html, body {
-            height: 100vh;
-            max-height: 100vh;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            background: #ffffff;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            display: flex;
-            width: 100vw;
-            animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        body.page-exiting {
-            opacity: 1 !important;
-        }
-
-        @keyframes pageEnter {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #page-loader-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3.5px;
-            width: 0%;
-            background: linear-gradient(90deg, #FFC72C, #F9961F, #D92625);
-            z-index: 99999;
-            transition: width 0.35s ease, opacity 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 0 10px rgba(249, 150, 31, 0.7);
-        }
-
-        /* ── LEFT PANEL (FORM SIDE) ── */
-        .panel-left {
-            width: 50%;
-            height: 100vh;
-            max-height: 100vh;
-            overflow: hidden;
-            overflow-y: hidden;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px 48px;
-            box-sizing: border-box;
-        }
-
-        .panel-left::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-        }
-
-        /* ── RIGHT PANEL (IMAGE SIDE) ── */
-        .panel-right {
-            width: 50%;
-            height: 100vh;
-            max-height: 100vh;
-            background: linear-gradient(160deg, #ffb347 0%, #f9961f 40%, #e07b00 75%, #c05400 100%);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .panel-right img.bg-image {
-            width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center center;
-            display: block;
-            user-select: none;
-        }
-
-        /* ── LOGO ── */
-        .logo-wrap {
             width: 100%;
-            max-width: 440px;
-            margin-bottom: 20px;
-            margin-top: 0;
-        }
-
-        .logo-wrap img {
-            height: 65px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        /* ── FORM AREA ── */
-        .form-area {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            max-width: 440px;
-            width: 100%;
-        }
-
-        .form-area h1 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #0b0b0b;
-            line-height: 1.2;
-            margin-bottom: 6px;
-            letter-spacing: -0.5px;
-        }
-
-        .form-area p.subtitle {
-            font-size: 14px;
-            color: #8e8e8e;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        /* ── LABELS ── */
-        label.field-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        /* ── INPUTS ── */
-        .input-wrap {
-            position: relative;
-            margin-bottom: 14px;
-        }
-
-        .input-wrap input {
-            width: 100%;
-            height: 46px;
-            padding: 0 44px 0 16px;
-            font-size: 13.5px;
-            font-family: 'Poppins', sans-serif;
-            color: #1f2937;
-            background: #ffffff;
-            border: 1.2px solid #d1d5db;
-            border-radius: 9px;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-
-        .input-wrap input::placeholder {
-            color: #9ca3af;
-            font-size: 13px;
-        }
-
-        .input-wrap input:focus {
-            border-color: #f9961f;
-            box-shadow: 0 0 0 3px rgba(249, 150, 31, 0.15);
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #4b5563;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-icon button {
-            background: none;
-            border: none;
-            cursor: pointer;
+            margin: 0;
             padding: 0;
-            color: #4b5563;
-            display: flex;
-            align-items: center;
         }
-
-        .input-icon button:hover { color: #111; }
-
-        /* ── REMEMBER / FORGOT ── */
-        .row-check {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 2px;
-            margin-bottom: 16px;
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #F1D9B3;
+            color: #263A38;
+            overflow-x: hidden;
         }
-
-        .check-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #1a1a1a;
-            cursor: pointer;
-            user-select: none;
+        .font-brand {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 0.05em;
         }
-
-        .custom-checkbox {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 1.2px solid #9ca3af;
-            border-radius: 4px;
-            outline: none;
-            cursor: pointer;
-            position: relative;
-            background: #ffffff;
-            flex-shrink: 0;
-            transition: all 0.15s ease;
+        /* Classic retro checkerboard pattern */
+        .checkerboard-pattern {
+            background-image: 
+                linear-gradient(45deg, #466967 25%, transparent 25%), 
+                linear-gradient(-45deg, #466967 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #466967 75%), 
+                linear-gradient(-45deg, transparent 75%, #466967 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
-
-        .custom-checkbox:checked {
-            background-color: #f9961f;
-            border-color: #f9961f;
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+            50% { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
         }
-
-        .custom-checkbox:checked::after {
-            content: '';
-            position: absolute;
-            left: 4.5px;
-            top: 2px;
-            width: 4px;
-            height: 7px;
-            border: solid #ffffff;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
+        .float-burger {
+            animation: floatSlow 4s ease-in-out infinite;
         }
-
-        .forgot-link {
-            font-size: 13px;
-            color: #1a1a1a;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .forgot-link:hover { color: #f9961f; }
-
-        /* ── BUTTONS ── */
-        .btn-primary {
-            width: 100%;
-            height: 48px;
-            background: #f9961f;
-            color: #ffffff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            border: none;
-            border-radius: 9px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 8px rgba(249, 150, 31, 0.3);
-            margin-bottom: 14px;
-        }
-
-        .btn-primary:hover  {
-            background: #e88610;
-            box-shadow: 0 4px 14px rgba(249, 150, 31, 0.4);
-        }
-        .btn-primary:active { transform: scale(0.99); }
-
-        /* ── SWITCH LINK ── */
-        .switch-line {
-            font-size: 13px;
-            color: #1f2937;
-        }
-
-        .switch-line a {
-            color: #ef4444;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .switch-line a:hover {
-            color: #dc2626;
-            text-decoration: underline;
-        }
-
-        /* ── ALERT MESSAGES ── */
-        .alert-error {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #fff5f5;
-            border: 1px solid #fecaca;
-            color: #D92625;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-
-        .alert-success {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #16a34a;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-
-        .hidden { display: none !important; }
-
-        /* ── DIVIDER ── */
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 4px 0 14px;
-            color: #9ca3af;
-            font-size: 12.5px;
-        }
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
-        }
-
-
-
-        /* ── RESPONSIVE: TABLET ── */
-        @media (max-width: 900px) {
-            html, body {
-                height: auto;
-                max-height: none;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-            body { flex-direction: column; }
-
-            .panel-right { display: none; }
-
-            .panel-left {
-                width: 100%;
-                height: auto;
-                min-height: 100vh;
-                max-height: none;
-                overflow: visible;
-                overflow-y: visible;
-                padding: 40px 32px;
-                justify-content: flex-start;
-                padding-top: 48px;
-            }
-
-            .logo-wrap { margin-bottom: 28px; }
-            .logo-wrap img { height: 60px; }
-            .form-area { max-width: 480px; margin: 0 auto; }
-            .form-area h1 { font-size: 30px; }
-        }
-
-        /* ── RESPONSIVE: MOBILE ── */
-        @media (max-width: 480px) {
-            html, body {
-                height: auto;
-                max-height: none;
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-            body {
-                flex-direction: column;
-                width: 100%;
-                min-height: 100vh;
-            }
-
-            .panel-right {
-                display: flex;
-                width: 100%;
-                height: 180px;
-                max-height: 180px;
-                order: -1;
-                border-radius: 0 0 24px 24px;
-                flex-shrink: 0;
-            }
-
-            .panel-right img.bg-image {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center 30%;
-            }
-
-            .panel-left {
-                width: 100%;
-                height: auto;
-                min-height: auto;
-                max-height: none;
-                overflow: visible;
-                overflow-y: visible;
-                padding: 28px 24px 40px;
-                justify-content: flex-start;
-                order: 1;
-            }
-
-            .logo-wrap {
-                margin-bottom: 18px;
-                margin-top: 0;
-                text-align: center;
-            }
-            .logo-wrap img {
-                height: 52px;
-                margin: 0 auto;
-            }
-
-            .form-area {
-                max-width: 100%;
-                width: 100%;
-                margin: 0;
-            }
-
-            .form-area h1 {
-                font-size: 26px;
-                text-align: center;
-                margin-bottom: 4px;
-            }
-
-            .form-area p.subtitle {
-                font-size: 13px;
-                text-align: center;
-                margin-bottom: 18px;
-            }
-
-            label.field-label { font-size: 13px; }
-
-            .input-wrap { margin-bottom: 12px; }
-            .input-wrap input {
-                height: 46px;
-                font-size: 14px;
-                border-radius: 10px;
-            }
-
-            .row-check {
-                margin-top: 0;
-                margin-bottom: 14px;
-            }
-
-            .btn-primary {
-                height: 50px;
-                font-size: 15px;
-                border-radius: 12px;
-                margin-bottom: 12px;
-            }
-
-            .switch-line { font-size: 13px; text-align: center; }
-
-            .alert-error, .alert-success {
-                font-size: 12px;
-                padding: 10px 12px;
-                margin-bottom: 14px;
-            }
-        }
+        .float-delay-1 { animation-delay: 0.6s; }
+        .float-delay-2 { animation-delay: 1.2s; }
+        .float-delay-3 { animation-delay: 1.8s; }
     </style>
 </head>
-<body>
-    <div id="page-loader-bar"></div>
+<body class="h-full w-full bg-[#F1D9B3] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative">
 
-    <!-- ══════════════ LEFT PANEL (FORM) ══════════════ -->
-    <div class="panel-left">
+    <!-- TOP GREEN ARC CONTINUOUS EXTENSION (For showing #466967 behind rounded-tl of white panel) -->
+    <div class="hidden md:block absolute top-0 left-0 right-0 h-28 lg:h-36 pointer-events-none z-0 overflow-hidden">
+        <svg viewBox="0 0 1000 130" preserveAspectRatio="none" class="w-full h-full">
+            <path d="M 0 0 L 1000 0 L 1000 70 Q 250 140 0 70 Z" fill="#466967" />
+        </svg>
+    </div>
 
-        <!-- Logo -->
-        <div class="logo-wrap">
-            <img src="{{ asset('images/logo.png') }}" alt="BitesRush!">
+    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER ═══ -->
+    <div class="w-full md:w-[47%] lg:w-[47%] h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10">
+        
+        <!-- TOP CURVED ARC IN GRANITE #466967 WITH TOON BURGER LOGO -->
+        <div class="relative w-full z-10">
+            <!-- Curved background SVG -->
+            <div class="relative w-full overflow-hidden">
+                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-36 block drop-shadow-xs">
+                    <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" fill="#466967" />
+                </svg>
+
+                <!-- Mascot & Text inside Arc -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pt-2 sm:pt-3">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-14 sm:h-16 lg:h-18 w-auto object-contain drop-shadow-md">
+                </div>
+            </div>
         </div>
 
-        <!-- Form Area -->
-        <div class="form-area">
+        <!-- FLOATING BURGERS (4 BURGERS AS IN MOCKUP) -->
+        <!-- 1. Top-Left Floating Burger -->
+        <img src="{{ asset('images/floating-burger.png') }}" 
+             alt="Burger" 
+             style="--rot: -15deg;" 
+             class="float-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
 
-            <!-- Alerts -->
-            @if (session('error'))
-                <div class="alert-error">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <span>{{ session('error') }}</span>
+        <!-- 2. Top-Right Floating Burger -->
+        <img src="{{ asset('images/floating-burger.png') }}" 
+             alt="Burger" 
+             style="--rot: 14deg;" 
+             class="float-burger float-delay-1 absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
+
+        <!-- 3. Bottom-Left Floating Burger -->
+        <img src="{{ asset('images/floating-burger.png') }}" 
+             alt="Burger" 
+             style="--rot: -9deg;" 
+             class="float-burger float-delay-2 absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
+
+        <!-- 4. Bottom-Right Floating Burger -->
+        <img src="{{ asset('images/floating-burger.png') }}" 
+             alt="Burger" 
+             style="--rot: 18deg;" 
+             class="float-burger float-delay-3 absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
+
+        <!-- CENTER BRAND HEADLINE -->
+        <div class="my-auto py-10 px-6 text-center relative z-20">
+            <h1 class="font-brand text-4xl sm:text-5xl lg:text-[54px] leading-[1.1] text-[#466967] tracking-wider uppercase drop-shadow-xs">
+                EAT GOOD.<br>
+                FEEL GOOD.<br>
+                LIVE GOOD.
+            </h1>
+        </div>
+
+        <!-- BOTTOM CHECKERBOARD & SINCE 2024 -->
+        <div class="w-full relative z-20 pt-2 pb-5">
+            <!-- 2-row Checkerboard pattern -->
+            <div class="w-full h-8 checkerboard-pattern opacity-90"></div>
+            <!-- -Since 2024- -->
+            <div class="text-center pt-3 text-xs font-semibold text-[#466967]/80 tracking-widest uppercase">
+                -Since 2024-
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══ RIGHT PANEL: WHITE FORM CARD (EXACTLY MATCHING MOCKUP) ═══ -->
+    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[36px] md:rounded-bl-[36px] shadow-2xl flex flex-col justify-center items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-10 md:py-16 overflow-y-auto relative z-10">
+
+        <div class="w-full max-w-sm sm:max-w-md mx-auto">
+
+            <!-- FLASH ALERTS -->
+            @if(session('success'))
+                <div class="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl flex justify-between items-center">
+                    <span>{{ session('success') }}</span>
+                    <button onclick="this.parentElement.remove()" class="text-emerald-600 font-bold">&times;</button>
                 </div>
             @endif
 
-            @if ($errors->any())
-                <div class="alert-error">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <span>{{ $errors->first() }}</span>
+            @if($errors->any())
+                <div class="mb-5 p-3.5 bg-red-50 border border-red-200 text-toon-rust text-xs font-bold rounded-xl">
+                    <ul class="list-disc list-inside space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            @if (session('status'))
-                <div class="alert-success">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>{{ session('status') }}</span>
+            <!-- ── 1. LOGIN FORM ("Welcome Back!") ── -->
+            <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
+                <div class="mb-7">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Welcome Back!</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1">Please enter your detail first</p>
                 </div>
-            @endif
 
-            <!-- ═══ LOGIN SECTION ═══ -->
-            <div id="login-section" class="{{ ($mode ?? 'login') !== 'login' ? 'hidden' : '' }}">
-                <h1>Welcome Back!</h1>
-                <p class="subtitle">Please enter your detail first</p>
-
-                <form method="POST" action="{{ url('/login') }}" id="login-form">
+                <form action="{{ route('login') }}" method="POST" class="space-y-5 text-xs">
                     @csrf
+                    <input type="hidden" name="form_type" value="login">
 
-                    <!-- Username -->
-                    <label class="field-label" for="login_username">Username</label>
-                    <div class="input-wrap">
-                        <input
-                            type="text"
-                            id="login_username"
-                            name="username"
-                            placeholder="Enter your Username"
-                            value="{{ old('username') }}"
-                            required
-                            autocomplete="username"
-                        >
-                        <span class="input-icon">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                        </span>
+                    <!-- Username (UNDERLINE STYLE AS IN PHOTO) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Username</label>
+                        <input type="text" 
+                               name="username" 
+                               id="login-username" 
+                               required 
+                               placeholder="Enter Your username" 
+                               value="{{ old('form_type') === 'login' ? old('username') : (old('username') ?: 'toonburger') }}" 
+                               class="w-full bg-transparent border-b border-gray-300 py-2.5 px-0 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:border-[#466967] transition">
                     </div>
 
-                    <!-- Password -->
-                    <label class="field-label" for="login_password">Password</label>
-                    <div class="input-wrap">
-                        <input
-                            type="password"
-                            id="login_password"
-                            name="password"
-                            placeholder="Enter your Password"
-                            required
-                            autocomplete="current-password"
-                        >
-                        <span class="input-icon">
-                            <button type="button" class="toggle-password-btn" data-target="login_password" aria-label="Toggle Password">
-                                <svg class="icon-eye" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                                <svg class="icon-eye-off hidden" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                                    <line x1="2" y1="2" x2="22" y2="22"></line>
+                    <!-- Password (UNDERLINE STYLE WITH EYE TOGGLE AS IN PHOTO) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" 
+                                   name="password" 
+                                   id="login-password" 
+                                   required 
+                                   placeholder="Enter Your Password" 
+                                   value="Password123"
+                                   class="w-full bg-transparent border-b border-gray-300 py-2.5 px-0 pr-8 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:border-[#466967] transition">
+                            <button type="button" 
+                                    onclick="togglePasswordVisibility('login-password', this)" 
+                                    class="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none" 
+                                    aria-label="Tampilkan Password">
+                                <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                 </svg>
                             </button>
-                        </span>
+                        </div>
                     </div>
 
-                    <!-- Remember Me + Forgot Password -->
-                    <div class="row-check">
-                        <label class="check-label">
-                            <input type="checkbox" name="remember" id="remember" class="custom-checkbox">
-                            <span>Remember me</span>
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between text-xs pt-1">
+                        <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 font-normal">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#466967] focus:ring-[#466967] border-gray-300">
+                            <span>Remember Me</span>
                         </label>
-                        <a href="#" class="forgot-link">Forgot Password?</a>
+                        <a href="javascript:void(0)" onclick="alert('Silakan hubungi administrator atau gunakan kredensial demo admin: admin@toonburger.com / Password123')" class="text-xs text-gray-600 hover:text-[#466967] font-normal transition">
+                            Forgot Password?
+                        </a>
                     </div>
 
-                    <!-- Submit -->
-                    <button type="submit" class="btn-primary">Login</button>
-                </form>
+                    <!-- Login Button (EXACT MATCH #466967) -->
+                    <div class="pt-3">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm transition active:scale-98 text-sm flex items-center justify-center gap-2">
+                            <span>Login</span>
+                        </button>
+                    </div>
 
-                <p class="switch-line">
-                    don't have an account? <a href="javascript:void(0)" onclick="switchForm('register')">Create one</a>
-                </p>
+                    <!-- Toggle to Register -->
+                    <p class="text-center text-xs text-gray-500 pt-2">
+                        Don't have an account? 
+                        <button type="button" onclick="switchToRegister()" class="text-[#466967] hover:underline font-semibold ml-1">
+                            Sign Up Now
+                        </button>
+                    </p>
+
+                    <!-- Quick Admin Login Pill -->
+                    <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-center gap-2 text-[11px] text-gray-400">
+                        <span>Demo Admin:</span>
+                        <button type="button" onclick="fillAdminCreds()" class="bg-[#FAF1E1] hover:bg-[#F1D9B3] text-[#466967] px-2.5 py-1 rounded-full font-semibold border border-[#466967]/20 transition">
+                            admin@toonburger.com
+                        </button>
+                    </div>
+                </form>
             </div>
 
-            <!-- ═══ REGISTER SECTION ═══ -->
-            <div id="register-section" class="{{ ($mode ?? '') !== 'register' ? 'hidden' : '' }}">
-                <h1>Create Account</h1>
-                <p class="subtitle">Fill in your details to get started</p>
+            <!-- ── 2. CREATE ACCOUNT FORM ("Create Account") ── -->
+            <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }} transition-all duration-300">
+                <div class="mb-7">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Create Account</h2>
+                </div>
 
-                <form method="POST" action="{{ url('/register') }}" id="register-form">
+                <form action="{{ route('register') }}" method="POST" class="space-y-4 text-xs">
                     @csrf
+                    <input type="hidden" name="form_type" value="register">
 
                     <!-- Username -->
-                    <label class="field-label" for="reg_username">Username</label>
-                    <div class="input-wrap">
-                        <input type="text" id="reg_username" name="username" placeholder="Enter your Username" required>
-                        <span class="input-icon">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                        </span>
-                    </div>
-
-                    <!-- Password -->
-                    <label class="field-label" for="reg_password">Password</label>
-                    <div class="input-wrap">
-                        <input type="password" id="reg_password" name="password" placeholder="Enter your Password" required>
-                        <span class="input-icon">
-                            <button type="button" class="toggle-password-btn" data-target="reg_password" aria-label="Toggle Password">
-                                <svg class="icon-eye" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                                    <circle cx="12" cy="12" r="3"></circle>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Username</label>
+                        <div class="relative">
+                            <input type="text" 
+                                   name="username" 
+                                   required 
+                                   placeholder="Enter Your username" 
+                                   value="{{ old('form_type') === 'register' ? old('username') : '' }}" 
+                                   class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 pr-10 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
+                            <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
-                                <svg class="icon-eye-off hidden" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
-                                    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
-                                    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
-                                    <line x1="2" y1="2" x2="22" y2="22"></line>
-                                </svg>
-                            </button>
-                        </span>
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Email -->
-                    <label class="field-label" for="reg_email">Email</label>
-                    <div class="input-wrap">
-                        <input type="email" id="reg_email" name="email" placeholder="Enter your Email" required>
-                        <span class="input-icon">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                            </svg>
-                        </span>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Email</label>
+                        <input type="email" 
+                               name="email" 
+                               required 
+                               placeholder="Enter Your Email" 
+                               value="{{ old('form_type') === 'register' ? old('email') : '' }}" 
+                               class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
                     </div>
 
-                    <!-- Phone -->
-                    <label class="field-label" for="reg_phone">Phone Number</label>
-                    <div class="input-wrap">
-                        <input type="tel" id="reg_phone" name="phone_number" placeholder="Enter your Number">
-                        <span class="input-icon">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.08 6.08l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                            </svg>
-                        </span>
+                    <!-- Mobile Number -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Mobile Number</label>
+                        <input type="text" 
+                               name="phone_number" 
+                               placeholder="Enter Your Mobile Number" 
+                               value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}" 
+                               class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
                     </div>
 
-                    <!-- Submit -->
-                    <button type="submit" class="btn-primary" style="margin-top:6px;">Register</button>
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1">Password</label>
+                        <div class="relative">
+                            <input type="password" 
+                                   name="password" 
+                                   id="register-password" 
+                                   required 
+                                   placeholder="Enter Your Password" 
+                                   class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 pr-10 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
+                            <button type="button" 
+                                    onclick="togglePasswordVisibility('register-password', this)" 
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none" 
+                                    aria-label="Tampilkan Password">
+                                <svg class="w-4 h-4 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sign Up Button -->
+                    <div class="pt-3">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm transition active:scale-98 text-sm flex items-center justify-center gap-2">
+                            <span>Sign Up</span>
+                        </button>
+                    </div>
+
+                    <!-- Toggle to Login -->
+                    <p class="text-center text-xs text-gray-500 pt-2">
+                        Already have an account? 
+                        <button type="button" onclick="switchToLogin()" class="text-[#466967] hover:underline font-semibold ml-1">
+                            Login Now
+                        </button>
+                    </p>
                 </form>
-
-                <p class="switch-line">
-                    Already have an account? <a href="javascript:void(0)" onclick="switchForm('login')">Click to Login</a>
-                </p>
             </div>
 
-        </div><!-- /form-area -->
-    </div><!-- /panel-left -->
+        </div>
 
-    <!-- ══════════════ RIGHT PANEL (IMAGE) ══════════════ -->
-    <div class="panel-right">
-        <img class="bg-image" src="{{ asset('images/burger-bg.jpg') }}" alt="Crispy burger with cheese sauce">
     </div>
 
+    <!-- SCRIPT FOR SWITCHING TABS & TOGGLING PASSWORD -->
     <script>
+        function switchToRegister() {
+            document.getElementById('login-form-panel').classList.add('hidden');
+            document.getElementById('register-form-panel').classList.remove('hidden');
+            document.title = "Create Account - Toon Burger";
+            window.history.replaceState(null, '', '{{ route("register") }}');
+        }
 
-        function switchForm(mode) {
-            const loginSec = document.getElementById('login-section');
-            const regSec   = document.getElementById('register-section');
-            if (mode === 'register') {
-                loginSec.classList.add('hidden');
-                regSec.classList.remove('hidden');
-                history.pushState(null, '', '{{ url("/register") }}');
+        function switchToLogin() {
+            document.getElementById('register-form-panel').classList.add('hidden');
+            document.getElementById('login-form-panel').classList.remove('hidden');
+            document.title = "Welcome Back! - Toon Burger";
+            window.history.replaceState(null, '', '{{ route("login") }}');
+        }
+
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+
+            if (isPassword) {
+                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>`;
             } else {
-                regSec.classList.add('hidden');
-                loginSec.classList.remove('hidden');
-                history.pushState(null, '', '{{ url("/login") }}');
+                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
             }
         }
 
-        document.querySelectorAll('.toggle-password-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const input    = document.getElementById(this.dataset.target);
-                const eye      = this.querySelector('.icon-eye');
-                const eyeOff   = this.querySelector('.icon-eye-off');
-                const isPass   = input.type === 'password';
-                input.type     = isPass ? 'text' : 'password';
-                eye.classList.toggle('hidden', isPass);
-                eyeOff.classList.toggle('hidden', !isPass);
-            });
-        });
-
-        window.addEventListener('popstate', function () {
-            switchForm(window.location.pathname.includes('register') ? 'register' : 'login');
-        });
-
-        // Smooth Page Transition Handler
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.width = '100%';
-                setTimeout(() => { loader.style.opacity = '0'; }, 200);
-            }
-
-            document.addEventListener('click', (e) => {
-                const link = e.target.closest('a');
-                if (!link) return;
-
-                const href = link.getAttribute('href');
-                const target = link.getAttribute('target');
-
-                if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:') || target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
-                    return;
-                }
-
-                if (link.hostname === window.location.hostname) {
-                    if (loader) {
-                        loader.style.opacity = '1';
-                        loader.style.width = '70%';
-                    }
-                }
-            });
-        });
-
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                document.body.classList.remove('page-exiting');
-                const loader = document.getElementById('page-loader-bar');
-                if (loader) {
-                    loader.style.width = '100%';
-                    setTimeout(() => { loader.style.opacity = '0'; loader.style.width = '0%'; }, 200);
-                }
-            }
-        });
+        function fillAdminCreds() {
+            document.getElementById('login-username').value = 'admin@toonburger.com';
+            document.getElementById('login-password').value = 'Password123';
+        }
     </script>
 </body>
 </html>

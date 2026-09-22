@@ -1,39 +1,40 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Meja Restoran - BiteRush Admin')
+@section('title', 'Manajemen Meja Restoran - Toon Burger Admin')
 
 @section('admin_content')
 <div class="max-w-7xl mx-auto space-y-6">
 
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between bg-white p-6 rounded-3xl border border-[#E6DEC8] shadow-xs">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Manajemen Meja Restoran</h1>
-            <p class="text-xs text-gray-500 mt-1">Pantau ketersediaan meja, status terisi (occupied), dan kode QR pemesanan pelanggan.</p>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Manajemen Meja Restoran</h1>
+            <p class="text-xs text-gray-500 mt-1">Pantau ketersediaan meja, status terisi (occupied), dan tautan QR pemesanan pelanggan Toon Burger.</p>
         </div>
     </div>
 
     <!-- Tables Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         @foreach($tables as $table)
-            <div class="bg-white rounded-3xl p-5 border-2 {{ $table->status === 'occupied' ? 'border-red-400 bg-red-50/20' : ($table->status === 'reserved' ? 'border-yellow-400 bg-yellow-50/20' : 'border-green-400 bg-green-50/20') }} shadow-xs flex flex-col justify-between space-y-4">
+            <div class="bg-white rounded-3xl p-5 border-2 {{ $table->status === 'occupied' ? 'border-toon-rust bg-red-50/20' : ($table->status === 'reserved' ? 'border-amber-400 bg-amber-50/20' : 'border-toon-granite/40 bg-emerald-50/10') }} shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition">
                 
                 <div>
                     <div class="flex items-center justify-between pb-2 border-b border-gray-100">
-                        <h3 class="font-black text-base text-gray-900">{{ $table->table_number }}</h3>
-                        <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full {{ $table->status === 'occupied' ? 'bg-red-100 text-red-800' : ($table->status === 'reserved' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800') }}">
+                        <h3 class="font-extrabold text-base text-gray-900">{{ $table->table_number }}</h3>
+                        <span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full {{ $table->status === 'occupied' ? 'bg-red-100 text-toon-rust border border-red-200' : ($table->status === 'reserved' ? 'bg-amber-100 text-amber-800 border border-amber-200' : 'bg-toon-cream text-toon-granite border border-toon-granite/20') }}">
                             {{ $table->status }}
                         </span>
                     </div>
 
                     <div class="py-3 text-xs text-gray-600 space-y-1">
-                        <div>Kapasitas: <strong>{{ $table->capacity }} Orang</strong></div>
-                        <div>Pesanan Aktif: <strong>{{ $table->orders_count }} Transaksi</strong></div>
+                        <div>Kapasitas: <strong class="text-gray-900">{{ $table->capacity }} Orang</strong></div>
+                        <div>Pesanan Aktif: <strong class="text-toon-granite font-mono-code">{{ $table->orders_count }} Transaksi</strong></div>
                     </div>
 
                     <!-- QR Link -->
-                    <div class="bg-gray-50 p-2 rounded-xl text-center">
-                        <a href="{{ route('menu', ['table' => $table->table_number]) }}" target="_blank" class="text-[11px] font-bold text-blue-600 hover:underline">
-                            Buka Link Menu QR
+                    <div class="bg-toon-cream/40 p-2.5 rounded-2xl text-center border border-[#EFE5D0]">
+                        <a href="{{ route('menu', ['table' => $table->table_number]) }}" target="_blank" class="text-[11px] font-bold text-toon-granite hover:underline inline-flex items-center gap-1">
+                            <span>Buka Menu Meja Ini</span>
+                            <span>&rarr;</span>
                         </a>
                     </div>
                 </div>
@@ -41,13 +42,13 @@
                 <!-- Update Status Form -->
                 <form action="{{ route('admin.tables.status', $table->id) }}" method="POST" class="pt-2 border-t border-gray-100">
                     @csrf
-                    <div class="flex items-center gap-1 text-[11px]">
-                        <select name="status" class="w-full bg-gray-100 border-none rounded-lg p-1.5 font-bold text-gray-800 focus:ring-1 focus:ring-bites-orange">
+                    <div class="flex items-center gap-1.5 text-[11px]">
+                        <select name="status" class="w-full bg-gray-50 border border-gray-200 rounded-full p-2 font-bold text-gray-800 focus:outline-none focus:border-toon-granite">
                             <option value="available" {{ $table->status === 'available' ? 'selected' : '' }}>Available (Kosong)</option>
                             <option value="occupied" {{ $table->status === 'occupied' ? 'selected' : '' }}>Occupied (Terisi)</option>
                             <option value="reserved" {{ $table->status === 'reserved' ? 'selected' : '' }}>Reserved (Dipesan)</option>
                         </select>
-                        <button type="submit" class="bg-gray-900 hover:bg-black text-white font-bold px-2.5 py-1.5 rounded-lg transition">
+                        <button type="submit" class="bg-toon-granite hover:bg-toon-granite-dark text-white font-bold px-3.5 py-2 rounded-full transition shadow-2xs">
                             Ubah
                         </button>
                     </div>
