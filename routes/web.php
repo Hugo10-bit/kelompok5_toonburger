@@ -21,7 +21,9 @@ Route::get('/ziel', function () {
     return view('welcome ziel');
 });
 
-
+Route::get('/cornelius', function () {
+    return view('welcome cornelius');
+});
 
 // Main Menu & Catalog (Home)
 Route::get('/', [MenuController::class, 'index'])->name('home');
@@ -77,7 +79,7 @@ Route::middleware('auth')->group(function () {
         // Admin Panel
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-            
+
             // Kitchen & Order Management
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
             Route::post('/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
