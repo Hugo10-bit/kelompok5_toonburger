@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/ziel', function () {
+    return view('welcome');
+});
+
+
+
 // Main Menu & Catalog (Home)
 Route::get('/', [MenuController::class, 'index'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
