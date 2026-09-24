@@ -36,11 +36,6 @@ Route::get('/rapip', function () {
     return view('welcome rapip ');
 });
 
-// Main Menu & Catalog (Home)
-Route::get('/', [MenuController::class, 'index'])->name('home');
-Route::get('/menu', [MenuController::class, 'index'])->name('menu');
-Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
-
 // Cart Operations (AJAX & Sessions)
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');

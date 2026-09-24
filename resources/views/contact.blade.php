@@ -93,8 +93,15 @@
                         <a href="https://wa.me/6281234567890?text=Halo%20Toon%20Burger%20Banjarbaru,%20saya%20ingin%20tanya%20menu%20dan%20lokasi" target="_blank" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                             <span>Chat WhatsApp Outlet</span>
-                            <span>&rarr;</span>
                         </a>
+                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-xs sm:text-sm px-5 py-3 rounded-2xl transition shadow-md active:scale-95 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                            <span>Pesan via GoFood</span>
+                            <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
+                        </a>
+
+
+
                     </div>
                 </div>
 
@@ -226,13 +233,13 @@
 
                 <!-- Map View Switcher Buttons -->
                 <div class="flex items-center gap-2">
-                    <button type="button" id="btn-view-leaflet" onclick="switchMapView('leaflet')" class="bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5">
+                    <button type="button" id="btn-view-leaflet" onclick="switchMapView('roadmap')" class="bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                        <span>Peta Live Radar</span>
+                        <span>Peta Jalan</span>
                     </button>
-                    <button type="button" id="btn-view-google" onclick="switchMapView('google')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                    <button type="button" id="btn-view-google" onclick="switchMapView('satellite')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>
-                        <span>Google Maps Satelit</span>
+                        <span>Satelit Google</span>
                     </button>
                     <a href="https://www.google.com/maps/search/?api=1&query=HR7F%2BP8M,+Loktabat+Utara,+Kec.+Banjarbaru+Utara,+Kota+Banjar+Baru,+Kalimantan+Selatan" target="_blank" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-extrabold px-4 py-2 rounded-xl transition flex items-center gap-1">
                         <span>Buka di Google Maps</span>
@@ -463,6 +470,7 @@
     let storeMarker = null;
     let userMarker = null;
     let routeLine = null;
+    let currentTileLayer = null;
 
     // Initialize Leaflet Live Map
     document.addEventListener("DOMContentLoaded", function () {
@@ -482,10 +490,11 @@
             scrollWheelZoom: false // Avoid accidental zoom when scrolling page
         });
 
-        // Add CartoDB Voyager tiles (modern, clear, aesthetic)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            maxZoom: 19
+        // Add Google Maps Clean Roadmap tiles (No Watermark, No API Key Required)
+        currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; Google Maps'
         }).addTo(map);
 
         // Custom HTML Animated Radar Icon for Outlet
@@ -552,25 +561,37 @@
         if (storeMarker) storeMarker.openPopup();
     }
 
-    // Switch between Leaflet and Google Maps Embed
+    // Switch between Google Roadmap and Google Satellite Hybrid
     function switchMapView(viewType) {
-        const leafletEl = document.getElementById('live-leaflet-map');
-        const googleEl = document.getElementById('google-maps-frame');
+        if (!map) return;
         const btnLeaflet = document.getElementById('btn-view-leaflet');
         const btnGoogle = document.getElementById('btn-view-google');
 
-        if (viewType === 'google') {
-            leafletEl.classList.add('hidden');
-            googleEl.classList.remove('hidden');
-            btnGoogle.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs';
-            btnLeaflet.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition';
-        } else {
-            googleEl.classList.add('hidden');
-            leafletEl.classList.remove('hidden');
-            btnLeaflet.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs';
-            btnGoogle.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition';
-            if (map) map.invalidateSize();
+        if (currentTileLayer) {
+            map.removeLayer(currentTileLayer);
         }
+
+        if (viewType === 'google' || viewType === 'satellite') {
+            currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                attribution: '&copy; Google Maps Satelit'
+            }).addTo(map);
+
+            if (btnGoogle) btnGoogle.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5';
+            if (btnLeaflet) btnLeaflet.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5';
+        } else {
+            currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                maxZoom: 20,
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                attribution: '&copy; Google Maps'
+            }).addTo(map);
+
+            if (btnLeaflet) btnLeaflet.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5';
+            if (btnGoogle) btnGoogle.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5';
+        }
+
+        map.invalidateSize();
     }
 
     // Real-Time GPS User Location Detector & Distance Calculation

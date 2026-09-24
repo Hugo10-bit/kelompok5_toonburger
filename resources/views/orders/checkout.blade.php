@@ -59,9 +59,21 @@
                     </div>
 
                     <!-- Dynamic Field: Delivery Address -->
-                    <div id="delivery-address-section" class="pt-3 border-t border-gray-100 hidden">
-                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Alamat Lengkap Pengiriman:</label>
-                        <textarea name="delivery_address" rows="2" placeholder="Nama Jalan, No. Rumah, RT/RW, Patokan..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none focus:border-bites-orange">{{ Auth::user()->address ?? '' }}</textarea>
+                    <div id="delivery-address-section" class="pt-3 border-t border-gray-100 hidden space-y-2.5">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1.5">Alamat Lengkap Pengiriman:</label>
+                            <textarea name="delivery_address" rows="2" placeholder="Nama Jalan, No. Rumah, RT/RW, Patokan..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none focus:border-bites-orange">{{ Auth::user()->address ?? '' }}</textarea>
+                        </div>
+                        <div class="p-3 bg-red-50/80 border border-red-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-red-950">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#EE2737] animate-pulse shrink-0"></span>
+                                <span>Mau promo ongkir hemat? Anda juga bisa pesan antar via GoFood Toon Burger (Super Partner).</span>
+                            </div>
+                            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl transition shadow-xs shrink-0 inline-flex items-center gap-1 self-start sm:self-auto">
+                                <span>Buka GoFood</span>
+                                <span>&rarr;</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
