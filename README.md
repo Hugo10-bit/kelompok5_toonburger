@@ -1,66 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Toon Burger
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Toon Burger adalah aplikasi website pemesanan burger berbasis Laravel yang dirancang untuk mempermudah proses pemesanan, checkout, dan manajemen operasional restoran. Project ini mencakup sisi pelanggan untuk browsing menu, menambahkan produk ke keranjang, menggunakan kupon promo, hingga melihat riwayat order, serta sisi admin untuk mengelola produk, kategori, pesanan, meja, dan promo.
 
-## About Laravel
+## Tentang Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan operasional Toon Burger yang fokus pada:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Pemesanan online
+- Pesanan takeaway dan delivery
+- Manajemen menu dan kategori
+- Panel admin untuk operasional kasir dan kitchen
+- Sistem review pelanggan
+- Integrasi redirect ke GoFood dan link outlet
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Fitur Utama
 
-## Learning Laravel
+### Untuk Pelanggan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Halaman utama dan katalog menu
+- Pencarian produk berdasarkan nama
+- Keranjang belanja dinamis
+- Penerapan kupon promo
+- Proses checkout dan pembuatan pesanan
+- Detail pesanan dan status order
+- Riwayat pesanan pelanggan
+- Fitur review produk setelah pemesanan
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Untuk Admin / Staff
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Dashboard admin
+- Manajemen produk
+- Manajemen kategori
+- Manajemen kupon dan promo
+- Manajemen meja restoran
+- Proses status pesanan
+- Panel POS untuk transaksi langsung
+- Manajemen profil admin
 
-## Laravel Sponsors
+## Teknologi yang Digunakan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- PHP 8.2
+- Laravel 12
+- JavaScript
+- Vite
+- Tailwind CSS
+- Composer
+- MySQL / SQLite
 
-### Premium Partners
+## Struktur Project
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+.
+├── app/
+│   ├── Http/
+│   ├── Models/
+│   └── Providers/
+├── config/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── public/
+├── resources/
+│   ├── css/
+│   ├── js/
+│   └── views/
+├── routes/
+│   └── web.php
+├── tests/
+├── .env.example
+├── composer.json
+├── package.json
+├── vite.config.js
+├── artisan
+├── phpunit.xml
+└── README.md
+```
 
-## Contributing
+## Persyaratan Sistem
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Sebelum menjalankan project, pastikan sistem Anda sudah memiliki:
 
-## Code of Conduct
+- PHP >= 8.2
+- Composer
+- Node.js dan npm
+- Database (MySQL atau SQLite)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Cara Menjalankan Project
 
-## Security Vulnerabilities
+1. Clone repository
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone <repository-url>
+cd kelompok5_toonburger
+```
 
-## License
+2. Install dependency PHP
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+composer install
+```
+
+3. Install dependency frontend
+
+```bash
+npm install
+```
+
+4. Salin file environment
+
+```bash
+copy .env.example .env
+```
+
+5. Generate application key
+
+```bash
+php artisan key:generate
+```
+
+6. Konfigurasi database di file `.env`
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=toon_burger
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Atau jika menggunakan SQLite, sesuaikan konfigurasi database sesuai kebutuhan.
+
+7. Jalankan migrasi dan seeder
+
+```bash
+php artisan migrate --seed
+```
+
+8. Jalankan aplikasi
+
+```bash
+php artisan serve
+```
+
+9. Jalankan frontend vite
+
+```bash
+npm run dev
+```
+
+Untuk mode development yang sudah terintegrasi, project juga menyediakan script:
+
+```bash
+composer run dev
+```
+
+## Route Utama
+
+- `/` : halaman utama
+- `/menu` : katalog menu
+- `/about` : tentang Toon Burger
+- `/contact` : kontak dan lokasi
+- `/cart` : keranjang belanja
+- `/checkout` : halaman checkout
+- `/my-orders` : daftar pesanan pelanggan
+- `/login` : login user
+- `/register` : registrasi user
+- `/admin` : dashboard admin
+- `/admin/orders` : manajemen pesanan
+- `/admin/products` : manajemen produk
+- `/admin/categories` : manajemen kategori
+- `/admin/coupons` : manajemen kupon
+- `/pos` : POS kasir
+
+## Catatan Pengembangan
+
+Project ini masih dikembangkan untuk kebutuhan operasional bisnis Toon Burger, dengan fokus pada pengalaman pelanggan dan kemudahan proses admin. Fitur dapat terus dikembangkan sesuai kebutuhan seperti pembayaran digital, notifikasi WhatsApp, dashboard analitik, dan integrasi logistik.
