@@ -35,7 +35,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
         <div class="bg-gradient-to-r from-amber-500 via-bites-orange to-red-600 rounded-[32px] sm:rounded-[40px] p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-            
+
             <div class="relative z-10 space-y-2 max-w-xl">
                 <div class="inline-flex items-center gap-2 bg-black/20 backdrop-blur-md px-3.5 py-1 rounded-full text-[11px] font-bold text-yellow-200 border border-white/20">
                     <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -56,7 +56,7 @@
                         <input type="hidden" name="category" value="{{ $selectedCategory }}">
                     @endif
                     <div class="relative">
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, kentang, saus..." 
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, kentang, saus..."
                                class="w-full bg-white text-xs text-gray-900 placeholder-gray-400 border-0 rounded-2xl pl-10 pr-4 py-3 shadow-lg focus:ring-2 focus:ring-yellow-300 outline-none transition font-medium">
                         <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -76,14 +76,14 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="sticky top-18 z-30 bg-[#FAF1E1]/95 backdrop-blur-md py-3 -mx-4 px-4 sm:mx-0 sm:px-0">
             <div class="flex items-center gap-2.5 overflow-x-auto hide-scrollbar pb-1">
-                <a href="{{ route('menu', ['category' => 'all', 'q' => request('q')]) }}" 
+                <a href="{{ route('menu', ['category' => 'all', 'q' => request('q')]) }}"
                    class="px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 whitespace-nowrap transition shadow-xs {{ $selectedCategory === 'all' ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
                     <svg class="w-4 h-4 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
                     <span>Semua Menu</span>
                 </a>
 
                 @foreach($categories as $cat)
-                    <a href="{{ route('menu', ['category' => $cat->slug, 'q' => request('q')]) }}" 
+                    <a href="{{ route('menu', ['category' => $cat->slug, 'q' => request('q')]) }}"
                        class="px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-1.5 whitespace-nowrap transition shadow-xs {{ $selectedCategory === $cat->slug ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
                         {{ $cat->name }}
                     </a>
@@ -96,7 +96,7 @@
          4. PRODUCTS GRID
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        
+
         <div class="flex items-center justify-between text-xs text-gray-600 font-semibold px-1">
             <div>
                 Menampilkan <span class="font-extrabold text-gray-900 font-mono">{{ $products->count() }}</span> pilihan menu
@@ -127,11 +127,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach($products as $product)
                     <div class="bg-white rounded-3xl border border-[#E6DEC8] hover:border-bites-orange/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
-                        
+
                         <!-- Product Image & Badges -->
                         <div class="relative bg-gray-100 aspect-[4/3] overflow-hidden">
                             <img src="{{ asset($product->image ?: 'images/burger-bg.jpg') }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500">
-                            
+
                             @if($product->is_featured)
                                 <span class="absolute top-3 left-3 bg-bites-red text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
                                     ★ Rekomendasi

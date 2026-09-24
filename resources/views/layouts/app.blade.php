@@ -41,8 +41,8 @@
     </script>
     <style>
         html { scroll-behavior: smooth; overflow-x: clip; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
+        body {
+            font-family: 'Poppins', sans-serif;
             overflow-x: clip;
             max-width: 100vw;
             animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -147,13 +147,13 @@
 
             <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
             <div class="flex items-center justify-center gap-3.5 sm:gap-4">
-                <button type="button" 
-                        onclick="closeLogoutModal()" 
+                <button type="button"
+                        onclick="closeLogoutModal()"
                         class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none">
                     Batalkan
                 </button>
-                <button type="button" 
-                        onclick="submitLogoutForm()" 
+                <button type="button"
+                        onclick="submitLogoutForm()"
                         class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none">
                     ya, keluar
                 </button>
@@ -165,7 +165,7 @@
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-18">
-                
+
                 <!-- Logo -->
                 <div class="flex items-center gap-6">
                     <a href="{{ route('home') }}" class="flex items-center gap-2 group">
@@ -204,10 +204,10 @@
 
                 <!-- Right Actions -->
                 <div class="flex items-center gap-3">
-                    
+
                     <!-- Search Bar (Desktop) -->
                     <form action="{{ route('menu') }}" method="GET" class="hidden lg:flex items-center relative">
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, chicken..." 
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, chicken..."
                             class="bg-gray-100/90 text-xs text-gray-800 pl-9 pr-4 py-2.5 rounded-full w-56 focus:w-64 focus:bg-white focus:ring-2 focus:ring-bites-orange focus:outline-none transition-all">
                         <svg class="w-4 h-4 text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -215,7 +215,7 @@
                     </form>
 
                     <!-- GoFood Super Partner Button -->
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
                        class="hidden sm:inline-flex items-center gap-1.5 bg-[#EE2737] hover:bg-[#D61B2B] text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition shadow-xs active:scale-95 group"
                        title="Pesan langsung lewat aplikasi GoFood (Super Partner • Rating 4.9 ★)">
                         <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
@@ -238,7 +238,7 @@
                     <!-- User / Auth -->
                     @auth
                         <div class="relative" id="user-dropdown-container">
-                            <button onclick="toggleUserDropdown(event)" id="user-menu-button" type="button" 
+                            <button onclick="toggleUserDropdown(event)" id="user-menu-button" type="button"
                                 class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 p-1.5 sm:pr-3 rounded-full text-xs font-semibold transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-bites-orange">
                                 <div class="w-8 h-8 rounded-full bg-bites-red text-white flex items-center justify-center font-bold text-xs uppercase shadow-xs">
                                     {{ substr(Auth::user()->name ?: Auth::user()->username, 0, 2) }}
@@ -425,7 +425,7 @@
 
                     <!-- GoFood Official Partner Footer Card -->
                     <div class="mt-4 pt-3 border-t border-white/10">
-                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
                            class="flex items-center justify-between bg-[#EE2737]/90 hover:bg-[#EE2737] text-white p-2.5 rounded-xl transition shadow-xs group">
                             <div class="flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
@@ -447,7 +447,7 @@
     <!-- CART FLOATING CARD -->
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
     <div id="cart-drawer" class="fixed top-20 right-4 w-[90vw] max-w-sm bg-white rounded-3xl shadow-2xl border border-gray-200/60 z-50 flex flex-col max-h-[calc(100vh-6rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
-        
+
         <!-- Cart Header (Fixed Top) -->
         <div class="p-4 sm:p-4.5 bg-gray-50/90 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
             <div class="flex items-center gap-2.5">
@@ -462,7 +462,7 @@
 
         <!-- Cart Body (Items + Promo + Summary + Button all flowing together) -->
         <div class="overflow-y-auto p-4 space-y-3.5 flex-1 hide-scrollbar">
-            
+
             <!-- Items Container -->
             <div id="cart-items-container" class="space-y-2.5">
                 <div class="text-center py-10 text-gray-400">
@@ -529,7 +529,7 @@
     <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden"></div>
     <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fade-in" onclick="event.stopPropagation()">
-            
+
             <!-- Modal Header / Image -->
             <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-48 overflow-hidden flex items-center justify-center">
                 <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
@@ -703,7 +703,7 @@
                             <button onclick="removeCartItem('${item.cart_key}')" class="text-gray-400 hover:text-red-500 text-sm font-bold">&times;</button>
                         </div>
                         <div class="text-[11px] text-gray-500 font-semibold mt-0.5">${formatRupiah(item.unit_price)}</div>
-                        
+
                         ${item.options && item.options.length ? `
                             <div class="text-[10px] text-gray-400 mt-1 flex flex-wrap gap-1">
                                 ${item.options.map(o => `<span class="bg-white px-1.5 py-0.5 rounded border border-gray-200">+ ${o.value_name}</span>`).join('')}
@@ -800,9 +800,9 @@
                                 ${opt.values.map(val => `
                                     <label class="flex items-center justify-between p-2 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-bites-orange transition text-xs">
                                         <div class="flex items-center gap-2">
-                                            <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}" 
-                                                   name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}" 
-                                                   value="${val.id}" 
+                                            <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
+                                                   name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
+                                                   value="${val.id}"
                                                    data-price="${val.additional_price}"
                                                    ${val.is_default ? 'checked' : ''}
                                                    onchange="recalculateModalPrice()"

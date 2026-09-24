@@ -10,20 +10,20 @@
          ═══════════════════════════════════════════════ -->
     <section class="relative overflow-hidden pt-4 sm:pt-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <!-- Hero Card Container with Rich Warm Gradient & Deco -->
             <div class="relative bg-gradient-to-br from-amber-500 via-bites-orange to-red-600 rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl p-6 sm:p-12 lg:p-14 text-white">
-                
+
                 <!-- Background Ambient Glow & Patterns -->
                 <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
                 <div class="absolute -left-10 -top-10 w-72 h-72 bg-yellow-300/20 rounded-full blur-2xl pointer-events-none"></div>
                 <div class="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
 
                 <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    
+
                     <!-- Left Hero Content -->
                     <div class="lg:col-span-7 space-y-5 text-left">
-                        
+
                         <!-- Top Tag Badge -->
                         <div class="inline-flex items-center gap-2 bg-black/25 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-yellow-200 border border-white/15 shadow-xs">
                             <span>BURGER PREMIUM ASLI • 100% AUSTRALIAN BEEF</span>
@@ -31,7 +31,7 @@
 
                         <!-- Big Headline -->
                         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-                            Sensasi Gigitan Burger Asli yang 
+                            Sensasi Gigitan Burger Asli yang
                             <span class="text-yellow-300 underline decoration-wavy decoration-yellow-400/60 decoration-2">Bikin Nagih!</span>
                         </h1>
 
@@ -78,10 +78,10 @@
                     <!-- Right Hero Visual with Floating Stickers -->
                     <div class="lg:col-span-5 relative flex justify-center items-center">
                         <div class="relative w-full max-w-sm sm:max-w-md">
-                            
+
                             <!-- Main Visual Burger Image -->
-                            <img src="{{ asset('images/burger-bg.png') }}" 
-                                 alt="Toon Burger Signature" 
+                            <img src="{{ asset('images/burger-bg.png') }}"
+                                 alt="Toon Burger Signature"
                                  class="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)] hover:scale-105 transition duration-500 relative z-10">
 
                             <!-- Floating Mascot Sticker -->
@@ -123,7 +123,7 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
+
             <!-- Feature 1 -->
             <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
                 <div class="w-14 h-14 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
@@ -175,7 +175,7 @@
          3. BESTSELLER PREVIEW CARDS
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
+
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-gray-200">
             <div>
                 <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
@@ -193,11 +193,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @forelse($featuredProducts as $product)
                 <div class="bg-white rounded-3xl border border-[#E6DEC8] hover:border-bites-orange/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
-                    
+
                     <!-- Product Image & Badges -->
                     <div class="relative bg-gray-100 aspect-[4/3] overflow-hidden">
                         <img src="{{ asset($product->image ?: 'images/burger-bg.jpg') }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500">
-                        
+
                         <span class="absolute top-3 left-3 bg-bites-red text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
                             ★ Bestseller
                         </span>
@@ -312,9 +312,9 @@
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden relative">
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-                
+
                 <!-- Left Column: Visual Story & Mascot -->
                 <div class="lg:col-span-5 flex flex-col items-center text-center p-6 sm:p-8 rounded-3xl bg-[#FAF1E1]/70 border border-[#EFE5D0] relative">
                     <div class="relative mb-5">
@@ -370,7 +370,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
+
             <!-- Pillar 1 -->
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
                 <div class="space-y-3">
