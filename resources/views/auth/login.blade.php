@@ -243,13 +243,6 @@
                             Sign Up Now
                         </button>
                     </p>
-
-                    <!-- Quick Admin Login Pill -->
-                    <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-center gap-2 text-[11px] text-gray-400">
-                        <span>Demo Admin:</span>
-                        <button type="button" onclick="fillAdminCreds()" class="bg-[#FAF1E1] hover:bg-[#F1D9B3] text-[#466967] px-3 py-1 rounded-full font-bold border border-[#466967]/20 transition">
-                            admin@toonburger.com
-                        </button>
                     </div>
                 </form>
             </div>

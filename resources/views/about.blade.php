@@ -181,7 +181,7 @@
                     Jangan Lewatkan Gigitan Pertama Anda Hari Ini!
                 </h2>
                 <p class="text-xs sm:text-sm text-gray-600">
-                    Pesan langsung secara online, bawa pulang ke rumah, atau kunjungi outlet restoran kami bersama keluarga.
+                    Pesan langsung secara online untuk delivery cepat, atau ambil langsung (takeaway) di outlet kami di Jl. Berlian, Banjarbaru Utara.
                 </p>
             </div>
 

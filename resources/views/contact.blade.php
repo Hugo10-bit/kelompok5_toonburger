@@ -152,21 +152,29 @@
                     </div>
                     <h3 class="font-extrabold text-base text-gray-900">Jam Operasional (WITA)</h3>
                     <div class="text-xs text-gray-600 space-y-1.5 leading-relaxed">
-                        <div class="flex justify-between border-b border-gray-100 pb-1">
-                            <span>Senin - Jumat:</span>
-                            <span class="font-bold text-gray-900 font-mono">10:00 - 22:00 WITA</span>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                            <span class="font-medium text-gray-700">Senin:</span>
+                            <span class="font-black text-rose-600 bg-rose-50 border border-rose-200/80 px-2 py-0.5 rounded text-[11px] font-mono">LIBUR / TUTUP</span>
                         </div>
-                        <div class="flex justify-between border-b border-gray-100 pb-1">
-                            <span>Sabtu - Minggu:</span>
-                            <span class="font-bold text-gray-900 font-mono">09:00 - 23:00 WITA</span>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                            <span class="font-medium text-gray-700">Selasa - Jumat:</span>
+                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:00 WITA</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                            <span class="font-medium text-gray-700">Sabtu:</span>
+                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:30 WITA</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                            <span class="font-medium text-gray-700">Minggu:</span>
+                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:00 WITA</span>
                         </div>
                     </div>
                     <p class="text-[11px] text-amber-800 font-semibold bg-amber-50/80 p-2 rounded-xl">
                         Khusus Takeaway (Bawa Pulang) &amp; Pesan Antar Online. Tidak melayani Dine-in (makan di tempat).
                     </p>
                 </div>
-                <div class="text-xs font-bold text-emerald-700 bg-emerald-50 py-2 px-3 rounded-xl text-center">
-                    ✓ Buka Setiap Hari Termasuk Libur Nasional
+                <div class="text-xs font-bold text-toon-granite bg-teal-50/80 py-2.5 px-3 rounded-xl text-center border border-teal-100">
+                    🍔 Buka Selasa – Minggu • Mulai Pukul 17:00 WITA (Senin Libur)
                 </div>
             </div>
 
@@ -508,23 +516,27 @@
                         <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5C3 6.358 6.358 3 10.5 3h3C17.642 3 21 6.358 21 10.5v.5H3v-.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 14h20M4 17h16M5 20h14"/></svg>
                     </div>
                     <div>
-                        <div style="font-weight: 900; font-size: 13px; color: #1F2937; line-height: 1.2;">Toon Burger Banjarbaru</div>
+                        <div style="font-weight: 900; font-size: 13px; color: #1F2937; line-height: 1.2;">Toon Burger, Banjarbaru Utara Jln Berlian</div>
                         <div style="font-size: 10px; color: #059669; font-weight: 700; display: flex; items-center; gap: 4px;">
                             <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; margin-top: 4px;"></span>
-                            <span>Buka Sekarang (Khusus Takeaway &amp; Delivery)</span>
+                            <span>Buka 17:00 WITA (Khusus Takeaway &amp; Delivery)</span>
                         </div>
                     </div>
                 </div>
                 <div style="font-size: 11px; color: #4B5563; line-height: 1.4; margin-bottom: 8px;">
-                    HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru
+                    Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjarbaru (HR7F+P8M)
                 </div>
-                <div style="display: flex; gap: 6px;">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                     <a href="https://www.google.com/maps/dir/?api=1&destination=${STORE_LAT},${STORE_LNG}" target="_blank" 
-                       style="background: #111827; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 10px; border-radius: 8px; display: inline-block;">
+                       style="background: #111827; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-block;">
                         Petunjuk Arah &rarr;
                     </a>
+                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                       style="background: #EE2737; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-flex; align-items: center; gap: 3px;">
+                        <span>GoFood 4.9 ★</span>
+                    </a>
                     <button onclick="copyAddressToClipboard()" 
-                            style="background: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; font-size: 10px; font-weight: 700; padding: 5px 8px; border-radius: 8px; cursor: pointer;">
+                            style="background: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; font-size: 10px; font-weight: 700; padding: 5px 7px; border-radius: 8px; cursor: pointer;">
                         Salin Alamat
                     </button>
                 </div>
@@ -729,19 +741,57 @@
         // Convert to WITA (UTC+8)
         const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
         const witaTime = new Date(utc + (3600000 * 8));
+        const day = witaTime.getDay(); // 0: Sun, 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat
         const hour = witaTime.getHours();
+        const minute = witaTime.getMinutes();
+        const totalMinutes = hour * 60 + minute;
 
         const badge = document.getElementById('store-live-badge');
         if (!badge) return;
 
-        // Open 10:00 - 22:00 / 23:00 WITA
-        if (hour >= 10 && hour < 23) {
-            badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Buka Sekarang</span>`;
-            badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1";
-        } else {
-            badge.innerHTML = `<span>Tutup (Buka 10:00 WITA)</span>`;
-            badge.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1";
+        let isOpen = false;
+        let statusBadgeHtml = '';
+
+        if (day === 1) { // Monday (Senin): CLOSED / LIBUR
+            isOpen = false;
+            statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (Senin Libur • Buka Selasa 17:00)</span>`;
+            badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+        } else if (day === 6) { // Saturday (Sabtu): 17:00 - 22:30
+            const openMin = 17 * 60; // 1020
+            const closeMin = 22 * 60 + 30; // 1350
+            if (totalMinutes >= openMin && totalMinutes < closeMin) {
+                isOpen = true;
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Buka Sekarang (s/d 22:30 WITA)</span>`;
+                badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            } else if (totalMinutes < openMin) {
+                isOpen = false;
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Tutup (Buka 17:00 WITA Hari Ini)</span>`;
+                badge.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            } else {
+                isOpen = false;
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (Buka Minggu 17:00 WITA)</span>`;
+                badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            }
+        } else { // Tuesday, Wednesday, Thursday, Friday, Sunday: 17:00 - 22:00
+            const openMin = 17 * 60; // 1020
+            const closeMin = 22 * 60; // 1320
+            if (totalMinutes >= openMin && totalMinutes < closeMin) {
+                isOpen = true;
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Buka Sekarang (s/d 22:00 WITA)</span>`;
+                badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            } else if (totalMinutes < openMin) {
+                isOpen = false;
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Tutup (Buka 17:00 WITA Hari Ini)</span>`;
+                badge.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            } else {
+                isOpen = false;
+                const nextDayText = (day === 0) ? 'Buka Selasa 17:00 WITA' : 'Buka Besok 17:00 WITA';
+                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (${nextDayText})</span>`;
+                badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
+            }
         }
+
+        badge.innerHTML = statusBadgeHtml;
     }
 
     // Contact Form Submission

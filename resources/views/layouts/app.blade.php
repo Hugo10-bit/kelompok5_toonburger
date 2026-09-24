@@ -214,6 +214,15 @@
                         </svg>
                     </form>
 
+                    <!-- GoFood Super Partner Button -->
+                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                       class="hidden sm:inline-flex items-center gap-1.5 bg-[#EE2737] hover:bg-[#D61B2B] text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition shadow-xs active:scale-95 group"
+                       title="Pesan langsung lewat aplikasi GoFood (Super Partner • Rating 4.9 ★)">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                        <span>GoFood</span>
+                        <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
+                    </a>
+
                     <!-- Cart Trigger Button -->
                     <button onclick="toggleCartDrawer()" id="cart-btn" class="relative bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold p-2.5 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-sm transition active:scale-95">
                         <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -317,6 +326,15 @@
                         Pesanan Saya
                     </a>
                 @endauth
+
+                <!-- GoFood Mobile Link -->
+                <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-3.5 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-2">
+                    <span class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                        <span>Pesan via GoFood (Super Partner)</span>
+                    </span>
+                    <span class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">4.9 ★ &rarr;</span>
+                </a>
             </div>
         </div>
     </header>
@@ -380,12 +398,14 @@
 
                 <!-- Jam Buka & Lokasi -->
                 <div>
-                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Buka & Lokasi</h4>
-                    <ul class="text-xs text-gray-300 space-y-2">
-                        <li><strong>Senin - Jumat:</strong> 10:00 - 22:00 WITA</li>
-                        <li><strong>Sabtu - Minggu:</strong> 09:00 - 23:00 WITA</li>
-                        <li class="pt-1 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery (No Dine-In)</li>
-                        <li class="text-gray-300 leading-relaxed">&bull; HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan</li>
+                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Buka &amp; Lokasi</h4>
+                    <ul class="text-xs text-gray-300 space-y-1.5">
+                        <li class="flex justify-between items-center"><strong class="text-gray-200">Senin:</strong> <span class="text-rose-400 font-bold bg-rose-950/60 px-1.5 py-0.5 rounded text-[11px]">Libur / Tutup</span></li>
+                        <li class="flex justify-between items-center"><strong class="text-gray-200">Selasa - Jumat:</strong> <span>17:00 - 22:00 WITA</span></li>
+                        <li class="flex justify-between items-center"><strong class="text-gray-200">Sabtu:</strong> <span>17:00 - 22:30 WITA</span></li>
+                        <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
+                        <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery (No Dine-In)</li>
+                        <li class="text-gray-300 leading-relaxed text-[11px]">&bull; Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara (HR7F+P8M)</li>
                     </ul>
                 </div>
 
@@ -402,6 +422,18 @@
                             <span class="text-[10px] text-gray-300 font-sans">Potongan 15K</span>
                         </li>
                     </ul>
+
+                    <!-- GoFood Official Partner Footer Card -->
+                    <div class="mt-4 pt-3 border-t border-white/10">
+                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                           class="flex items-center justify-between bg-[#EE2737]/90 hover:bg-[#EE2737] text-white p-2.5 rounded-xl transition shadow-xs group">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                                <span class="text-xs font-black">GoFood Super Partner</span>
+                            </div>
+                            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-bold group-hover:bg-white group-hover:text-[#EE2737] transition">4.9 ★ &rarr;</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 

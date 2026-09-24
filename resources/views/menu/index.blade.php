@@ -19,7 +19,14 @@
                     <p class="text-[11px] sm:text-xs text-amber-800">Toon Burger Banjarbaru hanya menyediakan pesanan bungkus bawa pulang (Takeaway) dan pesan antar online. Tidak menyediakan makan di tempat (Dine-In).</p>
                 </div>
             </div>
-            <span class="bg-amber-200/80 text-amber-950 text-[11px] font-bold px-3 py-1 rounded-full shrink-0 self-start sm:self-auto">Takeaway &amp; Delivery</span>
+            <div class="flex flex-wrap items-center gap-2 shrink-0 self-start sm:self-auto">
+                <span class="bg-amber-200/80 text-amber-950 text-[11px] font-bold px-3 py-1 rounded-full">Khusus Takeaway &amp; Delivery</span>
+                <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white text-xs font-black px-3.5 py-1.5 rounded-full transition shadow-xs flex items-center gap-1.5 active:scale-95">
+                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    <span>Order via GoFood</span>
+                    <span class="bg-white/25 text-[10px] px-1.5 py-0.2 rounded-full">4.9 ★</span>
+                </a>
+            </div>
         </div>
     </section>
 

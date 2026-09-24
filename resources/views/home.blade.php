@@ -45,14 +45,16 @@
                         <div class="flex flex-wrap items-center gap-3 pt-2">
                             <a href="{{ route('menu') }}" class="bg-gray-900 hover:bg-black text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
                                 <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
-                                <span>Jelajahi Semua Menu</span>
+                                <span>Jelajahi Menu</span>
                                 <span>&rarr;</span>
                             </a>
-                            <a href="{{ route('about') }}" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition border border-white/30 hover:scale-102 active:scale-95">
-                                Kenali Kami (About Us)
+                            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                                <span>Pesan via GoFood</span>
+                                <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
                             </a>
-                            <a href="{{ route('contact') }}" class="text-xs text-yellow-200 hover:text-white underline font-semibold px-2 py-1">
-                                Hubungi & Lokasi &rarr;
+                            <a href="{{ route('contact') }}" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-4 py-3.5 rounded-2xl transition border border-white/30 hover:scale-102 active:scale-95">
+                                Lokasi Outlet &rarr;
                             </a>
                         </div>
 
@@ -285,6 +287,26 @@
             </a>
         </div>
 
+        <!-- GoFood Official Super Partner Promo Banner -->
+        <div class="mt-4 bg-gradient-to-r from-[#EE2737] to-[#B31217] text-white rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-white text-[#EE2737] flex items-center justify-center shrink-0 shadow-md font-black text-sm">
+                    4.9 ★
+                </div>
+                <div>
+                    <div class="inline-flex items-center gap-1.5 bg-black/20 text-yellow-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                        <span>Official Super Partner di GoFood</span>
+                    </div>
+                    <h4 class="text-base sm:text-lg font-black text-white leading-tight">Mau Pesanan Diantar Langsung Driver Gojek?</h4>
+                    <p class="text-xs text-red-100 mt-0.5">Pesan praktis lewat GoFood untuk menikmati promo diskon menu &amp; voucher gratis ongkir hari ini!</p>
+                </div>
+            </div>
+            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-gray-100 text-[#EE2737] text-xs sm:text-sm font-black px-6 py-3 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap flex items-center gap-2">
+                <span>Buka di Aplikasi GoFood</span>
+                <span>&rarr;</span>
+            </a>
+        </div>
+
     </section>
 
     <!-- ═══════════════════════════════════════════════
@@ -429,8 +451,8 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                         <span>Outlet Aktif • Loktabat Utara</span>
                     </div>
-                    <h3 class="text-xl sm:text-2xl font-black text-gray-900 mt-0.5">Toon Burger Banjarbaru</h3>
-                    <p class="text-xs text-gray-600 mt-1 max-w-lg">HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan. Buka setiap hari 10:00 - 22:00 WITA.</p>
+                    <h3 class="text-xl sm:text-2xl font-black text-gray-900 mt-0.5">Toon Burger, Banjarbaru Utara Jln Berlian</h3>
+                    <p class="text-xs text-gray-600 mt-1 max-w-lg">Jl. Berlian, Loktabat Utara, Banjarbaru Utara (HR7F+P8M). Buka Selasa – Minggu 17:00 – 22:00 WITA (Sabtu s/d 22:30, Senin Libur). Khusus Takeaway &amp; Online Delivery.</p>
                 </div>
             </div>
             <a href="{{ route('contact') }}" class="bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap flex items-center gap-2">
