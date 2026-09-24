@@ -10,7 +10,38 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     /**
-     * Display the main menu catalog page.
+     * Display the Home landing page.
+     */
+    public function home()
+    {
+        $categories = Category::where('is_active', true)
+            ->orderBy('sort_order')
+            ->take(6)
+            ->get();
+
+        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
+            $featuredProducts = Product::with(['category', 'reviews.user'])
+                ->where('is_available', true)
+                ->where('is_featured', true)
+                ->take(4)
+                ->get();
+
+            // Fallback if not enough featured products
+            if ($featuredProducts->isEmpty()) {
+                $featuredProducts = Product::with(['category', 'reviews.user'])
+                    ->where('is_available', true)
+                    ->take(4)
+                    ->get();
+            }
+        } else {
+            $featuredProducts = collect([]);
+        }
+
+        return view('home', compact('categories', 'featuredProducts'));
+    }
+
+    /**
+     * Display the main food catalog page.
      */
     public function index(Request $request)
     {
@@ -40,15 +71,29 @@ class MenuController extends Controller
             }
 
             $products = $query->orderByDesc('is_featured')->orderBy('name')->get();
-            $featuredProducts = Product::with('category')->where('is_featured', true)->where('is_available', true)->take(4)->get();
         } else {
             $products = collect([]);
-            $featuredProducts = collect([]);
         }
 
         $tables = RestaurantTable::where('status', 'available')->get();
 
-        return view('menu.index', compact('categories', 'products', 'featuredProducts', 'selectedCategory', 'search', 'tableNum', 'tables'));
+        return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables'));
+    }
+
+    /**
+     * Display the About Us (Tentang Kami) page.
+     */
+    public function about()
+    {
+        return view('about');
+    }
+
+    /**
+     * Display the Contact & Location (Kontak & Lokasi) page.
+     */
+    public function contact()
+    {
+        return view('contact');
     }
 
     /**

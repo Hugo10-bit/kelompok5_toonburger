@@ -66,22 +66,15 @@
             background-size: 20px 20px;
             background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
-            50% { transform: translateY(-8px) rotate(var(--rot, 0deg)); }
+        .static-burger {
+            transform: rotate(var(--rot, 0deg));
         }
-        .float-burger {
-            animation: floatSlow 4s ease-in-out infinite;
-        }
-        .float-delay-1 { animation-delay: 0.6s; }
-        .float-delay-2 { animation-delay: 1.2s; }
-        .float-delay-3 { animation-delay: 1.8s; }
     </style>
 </head>
 <body class="h-full w-full bg-[#F1D9B3] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative">
 
     <!-- TOP GREEN ARC CONTINUOUS EXTENSION (For showing #466967 behind rounded-tl of white panel) -->
-    <div class="hidden md:block absolute top-0 left-0 right-0 h-28 lg:h-36 pointer-events-none z-0 overflow-hidden">
+    <div class="hidden md:block absolute top-0 left-0 right-0 h-32 lg:h-40 pointer-events-none z-0 overflow-hidden">
         <svg viewBox="0 0 1000 130" preserveAspectRatio="none" class="w-full h-full">
             <path d="M 0 0 L 1000 0 L 1000 70 Q 250 140 0 70 Z" fill="#466967" />
         </svg>
@@ -94,45 +87,47 @@
         <div class="relative w-full z-10">
             <!-- Curved background SVG -->
             <div class="relative w-full overflow-hidden">
-                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-36 block drop-shadow-xs">
+                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-32 sm:h-36 lg:h-40 block drop-shadow-xs">
                     <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" fill="#466967" />
                 </svg>
 
-                <!-- Mascot & Text inside Arc -->
-                <div class="absolute inset-0 flex flex-col items-center justify-center pt-2 sm:pt-3">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-16 sm:h-20 lg:h-22 w-auto object-contain drop-shadow-md">
+                <!-- Mascot & Text inside Arc (Enlarged & Raised) -->
+                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" 
+                         alt="Toon Burger" 
+                         class="h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
                 </div>
             </div>
         </div>
 
-        <!-- FLOATING BURGERS (4 BURGERS AS IN MOCKUP) -->
-        <!-- 1. Top-Left Floating Burger -->
+        <!-- STATIONARY BURGERS (4 BURGERS AS IN MOCKUP - NO ANIMATION) -->
+        <!-- 1. Top-Left Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}" 
              alt="Burger" 
              style="--rot: -15deg;" 
-             class="float-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
 
-        <!-- 2. Top-Right Floating Burger -->
+        <!-- 2. Top-Right Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}" 
              alt="Burger" 
              style="--rot: 14deg;" 
-             class="float-burger float-delay-1 absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
 
-        <!-- 3. Bottom-Left Floating Burger -->
+        <!-- 3. Bottom-Left Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}" 
              alt="Burger" 
              style="--rot: -9deg;" 
-             class="float-burger float-delay-2 absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
 
-        <!-- 4. Bottom-Right Floating Burger -->
+        <!-- 4. Bottom-Right Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}" 
              alt="Burger" 
              style="--rot: 18deg;" 
-             class="float-burger float-delay-3 absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
 
-        <!-- CENTER BRAND HEADLINE -->
-        <div class="my-auto py-10 px-6 text-center relative z-20">
-            <h1 class="font-brand text-4xl sm:text-5xl lg:text-[54px] leading-[1.1] text-[#466967] tracking-wider uppercase drop-shadow-xs">
+        <!-- CENTER BRAND HEADLINE (ENLARGED EXACTLY ACCORDING TO USER REQUEST) -->
+        <div class="my-auto py-8 sm:py-10 px-4 sm:px-6 text-center relative z-20">
+            <h1 class="font-brand text-5xl sm:text-6xl md:text-6xl lg:text-[76px] xl:text-[88px] leading-[1.0] text-[#466967] tracking-wider uppercase drop-shadow-xs">
                 EAT GOOD.<br>
                 FEEL GOOD.<br>
                 LIVE GOOD.
@@ -152,7 +147,7 @@
     </div>
 
     <!-- ═══ RIGHT PANEL: WHITE FORM CARD (EXACTLY MATCHING MOCKUP) ═══ -->
-    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[36px] md:rounded-bl-[36px] shadow-2xl flex flex-col justify-center items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-10 md:py-16 overflow-y-auto relative z-10">
+    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl flex flex-col justify-center items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-10 md:py-16 overflow-y-auto relative z-10">
 
         <div class="w-full max-w-sm sm:max-w-md mx-auto">
 
@@ -165,12 +160,15 @@
             @endif
 
             @if($errors->any())
-                <div class="mb-5 p-3.5 bg-red-50 border border-red-200 text-toon-rust text-xs font-bold rounded-xl">
-                    <ul class="list-disc list-inside space-y-0.5">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="mb-6 p-4 bg-[#FFF1F0] border border-red-200/80 text-toon-rust text-xs font-semibold rounded-2xl flex items-center gap-2.5 shadow-2xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
+                    <span class="font-bold">
+                        @if($errors->has('username') || $errors->has('password'))
+                            Username atau password yang dimasukkan salah.
+                        @else
+                            {{ $errors->first() }}
+                        @endif
+                    </span>
                 </div>
             @endif
 
@@ -178,28 +176,28 @@
             <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
                 <div class="mb-7">
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Welcome Back!</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1">Please enter your detail first</p>
+                    <p class="text-xs sm:text-sm text-gray-400 font-normal mt-1">Please enter your detail first</p>
                 </div>
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-5 text-xs">
+                <form action="{{ route('login') }}" method="POST" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="login">
 
-                    <!-- Username (UNDERLINE STYLE AS IN PHOTO) -->
+                    <!-- Username (Filled Light-Blue Style As In Photo) -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-800 mb-1">Username</label>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1.5">Username</label>
                         <input type="text" 
                                name="username" 
                                id="login-username" 
                                required 
                                placeholder="Enter Your username" 
-                               value="{{ old('form_type') === 'login' ? old('username') : (old('username') ?: 'toonburger') }}" 
-                               class="w-full bg-transparent border-b border-gray-300 py-2.5 px-0 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:border-[#466967] transition">
+                               value="{{ old('form_type') === 'login' ? old('username') : (old('username') ?: 'admin') }}" 
+                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-lg px-4 py-3 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#466967] transition">
                     </div>
 
-                    <!-- Password (UNDERLINE STYLE WITH EYE TOGGLE AS IN PHOTO) -->
+                    <!-- Password (Filled Light-Blue Style With Eye Toggle As In Photo) -->
                     <div>
-                        <label class="block text-xs font-semibold text-gray-800 mb-1">Password</label>
+                        <label class="block text-xs font-semibold text-gray-800 mb-1.5">Password</label>
                         <div class="relative">
                             <input type="password" 
                                    name="password" 
@@ -207,10 +205,10 @@
                                    required 
                                    placeholder="Enter Your Password" 
                                    value="Password123"
-                                   class="w-full bg-transparent border-b border-gray-300 py-2.5 px-0 pr-8 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:border-[#466967] transition">
+                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-lg pl-4 pr-11 py-3 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#466967] transition">
                             <button type="button" 
                                     onclick="togglePasswordVisibility('login-password', this)" 
-                                    class="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none" 
+                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none" 
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -226,14 +224,14 @@
                             <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#466967] focus:ring-[#466967] border-gray-300">
                             <span>Remember Me</span>
                         </label>
-                        <a href="javascript:void(0)" onclick="alert('Silakan hubungi administrator atau gunakan kredensial demo admin: admin@toonburger.com / Password123')" class="text-xs text-gray-600 hover:text-[#466967] font-normal transition">
+                        <a href="javascript:void(0)" onclick="alert('Silakan hubungi administrator atau gunakan kredensial demo admin: admin@toonburger.com / Password123')" class="text-xs text-gray-500 hover:text-[#466967] font-normal transition">
                             Forgot Password?
                         </a>
                     </div>
 
                     <!-- Login Button (EXACT MATCH #466967) -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm transition active:scale-98 text-sm flex items-center justify-center gap-2">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-bold py-3.5 px-6 rounded-lg shadow-sm transition active:scale-98 text-sm flex items-center justify-center gap-2">
                             <span>Login</span>
                         </button>
                     </div>
@@ -241,7 +239,7 @@
                     <!-- Toggle to Register -->
                     <p class="text-center text-xs text-gray-500 pt-2">
                         Don't have an account? 
-                        <button type="button" onclick="switchToRegister()" class="text-[#466967] hover:underline font-semibold ml-1">
+                        <button type="button" onclick="switchToRegister()" class="text-[#466967] hover:underline font-bold ml-1">
                             Sign Up Now
                         </button>
                     </p>
@@ -249,7 +247,7 @@
                     <!-- Quick Admin Login Pill -->
                     <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-center gap-2 text-[11px] text-gray-400">
                         <span>Demo Admin:</span>
-                        <button type="button" onclick="fillAdminCreds()" class="bg-[#FAF1E1] hover:bg-[#F1D9B3] text-[#466967] px-2.5 py-1 rounded-full font-semibold border border-[#466967]/20 transition">
+                        <button type="button" onclick="fillAdminCreds()" class="bg-[#FAF1E1] hover:bg-[#F1D9B3] text-[#466967] px-3 py-1 rounded-full font-bold border border-[#466967]/20 transition">
                             admin@toonburger.com
                         </button>
                     </div>

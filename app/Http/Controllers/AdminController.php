@@ -29,7 +29,7 @@ class AdminController extends Controller
         $totalTables = RestaurantTable::count();
         $totalCustomers = User::where('role', 'customer')->count();
 
-        $recentOrders = Order::with(['items', 'table', 'user'])->latest()->take(6)->get();
+        $recentOrders = Order::with(['items', 'table', 'user'])->latest()->take(7)->get();
 
         $topProducts = OrderItem::select('product_name', DB::raw('SUM(quantity) as total_qty'), DB::raw('SUM(subtotal) as total_sales'))
             ->groupBy('product_name')
@@ -435,7 +435,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'items' => 'required|array|min:1',
-            'order_type' => 'required|in:dine_in,takeaway',
+            'order_type' => 'nullable|in:takeaway,delivery,dine_in',
             'restaurant_table_id' => 'nullable|exists:restaurant_tables,id',
             'customer_name' => 'nullable|string',
             'payment_method' => 'required|in:cash,qris,bank_transfer,ewallet',
@@ -443,7 +443,7 @@ class AdminController extends Controller
         ]);
 
         return DB::transaction(function () use ($request) {
-            $datePrefix = 'BR-' . date('Ymd');
+            $datePrefix = 'TB-' . date('Ymd');
             $countToday = Order::where('order_number', 'like', "{$datePrefix}-%")->count() + 1;
             $orderNumber = $datePrefix . '-' . str_pad($countToday, 4, '0', STR_PAD_LEFT);
 
@@ -468,11 +468,14 @@ class AdminController extends Controller
             $tax = round($subtotal * 0.10);
             $total = $subtotal + $tax;
 
+            // Toon Burger is strictly Takeaway / Delivery (No Dine-In)
+            $orderType = ($request->order_type === 'delivery') ? 'delivery' : 'takeaway';
+
             $order = Order::create([
                 'order_number' => $orderNumber,
                 'user_id' => Auth::id(),
-                'restaurant_table_id' => $request->order_type === 'dine_in' ? $request->restaurant_table_id : null,
-                'order_type' => $request->order_type,
+                'restaurant_table_id' => null,
+                'order_type' => $orderType,
                 'status' => 'confirmed',
                 'payment_status' => 'paid',
                 'payment_method' => $request->payment_method,

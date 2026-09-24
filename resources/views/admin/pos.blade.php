@@ -127,29 +127,27 @@
             <div class="p-4 bg-gray-50 border-b border-gray-200 space-y-3 flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <h3 class="font-black text-sm text-gray-900">Pesanan Aktif</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-black text-toon-rust bg-red-50 border border-red-200 px-2 py-0.5 rounded-full">
+                        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        Khusus Takeaway & Delivery
+                    </span>
                     <button onclick="clearPosCart()" class="text-red-500 hover:text-red-700 text-xs font-bold">Kosongkan</button>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 text-xs">
-                    <label class="border-2 rounded-xl p-2 text-center font-bold cursor-pointer transition border-bites-orange bg-amber-50" id="pos-type-dine_in">
-                        <input type="radio" name="pos_order_type" value="dine_in" checked onchange="setPosOrderType('dine_in')" class="sr-only">
-                        Dine In
+                    <label class="border-2 rounded-xl p-2 text-center font-bold cursor-pointer transition border-bites-orange bg-amber-50" id="pos-type-takeaway">
+                        <input type="radio" name="pos_order_type" value="takeaway" checked onchange="setPosOrderType('takeaway')" class="sr-only">
+                        Takeaway (Bawa Pulang)
                     </label>
-                    <label class="border-2 border-gray-200 rounded-xl p-2 text-center font-bold cursor-pointer transition" id="pos-type-takeaway">
-                        <input type="radio" name="pos_order_type" value="takeaway" onchange="setPosOrderType('takeaway')" class="sr-only">
-                        Takeaway
+                    <label class="border-2 border-gray-200 rounded-xl p-2 text-center font-bold cursor-pointer transition" id="pos-type-delivery">
+                        <input type="radio" name="pos_order_type" value="delivery" onchange="setPosOrderType('delivery')" class="sr-only">
+                        Pesan Antar (Delivery)
                     </label>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 text-xs">
-                    <select id="pos-table-id" class="w-full bg-white border border-gray-300 rounded-xl p-2 text-xs font-bold text-gray-800">
-                        <option value="">Pilih Meja</option>
-                        @foreach($tables as $tbl)
-                            <option value="{{ $tbl->id }}">{{ $tbl->table_number }}</option>
-                        @endforeach
-                    </select>
-
-                    <input type="text" id="pos-customer-name" placeholder="Nama Pelanggan" class="w-full bg-white border border-gray-300 rounded-xl p-2 text-xs font-semibold focus:outline-none">
+                <div>
+                    <input type="text" id="pos-customer-name" placeholder="Nama Pelanggan (Wajib diisi)" class="w-full bg-white border border-gray-300 rounded-xl p-2 text-xs font-semibold focus:outline-none focus:border-toon-granite">
+                    <input type="hidden" id="pos-table-id" value="">
                 </div>
             </div>
 
@@ -264,7 +262,7 @@
     <script>
         const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         let posCart = [];
-        let posOrderType = 'dine_in';
+        let posOrderType = 'takeaway';
         let posPayMethod = 'cash';
 
         function updateClock() {
@@ -293,10 +291,16 @@
 
         function setPosOrderType(type) {
             posOrderType = type;
-            document.getElementById('pos-type-dine_in').classList.toggle('border-bites-orange', type === 'dine_in');
-            document.getElementById('pos-type-dine_in').classList.toggle('bg-amber-50', type === 'dine_in');
-            document.getElementById('pos-type-takeaway').classList.toggle('border-bites-orange', type === 'takeaway');
-            document.getElementById('pos-type-takeaway').classList.toggle('bg-amber-50', type === 'takeaway');
+            const takeawayEl = document.getElementById('pos-type-takeaway');
+            const deliveryEl = document.getElementById('pos-type-delivery');
+            if (takeawayEl) {
+                takeawayEl.classList.toggle('border-bites-orange', type === 'takeaway');
+                takeawayEl.classList.toggle('bg-amber-50', type === 'takeaway');
+            }
+            if (deliveryEl) {
+                deliveryEl.classList.toggle('border-bites-orange', type === 'delivery');
+                deliveryEl.classList.toggle('bg-amber-50', type === 'delivery');
+            }
         }
 
         function setPosPayMethod(method) {

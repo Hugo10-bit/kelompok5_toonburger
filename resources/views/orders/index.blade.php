@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Riwayat Pesanan Saya - BiteRush')
+@section('title', 'Riwayat Pesanan Saya - Toon Burger')
 
 @section('content')
 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Riwayat Pesanan</h1>
-            <p class="text-xs text-gray-500">Daftar semua transaksi dan pesanan yang pernah Anda buat di BiteRush.</p>
+            <p class="text-xs text-gray-500">Daftar semua transaksi dan pesanan yang pernah Anda buat di Toon Burger.</p>
         </div>
         <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-xs transition">
             + Pesan Baru

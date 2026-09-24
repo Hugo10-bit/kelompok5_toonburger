@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Pesanan #' . $order->order_number . ' - BiteRush')
+@section('title', 'Detail Pesanan #' . $order->order_number . ' - Toon Burger')
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -306,7 +306,7 @@
 
             <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1">Komentar & Saran:</label>
-                <textarea name="comment" rows="3" placeholder="Ceritakan rasa burger atau kemasan BiteRush..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none"></textarea>
+                <textarea name="comment" rows="3" placeholder="Ceritakan rasa burger atau kemasan Toon Burger..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none"></textarea>
             </div>
 
             <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black text-xs py-3 rounded-xl transition">

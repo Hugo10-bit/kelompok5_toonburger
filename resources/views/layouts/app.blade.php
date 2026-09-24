@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'BiteRush - Fast Food & Burger Ordering')</title>
+    <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
     <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,10 +47,34 @@
             max-width: 100vw;
             animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            caret-color: #D92625;
         }
         body.page-exiting {
             opacity: 0 !important;
             transform: translateY(-4px) scale(0.995);
+        }
+        ::selection {
+            background-color: #D92625;
+            color: #ffffff;
+        }
+        *:focus-visible {
+            outline: 2px solid #D92625;
+            outline-offset: 2px;
+        }
+        /* Custom Themed Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F6F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5CBB9;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #BAAE9A;
         }
         @keyframes pageEnter {
             from {
@@ -67,12 +91,27 @@
             top: 0;
             left: 0;
             height: 3.5px;
-            width: 0%;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: left;
             background: linear-gradient(90deg, #FFC72C, #F9961F, #D92625);
             z-index: 99999;
-            transition: width 0.35s ease, opacity 0.3s ease;
+            transition: transform 0.35s ease, opacity 0.3s ease;
             pointer-events: none;
             box-shadow: 0 0 10px rgba(249, 150, 31, 0.7);
+        }
+        @keyframes modalPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-modal-pop {
+            animation: modalPop 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -81,6 +120,46 @@
 <body class="min-h-full bg-bites-bg text-gray-900 flex flex-col antialiased">
     <!-- Top Progress Bar for Smooth Navigation -->
     <div id="page-loader-bar"></div>
+
+    <!-- ═══ MODAL KONFIRMASI LOGOUT (SESUAI MOCKUP FOTO) ═══ -->
+    <div id="logout-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+        <!-- Backdrop: Fixed, centered, non-shifting -->
+        <div class="fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
+
+        <!-- Modal Dialog Card: Centered on screen, never shifts -->
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[460px] w-full text-center z-10 select-none animate-modal-pop border border-[#EFE5D0]">
+            <!-- Warning Icon Circle (Muted Sage Green - Sesuai Foto) -->
+            <div class="w-[92px] h-[92px] rounded-full border-[4.5px] border-[#9AA887] flex items-center justify-center mx-auto mb-6 bg-white shadow-2xs">
+                <svg class="w-10 h-10 text-[#9AA887]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4.5c-.83 0-1.5.67-1.5 1.5v7.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V6c0-.83-.67-1.5-1.5-1.5zM12 17.2a1.8 1.8 0 100 3.6 1.8 1.8 0 000-3.6z"/>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h3 class="text-2xl sm:text-[27px] font-bold text-[#2D3139] tracking-tight mb-3">
+                Konfirmasi Logout
+            </h3>
+
+            <!-- Subtitle Description (Sesuai Foto) -->
+            <p class="text-[#555C68] text-sm sm:text-[14.5px] leading-relaxed max-w-sm mx-auto mb-8 font-normal">
+                Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
+            </p>
+
+            <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
+            <div class="flex items-center justify-center gap-3.5 sm:gap-4">
+                <button type="button" 
+                        onclick="closeLogoutModal()" 
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none">
+                    Batalkan
+                </button>
+                <button type="button" 
+                        onclick="submitLogoutForm()" 
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none">
+                    ya, keluar
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- TOP NAVBAR -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs transition-all">
@@ -93,13 +172,22 @@
                         <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo" class="h-12 sm:h-14 w-auto object-contain transition group-hover:scale-105">
                     </a>
 
-                    <!-- Nav Links -->
-                    <nav class="hidden md:flex items-center gap-1 font-medium text-sm">
-                        <a href="{{ route('menu') }}" class="px-3.5 py-2 rounded-xl text-gray-700 hover:text-bites-red hover:bg-red-50/50 transition">
-                            Menu Makanan
+                    <!-- Nav Links: Separate Dedicated Pages -->
+                    <nav class="hidden md:flex items-center gap-1 font-semibold text-sm">
+                        <a href="{{ route('home') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('home') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
+                            Home
+                        </a>
+                        <a href="{{ route('menu') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('menu') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
+                            Menu Produk
+                        </a>
+                        <a href="{{ route('about') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('about') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
+                            About Us
+                        </a>
+                        <a href="{{ route('contact') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('contact') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
+                            Contact
                         </a>
                         @auth
-                            <a href="{{ route('orders.index') }}" class="px-3.5 py-2 rounded-xl text-gray-700 hover:text-bites-red hover:bg-red-50/50 transition">
+                            <a href="{{ route('orders.index') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('orders.*') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
                                 Pesanan Saya
                             </a>
                             @if(Auth::user()->isStaff())
@@ -200,7 +288,35 @@
                         </a>
                     @endauth
 
+                    <!-- Mobile Hamburger Button -->
+                    <button type="button" onclick="toggleMobileNav()" class="md:hidden p-2 text-gray-700 hover:text-bites-red hover:bg-gray-100 rounded-xl transition" aria-label="Toggle Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+
                 </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-nav-menu" class="hidden md:hidden border-t border-gray-100 py-3 space-y-1 bg-white px-2">
+                <a href="{{ route('home') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('home') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
+                    Home
+                </a>
+                <a href="{{ route('menu') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('menu') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
+                    Menu Produk
+                </a>
+                <a href="{{ route('about') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('about') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
+                    About Us
+                </a>
+                <a href="{{ route('contact') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('contact') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
+                    Contact
+                </a>
+                @auth
+                    <a href="{{ route('orders.index') }}" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('orders.*') ? 'text-red-950 font-extrabold bg-red-100/80' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
+                        Pesanan Saya
+                    </a>
+                @endauth
             </div>
         </div>
     </header>
@@ -236,45 +352,62 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-bites-dark text-white border-t border-white/10 mt-20 pt-12 pb-8">
+    <footer class="bg-[#263A38] text-white border-t border-white/10 mt-20 pt-14 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-                <div class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Brand Info -->
+                <div class="space-y-3.5">
                     <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-12 w-auto object-contain">
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Nikmati sensasi burger premium terbaik dengan 100% daging sapi Australia, brioche bun lembut, dan saus lezat khas BiteRush.
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Citarasa burger klasik otentik dengan 100% daging sapi Australia, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
                     </p>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-bites-yellow mb-3 uppercase tracking-wider">Jam Buka</h4>
-                    <ul class="text-xs text-gray-300 space-y-1.5">
-                        <li>Senin - Jumat: 10:00 - 22:00</li>
-                        <li>Sabtu - Minggu: 09:00 - 23:00</li>
-                        <li>Layanan Dine-In, Takeaway & Delivery</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-bites-yellow mb-3 uppercase tracking-wider">Voucher Promo</h4>
-                    <ul class="text-xs text-gray-300 space-y-1.5">
-                        <li><span class="bg-white/10 px-2 py-0.5 rounded font-mono text-bites-yellow">WELCOMEBITE</span> Diskon Rp 15.000</li>
-                        <li><span class="bg-white/10 px-2 py-0.5 rounded font-mono text-bites-yellow">BITERUSH50</span> Diskon 50%</li>
-                        <li><span class="bg-white/10 px-2 py-0.5 rounded font-mono text-bites-yellow">CHEESEFEAST</span> Potongan Rp 20.000</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-bites-yellow mb-3 uppercase tracking-wider">Metode Pembayaran</h4>
-                    <div class="flex flex-wrap gap-2 text-xs text-gray-300">
-                        <span class="bg-white/10 px-2.5 py-1 rounded">QRIS All Payment</span>
-                        <span class="bg-white/10 px-2.5 py-1 rounded">GoPay / OVO</span>
-                        <span class="bg-white/10 px-2.5 py-1 rounded">BCA / Mandiri</span>
-                        <span class="bg-white/10 px-2.5 py-1 rounded">Tunai di Kasir</span>
+                    <div class="flex items-center gap-3 pt-1 text-gray-400">
+                        <span class="text-xs font-semibold text-amber-300">★ 4.9/5 Rating Pelanggan</span>
                     </div>
+                </div>
+
+                <!-- Navigation Quick Links -->
+                <div>
+                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Navigasi Halaman</h4>
+                    <ul class="text-xs text-gray-300 space-y-2 font-medium">
+                        <li><a href="{{ route('home') }}" class="hover:text-amber-300 transition">&bull; Home</a></li>
+                        <li><a href="{{ route('menu') }}" class="hover:text-amber-300 transition">&bull; Menu Produk</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-amber-300 transition">&bull; About Us (Tentang Kami)</a></li>
+                        <li><a href="{{ route('contact') }}" class="hover:text-amber-300 transition">&bull; Contact (Kontak & Lokasi)</a></li>
+                        <li><a href="{{ route('admin.dashboard') }}" class="hover:text-amber-300 transition">&bull; Panel Admin Restoran</a></li>
+                    </ul>
+                </div>
+
+                <!-- Jam Buka & Lokasi -->
+                <div>
+                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Buka & Lokasi</h4>
+                    <ul class="text-xs text-gray-300 space-y-2">
+                        <li><strong>Senin - Jumat:</strong> 10:00 - 22:00 WITA</li>
+                        <li><strong>Sabtu - Minggu:</strong> 09:00 - 23:00 WITA</li>
+                        <li class="pt-1 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery (No Dine-In)</li>
+                        <li class="text-gray-300 leading-relaxed">&bull; HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan</li>
+                    </ul>
+                </div>
+
+                <!-- Voucher & Promo -->
+                <div>
+                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Kupon Promo Hari Ini</h4>
+                    <ul class="text-xs text-gray-300 space-y-2 font-mono">
+                        <li class="bg-white/10 p-2 rounded-xl flex items-center justify-between">
+                            <span class="text-amber-300 font-bold">TOONBURGER50</span>
+                            <span class="text-[10px] text-gray-300 font-sans">Diskon 50%</span>
+                        </li>
+                        <li class="bg-white/10 p-2 rounded-xl flex items-center justify-between">
+                            <span class="text-amber-300 font-bold">WELCOMETOON</span>
+                            <span class="text-[10px] text-gray-300 font-sans">Potongan 15K</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
-                <p>&copy; {{ date('Y') }} BiteRush Fast Food. All Rights Reserved.</p>
-                <p class="mt-2 sm:mt-0 font-medium">BiteRush by Hugo Putra</p>
+            <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400">
+                <p>&copy; {{ date('Y') }} Toon Burger. All Rights Reserved.</p>
+                <p class="mt-2 sm:mt-0 font-medium">Toon Burger Indonesia</p>
             </div>
         </div>
     </footer>
@@ -286,7 +419,7 @@
         <!-- Cart Header (Fixed Top) -->
         <div class="p-4 sm:p-4.5 bg-gray-50/90 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-bites-yellow flex items-center justify-center font-extrabold text-xs text-bites-dark shadow-xs">BR</div>
+                <div class="w-8 h-8 rounded-xl bg-bites-yellow flex items-center justify-center font-extrabold text-xs text-bites-dark shadow-xs">TB</div>
                 <div>
                     <h3 class="font-extrabold text-gray-900 text-sm leading-tight">Keranjang Pesanan</h3>
                     <p class="text-[11px] text-gray-500" id="cart-items-count-text">0 menu dipilih</p>
@@ -316,7 +449,7 @@
                     Punya Kupon Promo?
                 </label>
                 <div class="flex gap-1.5">
-                    <input type="text" id="coupon-input" placeholder="KODE PROMO (misal: BITERUSH50)" class="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-3 py-1.5 text-xs uppercase font-bold tracking-wider focus:outline-none focus:border-bites-orange focus:bg-white transition">
+                    <input type="text" id="coupon-input" placeholder="KODE PROMO (misal: TOONBURGER50)" class="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-3 py-1.5 text-xs uppercase font-bold tracking-wider focus:outline-none focus:border-bites-orange focus:bg-white transition">
                     <button onclick="applyCoupon()" class="bg-gray-900 hover:bg-black text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl transition shadow-xs active:scale-95">
                         Pakai
                     </button>
@@ -367,7 +500,7 @@
             
             <!-- Modal Header / Image -->
             <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-48 overflow-hidden flex items-center justify-center">
-                <img id="modal-product-image" src="" alt="Menu" class="w-full h-full object-cover">
+                <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
                 <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold transition">
                     &times;
                 </button>
@@ -615,7 +748,7 @@
                 currentModalProduct = data.product;
                 document.getElementById('modal-product-id').value = currentModalProduct.id;
                 document.getElementById('modal-product-name').innerText = currentModalProduct.name;
-                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari BiteRush.';
+                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
                 document.getElementById('modal-product-price').innerText = formatRupiah(currentModalProduct.price);
                 document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
                 document.getElementById('modal-product-calories').innerText = `${currentModalProduct.calories || 450} kcal`;
@@ -803,6 +936,13 @@
             }, 3000);
         }
 
+        function toggleMobileNav() {
+            const menu = document.getElementById('mobile-nav-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
         function toggleUserDropdown(event) {
             if (event) event.stopPropagation();
             const menu = document.getElementById('user-dropdown-menu');
@@ -830,43 +970,51 @@
             }
         });
 
+        let pendingLogoutForm = null;
+
         function confirmLogout(event) {
-            event.preventDefault();
-            const form = event.target.closest('form');
-            if (typeof Swal !== 'undefined') {
-                Swal.fire({
-                    title: 'Konfirmasi Logout',
-                    text: 'Apakah Anda yakin ingin keluar dari akun Anda?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#D92625',
-                    cancelButtonColor: '#6B7280',
-                    confirmButtonText: 'Ya, Keluar',
-                    cancelButtonText: 'Batal',
-                    reverseButtons: true,
-                    customClass: {
-                        popup: 'rounded-3xl shadow-2xl font-sans',
-                        confirmButton: 'rounded-xl px-5 py-2.5 font-bold',
-                        cancelButton: 'rounded-xl px-5 py-2.5 font-bold'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            } else {
-                if (confirm('Apakah Anda yakin ingin keluar?')) {
-                    form.submit();
-                }
+            if (event) {
+                event.preventDefault();
+                pendingLogoutForm = event.target.closest('form');
+            }
+            const modal = document.getElementById('logout-confirm-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
             }
             return false;
         }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logout-confirm-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function submitLogoutForm() {
+            if (pendingLogoutForm) {
+                pendingLogoutForm.submit();
+            } else {
+                const forms = document.querySelectorAll('form[action*="logout"]');
+                if (forms.length > 0) {
+                    forms[0].submit();
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLogoutModal();
+            }
+        });
 
         // Smooth Page Transition Handler
         document.addEventListener('DOMContentLoaded', () => {
             const loader = document.getElementById('page-loader-bar');
             if (loader) {
-                loader.style.width = '100%';
+                loader.style.transform = 'scaleX(1)';
                 setTimeout(() => { loader.style.opacity = '0'; }, 200);
             }
 
@@ -884,7 +1032,7 @@
                 if (link.hostname === window.location.hostname) {
                     if (loader) {
                         loader.style.opacity = '1';
-                        loader.style.width = '70%';
+                        loader.style.transform = 'scaleX(0.7)';
                     }
                     document.body.classList.add('page-exiting');
                 }
@@ -896,8 +1044,8 @@
                 document.body.classList.remove('page-exiting');
                 const loader = document.getElementById('page-loader-bar');
                 if (loader) {
-                    loader.style.width = '100%';
-                    setTimeout(() => { loader.style.opacity = '0'; loader.style.width = '0%'; }, 200);
+                    loader.style.transform = 'scaleX(1)';
+                    setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
                 }
             }
         });

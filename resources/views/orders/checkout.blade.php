@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout Pesanan - BiteRush')
+@section('title', 'Checkout Pesanan - Toon Burger')
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -9,7 +9,7 @@
         <a href="{{ route('menu') }}" class="text-xs text-gray-500 hover:text-bites-red font-semibold inline-flex items-center gap-1">
             &larr; Kembali ke Katalog Menu
         </a>
-        <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Konfirmasi & Pembayaran</h1>
+        <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Konfirmasi &amp; Pembayaran</h1>
         <p class="text-xs text-gray-500">Lengkapi detail pemesanan dan pilih metode pembayaran favorit Anda.</p>
     </div>
 
@@ -21,44 +21,41 @@
             <!-- LEFT FORM: CUSTOMER & ORDER DETAILS -->
             <div class="lg:col-span-7 space-y-6">
 
-                <!-- 1. ORDER TYPE SELECTOR -->
+                <!-- 1. ORDER TYPE SELECTOR (TAKEAWAY & DELIVERY ONLY) -->
                 <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-                    <h3 class="font-black text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-bites-yellow text-bites-dark text-xs flex items-center justify-center font-bold">1</span>
-                        Pilih Tipe Pesanan
-                    </h3>
-
-                    <div class="grid grid-cols-3 gap-3">
-                        <label class="border-2 rounded-2xl p-3.5 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange" id="type-card-dine_in">
-                            <input type="radio" name="order_type" value="dine_in" checked onchange="handleOrderTypeChange('dine_in')" class="sr-only">
-                            <span class="font-bold text-xs text-gray-800">Dine In</span>
-                            <span class="text-[10px] text-gray-400">Makan di Tempat</span>
-                        </label>
-
-                        <label class="border-2 rounded-2xl p-3.5 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange" id="type-card-takeaway">
-                            <input type="radio" name="order_type" value="takeaway" onchange="handleOrderTypeChange('takeaway')" class="sr-only">
-                            <span class="font-bold text-xs text-gray-800">Takeaway</span>
-                            <span class="text-[10px] text-gray-400">Bungkus Bawa Pulang</span>
-                        </label>
-
-                        <label class="border-2 rounded-2xl p-3.5 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange" id="type-card-delivery">
-                            <input type="radio" name="order_type" value="delivery" onchange="handleOrderTypeChange('delivery')" class="sr-only">
-                            <span class="font-bold text-xs text-gray-800">Delivery</span>
-                            <span class="text-[10px] text-gray-400">Pesan Antar</span>
-                        </label>
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-black text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-bites-yellow text-bites-dark text-xs flex items-center justify-center font-bold">1</span>
+                            Pilih Tipe Pesanan
+                        </h3>
+                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
+                            No Dine-In
+                        </span>
                     </div>
 
-                    <!-- Dynamic Field: Table Picker for Dine In -->
-                    <div id="table-picker-section" class="pt-3 border-t border-gray-100">
-                        <label class="block text-xs font-bold text-gray-700 mb-1.5">Pilih Nomor Meja Anda:</label>
-                        <select name="restaurant_table_id" id="restaurant_table_id" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs font-semibold text-gray-900 focus:outline-none focus:border-bites-orange">
-                            <option value="">-- Pilih Meja Restoran --</option>
-                            @foreach($tables as $tbl)
-                                <option value="{{ $tbl->id }}" {{ ($selectedTable == $tbl->table_number || $loop->first) ? 'selected' : '' }}>
-                                    {{ $tbl->table_number }} (Kapasitas: {{ $tbl->capacity }} Orang) - [{{ strtoupper($tbl->status) }}]
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs px-3.5 py-2.5 rounded-2xl flex items-center gap-2.5 font-medium">
+                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Outlet Toon Burger berkonsep <strong>Cloud Kitchen &amp; Takeaway Hub</strong>. Kami hanya melayani <strong>Takeaway</strong> dan <strong>Delivery</strong> (tidak tersedia makan di tempat).</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="border-2 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange border-bites-orange bg-amber-50/40" id="type-card-takeaway">
+                            <input type="radio" name="order_type" value="takeaway" checked onchange="handleOrderTypeChange('takeaway')" class="sr-only">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-1.5 shadow-2xs">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            </div>
+                            <span class="font-extrabold text-xs text-gray-900">Takeaway (Bawa Pulang)</span>
+                            <span class="text-[10px] text-gray-500 mt-0.5">Ambil pesanan di outlet Banjarbaru</span>
+                        </label>
+
+                        <label class="border-2 border-gray-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange" id="type-card-delivery">
+                            <input type="radio" name="order_type" value="delivery" onchange="handleOrderTypeChange('delivery')" class="sr-only">
+                            <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center mb-1.5 shadow-2xs">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+                            </div>
+                            <span class="font-extrabold text-xs text-gray-900">Online Delivery</span>
+                            <span class="text-[10px] text-gray-500 mt-0.5">Diantar kurir langsung ke alamat Anda</span>
+                        </label>
                     </div>
 
                     <!-- Dynamic Field: Delivery Address -->
@@ -206,7 +203,7 @@
                     </button>
 
                     <p class="text-[11px] text-gray-400 text-center">
-                        Pesanan Anda langsung diteruskan ke sistem dapur BiteRush.
+                        Pesanan Anda langsung diteruskan ke sistem dapur Toon Burger.
                     </p>
                 </div>
             </div>
@@ -227,18 +224,13 @@
             activeCard.classList.remove('border-gray-200');
         }
 
-        const tableSec = document.getElementById('table-picker-section');
         const deliverySec = document.getElementById('delivery-address-section');
-
-        if (type === 'dine_in') {
-            tableSec.classList.remove('hidden');
-            deliverySec.classList.add('hidden');
-        } else if (type === 'delivery') {
-            tableSec.classList.add('hidden');
-            deliverySec.classList.remove('hidden');
-        } else {
-            tableSec.classList.add('hidden');
-            deliverySec.classList.add('hidden');
+        if (deliverySec) {
+            if (type === 'delivery') {
+                deliverySec.classList.remove('hidden');
+            } else {
+                deliverySec.classList.add('hidden');
+            }
         }
     }
 
@@ -254,6 +246,6 @@
         }
     }
 
-    handleOrderTypeChange('dine_in');
+    handleOrderTypeChange('takeaway');
 </script>
 @endsection

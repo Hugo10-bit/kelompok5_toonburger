@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - BiteRush Food & Restaurant Ordering System
+| Web Routes - Toon Burger Takeaway & Delivery Ordering System
 |--------------------------------------------------------------------------
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+// Front-End Pages (Home, Menu Catalog, About Us, Contact)
+Route::get('/', [MenuController::class, 'home'])->name('home');
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/about', [MenuController::class, 'about'])->name('about');
+Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
+Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
 
 Route::get('/ziel', function () {
     return view('welcome ziel');
@@ -28,11 +30,6 @@ Route::get('/cornelius', function () {
 Route::get('/rapip', function () {
     return view('welcome rapip ');
 });
-
-// Main Menu & Catalog (Home)
-Route::get('/', [MenuController::class, 'index'])->name('home');
-Route::get('/menu', [MenuController::class, 'index'])->name('menu');
-Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
 
 // Cart Operations (AJAX & Sessions)
 Route::prefix('cart')->name('cart.')->group(function () {
@@ -109,8 +106,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
 
-            // Coupons Management
+            // Coupons & Settings Management
             Route::get('/coupons', [AdminController::class, 'coupons'])->name('coupons');
+            Route::get('/settings', [AdminController::class, 'coupons'])->name('settings');
             Route::post('/coupons/store', [AdminController::class, 'storeCoupon'])->name('coupons.store');
             Route::post('/coupons/{id}/toggle', [AdminController::class, 'toggleCoupon'])->name('coupons.toggle');
         });

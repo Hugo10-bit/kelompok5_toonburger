@@ -27,25 +27,25 @@ class DatabaseSeeder extends Seeder
     {
         // 1. Users
         $admin = User::firstOrCreate(
-            ['email' => 'hugo@bitesrush.com'],
+            ['email' => 'hugo@toonburger.com'],
             [
                 'name' => 'Hugo Putra',
                 'username' => 'hugo',
                 'phone_number' => '081234567890',
                 'role' => 'admin',
-                'address' => 'Jl. Boulevard Utama No. 1, Jakarta',
+                'address' => 'Jl. Boulevard Utama No. 1, Banjarbaru',
                 'password' => Hash::make('Password123'),
             ]
         );
 
         $staff = User::firstOrCreate(
-            ['email' => 'kasir@bitesrush.com'],
+            ['email' => 'kasir@toonburger.com'],
             [
-                'name' => 'Kasir BiteRush',
+                'name' => 'Kasir Toon Burger',
                 'username' => 'kasir_utama',
                 'phone_number' => '081298765432',
                 'role' => 'staff',
-                'address' => 'Outlet BiteRush Pusat',
+                'address' => 'Outlet Toon Burger Banjarbaru',
                 'password' => Hash::make('Password123'),
             ]
         );
@@ -93,7 +93,7 @@ class DatabaseSeeder extends Seeder
         );
 
         Coupon::firstOrCreate(
-            ['code' => 'BITERUSH50'],
+            ['code' => 'TOONBURGER50'],
             [
                 'discount_type' => 'percentage',
                 'discount_value' => 50,
@@ -184,7 +184,7 @@ class DatabaseSeeder extends Seeder
             [
                 'category_id' => $catBurgers->id,
                 'name' => 'Ultimate Double Cheeseburger',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan saus spesial BiteRush dalam brioche bun panggang.',
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan saus spesial Toon Burger dalam brioche bun panggang.',
                 'price' => 55000,
                 'original_price' => 65000,
                 'image' => 'images/burger-bg.jpg',
@@ -258,7 +258,7 @@ class DatabaseSeeder extends Seeder
             [
                 'category_id' => $catCombos->id,
                 'name' => 'Super Combo Feast',
-                'description' => 'Paket lengkap 1 Ultimate Double Cheeseburger + Large Golden Fries + 1 BiteRush Soft Drink 16oz.',
+                'description' => 'Paket lengkap 1 Ultimate Double Cheeseburger + Large Golden Fries + 1 Toon Burger Soft Drink 16oz.',
                 'price' => 69000,
                 'original_price' => 88000,
                 'image' => 'images/burger-bg.jpg',
@@ -275,7 +275,7 @@ class DatabaseSeeder extends Seeder
             [
                 'category_id' => $catChicken->id,
                 'name' => 'Fire Wings Spicy Glaze (6 Pcs)',
-                'description' => 'Sayap ayam krispi berbalut saus pedas manis karamel khas BiteRush bertabur biji wijen sangrai.',
+                'description' => 'Sayap ayam krispi berbalut saus pedas manis karamel khas Toon Burger bertabur biji wijen sangrai.',
                 'price' => 45000,
                 'original_price' => null,
                 'image' => 'images/burger-bg-2.jpg',
@@ -320,12 +320,12 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Product 8: BiteRush Vanilla Milkshake
+        // Product 8: Toon Burger Vanilla Milkshake
         Product::firstOrCreate(
-            ['slug' => 'biterush-vanilla-milkshake'],
+            ['slug' => 'toon-burger-vanilla-milkshake'],
             [
                 'category_id' => $catDrinks->id,
-                'name' => 'BiteRush Creamy Vanilla Shake',
+                'name' => 'Toon Burger Creamy Vanilla Shake',
                 'description' => 'Milkshake vanilla kental dibuat dari fresh milk dan gelato vanilla asli dengan whipped cream di atasnya.',
                 'price' => 28000,
                 'original_price' => null,
@@ -373,11 +373,11 @@ class DatabaseSeeder extends Seeder
 
         // 6. Sample Completed Order & Payment
         $order = Order::firstOrCreate(
-            ['order_number' => 'BR-20260820-0001'],
+            ['order_number' => 'TB-20260820-0001'],
             [
                 'user_id' => $customer->id,
-                'restaurant_table_id' => $tables[0]->id,
-                'order_type' => 'dine_in',
+                'restaurant_table_id' => null,
+                'order_type' => 'takeaway',
                 'status' => 'completed',
                 'payment_status' => 'paid',
                 'payment_method' => 'qris',

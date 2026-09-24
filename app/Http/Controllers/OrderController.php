@@ -47,31 +47,33 @@ class OrderController extends Controller
         }
 
         $request->validate([
-            'order_type' => 'required|in:dine_in,takeaway,delivery',
+            'order_type' => 'required|in:takeaway,delivery,dine_in',
             'customer_name' => 'required|string|max:60',
             'customer_phone' => 'required|string|max:15',
-            'restaurant_table_id' => 'nullable|required_if:order_type,dine_in|exists:restaurant_tables,id',
+            'restaurant_table_id' => 'nullable',
             'delivery_address' => 'nullable|required_if:order_type,delivery|string|max:500',
             'payment_method' => 'required|in:cash,qris,bank_transfer,ewallet',
             'notes' => 'nullable|string|max:500',
         ], [
-            'restaurant_table_id.required_if' => 'Silakan pilih nomor meja untuk pesanan Makan di Tempat (Dine In).',
             'delivery_address.required_if' => 'Alamat pengiriman wajib diisi untuk Pesan Antar (Delivery).',
             'customer_name.required' => 'Nama pemesan wajib diisi.',
             'customer_phone.required' => 'Nomor telepon wajib diisi.',
         ]);
 
         return DB::transaction(function () use ($request, $cart) {
-            // Generate order number BR-YYYYMMDD-XXXX
-            $datePrefix = 'BR-' . date('Ymd');
+            // Force order type to takeaway if dine_in was sent
+            $orderType = in_array($request->order_type, ['takeaway', 'delivery']) ? $request->order_type : 'takeaway';
+
+            // Generate order number TB-YYYYMMDD-XXXX (Toon Burger)
+            $datePrefix = 'TB-' . date('Ymd');
             $countToday = Order::where('order_number', 'like', "{$datePrefix}-%")->count() + 1;
             $orderNumber = $datePrefix . '-' . str_pad($countToday, 4, '0', STR_PAD_LEFT);
 
             $order = Order::create([
                 'order_number' => $orderNumber,
                 'user_id' => Auth::id(),
-                'restaurant_table_id' => $request->order_type === 'dine_in' ? $request->restaurant_table_id : null,
-                'order_type' => $request->order_type,
+                'restaurant_table_id' => null,
+                'order_type' => $orderType,
                 'status' => 'pending',
                 'payment_status' => 'unpaid',
                 'payment_method' => $request->payment_method,
