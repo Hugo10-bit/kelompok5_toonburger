@@ -25,8 +25,7 @@
                     <div class="lg:col-span-7 space-y-5 text-left">
                         
                         <!-- Top Tag Badge -->
-                        <div class="inline-flex items-center gap-2 bg-black/25 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-yellow-200 border border-white/15 shadow-xs">
-                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <div class="inline-flex items-center gap-2 bg-black/25 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-yellow-200 border border-white/15 shadow-xs">
                             <span>BURGER PREMIUM ASLI • 100% AUSTRALIAN BEEF</span>
                         </div>
 
@@ -46,31 +45,31 @@
                             <a href="{{ route('menu') }}" class="bg-gray-900 hover:bg-black text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
                                 <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
                                 <span>Jelajahi Menu</span>
-                                <span>&rarr;</span>
                             </a>
                             <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                                 <span>Pesan via GoFood</span>
                                 <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
                             </a>
-                            <a href="{{ route('contact') }}" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-4 py-3.5 rounded-2xl transition border border-white/30 hover:scale-102 active:scale-95">
-                                Lokasi Outlet &rarr;
+                            <a href="{{ route('contact') }}" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition border border-white/30 hover:scale-102 active:scale-95 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span>Lokasi &amp; Jam Outlet</span>
                             </a>
                         </div>
 
                         <!-- Trust Features Row -->
                         <div class="pt-4 border-t border-white/20 grid grid-cols-3 gap-3 sm:gap-6 text-white/90">
                             <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300 font-mono">4.9 / 5.0</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">1.200+ Ulasan Pelanggan</div>
+                                <div class="text-lg sm:text-2xl font-black text-yellow-300 font-mono">4.9 ★</div>
+                                <div class="text-[11px] sm:text-xs text-white/80">Super Partner GoFood</div>
                             </div>
                             <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300">100% Halal</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Bahan Segar Pilihan</div>
+                                <div class="text-lg sm:text-2xl font-black text-yellow-300">100% Sapi</div>
+                                <div class="text-[11px] sm:text-xs text-white/80">Australian Beef Pilihan</div>
                             </div>
                             <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300 font-mono">15 Menit</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Fresh Made to Order</div>
+                                <div class="text-lg sm:text-2xl font-black text-yellow-300">Fresh Made</div>
+                                <div class="text-[11px] sm:text-xs text-white/80">Dimasak Saat Dipesan</div>
                             </div>
                         </div>
 
@@ -187,7 +186,6 @@
 
             <a href="{{ route('menu') }}" class="inline-flex items-center gap-2 bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs font-extrabold px-5 py-2.5 rounded-2xl transition shadow-xs hover:shadow-md active:scale-95 shrink-0 self-start sm:self-auto">
                 <span>Lihat Semua Menu (Katalog Lengkap)</span>
-                <span>&rarr;</span>
             </a>
         </div>
 
@@ -283,7 +281,7 @@
                 </div>
             </div>
             <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs sm:text-sm font-black px-6 py-3 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap">
-                Buka Halaman Menu &rarr;
+                Buka Halaman Menu
             </a>
         </div>
 
@@ -347,7 +345,7 @@
 
                     <div class="pt-2">
                         <a href="{{ route('about') }}" class="inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3 rounded-2xl transition shadow-md active:scale-95">
-                            <span>Baca Kisah Lengkap Kami &rarr;</span>
+                            <span>Baca Kisah Lengkap Kami</span>
                         </a>
                     </div>
 
@@ -359,74 +357,65 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
-         5. TESTIMONIALS SECTION ("KATA PELANGGAN")
+         5. QUALITY STANDARDS & TAKEAWAY EXCELLENCE
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <h2 class="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight">
-                Apa Kata Mereka Tentang Toon Burger?
+                Standar Mutu &amp; Layanan Takeaway Kami
             </h2>
             <p class="text-xs sm:text-sm text-gray-600">
-                Ulasan nyata dari para penikmat burger setia kami.
+                Tiga pilar utama yang menjaga rasa dan kualitas Toon Burger tetap prima di setiap pesanan Anda.
             </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <!-- Testimonial 1 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
-                <div class="space-y-2">
-                    <div class="flex text-amber-500 text-sm tracking-wider">★★★★★</div>
-                    <p class="text-xs text-gray-600 leading-relaxed italic">
-                        "Truffle Mushroom Burger-nya juara banget! Dagingnya bener-bener juicy, saus truffle-nya wangi dan gak bikin enek. Brioche bun-nya juga empuk parah!"
+            <!-- Pillar 1 -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shadow-2xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+                    </div>
+                    <h3 class="font-extrabold text-base text-gray-900">100% Australian Beef Smash</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Patty daging murni impor tanpa campuran tepung atau filler. Di-smash panas dengan teknik khusus untuk mengunci sari kaldu alami daging agar bagian luar renyah gurih dan bagian dalam tetap lembut juicy.
                     </p>
                 </div>
-                <div class="flex items-center gap-3 pt-3 border-t border-gray-100">
-                    <div class="w-9 h-9 rounded-full bg-amber-500 text-white font-extrabold text-xs flex items-center justify-center">
-                        HP
-                    </div>
-                    <div>
-                        <div class="text-xs font-extrabold text-gray-900">Hugo Putra</div>
-                        <div class="text-[10px] text-gray-500">Food Enthusiast • Banjarbaru</div>
-                    </div>
+                <div class="pt-3 border-t border-gray-100 flex items-center gap-2 text-[11px] font-bold text-amber-800">
+                    <span>✓ Bersertifikat Halal &amp; Higienis</span>
                 </div>
             </div>
 
-            <!-- Testimonial 2 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
-                <div class="space-y-2">
-                    <div class="flex text-amber-500 text-sm tracking-wider">★★★★★</div>
-                    <p class="text-xs text-gray-600 leading-relaxed italic">
-                        "Pelayanan takeaway-nya super cepat dan kemasan burgernya kokoh banget! Pesan bungkus bawa pulang atau delivery selalu hangat dan rotinya tetap lembut empuk."
+            <!-- Pillar 2 -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-700 flex items-center justify-center shadow-2xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
+                    </div>
+                    <h3 class="font-extrabold text-base text-gray-900">Artisanal Brioche Buns</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Roti brioche mentega yang dipanggang segar setiap pagi langsung di dapur kami. Tekstur empuk harum yang mampu menyerap saus legendaris Toon Burger tanpa merusak kekokohan roti saat dinikmati.
                     </p>
                 </div>
-                <div class="flex items-center gap-3 pt-3 border-t border-gray-100">
-                    <div class="w-9 h-9 rounded-full bg-red-500 text-white font-extrabold text-xs flex items-center justify-center">
-                        BS
-                    </div>
-                    <div>
-                        <div class="text-xs font-extrabold text-gray-900">Budi Santoso</div>
-                        <div class="text-[10px] text-gray-500">Pelanggan Takeaway &amp; Delivery</div>
-                    </div>
+                <div class="pt-3 border-t border-gray-100 flex items-center gap-2 text-[11px] font-bold text-orange-800">
+                    <span>✓ Freshly Baked Every Morning</span>
                 </div>
             </div>
 
-            <!-- Testimonial 3 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
-                <div class="space-y-2">
-                    <div class="flex text-amber-500 text-sm tracking-wider">★★★★★</div>
-                    <p class="text-xs text-gray-600 leading-relaxed italic">
-                        "Langganan takeaway pas jam makan siang kantor. Sampai di kantor burger dan kentangnya masih hangat garing, packaging-nya juga super rapi!"
+            <!-- Pillar 3 -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shadow-2xs">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                    </div>
+                    <h3 class="font-extrabold text-base text-gray-900">Dedicated Takeaway Thermal Pack</h3>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Dirancang khusus untuk pesanan takeaway dan online delivery. Kemasan boks kokoh dengan ventilasi kelembapan menjaga burger dan kentang goreng tetap hangat, tidak lembek, dan siap santap di mana saja.
                     </p>
                 </div>
-                <div class="flex items-center gap-3 pt-3 border-t border-gray-100">
-                    <div class="w-9 h-9 rounded-full bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center">
-                        SW
-                    </div>
-                    <div>
-                        <div class="text-xs font-extrabold text-gray-900">Sarah Wijaya</div>
-                        <div class="text-[10px] text-gray-500">Pekerja Kantoran</div>
-                    </div>
+                <div class="pt-3 border-t border-gray-100 flex items-center gap-2 text-[11px] font-bold text-emerald-800">
+                    <span>✓ Hangat &amp; Aman Dalam Pengantaran</span>
                 </div>
             </div>
 
@@ -456,8 +445,8 @@
                 </div>
             </div>
             <a href="{{ route('contact') }}" class="bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap flex items-center gap-2">
-                <span>Buka Peta & Live Location</span>
-                <span>&rarr;</span>
+                <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>Buka Peta &amp; Live Location</span>
             </a>
         </div>
     </section>

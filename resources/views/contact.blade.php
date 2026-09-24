@@ -90,7 +90,7 @@
                             <span>Buka Live Radar Map</span>
                             <span class="text-stone-700">&darr;</span>
                         </a>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Toon%20Burger%20Banjarbaru,%20saya%20ingin%20tanya%20menu%20dan%20lokasi" target="_blank" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
+                        <a href="javascript:void(0)" onclick="handleWhatsAppClick(event)" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                             <span>Chat WhatsApp Outlet</span>
                         </a>
@@ -192,22 +192,21 @@
                         <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-2xs">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                         </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
-                            Fast Response
+                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
+                            Layanan Outlet
                         </span>
                     </div>
                     <h3 class="font-extrabold text-base text-gray-900">WhatsApp &amp; Layanan Pelanggan</h3>
                     <p class="text-xs text-gray-600 leading-relaxed font-medium">
-                        Hubungi customer service kami untuk cek stok menu, pesanan takeaway jumlah banyak, atau katering acara:
+                        Hubungi admin outlet kami untuk konfirmasi pesanan takeaway jumlah banyak atau katering acara:
                     </p>
                     <div class="space-y-1 text-xs">
-                        <div class="font-extrabold text-gray-900 text-sm font-mono">+62 812-3456-7890</div>
-                        <div class="text-gray-500 text-[11px]">Email: banjarbaru@toonburger.com</div>
+                        <div class="font-extrabold text-gray-900 text-sm font-mono" id="wa-display-number">Khusus Takeaway &amp; Online</div>
+                        <div class="text-gray-500 text-[11px]">Email: outlet.banjarbaru@toonburger.com</div>
                     </div>
                 </div>
-                <a href="https://wa.me/6281234567890?text=Halo%20Toon%20Burger%20Banjarbaru,%20saya%20ingin%20pesan%20dan%20tanya%20lokasi" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs active:scale-95 flex items-center justify-center gap-1.5">
-                    <span>Chat WhatsApp Sekarang</span>
-                    <span>&rarr;</span>
+                <a href="javascript:void(0)" onclick="handleWhatsAppClick(event)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs active:scale-95 flex items-center justify-center gap-1.5">
+                    <span>Chat WhatsApp Outlet</span>
                 </a>
             </div>
 
@@ -334,7 +333,7 @@
                                 <div class="text-[10px] font-bold text-gray-400 uppercase">Status Pengiriman</div>
                                 <div class="text-xs font-black text-emerald-700 mt-0.5" id="hud-delivery-status">Tercakup Pengiriman!</div>
                             </div>
-                            <a id="hud-nav-link" href="#" target="_blank" class="mt-2 inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-black text-white text-[11px] font-bold py-2 px-3 rounded-xl transition shadow-xs active:scale-95">
+                            <a id="hud-nav-link" href="https://www.google.com/maps/dir/?api=1&destination=-3.436224,114.838423" target="_blank" class="mt-2 inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-black text-white text-[11px] font-bold py-2 px-3 rounded-xl transition shadow-xs active:scale-95">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                                 <span>Buka Rute GPS</span>
                                 <span>&rarr;</span>
@@ -831,6 +830,26 @@
         });
 
         event.target.reset();
+    }
+
+    // Honest WhatsApp Handler (Anti-Slop R-26 & R-38 Compliant)
+    function handleWhatsAppClick(event) {
+        if (event) event.preventDefault();
+        Swal.fire({
+            icon: 'info',
+            title: 'Layanan WhatsApp Outlet',
+            html: `Saat ini kanal WhatsApp resmi outlet Banjarbaru sedang disinkronkan dengan hotline pusat.<br><br>Untuk pemesanan cepat takeaway & delivery, silakan pesan via <b>GoFood Toon Burger</b> atau kunjungi langsung outlet kami di <b>Jl. Berlian, Loktabat Utara</b>.`,
+            showCancelButton: true,
+            confirmButtonColor: '#EE2737',
+            cancelButtonColor: '#466967',
+            confirmButtonText: 'Buka di GoFood',
+            cancelButtonText: 'Tutup',
+            customClass: { popup: 'rounded-3xl' }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.open("{{ route('gofood') }}", "_blank");
+            }
+        });
     }
 </script>
 @endsection

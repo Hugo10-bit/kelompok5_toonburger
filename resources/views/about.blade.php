@@ -17,8 +17,7 @@
                 <div class="absolute -left-10 -top-10 w-64 h-64 bg-red-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
                 <div class="relative z-10 max-w-3xl space-y-4 text-left">
-                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-amber-300 border border-white/15 shadow-xs">
-                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-amber-300 border border-white/15 shadow-xs">
                         <span>CERITA & DEDIKASI KAMI</span>
                     </div>
 
@@ -66,7 +65,7 @@
                     </p>
 
                     <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Banyak burger modern kehilangan jati dirinya—daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong>100% daging sapi Australia pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus legendaris kami dari nol.
+                        Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong>100% daging sapi Australia pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus legendaris kami dari nol.
                     </p>
 
                     <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950 font-medium leading-relaxed">
@@ -137,34 +136,34 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
-         4. STATS & ACHIEVEMENTS
+         4. STATS & OPERATIONAL FACTS
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-gradient-to-r from-gray-900 via-[#1E2D2B] to-gray-900 text-white rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 shadow-xl">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y lg:divide-y-0 lg:divide-x divide-white/10">
                 
                 <div class="p-4">
-                    <div class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">50.000+</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Porsi Burger Terjual</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Khusus Takeaway &amp; Online Delivery</div>
+                    <div class="text-2xl sm:text-3xl font-black text-amber-400">100% Sapi</div>
+                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Australian Beef</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Murni tanpa campuran tepung</div>
                 </div>
 
                 <div class="p-4">
-                    <div class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">4.9 / 5.0</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Tingkat Kepuasan</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Dari 1.200+ ulasan terverifikasi</div>
+                    <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">4.9 ★</div>
+                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">GoFood Partner</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Rating resmi toko terverifikasi</div>
                 </div>
 
                 <div class="p-4">
-                    <div class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">100%</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Daging Sapi Halal</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Impor Australia Bersertifikat</div>
+                    <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">17:00</div>
+                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Buka Sore – Malam</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Selasa s/d Minggu (Senin Libur)</div>
                 </div>
 
                 <div class="p-4">
-                    <div class="text-3xl sm:text-4xl font-black text-amber-400 font-mono">15 Mnt</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Waktu Saji Rata-rata</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Cepat, panas, dan renyah</div>
+                    <div class="text-2xl sm:text-3xl font-black text-amber-400">Fresh Made</div>
+                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Made to Order</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Dimasak panas begitu tiket masuk</div>
                 </div>
 
             </div>
