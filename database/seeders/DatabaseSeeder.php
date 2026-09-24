@@ -6,17 +6,17 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\OrderItemOption;
-use App\Models\Payment;
+// use App\Models\OrderItemOption;
+// use App\Models\Payment;
 use App\Models\Product;
-use App\Models\ProductOption;
-use App\Models\ProductOptionValue;
+// use App\Models\ProductOption;
+// use App\Models\ProductOptionValue;
 use App\Models\RestaurantTable;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+//use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -187,7 +187,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan saus spesial Toon Burger dalam brioche bun panggang.',
                 'price' => 55000,
                 'original_price' => 65000,
-                'image' => 'images/burger-bg.jpg',
+                'image' => 'images/products/1787822761_ultimate-double-cheeseburger.jpg',
                 'is_available' => true,
                 'is_featured' => true,
                 'calories' => 780,
@@ -195,20 +195,20 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $optPatty = ProductOption::firstOrCreate(
-            ['product_id' => $p1->id, 'name' => 'Pilihan Patty'],
-            ['type' => 'single', 'is_required' => true]
-        );
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Double Patty (Standard)'], ['additional_price' => 0, 'is_default' => true]);
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Triple Patty (+1 Patty)'], ['additional_price' => 18000, 'is_default' => false]);
+        // $optPatty = ProductOption::firstOrCreate(
+        //     ['product_id' => $p1->id, 'name' => 'Pilihan Patty'],
+        //     ['type' => 'single', 'is_required' => true]
+        // );
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Double Patty (Standard)'], ['additional_price' => 0, 'is_default' => true]);
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Triple Patty (+1 Patty)'], ['additional_price' => 18000, 'is_default' => false]);
 
-        $optTopping = ProductOption::firstOrCreate(
-            ['product_id' => $p1->id, 'name' => 'Ekstra Topping'],
-            ['type' => 'multiple', 'is_required' => false]
-        );
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Extra Melted Cheddar'], ['additional_price' => 6000, 'is_default' => false]);
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Crispy Smoked Beef Bacon'], ['additional_price' => 8000, 'is_default' => false]);
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Pickled Jalapenos'], ['additional_price' => 4000, 'is_default' => false]);
+        // $optTopping = ProductOption::firstOrCreate(
+        //     ['product_id' => $p1->id, 'name' => 'Ekstra Topping'],
+        //     ['type' => 'multiple', 'is_required' => false]
+        // );
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Extra Melted Cheddar'], ['additional_price' => 6000, 'is_default' => false]);
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Crispy Smoked Beef Bacon'], ['additional_price' => 8000, 'is_default' => false]);
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Pickled Jalapenos'], ['additional_price' => 4000, 'is_default' => false]);
 
         // Product 2: Truffle Mushroom Beef Burger
         $p2 = Product::firstOrCreate(
@@ -219,7 +219,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Patty daging sapi panggang dengan sauteed champignon mushrooms, keju Swiss meleleh, dan saus truffle mayo aromatik.',
                 'price' => 62000,
                 'original_price' => 70000,
-                'image' => 'images/burger-bg-2.jpg',
+                'image' => 'images/products/1787822783_truffle-mushroom-beef-burger.webp',
                 'is_available' => true,
                 'is_featured' => true,
                 'calories' => 710,
@@ -236,7 +236,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Paha ayam fillet goreng renyah ekstra pedas, selada segar, coleslaw creamy, dan saus peri-peri.',
                 'price' => 42000,
                 'original_price' => 48000,
-                'image' => 'images/burger-bg-3.jpg',
+                'image' => 'images/products/1787822792_spicy-crunchy-chicken-burger.jpg',
                 'is_available' => true,
                 'is_featured' => false,
                 'calories' => 620,
@@ -244,13 +244,13 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $optSpicy = ProductOption::firstOrCreate(
-            ['product_id' => $p3->id, 'name' => 'Level Kepedasan'],
-            ['type' => 'single', 'is_required' => true]
-        );
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Mild (Level 1)'], ['additional_price' => 0, 'is_default' => true]);
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Hot Rush (Level 2)'], ['additional_price' => 0, 'is_default' => false]);
-        ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Inferno Dare (Level 3)'], ['additional_price' => 3000, 'is_default' => false]);
+        // $optSpicy = ProductOption::firstOrCreate(
+        //     ['product_id' => $p3->id, 'name' => 'Level Kepedasan'],
+        //     ['type' => 'single', 'is_required' => true]
+        // );
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Mild (Level 1)'], ['additional_price' => 0, 'is_default' => true]);
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Hot Rush (Level 2)'], ['additional_price' => 0, 'is_default' => false]);
+        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Inferno Dare (Level 3)'], ['additional_price' => 3000, 'is_default' => false]);
 
         // Product 4: Super Combo Feast
         $p4 = Product::firstOrCreate(
@@ -261,7 +261,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Paket lengkap 1 Ultimate Double Cheeseburger + Large Golden Fries + 1 Toon Burger Soft Drink 16oz.',
                 'price' => 69000,
                 'original_price' => 88000,
-                'image' => 'images/burger-bg.jpg',
+                'image' => 'images/products/1787822801_super-combo-feast.jpg',
                 'is_available' => true,
                 'is_featured' => true,
                 'calories' => 1100,
@@ -278,7 +278,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Sayap ayam krispi berbalut saus pedas manis karamel khas Toon Burger bertabur biji wijen sangrai.',
                 'price' => 45000,
                 'original_price' => null,
-                'image' => 'images/burger-bg-2.jpg',
+                'image' => 'images/products/1787822811_fire-wings-spicy-glaze-6-pcs.jpg',
                 'is_available' => true,
                 'is_featured' => false,
                 'calories' => 540,
@@ -295,7 +295,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Kentang goreng renyah disiram saus keju cheddar hangat, taburan beef bacon gurih, dan daun bawang segar.',
                 'price' => 32000,
                 'original_price' => 38000,
-                'image' => 'images/burger-bg-3.jpg',
+                'image' => 'images/products/1787822823_loaded-cheese-bacon-fries.jpg',
                 'is_available' => true,
                 'is_featured' => true,
                 'calories' => 460,
@@ -312,7 +312,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Kentang goreng renyah dengan taburan garam laut gurih alami.',
                 'price' => 22000,
                 'original_price' => null,
-                'image' => 'images/burger-bg.jpg',
+                'image' => 'images/products/1787822832_classic-french-fries-large.jpg',
                 'is_available' => true,
                 'is_featured' => false,
                 'calories' => 320,
@@ -329,7 +329,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Milkshake vanilla kental dibuat dari fresh milk dan gelato vanilla asli dengan whipped cream di atasnya.',
                 'price' => 28000,
                 'original_price' => null,
-                'image' => 'images/burger-bg-2.jpg',
+                'image' => 'images/products/1787822840_toonburger-creamy-vanilla-shake.jpg',
                 'is_available' => true,
                 'is_featured' => false,
                 'calories' => 380,
@@ -346,7 +346,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Teh hitam seduh segar berpadu dengan perasan lemon asli dan daun mint sejuk.',
                 'price' => 18000,
                 'original_price' => null,
-                'image' => 'images/burger-bg-3.jpg',
+                'image' => 'images/products/1787822848_iced-fresh-lemon-tea.jpg',
                 'is_available' => true,
                 'is_featured' => false,
                 'calories' => 90,
@@ -363,7 +363,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Warm molten chocolate cake dengan lelehan cokelat di dalam disajikan bersama satu scoop es krim vanila.',
                 'price' => 26000,
                 'original_price' => 30000,
-                'image' => 'images/burger-bg.jpg',
+                'image' => 'images/products/1787822857_choco-lava-ice-cream-cup.jpg',
                 'is_available' => true,
                 'is_featured' => true,
                 'calories' => 350,
@@ -402,14 +402,14 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        OrderItemOption::firstOrCreate(
-            ['order_item_id' => $item1->id, 'option_name' => 'Pilihan Patty'],
-            ['option_value_name' => 'Double Patty (Standard)', 'additional_price' => 0]
-        );
-        OrderItemOption::firstOrCreate(
-            ['order_item_id' => $item1->id, 'option_name' => 'Ekstra Topping'],
-            ['option_value_name' => 'Extra Melted Cheddar', 'additional_price' => 6000]
-        );
+        // OrderItemOption::firstOrCreate(
+        //     ['order_item_id' => $item1->id, 'option_name' => 'Pilihan Patty'],
+        //     ['option_value_name' => 'Double Patty (Standard)', 'additional_price' => 0]
+        // );
+        // OrderItemOption::firstOrCreate(
+        //     ['order_item_id' => $item1->id, 'option_name' => 'Ekstra Topping'],
+        //     ['option_value_name' => 'Extra Melted Cheddar', 'additional_price' => 6000]
+        // );
 
         $item2 = OrderItem::firstOrCreate(
             ['order_id' => $order->id, 'product_name' => 'Loaded Cheese & Bacon Fries'],
@@ -422,20 +422,20 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Payment::firstOrCreate(
-            ['order_id' => $order->id],
-            [
-                'transaction_code' => 'TRX-' . strtoupper(Str::random(10)),
-                'payment_method' => 'qris',
-                'amount' => 80700,
-                'status' => 'success',
-                'payment_details' => [
-                    'provider' => 'QRIS GoPay / BCA',
-                    'reference_id' => 'QRIS-' . time(),
-                ],
-                'paid_at' => now()->subMinutes(30),
-            ]
-        );
+        // Payment::firstOrCreate(
+        //     ['order_id' => $order->id],
+        //     [
+        //         'transaction_code' => 'TRX-' . strtoupper(Str::random(10)),
+        //         'payment_method' => 'qris',
+        //         'amount' => 80700,
+        //         'status' => 'success',
+        //         'payment_details' => [
+        //             'provider' => 'QRIS GoPay / BCA',
+        //             'reference_id' => 'QRIS-' . time(),
+        //         ],
+        //         'paid_at' => now()->subMinutes(30),
+        //     ]
+        // );
 
         Review::firstOrCreate(
             ['user_id' => $customer->id, 'product_id' => $p1->id],
