@@ -404,7 +404,7 @@
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Selasa - Jumat:</strong> <span>17:00 - 22:00 WITA</span></li>
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Sabtu:</strong> <span>17:00 - 22:30 WITA</span></li>
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
-                        <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery (No Dine-In)</li>
+                        <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery</li>
                         <li class="text-gray-300 leading-relaxed text-[11px]">&bull; Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara (HR7F+P8M)</li>
                     </ul>
                 </div>
