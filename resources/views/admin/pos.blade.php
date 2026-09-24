@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>POS Kasir - Toon Burger</title>
 
     <!-- Google Fonts: Luckiest Guy & Poppins -->
@@ -79,10 +80,10 @@
 
     <!-- POS WORKSPACE -->
     <div class="flex-1 flex overflow-hidden">
-        
+
         <!-- LEFT: PRODUCTS GRID -->
         <div class="flex-1 flex flex-col bg-gray-100 p-4 overflow-hidden border-r border-gray-300">
-            
+
             <!-- Category Filter Tabs -->
             <div class="flex items-center gap-2 overflow-x-auto pb-3 flex-shrink-0">
                 <button onclick="filterPosCategory('all')" class="pos-cat-btn active bg-gray-900 text-white font-extrabold text-xs px-4 py-2 rounded-xl whitespace-nowrap shadow-xs" data-cat="all">
@@ -98,12 +99,12 @@
             <!-- Products Touch Grid -->
             <div class="flex-1 overflow-y-auto grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 pr-1 content-start" id="pos-products-grid">
                 @forelse($products as $p)
-                    <div onclick="addPosItem({{ $p->id }}, '{{ addslashes($p->name) }}', {{ $p->price }}, '{{ asset($p->image ?: 'images/burger-bg.jpg') }}')" 
+                    <div onclick="addPosItem({{ $p->id }}, '{{ addslashes($p->name) }}', {{ $p->price }}, '{{ asset($p->image ?: 'images/burger-bg.jpg') }}')"
                          data-cat-id="{{ $p->category_id }}"
                          class="pos-product-card bg-white rounded-xl border border-gray-200 hover:border-bites-orange shadow-xs hover:shadow-md cursor-pointer transition select-none active:scale-95 overflow-hidden">
-                        
+
                         <img src="{{ asset($p->image ?: 'images/burger-bg.jpg') }}" alt="{{ $p->name }}" class="w-full h-20 object-cover">
-                        
+
                         <div class="p-2">
                             <h4 class="font-bold text-[11px] text-gray-900 line-clamp-2 leading-snug">{{ $p->name }}</h4>
                             <div class="font-black text-xs text-bites-red mt-0.5">Rp {{ number_format($p->price, 0, ',', '.') }}</div>
@@ -122,7 +123,7 @@
 
         <!-- RIGHT: ACTIVE REGISTER & CHECKOUT -->
         <div class="w-96 bg-white flex flex-col justify-between shadow-2xl flex-shrink-0">
-            
+
             <!-- Order Header Settings -->
             <div class="p-4 bg-gray-50 border-b border-gray-200 space-y-3 flex-shrink-0">
                 <div class="flex items-center justify-between">
@@ -219,7 +220,7 @@
                 </div>
                 <button onclick="document.getElementById('pos-qris-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-bold text-lg transition">&times;</button>
             </div>
-            
+
             <!-- 5 MINUTE COUNTDOWN TIMER BADGE -->
             <div class="inline-flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-4 py-1.5 rounded-full text-xs font-bold shadow-xs">
                 <svg class="w-4 h-4 text-red-600 animate-spin" style="animation-duration: 3s;" fill="none" stroke="currentColor" viewBox="0 0 24 24">

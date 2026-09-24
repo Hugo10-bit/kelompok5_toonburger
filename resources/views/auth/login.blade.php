@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
 
     <!-- Google Fonts: Luckiest Guy & Poppins -->
@@ -46,8 +47,8 @@
             margin: 0;
             padding: 0;
         }
-        body { 
-            font-family: 'Poppins', sans-serif; 
+        body {
+            font-family: 'Poppins', sans-serif;
             background-color: #F1D9B3;
             color: #263A38;
             overflow-x: hidden;
@@ -58,10 +59,10 @@
         }
         /* Classic retro checkerboard pattern */
         .checkerboard-pattern {
-            background-image: 
-                linear-gradient(45deg, #466967 25%, transparent 25%), 
-                linear-gradient(-45deg, #466967 25%, transparent 25%), 
-                linear-gradient(45deg, transparent 75%, #466967 75%), 
+            background-image:
+                linear-gradient(45deg, #466967 25%, transparent 25%),
+                linear-gradient(-45deg, #466967 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #466967 75%),
                 linear-gradient(-45deg, transparent 75%, #466967 75%);
             background-size: 20px 20px;
             background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
@@ -82,7 +83,7 @@
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER ═══ -->
     <div class="w-full md:w-[47%] lg:w-[47%] h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10">
-        
+
         <!-- TOP CURVED ARC IN GRANITE #466967 WITH TOON BURGER LOGO -->
         <div class="relative w-full z-10">
             <!-- Curved background SVG -->
@@ -93,8 +94,8 @@
 
                 <!-- Mascot & Text inside Arc (Enlarged & Raised) -->
                 <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" 
-                         alt="Toon Burger" 
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}"
+                         alt="Toon Burger"
                          class="h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
                 </div>
             </div>
@@ -102,27 +103,27 @@
 
         <!-- STATIONARY BURGERS (4 BURGERS AS IN MOCKUP - NO ANIMATION) -->
         <!-- 1. Top-Left Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}" 
-             alt="Burger" 
-             style="--rot: -15deg;" 
+        <img src="{{ asset('images/floating-burger.png') }}"
+             alt="Burger"
+             style="--rot: -15deg;"
              class="static-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- 2. Top-Right Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}" 
-             alt="Burger" 
-             style="--rot: 14deg;" 
+        <img src="{{ asset('images/floating-burger.png') }}"
+             alt="Burger"
+             style="--rot: 14deg;"
              class="static-burger absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- 3. Bottom-Left Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}" 
-             alt="Burger" 
-             style="--rot: -9deg;" 
+        <img src="{{ asset('images/floating-burger.png') }}"
+             alt="Burger"
+             style="--rot: -9deg;"
              class="static-burger absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- 4. Bottom-Right Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}" 
-             alt="Burger" 
-             style="--rot: 18deg;" 
+        <img src="{{ asset('images/floating-burger.png') }}"
+             alt="Burger"
+             style="--rot: 18deg;"
              class="static-burger absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- CENTER BRAND HEADLINE (ENLARGED EXACTLY ACCORDING TO USER REQUEST) -->
@@ -186,12 +187,12 @@
                     <!-- Username (Filled Light-Blue Style As In Photo) -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1.5">Username</label>
-                        <input type="text" 
-                               name="username" 
-                               id="login-username" 
-                               required 
-                               placeholder="Enter Your username" 
-                               value="{{ old('form_type') === 'login' ? old('username') : (old('username') ?: 'admin') }}" 
+                        <input type="text"
+                               name="username"
+                               id="login-username"
+                               required
+                               placeholder="Enter Your username"
+                               value="{{ old('form_type') === 'login' ? old('username') : (old('username') ?: 'admin') }}"
                                class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-lg px-4 py-3 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#466967] transition">
                     </div>
 
@@ -199,16 +200,16 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1.5">Password</label>
                         <div class="relative">
-                            <input type="password" 
-                                   name="password" 
-                                   id="login-password" 
-                                   required 
-                                   placeholder="Enter Your Password" 
+                            <input type="password"
+                                   name="password"
+                                   id="login-password"
+                                   required
+                                   placeholder="Enter Your Password"
                                    value="Password123"
                                    class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-lg pl-4 pr-11 py-3 text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#466967] transition">
-                            <button type="button" 
-                                    onclick="togglePasswordVisibility('login-password', this)" 
-                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none" 
+                            <button type="button"
+                                    onclick="togglePasswordVisibility('login-password', this)"
+                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -238,7 +239,7 @@
 
                     <!-- Toggle to Register -->
                     <p class="text-center text-xs text-gray-500 pt-2">
-                        Don't have an account? 
+                        Don't have an account?
                         <button type="button" onclick="switchToRegister()" class="text-[#466967] hover:underline font-bold ml-1">
                             Sign Up Now
                         </button>
@@ -261,11 +262,11 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1">Username</label>
                         <div class="relative">
-                            <input type="text" 
-                                   name="username" 
-                                   required 
-                                   placeholder="Enter Your username" 
-                                   value="{{ old('form_type') === 'register' ? old('username') : '' }}" 
+                            <input type="text"
+                                   name="username"
+                                   required
+                                   placeholder="Enter Your username"
+                                   value="{{ old('form_type') === 'register' ? old('username') : '' }}"
                                    class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 pr-10 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
                             <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -278,21 +279,21 @@
                     <!-- Email -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1">Email</label>
-                        <input type="email" 
-                               name="email" 
-                               required 
-                               placeholder="Enter Your Email" 
-                               value="{{ old('form_type') === 'register' ? old('email') : '' }}" 
+                        <input type="email"
+                               name="email"
+                               required
+                               placeholder="Enter Your Email"
+                               value="{{ old('form_type') === 'register' ? old('email') : '' }}"
                                class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
                     </div>
 
                     <!-- Mobile Number -->
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1">Mobile Number</label>
-                        <input type="text" 
-                               name="phone_number" 
-                               placeholder="Enter Your Mobile Number" 
-                               value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}" 
+                        <input type="text"
+                               name="phone_number"
+                               placeholder="Enter Your Mobile Number"
+                               value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
                                class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
                     </div>
 
@@ -300,15 +301,15 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-800 mb-1">Password</label>
                         <div class="relative">
-                            <input type="password" 
-                                   name="password" 
-                                   id="register-password" 
-                                   required 
-                                   placeholder="Enter Your Password" 
+                            <input type="password"
+                                   name="password"
+                                   id="register-password"
+                                   required
+                                   placeholder="Enter Your Password"
                                    class="w-full bg-gray-50/60 hover:bg-gray-50 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-lg p-3 pr-10 text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none transition">
-                            <button type="button" 
-                                    onclick="togglePasswordVisibility('register-password', this)" 
-                                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none" 
+                            <button type="button"
+                                    onclick="togglePasswordVisibility('register-password', this)"
+                                    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-4 h-4 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -327,7 +328,7 @@
 
                     <!-- Toggle to Login -->
                     <p class="text-center text-xs text-gray-500 pt-2">
-                        Already have an account? 
+                        Already have an account?
                         <button type="button" onclick="switchToLogin()" class="text-[#466967] hover:underline font-semibold ml-1">
                             Login Now
                         </button>

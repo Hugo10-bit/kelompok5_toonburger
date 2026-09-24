@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
     <!-- Google Fonts: Luckiest Guy & Poppins -->
@@ -56,8 +57,8 @@
     </script>
     <style>
         html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
+        body {
+            font-family: 'Poppins', sans-serif;
             background-color: #FAF1E1;
             color: #263A38;
             animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -157,13 +158,13 @@
 
             <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
             <div class="flex items-center justify-center gap-3.5 sm:gap-4">
-                <button type="button" 
-                        onclick="closeLogoutModal()" 
+                <button type="button"
+                        onclick="closeLogoutModal()"
                         class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none">
                     Batalkan
                 </button>
-                <button type="button" 
-                        onclick="submitLogoutForm()" 
+                <button type="button"
+                        onclick="submitLogoutForm()"
                         class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none">
                     ya, keluar
                 </button>
@@ -192,9 +193,9 @@
 
             <!-- Primary Navigation Links (Ordered exactly as mockup) -->
             <nav class="space-y-2.5 text-sm font-medium">
-                
+
                 <!-- 1. Dashboard -->
-                <a href="{{ route('admin.dashboard') }}" 
+                <a href="{{ route('admin.dashboard') }}"
                    class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 20h18"/>
@@ -210,7 +211,7 @@
                 </a>
 
                 <!-- 2. Profil Admin -->
-                <a href="{{ route('admin.profile') }}" 
+                <a href="{{ route('admin.profile') }}"
                    class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="8" r="4"/>
@@ -220,7 +221,7 @@
                 </a>
 
                 <!-- 3. proses Pesanan -->
-                <a href="{{ route('admin.orders') }}" 
+                <a href="{{ route('admin.orders') }}"
                    class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 3v4a1 1 0 001 1h4"/>
@@ -231,7 +232,7 @@
                 </a>
 
                 <!-- 4. Data Produk -->
-                <a href="{{ route('admin.products') }}" 
+                <a href="{{ route('admin.products') }}"
                    class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 11a8 8 0 0 1 16 0H4z"/>
@@ -243,7 +244,7 @@
                 </a>
 
                 <!-- 5. Kategori Produk -->
-                <a href="{{ route('admin.categories') }}" 
+                <a href="{{ route('admin.categories') }}"
                    class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
@@ -256,7 +257,7 @@
         <!-- Secondary Bottom Section with Divider line -->
         <div class="pt-5 border-t border-gray-100 mt-6 space-y-2 text-sm font-medium">
             <!-- Pengaturan -->
-            <a href="{{ route('admin.coupons') }}" 
+            <a href="{{ route('admin.coupons') }}"
                class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ (request()->routeIs('admin.coupons*') || request()->routeIs('admin.tables*') || request()->routeIs('admin.settings*')) ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"/>
@@ -266,7 +267,7 @@
             </a>
 
             <!-- Beranda -->
-            <a href="{{ route('home') }}" 
+            <a href="{{ route('home') }}"
                class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full text-gray-700 hover:bg-gray-100/80 hover:text-gray-900">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 01-1.5 1.5h-5a1 1 0 01-1-1v-5h-4v5a1 1 0 01-1 1h-5A1.5 1.5 0 013 20V10.5z"/>
@@ -291,10 +292,10 @@
 
     <!-- ═══ MAIN WRAPPER ═══ -->
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
-        
+
         <!-- Top Navbar: Rounded Card with Search Bar & Profile (Mockup Matching) -->
         <header class="bg-white rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs px-5 sm:px-6 py-3.5 flex items-center justify-between gap-4">
-            
+
             <!-- Left on Mobile: Hamburger -->
             <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-toon-granite hover:bg-toon-cream rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
