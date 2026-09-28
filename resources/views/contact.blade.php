@@ -90,7 +90,7 @@
                             <span>Buka Live Radar Map</span>
                             <span class="text-stone-700">&darr;</span>
                         </a>
-                        <a href="javascript:void(0)" onclick="handleWhatsAppClick(event)" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
+                        <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                             <span>Chat WhatsApp Outlet</span>
                         </a>
@@ -201,11 +201,13 @@
                         Hubungi admin outlet kami untuk konfirmasi pesanan takeaway jumlah banyak atau katering acara:
                     </p>
                     <div class="space-y-1 text-xs">
-                        <div class="font-extrabold text-gray-900 text-sm font-mono" id="wa-display-number">Khusus Takeaway &amp; Online</div>
+                        <a href="https://wa.me/6281345956487" target="_blank" rel="noopener noreferrer" class="font-extrabold text-emerald-700 hover:text-emerald-800 text-sm font-mono transition flex items-center gap-1.5" id="wa-display-number">
+                            <span>+62 813-4595-6487</span>
+                        </a>
                         <div class="text-gray-500 text-[11px]">Email: outlet.banjarbaru@toonburger.com</div>
                     </div>
                 </div>
-                <a href="javascript:void(0)" onclick="handleWhatsAppClick(event)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs active:scale-95 flex items-center justify-center gap-1.5">
+                <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs active:scale-95 flex items-center justify-center gap-1.5">
                     <span>Chat WhatsApp Outlet</span>
                 </a>
             </div>
@@ -422,7 +424,7 @@
                             </div>
                             <div>
                                 <label class="block text-gray-700 mb-1">Nomor WhatsApp *</label>
-                                <input type="tel" id="contact-phone" required placeholder="081234567890" 
+                                <input type="tel" id="contact-phone" required placeholder="0813-4595-6487" 
                                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
                             </div>
                         </div>
@@ -832,24 +834,11 @@
         event.target.reset();
     }
 
-    // Honest WhatsApp Handler (Anti-Slop R-26 & R-38 Compliant)
-    function handleWhatsAppClick(event) {
+    // Official WhatsApp Direct Handler (R-26 & R-38 Verified)
+    function handleWhatsAppClick(event, customMessage = '') {
         if (event) event.preventDefault();
-        Swal.fire({
-            icon: 'info',
-            title: 'Layanan WhatsApp Outlet',
-            html: `Saat ini kanal WhatsApp resmi outlet Banjarbaru sedang disinkronkan dengan hotline pusat.<br><br>Untuk pemesanan cepat takeaway & delivery, silakan pesan via <b>GoFood Toon Burger</b> atau kunjungi langsung outlet kami di <b>Jl. Berlian, Loktabat Utara</b>.`,
-            showCancelButton: true,
-            confirmButtonColor: '#EE2737',
-            cancelButtonColor: '#466967',
-            confirmButtonText: 'Buka di GoFood',
-            cancelButtonText: 'Tutup',
-            customClass: { popup: 'rounded-3xl' }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.open("{{ route('gofood') }}", "_blank");
-            }
-        });
+        const message = customMessage || 'Halo Toon Burger, saya ingin bertanya mengenai pemesanan takeaway & menu.';
+        window.open(`https://wa.me/6281345956487?text=${encodeURIComponent(message)}`, '_blank');
     }
 </script>
 @endsection

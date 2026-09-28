@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Poppins + Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -378,11 +378,8 @@
                 <div class="space-y-3.5">
                     <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-12 w-auto object-contain">
                     <p class="text-xs text-gray-300 leading-relaxed">
-                        Citarasa burger klasik otentik dengan 100% daging sapi Australia, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
+                        Citarasa burger klasik otentik dengan 100% daging sapi lokal, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
                     </p>
-                    <div class="flex items-center gap-3 pt-1 text-gray-400">
-                        <span class="text-xs font-semibold text-amber-300">★ 4.9/5 Rating Pelanggan</span>
-                    </div>
                 </div>
 
                 <!-- Navigation Quick Links -->
@@ -391,9 +388,8 @@
                     <ul class="text-xs text-gray-300 space-y-2 font-medium">
                         <li><a href="{{ route('home') }}" class="hover:text-amber-300 transition">&bull; Home</a></li>
                         <li><a href="{{ route('menu') }}" class="hover:text-amber-300 transition">&bull; Menu Produk</a></li>
-                        <li><a href="{{ route('about') }}" class="hover:text-amber-300 transition">&bull; About Us (Tentang Kami)</a></li>
-                        <li><a href="{{ route('contact') }}" class="hover:text-amber-300 transition">&bull; Contact (Kontak & Lokasi)</a></li>
-                        <li><a href="{{ route('admin.dashboard') }}" class="hover:text-amber-300 transition">&bull; Panel Admin Restoran</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-amber-300 transition">&bull; About Us</a></li>
+                        <li><a href="{{ route('contact') }}" class="hover:text-amber-300 transition">&bull; Contact</a></li>
                     </ul>
                 </div>
 
@@ -407,6 +403,12 @@
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
                         <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery</li>
                         <li class="text-gray-300 leading-relaxed text-[11px]">&bull; Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara (HR7F+P8M)</li>
+                        <li class="pt-2 text-emerald-400 font-bold flex items-center gap-1.5 text-xs">
+                            <span class="text-gray-300 font-normal">Hotline / WA:</span>
+                            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-mono underline underline-offset-2">
+                                +62 813-4595-6487
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

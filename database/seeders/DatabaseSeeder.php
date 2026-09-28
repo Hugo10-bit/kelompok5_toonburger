@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Hugo Putra',
                 'username' => 'hugo',
-                'phone_number' => '081234567890',
+                'phone_number' => '081345956487',
                 'role' => 'admin',
                 'address' => 'Jl. Boulevard Utama No. 1, Banjarbaru',
                 'password' => Hash::make('Password123'),
