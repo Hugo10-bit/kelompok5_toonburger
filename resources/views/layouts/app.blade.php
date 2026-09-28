@@ -378,11 +378,8 @@
                 <div class="space-y-3.5">
                     <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-12 w-auto object-contain">
                     <p class="text-xs text-gray-300 leading-relaxed">
-                        Citarasa burger klasik otentik dengan 100% daging sapi Australia, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
+                        Citarasa burger klasik otentik dengan 100% daging sapi lokal, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
                     </p>
-                    <div class="flex items-center gap-3 pt-1 text-gray-400">
-                        <span class="text-xs font-semibold text-amber-300">★ 4.9/5 Rating Pelanggan</span>
-                    </div>
                 </div>
 
                 <!-- Navigation Quick Links -->
