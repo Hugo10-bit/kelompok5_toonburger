@@ -21,15 +21,5 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-/railway.json
-/Dockerfile
-/docker-entrypoint.sh
-/antislop.md
-/AGENTS.md
-/tools/oxlint/anti-slop/
-/anti-slop/
-/.gemini/
-/.agents/
-/.agent/
 cloudflared.exe
 *.exe
