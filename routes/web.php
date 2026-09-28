@@ -24,6 +24,11 @@ Route::get('/gofood', function () {
     return redirect()->away('https://gofood.co.id/en/banjarmasin/restaurant/toon-burger-banjarbaru-utara-jln-berlian-7d536afb-38c5-46a8-8a80-e3171a0d6ce9');
 })->name('gofood');
 
+// WhatsApp Hotline Direct Redirect
+Route::get('/whatsapp', function () {
+    return redirect()->away('https://wa.me/6281345956487?text=' . urlencode('Halo Toon Burger, saya ingin bertanya mengenai menu dan pemesanan.'));
+})->name('whatsapp');
+
 Route::get('/ziel', function () {
     return view('welcome ziel');
 });
