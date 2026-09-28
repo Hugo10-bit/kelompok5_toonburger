@@ -391,9 +391,6 @@
                     <ul class="text-xs text-gray-300 space-y-2 font-medium">
                         <li><a href="{{ route('home') }}" class="hover:text-amber-300 transition">&bull; Home</a></li>
                         <li><a href="{{ route('menu') }}" class="hover:text-amber-300 transition">&bull; Menu Produk</a></li>
-                        <li><a href="{{ route('about') }}" class="hover:text-amber-300 transition">&bull; About Us (Tentang Kami)</a></li>
-                        <li><a href="{{ route('contact') }}" class="hover:text-amber-300 transition">&bull; Contact (Kontak & Lokasi)</a></li>
-                        <li><a href="{{ route('admin.dashboard') }}" class="hover:text-amber-300 transition">&bull; Panel Admin Restoran</a></li>
                     </ul>
                 </div>
 
