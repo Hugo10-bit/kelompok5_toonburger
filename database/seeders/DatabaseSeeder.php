@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
                 'username' => 'budisantoso',
                 'phone_number' => '081377889900',
                 'role' => 'customer',
-                'address' => 'Jl. Mawar Indah No. 12, Jakarta Barat',
+                'address' => 'Jl. Mawar Indah No. 12, Banjarmasin',
                 'password' => Hash::make('Password123'),
             ]
         );

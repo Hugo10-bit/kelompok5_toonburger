@@ -6,108 +6,88 @@
 <div class="space-y-16 lg:space-y-24 pb-16">
 
     <!-- ═══════════════════════════════════════════════
-         1. HERO SECTION (BRAND & HIGHLIGHTS)
+         1. HERO SECTION
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden pt-4 sm:pt-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="relative overflow-hidden -mt-[80px]">
+        <div class="w-full">
 
-            <!-- Hero Card Container with Rich Warm Gradient & Deco -->
-            <div class="relative bg-gradient-to-br from-amber-500 via-bites-orange to-red-600 rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl p-6 sm:p-12 lg:p-14 text-white">
+            <!-- Hero Card — Dark Teal Comic Style Full Width & Full Size (Extending behind navbar) -->
+            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32"
+                 style="background-color: #3b6e64; min-height: 560px;">
 
-                <!-- Background Ambient Glow & Patterns -->
-                <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-10 -top-10 w-72 h-72 bg-yellow-300/20 rounded-full blur-2xl pointer-events-none"></div>
-                <div class="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+                <!-- Partikel Bintang Komik Asli (Sesuai Asset Upload Pengguna: star-sparkle.png) -->
+                <img src="{{ asset('images/star-sparkle.png') }}"
+                     alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto"
+                     style="top: 20%; left: 44%;">
+                <img src="{{ asset('images/star-sparkle.png') }}"
+                     alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
+                     style="bottom: 22%; left: 42%;">
+                <img src="{{ asset('images/star-sparkle.png') }}"
+                     alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
+                     style="bottom: 22%; right: 21%;">
+                <img src="{{ asset('images/star-sparkle.png') }}"
+                     alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
+                     style="top: 18%; right: 33%;">
 
-                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <!-- Content Grid (Max-W-7xl for neat alignment) -->
+                <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-0">
 
-                    <!-- Left Hero Content -->
-                    <div class="lg:col-span-7 space-y-5 text-left">
+                    <!-- Left: Headline + CTA -->
+                    <div class="lg:col-span-5 space-y-5 pb-8 lg:pb-12">
 
-                        <!-- Top Tag Badge -->
-                        <div class="inline-flex items-center gap-2 bg-black/25 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-yellow-200 border border-white/15 shadow-xs">
-                            <span>BURGER PREMIUM ASLI • 100% DAGING SAPI LOKAL</span>
-                        </div>
-
-                        <!-- Big Headline -->
-                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-                            Sensasi Gigitan Burger Asli yang
-                            <span class="text-yellow-300 underline decoration-wavy decoration-yellow-400/60 decoration-2">Bikin Nagih!</span>
+                        <h1 class="text-white uppercase leading-[0.92]"
+                            style="font-family: 'Nunito', 'Arial Black', sans-serif; font-weight: 900; font-size: clamp(2.8rem, 5.8vw, 4.8rem); letter-spacing: -0.01em;">
+                            Setiap Gigitan<br>Punya Cerita!
                         </h1>
 
-                        <!-- Pitch Subtitle -->
-                        <p class="text-sm sm:text-base text-white/95 leading-relaxed max-w-xl font-medium">
-                            Nikmati kelezatan patty daging sapi panggang juicy dengan keju cheddar meleleh, saus rahasia khas Toon Burger, dan roti brioche harum mentega yang dipanggang segar setiap pagi!
+                        <p class="text-sm sm:text-base text-white/80 leading-relaxed max-w-sm">
+                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.
                         </p>
 
-                        <!-- Action CTA Buttons -->
-                        <div class="flex flex-wrap items-center gap-3 pt-2">
-                            <a href="{{ route('menu') }}" class="bg-gray-900 hover:bg-black text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
-                                <span>Jelajahi Menu</span>
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                            <a href="{{ route('menu') }}"
+                               class="font-black text-sm sm:text-base px-7 py-3 rounded-xl transition hover:brightness-110 active:scale-95 shadow-md flex items-center justify-center"
+                               style="background-color: #f5c518; color: #111111; font-family: 'Nunito', sans-serif;">
+                                Pickup Order
                             </a>
-                            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition shadow-lg hover:shadow-xl hover:scale-102 active:scale-95 flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                                <span>Pesan via GoFood</span>
-                                <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
+                            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
+                               class="font-black text-sm sm:text-base px-7 py-3 rounded-xl border-2 border-white/80 text-white bg-transparent hover:bg-white hover:text-gray-900 transition active:scale-95 flex items-center justify-center"
+                               style="font-family: 'Nunito', sans-serif;">
+                                Delivery Order
                             </a>
-                            <a href="{{ route('contact') }}" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3.5 rounded-2xl transition border border-white/30 hover:scale-102 active:scale-95 flex items-center gap-2">
-                                <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                <span>Lokasi &amp; Jam Outlet</span>
-                            </a>
-                        </div>
-
-                        <!-- Trust Features Row -->
-                        <div class="pt-4 border-t border-white/20 grid grid-cols-3 gap-3 sm:gap-6 text-white/90">
-                            <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300 font-mono">4.9 ★</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Super Partner GoFood</div>
-                            </div>
-                            <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300">100% Sapi</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Daging Sapi Lokal Pilihan</div>
-                            </div>
-                            <div>
-                                <div class="text-lg sm:text-2xl font-black text-yellow-300">Fresh Made</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Dimasak Saat Dipesan</div>
-                            </div>
                         </div>
 
                     </div>
 
-                    <!-- Right Hero Visual with Floating Stickers -->
-                    <div class="lg:col-span-5 relative flex justify-center items-center">
-                        <div class="relative w-full max-w-sm sm:max-w-md">
+                    <!-- Center: Burger in Center Column -->
+                    <div class="lg:col-span-4 relative flex justify-center items-end self-end pb-4 lg:pb-6 pt-4 sm:pt-6">
+                        <img src="{{ asset('images/hero-burger.png') }}"
+                             alt="Toon Burger Very Cheese"
+                             class="relative z-10 w-[270px] sm:w-[320px] lg:w-[360px] xl:w-[380px] h-auto object-contain hover:scale-105 transition-transform duration-500 drop-shadow-[0_18px_36px_rgba(0,0,0,0.4)]">
+                    </div>
 
-                            <!-- Main Visual Burger Image -->
-                            <img src="{{ asset('images/burger-bg.png') }}"
-                                 alt="Toon Burger Signature"
-                                 class="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)] hover:scale-105 transition duration-500 relative z-10">
-
-                            <!-- Floating Mascot Sticker -->
-                            <div class="absolute -top-3 -left-3 sm:-left-6 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 shadow-xl border border-white/60 flex items-center gap-2.5 z-20 hover:scale-105 transition">
-                                <img src="{{ asset('images/toon-head.png') }}" alt="Mascot" class="w-9 h-9 sm:w-11 sm:h-11 object-contain">
-                                <div>
-                                    <div class="text-[10px] font-black uppercase text-amber-700">Toon Chef</div>
-                                    <div class="text-xs font-extrabold text-gray-900">100% Juicy Smashed!</div>
-                                </div>
-                            </div>
-
-                            <!-- Floating Voucher Badge -->
-                            <div class="absolute -bottom-4 -right-2 sm:-right-4 bg-gray-950/90 backdrop-blur-md rounded-2xl p-3 shadow-xl border border-yellow-400/40 text-left z-20 hover:scale-105 transition">
-                                <div class="text-[10px] font-bold text-yellow-300 uppercase tracking-wider">Kupon Spesial</div>
-                                <div class="text-xs font-black text-white font-mono">TOONBURGER50</div>
-                                <div class="text-[10px] text-gray-300">Diskon s.d 50% di keranjang</div>
-                            </div>
-
-                        </div>
+                    <!-- Right: Starburst Badge Image Asset (Posisi Awal di Kanan) -->
+                    <div class="lg:col-span-3 relative flex justify-center lg:justify-end items-center pb-8 lg:pb-12">
+                        <img src="{{ asset('images/very-cheese-badge.png') }}"
+                             alt="Very Cheese Burger"
+                             class="w-44 sm:w-52 lg:w-56 xl:w-60 h-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-md">
                     </div>
 
                 </div>
+
+                <!-- Checkered Bottom Border — kotak hitam-putih asli -->
+                <div class="w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
+
             </div>
 
         </div>
     </section>
+
 
     <!-- ═══════════════════════════════════════════════
          2. PRODUCT VALUE PROPOSITION

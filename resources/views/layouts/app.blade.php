@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Poppins + Nunito + Fredoka + Lilita One -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&family=Fredoka:wght@700;900&family=Lilita+One&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -162,91 +162,92 @@
         </div>
     </div>
 
-    <!-- TOP NAVBAR -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-xs transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-18">
+    <!-- TOP NAVBAR — Floating Pill Dark Teal -->
+    <header class="sticky top-0 z-40 px-4 sm:px-6 lg:px-8 pt-3 pb-2">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-full shadow-xl"
+                 style="background-color: #3b6e64;">
 
                 <!-- Logo -->
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                        <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo" class="h-12 sm:h-14 w-auto object-contain transition group-hover:scale-105">
-                    </a>
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
+                    <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo"
+                         class="h-9 sm:h-10 w-auto object-contain transition group-hover:scale-105">
+                    <span class="hidden sm:block font-black text-white text-sm uppercase tracking-wide"
+                          style="font-family: 'Nunito', 'Arial Black', sans-serif; letter-spacing: 0.05em;">
+                        Toon Burger
+                    </span>
+                </a>
 
-                    <!-- Nav Links: Separate Dedicated Pages -->
-                    <nav class="hidden md:flex items-center gap-1 font-semibold text-sm">
-                        <a href="{{ route('home') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('home') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
-                            Home
+                <!-- Nav Links: Desktop -->
+                <nav class="hidden md:flex items-center gap-1 text-sm font-semibold">
+                    <a href="{{ route('home') }}"
+                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Beranda
+                    </a>
+                    <a href="{{ route('menu') }}"
+                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
+                              {{ request()->routeIs('menu') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Menu Produk
+                    </a>
+                    <a href="{{ route('about') }}"
+                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Tentang Kami
+                    </a>
+                    <a href="{{ route('contact') }}"
+                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Kontak
+                    </a>
+                    @auth
+                        <a href="{{ route('orders.index') }}"
+                           class="px-4 py-1.5 rounded-full transition text-sm font-semibold
+                                  {{ request()->routeIs('orders.*') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                            Pesanan
                         </a>
-                        <a href="{{ route('menu') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('menu') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
-                            Menu Produk
-                        </a>
-                        <a href="{{ route('about') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('about') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
-                            About Us
-                        </a>
-                        <a href="{{ route('contact') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('contact') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
-                            Contact
-                        </a>
-                        @auth
-                            <a href="{{ route('orders.index') }}" class="px-3.5 py-2 rounded-xl transition {{ request()->routeIs('orders.*') ? 'text-bites-red font-extrabold bg-red-50/80 shadow-2xs' : 'text-gray-700 hover:text-bites-red hover:bg-red-50/60' }}">
-                                Pesanan Saya
+                        @if(Auth::user()->isStaff())
+                            <a href="{{ route('admin.pos') }}"
+                               class="px-4 py-1.5 rounded-full text-sm font-semibold text-amber-200 hover:bg-white/10 transition">
+                                POS Kasir
                             </a>
-                            @if(Auth::user()->isStaff())
-                                <a href="{{ route('admin.pos') }}" class="px-3.5 py-2 rounded-xl text-amber-700 bg-amber-50 hover:bg-amber-100 transition font-semibold">
-                                    POS Kasir
-                                </a>
-                                <a href="{{ route('admin.dashboard') }}" class="px-3.5 py-2 rounded-xl text-purple-700 bg-purple-50 hover:bg-purple-100 transition font-semibold">
-                                    Panel Admin
-                                </a>
-                            @endif
-                        @endauth
-                    </nav>
-                </div>
+                            <a href="{{ route('admin.dashboard') }}"
+                               class="px-4 py-1.5 rounded-full text-sm font-semibold text-purple-200 hover:bg-white/10 transition">
+                                Admin
+                            </a>
+                        @endif
+                    @endauth
+                </nav>
 
-                <!-- Right Actions -->
-                <div class="flex items-center gap-3">
+                <!-- Right: Cart + User / Login + Hamburger -->
+                <div class="flex items-center gap-2">
 
-                    <!-- Search Bar (Desktop) -->
-                    <form action="{{ route('menu') }}" method="GET" class="hidden lg:flex items-center relative">
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, chicken..."
-                            class="bg-gray-100/90 text-xs text-gray-800 pl-9 pr-4 py-2.5 rounded-full w-56 focus:w-64 focus:bg-white focus:ring-2 focus:ring-bites-orange focus:outline-none transition-all">
-                        <svg class="w-4 h-4 text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                    </form>
-
-                    <!-- GoFood Super Partner Button -->
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                       class="hidden sm:inline-flex items-center gap-1.5 bg-[#EE2737] hover:bg-[#D61B2B] text-white text-xs font-black px-3.5 py-2.5 rounded-xl transition shadow-xs active:scale-95 group"
-                       title="Pesan langsung lewat aplikasi GoFood (Super Partner • Rating 4.9 ★)">
-                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                        <span>GoFood</span>
-                        <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
-                    </a>
-
-                    <!-- Cart Trigger Button -->
-                    <button onclick="toggleCartDrawer()" id="cart-btn" class="relative bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold p-2.5 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-2 shadow-sm transition active:scale-95">
-                        <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Cart Button -->
+                    <button onclick="toggleCartDrawer()" id="cart-btn"
+                            class="relative flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3.5 py-2 rounded-full transition active:scale-95 text-xs font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                         </svg>
-                        <span class="hidden sm:inline text-xs font-semibold">Keranjang</span>
-                        <span id="cart-badge" class="bg-bites-red text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full shadow-xs">
+                        <span class="hidden sm:inline">Keranjang</span>
+                        <span id="cart-badge" class="bg-yellow-400 text-gray-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-xs">
                             {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
                         </span>
                     </button>
 
                     <!-- User / Auth -->
-                    <!-- User / Auth -->
                     @auth
                         <div class="relative" id="user-dropdown-container">
                             <button onclick="toggleUserDropdown(event)" id="user-menu-button" type="button"
-                                class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 p-1.5 sm:pr-3 rounded-full text-xs font-semibold transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-bites-orange">
-                                <div class="w-8 h-8 rounded-full bg-bites-red text-white flex items-center justify-center font-bold text-xs uppercase shadow-xs">
+                                    class="flex items-center gap-2 bg-white/10 hover:bg-white/20 pl-1 pr-3 py-1 rounded-full text-white transition active:scale-95 focus:outline-none">
+                                <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-xs uppercase shadow-sm">
                                     {{ substr(Auth::user()->name ?: Auth::user()->username, 0, 2) }}
                                 </div>
-                                <span class="hidden sm:inline max-w-[120px] truncate text-gray-800">{{ Auth::user()->username }}</span>
-                                <svg class="w-3.5 h-3.5 text-gray-500 transition-transform duration-200" id="user-menu-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                <div class="hidden sm:block text-left">
+                                    <div class="text-xs font-bold leading-tight text-white">{{ Auth::user()->name }}</div>
+                                    <div class="text-[10px] text-white/65 leading-tight truncate max-w-[110px]">{{ Auth::user()->email }}</div>
+                                </div>
+                                <svg class="w-3.5 h-3.5 text-white/60 transition-transform duration-200" id="user-menu-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
 
@@ -260,20 +261,20 @@
                                 <div class="py-1">
                                     <a href="{{ route('orders.index') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-gray-700 hover:bg-gray-50 hover:text-bites-red transition">
                                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                                         </svg>
                                         Pesanan Saya
                                     </a>
                                     @if(Auth::user()->isStaff())
                                         <a href="{{ route('admin.pos') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-amber-700 hover:bg-amber-50 font-semibold transition">
                                             <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                                             </svg>
                                             POS Kasir
                                         </a>
                                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-purple-700 hover:bg-purple-50 font-semibold transition">
                                             <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                                             </svg>
                                             Dashboard Admin
                                         </a>
@@ -284,7 +285,7 @@
                                         @csrf
                                         <button type="submit" class="w-full text-left px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 transition">
                                             <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                                             </svg>
                                             Logout
                                         </button>
@@ -293,14 +294,17 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}" class="bg-gray-900 hover:bg-black text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition">
+                        <a href="{{ route('login') }}"
+                           class="bg-white text-gray-900 hover:bg-white/90 text-xs font-bold px-4 py-2 rounded-full transition active:scale-95">
                             Login / Masuk
                         </a>
                     @endauth
 
-                    <!-- Mobile Hamburger Button -->
-                    <button type="button" onclick="toggleMobileNav()" class="md:hidden p-2 text-gray-700 hover:text-bites-red hover:bg-gray-100 rounded-xl transition" aria-label="Toggle Menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Mobile Hamburger -->
+                    <button type="button" onclick="toggleMobileNav()"
+                            class="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition"
+                            aria-label="Toggle Menu">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
@@ -309,36 +313,50 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-nav-menu" class="hidden md:hidden border-t border-gray-100 py-3 space-y-1 bg-white px-2">
-                <a href="{{ route('home') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('home') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
-                    Home
-                </a>
-                <a href="{{ route('menu') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('menu') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
-                    Menu Produk
-                </a>
-                <a href="{{ route('about') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('about') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
-                    About Us
-                </a>
-                <a href="{{ route('contact') }}" onclick="toggleMobileNav()" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('contact') ? 'text-red-950 font-extrabold bg-red-100/80 shadow-2xs' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
-                    Contact
-                </a>
-                @auth
-                    <a href="{{ route('orders.index') }}" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold transition {{ request()->routeIs('orders.*') ? 'text-red-950 font-extrabold bg-red-100/80' : 'text-stone-800 hover:text-bites-red hover:bg-stone-100/70' }}">
-                        Pesanan Saya
+            <div id="mobile-nav-menu" class="hidden md:hidden mt-2 rounded-2xl overflow-hidden shadow-xl"
+                 style="background-color: #3b6e64;">
+                <div class="p-3 space-y-1">
+                    <a href="{{ route('home') }}" onclick="toggleMobileNav()"
+                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Beranda
                     </a>
-                @endauth
-
-                <!-- GoFood Mobile Link -->
-                <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-3.5 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-2">
-                    <span class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                        <span>Pesan via GoFood (Super Partner)</span>
-                    </span>
-                    <span class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">4.9 ★ &rarr;</span>
-                </a>
+                    <a href="{{ route('menu') }}" onclick="toggleMobileNav()"
+                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
+                              {{ request()->routeIs('menu') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Menu Produk
+                    </a>
+                    <a href="{{ route('about') }}" onclick="toggleMobileNav()"
+                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Tentang Kami
+                    </a>
+                    <a href="{{ route('contact') }}" onclick="toggleMobileNav()"
+                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                        Kontak
+                    </a>
+                    @auth
+                        <a href="{{ route('orders.index') }}"
+                           class="block px-4 py-2.5 rounded-xl text-sm font-semibold text-white/75 hover:text-white hover:bg-white/10 transition">
+                            Pesanan Saya
+                        </a>
+                    @endauth
+                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
+                       class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-1">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                            <span>Pesan via GoFood</span>
+                        </span>
+                        <span class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">4.9 ★ &rarr;</span>
+                    </a>
+                </div>
             </div>
         </div>
     </header>
+
+
+
 
     <!-- FLASH MESSAGES -->
     @if(session('success'))
