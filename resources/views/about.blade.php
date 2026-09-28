@@ -65,7 +65,7 @@
                     </p>
 
                     <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong>100% daging sapi Australia pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus legendaris kami dari nol.
+                        Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong>100% daging sapi lokal pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus legendaris kami dari nol.
                     </p>
 
                     <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950 font-medium leading-relaxed">
@@ -98,7 +98,7 @@
                 </div>
                 <h3 class="font-extrabold text-base text-gray-900">Daging Murni 100%</h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
-                    Hanya potongan daging sapi Australia murni. Tanpa pengawet kimiawi dan tanpa pengisi tepung.
+                    Hanya potongan daging sapi lokal pilihan. Tanpa pengawet kimiawi dan tanpa pengisi tepung.
                 </p>
             </div>
 
@@ -144,7 +144,7 @@
                 
                 <div class="p-4">
                     <div class="text-2xl sm:text-3xl font-black text-amber-400">100% Sapi</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Australian Beef</div>
+                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Daging Sapi Lokal</div>
                     <div class="text-[11px] text-gray-400 mt-0.5">Murni tanpa campuran tepung</div>
                 </div>
 

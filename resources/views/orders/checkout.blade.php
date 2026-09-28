@@ -92,7 +92,7 @@
 
                         <div>
                             <label class="block text-xs font-bold text-gray-700 mb-1">No. WhatsApp / Telepon:</label>
-                            <input type="tel" name="customer_phone" value="{{ Auth::user()->phone_number ?? '081234567890' }}" required placeholder="Contoh: 081234567890" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-bites-orange font-medium">
+                            <input type="tel" name="customer_phone" value="{{ Auth::user()->phone_number ?? '' }}" required placeholder="Contoh: 0813-4595-6487" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-bites-orange font-medium">
                         </div>
                     </div>
 

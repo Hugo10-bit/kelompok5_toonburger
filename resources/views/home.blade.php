@@ -26,7 +26,7 @@
 
                         <!-- Top Tag Badge -->
                         <div class="inline-flex items-center gap-2 bg-black/25 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-yellow-200 border border-white/15 shadow-xs">
-                            <span>BURGER PREMIUM ASLI • 100% AUSTRALIAN BEEF</span>
+                            <span>BURGER PREMIUM ASLI • 100% DAGING SAPI LOKAL</span>
                         </div>
 
                         <!-- Big Headline -->
@@ -65,7 +65,7 @@
                             </div>
                             <div>
                                 <div class="text-lg sm:text-2xl font-black text-yellow-300">100% Sapi</div>
-                                <div class="text-[11px] sm:text-xs text-white/80">Australian Beef Pilihan</div>
+                                <div class="text-[11px] sm:text-xs text-white/80">Daging Sapi Lokal Pilihan</div>
                             </div>
                             <div>
                                 <div class="text-lg sm:text-2xl font-black text-yellow-300">Fresh Made</div>
@@ -129,7 +129,7 @@
                 <div class="w-14 h-14 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
                 </div>
-                <h3 class="font-extrabold text-base text-gray-900">100% Australian Beef</h3>
+                <h3 class="font-extrabold text-base text-gray-900">100% DAGING SAPI LOKAL</h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Daging sapi impor murni tanpa campuran tepung, di-smash dengan panas tinggi agar tercipta kerak gurih karamel dan bagian dalam yang super juicy.
                 </p>
@@ -377,7 +377,7 @@
                     <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
                     </div>
-                    <h3 class="font-extrabold text-base text-gray-900">100% Australian Beef Smash</h3>
+                    <h3 class="font-extrabold text-base text-gray-900">100% DAGING SAPI LOKAL Smash</h3>
                     <p class="text-xs text-gray-600 leading-relaxed">
                         Patty daging murni impor tanpa campuran tepung atau filler. Di-smash panas dengan teknik khusus untuk mengunci sari kaldu alami daging agar bagian luar renyah gurih dan bagian dalam tetap lembut juicy.
                     </p>
