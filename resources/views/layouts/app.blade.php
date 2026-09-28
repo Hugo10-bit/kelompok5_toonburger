@@ -407,6 +407,12 @@
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
                         <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery</li>
                         <li class="text-gray-300 leading-relaxed text-[11px]">&bull; Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara (HR7F+P8M)</li>
+                        <li class="pt-2 text-emerald-400 font-bold flex items-center gap-1.5 text-xs">
+                            <span class="text-gray-300 font-normal">Hotline / WA:</span>
+                            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-mono underline underline-offset-2">
+                                +62 813-4595-6487
+                            </a>
+                        </li>
                     </ul>
                 </div>
 

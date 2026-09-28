@@ -77,7 +77,7 @@
 
                     <div>
                         <label class="block font-bold text-gray-700 mb-1">Nomor Telepon (Opsional):</label>
-                        <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '08123456789') }}" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 font-medium focus:outline-none focus:border-toon-granite focus:bg-white transition">
+                        <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '081345956487') }}" placeholder="Contoh: 0813-4595-6487" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-3 font-medium focus:outline-none focus:border-toon-granite focus:bg-white transition">
                         @error('phone_number') <span class="text-toon-rust text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
                     </div>
 
