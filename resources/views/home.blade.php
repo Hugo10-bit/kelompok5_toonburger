@@ -90,7 +90,42 @@
 
 
     <!-- ═══════════════════════════════════════════════
-         2. PRODUCT VALUE PROPOSITION
+         2. BESTSELLER PREVIEW CARDS
+         ═══════════════════════════════════════════════ -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <h2 class="text-3xl sm:text-4xl font-black tracking-tight uppercase" style="font-family: 'Nunito', 'Arial Black', sans-serif; color: #3b6e64;">
+                    BEST SELLER
+                </h2>
+                <p class="text-xs sm:text-sm text-gray-700 mt-2 max-w-md leading-relaxed">Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.</p>
+            </div>
+
+            <a href="{{ route('menu') }}" class="inline-flex items-center border border-[#3b6e64] text-[#3b6e64] hover:bg-[#3b6e64] hover:text-white text-xs font-bold px-5 py-2.5 rounded-lg transition shrink-0 mt-1">
+                Lihat Semua
+            </a>
+        </div>
+
+        <!-- Bestseller Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            @forelse($featuredProducts as $product)
+                <div class="group cursor-pointer" onclick="@if($product->options->isNotEmpty()) openProductModal({{ $product->id }}) @else quickAddToCart({{ $product->id }}) @endif">
+                    <div class="relative bg-[#4A7C72] rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] shadow-xs group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                        <img src="{{ asset($product->image ?: 'images/burger-bg.jpg') }}" alt="{{ $product->name }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-4 bg-white rounded-3xl p-8 text-center border border-[#E6DEC8] text-gray-600 text-xs">
+                    Belum ada menu yang ditampilkan.
+                </div>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         3. PRODUCT VALUE PROPOSITION
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
@@ -149,142 +184,6 @@
             </div>
 
         </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         3. BESTSELLER PREVIEW CARDS
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-gray-200">
-            <div>
-                <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                    Menu Bestseller & Paling Digemari
-                </h2>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1">Cobain rekomendasi menu favorit para penikmat Toon Burger minggu ini.</p>
-            </div>
-
-            <a href="{{ route('menu') }}" class="inline-flex items-center gap-2 bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs font-extrabold px-5 py-2.5 rounded-2xl transition shadow-xs hover:shadow-md active:scale-95 shrink-0 self-start sm:self-auto">
-                <span>Lihat Semua Menu (Katalog Lengkap)</span>
-            </a>
-        </div>
-
-        <!-- Bestseller Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            @forelse($featuredProducts as $product)
-                <div class="bg-white rounded-3xl border border-[#E6DEC8] hover:border-bites-orange/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
-
-                    <!-- Product Image & Badges -->
-                    <div class="relative bg-gray-100 aspect-[4/3] overflow-hidden">
-                        <img src="{{ asset($product->image ?: 'images/burger-bg.jpg') }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500">
-
-                        <span class="absolute top-3 left-3 bg-bites-red text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                            ★ Bestseller
-                        </span>
-
-                        @if($product->original_price && $product->original_price > $product->price)
-                            @php
-                                $disc = round((($product->original_price - $product->price) / $product->original_price) * 100);
-                            @endphp
-                            <span class="absolute top-3 right-3 bg-yellow-400 text-yellow-950 text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm">
-                                -{{ $disc }}%
-                            </span>
-                        @endif
-
-                        <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-white">
-                            <span class="bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md font-mono">
-                                {{ $product->calories ?: 450 }} kcal
-                            </span>
-                            <span class="bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md font-mono">
-                                {{ $product->prep_time_minutes ?: 8 }} menit
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Product Body -->
-                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700">
-                                {{ $product->category->name }}
-                            </span>
-                            <h3 class="font-extrabold text-sm text-gray-900 group-hover:text-bites-red transition line-clamp-1 mt-0.5">
-                                {{ $product->name }}
-                            </h3>
-                            <p class="text-xs text-gray-600 line-clamp-2 mt-1 leading-relaxed">
-                                {{ $product->description }}
-                            </p>
-                        </div>
-
-                        <!-- Price & Action -->
-                        <div class="pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
-                            <div>
-                                <div class="text-base font-black text-gray-900 font-mono">
-                                    Rp {{ number_format($product->price, 0, ',', '.') }}
-                                </div>
-                                @if($product->original_price && $product->original_price > $product->price)
-                                    <div class="text-[11px] text-gray-500 line-through font-mono">
-                                        Rp {{ number_format($product->original_price, 0, ',', '.') }}
-                                    </div>
-                                @endif
-                            </div>
-
-                            @if($product->options->isNotEmpty())
-                                <button onclick="openProductModal({{ $product->id }})" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs flex items-center gap-1 active:scale-95">
-                                    <span>Pilih Varian</span>
-                                </button>
-                            @else
-                                <button onclick="quickAddToCart({{ $product->id }})" class="bg-gray-900 hover:bg-bites-red text-white font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs active:scale-95 flex items-center gap-1">
-                                    <span>+ Tambah</span>
-                                </button>
-                            @endif
-                        </div>
-
-                    </div>
-
-                </div>
-            @empty
-                <div class="col-span-4 bg-white rounded-3xl p-8 text-center border border-[#E6DEC8] text-gray-600 text-xs">
-                    Belum ada menu yang ditampilkan.
-                </div>
-            @endforelse
-        </div>
-
-        <!-- Full Menu CTA Banner (Polished: text-amber-950 on bg-amber-400, no gray-on-color) -->
-        <div class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-950 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center shrink-0 shadow-xs">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
-                </div>
-                <div>
-                    <h4 class="text-base sm:text-lg font-black text-white leading-tight">Penasaran dengan 20+ Varian Menu Lainnya?</h4>
-                    <p class="text-xs text-gray-300 mt-0.5">Mulai dari burger ayam krispi, loaded cheese fries, saus truffle, hingga milkshake segar.</p>
-                </div>
-            </div>
-            <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs sm:text-sm font-black px-6 py-3 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap">
-                Buka Halaman Menu
-            </a>
-        </div>
-
-        <!-- GoFood Official Super Partner Promo Banner -->
-        <div class="mt-4 bg-gradient-to-r from-[#EE2737] to-[#B31217] text-white rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-white text-[#EE2737] flex items-center justify-center shrink-0 shadow-md font-black text-sm">
-                    4.9 ★
-                </div>
-                <div>
-                    <div class="inline-flex items-center gap-1.5 bg-black/20 text-yellow-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
-                        <span>Official Super Partner di GoFood</span>
-                    </div>
-                    <h4 class="text-base sm:text-lg font-black text-white leading-tight">Mau Pesanan Diantar Langsung Driver Gojek?</h4>
-                    <p class="text-xs text-red-100 mt-0.5">Pesan praktis lewat GoFood untuk menikmati promo diskon menu &amp; voucher gratis ongkir hari ini!</p>
-                </div>
-            </div>
-            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-gray-100 text-[#EE2737] text-xs sm:text-sm font-black px-6 py-3 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap flex items-center gap-2">
-                <span>Buka di Aplikasi GoFood</span>
-                <span>&rarr;</span>
-            </a>
-        </div>
-
     </section>
 
     <!-- ═══════════════════════════════════════════════
@@ -399,35 +298,6 @@
                 </div>
             </div>
 
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         6. CONTACT TEASER SECTION (LIVE LOCATION)
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-5">
-                <div class="relative w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shrink-0 shadow-xs">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
-                    </span>
-                </div>
-                <div>
-                    <div class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span>Outlet Aktif • Loktabat Utara</span>
-                    </div>
-                    <h3 class="text-xl sm:text-2xl font-black text-gray-900 mt-0.5">Toon Burger, Banjarbaru Utara Jln Berlian</h3>
-                    <p class="text-xs text-gray-600 mt-1 max-w-lg">Jl. Berlian, Loktabat Utara, Banjarbaru Utara (HR7F+P8M). Buka Selasa – Minggu 17:00 – 22:00 WITA (Sabtu s/d 22:30, Senin Libur). Khusus Takeaway &amp; Online Delivery.</p>
-                </div>
-            </div>
-            <a href="{{ route('contact') }}" class="bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl transition shadow-md active:scale-95 whitespace-nowrap flex items-center gap-2">
-                <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>Buka Peta &amp; Live Location</span>
-            </a>
         </div>
     </section>
 

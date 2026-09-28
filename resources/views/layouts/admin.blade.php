@@ -266,13 +266,31 @@
                 <span>Pengaturan</span>
             </a>
 
-            <!-- Beranda -->
+            <!-- Public Navigation Links -->
             <a href="{{ route('home') }}"
-               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full text-gray-700 hover:bg-gray-100/80 hover:text-gray-900">
+               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('home') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 01-1.5 1.5h-5a1 1 0 01-1-1v-5h-4v5a1 1 0 01-1 1h-5A1.5 1.5 0 013 20V10.5z"/>
                 </svg>
-                <span>Beranda</span>
+                <span>Home</span>
+            </a>
+
+            <a href="{{ route('about') }}"
+               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('about') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <span>About Us</span>
+            </a>
+
+            <a href="{{ route('contact') }}"
+               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('contact') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>Contact</span>
             </a>
 
             <!-- Logout -->
@@ -293,18 +311,36 @@
     <!-- ═══ MAIN WRAPPER ═══ -->
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
-        <!-- Top Navbar: Rounded Card with Search Bar & Profile (Mockup Matching) -->
-        <header class="bg-white rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs px-5 sm:px-6 py-3.5 flex items-center justify-between gap-4">
+        <!-- Top Navbar: Rounded Card with Nav Links (Home, About Us, Contact), Search Bar & Profile -->
+        <header class="bg-white rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3 sm:gap-4">
 
-            <!-- Left on Mobile: Hamburger -->
-            <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-toon-granite hover:bg-toon-cream rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <!-- Left on Mobile: Hamburger -->
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-toon-granite hover:bg-toon-cream rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
+                <!-- Navigation Links: Home, About Us, Contact -->
+                <nav class="flex items-center gap-1 sm:gap-1.5">
+                    <a href="{{ route('home') }}"
+                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('home') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
+                        Home
+                    </a>
+                    <a href="{{ route('about') }}"
+                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('about') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
+                        About Us
+                    </a>
+                    <a href="{{ route('contact') }}"
+                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('contact') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
+                        Contact
+                    </a>
+                </nav>
+            </div>
 
             <!-- Search Bar: Pill Input with Dark Green Circle Search Button -->
-            <div class="flex-1 max-w-xl">
+            <div class="flex-1 max-w-xs md:max-w-sm hidden sm:block">
                 <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F3F4F6] hover:bg-gray-100/90 border border-gray-200/60 rounded-full pl-5 pr-1.5 py-1.5 flex items-center justify-between transition focus-within:ring-2 focus-within:ring-toon-granite/20 focus-within:bg-white focus-within:border-toon-granite">
                     <input type="text" name="q" id="global-admin-search" placeholder="Cari sesuatu..." class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full pr-3 font-medium">
                     <button type="submit" class="w-8 h-8 rounded-full bg-toon-granite hover:bg-toon-granite-dark text-white flex items-center justify-center shrink-0 shadow-2xs transition active:scale-95" title="Cari">

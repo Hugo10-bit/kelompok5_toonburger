@@ -193,30 +193,13 @@
                     <a href="{{ route('about') }}"
                        class="px-4 py-1.5 rounded-full transition text-sm font-semibold
                               {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Tentang Kami
+                        About Us
                     </a>
                     <a href="{{ route('contact') }}"
                        class="px-4 py-1.5 rounded-full transition text-sm font-semibold
                               {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Kontak
+                        Contact
                     </a>
-                    @auth
-                        <a href="{{ route('orders.index') }}"
-                           class="px-4 py-1.5 rounded-full transition text-sm font-semibold
-                                  {{ request()->routeIs('orders.*') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                            Pesanan
-                        </a>
-                        @if(Auth::user()->isStaff())
-                            <a href="{{ route('admin.pos') }}"
-                               class="px-4 py-1.5 rounded-full text-sm font-semibold text-amber-200 hover:bg-white/10 transition">
-                                POS Kasir
-                            </a>
-                            <a href="{{ route('admin.dashboard') }}"
-                               class="px-4 py-1.5 rounded-full text-sm font-semibold text-purple-200 hover:bg-white/10 transition">
-                                Admin
-                            </a>
-                        @endif
-                    @endauth
                 </nav>
 
                 <!-- Right: Cart + User / Login + Hamburger -->
@@ -329,12 +312,12 @@
                     <a href="{{ route('about') }}" onclick="toggleMobileNav()"
                        class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
                               {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Tentang Kami
+                        About Us
                     </a>
                     <a href="{{ route('contact') }}" onclick="toggleMobileNav()"
                        class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
                               {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Kontak
+                        Contact
                     </a>
                     @auth
                         <a href="{{ route('orders.index') }}"
@@ -411,22 +394,14 @@
                     </ul>
                 </div>
 
-                <!-- Jam Buka & Lokasi -->
+                <!-- Jam Operasional -->
                 <div>
-                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Buka &amp; Lokasi</h4>
+                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Operasional</h4>
                     <ul class="text-xs text-gray-300 space-y-1.5">
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Senin:</strong> <span class="text-rose-400 font-bold bg-rose-950/60 px-1.5 py-0.5 rounded text-[11px]">Libur / Tutup</span></li>
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Selasa - Jumat:</strong> <span>17:00 - 22:00 WITA</span></li>
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Sabtu:</strong> <span>17:00 - 22:30 WITA</span></li>
                         <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
-                        <li class="pt-1.5 text-amber-300 font-semibold">&bull; Khusus Takeaway &amp; Online Delivery</li>
-                        <li class="text-gray-300 leading-relaxed text-[11px]">&bull; Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara (HR7F+P8M)</li>
-                        <li class="pt-2 text-emerald-400 font-bold flex items-center gap-1.5 text-xs">
-                            <span class="text-gray-300 font-normal">Hotline / WA:</span>
-                            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-mono underline underline-offset-2">
-                                +62 813-4595-6487
-                            </a>
-                        </li>
                     </ul>
                 </div>
 
@@ -444,17 +419,7 @@
                         </li>
                     </ul>
 
-                    <!-- GoFood Official Partner Footer Card -->
-                    <div class="mt-4 pt-3 border-t border-white/10">
-                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                           class="flex items-center justify-between bg-[#EE2737]/90 hover:bg-[#EE2737] text-white p-2.5 rounded-xl transition shadow-xs group">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                                <span class="text-xs font-black">GoFood Super Partner</span>
-                            </div>
-                            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-bold group-hover:bg-white group-hover:text-[#EE2737] transition">4.9 ★ &rarr;</span>
-                        </a>
-                    </div>
+
                 </div>
             </div>
 
@@ -569,7 +534,7 @@
                     <p id="modal-product-desc" class="text-xs text-gray-500 mt-1 leading-relaxed">Description</p>
                     <div class="flex items-center gap-3 mt-2 text-[11px] text-gray-500 font-medium">
                         <span id="modal-product-calories" class="bg-gray-100 px-2 py-0.5 rounded font-semibold">0 kcal</span>
-                        <span id="modal-product-time" class="bg-gray-100 px-2 py-0.5 rounded font-semibold">0 menit</span>
+                        <span id="modal-product-time" class="hidden">0 menit</span>
                     </div>
                 </div>
 

@@ -6,69 +6,67 @@
 <div class="space-y-8 lg:space-y-12 pb-16">
 
     <!-- ═══════════════════════════════════════════════
-         1. TAKEAWAY ONLY NOTIFICATION
+         1. HERO HEADER (KATALOG MENU) — Full Size Edge-to-Edge
          ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <div class="bg-amber-50 border border-amber-300 rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
-            <div class="flex items-center gap-3.5">
-                <div class="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                </div>
-                <div>
-                    <h4 class="text-xs sm:text-sm font-extrabold text-amber-950">Layanan Khusus Take Away &amp; Online Delivery</h4>
-                    <p class="text-[11px] sm:text-xs text-amber-800">Toon Burger Banjarbaru hanya menyediakan pesanan bungkus bawa pulang (Takeaway) dan pesan antar online. Tidak menyediakan makan di tempat (Dine-In).</p>
-                </div>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 shrink-0 self-start sm:self-auto">
-                <span class="bg-amber-200/80 text-amber-950 text-[11px] font-bold px-3 py-1 rounded-full">Khusus Takeaway &amp; Delivery</span>
-                <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white text-xs font-black px-3.5 py-1.5 rounded-full transition shadow-xs flex items-center gap-1.5 active:scale-95">
-                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                    <span>Order via GoFood</span>
-                    <span class="bg-white/25 text-[10px] px-1.5 py-0.2 rounded-full">4.9 ★</span>
-                </a>
-            </div>
-        </div>
-    </section>
+    <section class="relative overflow-hidden -mt-[80px]">
+        <div class="w-full">
+            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-18"
+                 style="background-color: #3b6e64; min-height: 480px;">
 
-    <!-- ═══════════════════════════════════════════════
-         2. CATALOG HEADER BANNER
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
-        <div class="bg-gradient-to-r from-amber-500 via-bites-orange to-red-600 rounded-[32px] sm:rounded-[40px] p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+                <!-- Partikel Bintang Komik Asli -->
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-6 h-auto"
+                     style="top: 25%; left: 8%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="bottom: 25%; left: 45%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="top: 22%; right: 14%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-4 h-auto"
+                     style="bottom: 20%; right: 28%;">
 
-            <div class="relative z-10 space-y-2 max-w-xl">
-                <div class="inline-flex items-center gap-2 bg-black/20 backdrop-blur-md px-3.5 py-1 rounded-full text-[11px] font-bold text-yellow-200 border border-white/20">
-                    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>KATALOG RESMI TOON BURGER</span>
-                </div>
-                <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                    Pilihan Menu Lezat & Segar
-                </h1>
-                <p class="text-xs sm:text-sm text-white/90 leading-relaxed font-normal">
-                    Pilih burger favorit Anda, sesuaikan porsi & topping, lalu masukkan ke keranjang untuk proses pemesanan cepat!
-                </p>
-            </div>
+                <!-- Content Grid (Max-W-7xl for neat alignment) -->
+                <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-8 pt-4">
 
-            <!-- Search Form in Header -->
-            <div class="relative z-10 w-full md:w-80">
-                <form action="{{ route('menu') }}" method="GET">
-                    @if($selectedCategory !== 'all')
-                        <input type="hidden" name="category" value="{{ $selectedCategory }}">
-                    @endif
-                    <div class="relative">
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, kentang, saus..."
-                               class="w-full bg-white text-xs text-gray-900 placeholder-gray-400 border-0 rounded-2xl pl-10 pr-4 py-3 shadow-lg focus:ring-2 focus:ring-yellow-300 outline-none transition font-medium">
-                        <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
+                    <div class="space-y-4 max-w-xl text-left">
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
+                            style="font-family: 'Nunito', 'Arial Black', sans-serif;">
+                            Pilihan Menu <br class="hidden sm:inline">
+                            <span class="text-yellow-300">Lezat &amp; Segar</span>
+                        </h1>
+
+                        <p class="text-sm sm:text-base text-white/85 leading-relaxed font-normal">
+                            Pilih burger favorit Anda, sesuaikan porsi &amp; topping, lalu masukkan ke keranjang untuk proses pemesanan cepat!
+                        </p>
                     </div>
-                </form>
-            </div>
 
-            <!-- Background Ambient Glow -->
-            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <!-- Search Form in Header -->
+                    <div class="w-full md:w-80 shrink-0">
+                        <form action="{{ route('menu') }}" method="GET">
+                            @if($selectedCategory !== 'all')
+                                <input type="hidden" name="category" value="{{ $selectedCategory }}">
+                            @endif
+                            <div class="relative">
+                                <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari burger, kentang, saus..."
+                                       class="w-full bg-white text-xs sm:text-sm text-gray-900 placeholder-gray-400 border-0 rounded-2xl pl-11 pr-4 py-3.5 shadow-xl focus:ring-2 focus:ring-yellow-300 outline-none transition font-medium">
+                                <svg class="w-4 h-4 text-gray-400 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!-- Checkered Bottom Border -->
+                <div class="absolute bottom-0 left-0 w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
+
+            </div>
         </div>
     </section>
+
 
     <!-- ═══════════════════════════════════════════════
          3. CATEGORIES FILTER PILLS
@@ -147,12 +145,9 @@
                                 </span>
                             @endif
 
-                            <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[11px] font-semibold text-white">
+                            <div class="absolute bottom-2 left-3 text-[11px] font-semibold text-white">
                                 <span class="bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md font-mono">
                                     {{ $product->calories ?: 450 }} kcal
-                                </span>
-                                <span class="bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded-md font-mono">
-                                    {{ $product->prep_time_minutes ?: 8 }} menit
                                 </span>
                             </div>
                         </div>
@@ -204,25 +199,6 @@
 
     </section>
 
-    <!-- ═══════════════════════════════════════════════
-         5. VOUCHER & TABLE SERVICE REMINDER BANNER
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-3xl border border-[#E6DEC8] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
-                </div>
-                <div>
-                    <h4 class="text-sm sm:text-base font-black text-gray-900">Gunakan Kupon Promo "TOONBURGER50" di Keranjang</h4>
-                    <p class="text-xs text-gray-600 mt-0.5">Dapatkan diskon potongan belanja saat memesan melalui website ini.</p>
-                </div>
-            </div>
-            <button onclick="toggleCartDrawer()" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs font-black px-6 py-3 rounded-xl transition shadow-xs active:scale-95 shrink-0">
-                Buka Keranjang Pesanan &rarr;
-            </button>
-        </div>
-    </section>
 
 </div>
 @endsection

@@ -6,30 +6,50 @@
 <div class="space-y-16 lg:space-y-20 pb-16">
 
     <!-- ═══════════════════════════════════════════════
-         1. HERO HEADER (ABOUT US)
+         1. HERO HEADER (ABOUT US) — Full Size Edge-to-Edge
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden pt-4 sm:pt-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="relative bg-gradient-to-br from-[#263A38] via-[#334E4C] to-[#1E2D2B] rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl p-8 sm:p-14 text-white">
-                
-                <!-- Ambient Deco -->
-                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-10 -top-10 w-64 h-64 bg-red-500/10 rounded-full blur-2xl pointer-events-none"></div>
+    <section class="relative overflow-hidden -mt-[80px]">
+        <div class="w-full">
+            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-18"
+                 style="background-color: #3b6e64; min-height: 520px;">
 
-                <div class="relative z-10 max-w-3xl space-y-4 text-left">
-                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-xs font-bold text-amber-300 border border-white/15 shadow-xs">
-                        <span>CERITA & DEDIKASI KAMI</span>
+                <!-- Partikel Bintang Komik Asli -->
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-6 h-auto"
+                     style="top: 25%; left: 8%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="bottom: 25%; left: 45%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="top: 22%; right: 14%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-4 h-auto"
+                     style="bottom: 20%; right: 28%;">
+
+                <!-- Content Grid (Max-W-7xl for neat alignment) -->
+                <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 pt-4">
+                    <div class="max-w-2xl space-y-4 text-left">
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
+                            style="font-family: 'Nunito', 'Arial Black', sans-serif;">
+                            Kisah &amp; Cinta di Balik <br>
+                            <span class="text-yellow-300">Toon Burger</span>
+                        </h1>
+
+                        <p class="text-sm sm:text-base text-white/80 leading-relaxed font-normal max-w-xl">
+                            Kami memadukan keceriaan estetika kartun retro dengan kelezatan burger daging sapi panggang berkualitas tinggi. Setiap gigitan adalah petualangan rasa yang penuh senyuman!
+                        </p>
                     </div>
 
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-                        Kisah & Cinta di Balik 
-                        <span class="text-amber-300">Toon Burger</span>
-                    </h1>
-
-                    <p class="text-sm sm:text-base text-gray-200 leading-relaxed font-normal">
-                        Kami memadukan keceriaan estetika kartun retro dengan kelezatan burger daging sapi panggang berkualitas tinggi. Setiap gigitan adalah petualangan rasa yang penuh senyuman!
-                    </p>
+                    <!-- Right Mascot / Visual -->
+                    <div class="relative flex justify-center items-center shrink-0">
+                        <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger Mascot"
+                             class="h-44 sm:h-56 lg:h-64 w-auto object-contain drop-shadow-2xl hover:scale-105 transition duration-500">
+                    </div>
                 </div>
+
+                <!-- Checkered Bottom Border -->
+                <div class="absolute bottom-0 left-0 w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
 
             </div>
         </div>
@@ -134,68 +154,5 @@
 
         </div>
     </section>
-
-    <!-- ═══════════════════════════════════════════════
-         4. STATS & OPERATIONAL FACTS
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-r from-gray-900 via-[#1E2D2B] to-gray-900 text-white rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 shadow-xl">
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y lg:divide-y-0 lg:divide-x divide-white/10">
-                
-                <div class="p-4">
-                    <div class="text-2xl sm:text-3xl font-black text-amber-400">100% Sapi</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Daging Sapi Lokal</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Murni tanpa campuran tepung</div>
-                </div>
-
-                <div class="p-4">
-                    <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">4.9 ★</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">GoFood Partner</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Rating resmi toko terverifikasi</div>
-                </div>
-
-                <div class="p-4">
-                    <div class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">17:00</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Buka Sore – Malam</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Selasa s/d Minggu (Senin Libur)</div>
-                </div>
-
-                <div class="p-4">
-                    <div class="text-2xl sm:text-3xl font-black text-amber-400">Fresh Made</div>
-                    <div class="text-xs sm:text-sm text-gray-300 font-semibold mt-1">Made to Order</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Dimasak panas begitu tiket masuk</div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         5. BOTTOM CTA BANNER
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-8 sm:p-12 text-center space-y-6">
-            <div class="max-w-xl mx-auto space-y-2">
-                <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                    Jangan Lewatkan Gigitan Pertama Anda Hari Ini!
-                </h2>
-                <p class="text-xs sm:text-sm text-gray-600">
-                    Pesan langsung secara online untuk delivery cepat, atau ambil langsung (takeaway) di outlet kami di Jl. Berlian, Banjarbaru Utara.
-                </p>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs sm:text-sm font-black px-7 py-3.5 rounded-2xl transition shadow-md active:scale-95 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
-                    <span>Lihat Menu & Pesan Sekarang</span>
-                </a>
-                <a href="{{ route('contact') }}" class="bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl transition shadow-sm active:scale-95 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    <span>Lokasi & Hubungi Kami</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
 </div>
 @endsection

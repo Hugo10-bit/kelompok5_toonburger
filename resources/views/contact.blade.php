@@ -64,46 +64,44 @@
 <div class="space-y-12 lg:space-y-16 pb-16">
 
     <!-- ═══════════════════════════════════════════════
-         1. HERO HEADER (OUTLET BANJARBARU)
+         1. HERO HEADER (OUTLET BANJARBARU) — Full Size Edge-to-Edge
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden pt-4 sm:pt-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="relative bg-gradient-to-br from-[#263A38] via-[#355350] to-[#1E2D2B] rounded-[32px] sm:rounded-[40px] overflow-hidden shadow-2xl p-8 sm:p-14 text-white">
-                
-                <!-- Ambient Glow -->
-                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-10 -top-10 w-64 h-64 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+    <section class="relative overflow-hidden -mt-[80px]">
+        <div class="w-full">
+            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-18"
+                 style="background-color: #3b6e64; min-height: 520px;">
 
-                <div class="relative z-10 max-w-3xl space-y-4 text-left">
-                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white">
-                        Kunjungi Outlet &amp; <br class="hidden sm:inline">
-                        <span class="text-amber-300">Live Location</span> Banjarbaru
-                    </h1>
+                <!-- Partikel Bintang Komik Asli -->
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-6 h-auto"
+                     style="top: 25%; left: 6%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="bottom: 25%; left: 42%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="top: 22%; right: 12%;">
+                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
+                     class="absolute pointer-events-none select-none z-10 w-4 h-auto"
+                     style="bottom: 20%; right: 30%;">
 
-                    <p class="text-sm sm:text-base text-stone-200 leading-relaxed font-normal">
-                        Beralamat di <strong>Loktabat Utara, Banjarbaru Utara</strong>. Pantau radar outlet secara real-time dan kalkulasikan jarak tempuh GPS langsung dari perangkat Anda.
-                    </p>
+                <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 pt-4">
+                    <div class="max-w-3xl space-y-5 text-left">
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
+                            style="font-family: 'Nunito', 'Arial Black', sans-serif;">
+                            Kunjungi Outlet &amp; <br class="hidden sm:inline">
+                            <span class="text-yellow-300">Live Location</span> Banjarbaru
+                        </h1>
 
-                    <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <a href="#live-map-section" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark text-xs sm:text-sm font-black px-6 py-3 rounded-2xl transition shadow-md active:scale-95 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>Buka Live Radar Map</span>
-                            <span class="text-stone-700">&darr;</span>
-                        </a>
-                        <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl transition border border-white/30 active:scale-95 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                            <span>Chat WhatsApp Outlet</span>
-                        </a>
-                        <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-xs sm:text-sm px-5 py-3 rounded-2xl transition shadow-md active:scale-95 flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                            <span>Pesan via GoFood</span>
-                            <span class="bg-white/20 text-[10px] px-1.5 py-0.5 rounded-full font-bold">4.9 ★</span>
-                        </a>
-
-
+                        <p class="text-sm sm:text-base text-white/85 leading-relaxed font-normal max-w-2xl">
+                            Beralamat di <strong>Loktabat Utara, Banjarbaru Utara</strong>. Pantau radar outlet secara real-time dan kalkulasikan jarak tempuh GPS langsung dari perangkat Anda.
+                        </p>
 
                     </div>
                 </div>
+
+                <!-- Checkered Bottom Border -->
+                <div class="absolute bottom-0 left-0 w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
 
             </div>
         </div>
@@ -267,17 +265,7 @@
                     </iframe>
                 </div>
 
-                <!-- Floating Live Radar Status Badge -->
-                <div class="absolute top-4 left-4 z-[999] bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-gray-200/80 flex items-center gap-2.5 select-none">
-                    <div class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                    </div>
-                    <div>
-                        <div class="text-[10px] font-black uppercase text-gray-400 leading-tight">GPS Beacon</div>
-                        <div class="text-xs font-black text-gray-900 leading-tight">Outlet Banjarbaru Online</div>
-                    </div>
-                </div>
+
 
                 <!-- Floating Recenter Button -->
                 <button type="button" onclick="centerStoreMap()" class="absolute bottom-4 right-4 z-[999] bg-white hover:bg-gray-50 text-gray-800 text-xs font-bold px-3.5 py-2 rounded-2xl shadow-lg border border-gray-200/80 flex items-center gap-2 transition active:scale-95">
