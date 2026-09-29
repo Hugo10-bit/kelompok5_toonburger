@@ -119,35 +119,29 @@
     <!-- Top Progress Bar for Smooth Navigation -->
     <div id="page-loader-bar"></div>
 
-    <!-- ═══ MODAL KONFIRMASI LOGOUT (SESUAI MOCKUP FOTO) ═══ -->
+    <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
          class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
          style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
-        <!-- Backdrop: Fixed, centered, non-shifting -->
         <div class="fixed inset-0 bg-black/50 backdrop-blur-[3px] transition-opacity duration-200"
              style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
              onclick="closeLogoutModal()"></div>
 
-        <!-- Modal Dialog Card: Centered on screen, never shifts -->
         <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[460px] w-full text-center z-10 select-none animate-modal-pop border border-[#EFE5D0] mx-auto my-auto">
-            <!-- Warning Icon Circle (Muted Sage Green - Sesuai Foto) -->
             <div class="w-[92px] h-[92px] rounded-full border-[4.5px] border-[#9AA887] flex items-center justify-center mx-auto mb-6 bg-white shadow-2xs">
                 <svg class="w-10 h-10 text-[#9AA887]" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4.5c-.83 0-1.5.67-1.5 1.5v7.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V6c0-.83-.67-1.5-1.5-1.5zM12 17.2a1.8 1.8 0 100 3.6 1.8 1.8 0 000-3.6z"/>
                 </svg>
             </div>
 
-            <!-- Title -->
             <h3 class="text-2xl sm:text-[27px] font-bold text-[#2D3139] tracking-tight mb-3">
                 Konfirmasi Logout
             </h3>
 
-            <!-- Subtitle Description (Sesuai Foto) -->
             <p class="text-[#555C68] text-sm sm:text-[14.5px] leading-relaxed max-w-sm mx-auto mb-8 font-normal">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses akun Anda.
             </p>
 
-            <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
             <div class="flex items-center justify-center gap-3.5 sm:gap-4">
                 <button type="button"
                         onclick="closeLogoutModal()"
@@ -169,13 +163,13 @@
         @csrf
     </form>
 
-    <!-- TOP NAVBAR — Floating Pill Dark Teal (PERSIS FOTO & BISA DIGUNAKAN) -->
+    <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
         <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto">
             <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full shadow-lg border border-white/20 backdrop-blur-md transition relative"
                  style="background-color: #3b6e64;">
 
-                <!-- 1. Logo & Brand Name (Mascot with Hat + TOON BURGER uppercase white) -->
+                <!-- Brand logo -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
                     <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo"
                          class="h-8 sm:h-9 w-auto object-contain transition group-hover:scale-105">
@@ -185,7 +179,7 @@
                     </span>
                 </a>
 
-                <!-- 2. Nav Links (Beranda, Menu, Tentang, Kontak - Persis Mockup Foto) -->
+                <!-- Nav links -->
                 <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
                     <a href="{{ route('home') }}"
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
@@ -209,7 +203,7 @@
                     </a>
                 </nav>
 
-                <!-- 3. Center-Right: Search Bar Pill (Placeholder: Cheese Burger...) -->
+                <!-- Search bar -->
                 <div class="relative hidden md:block w-48 sm:w-60 lg:w-72 xl:w-80">
                     <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
                         <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +226,7 @@
                         </button>
                     </form>
 
-                    <!-- Live Menu Search Suggestions Dropdown (Bisa digunakan seketika) -->
+                    <!-- Live search dropdown -->
                     <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
                         <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
                             <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
@@ -245,10 +239,8 @@
                     </div>
                 </div>
 
-                <!-- 4. Right Controls: Cart Icon Button & User Profile / Login -->
                 <div class="flex items-center gap-3 sm:gap-4 shrink-0">
-
-                    <!-- Cart Icon Button (Circular light button with shopping bag outline & red badge '2') -->
+                    <!-- Cart drawer button -->
                     <button type="button"
                             onclick="toggleCartDrawer()"
                             id="cart-btn"
@@ -261,18 +253,17 @@
                         </svg>
                         <span id="cart-badge"
                               class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
-                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 2 }}
+                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
                         </span>
                     </button>
 
                     @auth
-                        <!-- User Profile Badge (Orange Circle Tb + Toon Burger + Toonburger@gmail.com + Chevron) -->
+                        <!-- User profile dropdown -->
                         <div class="relative" id="user-dropdown-container">
                             <button type="button"
                                     onclick="toggleUserDropdown(event)"
                                     id="user-menu-button"
                                     class="flex items-center gap-2.5 cursor-pointer group focus:outline-none text-left select-none">
-                                <!-- Orange Avatar Circle with white 'Tb' -->
                                 <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0">
                                     {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
                                 </div>
@@ -289,9 +280,7 @@
                                 </svg>
                             </button>
 
-                            <!-- Profile Dropdown Menu (Interactive & Functional) -->
                             <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
-                                <!-- User Info Header -->
                                 <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
                                         {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
@@ -309,7 +298,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Menu Options -->
                                 <div class="space-y-1 text-xs font-medium text-gray-700">
                                     <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
                                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
@@ -335,7 +323,6 @@
                             </div>
                         </div>
                     @else
-                        <!-- SEBELUM LOGIN: Cuma Tulisan Login / Register (Sesuai Permintaan User) -->
                         <div class="flex items-center gap-1 text-xs sm:text-sm font-bold text-white shrink-0 select-none">
                             <a href="{{ route('login') }}" class="hover:text-yellow-300 transition px-2 py-1">
                                 Login
@@ -1077,7 +1064,7 @@
             }
         });
 
-        // ═══ HOME NAVBAR LIVE SEARCH LOGIC (Persis Foto & Berfungsi Penuh) ═══
+        // Live search handler
         let homeSearchDebounce = null;
         const homeSearchInput = document.getElementById('home-navbar-search');
         const homeSearchClear = document.getElementById('home-search-clear');

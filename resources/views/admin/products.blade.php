@@ -5,16 +5,15 @@
 @section('admin_content')
 <div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-6">
 
-    <!-- Header Section (Sesuai Mockup Foto Board 2) -->
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Kelola Data Produk</h1>
             <p class="text-xs text-gray-400 mt-1">Kelola daftar menu dan produk Toon Burger</p>
         </div>
 
-        <!-- Action Controls: Search, Category Filter, and + Tambah Produk -->
+        <!-- Action controls -->
         <div class="flex flex-wrap items-center gap-3">
-            <!-- Search Input -->
             <div class="relative w-48 sm:w-56">
                 <input type="text" id="product-table-search" onkeyup="searchProductTable()" placeholder="Cari nama menu..." class="w-full pl-8 pr-3 py-2 text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 placeholder-gray-400">
                 <svg class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,7 +21,6 @@
                 </svg>
             </div>
 
-            <!-- Category Select Filter -->
             <div class="relative">
                 <select id="category-filter-select" onchange="filterCategory(this.value)" class="text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full px-4 py-2 font-medium text-gray-700 focus:outline-none focus:border-[#385A56] cursor-pointer transition">
                     <option value="all">Semua Kategori ({{ $products->count() }})</option>
@@ -32,7 +30,6 @@
                 </select>
             </div>
 
-            <!-- + Tambah Produk Button (Dark Slate Teal Pill Sesuai Mockup) -->
             <button type="button" onclick="openAddProductModal()" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-xs transition flex items-center gap-2 select-none">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
@@ -143,7 +140,7 @@
 
 </div>
 
-<!-- ═══ MODAL TAMBAH PRODUK (PERSIS MOCKUP FOTO BOARD 3) ═══ -->
+<!-- Modal Tambah Produk -->
 <div id="add-product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-2">
@@ -154,13 +151,11 @@
         <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs">
             @csrf
 
-            <!-- Nama Menu -->
             <div>
                 <label class="block font-bold text-gray-700 mb-1.5">Nama Produk</label>
                 <input type="text" name="name" required placeholder="Nama Produk Baru" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
             </div>
 
-            <!-- Kategori & Harga Jual -->
             <div class="grid grid-cols-2 gap-3.5">
                 <div>
                     <label class="block font-bold text-gray-700 mb-1.5">Kategori</label>
@@ -177,7 +172,6 @@
                 </div>
             </div>
 
-            <!-- Stok & Foto Menu -->
             <div class="grid grid-cols-2 gap-3.5">
                 <div>
                     <label class="block font-bold text-gray-700 mb-1.5">Stok (Porsi)</label>
@@ -190,13 +184,11 @@
                 </div>
             </div>
 
-            <!-- Deskripsi Menu -->
             <div>
                 <label class="block font-bold text-gray-700 mb-1.5">Deskripsi</label>
                 <textarea name="description" rows="3" placeholder="Deskripsi menu Toon Burger..." class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 resize-none"></textarea>
             </div>
 
-            <!-- Submit Button & Batal (Sesuai Mockup Board 3) -->
             <div class="pt-2 space-y-3 text-center">
                 <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
                     Tambah Produk
@@ -209,7 +201,7 @@
     </div>
 </div>
 
-<!-- ═══ MODAL EDIT PRODUK (PERSIS MOCKUP FOTO BOARD 4) ═══ -->
+<!-- Modal Edit Produk -->
 <div id="edit-product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-2">

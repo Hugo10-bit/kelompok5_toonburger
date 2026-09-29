@@ -80,18 +80,15 @@
 </head>
 <body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
 
-    <!-- ═══ 1. MODAL KONFIRMASI LOGOUT (PERSIS MOCKUP FOTO) ═══ -->
+    <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
          class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
          style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
-        <!-- Backdrop -->
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
              onclick="closeLogoutModal()"></div>
 
-        <!-- Dialog Card -->
         <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
-            <!-- Warning Circle (Merah Lingkaran dengan Tanda Seru) -->
             <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -99,17 +96,14 @@
                 </svg>
             </div>
 
-            <!-- Title -->
             <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
                 Konfirmasi Logout
             </h3>
 
-            <!-- Description -->
             <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
-            <!-- Buttons -->
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
@@ -131,18 +125,15 @@
         @csrf
     </form>
 
-    <!-- ═══ 2. MODAL KONFIRMASI HAPUS (PERSIS MOCKUP FOTO) ═══ -->
+    <!-- Modal Konfirmasi Hapus -->
     <div id="delete-confirm-modal"
          class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
          style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
-        <!-- Backdrop -->
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
              onclick="closeDeleteModal()"></div>
 
-        <!-- Dialog Card -->
         <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
-            <!-- Trash Icon Outline (Merah Outline sesuai Foto) -->
             <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -151,17 +142,14 @@
                 </svg>
             </div>
 
-            <!-- Title -->
             <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
                 Konfirmasi Hapus
             </h3>
 
-            <!-- Description -->
             <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
                 Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
             </p>
 
-            <!-- Buttons -->
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
@@ -180,10 +168,10 @@
         </div>
     </div>
 
-    <!-- MOBILE SIDEBAR BACKDROP -->
+    <!-- Mobile sidebar backdrop -->
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
-    <!-- ═══ SIDEBAR: PERSIS SESUAI MOCKUP ═══ -->
+    <!-- Sidebar -->
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
             <!-- Logo Section with Mascot + TOON BURGER text -->
@@ -300,10 +288,10 @@
         </div>
     </aside>
 
-    <!-- ═══ MAIN CONTENT WRAPPER ═══ -->
+    <!-- Main content -->
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
-        <!-- Top Header Card: Search Bar (Pill) on Left, Language & Profile on Right (PERSIS FOTO & BISA DIGUNAKAN) -->
+        <!-- Top Header -->
         <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-4 select-none relative z-30">
 
             <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -314,7 +302,7 @@
                     </svg>
                 </button>
 
-                <!-- Search Bar Pill (Magnifying Glass on Left, Placeholder: Search for something...) -->
+                <!-- Search bar -->
                 <div class="relative w-full max-w-[560px]">
                     <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
                         <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -577,7 +565,7 @@
             }
         });
 
-        // ═══ HEADER INTERACTION LOGIC (Persis Foto & Berfungsi Penuh) ═══
+        // Header dropdowns and live search handler
 
         function closeAllHeaderDropdowns() {
             const langDropdown = document.getElementById('header-lang-dropdown');

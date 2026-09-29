@@ -5,14 +5,13 @@
 @section('admin_content')
 <div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-6">
 
-    <!-- Header Section (Sesuai Mockup Foto Board 7) -->
+    <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Kelola Kategori Produk</h1>
             <p class="text-xs text-gray-400 mt-1">Kelola kategori untuk pengelompokan menu Toon Burger</p>
         </div>
 
-        <!-- Action Controls: Search & + Tambah Kategori -->
         <div class="flex items-center gap-3">
             <div class="relative w-48 sm:w-56">
                 <input type="text" id="category-table-search" onkeyup="searchCategoryTable()" placeholder="Cari kategori..." class="w-full pl-8 pr-3 py-2 text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 placeholder-gray-400">
@@ -30,7 +29,7 @@
         </div>
     </div>
 
-    <!-- Category Table (Sesuai Mockup Foto Board 7) -->
+    <!-- Category table -->
     <div class="border border-gray-200/80 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs" id="category-table">
@@ -87,7 +86,7 @@
 
 </div>
 
-<!-- ═══ MODAL TAMBAH KATEGORI (PERSIS MOCKUP FOTO BOARD 8) ═══ -->
+<!-- Modal Tambah Kategori -->
 <div id="add-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-1">
@@ -114,7 +113,7 @@
     </div>
 </div>
 
-<!-- ═══ MODAL EDIT KATEGORI (PERSIS MOCKUP FOTO BOARD 9) ═══ -->
+<!-- Modal Edit Kategori -->
 <div id="edit-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-1">
