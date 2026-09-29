@@ -10,46 +10,33 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
-    <!-- Google Fonts: Luckiest Guy & Poppins -->
+    <!-- Google Fonts: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         toon: {
-                            granite: '#466967',
-                            'granite-dark': '#344E4C',
-                            'granite-light': '#59807E',
+                            granite: '#385A56',
+                            'granite-dark': '#2D4B47',
+                            'granite-light': '#4E7571',
                             wheat: '#F1D9B3',
                             'wheat-light': '#FDF8F0',
-                            rust: '#C1502D',
-                            'rust-dark': '#A33E20',
+                            rust: '#C93B2B',
+                            'rust-dark': '#B33224',
                             cream: '#FAF1E1',
-                            'cream-dark': '#EFE4D0',
-                            dark: '#263A38',
+                            dark: '#1F2937',
                             slate: '#4B5563',
-                        },
-                        bites: {
-                            yellow: '#466967',
-                            'yellow-dark': '#344E4C',
-                            orange: '#F1D9B3',
-                            red: '#C1502D',
-                            dark: '#263A38',
-                            bg: '#FAF1E1',
                         }
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
-                        luckiest: ['"Luckiest Guy"', 'cursive'],
-                        courier: ['"Courier New"', 'Courier', 'monospace'],
                     }
                 }
             }
@@ -59,60 +46,22 @@
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FAF1E1;
-            color: #263A38;
-            animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: #EEF0F2;
+            color: #1F2937;
         }
-        .font-brand {
-            font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.05em;
-        }
-        .font-mono-code {
-            font-family: 'Courier New', Courier, monospace;
-        }
-        body.page-exiting {
-            opacity: 0 !important;
-            transform: translateY(-4px) scale(0.995);
-        }
-        @keyframes pageEnter {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        #page-loader-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3.5px;
-            width: 100%;
-            transform-origin: left;
-            transform: scaleX(0);
-            background: linear-gradient(90deg, #466967, #F1D9B3, #C1502D);
-            z-index: 99999;
-            transition: transform 0.35s ease, opacity 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 0 10px rgba(70, 105, 103, 0.6);
-        }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #FAF1E1;
+            background: #EEF0F2;
         }
         ::-webkit-scrollbar-thumb {
-            background: #D5CBB9;
+            background: #D1D5DB;
             border-radius: 999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #466967;
+            background: #9CA3AF;
         }
         @keyframes modalPop {
             0% {
@@ -125,49 +74,94 @@
             }
         }
         .animate-modal-pop {
-            animation: modalPop 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#FAF1E1] text-[#263A38] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
-    <div id="page-loader-bar"></div>
+<body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
 
-    <!-- ═══ MODAL KONFIRMASI LOGOUT (SESUAI MOCKUP FOTO) ═══ -->
+    <!-- ═══ 1. MODAL KONFIRMASI LOGOUT (PERSIS MOCKUP FOTO) ═══ -->
     <div id="logout-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
-        <!-- Backdrop: Fixed, centered, non-shifting -->
-        <div class="fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
 
-        <!-- Modal Dialog Card: Centered on screen, never shifts -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[460px] w-full text-center z-10 select-none animate-modal-pop border border-[#EFE5D0]">
-            <!-- Warning Icon Circle (Muted Sage Green - Sesuai Foto) -->
-            <div class="w-[92px] h-[92px] rounded-full border-[4.5px] border-[#9AA887] flex items-center justify-center mx-auto mb-6 bg-white shadow-2xs">
-                <svg class="w-10 h-10 text-[#9AA887]" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 4.5c-.83 0-1.5.67-1.5 1.5v7.2c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V6c0-.83-.67-1.5-1.5-1.5zM12 17.2a1.8 1.8 0 100 3.6 1.8 1.8 0 000-3.6z"/>
+        <!-- Dialog Card -->
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
+            <!-- Warning Circle (Merah Lingkaran dengan Tanda Seru) -->
+            <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
+                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
                 </svg>
             </div>
 
             <!-- Title -->
-            <h3 class="text-2xl sm:text-[27px] font-bold text-[#2D3139] tracking-tight mb-3">
+            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
                 Konfirmasi Logout
             </h3>
 
-            <!-- Subtitle Description (Sesuai Foto) -->
-            <p class="text-[#555C68] text-sm sm:text-[14.5px] leading-relaxed max-w-sm mx-auto mb-8 font-normal">
+            <!-- Description -->
+            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
-            <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
-            <div class="flex items-center justify-center gap-3.5 sm:gap-4">
+            <!-- Buttons -->
+            <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
                     Batalkan
                 </button>
                 <button type="button"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none">
-                    ya, keluar
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                    Ya, Keluar
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ 2. MODAL KONFIRMASI HAPUS (PERSIS MOCKUP FOTO) ═══ -->
+    <div id="delete-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeDeleteModal()"></div>
+
+        <!-- Dialog Card -->
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
+            <!-- Trash Icon Outline (Merah Outline sesuai Foto) -->
+            <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
+                <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
+                Konfirmasi Hapus
+            </h3>
+
+            <!-- Description -->
+            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
+                Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex items-center justify-center gap-3">
+                <button type="button"
+                        onclick="closeDeleteModal()"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
+                    Batalkan
+                </button>
+                <form id="global-delete-form" method="POST" action="" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                        Ya, Hapus
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -175,132 +169,119 @@
     <!-- MOBILE SIDEBAR BACKDROP -->
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
-    <!-- ═══ SIDEBAR: CARD ACCORDING TO MOCKUP ═══ -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-68 lg:w-[265px] bg-white text-gray-800 rounded-3xl border border-[#E6DEC8] shadow-xs flex flex-col justify-between p-5 lg:p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
-        <div class="space-y-6">
+    <!-- ═══ SIDEBAR: PERSIS SESUAI MOCKUP ═══ -->
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
+        <div>
             <!-- Logo Section with Mascot + TOON BURGER text -->
-            <div class="pb-5 border-b border-gray-100 flex items-center justify-between md:justify-center relative">
-                <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group py-1 text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-24 sm:h-28 w-auto object-contain drop-shadow-xs transition group-hover:scale-105">
+            <div class="pt-2 pb-8 flex items-center justify-between md:justify-center relative">
+                <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105">
                 </a>
                 <!-- Mobile Close Button -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-1 top-1 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
 
-            <!-- Primary Navigation Links (Ordered exactly as mockup) -->
-            <nav class="space-y-2.5 text-sm font-medium">
+            <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
+            <nav class="space-y-3 text-sm font-medium">
 
-                <!-- 1. Dashboard -->
+                <!-- 1. Dashboards -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 20h18"/>
-                        <path d="M7 20v-5"/>
-                        <path d="M12 20v-9"/>
-                        <path d="M17 20v-13"/>
-                        <path d="M4 14l5-4 4 3 6-6"/>
-                        <circle cx="9" cy="10" r="1.3" fill="currentColor"/>
-                        <circle cx="13" cy="13" r="1.3" fill="currentColor"/>
-                        <circle cx="19" cy="7" r="1.3" fill="currentColor"/>
+                        <!-- 4 Bars with outline -->
+                        <rect x="3" y="14" width="2.5" height="7" rx="0.8" />
+                        <rect x="8" y="10" width="2.5" height="11" rx="0.8" />
+                        <rect x="13" y="12" width="2.5" height="9" rx="0.8" />
+                        <rect x="18" y="7" width="2.5" height="14" rx="0.8" />
+                        <!-- Connecting line with 4 small circles -->
+                        <path d="M4.25 11 L9.25 6.5 L14.25 9.5 L19.25 4" />
+                        <circle cx="4.25" cy="11" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="9.25" cy="6.5" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="14.25" cy="9.5" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        <circle cx="19.25" cy="4" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
                     </svg>
-                    <span>Dashboard</span>
+                    <span>Dashboards</span>
                 </a>
 
-                <!-- 2. Profil Admin -->
+                <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M5.5 20c0-3.5 2.9-6.2 6.5-6.2s6.5 2.7 6.5 6.2"/>
+                        <circle cx="12" cy="7" r="3" />
+                        <rect x="4.5" y="14" width="15" height="6.5" rx="3.25" />
                     </svg>
-                    <span>Profil Admin</span>
+                    <span>Admin Profile</span>
                 </a>
 
-                <!-- 3. proses Pesanan -->
+                <!-- 3. Order processing -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 3v4a1 1 0 001 1h4"/>
-                        <path d="M17 21H7a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"/>
-                        <path d="M9 13h6M9 17h4"/>
+                        <!-- Receipt outline with top-left folded tab and zigzag bottom -->
+                        <path d="M7 4 H18.5 A 1 1 0 0 1 19.5 5 V 20 L 16.5 18.5 L 13.5 20 L 10.5 18.5 L 7.5 20 V 7.5" />
+                        <path d="M7.5 7.5 H 4.5 C 3.9 7.5 3.5 7.1 3.5 6.5 V 4.5 C 3.5 4.2 3.8 4 4.1 4 H 7.5" />
+                        <line x1="9.5" y1="8.5" x2="16.5" y2="8.5" />
+                        <line x1="9.5" y1="12" x2="16.5" y2="12" />
+                        <line x1="9.5" y1="15.5" x2="13.5" y2="15.5" />
                     </svg>
-                    <span>proses Pesanan</span>
+                    <span>Order processing</span>
                 </a>
 
-                <!-- 4. Data Produk -->
+                <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 11a8 8 0 0 1 16 0H4z"/>
-                        <path d="M3 14h18"/>
-                        <path d="M5 18a7 7 0 0 0 14 0H5z"/>
-                        <path d="M8 8h.01M12 7h.01M16 8h.01"/>
+                        <!-- Burger (left) -->
+                        <path d="M 3.5 10 C 3.5 6.8 6 5 10 5 C 13.5 5 15.8 6.5 16.2 9.5 H 3.5 Z" />
+                        <line x1="3.5" y1="13" x2="16.5" y2="13" />
+                        <line x1="3.5" y1="17" x2="16.5" y2="17" />
+                        <!-- Drink with straw (right) -->
+                        <line x1="18.5" y1="2.5" x2="18.5" y2="6.5" />
+                        <line x1="16" y1="6.5" x2="21" y2="6.5" />
+                        <path d="M 20.5 6.5 L 19.5 17.5 C 19.4 18.6 18.5 19.5 17.4 19.5 H 16" />
                     </svg>
-                    <span>Data Produk</span>
+                    <span>Product Data</span>
                 </a>
 
-                <!-- 5. Kategori Produk -->
+                <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                        <!-- Front price tag -->
+                        <path d="M 8.5 3.5 H 15.5 A 1 1 0 0 1 16.2 3.8 L 21.2 8.8 A 1 1 0 0 1 21.2 10.2 L 14.2 17.2 A 1 1 0 0 1 12.8 17.2 L 7.8 12.2 A 1 1 0 0 1 7.5 11.5 V 4.5 A 1 1 0 0 1 8.5 3.5 Z" />
+                        <circle cx="12" cy="7.5" r="1.3" fill="currentColor" />
+                        <!-- Back tag outline -->
+                        <path d="M 5 8.5 L 3.2 10.3 A 1 1 0 0 0 3.2 11.7 L 10.2 18.7 A 1 1 0 0 0 11.6 18.7 L 13.5 16.8" />
                     </svg>
-                    <span>Kategori Produk</span>
+                    <span>Product Categories</span>
                 </a>
             </nav>
         </div>
 
-        <!-- Secondary Bottom Section with Divider line -->
-        <div class="pt-5 border-t border-gray-100 mt-6 space-y-2 text-sm font-medium">
-            <!-- Pengaturan -->
-            <a href="{{ route('admin.coupons') }}"
-               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ (request()->routeIs('admin.coupons*') || request()->routeIs('admin.tables*') || request()->routeIs('admin.settings*')) ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
-                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                </svg>
-                <span>Pengaturan</span>
-            </a>
-
-            <!-- Public Navigation Links -->
+        <!-- Secondary Bottom Section (Mockup: Home page and Logout) -->
+        <div class="pt-8 space-y-2 text-sm font-medium">
+            <!-- Home page -->
             <a href="{{ route('home') }}"
-               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('home') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
+               class="flex items-center gap-4 px-5 py-3.5 transition rounded-full text-[#374151] hover:bg-gray-100/80 hover:text-gray-900">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 01-1.5 1.5h-5a1 1 0 01-1-1v-5h-4v5a1 1 0 01-1 1h-5A1.5 1.5 0 013 20V10.5z"/>
+                    <path d="M3 10.5 L10.8 3.5 C11.5 2.8 12.5 2.8 13.2 3.5 L21 10.5 V19 C21 20.1 20.1 21 19 21 H5 C3.9 21 3 20.1 3 19 Z" />
+                    <path d="M9 21 V15.5 C9 14.7 9.7 14 10.5 14 H13.5 C14.3 14 15 14.7 15 15.5 V21" />
                 </svg>
-                <span>Home</span>
-            </a>
-
-            <a href="{{ route('about') }}"
-               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('about') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
-                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="16" x2="12" y2="12"/>
-                    <line x1="12" y1="8" x2="12.01" y2="8"/>
-                </svg>
-                <span>About Us</span>
-            </a>
-
-            <a href="{{ route('contact') }}"
-               class="flex items-center gap-3.5 px-4.5 py-3 transition rounded-full {{ request()->routeIs('contact') ? 'bg-[#3D5A58] text-white font-medium shadow-xs' : 'text-gray-700 hover:bg-gray-100/80 hover:text-gray-900' }}">
-                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-                <span>Contact</span>
+                <span>Home page</span>
             </a>
 
             <!-- Logout -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event)" class="w-full pt-0.5">
+            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event)" class="w-full">
                 @csrf
-                <button type="submit" class="w-full flex items-center gap-3.5 px-4.5 py-3 text-[#C1502D] hover:bg-red-50/80 rounded-full transition font-medium group">
-                    <svg class="w-5 h-5 flex-shrink-0 text-[#C1502D] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
+                <button type="submit" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group">
+                    <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
+                        <path d="M8 12 H19" />
+                        <path d="M15 8 L19 12 L15 16" />
                     </svg>
                     <span>Logout</span>
                 </button>
@@ -308,64 +289,179 @@
         </div>
     </aside>
 
-    <!-- ═══ MAIN WRAPPER ═══ -->
+    <!-- ═══ MAIN CONTENT WRAPPER ═══ -->
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
-        <!-- Top Navbar: Rounded Card with Nav Links (Home, About Us, Contact), Search Bar & Profile -->
-        <header class="bg-white rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3 sm:gap-4">
+        <!-- Top Header Card: Search Bar (Pill) on Left, Language & Profile on Right (PERSIS FOTO & BISA DIGUNAKAN) -->
+        <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-4 select-none relative z-30">
 
-            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                <!-- Left on Mobile: Hamburger -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-toon-granite hover:bg-toon-cream rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
+            <div class="flex items-center gap-3 flex-1 min-w-0">
+                <!-- Hamburger on Mobile -->
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
 
-                <!-- Navigation Links: Home, About Us, Contact -->
-                <nav class="flex items-center gap-1 sm:gap-1.5">
-                    <a href="{{ route('home') }}"
-                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('home') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
-                        Home
-                    </a>
-                    <a href="{{ route('about') }}"
-                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('about') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
-                        About Us
-                    </a>
-                    <a href="{{ route('contact') }}"
-                       class="px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-gray-700 hover:text-gray-900 hover:bg-[#FAF1E1] transition {{ request()->routeIs('contact') ? 'bg-[#FAF1E1] text-[#3D5A58]' : '' }}">
-                        Contact
-                    </a>
-                </nav>
+                <!-- Search Bar Pill (Magnifying Glass on Left, Placeholder: Search for something...) -->
+                <div class="relative w-full max-w-[560px]">
+                    <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
+                        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text"
+                               name="q"
+                               id="global-header-search"
+                               placeholder="Search for something..."
+                               autocomplete="off"
+                               class="bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                        <button type="button"
+                                id="header-search-clear"
+                                onclick="clearHeaderSearch()"
+                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                aria-label="Bersihkan pencarian">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- Live Search Results Dropdown (Bisa digunakan secara instan) -->
+                    <div id="header-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-3 z-50 hidden max-h-96 overflow-y-auto animate-modal-pop">
+                        <div id="header-search-loading" class="hidden text-center py-4 text-xs text-gray-400">
+                            <svg class="w-5 h-5 animate-spin mx-auto text-[#415C58] mb-1" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Mencari data...
+                        </div>
+                        <div id="header-search-content"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Search Bar: Pill Input with Dark Green Circle Search Button -->
-            <div class="flex-1 max-w-xs md:max-w-sm hidden sm:block">
-                <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F3F4F6] hover:bg-gray-100/90 border border-gray-200/60 rounded-full pl-5 pr-1.5 py-1.5 flex items-center justify-between transition focus-within:ring-2 focus-within:ring-toon-granite/20 focus-within:bg-white focus-within:border-toon-granite">
-                    <input type="text" name="q" id="global-admin-search" placeholder="Cari sesuatu..." class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full pr-3 font-medium">
-                    <button type="submit" class="w-8 h-8 rounded-full bg-toon-granite hover:bg-toon-granite-dark text-white flex items-center justify-center shrink-0 shadow-2xs transition active:scale-95" title="Cari">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            <!-- Right Controls: Language Selector & Admin Profile (Sesuai Mockup Foto) -->
+            <div class="flex items-center gap-4 sm:gap-6 shrink-0">
+                <!-- Language Selector Pill (English with US Flag - Interactive Dropdown) -->
+                <div class="relative select-none hidden sm:block">
+                    <button type="button"
+                            id="header-lang-btn"
+                            onclick="toggleLanguageDropdown(event)"
+                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
+                        <!-- Circular US Flag Badge -->
+                        <span id="header-lang-flag" class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
+                            <svg class="w-full h-full" viewBox="0 0 64 64">
+                                <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
+                                <g clip-path="url(#circle-flag-header)">
+                                    <path fill="#B22234" d="M0 0h64v64H0z"/>
+                                    <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                                    <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                                    <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                                    <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                                    <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                                    <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span id="header-lang-label" class="text-sm font-medium text-gray-700">English</span>
+                        <svg id="header-lang-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                </form>
-            </div>
 
-            <!-- Right Profile: Orange Avatar Circle 'Tb' + Name + Email (No Notification Bell) -->
-            <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 shrink-0 group select-none">
-                <div class="w-10 h-10 rounded-full bg-[#F59E0B] text-white flex items-center justify-center font-bold text-sm shadow-xs shrink-0 group-hover:scale-105 transition">
-                    Tb
+                    <!-- Language Dropdown Menu -->
+                    <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
+                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
+                            <span class="flex items-center gap-2.5">
+                                <span class="text-base">🇺🇸</span>
+                                <span>English</span>
+                            </span>
+                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        </button>
+                        <button type="button" onclick="selectLanguage('Bahasa Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
+                            <span class="flex items-center gap-2.5">
+                                <span class="text-base">🇮🇩</span>
+                                <span>Bahasa Indonesia</span>
+                            </span>
+                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        </button>
+                    </div>
                 </div>
-                <div class="text-left leading-tight hidden sm:block">
-                    <div class="font-extrabold text-xs text-gray-900 leading-tight">Toon Burger</div>
-                    <div class="text-[11px] text-gray-400 mt-0.5">Toonburger@gmail.com</div>
+
+                <!-- Profile Badge: Orange Circle Tb + Name + Email + Chevron (Interactive Dropdown) -->
+                <div class="relative select-none">
+                    <button type="button"
+                            id="header-profile-btn"
+                            onclick="toggleProfileDropdown(event)"
+                            class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">
+                            Tb
+                        </div>
+                        <div class="text-left leading-tight hidden sm:block">
+                            <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
+                            <div class="text-xs text-gray-400 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
+                        </div>
+                        <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Profile Dropdown Menu -->
+                    <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-3 z-50 hidden animate-modal-pop">
+                        <div class="px-3 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                Tb
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-xs text-gray-900 truncate">Toon Burger</div>
+                                <div class="text-[11px] text-gray-400 truncate">Toonburger@gmail.com</div>
+                                <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]">Administrator</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1 text-xs font-medium text-gray-700">
+                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <span>Profil Admin</span>
+                            </a>
+                            <a href="{{ route('admin.products') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                                <span>Data Produk</span>
+                            </a>
+                            <a href="{{ route('admin.orders') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                <span>Proses Pesanan</span>
+                            </a>
+                            <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                <span>Kasir POS</span>
+                            </a>
+                            <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                <span>Lihat Toko Pelanggan</span>
+                            </a>
+                        </div>
+
+                        <div class="border-t border-gray-100 mt-2 pt-2">
+                            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
+                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </a>
+            </div>
         </header>
 
         <!-- Flash alerts -->
         @if(session('success'))
-            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
                 <span class="flex items-center gap-2">
                     <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -377,14 +473,14 @@
         @endif
 
         @if(session('error'))
-            <div class="p-4 bg-red-50 border border-red-200 text-toon-rust text-xs font-bold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-toon-rust shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button onclick="this.parentElement.remove()" class="text-toon-rust text-base font-bold">&times;</button>
+                <button onclick="this.parentElement.remove()" class="text-[#DE3B28] text-base font-bold">&times;</button>
             </div>
         @endif
 
@@ -446,51 +542,369 @@
             }
         }
 
+        // Global Delete Modal Handler
+        function openDeleteModal(actionUrl, itemName = 'data ini') {
+            const modal = document.getElementById('delete-confirm-modal');
+            const form = document.getElementById('global-delete-form');
+            const message = document.getElementById('delete-modal-message');
+            if (modal && form) {
+                form.action = actionUrl;
+                if (message) {
+                    message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Tindakan ini tidak dapat dibatalkan.`;
+                }
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('delete-confirm-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLogoutModal();
+                closeDeleteModal();
+                closeAllHeaderDropdowns();
             }
         });
 
-        // Smooth Page Transition Handler
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.transform = 'scaleX(1)';
-                setTimeout(() => { loader.style.opacity = '0'; }, 200);
+        // ═══ HEADER INTERACTION LOGIC (Persis Foto & Berfungsi Penuh) ═══
+
+        function closeAllHeaderDropdowns() {
+            const langDropdown = document.getElementById('header-lang-dropdown');
+            const langChevron = document.getElementById('header-lang-chevron');
+            if (langDropdown) langDropdown.classList.add('hidden');
+            if (langChevron) langChevron.style.transform = 'rotate(0deg)';
+
+            const profileDropdown = document.getElementById('header-profile-dropdown');
+            const profileChevron = document.getElementById('header-profile-chevron');
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+
+            const searchResults = document.getElementById('header-search-results');
+            if (searchResults) searchResults.classList.add('hidden');
+        }
+
+        // 1. Language Dropdown
+        function toggleLanguageDropdown(e) {
+            if (e) e.stopPropagation();
+            const dropdown = document.getElementById('header-lang-dropdown');
+            const chevron = document.getElementById('header-lang-chevron');
+            const profileDropdown = document.getElementById('header-profile-dropdown');
+            const profileChevron = document.getElementById('header-profile-chevron');
+            const searchResults = document.getElementById('header-search-results');
+
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+            if (searchResults) searchResults.classList.add('hidden');
+
+            if (dropdown) {
+                const isHidden = dropdown.classList.toggle('hidden');
+                if (chevron) {
+                    chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            }
+        }
+
+        function selectLanguage(lang, code) {
+            const label = document.getElementById('header-lang-label');
+            if (label) label.textContent = lang;
+
+            const checkEn = document.getElementById('lang-check-en');
+            const checkId = document.getElementById('lang-check-id');
+            if (checkEn && checkId) {
+                if (code === 'US') {
+                    checkEn.classList.remove('hidden');
+                    checkId.classList.add('hidden');
+                } else {
+                    checkEn.classList.add('hidden');
+                    checkId.classList.remove('hidden');
+                }
             }
 
-            document.addEventListener('click', (e) => {
-                const link = e.target.closest('a');
-                if (!link) return;
+            const flagContainer = document.getElementById('header-lang-flag');
+            if (flagContainer) {
+                if (code === 'US') {
+                    flagContainer.innerHTML = `
+                        <svg class="w-full h-full" viewBox="0 0 64 64">
+                            <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
+                            <g clip-path="url(#circle-flag-header)">
+                                <path fill="#B22234" d="M0 0h64v64H0z"/>
+                                <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                                <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                                <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                                <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                                <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                                <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                                <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                                <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                                <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                                <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                                <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                                <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                            </g>
+                        </svg>`;
+                } else {
+                    flagContainer.innerHTML = `
+                        <svg class="w-full h-full" viewBox="0 0 64 64">
+                            <clipPath id="circle-flag-id"><circle cx="32" cy="32" r="32"/></clipPath>
+                            <g clip-path="url(#circle-flag-id)">
+                                <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                            </g>
+                        </svg>`;
+                }
+            }
 
-                const href = link.getAttribute('href');
-                const target = link.getAttribute('target');
+            try {
+                localStorage.setItem('tb_admin_lang', code);
+            } catch (err) {}
 
-                if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:') || target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+            const dropdown = document.getElementById('header-lang-dropdown');
+            const chevron = document.getElementById('header-lang-chevron');
+            if (dropdown) dropdown.classList.add('hidden');
+            if (chevron) chevron.style.transform = 'rotate(0deg)';
+        }
+
+        // 2. Profile Dropdown
+        function toggleProfileDropdown(e) {
+            if (e) e.stopPropagation();
+            const dropdown = document.getElementById('header-profile-dropdown');
+            const chevron = document.getElementById('header-profile-chevron');
+            const langDropdown = document.getElementById('header-lang-dropdown');
+            const langChevron = document.getElementById('header-lang-chevron');
+            const searchResults = document.getElementById('header-search-results');
+
+            if (langDropdown) langDropdown.classList.add('hidden');
+            if (langChevron) langChevron.style.transform = 'rotate(0deg)';
+            if (searchResults) searchResults.classList.add('hidden');
+
+            if (dropdown) {
+                const isHidden = dropdown.classList.toggle('hidden');
+                if (chevron) {
+                    chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            }
+        }
+
+        // 3. Search Bar Live Logic
+        let searchDebounceTimer = null;
+        const searchInput = document.getElementById('global-header-search');
+        const searchClearBtn = document.getElementById('header-search-clear');
+        const searchResults = document.getElementById('header-search-results');
+        const searchLoading = document.getElementById('header-search-loading');
+        const searchContent = document.getElementById('header-search-content');
+
+        function clearHeaderSearch() {
+            if (searchInput) {
+                searchInput.value = '';
+                searchInput.focus();
+            }
+            if (searchClearBtn) searchClearBtn.classList.add('hidden');
+            if (searchResults) searchResults.classList.add('hidden');
+            if (searchContent) searchContent.innerHTML = '';
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                clearTimeout(searchDebounceTimer);
+
+                if (query.length > 0) {
+                    if (searchClearBtn) searchClearBtn.classList.remove('hidden');
+                } else {
+                    if (searchClearBtn) searchClearBtn.classList.add('hidden');
+                }
+
+                if (query.length < 1) {
+                    if (searchResults) searchResults.classList.add('hidden');
+                    if (searchContent) searchContent.innerHTML = '';
                     return;
                 }
 
-                if (link.hostname === window.location.hostname) {
-                    if (loader) {
-                        loader.style.opacity = '1';
-                        loader.style.transform = 'scaleX(0.7)';
-                    }
-                    document.body.classList.add('page-exiting');
+                if (searchResults) searchResults.classList.remove('hidden');
+                if (searchLoading) searchLoading.classList.remove('hidden');
+                if (searchContent) searchContent.innerHTML = '';
+
+                searchDebounceTimer = setTimeout(() => {
+                    fetch(`{{ route('admin.search.live') }}?q=${encodeURIComponent(query)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error('Network error');
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (searchLoading) searchLoading.classList.add('hidden');
+                        renderHeaderSearchResults(data, query);
+                    })
+                    .catch(err => {
+                        if (searchLoading) searchLoading.classList.add('hidden');
+                        if (searchContent) {
+                            searchContent.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">Gagal memuat hasil pencarian.</div>`;
+                        }
+                    });
+                }, 200);
+            });
+
+            searchInput.addEventListener('focus', function() {
+                if (this.value.trim().length > 0 && searchResults) {
+                    searchResults.classList.remove('hidden');
                 }
             });
-        });
+        }
 
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                document.body.classList.remove('page-exiting');
-                const loader = document.getElementById('page-loader-bar');
-                if (loader) {
-                    loader.style.transform = 'scaleX(1)';
-                    setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
-                }
+        function escapeHeaderHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function renderHeaderSearchResults(data, query) {
+            if (!searchContent) return;
+
+            const hasProducts = data.products && data.products.length > 0;
+            const hasOrders = data.orders && data.orders.length > 0;
+            const hasCategories = data.categories && data.categories.length > 0;
+
+            if (!hasProducts && !hasOrders && !hasCategories) {
+                searchContent.innerHTML = `
+                    <div class="text-center py-6 text-gray-400">
+                        <svg class="w-7 h-7 mx-auto text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="text-xs font-medium text-gray-500">Tidak ada hasil untuk "<span class="font-bold text-gray-800">${escapeHeaderHtml(query)}</span>"</p>
+                        <p class="text-[11px] text-gray-400 mt-1">Coba kata kunci lain atau periksa ejaan.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="space-y-3.5">';
+
+            // 1. Products
+            if (hasProducts) {
+                html += `
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
+                            <span>Produk (${data.products.length})</span>
+                            <a href="{{ route('admin.products') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">Semua Produk &rarr;</a>
+                        </div>
+                        <div class="space-y-1 mt-1.5">
+                `;
+                data.products.forEach(p => {
+                    html += `
+                        <a href="${p.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-8 h-8 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-xs shrink-0 font-bold text-[#FFA000]">
+                                    🍔
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(p.name)}</div>
+                                    <div class="text-[11px] text-gray-500 font-medium">${p.price_formatted}</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${p.is_available ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
+                                ${p.is_available ? 'Tersedia' : 'Habis'}
+                            </span>
+                        </a>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            // 2. Orders
+            if (hasOrders) {
+                html += `
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
+                            <span>Pesanan (${data.orders.length})</span>
+                            <a href="{{ route('admin.orders') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">Semua Pesanan &rarr;</a>
+                        </div>
+                        <div class="space-y-1 mt-1.5">
+                `;
+                data.orders.forEach(o => {
+                    html += `
+                        <a href="${o.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-xs shrink-0 font-bold text-blue-600">
+                                    🧾
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(o.order_number)} <span class="text-gray-400 font-normal">(${escapeHeaderHtml(o.customer_name)})</span></div>
+                                    <div class="text-[11px] text-gray-500 font-medium">${o.total_formatted}</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 capitalize">
+                                ${escapeHeaderHtml(o.status)}
+                            </span>
+                        </a>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            // 3. Categories
+            if (hasCategories) {
+                html += `
+                    <div>
+                        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">Kategori</div>
+                        <div class="flex flex-wrap gap-1.5 mt-2 px-2">
+                `;
+                data.categories.forEach(c => {
+                    html += `
+                        <a href="${c.url}" class="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 hover:bg-[#415C58] hover:text-white text-gray-700 rounded-lg text-xs font-medium transition">
+                            <span>🏷️</span>
+                            <span>${escapeHeaderHtml(c.name)}</span>
+                        </a>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+
+            html += '</div>';
+            searchContent.innerHTML = html;
+        }
+
+        // Global Outside Click
+        document.addEventListener('click', function(e) {
+            const langDropdown = document.getElementById('header-lang-dropdown');
+            const langBtn = document.getElementById('header-lang-btn');
+            const langChevron = document.getElementById('header-lang-chevron');
+            if (langDropdown && !langDropdown.contains(e.target) && (!langBtn || !langBtn.contains(e.target))) {
+                langDropdown.classList.add('hidden');
+                if (langChevron) langChevron.style.transform = 'rotate(0deg)';
+            }
+
+            const profileDropdown = document.getElementById('header-profile-dropdown');
+            const profileBtn = document.getElementById('header-profile-btn');
+            const profileChevron = document.getElementById('header-profile-chevron');
+            if (profileDropdown && !profileDropdown.contains(e.target) && (!profileBtn || !profileBtn.contains(e.target))) {
+                profileDropdown.classList.add('hidden');
+                if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+            }
+
+            const searchInput = document.getElementById('global-header-search');
+            const searchResults = document.getElementById('header-search-results');
+            if (searchResults && searchInput && !searchResults.contains(e.target) && !searchInput.contains(e.target)) {
+                searchResults.classList.add('hidden');
             }
         });
+
+        // Restore language preference
+        try {
+            const savedLang = localStorage.getItem('tb_admin_lang');
+            if (savedLang === 'ID') {
+                selectLanguage('Bahasa Indonesia', 'ID');
+            }
+        } catch (e) {}
     </script>
 </body>
 </html>

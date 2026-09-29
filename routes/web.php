@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 // Front-End Pages (Home, Menu Catalog, About Us, Contact)
 Route::get('/', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');
 Route::get('/about', [MenuController::class, 'about'])->name('about');
 Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
 Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
@@ -90,6 +91,7 @@ Route::middleware('auth')->group(function () {
         // Admin Panel
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+            Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
 
             // Kitchen & Order Management
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');

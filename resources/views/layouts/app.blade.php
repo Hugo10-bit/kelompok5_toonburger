@@ -162,181 +162,251 @@
         </div>
     </div>
 
-    <!-- TOP NAVBAR — Floating Pill Dark Teal -->
-    <header class="sticky top-0 z-40 px-4 sm:px-6 lg:px-8 pt-3 pb-2">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-center justify-between px-4 sm:px-6 py-2.5 rounded-full shadow-xl"
+    <!-- TOP NAVBAR — Floating Pill Dark Teal (PERSIS FOTO & BISA DIGUNAKAN) -->
+    <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
+        <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto">
+            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full shadow-lg border border-white/20 backdrop-blur-md transition relative"
                  style="background-color: #3b6e64;">
 
-                <!-- Logo -->
-                <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
+                <!-- 1. Logo & Brand Name (Mascot with Hat + TOON BURGER uppercase white) -->
+                <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
                     <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo"
-                         class="h-9 sm:h-10 w-auto object-contain transition group-hover:scale-105">
-                    <span class="hidden sm:block font-black text-white text-sm uppercase tracking-wide"
-                          style="font-family: 'Nunito', 'Arial Black', sans-serif; letter-spacing: 0.05em;">
-                        Toon Burger
+                         class="h-8 sm:h-9 w-auto object-contain transition group-hover:scale-105">
+                    <span class="font-black text-white text-base sm:text-lg uppercase tracking-wide shrink-0"
+                          style="font-family: 'Nunito', 'Arial Black', sans-serif; letter-spacing: 0.04em;">
+                        TOON BURGER
                     </span>
                 </a>
 
-                <!-- Nav Links: Desktop -->
-                <nav class="hidden md:flex items-center gap-1 text-sm font-semibold">
+                <!-- 2. Nav Links (Beranda, Menu, Tentang, Kontak - Persis Mockup Foto) -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
                     <a href="{{ route('home') }}"
-                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
-                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Beranda
                     </a>
                     <a href="{{ route('menu') }}"
-                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
-                              {{ request()->routeIs('menu') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Menu Produk
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Menu
                     </a>
                     <a href="{{ route('about') }}"
-                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
-                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        About Us
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Tentang
                     </a>
                     <a href="{{ route('contact') }}"
-                       class="px-4 py-1.5 rounded-full transition text-sm font-semibold
-                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Contact
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Kontak
                     </a>
                 </nav>
 
-                <!-- Right: Cart + User / Login + Hamburger -->
-                <div class="flex items-center gap-2">
-
-                    <!-- Cart Button -->
-                    <button onclick="toggleCartDrawer()" id="cart-btn"
-                            class="relative flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white px-3.5 py-2 rounded-full transition active:scale-95 text-xs font-bold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                <!-- 3. Center-Right: Search Bar Pill (Placeholder: Cheese Burger...) -->
+                <div class="relative hidden md:block w-48 sm:w-60 lg:w-72 xl:w-80">
+                    <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
-                        <span class="hidden sm:inline">Keranjang</span>
-                        <span id="cart-badge" class="bg-yellow-400 text-gray-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded-full shadow-xs">
-                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+                        <input type="text"
+                               name="q"
+                               id="home-navbar-search"
+                               placeholder="Cheese Burger..."
+                               autocomplete="off"
+                               class="bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                        <button type="button"
+                                id="home-search-clear"
+                                onclick="clearHomeNavbarSearch()"
+                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                aria-label="Bersihkan pencarian">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- Live Menu Search Suggestions Dropdown (Bisa digunakan seketika) -->
+                    <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
+                        <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
+                            <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Mencari menu...
+                        </div>
+                        <div id="home-search-content"></div>
+                    </div>
+                </div>
+
+                <!-- 4. Right Controls: Cart Icon Button & User Profile / Login -->
+                <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+
+                    <!-- Cart Icon Button (Circular light button with shopping bag outline & red badge '2') -->
+                    <button type="button"
+                            onclick="toggleCartDrawer()"
+                            id="cart-btn"
+                            class="relative w-10 h-10 rounded-full bg-[#E2E8F0]/90 hover:bg-white flex items-center justify-center text-gray-800 shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
+                            aria-label="Keranjang Belanja">
+                        <svg class="w-5 h-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span id="cart-badge"
+                              class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
+                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 2 }}
                         </span>
                     </button>
 
-                    <!-- User / Auth -->
                     @auth
+                        <!-- User Profile Badge (Orange Circle Tb + Toon Burger + Toonburger@gmail.com + Chevron) -->
                         <div class="relative" id="user-dropdown-container">
-                            <button onclick="toggleUserDropdown(event)" id="user-menu-button" type="button"
-                                    class="flex items-center gap-2 bg-white/10 hover:bg-white/20 pl-1 pr-3 py-1 rounded-full text-white transition active:scale-95 focus:outline-none">
-                                <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center font-black text-xs uppercase shadow-sm">
-                                    {{ substr(Auth::user()->name ?: Auth::user()->username, 0, 2) }}
+                            <button type="button"
+                                    onclick="toggleUserDropdown(event)"
+                                    id="user-menu-button"
+                                    class="flex items-center gap-2.5 cursor-pointer group focus:outline-none text-left select-none">
+                                <!-- Orange Avatar Circle with white 'Tb' -->
+                                <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0">
+                                    {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
                                 </div>
-                                <div class="hidden sm:block text-left">
-                                    <div class="text-xs font-bold leading-tight text-white">{{ Auth::user()->name }}</div>
-                                    <div class="text-[10px] text-white/65 leading-tight truncate max-w-[110px]">{{ Auth::user()->email }}</div>
+                                <div class="text-left leading-tight hidden xl:block">
+                                    <div class="font-bold text-sm text-white leading-tight">
+                                        {{ Auth::user()->name }}
+                                    </div>
+                                    <div class="text-xs text-white/70 font-normal leading-tight mt-0.5 truncate max-w-[140px]">
+                                        {{ Auth::user()->email }}
+                                    </div>
                                 </div>
-                                <svg class="w-3.5 h-3.5 text-white/60 transition-transform duration-200" id="user-menu-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg id="user-menu-arrow" class="w-4 h-4 text-white/80 stroke-[2] transition-transform duration-200 hidden sm:block shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
 
-                            <!-- Dropdown Menu -->
-                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 transition-all transform origin-top-right">
-                                <div class="px-4 py-2.5 border-b border-gray-100 text-xs">
-                                    <div class="font-bold text-gray-900 truncate text-sm">{{ Auth::user()->name }}</div>
-                                    <div class="text-gray-500 truncate text-[11px]">{{ Auth::user()->email }}</div>
-                                    <span class="inline-block mt-1.5 px-2 py-0.5 bg-yellow-100 text-yellow-800 text-[10px] font-extrabold rounded-md uppercase">Role: {{ Auth::user()->role }}</span>
+                            <!-- Profile Dropdown Menu (Interactive & Functional) -->
+                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
+                                <!-- User Info Header -->
+                                <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div class="font-bold text-xs text-gray-900 truncate">
+                                            {{ Auth::user()->name }}
+                                        </div>
+                                        <div class="text-[11px] text-gray-400 truncate">
+                                            {{ Auth::user()->email }}
+                                        </div>
+                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
+                                            {{ Auth::user()->role }}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="py-1">
-                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-gray-700 hover:bg-gray-50 hover:text-bites-red transition">
-                                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                                        </svg>
-                                        Pesanan Saya
+
+                                <!-- Menu Options -->
+                                <div class="space-y-1 text-xs font-medium text-gray-700">
+                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                        <span>Pesanan Saya</span>
                                     </a>
-                                    @if(Auth::user()->isStaff())
-                                        <a href="{{ route('admin.pos') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-amber-700 hover:bg-amber-50 font-semibold transition">
-                                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                                            </svg>
-                                            POS Kasir
+                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-semibold">
+                                            <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                            <span>Dashboard Admin</span>
                                         </a>
-                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-4 py-2.5 text-xs text-purple-700 hover:bg-purple-50 font-semibold transition">
-                                            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                                            </svg>
-                                            Dashboard Admin
+                                        <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-amber-600 font-semibold">
+                                            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                            <span>Kasir POS</span>
                                         </a>
                                     @endif
-                                </div>
-                                <div class="border-t border-gray-100 pt-1">
-                                    <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event)">
-                                        @csrf
-                                        <button type="submit" class="w-full text-left px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold flex items-center gap-2 transition">
-                                            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                            </svg>
-                                            Logout
+                                    <div class="border-t border-gray-100 mt-2 pt-2">
+                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
+                                            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                            <span>Logout</span>
                                         </button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}"
-                           class="bg-white text-gray-900 hover:bg-white/90 text-xs font-bold px-4 py-2 rounded-full transition active:scale-95">
-                            Login / Masuk
-                        </a>
+                        <!-- SEBELUM LOGIN: Cuma Tulisan Login / Register (Sesuai Permintaan User) -->
+                        <div class="flex items-center gap-1 text-xs sm:text-sm font-bold text-white shrink-0 select-none">
+                            <a href="{{ route('login') }}" class="hover:text-yellow-300 transition px-2 py-1">
+                                Login
+                            </a>
+                            <span class="text-white/50">/</span>
+                            <a href="{{ route('register') }}" class="hover:text-yellow-300 transition px-2 py-1">
+                                Register
+                            </a>
+                        </div>
                     @endauth
 
-                    <!-- Mobile Hamburger -->
-                    <button type="button" onclick="toggleMobileNav()"
-                            class="md:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition"
+                    <!-- Mobile Hamburger Menu Button -->
+                    <button type="button"
+                            onclick="toggleMobileNav()"
+                            class="lg:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition focus:outline-none"
                             aria-label="Toggle Menu">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
-
                 </div>
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-nav-menu" class="hidden md:hidden mt-2 rounded-2xl overflow-hidden shadow-xl"
+            <div id="mobile-nav-menu" class="hidden lg:hidden mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-white/20"
                  style="background-color: #3b6e64;">
-                <div class="p-3 space-y-1">
+                <div class="space-y-1 text-sm font-semibold">
+                    <!-- Mobile Search -->
+                    <div class="mb-2 pt-1">
+                        <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] rounded-full px-4 py-2 flex items-center gap-2.5 shadow-2xs">
+                            <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                            <input type="text"
+                                   name="q"
+                                   placeholder="Cheese Burger..."
+                                   class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                        </form>
+                    </div>
+
                     <a href="{{ route('home') }}" onclick="toggleMobileNav()"
-                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
-                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
+                       class="block px-4 py-2 rounded-xl transition
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Beranda
                     </a>
                     <a href="{{ route('menu') }}" onclick="toggleMobileNav()"
-                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
-                              {{ request()->routeIs('menu') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Menu Produk
+                       class="block px-4 py-2 rounded-xl transition
+                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Menu
                     </a>
                     <a href="{{ route('about') }}" onclick="toggleMobileNav()"
-                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
-                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        About Us
+                       class="block px-4 py-2 rounded-xl transition
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Tentang
                     </a>
                     <a href="{{ route('contact') }}" onclick="toggleMobileNav()"
-                       class="block px-4 py-2.5 rounded-xl text-sm font-semibold transition
-                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/75 hover:text-white hover:bg-white/10' }}">
-                        Contact
+                       class="block px-4 py-2 rounded-xl transition
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Kontak
                     </a>
                     @auth
                         <a href="{{ route('orders.index') }}"
-                           class="block px-4 py-2.5 rounded-xl text-sm font-semibold text-white/75 hover:text-white hover:bg-white/10 transition">
+                           class="block px-4 py-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition">
                             Pesanan Saya
                         </a>
                     @endauth
                     <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                       class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-1">
+                       class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-2">
                         <span class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                             <span>Pesan via GoFood</span>
                         </span>
                         <span class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">4.9 ★ &rarr;</span>
                     </a>
-                </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 
 
@@ -371,64 +441,8 @@
         @yield('content')
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#263A38] text-white border-t border-white/10 mt-20 pt-14 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <!-- Brand Info -->
-                <div class="space-y-3.5">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-12 w-auto object-contain">
-                    <p class="text-xs text-gray-300 leading-relaxed">
-                        Citarasa burger klasik otentik dengan 100% daging sapi lokal, brioche bun mentega panggang segar, dan saus lezat karakter Toon Burger.
-                    </p>
-                </div>
-
-                <!-- Navigation Quick Links -->
-                <div>
-                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Navigasi Halaman</h4>
-                    <ul class="text-xs text-gray-300 space-y-2 font-medium">
-                        <li><a href="{{ route('home') }}" class="hover:text-amber-300 transition">&bull; Home</a></li>
-                        <li><a href="{{ route('menu') }}" class="hover:text-amber-300 transition">&bull; Menu Produk</a></li>
-                        <li><a href="{{ route('about') }}" class="hover:text-amber-300 transition">&bull; About Us</a></li>
-                        <li><a href="{{ route('contact') }}" class="hover:text-amber-300 transition">&bull; Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Jam Operasional -->
-                <div>
-                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Jam Operasional</h4>
-                    <ul class="text-xs text-gray-300 space-y-1.5">
-                        <li class="flex justify-between items-center"><strong class="text-gray-200">Senin:</strong> <span class="text-rose-400 font-bold bg-rose-950/60 px-1.5 py-0.5 rounded text-[11px]">Libur / Tutup</span></li>
-                        <li class="flex justify-between items-center"><strong class="text-gray-200">Selasa - Jumat:</strong> <span>17:00 - 22:00 WITA</span></li>
-                        <li class="flex justify-between items-center"><strong class="text-gray-200">Sabtu:</strong> <span>17:00 - 22:30 WITA</span></li>
-                        <li class="flex justify-between items-center"><strong class="text-gray-200">Minggu:</strong> <span>17:00 - 22:00 WITA</span></li>
-                    </ul>
-                </div>
-
-                <!-- Voucher & Promo -->
-                <div>
-                    <h4 class="text-xs font-black text-amber-300 mb-3.5 uppercase tracking-wider">Kupon Promo Hari Ini</h4>
-                    <ul class="text-xs text-gray-300 space-y-2 font-mono">
-                        <li class="bg-white/10 p-2 rounded-xl flex items-center justify-between">
-                            <span class="text-amber-300 font-bold">TOONBURGER50</span>
-                            <span class="text-[10px] text-gray-300 font-sans">Diskon 50%</span>
-                        </li>
-                        <li class="bg-white/10 p-2 rounded-xl flex items-center justify-between">
-                            <span class="text-amber-300 font-bold">WELCOMETOON</span>
-                            <span class="text-[10px] text-gray-300 font-sans">Potongan 15K</span>
-                        </li>
-                    </ul>
-
-
-                </div>
-            </div>
-
-            <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400">
-                <p>&copy; {{ date('Y') }} Toon Burger. All Rights Reserved.</p>
-                <p class="mt-2 sm:mt-0 font-medium">Toon Burger Indonesia</p>
-            </div>
-        </div>
-    </footer>
+    <!-- FOOTER (PERSIS FOTO media_1790644528320.png) -->
+    @include('partials.footer')
 
     <!-- CART FLOATING CARD -->
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
@@ -1025,6 +1039,138 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLogoutModal();
+                const userMenu = document.getElementById('user-dropdown-menu');
+                const userArrow = document.getElementById('user-menu-arrow');
+                if (userMenu) userMenu.classList.add('hidden');
+                if (userArrow) userArrow.classList.remove('rotate-180');
+                const homeSearchDropdown = document.getElementById('home-search-dropdown');
+                if (homeSearchDropdown) homeSearchDropdown.classList.add('hidden');
+            }
+        });
+
+        // ═══ HOME NAVBAR LIVE SEARCH LOGIC (Persis Foto & Berfungsi Penuh) ═══
+        let homeSearchDebounce = null;
+        const homeSearchInput = document.getElementById('home-navbar-search');
+        const homeSearchClear = document.getElementById('home-search-clear');
+        const homeSearchDropdown = document.getElementById('home-search-dropdown');
+        const homeSearchLoading = document.getElementById('home-search-loading');
+        const homeSearchContent = document.getElementById('home-search-content');
+
+        function clearHomeNavbarSearch() {
+            if (homeSearchInput) {
+                homeSearchInput.value = '';
+                homeSearchInput.focus();
+            }
+            if (homeSearchClear) homeSearchClear.classList.add('hidden');
+            if (homeSearchDropdown) homeSearchDropdown.classList.add('hidden');
+            if (homeSearchContent) homeSearchContent.innerHTML = '';
+        }
+
+        if (homeSearchInput) {
+            homeSearchInput.addEventListener('input', function() {
+                const q = this.value.trim();
+                clearTimeout(homeSearchDebounce);
+
+                if (q.length > 0) {
+                    if (homeSearchClear) homeSearchClear.classList.remove('hidden');
+                } else {
+                    if (homeSearchClear) homeSearchClear.classList.add('hidden');
+                }
+
+                if (q.length < 1) {
+                    if (homeSearchDropdown) homeSearchDropdown.classList.add('hidden');
+                    if (homeSearchContent) homeSearchContent.innerHTML = '';
+                    return;
+                }
+
+                if (homeSearchDropdown) homeSearchDropdown.classList.remove('hidden');
+                if (homeSearchLoading) homeSearchLoading.classList.remove('hidden');
+                if (homeSearchContent) homeSearchContent.innerHTML = '';
+
+                homeSearchDebounce = setTimeout(() => {
+                    fetch(`{{ route('menu.search.live') }}?q=${encodeURIComponent(q)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
+                        renderHomeSearchResults(data, q);
+                    })
+                    .catch(err => {
+                        if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
+                        if (homeSearchContent) {
+                            homeSearchContent.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">Gagal memuat hasil menu.</div>`;
+                        }
+                    });
+                }, 200);
+            });
+
+            homeSearchInput.addEventListener('focus', function() {
+                if (this.value.trim().length > 0 && homeSearchDropdown) {
+                    homeSearchDropdown.classList.remove('hidden');
+                }
+            });
+        }
+
+        function escapeHomeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function renderHomeSearchResults(data, query) {
+            if (!homeSearchContent) return;
+
+            if (!data.products || data.products.length === 0) {
+                homeSearchContent.innerHTML = `
+                    <div class="text-center py-5 text-gray-400">
+                        <svg class="w-6 h-6 mx-auto text-gray-300 mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <p class="text-xs font-semibold text-gray-600">Tidak ada menu untuk "<span class="text-gray-900">${escapeHomeHtml(query)}</span>"</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Coba cari Cheese Burger, Beef, atau Chicken.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
+                        <span>Menu Terkait (${data.products.length})</span>
+                        <a href="{{ route('menu') }}?q=${encodeURIComponent(query)}" class="text-[#3b6e64] hover:underline normal-case font-bold">Lihat Semua Menu &rarr;</a>
+                    </div>
+            `;
+
+            data.products.forEach(p => {
+                html += `
+                    <a href="${p.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <img src="${p.image}" alt="${escapeHomeHtml(p.name)}" class="w-9 h-9 rounded-lg object-cover shrink-0 bg-gray-100 border border-gray-100" onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">
+                            <div class="min-w-0">
+                                <div class="text-xs font-bold text-gray-800 group-hover:text-[#3b6e64] transition truncate">${escapeHomeHtml(p.name)}</div>
+                                <div class="text-[11px] font-extrabold text-[#FFA000]">${p.price_formatted}</div>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold text-white bg-[#3b6e64] hover:bg-[#2d554d] px-2.5 py-1 rounded-lg transition shrink-0">
+                            Pesan
+                        </span>
+                    </a>
+                `;
+            });
+
+            html += `</div>`;
+            homeSearchContent.innerHTML = html;
+        }
+
+        // Close search dropdown on click outside
+        document.addEventListener('click', (event) => {
+            const searchContainer = document.getElementById('home-navbar-search')?.closest('.relative');
+            const searchDropdown = document.getElementById('home-search-dropdown');
+            if (searchContainer && searchDropdown && !searchContainer.contains(event.target)) {
+                searchDropdown.classList.add('hidden');
             }
         });
 
@@ -1057,14 +1203,16 @@
             });
         });
 
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                document.body.classList.remove('page-exiting');
-                const loader = document.getElementById('page-loader-bar');
-                if (loader) {
-                    loader.style.transform = 'scaleX(1)';
-                    setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.remove('page-exiting');
+        });
+
+        window.addEventListener('pageshow', () => {
+            document.body.classList.remove('page-exiting');
+            const loader = document.getElementById('page-loader-bar');
+            if (loader) {
+                loader.style.transform = 'scaleX(1)';
+                setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
             }
         });
     </script>

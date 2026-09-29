@@ -37,6 +37,10 @@ class AdminController extends Controller
             ->take(5)
             ->get();
 
+        $totalProducts = Product::count();
+        $activeProducts = Product::where('is_available', true)->count();
+        $outOfStockProducts = Product::where('is_available', false)->count();
+
         return view('admin.dashboard', compact(
             'todayRevenue',
             'totalOrdersToday',
@@ -44,9 +48,77 @@ class AdminController extends Controller
             'occupiedTables',
             'totalTables',
             'totalCustomers',
+            'totalProducts',
+            'activeProducts',
+            'outOfStockProducts',
             'recentOrders',
             'topProducts'
         ));
+    }
+
+    /**
+     * Header Live Search AJAX API.
+     */
+    public function liveSearch(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+        if (empty($q)) {
+            return response()->json([
+                'products' => [],
+                'orders' => [],
+                'categories' => []
+            ]);
+        }
+
+        $products = Product::where('name', 'like', "%{$q}%")
+            ->orWhere('description', 'like', "%{$q}%")
+            ->select('id', 'name', 'price', 'image', 'is_available')
+            ->take(5)
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'price_formatted' => 'Rp ' . number_format($p->price, 0, ',', '.'),
+                    'image' => $p->image ? asset($p->image) : null,
+                    'is_available' => (bool)$p->is_available,
+                    'url' => route('admin.products', ['search' => $p->name]),
+                ];
+            });
+
+        $orders = Order::where('order_number', 'like', "%{$q}%")
+            ->orWhere('customer_name', 'like', "%{$q}%")
+            ->select('id', 'order_number', 'customer_name', 'total_amount', 'status')
+            ->take(5)
+            ->get()
+            ->map(function ($o) {
+                return [
+                    'id' => $o->id,
+                    'order_number' => $o->order_number,
+                    'customer_name' => $o->customer_name,
+                    'total_formatted' => 'Rp ' . number_format($o->total_amount, 0, ',', '.'),
+                    'status' => $o->status,
+                    'url' => route('admin.orders', ['search' => $o->order_number]),
+                ];
+            });
+
+        $categories = Category::where('name', 'like', "%{$q}%")
+            ->select('id', 'name', 'slug')
+            ->take(4)
+            ->get()
+            ->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'name' => $c->name,
+                    'url' => route('admin.categories'),
+                ];
+            });
+
+        return response()->json([
+            'products' => $products,
+            'orders' => $orders,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -55,6 +127,7 @@ class AdminController extends Controller
     public function orders(Request $request)
     {
         $status = $request->query('status', 'all');
+        $search = trim($request->query('search', $request->query('q', '')));
 
         $relations = ['items', 'table', 'user'];
         if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
@@ -62,23 +135,33 @@ class AdminController extends Controller
         }
         $query = Order::with($relations)->latest();
 
-        if ($status !== 'all' && in_array($status, ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'])) {
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status === 'diproses') {
+            $query->whereIn('status', ['confirmed', 'preparing']);
+        } elseif ($status !== 'all' && in_array($status, ['pending', 'confirmed', 'preparing', 'ready', 'completed', 'cancelled'])) {
             $query->where('status', $status);
         }
 
-        $orders = $query->paginate(12);
+        $orders = $query->paginate(12)->withQueryString();
 
         $counts = [
             'all' => Order::count(),
             'pending' => Order::where('status', 'pending')->count(),
             'confirmed' => Order::where('status', 'confirmed')->count(),
             'preparing' => Order::where('status', 'preparing')->count(),
+            'diproses' => Order::whereIn('status', ['confirmed', 'preparing'])->count(),
             'ready' => Order::where('status', 'ready')->count(),
             'completed' => Order::where('status', 'completed')->count(),
             'cancelled' => Order::where('status', 'cancelled')->count(),
         ];
 
-        return view('admin.orders', compact('orders', 'status', 'counts'));
+        return view('admin.orders', compact('orders', 'status', 'counts', 'search'));
     }
 
     /**
@@ -112,14 +195,23 @@ class AdminController extends Controller
     /**
      * Menu & Product Management.
      */
-    public function products()
+    public function products(Request $request)
     {
+        $search = trim($request->query('search', $request->query('q', '')));
+        $query = Product::with('category')->latest();
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
         $products = \Illuminate\Support\Facades\Schema::hasTable('products')
-            ? Product::with('category')->latest()->get()
+            ? $query->get()
             : collect([]);
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
 
-        return view('admin.products', compact('products', 'categories'));
+        return view('admin.products', compact('products', 'categories', 'search'));
     }
 
     /**

@@ -8,12 +8,12 @@
     <!-- ═══════════════════════════════════════════════
          1. HERO SECTION
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[80px]">
+    <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
 
-            <!-- Hero Card — Dark Teal Comic Style Full Width & Full Size (Extending behind navbar) -->
-            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32"
-                 style="background-color: #3b6e64; min-height: 560px;">
+            <!-- Hero Card — Dark Teal Comic Style Full Width & Full Size (Extending behind navbar, zero top gap) -->
+            <div class="relative overflow-hidden w-full pt-32 sm:pt-36 lg:pt-40"
+                 style="background-color: #3b6e64; min-height: 580px;">
 
                 <!-- Partikel Bintang Komik Asli (Sesuai Asset Upload Pengguna: star-sparkle.png) -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
@@ -211,20 +211,21 @@
                 <!-- Right Column: Narrative Story -->
                 <div class="lg:col-span-7 space-y-5">
                     <h2 class="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight">
-                        Kisah di Balik Cita Rasa Toon Burger
+                        Kenal Lebih Dekat Toon Burger
                     </h2>
 
                     <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Berawal dari kecintaan kami terhadap burger bergaya klasik Amerika dengan daging beraroma asap yang gurih dan roti brioche harum mentega, <strong>Toon Burger</strong> lahir membawa nuansa karakter kartun retro yang enerjik, ceria, dan bersahabat bagi siapa saja.
+                        Berawal dari kecintaan kami terhadap burger bergaya klasik Amerika dengan daging beraroma asap yang gurih dan roti brioche harum mentega, <strong>Toon Burger</strong> hadir membawa nuansa karakter kartun retro yang enerjik, ceria, dan bersahabat bagi siapa saja.
                     </p>
 
                     <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Kami tidak percaya pada jalan pintas. Setiap patty daging sapi digiling dari potongan daging berkualitas, saus diracik segar setiap pagi di dapur restoran, dan kebersihan adalah standar utama kami.
+                        Setiap patty daging sapi digiling dari potongan daging segar berkualitas pilihan, saus diracik segar setiap pagi di dapur restoran, dan kebersihan adalah standar utama kami.
                     </p>
 
                     <div class="pt-2">
                         <a href="{{ route('about') }}" class="inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3 rounded-2xl transition shadow-md active:scale-95">
-                            <span>Baca Kisah Lengkap Kami</span>
+                            <span>Tentang Kami</span>
+                            <span>&rarr;</span>
                         </a>
                     </div>
 

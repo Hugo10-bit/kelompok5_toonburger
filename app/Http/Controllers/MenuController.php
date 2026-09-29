@@ -108,4 +108,35 @@ class MenuController extends Controller
             'product' => $product,
         ]);
     }
+
+    /**
+     * Live search for menu products (Navbar Search Bar).
+     */
+    public function liveSearch(Request $request)
+    {
+        $q = trim($request->query('q', ''));
+        if (strlen($q) < 1) {
+            return response()->json(['products' => []]);
+        }
+
+        $products = Product::where('is_available', true)
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('description', 'like', "%{$q}%");
+            })
+            ->take(6)
+            ->get()
+            ->map(function ($p) {
+                return [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'price' => $p->price,
+                    'price_formatted' => 'Rp ' . number_format($p->price, 0, ',', '.'),
+                    'image' => $p->image ? asset($p->image) : asset('images/burger-bg.jpg'),
+                    'url' => route('menu', ['q' => $p->name]),
+                ];
+            });
+
+        return response()->json(['products' => $products]);
+    }
 }
