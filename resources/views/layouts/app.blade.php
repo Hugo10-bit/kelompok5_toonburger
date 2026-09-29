@@ -53,10 +53,6 @@
         body.page-exiting {
             opacity: 0 !important;
         }
-        ::selection {
-            background-color: #D92625;
-            color: #ffffff;
-        }
         *:focus-visible {
             outline: 2px solid #D92625;
             outline-offset: 2px;
@@ -165,7 +161,7 @@
 
     <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
-        <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto">
+        <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
             <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full shadow-lg border border-white/20 backdrop-blur-md transition relative"
                  style="background-color: #3b6e64;">
 
@@ -181,22 +177,22 @@
 
                 <!-- Nav links -->
                 <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
-                    <a href="{{ route('home') }}"
+                    <a href="{{ route('home') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('home') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Beranda
                     </a>
-                    <a href="{{ route('menu') }}"
+                    <a href="{{ route('menu') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('menu*') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Menu
                     </a>
-                    <a href="{{ route('about') }}"
+                    <a href="{{ route('about') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('about') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Tentang
                     </a>
-                    <a href="{{ route('contact') }}"
+                    <a href="{{ route('contact') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('contact') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Kontak
@@ -337,6 +333,7 @@
                     <!-- Mobile Hamburger Menu Button -->
                     <button type="button"
                             onclick="toggleMobileNav()"
+                            id="mobile-nav-toggle"
                             class="lg:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition focus:outline-none"
                             aria-label="Toggle Menu">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -347,8 +344,7 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-nav-menu" class="hidden lg:hidden mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-white/20"
-                 style="background-color: #3b6e64;">
+              <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-50 mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800">
                 <div class="space-y-1 text-sm font-semibold">
                     <!-- Mobile Search -->
                     <div class="mb-2 pt-1">
@@ -363,44 +359,36 @@
                         </form>
                     </div>
 
-                    <a href="{{ route('home') }}" onclick="toggleMobileNav()"
+                    <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
-                              {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                                        {{ request()->routeIs('home') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         Beranda
                     </a>
-                    <a href="{{ route('menu') }}" onclick="toggleMobileNav()"
+                    <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
-                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                                        {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         Menu
                     </a>
-                    <a href="{{ route('about') }}" onclick="toggleMobileNav()"
+                    <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
-                              {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                                        {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         Tentang
                     </a>
-                    <a href="{{ route('contact') }}" onclick="toggleMobileNav()"
+                    <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
-                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                                        {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         Kontak
                     </a>
                     @auth
-                        <a href="{{ route('orders.index') }}"
-                           class="block px-4 py-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition">
+                        <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
+                                    class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
                             Pesanan Saya
                         </a>
                         <button type="button" onclick="confirmLogout(event)"
-                                class="w-full text-left block px-4 py-2 rounded-xl text-red-200 hover:text-white hover:bg-red-500/20 transition font-semibold">
+                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
                             Logout
                         </button>
                     @endauth
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                       class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-2">
-                        <span class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-                            <span>Pesan via GoFood</span>
-                        </span>
-                        <span class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">4.9 ★ &rarr;</span>
-                    </a>
             </div>
         </div>
     </div>
@@ -973,6 +961,16 @@
             }
         }
 
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('mobile-nav-menu');
+            const toggle = document.getElementById('mobile-nav-toggle');
+            if (!menu || !toggle || menu.classList.contains('hidden')) return;
+
+            if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
         function toggleUserDropdown(event) {
             if (event) event.stopPropagation();
             const menu = document.getElementById('user-dropdown-menu');
@@ -1200,7 +1198,7 @@
 
             document.addEventListener('click', (e) => {
                 const link = e.target.closest('a');
-                if (!link) return;
+                if (!link || !link.hasAttribute('data-page-transition')) return;
 
                 const href = link.getAttribute('href');
                 const target = link.getAttribute('target');

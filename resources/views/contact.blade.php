@@ -112,7 +112,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
+
             <!-- Address Card -->
             <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
                 <div class="space-y-3">
@@ -218,16 +218,13 @@
          ═══════════════════════════════════════════════ -->
     <section id="live-map-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-sm p-6 sm:p-10 space-y-6 overflow-hidden">
-            
+
             <!-- Map Section Header -->
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-gray-100">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
                         Live Location Outlet Toon Burger Banjarbaru
                     </h2>
-                    <p class="text-xs text-gray-500 mt-1">
-                        Titik koordinat real-time: <strong class="text-gray-800 font-mono">-3.435747, 114.823253</strong> (Plus Code: <span class="text-bites-red font-mono font-bold">HR7F+P8M</span>)
-                    </p>
                 </div>
 
                 <!-- Map View Switcher Buttons -->
@@ -249,29 +246,21 @@
 
             <!-- Map Viewports Container -->
             <div class="relative w-full h-[460px] sm:h-[520px] rounded-3xl overflow-hidden border border-[#EFE5D0] shadow-inner bg-gray-100">
-                
+
                 <!-- Leaflet Live Radar Map -->
                 <div id="live-leaflet-map" class="w-full h-full z-10"></div>
 
                 <!-- Google Maps Embed Iframe (Hidden by default) -->
                 <div id="google-maps-frame" class="w-full h-full hidden z-10">
-                    <iframe 
-                        width="100%" 
-                        height="100%" 
-                        frameborder="0" 
-                        style="border:0;" 
-                        src="https://maps.google.com/maps?q=-3.435747,114.823253&hl=id&z=17&output=embed" 
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        frameborder="0"
+                        style="border:0;"
+                        src="https://maps.google.com/maps?q=-3.435747,114.823253&hl=id&z=17&output=embed"
                         allowfullscreen>
                     </iframe>
                 </div>
-
-
-
-                <!-- Floating Recenter Button -->
-                <button type="button" onclick="centerStoreMap()" class="absolute bottom-4 right-4 z-[999] bg-white hover:bg-gray-50 text-gray-800 text-xs font-bold px-3.5 py-2 rounded-2xl shadow-lg border border-gray-200/80 flex items-center gap-2 transition active:scale-95">
-                    <svg class="w-3.5 h-3.5 text-bites-red" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg>
-                    <span>Pusatkan ke Outlet</span>
-                </button>
             </div>
 
             <!-- GPS Geolocation Distance Calculator Box -->
@@ -343,7 +332,7 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
-                
+
                 <!-- Left: FAQ Accordion -->
                 <div class="lg:col-span-5 space-y-6">
                     <div>
@@ -400,19 +389,19 @@
                     <form onsubmit="handleContactSubmit(event)" class="space-y-4 text-xs font-semibold">
                         <div>
                             <label class="block text-gray-700 mb-1">Nama Lengkap *</label>
-                            <input type="text" id="contact-name" required placeholder="Contoh: Muhammad Rizky" 
+                            <input type="text" id="contact-name" required placeholder="Contoh: Muhammad Rizky"
                                    class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-gray-700 mb-1">Alamat Email *</label>
-                                <input type="email" id="contact-email" required placeholder="rizky@email.com" 
+                                <input type="email" id="contact-email" required placeholder="rizky@email.com"
                                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
                             </div>
                             <div>
                                 <label class="block text-gray-700 mb-1">Nomor WhatsApp *</label>
-                                <input type="tel" id="contact-phone" required placeholder="0813-4595-6487" 
+                                <input type="tel" id="contact-phone" required placeholder="0813-4595-6487"
                                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
                             </div>
                         </div>
@@ -429,7 +418,7 @@
 
                         <div>
                             <label class="block text-gray-700 mb-1">Isi Pesan / Detail Pesanan *</label>
-                            <textarea id="contact-message" rows="4" required placeholder="Tuliskan menu yang ingin dipesan, jam perkiraan pengambilan takeaway di outlet, atau detail acara..." 
+                            <textarea id="contact-message" rows="4" required placeholder="Tuliskan menu yang ingin dipesan, jam perkiraan pengambilan takeaway di outlet, atau detail acara..."
                                       class="w-full bg-white border border-gray-300 rounded-xl p-3 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition"></textarea>
                         </div>
 
@@ -486,6 +475,19 @@
             attribution: '&copy; Google Maps'
         }).addTo(map);
 
+        const recenterControl = L.control({ position: 'bottomright' });
+        recenterControl.onAdd = function () {
+            const button = L.DomUtil.create('button', 'bg-white hover:bg-gray-50 text-gray-800 text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-lg border border-gray-200/80 flex items-center gap-2 transition active:scale-95 min-h-[44px]');
+            button.type = 'button';
+            button.setAttribute('aria-label', 'Pusatkan peta ke outlet Toon Burger');
+            button.title = 'Pusatkan ke Outlet';
+            button.innerHTML = '<svg class="w-3.5 h-3.5 text-bites-red" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg><span>Pusatkan ke Outlet</span>';
+            L.DomEvent.disableClickPropagation(button);
+            L.DomEvent.on(button, 'click', centerStoreMap);
+            return button;
+        };
+        recenterControl.addTo(map);
+
         // Custom HTML Animated Radar Icon for Outlet
         const storeIcon = L.divIcon({
             className: 'custom-store-pin',
@@ -525,15 +527,15 @@
                     Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjarbaru (HR7F+P8M)
                 </div>
                 <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${STORE_LAT},${STORE_LNG}" target="_blank" 
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=${STORE_LAT},${STORE_LNG}" target="_blank"
                        style="background: #111827; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-block;">
                         Petunjuk Arah &rarr;
                     </a>
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" 
+                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
                        style="background: #EE2737; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-flex; align-items: center; gap: 3px;">
                         <span>GoFood 4.9 ★</span>
                     </a>
-                    <button onclick="copyAddressToClipboard()" 
+                    <button onclick="copyAddressToClipboard()"
                             style="background: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; font-size: 10px; font-weight: 700; padding: 5px 7px; border-radius: 8px; cursor: pointer;">
                         Salin Alamat
                     </button>
@@ -541,13 +543,13 @@
             </div>
         `;
 
-        storeMarker.bindPopup(popupContent).openPopup();
+        storeMarker.bindPopup(popupContent, { autoPan: false }).openPopup();
     }
 
     function centerStoreMap() {
-        if (!map) return;
-        map.setView([STORE_LAT, STORE_LNG], 16, { animate: true });
-        if (storeMarker) storeMarker.openPopup();
+        if (!map || !storeMarker) return;
+        map.setView(storeMarker.getLatLng(), 16, { animate: true });
+        storeMarker.openPopup();
     }
 
     // Switch between Google Roadmap and Google Satellite Hybrid
@@ -664,8 +666,8 @@
                 const hudPanel = document.getElementById('live-distance-result');
                 hudPanel.classList.remove('hidden');
 
-                document.getElementById('hud-distance').innerText = distanceKm < 1 
-                    ? Math.round(distanceKm * 1000) + ' Meter' 
+                document.getElementById('hud-distance').innerText = distanceKm < 1
+                    ? Math.round(distanceKm * 1000) + ' Meter'
                     : distanceKm.toFixed(2) + ' km';
 
                 document.getElementById('hud-time-motor').innerText = `~${motorMinutes} Menit`;
@@ -809,7 +811,7 @@
         event.preventDefault();
         const name = document.getElementById('contact-name').value;
         const category = document.getElementById('contact-category').value;
-        
+
         Swal.fire({
             icon: 'success',
             title: 'Pesan Terkirim!',

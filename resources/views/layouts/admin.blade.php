@@ -50,18 +50,18 @@
             color: #1F2937;
         }
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #EEF0F2;
+            background: #F8F6F0;
         }
         ::-webkit-scrollbar-thumb {
-            background: #D1D5DB;
-            border-radius: 999px;
+            background: #D5CBB9;
+            border-radius: 9999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #9CA3AF;
+            background: #BAAE9A;
         }
         @keyframes modalPop {
             0% {
