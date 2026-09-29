@@ -78,7 +78,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
+<body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -292,18 +292,21 @@
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
         <!-- Top Header -->
-        <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-4 select-none relative z-30">
+        <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-4 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-3 select-none relative z-30">
 
             <div class="flex items-center gap-3 flex-1 min-w-0">
-                <!-- Hamburger on Mobile -->
+                <!-- Hamburger (mobile only) -->
                 <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
 
-                <!-- Search bar -->
-                <div class="relative w-full max-w-[560px]">
+                <!-- Brand name (mobile only) -->
+                <span class="md:hidden font-extrabold text-sm text-gray-900 tracking-tight">Toon Burger Admin</span>
+
+                <!-- Search bar (desktop only) -->
+                <div class="relative w-full max-w-[560px] hidden md:block">
                     <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
                         <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -325,7 +328,7 @@
                         </button>
                     </form>
 
-                    <!-- Live Search Results Dropdown (Bisa digunakan secara instan) -->
+                    <!-- Live Search Results Dropdown -->
                     <div id="header-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-3 z-50 hidden max-h-96 overflow-y-auto animate-modal-pop">
                         <div id="header-search-loading" class="hidden text-center py-4 text-xs text-gray-400">
                             <svg class="w-5 h-5 animate-spin mx-auto text-[#415C58] mb-1" fill="none" viewBox="0 0 24 24">
@@ -339,15 +342,14 @@
                 </div>
             </div>
 
-            <!-- Right Controls: Language Selector & Admin Profile (Sesuai Mockup Foto) -->
-            <div class="flex items-center gap-4 sm:gap-6 shrink-0">
-                <!-- Language Selector Pill (English with US Flag - Interactive Dropdown) -->
+            <!-- Right controls -->
+            <div class="flex items-center gap-3 sm:gap-6 shrink-0">
+                <!-- Language selector (desktop only) -->
                 <div class="relative select-none hidden sm:block">
                     <button type="button"
                             id="header-lang-btn"
                             onclick="toggleLanguageDropdown(event)"
                             class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
-                        <!-- Circular US Flag Badge -->
                         <span id="header-lang-flag" class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
                             <svg class="w-full h-full" viewBox="0 0 64 64">
                                 <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
@@ -373,35 +375,22 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-
-                    <!-- Language Dropdown Menu -->
                     <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
                         <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
-                            <span class="flex items-center gap-2.5">
-                                <span class="text-base">🇺🇸</span>
-                                <span>English</span>
-                            </span>
+                            <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
                             <svg id="lang-check-en" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                         <button type="button" onclick="selectLanguage('Bahasa Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
-                            <span class="flex items-center gap-2.5">
-                                <span class="text-base">🇮🇩</span>
-                                <span>Bahasa Indonesia</span>
-                            </span>
+                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Bahasa Indonesia</span></span>
                             <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                     </div>
                 </div>
 
-                <!-- Profile Badge: Orange Circle Tb + Name + Email + Chevron (Interactive Dropdown) -->
+                <!-- Profile badge -->
                 <div class="relative select-none">
-                    <button type="button"
-                            id="header-profile-btn"
-                            onclick="toggleProfileDropdown(event)"
-                            class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
-                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">
-                            Tb
-                        </div>
+                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">Tb</div>
                         <div class="text-left leading-tight hidden sm:block">
                             <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
                             <div class="text-xs text-gray-400 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
@@ -410,20 +399,15 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-
-                    <!-- Profile Dropdown Menu -->
                     <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-3 z-50 hidden animate-modal-pop">
                         <div class="px-3 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
-                                Tb
-                            </div>
+                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">Tb</div>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-xs text-gray-900 truncate">Toon Burger</div>
                                 <div class="text-[11px] text-gray-400 truncate">Toonburger@gmail.com</div>
                                 <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]">Administrator</span>
                             </div>
                         </div>
-
                         <div>
                             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
                                 <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -465,6 +449,56 @@
             @yield('admin_content')
         </main>
     </div>
+
+    <!-- Mobile bottom navigation bar -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch" style="padding-bottom: env(safe-area-inset-bottom);">
+        <a href="{{ route('admin.dashboard') }}"
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="14" width="2.5" height="7" rx="0.8"/>
+                <rect x="8" y="10" width="2.5" height="11" rx="0.8"/>
+                <rect x="13" y="12" width="2.5" height="9" rx="0.8"/>
+                <rect x="18" y="7" width="2.5" height="14" rx="0.8"/>
+                <path d="M4.25 11 L9.25 6.5 L14.25 9.5 L19.25 4"/>
+            </svg>
+            <span class="text-[10px] font-semibold leading-none">Dashboard</span>
+        </a>
+        <a href="{{ route('admin.orders') }}"
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.orders*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 4 H18.5 A 1 1 0 0 1 19.5 5 V 20 L 16.5 18.5 L 13.5 20 L 10.5 18.5 L 7.5 20 V 7.5"/>
+                <line x1="9.5" y1="8.5" x2="16.5" y2="8.5"/>
+                <line x1="9.5" y1="12" x2="16.5" y2="12"/>
+            </svg>
+            <span class="text-[10px] font-semibold leading-none">Pesanan</span>
+        </a>
+        <a href="{{ route('admin.products') }}"
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.products*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 3.5 10 C 3.5 6.8 6 5 10 5 C 13.5 5 15.8 6.5 16.2 9.5 H 3.5 Z"/>
+                <line x1="3.5" y1="13" x2="16.5" y2="13"/>
+                <line x1="3.5" y1="17" x2="16.5" y2="17"/>
+            </svg>
+            <span class="text-[10px] font-semibold leading-none">Produk</span>
+        </a>
+        <a href="{{ route('admin.categories') }}"
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.categories*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M 8.5 3.5 H 15.5 A 1 1 0 0 1 16.2 3.8 L 21.2 8.8 A 1 1 0 0 1 21.2 10.2 L 14.2 17.2 A 1 1 0 0 1 12.8 17.2 L 7.8 12.2 A 1 1 0 0 1 7.5 11.5 V 4.5 A 1 1 0 0 1 8.5 3.5 Z"/>
+                <circle cx="12" cy="7.5" r="1.3" fill="currentColor"/>
+            </svg>
+            <span class="text-[10px] font-semibold leading-none">Kategori</span>
+        </a>
+        <button type="button" onclick="confirmLogout(event)"
+                class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] text-[#DE3B28] transition active:opacity-70">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11"/>
+                <path d="M8 12 H19"/>
+                <path d="M15 8 L19 12 L15 16"/>
+            </svg>
+            <span class="text-[10px] font-semibold leading-none">Keluar</span>
+        </button>
+    </nav>
 
     <script>
         function toggleAdminSidebar() {
