@@ -3,7 +3,6 @@
 @section('title', 'Dashboards - Toon Burger Admin')
 
 @section('admin_content')
-<!-- ═══ MAIN DASHBOARD CARD CONTAINER (PERSIS SESUAI MOCKUP FOTO) ═══ -->
 <div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-7">
 
     <!-- Greeting & Header -->
@@ -15,7 +14,7 @@
         <p class="text-xs sm:text-sm text-gray-400 mt-1 font-normal">Monitor Toon Burger's sales performance and active orders for today.</p>
     </div>
 
-    <!-- ═══ 4 METRICS GRID IN A ROW (PERSIS MOCKUP FOTO) ═══ -->
+    <!-- Metrics grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
 
         <!-- Metric 1: Today's Profits -->
@@ -112,13 +111,12 @@
 
     </div>
 
-    <!-- ═══ LOWER SECTION: LATEST ORDER & BEST SELLING MENU ═══ -->
+    <!-- Recent orders and best sellers -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
 
         <!-- Left Column: LATEST ORDER (8 cols) -->
         <div class="lg:col-span-8 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-gray-200/80 shadow-xs">
             <div>
-                <!-- Table Header Row -->
                 <div class="flex items-center justify-between pb-4">
                     <h3 class="font-bold text-base text-gray-900 tracking-tight">Latest Order</h3>
                     <a href="{{ route('admin.orders') }}" class="text-xs font-semibold text-gray-500 hover:text-gray-900 transition inline-flex items-center gap-1 group">

@@ -80,14 +80,15 @@
 </head>
 <body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
 
-    <!-- ═══ 1. MODAL KONFIRMASI LOGOUT (PERSIS MOCKUP FOTO) ═══ -->
-    <div id="logout-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
-        <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
+    <!-- Modal Konfirmasi Logout -->
+    <div id="logout-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
+             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
+             onclick="closeLogoutModal()"></div>
 
-        <!-- Dialog Card -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
-            <!-- Warning Circle (Merah Lingkaran dengan Tanda Seru) -->
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
             <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -95,40 +96,44 @@
                 </svg>
             </div>
 
-            <!-- Title -->
             <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
                 Konfirmasi Logout
             </h3>
 
-            <!-- Description -->
             <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
-            <!-- Buttons -->
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
+                        id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
                     Ya, Keluar
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ═══ 2. MODAL KONFIRMASI HAPUS (PERSIS MOCKUP FOTO) ═══ -->
-    <div id="delete-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
-        <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeDeleteModal()"></div>
+    <!-- Global Hidden Form for Logout -->
+    <form id="global-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
 
-        <!-- Dialog Card -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
-            <!-- Trash Icon Outline (Merah Outline sesuai Foto) -->
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="delete-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
+             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
+             onclick="closeDeleteModal()"></div>
+
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
             <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -137,28 +142,25 @@
                 </svg>
             </div>
 
-            <!-- Title -->
             <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
                 Konfirmasi Hapus
             </h3>
 
-            <!-- Description -->
             <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
                 Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
             </p>
 
-            <!-- Buttons -->
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
                     Batalkan
                 </button>
                 <form id="global-delete-form" method="POST" action="" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer">
                         Ya, Hapus
                     </button>
                 </form>
@@ -166,10 +168,10 @@
         </div>
     </div>
 
-    <!-- MOBILE SIDEBAR BACKDROP -->
+    <!-- Mobile sidebar backdrop -->
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
-    <!-- ═══ SIDEBAR: PERSIS SESUAI MOCKUP ═══ -->
+    <!-- Sidebar -->
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
             <!-- Logo Section with Mascot + TOON BURGER text -->
@@ -274,25 +276,22 @@
                 <span>Home page</span>
             </a>
 
-            <!-- Logout -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event)" class="w-full">
-                @csrf
-                <button type="submit" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group">
-                    <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
-                        <path d="M8 12 H19" />
-                        <path d="M15 8 L19 12 L15 16" />
-                    </svg>
-                    <span>Logout</span>
-                </button>
-            </form>
+            <!-- Logout Button -->
+            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group text-left">
+                <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
+                    <path d="M8 12 H19" />
+                    <path d="M15 8 L19 12 L15 16" />
+                </svg>
+                <span>Logout</span>
+            </button>
         </div>
     </aside>
 
-    <!-- ═══ MAIN CONTENT WRAPPER ═══ -->
+    <!-- Main content -->
     <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
-        <!-- Top Header Card: Search Bar (Pill) on Left, Language & Profile on Right (PERSIS FOTO & BISA DIGUNAKAN) -->
+        <!-- Top Header -->
         <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-6 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-4 select-none relative z-30">
 
             <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -303,7 +302,7 @@
                     </svg>
                 </button>
 
-                <!-- Search Bar Pill (Magnifying Glass on Left, Placeholder: Search for something...) -->
+                <!-- Search bar -->
                 <div class="relative w-full max-w-[560px]">
                     <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
                         <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -425,30 +424,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-1 text-xs font-medium text-gray-700">
-                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                                <span>Profil Admin</span>
-                            </a>
-                            <a href="{{ route('admin.products') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                                <span>Data Produk</span>
-                            </a>
-                            <a href="{{ route('admin.orders') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                <span>Proses Pesanan</span>
-                            </a>
-                            <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                                <span>Kasir POS</span>
-                            </a>
-                            <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                <span>Lihat Toko Pelanggan</span>
-                            </a>
-                        </div>
-
-                        <div class="border-t border-gray-100 mt-2 pt-2">
+                        <div>
                             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
                                 <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                                 <span>Logout</span>
@@ -508,17 +484,18 @@
             }
         }
 
-        let pendingLogoutForm = null;
-
         function confirmLogout(event) {
             if (event) {
                 event.preventDefault();
-                pendingLogoutForm = event.target.closest('form');
+                event.stopPropagation();
             }
+            closeAllHeaderDropdowns();
             const modal = document.getElementById('logout-confirm-modal');
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
             return false;
         }
@@ -528,17 +505,28 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         }
 
         function submitLogoutForm() {
-            if (pendingLogoutForm) {
-                pendingLogoutForm.submit();
+            const btn = document.getElementById('admin-modal-logout-submit-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `
+                    <svg class="w-3.5 h-3.5 animate-spin mr-1.5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Keluar...
+                `;
+            }
+            const form = document.getElementById('global-logout-form');
+            if (form) {
+                form.submit();
             } else {
-                const forms = document.querySelectorAll('form[action*="logout"]');
-                if (forms.length > 0) {
-                    forms[0].submit();
-                }
+                window.location.href = "{{ route('logout') }}";
             }
         }
 
@@ -554,6 +542,8 @@
                 }
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
 
@@ -562,6 +552,8 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         }
 
@@ -573,7 +565,7 @@
             }
         });
 
-        // ═══ HEADER INTERACTION LOGIC (Persis Foto & Berfungsi Penuh) ═══
+        // Header dropdowns and live search handler
 
         function closeAllHeaderDropdowns() {
             const langDropdown = document.getElementById('header-lang-dropdown');
