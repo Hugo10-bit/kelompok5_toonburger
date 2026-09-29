@@ -17,7 +17,7 @@
 
     <!-- ═══ 4 METRICS GRID IN A ROW (PERSIS MOCKUP FOTO) ═══ -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        
+
         <!-- Metric 1: Today's Profits -->
         <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition">
             <div class="flex items-center justify-between text-gray-400">
@@ -114,7 +114,7 @@
 
     <!-- ═══ LOWER SECTION: LATEST ORDER & BEST SELLING MENU ═══ -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
-        
+
         <!-- Left Column: LATEST ORDER (8 cols) -->
         <div class="lg:col-span-8 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-gray-200/80 shadow-xs">
             <div>
@@ -162,7 +162,7 @@
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Cornelius Hugo',
                                         'total' => 'IDR 126.500',
-                                        'status' => 'Cooked',
+                                        'status' => 'Cooking',
                                         'dot' => 'bg-[#EF4444]',
                                         'url' => route('admin.orders'),
                                     ],
@@ -170,7 +170,7 @@
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Rizki Prawira',
                                         'total' => 'IDR 87.500',
-                                        'status' => 'Cooked',
+                                        'status' => 'Cooking',
                                         'dot' => 'bg-[#EF4444]',
                                         'url' => route('admin.orders'),
                                     ],
