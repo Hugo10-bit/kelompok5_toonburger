@@ -113,13 +113,19 @@
                     Batalkan
                 </button>
                 <button type="button"
+                        id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
                     Ya, Keluar
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Global Hidden Form for Logout -->
+    <form id="global-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
 
     <!-- ═══ 2. MODAL KONFIRMASI HAPUS (PERSIS MOCKUP FOTO) ═══ -->
     <div id="delete-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
@@ -274,18 +280,15 @@
                 <span>Home page</span>
             </a>
 
-            <!-- Logout -->
-            <form action="{{ route('logout') }}" method="POST" onsubmit="return confirmLogout(event)" class="w-full">
-                @csrf
-                <button type="submit" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group">
-                    <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
-                        <path d="M8 12 H19" />
-                        <path d="M15 8 L19 12 L15 16" />
-                    </svg>
-                    <span>Logout</span>
-                </button>
-            </form>
+            <!-- Logout Button -->
+            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group text-left">
+                <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
+                    <path d="M8 12 H19" />
+                    <path d="M15 8 L19 12 L15 16" />
+                </svg>
+                <span>Logout</span>
+            </button>
         </div>
     </aside>
 
@@ -425,30 +428,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-1 text-xs font-medium text-gray-700">
-                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                                <span>Profil Admin</span>
-                            </a>
-                            <a href="{{ route('admin.products') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                                <span>Data Produk</span>
-                            </a>
-                            <a href="{{ route('admin.orders') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                <span>Proses Pesanan</span>
-                            </a>
-                            <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                                <span>Kasir POS</span>
-                            </a>
-                            <a href="{{ route('home') }}" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                <span>Lihat Toko Pelanggan</span>
-                            </a>
-                        </div>
-
-                        <div class="border-t border-gray-100 mt-2 pt-2">
+                        <div>
                             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
                                 <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                                 <span>Logout</span>
@@ -508,13 +488,12 @@
             }
         }
 
-        let pendingLogoutForm = null;
-
         function confirmLogout(event) {
             if (event) {
                 event.preventDefault();
-                pendingLogoutForm = event.target.closest('form');
+                event.stopPropagation();
             }
+            closeAllHeaderDropdowns();
             const modal = document.getElementById('logout-confirm-modal');
             if (modal) {
                 modal.classList.remove('hidden');
@@ -532,13 +511,22 @@
         }
 
         function submitLogoutForm() {
-            if (pendingLogoutForm) {
-                pendingLogoutForm.submit();
+            const btn = document.getElementById('admin-modal-logout-submit-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `
+                    <svg class="w-3.5 h-3.5 animate-spin mr-1.5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Keluar...
+                `;
+            }
+            const form = document.getElementById('global-logout-form');
+            if (form) {
+                form.submit();
             } else {
-                const forms = document.querySelectorAll('form[action*="logout"]');
-                if (forms.length > 0) {
-                    forms[0].submit();
-                }
+                window.location.href = "{{ route('logout') }}";
             }
         }
 

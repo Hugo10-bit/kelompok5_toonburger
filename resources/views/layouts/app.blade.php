@@ -150,17 +150,23 @@
             <div class="flex items-center justify-center gap-3.5 sm:gap-4">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#4B5563] rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] focus:outline-none cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
+                        id="modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none">
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-8 py-2.5 text-sm font-semibold transition min-w-[130px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
                     ya, keluar
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Global Hidden Form for Logout -->
+    <form id="global-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
 
     <!-- TOP NAVBAR — Floating Pill Dark Teal (PERSIS FOTO & BISA DIGUNAKAN) -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
@@ -394,6 +400,10 @@
                            class="block px-4 py-2 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition">
                             Pesanan Saya
                         </a>
+                        <button type="button" onclick="confirmLogout(event)"
+                                class="w-full text-left block px-4 py-2 rounded-xl text-red-200 hover:text-white hover:bg-red-500/20 transition font-semibold">
+                            Logout
+                        </button>
                     @endauth
                     <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
                        class="flex items-center justify-between bg-[#EE2737] hover:bg-[#D61B2B] text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-xs transition mt-2">
@@ -1002,13 +1012,18 @@
             }
         });
 
-        let pendingLogoutForm = null;
-
         function confirmLogout(event) {
             if (event) {
                 event.preventDefault();
-                pendingLogoutForm = event.target.closest('form');
+                event.stopPropagation();
             }
+            const userMenu = document.getElementById('user-dropdown-menu');
+            const userArrow = document.getElementById('user-menu-arrow');
+            if (userMenu) userMenu.classList.add('hidden');
+            if (userArrow) userArrow.classList.remove('rotate-180');
+            const mobileMenu = document.getElementById('mobile-nav-menu');
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+
             const modal = document.getElementById('logout-confirm-modal');
             if (modal) {
                 modal.classList.remove('hidden');
@@ -1026,13 +1041,22 @@
         }
 
         function submitLogoutForm() {
-            if (pendingLogoutForm) {
-                pendingLogoutForm.submit();
+            const btn = document.getElementById('modal-logout-submit-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `
+                    <svg class="w-4 h-4 animate-spin mr-1.5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Keluar...
+                `;
+            }
+            const form = document.getElementById('global-logout-form');
+            if (form) {
+                form.submit();
             } else {
-                const forms = document.querySelectorAll('form[action*="logout"]');
-                if (forms.length > 0) {
-                    forms[0].submit();
-                }
+                window.location.href = "{{ route('logout') }}";
             }
         }
 

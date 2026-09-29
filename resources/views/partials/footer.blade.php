@@ -4,8 +4,8 @@
         <!-- Main Footer Columns -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 items-start mb-12 sm:mb-14">
 
-            <!-- Column 1: Brand Mascot Head & TOON BURGER (Centered vertically stacked) -->
-            <div class="sm:col-span-2 md:col-span-3 flex flex-col items-center justify-start text-center">
+            <!-- Column 1: Brand Mascot Head & TOON BURGER (Shifted to left on desktop, centered on mobile) -->
+            <div class="sm:col-span-2 md:col-span-3 flex flex-col items-center md:items-start justify-start text-center">
                 <a href="{{ route('home') }}" class="group inline-flex flex-col items-center">
                     <img src="{{ asset('images/toon-head.png') }}"
                          alt="Toon Burger Mascot"
