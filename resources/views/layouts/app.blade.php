@@ -46,13 +46,12 @@
             font-family: 'Poppins', sans-serif;
             overflow-x: clip;
             max-width: 100vw;
-            animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: pageEnter 0.25s ease-out;
+            transition: opacity 0.22s ease-out;
             caret-color: #D92625;
         }
         body.page-exiting {
             opacity: 0 !important;
-            transform: translateY(-4px) scale(0.995);
         }
         ::selection {
             background-color: #D92625;
@@ -80,11 +79,9 @@
         @keyframes pageEnter {
             from {
                 opacity: 0;
-                transform: translateY(6px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
         #page-loader-bar {
@@ -123,12 +120,16 @@
     <div id="page-loader-bar"></div>
 
     <!-- ═══ MODAL KONFIRMASI LOGOUT (SESUAI MOCKUP FOTO) ═══ -->
-    <div id="logout-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+    <div id="logout-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
         <!-- Backdrop: Fixed, centered, non-shifting -->
-        <div class="fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-[3px] transition-opacity duration-200"
+             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
+             onclick="closeLogoutModal()"></div>
 
         <!-- Modal Dialog Card: Centered on screen, never shifts -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[460px] w-full text-center z-10 select-none animate-modal-pop border border-[#EFE5D0]">
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[460px] w-full text-center z-10 select-none animate-modal-pop border border-[#EFE5D0] mx-auto my-auto">
             <!-- Warning Icon Circle (Muted Sage Green - Sesuai Foto) -->
             <div class="w-[92px] h-[92px] rounded-full border-[4.5px] border-[#9AA887] flex items-center justify-center mx-auto mb-6 bg-white shadow-2xs">
                 <svg class="w-10 h-10 text-[#9AA887]" viewBox="0 0 24 24" fill="currentColor">
@@ -143,7 +144,7 @@
 
             <!-- Subtitle Description (Sesuai Foto) -->
             <p class="text-[#555C68] text-sm sm:text-[14.5px] leading-relaxed max-w-sm mx-auto mb-8 font-normal">
-                Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
+                Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses akun Anda.
             </p>
 
             <!-- Action Buttons: Batalkan & ya, keluar (Sesuai Foto) -->
@@ -1028,6 +1029,8 @@
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
             return false;
         }
@@ -1037,6 +1040,8 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         }
 

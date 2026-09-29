@@ -81,12 +81,16 @@
 <body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6">
 
     <!-- ═══ 1. MODAL KONFIRMASI LOGOUT (PERSIS MOCKUP FOTO) ═══ -->
-    <div id="logout-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+    <div id="logout-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
         <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeLogoutModal()"></div>
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
+             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
+             onclick="closeLogoutModal()"></div>
 
         <!-- Dialog Card -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
             <!-- Warning Circle (Merah Lingkaran dengan Tanda Seru) -->
             <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -109,7 +113,7 @@
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
@@ -128,12 +132,16 @@
     </form>
 
     <!-- ═══ 2. MODAL KONFIRMASI HAPUS (PERSIS MOCKUP FOTO) ═══ -->
-    <div id="delete-confirm-modal" class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+    <div id="delete-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
+         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
         <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200" onclick="closeDeleteModal()"></div>
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
+             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
+             onclick="closeDeleteModal()"></div>
 
         <!-- Dialog Card -->
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100">
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
             <!-- Trash Icon Outline (Merah Outline sesuai Foto) -->
             <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -157,14 +165,14 @@
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
                     Batalkan
                 </button>
                 <form id="global-delete-form" method="POST" action="" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none">
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer">
                         Ya, Hapus
                     </button>
                 </form>
@@ -498,6 +506,8 @@
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
             return false;
         }
@@ -507,6 +517,8 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         }
 
@@ -542,6 +554,8 @@
                 }
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
             }
         }
 
@@ -550,6 +564,8 @@
             if (modal) {
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         }
 
