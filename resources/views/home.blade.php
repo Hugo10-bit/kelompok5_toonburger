@@ -137,14 +137,14 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <!-- Feature 1 -->
             <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
                 <div class="w-14 h-14 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
                 </div>
-                <h3 class="font-extrabold text-base text-gray-900">100% DAGING SAPI LOKAL</h3>
+                <h3 class="font-extrabold text-base text-gray-900">100% Daging Sapi Lokal</h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Daging sapi impor murni tanpa campuran tepung, di-smash dengan panas tinggi agar tercipta kerak gurih karamel dan bagian dalam yang super juicy.
                 </p>
@@ -155,31 +155,20 @@
                 <div class="w-14 h-14 rounded-2xl bg-orange-50 group-hover:bg-orange-500 text-orange-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
                 </div>
-                <h3 class="font-extrabold text-base text-gray-900">Fresh Brioche Buns</h3>
+                <h3 class="font-extrabold text-base text-gray-900">Roti Brioche Segar</h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Roti brioche mentega lembut yang dipanggang segar setiap pagi langsung di dapur kami. Empuk, harum, dan tahan menyerap saus lezat.
                 </p>
             </div>
 
             <!-- Feature 3 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group sm:col-span-2 sm:w-1/2 sm:justify-self-center lg:col-span-1 lg:w-auto">
                 <div class="w-14 h-14 rounded-2xl bg-red-50 group-hover:bg-red-500 text-red-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                 </div>
-                <h3 class="font-extrabold text-base text-gray-900">Secret Toon Sauce</h3>
+                <h3 class="font-extrabold text-base text-gray-900">Saus Rahasia Toon</h3>
                 <p class="text-xs text-gray-600 leading-relaxed">
                     Saus racikan rahasia khas Toon Burger yang menyeimbangkan rasa gurih, creamy, manis, dan sedikit asam segar yang menyatukan semua rasa.
-                </p>
-            </div>
-
-            <!-- Feature 4 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
-                <div class="w-14 h-14 rounded-2xl bg-emerald-50 group-hover:bg-emerald-500 text-emerald-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
-                </div>
-                <h3 class="font-extrabold text-base text-gray-900">Made to Order</h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
-                    Pesanan baru dimasak saat tiket masuk ke dapur. Selalu disajikan dalam kondisi panas, renyah, dan keju yang meleleh sempurna.
                 </p>
             </div>
 
@@ -252,12 +241,12 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Pillar 1 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
                 <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shadow-2xs">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
                     </div>
-                    <h3 class="font-extrabold text-base text-gray-900">100% DAGING SAPI LOKAL Smash</h3>
+                    <h3 class="font-extrabold text-base text-gray-900">100% Local Beef Smash</h3>
                     <p class="text-xs text-gray-600 leading-relaxed">
                         Patty daging murni impor tanpa campuran tepung atau filler. Di-smash panas dengan teknik khusus untuk mengunci sari kaldu alami daging agar bagian luar renyah gurih dan bagian dalam tetap lembut juicy.
                     </p>
@@ -268,25 +257,25 @@
             </div>
 
             <!-- Pillar 2 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
                 <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-700 flex items-center justify-center shadow-2xs">
+                    <div class="w-12 h-12 rounded-2xl bg-orange-50 group-hover:bg-orange-500 text-orange-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
                     </div>
                     <h3 class="font-extrabold text-base text-gray-900">Artisanal Brioche Buns</h3>
                     <p class="text-xs text-gray-600 leading-relaxed">
-                        Roti brioche mentega yang dipanggang segar setiap pagi langsung di dapur kami. Tekstur empuk harum yang mampu menyerap saus legendaris Toon Burger tanpa merusak kekokohan roti saat dinikmati.
+                        Roti brioche mentega yang dipanggang segar setiap sore langsung di dapur kami. Tekstur empuk harum yang mampu menyerap saus legendaris Toon Burger tanpa merusak kekokohan roti saat dinikmati.
                     </p>
                 </div>
                 <div class="pt-3 border-t border-gray-100 flex items-center gap-2 text-[11px] font-bold text-orange-800">
-                    <span>✓ Freshly Baked Every Morning</span>
+                    <span>✓ Dibuat Segar Setiap Pagi</span>
                 </div>
             </div>
 
             <!-- Pillar 3 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-lg transition">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
                 <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shadow-2xs">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 group-hover:bg-emerald-500 text-emerald-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     </div>
                     <h3 class="font-extrabold text-base text-gray-900">Dedicated Takeaway Thermal Pack</h3>
