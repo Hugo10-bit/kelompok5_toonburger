@@ -65,12 +65,8 @@ Route::post('/orders/{order_number}/review', [OrderController::class, 'storeRevi
 // Customer Past Orders
 Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
 
-// Authentication Routes
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
+// Authentication Routes (Laravel Breeze)
+require __DIR__.'/auth.php';
 
 
 
