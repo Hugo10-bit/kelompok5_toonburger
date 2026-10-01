@@ -36,7 +36,7 @@
                         }
                     },
                     fontFamily: {
-                        poppins: ['Roboto', 'sans-serif'],
+                        sans: ['Roboto', 'sans-serif'],
                     }
                 }
             }
@@ -82,10 +82,8 @@
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
-         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
-         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
-             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
              onclick="closeLogoutModal()"></div>
 
         <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
@@ -129,10 +127,8 @@
 
     <!-- Modal Konfirmasi Hapus -->
     <div id="delete-confirm-modal"
-         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
-         style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; margin: 0; z-index: 999999; align-items: center; justify-content: center;">
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
-             style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;"
              onclick="closeDeleteModal()"></div>
 
         <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
@@ -626,7 +622,6 @@
             if (searchResults) searchResults.classList.add('hidden');
         }
 
-        // 1. Language Dropdown
         function toggleLanguageDropdown(e) {
             if (e) e.stopPropagation();
             const dropdown = document.getElementById('header-lang-dropdown');
@@ -647,7 +642,6 @@
             }
         }
 
-        // ── i18n Dictionary ──────────────────────────────────────────────────
         const _tbTranslations = {
             ID: {
                 // Layout: Nav
@@ -1010,7 +1004,6 @@
             if (chevron) chevron.style.transform = 'rotate(0deg)';
         }
 
-        // 2. Profile Dropdown
         function toggleProfileDropdown(e) {
             if (e) e.stopPropagation();
             const dropdown = document.getElementById('header-profile-dropdown');
@@ -1031,7 +1024,6 @@
             }
         }
 
-        // 3. Search Bar Live Logic
         let searchDebounceTimer = null;
         const searchInput = document.getElementById('global-header-search');
         const searchClearBtn = document.getElementById('header-search-clear');
@@ -1109,6 +1101,7 @@
         function renderHeaderSearchResults(data, query) {
             if (!searchContent) return;
 
+            const isEn = (window._tbLang === 'US');
             const hasProducts = data.products && data.products.length > 0;
             const hasOrders = data.orders && data.orders.length > 0;
             const hasCategories = data.categories && data.categories.length > 0;
@@ -1119,8 +1112,8 @@
                         <svg class="w-7 h-7 mx-auto text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
-                        <p class="text-xs font-medium text-gray-500">Tidak ada hasil untuk "<span class="font-bold text-gray-800">${escapeHeaderHtml(query)}</span>"</p>
-                        <p class="text-[11px] text-gray-400 mt-1">Coba kata kunci lain atau periksa ejaan.</p>
+                        <p class="text-xs font-medium text-gray-500">${isEn ? 'No results for' : 'Tidak ada hasil untuk'} "<span class="font-bold text-gray-800">${escapeHeaderHtml(query)}</span>"</p>
+                        <p class="text-[11px] text-gray-400 mt-1">${isEn ? 'Try another keyword or check spelling.' : 'Coba kata kunci lain atau periksa ejaan.'}</p>
                     </div>
                 `;
                 return;
@@ -1128,13 +1121,12 @@
 
             let html = '<div class="space-y-3.5">';
 
-            // 1. Products
             if (hasProducts) {
                 html += `
                     <div>
                         <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
-                            <span>Produk (${data.products.length})</span>
-                            <a href="{{ route('admin.products') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">Semua Produk &rarr;</a>
+                            <span>${isEn ? 'Products' : 'Produk'} (${data.products.length})</span>
+                            <a href="{{ route('admin.products') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">${isEn ? 'All Products' : 'Semua Produk'} &rarr;</a>
                         </div>
                         <div class="space-y-1 mt-1.5">
                 `;
@@ -1151,7 +1143,7 @@
                                 </div>
                             </div>
                             <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${p.is_available ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
-                                ${p.is_available ? 'Tersedia' : 'Habis'}
+                                ${p.is_available ? (isEn ? 'Available' : 'Tersedia') : (isEn ? 'Out of Stock' : 'Habis')}
                             </span>
                         </a>
                     `;
@@ -1159,13 +1151,12 @@
                 html += `</div></div>`;
             }
 
-            // 2. Orders
             if (hasOrders) {
                 html += `
                     <div>
                         <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
-                            <span>Pesanan (${data.orders.length})</span>
-                            <a href="{{ route('admin.orders') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">Semua Pesanan &rarr;</a>
+                            <span>${isEn ? 'Orders' : 'Pesanan'} (${data.orders.length})</span>
+                            <a href="{{ route('admin.orders') }}?search=${encodeURIComponent(query)}" class="text-[#415C58] hover:underline normal-case font-semibold">${isEn ? 'All Orders' : 'Semua Pesanan'} &rarr;</a>
                         </div>
                         <div class="space-y-1 mt-1.5">
                 `;
@@ -1190,11 +1181,10 @@
                 html += `</div></div>`;
             }
 
-            // 3. Categories
             if (hasCategories) {
                 html += `
                     <div>
-                        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">Kategori</div>
+                        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">${isEn ? 'Categories' : 'Kategori'}</div>
                         <div class="flex flex-wrap gap-1.5 mt-2 px-2">
                 `;
                 data.categories.forEach(c => {

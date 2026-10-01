@@ -30,18 +30,6 @@ Route::get('/whatsapp', function () {
     return redirect()->away('https://wa.me/6281345956487?text=' . urlencode('Halo Toon Burger, saya ingin bertanya mengenai menu dan pemesanan.'));
 })->name('whatsapp');
 
-Route::get('/ziel', function () {
-    return view('welcome ziel');
-});
-
-Route::get('/cornelius', function () {
-    return view('welcome cornelius');
-});
-
-Route::get('/rapip', function () {
-    return view('welcome rapip ');
-});
-
 // Cart Operations (AJAX & Sessions)
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
