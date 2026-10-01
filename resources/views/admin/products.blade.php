@@ -8,8 +8,8 @@
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Kelola Data Produk</h1>
-            <p class="text-xs text-gray-400 mt-1">Kelola daftar menu dan produk Toon Burger</p>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight" data-i18n="products_title">Kelola Data Produk</h1>
+            <p class="text-xs text-gray-400 mt-1" data-i18n="products_subtitle">Kelola daftar menu dan produk Toon Burger</p>
         </div>
 
         <!-- Action controls -->
@@ -152,13 +152,13 @@
             @csrf
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Nama Produk</label>
+                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_name">Nama Produk</label>
                 <input type="text" name="name" required placeholder="Nama Produk Baru" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
             </div>
 
             <div class="grid grid-cols-2 gap-3.5">
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1.5">Kategori</label>
+                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_category">Kategori</label>
                     <select name="category_id" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
                         @foreach($categories as $c)
                             <option value="{{ $c->id }}">{{ $c->name }}</option>
@@ -167,25 +167,25 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1.5">Harga (Rp)</label>
+                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_price">Harga (Rp)</label>
                     <input type="number" name="price" required placeholder="0" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-bold focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3.5">
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1.5">Stok (Porsi)</label>
+                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_stock">Stok (Porsi)</label>
                     <input type="number" name="calories" placeholder="50" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
                 </div>
 
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1.5">Upload Foto</label>
+                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_photo">Upload Foto</label>
                     <input type="file" name="image_file" accept="image/*" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-2.5 focus:outline-none text-[11px] text-gray-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
                 </div>
             </div>
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Deskripsi</label>
+                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_desc">Deskripsi</label>
                 <textarea name="description" rows="3" placeholder="Deskripsi menu Toon Burger..." class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 resize-none"></textarea>
             </div>
 
@@ -243,7 +243,7 @@
                 </div>
 
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1.5">Ganti Foto Menu</label>
+                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_edit_photo">Ganti Foto Menu</label>
                     <input type="file" name="image_file" accept="image/*" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-2.5 focus:outline-none text-[11px] text-gray-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
                 </div>
             </div>

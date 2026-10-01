@@ -8,8 +8,8 @@
     <!-- Header -->
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight">Kelola Kategori Produk</h1>
-            <p class="text-xs text-gray-400 mt-1">Kelola kategori untuk pengelompokan menu Toon Burger</p>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight" data-i18n="categories_title">Kelola Kategori Produk</h1>
+            <p class="text-xs text-gray-400 mt-1" data-i18n="categories_subtitle">Kelola kategori untuk pengelompokan menu Toon Burger</p>
         </div>
 
         <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
@@ -26,7 +26,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
                 </svg>
-                <span>Tambah Kategori</span>
+                <span data-i18n="categories_add_btn">Tambah Kategori</span>
             </button>
         </div>
     </div>
@@ -127,14 +127,14 @@
 <div id="add-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-1">
-            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">Tambah Kategori</h3>
+            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight" data-i18n="categories_add_modal_title">Tambah Kategori</h3>
         </div>
 
         <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-4 text-xs">
             @csrf
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Nama Kategori</label>
+                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="categories_label_name">Nama Kategori</label>
                 <input type="text" name="name" required placeholder="Masukkan nama kategori"
                        class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
             </div>
@@ -155,14 +155,14 @@
 <div id="edit-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
     <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
         <div class="pb-1">
-            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight">Edit Kategori</h3>
+            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight" data-i18n="categories_edit_modal_title">Edit Kategori</h3>
         </div>
 
         <form id="edit-category-form" method="POST" class="space-y-4 text-xs">
             @csrf
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Nama Kategori</label>
+                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="categories_label_name">Nama Kategori</label>
                 <input type="text" name="name" id="edit_category_name" required placeholder="Nama Kategori"
                        class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
             </div>

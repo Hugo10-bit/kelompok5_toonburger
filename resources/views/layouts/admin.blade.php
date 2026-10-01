@@ -10,10 +10,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,7 +36,7 @@
                         }
                     },
                     fontFamily: {
-                        poppins: ['Poppins', 'sans-serif'],
+                        poppins: ['Roboto', 'sans-serif'],
                     }
                 }
             }
@@ -45,7 +45,7 @@
     <style>
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: #EEF0F2;
             color: #1F2937;
         }
@@ -96,24 +96,26 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
+            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="logout_title">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
+            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        data-i18n="cancel">
                     Batalkan
                 </button>
                 <button type="button"
                         id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center"
+                        data-i18n="logout_confirm_btn">
                     Ya, Keluar
                 </button>
             </div>
@@ -142,25 +144,27 @@
                 </svg>
             </div>
 
-            <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5">
+            <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="delete_title">
                 Konfirmasi Hapus
             </h3>
 
-            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7">
+            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="delete_desc">
                 Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
             </p>
 
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        data-i18n="cancel">
                     Batalkan
                 </button>
                 <form id="global-delete-form" method="POST" action="" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer">
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer"
+                            data-i18n="delete_confirm_btn">
                         Ya, Hapus
                     </button>
                 </form>
@@ -206,7 +210,7 @@
                         <circle cx="14.25" cy="9.5" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
                         <circle cx="19.25" cy="4" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
                     </svg>
-                    <span>Dashboards</span>
+                    <span data-i18n="nav_dashboard">Dashboards</span>
                 </a>
 
                 <!-- 2. Admin Profile -->
@@ -216,7 +220,7 @@
                         <circle cx="12" cy="7" r="3" />
                         <rect x="4.5" y="14" width="15" height="6.5" rx="3.25" />
                     </svg>
-                    <span>Admin Profile</span>
+                    <span data-i18n="nav_profile">Admin Profile</span>
                 </a>
 
                 <!-- 3. Order processing -->
@@ -230,7 +234,7 @@
                         <line x1="9.5" y1="12" x2="16.5" y2="12" />
                         <line x1="9.5" y1="15.5" x2="13.5" y2="15.5" />
                     </svg>
-                    <span>Order processing</span>
+                    <span data-i18n="nav_orders">Order Processing</span>
                 </a>
 
                 <!-- 4. Product Data -->
@@ -246,7 +250,7 @@
                         <line x1="16" y1="6.5" x2="21" y2="6.5" />
                         <path d="M 20.5 6.5 L 19.5 17.5 C 19.4 18.6 18.5 19.5 17.4 19.5 H 16" />
                     </svg>
-                    <span>Product Data</span>
+                    <span data-i18n="nav_products">Product Data</span>
                 </a>
 
                 <!-- 5. Product Categories -->
@@ -259,7 +263,7 @@
                         <!-- Back tag outline -->
                         <path d="M 5 8.5 L 3.2 10.3 A 1 1 0 0 0 3.2 11.7 L 10.2 18.7 A 1 1 0 0 0 11.6 18.7 L 13.5 16.8" />
                     </svg>
-                    <span>Product Categories</span>
+                    <span data-i18n="nav_categories">Product Categories</span>
                 </a>
             </nav>
         </div>
@@ -273,7 +277,7 @@
                     <path d="M3 10.5 L10.8 3.5 C11.5 2.8 12.5 2.8 13.2 3.5 L21 10.5 V19 C21 20.1 20.1 21 19 21 H5 C3.9 21 3 20.1 3 19 Z" />
                     <path d="M9 21 V15.5 C9 14.7 9.7 14 10.5 14 H13.5 C14.3 14 15 14.7 15 15.5 V21" />
                 </svg>
-                <span>Home page</span>
+                <span data-i18n="nav_homepage">Home page</span>
             </a>
 
             <!-- Logout Button -->
@@ -283,7 +287,7 @@
                     <path d="M8 12 H19" />
                     <path d="M15 8 L19 12 L15 16" />
                 </svg>
-                <span>Logout</span>
+                <span data-i18n="nav_logout">Logout</span>
             </button>
         </div>
     </aside>
@@ -316,6 +320,7 @@
                                id="global-header-search"
                                placeholder="Search for something..."
                                autocomplete="off"
+                               data-i18n-attr="placeholder:search_placeholder"
                                class="bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
                         <button type="button"
                                 id="header-search-clear"
@@ -335,7 +340,7 @@
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Mencari data...
+                            <span data-i18n="searching">Mencari data...</span>
                         </div>
                         <div id="header-search-content"></div>
                     </div>
@@ -405,13 +410,13 @@
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-xs text-gray-900 truncate">Toon Burger</div>
                                 <div class="text-[11px] text-gray-400 truncate">Toonburger@gmail.com</div>
-                                <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]">Administrator</span>
+                                <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]" data-i18n="role_admin">Administrator</span>
                             </div>
                         </div>
                         <div>
                             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
                                 <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                <span>Logout</span>
+                                <span data-i18n="nav_logout">Logout</span>
                             </button>
                         </div>
                     </div>
@@ -461,7 +466,7 @@
                 <rect x="18" y="7" width="2.5" height="14" rx="0.8"/>
                 <path d="M4.25 11 L9.25 6.5 L14.25 9.5 L19.25 4"/>
             </svg>
-            <span class="text-[10px] font-semibold leading-none">Dashboard</span>
+            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_dashboard">Dashboard</span>
         </a>
         <a href="{{ route('admin.orders') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.orders*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
@@ -470,7 +475,7 @@
                 <line x1="9.5" y1="8.5" x2="16.5" y2="8.5"/>
                 <line x1="9.5" y1="12" x2="16.5" y2="12"/>
             </svg>
-            <span class="text-[10px] font-semibold leading-none">Pesanan</span>
+            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_orders_short">Pesanan</span>
         </a>
         <a href="{{ route('admin.products') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.products*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
@@ -479,7 +484,7 @@
                 <line x1="3.5" y1="13" x2="16.5" y2="13"/>
                 <line x1="3.5" y1="17" x2="16.5" y2="17"/>
             </svg>
-            <span class="text-[10px] font-semibold leading-none">Produk</span>
+            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_products_short">Produk</span>
         </a>
         <a href="{{ route('admin.categories') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.categories*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
@@ -487,7 +492,7 @@
                 <path d="M 8.5 3.5 H 15.5 A 1 1 0 0 1 16.2 3.8 L 21.2 8.8 A 1 1 0 0 1 21.2 10.2 L 14.2 17.2 A 1 1 0 0 1 12.8 17.2 L 7.8 12.2 A 1 1 0 0 1 7.5 11.5 V 4.5 A 1 1 0 0 1 8.5 3.5 Z"/>
                 <circle cx="12" cy="7.5" r="1.3" fill="currentColor"/>
             </svg>
-            <span class="text-[10px] font-semibold leading-none">Kategori</span>
+            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_categories_short">Kategori</span>
         </a>
         <button type="button" onclick="confirmLogout(event)"
                 class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] text-[#DE3B28] transition active:opacity-70">
@@ -496,7 +501,7 @@
                 <path d="M8 12 H19"/>
                 <path d="M15 8 L19 12 L15 16"/>
             </svg>
-            <span class="text-[10px] font-semibold leading-none">Keluar</span>
+            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_logout_short">Keluar</span>
         </button>
     </nav>
 
@@ -572,7 +577,12 @@
             if (modal && form) {
                 form.action = actionUrl;
                 if (message) {
-                    message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Tindakan ini tidak dapat dibatalkan.`;
+                    const lang = window._tbLang || 'ID';
+                    if (lang === 'ID') {
+                        message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Tindakan ini tidak dapat dibatalkan.`;
+                    } else {
+                        message.textContent = `Are you sure you want to delete ${itemName}? This action cannot be undone.`;
+                    }
                 }
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -637,7 +647,308 @@
             }
         }
 
+        // ── i18n Dictionary ──────────────────────────────────────────────────
+        const _tbTranslations = {
+            ID: {
+                // Layout: Nav
+                nav_dashboard: 'Dashboards',
+                nav_profile: 'Profil Admin',
+                nav_orders: 'Proses Pesanan',
+                nav_orders_short: 'Pesanan',
+                nav_products: 'Data Produk',
+                nav_products_short: 'Produk',
+                nav_categories: 'Kategori Produk',
+                nav_categories_short: 'Kategori',
+                nav_homepage: 'Halaman Utama',
+                nav_logout: 'Keluar',
+                nav_logout_short: 'Keluar',
+                // Layout: Modals
+                logout_title: 'Konfirmasi Keluar',
+                logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
+                logout_confirm_btn: 'Ya, Keluar',
+                delete_title: 'Konfirmasi Hapus',
+                delete_desc: 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
+                delete_confirm_btn: 'Ya, Hapus',
+                cancel: 'Batalkan',
+                // Header
+                search_placeholder: 'Cari sesuatu...',
+                searching: 'Mencari data...',
+                role_admin: 'Administrator',
+                // Dashboard
+                dash_greeting: 'Halo, Admin Toon Burger.',
+                dash_subtitle: 'Pantau performa penjualan dan pesanan aktif hari ini.',
+                dash_metric_profit: 'Keuntungan Hari Ini',
+                dash_metric_orders: 'Pesanan Hari Ini',
+                dash_metric_progress: 'Pesanan Diproses',
+                dash_metric_products: 'Total Produk',
+                dash_up5: 'Naik 5% dari kemarin.',
+                dash_up2: 'Naik 2% dari kemarin.',
+                dash_needs_processing: 'Perlu segera diproses.',
+                dash_active: 'Aktif',
+                dash_out_of_stock: 'Habis',
+                dash_latest_order: 'Pesanan Terbaru',
+                dash_see_all: 'Lihat semua',
+                dash_col_order_num: 'Nomor Pesanan',
+                dash_col_customer: 'Nama Pelanggan',
+                dash_col_total: 'Total',
+                dash_col_status: 'Status',
+                dash_col_action: 'Aksi',
+                dash_detail: 'Detail',
+                dash_best_selling: 'Menu Terlaris',
+                // Orders
+                orders_title: 'Proses Pesanan',
+                orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
+                orders_refresh: 'Segarkan',
+                orders_tab_all: 'Semua',
+                orders_tab_pending: 'Menunggu',
+                orders_tab_processing: 'Diproses',
+                orders_tab_ready: 'Siap Diambil',
+                orders_tab_completed: 'Selesai',
+                orders_tab_cancelled: 'Dibatalkan',
+                orders_empty_title: 'Tidak ada pesanan dalam status ini',
+                orders_empty_desc: 'Saat ada pesanan baru masuk, pesanan akan segera tampil di sini.',
+                orders_status_completed: 'Selesai',
+                orders_status_ready: 'Siap Diambil',
+                orders_status_processing: 'Diproses',
+                orders_status_cancelled: 'Dibatalkan',
+                orders_status_pending: 'Menunggu',
+                orders_total: 'Total',
+                orders_accept: 'Terima Pesanan',
+                orders_mark_ready: 'Pesanan Siap',
+                orders_complete: 'Selesaikan Pesanan',
+                orders_done_badge: 'Pesanan Selesai',
+                orders_cancelled_badge: 'Pesanan Dibatalkan',
+                orders_view_detail: 'Lihat Detail',
+                orders_reject: 'Tolak Pesanan',
+                // Products
+                products_title: 'Kelola Data Produk',
+                products_subtitle: 'Kelola daftar menu dan produk Toon Burger',
+                products_search: 'Cari nama menu...',
+                products_add_btn: 'Tambah Produk',
+                products_col_no: 'No',
+                products_col_menu: 'Menu / Produk',
+                products_col_category: 'Kategori',
+                products_col_price: 'Harga',
+                products_col_stock: 'Stok',
+                products_col_status: 'Status',
+                products_col_action: 'Aksi',
+                products_available: 'Tersedia',
+                products_out: 'Habis',
+                products_empty_title: 'Belum Ada Menu',
+                products_empty_desc: 'Klik tombol + Tambah Produk untuk memasukkan menu baru.',
+                // Add Product Modal
+                products_add_modal_title: 'Tambah Produk Baru',
+                products_add_modal_desc: 'Lengkapi informasi menu Toon Burger yang akan ditambahkan.',
+                products_label_name: 'Nama Produk',
+                products_label_category: 'Kategori',
+                products_label_price: 'Harga (Rp)',
+                products_label_stock: 'Stok (Porsi)',
+                products_label_photo: 'Upload Foto',
+                products_label_desc: 'Deskripsi',
+                products_add_submit: 'Tambah Produk',
+                // Edit Product Modal
+                products_edit_modal_title: 'Edit Menu',
+                products_edit_modal_desc: 'Perbarui rincian, harga, atau foto menu Toon Burger.',
+                products_edit_photo: 'Ganti Foto Menu',
+                products_save_changes: 'Simpan Perubahan',
+                // Categories
+                categories_title: 'Kelola Kategori Produk',
+                categories_subtitle: 'Kelola kategori untuk pengelompokan menu Toon Burger',
+                categories_search: 'Cari kategori...',
+                categories_add_btn: 'Tambah Kategori',
+                categories_col_no: 'No',
+                categories_col_name: 'Nama Kategori',
+                categories_col_action: 'Aksi',
+                categories_empty_title: 'Belum Ada Kategori',
+                categories_empty_desc: 'Klik tombol + Tambah Kategori untuk membuat kategori menu baru.',
+                categories_add_modal_title: 'Tambah Kategori',
+                categories_label_name: 'Nama Kategori',
+                categories_save: 'Simpan',
+                categories_edit_modal_title: 'Edit Kategori',
+                categories_save_changes: 'Simpan Perubahan',
+                // Coupons
+                coupons_tab: 'Voucher & Kupon Promo',
+                tables_tab: 'Meja Restoran',
+                pos_tab: 'Buka Kasir / POS',
+                coupons_title: 'Voucher & Kupon Promo',
+                coupons_subtitle: 'Buat kode voucher diskon baru dan pantau penggunaan promo pelanggan Toon Burger.',
+                coupons_add_btn: '+ Buat Voucher Baru',
+                coupons_col_code: 'Kode Kupon',
+                coupons_col_type: 'Tipe & Nilai Diskon',
+                coupons_col_min: 'Min. Belanja & Max Diskon',
+                coupons_col_usage: 'Penggunaan',
+                coupons_col_status: 'Status',
+                coupons_col_action: 'Aksi',
+                // Tables
+                tables_title: 'Manajemen Meja Restoran',
+                tables_subtitle: 'Pantau ketersediaan meja, status terisi, dan tautan QR pemesanan pelanggan Toon Burger.',
+                tables_open_menu: 'Buka Menu Meja Ini',
+                tables_change: 'Ubah',
+                // General
+                btn_cancel: 'Batal',
+                transaction: 'Transaksi',
+                queue: 'Antrean',
+            },
+            EN: {
+                // Layout: Nav
+                nav_dashboard: 'Dashboards',
+                nav_profile: 'Admin Profile',
+                nav_orders: 'Order Processing',
+                nav_orders_short: 'Orders',
+                nav_products: 'Product Data',
+                nav_products_short: 'Products',
+                nav_categories: 'Product Categories',
+                nav_categories_short: 'Categories',
+                nav_homepage: 'Home page',
+                nav_logout: 'Logout',
+                nav_logout_short: 'Logout',
+                // Layout: Modals
+                logout_title: 'Confirm Logout',
+                logout_desc: 'Are you sure you want to log out? You will need to log in again to access the admin panel.',
+                logout_confirm_btn: 'Yes, Logout',
+                delete_title: 'Confirm Delete',
+                delete_desc: 'Are you sure you want to delete this item? This action cannot be undone.',
+                delete_confirm_btn: 'Yes, Delete',
+                cancel: 'Cancel',
+                // Header
+                search_placeholder: 'Search for something...',
+                searching: 'Searching...',
+                role_admin: 'Administrator',
+                // Dashboard
+                dash_greeting: 'Hello, Toon Burger Admin.',
+                dash_subtitle: "Monitor Toon Burger's sales performance and active orders for today.",
+                dash_metric_profit: "Today's Profits",
+                dash_metric_orders: "Today's Orders",
+                dash_metric_progress: 'Order in Progress',
+                dash_metric_products: 'Total Products',
+                dash_up5: 'Up 5% from yesterday.',
+                dash_up2: 'Up 2% from yesterday.',
+                dash_needs_processing: 'Needs to be processed immediately.',
+                dash_active: 'Active',
+                dash_out_of_stock: 'Out of Stock',
+                dash_latest_order: 'Latest Order',
+                dash_see_all: 'See all',
+                dash_col_order_num: 'Order Number',
+                dash_col_customer: 'Customer Name',
+                dash_col_total: 'Total',
+                dash_col_status: 'Status',
+                dash_col_action: 'Action',
+                dash_detail: 'Detail',
+                dash_best_selling: 'Best Selling Menu',
+                // Orders
+                orders_title: 'Order Processing',
+                orders_subtitle: 'Manage order flow and customer order status in real time.',
+                orders_refresh: 'Refresh',
+                orders_tab_all: 'All',
+                orders_tab_pending: 'Pending',
+                orders_tab_processing: 'Processing',
+                orders_tab_ready: 'Ready to Serve',
+                orders_tab_completed: 'Completed',
+                orders_tab_cancelled: 'Cancelled',
+                orders_empty_title: 'No orders with this status',
+                orders_empty_desc: 'New orders will appear here when they come in.',
+                orders_status_completed: 'Completed',
+                orders_status_ready: 'Ready to Serve',
+                orders_status_processing: 'Processing',
+                orders_status_cancelled: 'Cancelled',
+                orders_status_pending: 'Pending',
+                orders_total: 'Total',
+                orders_accept: 'Accept Order',
+                orders_mark_ready: 'Order Ready',
+                orders_complete: 'Complete Order',
+                orders_done_badge: 'Order Completed',
+                orders_cancelled_badge: 'Order Cancelled',
+                orders_view_detail: 'View Detail',
+                orders_reject: 'Reject Order',
+                // Products
+                products_title: 'Manage Product Data',
+                products_subtitle: 'Manage the menu and product list of Toon Burger',
+                products_search: 'Search menu name...',
+                products_add_btn: 'Add Product',
+                products_col_no: 'No',
+                products_col_menu: 'Menu / Product',
+                products_col_category: 'Category',
+                products_col_price: 'Price',
+                products_col_stock: 'Stock',
+                products_col_status: 'Status',
+                products_col_action: 'Action',
+                products_available: 'Available',
+                products_out: 'Out of Stock',
+                products_empty_title: 'No menu items yet',
+                products_empty_desc: 'Click + Add Product to add a new menu item.',
+                // Add Product Modal
+                products_add_modal_title: 'Add New Product',
+                products_add_modal_desc: 'Fill in the details for the new Toon Burger menu item.',
+                products_label_name: 'Product Name',
+                products_label_category: 'Category',
+                products_label_price: 'Price (Rp)',
+                products_label_stock: 'Stock (Portions)',
+                products_label_photo: 'Upload Photo',
+                products_label_desc: 'Description',
+                products_add_submit: 'Add Product',
+                // Edit Product Modal
+                products_edit_modal_title: 'Edit Menu',
+                products_edit_modal_desc: 'Update the details, price, or photo of this menu item.',
+                products_edit_photo: 'Replace Menu Photo',
+                products_save_changes: 'Save Changes',
+                // Categories
+                categories_title: 'Manage Product Categories',
+                categories_subtitle: 'Manage categories for Toon Burger menu grouping',
+                categories_search: 'Search category...',
+                categories_add_btn: 'Add Category',
+                categories_col_no: 'No',
+                categories_col_name: 'Category Name',
+                categories_col_action: 'Action',
+                categories_empty_title: 'No Categories Yet',
+                categories_empty_desc: 'Click + Add Category to create a new menu category.',
+                categories_add_modal_title: 'Add Category',
+                categories_label_name: 'Category Name',
+                categories_save: 'Save',
+                categories_edit_modal_title: 'Edit Category',
+                categories_save_changes: 'Save Changes',
+                // Coupons
+                coupons_tab: 'Vouchers & Promo Coupons',
+                tables_tab: 'Restaurant Tables',
+                pos_tab: 'Open Cashier / POS',
+                coupons_title: 'Vouchers & Promo Coupons',
+                coupons_subtitle: 'Create new discount voucher codes and track Toon Burger customer promotions.',
+                coupons_add_btn: '+ Create New Voucher',
+                coupons_col_code: 'Coupon Code',
+                coupons_col_type: 'Discount Type & Value',
+                coupons_col_min: 'Min. Spend & Max Discount',
+                coupons_col_usage: 'Usage',
+                coupons_col_status: 'Status',
+                coupons_col_action: 'Action',
+                // Tables
+                tables_title: 'Restaurant Table Management',
+                tables_subtitle: 'Monitor table availability, occupied status, and QR order links for Toon Burger customers.',
+                tables_open_menu: 'Open Table Menu',
+                tables_change: 'Update',
+                // General
+                btn_cancel: 'Cancel',
+                transaction: 'Transaction',
+                queue: 'Queue',
+            }
+        };
+
+        function applyTranslations(lang) {
+            const dict = _tbTranslations[lang] || _tbTranslations['ID'];
+            // Text content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key] !== undefined) el.textContent = dict[key];
+            });
+            // Attribute translation (e.g. placeholder)
+            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                el.getAttribute('data-i18n-attr').split(';').forEach(pair => {
+                    const [attr, key] = pair.split(':');
+                    if (dict[key] !== undefined) el.setAttribute(attr.trim(), dict[key]);
+                });
+            });
+        }
+
         function selectLanguage(lang, code) {
+            window._tbLang = code;
             const label = document.getElementById('header-lang-label');
             if (label) label.textContent = lang;
 
@@ -686,6 +997,8 @@
                         </svg>`;
                 }
             }
+
+            applyTranslations(code === 'US' ? 'EN' : 'ID');
 
             try {
                 localStorage.setItem('tb_admin_lang', code);
@@ -926,8 +1239,11 @@
 
         // Restore language preference
         try {
-            const savedLang = localStorage.getItem('tb_admin_lang');
-            if (savedLang === 'ID') {
+            const savedLang = localStorage.getItem('tb_admin_lang') || 'ID';
+            window._tbLang = savedLang;
+            if (savedLang === 'US') {
+                selectLanguage('English', 'US');
+            } else {
                 selectLanguage('Bahasa Indonesia', 'ID');
             }
         } catch (e) {}

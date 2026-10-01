@@ -8,10 +8,10 @@
     <!-- Greeting & Header -->
     <div>
         <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-            <span>Hello, Toon Burger Admin.</span>
+            <span data-i18n="dash_greeting">Hello, Toon Burger Admin.</span>
             <span>👋</span>
         </h1>
-        <p class="text-xs sm:text-sm text-gray-400 mt-1 font-normal">Monitor Toon Burger's sales performance and active orders for today.</p>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1 font-normal" data-i18n="dash_subtitle">Monitor Toon Burger's sales performance and active orders for today.</p>
     </div>
 
     <!-- Metrics grid -->
@@ -20,7 +20,7 @@
         <!-- Metric 1: Today's Profits -->
         <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition">
             <div class="flex items-center justify-between text-gray-400">
-                <span class="text-xs font-medium text-gray-500">Today's Profits</span>
+            <span class="text-xs font-medium text-gray-500" data-i18n="dash_metric_profit">Today's Profits</span>
                 <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -32,7 +32,7 @@
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_up5">
                     Up 5% from yesterday.
                 </span>
             </div>
@@ -41,7 +41,7 @@
         <!-- Metric 2: Today's Orders -->
         <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition">
             <div class="flex items-center justify-between text-gray-400">
-                <span class="text-xs font-medium text-gray-500">Today's Orders</span>
+            <span class="text-xs font-medium text-gray-500" data-i18n="dash_metric_orders">Today's Orders</span>
                 <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"></rect>
                     <line x1="2" y1="10" x2="22" y2="10"></line>
@@ -51,11 +51,11 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $totalOrdersToday > 0 ? $totalOrdersToday : 50 }} Transaction
+                    {{ $totalOrdersToday > 0 ? $totalOrdersToday : 50 }} <span data-i18n="transaction">Transaction</span>
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_up2">
                     Up 2% from yesterday.
                 </span>
             </div>
@@ -64,7 +64,7 @@
         <!-- Metric 3: Order in Progress -->
         <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition">
             <div class="flex items-center justify-between text-gray-400">
-                <span class="text-xs font-medium text-gray-500">Order in Progress</span>
+            <span class="text-xs font-medium text-gray-500" data-i18n="dash_metric_progress">Order in Progress</span>
                 <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
                     <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
@@ -75,11 +75,11 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $pendingOrders > 0 ? $pendingOrders : 9 }} Antrean
+                    {{ $pendingOrders > 0 ? $pendingOrders : 9 }} <span data-i18n="queue">Antrean</span>
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_needs_processing">
                     Needs to be processed immediately.
                 </span>
             </div>
@@ -88,7 +88,7 @@
         <!-- Metric 4: Total Products -->
         <div class="bg-white rounded-2xl sm:rounded-3xl border border-gray-200/80 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition">
             <div class="flex items-center justify-between text-gray-400">
-                <span class="text-xs font-medium text-gray-500">Total Products</span>
+            <span class="text-xs font-medium text-gray-500" data-i18n="dash_metric_products">Total Products</span>
                 <svg class="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -96,15 +96,15 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $totalProducts > 0 ? $totalProducts : 24 }} Products
+                    {{ $totalProducts > 0 ? $totalProducts : 24 }} <span data-i18n="nav_products_short">Products</span>
                 </span>
             </div>
             <div class="flex items-center gap-2 flex-wrap">
                 <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
-                    {{ $activeProducts > 0 ? $activeProducts : 20 }} Active
+                    {{ $activeProducts > 0 ? $activeProducts : 20 }} <span class="ml-0.5" data-i18n="dash_active">Active</span>
                 </span>
                 <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444]">
-                    {{ $outOfStockProducts > 0 ? $outOfStockProducts : 2 }} Out Of Stocks
+                    {{ $outOfStockProducts > 0 ? $outOfStockProducts : 2 }} <span class="ml-0.5" data-i18n="dash_out_of_stock">Out Of Stocks</span>
                 </span>
             </div>
         </div>
@@ -118,9 +118,9 @@
         <div class="lg:col-span-8 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-gray-200/80 shadow-xs">
             <div>
                 <div class="flex items-center justify-between pb-4">
-                    <h3 class="font-bold text-base text-gray-900 tracking-tight">Latest Order</h3>
+                    <h3 class="font-bold text-base text-gray-900 tracking-tight" data-i18n="dash_latest_order">Latest Order</h3>
                     <a href="{{ route('admin.orders') }}" class="text-xs font-semibold text-gray-500 hover:text-gray-900 transition inline-flex items-center gap-1 group">
-                        <span>See all</span>
+                        <span data-i18n="dash_see_all">See all</span>
                         <span class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
                     </a>
                 </div>
@@ -130,11 +130,11 @@
                     <table class="w-full text-left text-xs">
                         <thead>
                             <tr class="bg-[#F8F9FA] text-gray-500 font-medium text-[11px]">
-                                <th class="py-3 px-4 font-medium rounded-l-xl">Order Number</th>
-                                <th class="py-3 px-4 font-medium">Customer Name</th>
-                                <th class="py-3 px-4 font-medium">Total</th>
-                                <th class="py-3 px-4 font-medium">Status</th>
-                                <th class="py-3 px-4 font-medium text-center rounded-r-xl">Action</th>
+                                <th class="py-3 px-4 font-medium rounded-l-xl" data-i18n="dash_col_order_num">Order Number</th>
+                                <th class="py-3 px-4 font-medium" data-i18n="dash_col_customer">Customer Name</th>
+                                <th class="py-3 px-4 font-medium" data-i18n="dash_col_total">Total</th>
+                                <th class="py-3 px-4 font-medium" data-i18n="dash_col_status">Status</th>
+                                <th class="py-3 px-4 font-medium text-center rounded-r-xl" data-i18n="dash_col_action">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
@@ -216,7 +216,7 @@
         <!-- Right Column: BEST SELLING MENU (4 cols) -->
         <div class="lg:col-span-4 bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-gray-200/80 shadow-xs">
             <div>
-                <h3 class="font-bold text-base text-gray-900 mb-4 tracking-tight">Best selling Menu</h3>
+                <h3 class="font-bold text-base text-gray-900 mb-4 tracking-tight" data-i18n="dash_best_selling">Best selling Menu</h3>
                 <div class="space-y-2.5">
                     @php
                         $menuItems = [
