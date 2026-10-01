@@ -1,18 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes - Toon Burger Takeaway & Delivery Ordering System
-|--------------------------------------------------------------------------
-*/
-// Front-End Pages (Home, Menu Catalog, About Us, Contact)
 Route::get('/', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');
@@ -20,17 +13,14 @@ Route::get('/about', [MenuController::class, 'about'])->name('about');
 Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
 Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
 
-// GoFood Direct Redirect
 Route::get('/gofood', function () {
     return redirect()->away('https://gofood.co.id/en/banjarmasin/restaurant/toon-burger-banjarbaru-utara-jln-berlian-7d536afb-38c5-46a8-8a80-e3171a0d6ce9');
 })->name('gofood');
 
-// WhatsApp Hotline Direct Redirect
 Route::get('/whatsapp', function () {
     return redirect()->away('https://wa.me/6281345956487?text=' . urlencode('Halo Toon Burger, saya ingin bertanya mengenai menu dan pemesanan.'));
 })->name('whatsapp');
 
-// Cart Operations (AJAX & Sessions)
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'add'])->name('add');
@@ -41,24 +31,16 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/coupon/remove', [CartController::class, 'removeCoupon'])->name('coupon.remove');
 });
 
-// Checkout & Order Placement
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
 Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
 
-// Live Order Tracking & Invoices
 Route::get('/orders/{order_number}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{order_number}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 Route::post('/orders/{order_number}/review', [OrderController::class, 'storeReview'])->name('orders.review');
-
-// Customer Past Orders
 Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
 
-// Authentication Routes (Laravel Breeze)
 require __DIR__.'/auth.php';
 
-
-
-// Authenticated Routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         if (auth()->user()->isAdmin() || auth()->user()->isStaff()) {
@@ -67,42 +49,34 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('menu');
     })->name('dashboard');
 
-    // POS Screen for Staff & Admin (Protected)
     Route::middleware('admin')->group(function () {
         Route::get('/pos', [AdminController::class, 'pos'])->name('admin.pos');
         Route::post('/pos/checkout', [AdminController::class, 'posCheckout'])->name('admin.pos.checkout');
 
-        // Admin Panel
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
             Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
 
-            // Kitchen & Order Management
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
             Route::post('/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
 
-            // Product Management
             Route::get('/products', [AdminController::class, 'products'])->name('products');
             Route::post('/products/store', [AdminController::class, 'storeProduct'])->name('products.store');
             Route::post('/products/{id}/update', [AdminController::class, 'updateProduct'])->name('products.update');
             Route::post('/products/{id}/toggle', [AdminController::class, 'toggleProduct'])->name('products.toggle');
             Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('products.delete');
 
-            // Table Management
             Route::get('/tables', [AdminController::class, 'tables'])->name('tables');
             Route::post('/tables/{id}/status', [AdminController::class, 'updateTableStatus'])->name('tables.status');
 
-            // Category Management
             Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
             Route::post('/categories/store', [AdminController::class, 'storeCategory'])->name('categories.store');
             Route::post('/categories/{id}/update', [AdminController::class, 'updateCategory'])->name('categories.update');
             Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
 
-            // Admin Profile Management
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
 
-            // Coupons & Settings Management
             Route::get('/coupons', [AdminController::class, 'coupons'])->name('coupons');
             Route::get('/settings', [AdminController::class, 'coupons'])->name('settings');
             Route::post('/coupons/store', [AdminController::class, 'storeCoupon'])->name('coupons.store');
