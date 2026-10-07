@@ -61,14 +61,14 @@
         <div class="sticky top-18 z-30 bg-[#FAF1E1]/95 backdrop-blur-md py-3 -mx-4 px-4 sm:mx-0 sm:px-0">
             <div class="flex items-center gap-2.5 overflow-x-auto hide-scrollbar pb-1">
                 <a href="{{ route('menu', ['category' => 'all', 'q' => request('q')]) }}"
-                   class="px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 whitespace-nowrap transition shadow-xs {{ $selectedCategory === 'all' ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
+                   class="toon-btn-bounce px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 whitespace-nowrap transition shadow-xs {{ $selectedCategory === 'all' ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
                     <svg class="w-4 h-4 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10a8 8 0 0116 0v1H4v-1zm0 4h16m-16 3h16a2 2 0 012 2H2a2 2 0 012-2z"/></svg>
                     <span>Semua Menu</span>
                 </a>
 
                 @foreach($categories as $cat)
                     <a href="{{ route('menu', ['category' => $cat->slug, 'q' => request('q')]) }}"
-                       class="px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-1.5 whitespace-nowrap transition shadow-xs {{ $selectedCategory === $cat->slug ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
+                       class="toon-btn-bounce px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-1.5 whitespace-nowrap transition shadow-xs {{ $selectedCategory === $cat->slug ? 'bg-bites-yellow text-bites-dark shadow-md scale-102 ring-2 ring-amber-400' : 'bg-white text-gray-700 hover:bg-gray-100 border border-[#E6DEC8]' }}">
                         {{ $cat->name }}
                     </a>
                 @endforeach
@@ -81,7 +81,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-        <div class="flex items-center justify-between text-xs text-gray-600 font-semibold px-1">
+        <div class="flex items-center justify-between text-xs text-gray-600 font-semibold px-1 toon-reveal">
             <div>
                 Menampilkan <span class="font-extrabold text-gray-900 font-mono">{{ $products->count() }}</span> pilihan menu
                 @if(request('q'))
@@ -90,27 +90,27 @@
             </div>
 
             @if(request('q') || $selectedCategory !== 'all')
-                <a href="{{ route('menu') }}" class="text-bites-red hover:underline font-bold">
+                <a href="{{ route('menu') }}" class="toon-btn-bounce text-bites-red hover:underline font-bold">
                     &times; Reset Filter
                 </a>
             @endif
         </div>
 
         @if($products->isEmpty())
-            <div class="bg-white rounded-3xl p-12 text-center border border-[#E6DEC8] shadow-xs max-w-lg mx-auto space-y-3">
+            <div class="bg-white rounded-3xl p-12 text-center border border-[#E6DEC8] shadow-xs max-w-lg mx-auto space-y-3 toon-reveal">
                 <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mx-auto">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
                 <h3 class="text-base font-extrabold text-gray-900">Menu Tidak Ditemukan</h3>
                 <p class="text-xs text-gray-500 max-w-xs mx-auto">Coba gunakan kata kunci pencarian lain atau pilih kategori yang berbeda.</p>
-                <a href="{{ route('menu') }}" class="inline-block mt-2 bg-bites-yellow text-bites-dark font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs hover:bg-bites-yellow-dark transition">
+                <a href="{{ route('menu') }}" class="toon-btn-bounce inline-block mt-2 bg-bites-yellow text-bites-dark font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-xs hover:bg-bites-yellow-dark transition">
                     Lihat Semua Menu
                 </a>
             </div>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach($products as $product)
-                    <div class="bg-white rounded-3xl border border-[#E6DEC8] hover:border-bites-orange/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1">
+                    <div class="bg-white rounded-3xl border border-[#E6DEC8] hover:border-bites-orange/60 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col group toon-tilt-card toon-reveal">
 
                         <!-- Product Image & Badges -->
                         <div class="relative bg-gray-100 aspect-[4/3] overflow-hidden">
@@ -166,11 +166,11 @@
                                 </div>
 
                                 @if($product->options->isNotEmpty())
-                                    <button onclick="openProductModal({{ $product->id }})" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs flex items-center gap-1 active:scale-95">
+                                    <button onclick="openProductModal({{ $product->id }})" class="toon-btn-bounce bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs flex items-center gap-1 cursor-pointer">
                                         <span>Pilih Varian</span>
                                     </button>
                                 @else
-                                    <button onclick="quickAddToCart({{ $product->id }})" class="bg-gray-900 hover:bg-bites-red text-white font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs active:scale-95 flex items-center gap-1">
+                                    <button onclick="quickAddToCart({{ $product->id }}, event)" class="toon-btn-bounce bg-gray-900 hover:bg-bites-red text-white font-extrabold text-xs px-3.5 py-2 rounded-xl transition shadow-xs flex items-center gap-1 cursor-pointer">
                                         <span>+ Tambah</span>
                                     </button>
                                 @endif

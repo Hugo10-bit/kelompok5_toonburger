@@ -109,6 +109,117 @@
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ═══════════════════════════════════════════════
+           TOON BURGER INTERACTIVE MICRO-ANIMATIONS
+           ═══════════════════════════════════════════════ */
+        /* 1. Cartoon Floating Bob for Hero Burger */
+        @keyframes toonBobAnimation {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-1.5deg);
+            }
+        }
+        .toon-bob {
+            animation: toonBobAnimation 4s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        /* 2. Comic Sparkle Twinkle */
+        @keyframes comicTwinkle {
+            0%, 100% {
+                transform: scale(0.85) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.18) rotate(15deg);
+                opacity: 1;
+            }
+        }
+        .comic-sparkle {
+            animation: comicTwinkle 2.8s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        /* 3. Comic Badge Interactive */
+        .comic-badge-interactive {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+        .comic-badge-interactive:hover {
+            transform: scale(1.08) rotate(3deg);
+        }
+
+        /* 4. Squash & Stretch Button Micro-interaction */
+        .toon-btn-bounce {
+            transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease, filter 0.16s ease;
+            will-change: transform;
+        }
+        .toon-btn-bounce:hover {
+            transform: translateY(-2px);
+        }
+        .toon-btn-bounce:active {
+            transform: scale(0.92) translateY(2px) !important;
+        }
+
+        /* 5. 3D Card Hover Tilt */
+        .toon-tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
+            will-change: transform;
+        }
+
+        /* 6. Cartoon Cart Punch Jiggle */
+        @keyframes cartPunch {
+            0% { transform: scale(1) rotate(0deg); }
+            20% { transform: scale(1.32) rotate(-12deg); }
+            45% { transform: scale(0.92) rotate(8deg); }
+            70% { transform: scale(1.15) rotate(-4deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        .animate-cart-punch {
+            animation: cartPunch 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+        }
+
+        /* 7. Flying Cart Particle */
+        .flying-cart-particle {
+            position: fixed;
+            z-index: 999999;
+            pointer-events: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+            transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.25, 1), opacity 0.65s ease;
+            will-change: transform, opacity;
+        }
+
+        /* 8. Scroll Reveal */
+        .toon-reveal {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform;
+        }
+        .toon-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Accessibility: Respect Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .toon-bob, .comic-sparkle, .animate-cart-punch {
+                animation: none !important;
+            }
+            .toon-tilt-card, .toon-btn-bounce, .toon-reveal {
+                transform: none !important;
+                transition: none !important;
+                opacity: 1 !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-full bg-bites-bg text-gray-900 flex flex-col antialiased">
@@ -883,8 +994,59 @@
             }
         }
 
+        // Fly to Cart Animation
+        function flyToCart(originElement) {
+            if (!originElement) return;
+            const cartBtn = document.getElementById('cart-btn');
+            if (!cartBtn) return;
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                animateCartBadge();
+                return;
+            }
+
+            const startRect = originElement.getBoundingClientRect();
+            const endRect = cartBtn.getBoundingClientRect();
+
+            const flyer = document.createElement('img');
+            flyer.src = '{{ asset("images/toon-head.png") }}';
+            flyer.alt = 'Toon Mascot';
+            flyer.className = 'flying-cart-particle';
+
+            const startX = startRect.left + (startRect.width / 2) - 20;
+            const startY = startRect.top + (startRect.height / 2) - 20;
+            const targetX = endRect.left + (endRect.width / 2) - 20;
+            const targetY = endRect.top + (endRect.height / 2) - 20;
+
+            flyer.style.left = `${startX}px`;
+            flyer.style.top = `${startY}px`;
+            flyer.style.transform = 'scale(0.8) rotate(0deg)';
+            flyer.style.opacity = '1';
+
+            document.body.appendChild(flyer);
+
+            // Force reflow
+            void flyer.offsetWidth;
+
+            const deltaX = targetX - startX;
+            const deltaY = targetY - startY;
+
+            flyer.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.35) rotate(360deg)`;
+            flyer.style.opacity = '0.6';
+
+            setTimeout(() => {
+                flyer.remove();
+                animateCartBadge();
+            }, 620);
+        }
+
         async function quickAddToCart(productId) {
             try {
+                const clickedEl = (window.event && window.event.target) ? window.event.target.closest('button, .group, div') : null;
+                if (clickedEl) {
+                    flyToCart(clickedEl);
+                }
+
                 const res = await fetch('{{ route("cart.add") }}', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
@@ -893,7 +1055,6 @@
                 const data = await res.json();
                 if (data.success) {
                     renderCart(data.cart);
-                    animateCartBadge();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     const delay = window.scrollY < 5 ? 0 : 400;
                     setTimeout(() => openCartDrawer(), delay);
@@ -909,18 +1070,21 @@
         function animateCartBadge() {
             const badge = document.getElementById('cart-badge');
             const cartBtn = document.getElementById('cart-btn');
+            if (cartBtn) {
+                cartBtn.classList.remove('animate-cart-punch');
+                void cartBtn.offsetWidth;
+                cartBtn.classList.add('animate-cart-punch');
+                setTimeout(() => {
+                    cartBtn.classList.remove('animate-cart-punch');
+                }, 500);
+            }
             if (badge) {
                 badge.classList.remove('scale-125');
+                void badge.offsetWidth;
                 badge.classList.add('scale-125');
                 setTimeout(() => {
                     badge.classList.remove('scale-125');
-                }, 300);
-            }
-            if (cartBtn) {
-                cartBtn.classList.add('scale-105');
-                setTimeout(() => {
-                    cartBtn.classList.remove('scale-105');
-                }, 200);
+                }, 350);
             }
         }
 
@@ -1228,6 +1392,82 @@
                 loader.style.transform = 'scaleX(1)';
                 setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
             }
+        });
+
+        // ═══════════════════════════════════════════════
+        // INTERACTIVE MICRO-ANIMATION INITIALIZERS
+        // ═══════════════════════════════════════════════
+        // 1. 3D Tilt Card Interaction
+        function initTiltCards() {
+            if (!window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            document.querySelectorAll('.toon-tilt-card').forEach(card => {
+                if (card.dataset.tiltInit) return;
+                card.dataset.tiltInit = 'true';
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -6.5;
+                    const rotateY = ((x - centerX) / centerX) * 6.5;
+                    card.style.transform = `perspective(800px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px) scale3d(1.02, 1.02, 1.02)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)';
+                });
+            });
+        }
+
+        // 2. Hero Mouse Parallax Interaction
+        function initHeroParallax() {
+            const hero = document.getElementById('hero-section');
+            const burger = document.getElementById('hero-burger-img');
+            const badge = document.getElementById('hero-badge-img');
+            if (!hero || !burger || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
+                const normY = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+
+                burger.style.transform = `translate3d(${(normX * 10).toFixed(1)}px, ${(normY * 8).toFixed(1)}px, 0)`;
+                if (badge) {
+                    badge.style.transform = `translate3d(${(-normX * 8).toFixed(1)}px, ${(-normY * 6).toFixed(1)}px, 0)`;
+                }
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                burger.style.transform = 'translate3d(0, 0, 0)';
+                if (badge) badge.style.transform = 'translate3d(0, 0, 0)';
+            });
+        }
+
+        // 3. Scroll Reveal Interaction
+        function initScrollReveal() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelectorAll('.toon-reveal').forEach(el => el.classList.add('revealed'));
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+            document.querySelectorAll('.toon-reveal').forEach(el => observer.observe(el));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTiltCards();
+            initHeroParallax();
+            initScrollReveal();
         });
     </script>
 </body>

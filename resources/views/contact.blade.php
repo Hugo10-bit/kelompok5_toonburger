@@ -73,20 +73,20 @@
 
                 <!-- Partikel Bintang Komik Asli -->
                 <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-6 h-auto"
-                     style="top: 25%; left: 6%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 h-auto"
+                     style="top: 25%; left: 6%; animation-delay: 0s;">
                 <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="bottom: 25%; left: 42%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="bottom: 25%; left: 42%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="top: 22%; right: 12%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
+                     style="top: 22%; right: 12%; animation-delay: 1.4s;">
                 <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-4 h-auto"
-                     style="bottom: 20%; right: 30%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 h-auto"
+                     style="bottom: 20%; right: 30%; animation-delay: 2.1s;">
 
                 <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 pt-4">
-                    <div class="max-w-3xl space-y-5 text-left">
+                    <div class="max-w-3xl space-y-5 text-left toon-reveal">
                         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
                             style="font-family: 'Nunito', 'Arial Black', sans-serif;">
                             Kunjungi Outlet &amp; <br class="hidden sm:inline">
@@ -114,7 +114,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Address Card -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-2xs">
@@ -135,7 +135,7 @@
                         <span class="bg-stone-100 px-2 py-0.5 rounded-md">Quick Pick-up</span>
                     </div>
                 </div>
-                <button type="button" onclick="copyAddressToClipboard()" class="text-xs text-amber-700 font-extrabold hover:text-amber-800 bg-amber-50 hover:bg-amber-100/80 py-2.5 px-3 rounded-xl transition text-center flex items-center justify-center gap-1.5 active:scale-95">
+                <button type="button" onclick="copyAddressToClipboard()" class="toon-btn-bounce text-xs text-amber-700 font-extrabold hover:text-amber-800 bg-amber-50 hover:bg-amber-100/80 py-2.5 px-3 rounded-xl transition text-center flex items-center justify-center gap-1.5 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
@@ -144,7 +144,7 @@
             </div>
 
             <!-- Hours Card -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <div class="w-12 h-12 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-2xs">
@@ -184,7 +184,7 @@
             </div>
 
             <!-- WhatsApp & Direct Chat -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-2xs">
@@ -205,7 +205,7 @@
                         <div class="text-gray-500 text-[11px]">Email: outlet.banjarbaru@toonburger.com</div>
                     </div>
                 </div>
-                <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs active:scale-95 flex items-center justify-center gap-1.5">
+                <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="toon-btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
                     <span>Chat WhatsApp Outlet</span>
                 </a>
             </div>
@@ -216,7 +216,7 @@
     <!-- ═══════════════════════════════════════════════
          3. LIVE LOCATION INTERACTIVE MAP & RADAR TRACKING
          ═══════════════════════════════════════════════ -->
-    <section id="live-map-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="live-map-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 toon-reveal">
         <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-sm p-6 sm:p-10 space-y-6 overflow-hidden">
 
             <!-- Map Section Header -->

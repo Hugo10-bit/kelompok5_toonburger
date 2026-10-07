@@ -8,7 +8,7 @@
     <!-- ═══════════════════════════════════════════════
          1. HERO SECTION
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
+    <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
 
             <!-- Hero Card — Dark Teal Comic Style Full Width & Full Size (Extending behind navbar, zero top gap) -->
@@ -18,26 +18,26 @@
                 <!-- Partikel Bintang Komik Asli (Sesuai Asset Upload Pengguna: star-sparkle.png) -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto"
-                     style="top: 20%; left: 44%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto"
+                     style="top: 20%; left: 44%; animation-delay: 0s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 22%; left: 42%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
+                     style="bottom: 22%; left: 42%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 22%; right: 21%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
+                     style="bottom: 22%; right: 21%; animation-delay: 1.4s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
-                     class="absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 18%; right: 33%;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
+                     style="top: 18%; right: 33%; animation-delay: 2.1s;">
 
                 <!-- Content Grid (Max-W-7xl for neat alignment) -->
                 <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-0">
 
                     <!-- Left: Headline + CTA -->
-                    <div class="lg:col-span-5 space-y-5 pb-8 lg:pb-12">
+                    <div class="lg:col-span-5 space-y-5 pb-8 lg:pb-12 toon-reveal">
 
                         <h1 class="text-white uppercase leading-[0.92]"
                             style="font-family: 'Nunito', 'Arial Black', sans-serif; font-weight: 900; font-size: clamp(2.8rem, 5.8vw, 4.8rem); letter-spacing: -0.01em;">
@@ -51,12 +51,12 @@
                         <!-- CTA Buttons -->
                         <div class="flex flex-wrap items-center gap-3.5 pt-2">
                             <a href="{{ route('menu') }}"
-                               class="font-black text-sm sm:text-base px-7 py-3 rounded-xl transition hover:brightness-110 active:scale-95 shadow-md flex items-center justify-center"
+                               class="toon-btn-bounce font-black text-sm sm:text-base px-7 py-3 rounded-xl transition hover:brightness-110 shadow-md flex items-center justify-center cursor-pointer"
                                style="background-color: #f5c518; color: #111111; font-family: 'Nunito', sans-serif;">
                                 Pickup Order
                             </a>
                             <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                               class="font-black text-sm sm:text-base px-7 py-3 rounded-xl border-2 border-white/80 text-white bg-transparent hover:bg-white hover:text-gray-900 transition active:scale-95 flex items-center justify-center"
+                               class="toon-btn-bounce font-black text-sm sm:text-base px-7 py-3 rounded-xl border-2 border-white/80 text-white bg-transparent hover:bg-white hover:text-gray-900 transition flex items-center justify-center cursor-pointer"
                                style="font-family: 'Nunito', sans-serif;">
                                 Delivery Order
                             </a>
@@ -64,18 +64,22 @@
 
                     </div>
 
-                    <!-- Center: Burger in Center Column -->
+                    <!-- Center: Burger in Center Column with bobbing & parallax wrapper -->
                     <div class="lg:col-span-4 relative flex justify-center items-end self-end pb-4 lg:pb-6 pt-4 sm:pt-6">
-                        <img src="{{ asset('images/hero-burger.png') }}"
-                             alt="Toon Burger Very Cheese"
-                             class="relative z-10 w-[270px] sm:w-[320px] lg:w-[360px] xl:w-[380px] h-auto object-contain hover:scale-105 transition-transform duration-500 drop-shadow-[0_18px_36px_rgba(0,0,0,0.4)]">
+                        <div class="toon-bob relative z-10">
+                            <img id="hero-burger-img"
+                                 src="{{ asset('images/hero-burger.png') }}"
+                                 alt="Toon Burger Very Cheese"
+                                 class="w-[270px] sm:w-[320px] lg:w-[360px] xl:w-[380px] h-auto object-contain cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 drop-shadow-[0_20px_36px_rgba(0,0,0,0.45)] select-none">
+                        </div>
                     </div>
 
-                    <!-- Right: Starburst Badge Image Asset (Posisi Awal di Kanan) -->
+                    <!-- Right: Starburst Badge Image Asset with playful interactive hover -->
                     <div class="lg:col-span-3 relative flex justify-center lg:justify-end items-center pb-8 lg:pb-12">
-                        <img src="{{ asset('images/very-cheese-badge.png') }}"
+                        <img id="hero-badge-img"
+                             src="{{ asset('images/very-cheese-badge.png') }}"
                              alt="Very Cheese Burger"
-                             class="w-44 sm:w-52 lg:w-56 xl:w-60 h-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-md">
+                             class="comic-badge-interactive w-44 sm:w-52 lg:w-56 xl:w-60 h-auto object-contain cursor-pointer select-none drop-shadow-md">
                     </div>
 
                 </div>
@@ -94,7 +98,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-        <div class="flex items-start justify-between gap-4">
+        <div class="flex items-start justify-between gap-4 toon-reveal">
             <div>
                 <h2 class="text-3xl sm:text-4xl font-black tracking-tight uppercase" style="font-family: 'Nunito', 'Arial Black', sans-serif; color: #3b6e64;">
                     BEST SELLER
@@ -102,18 +106,18 @@
                 <p class="text-xs sm:text-sm text-gray-700 mt-2 max-w-md leading-relaxed">Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.</p>
             </div>
 
-            <a href="{{ route('menu') }}" class="inline-flex items-center border border-[#3b6e64] text-[#3b6e64] hover:bg-[#3b6e64] hover:text-white text-xs font-bold px-5 py-2.5 rounded-lg transition shrink-0 mt-1">
+            <a href="{{ route('menu') }}" class="toon-btn-bounce inline-flex items-center border border-[#3b6e64] text-[#3b6e64] hover:bg-[#3b6e64] hover:text-white text-xs font-bold px-5 py-2.5 rounded-lg transition shrink-0 mt-1 cursor-pointer">
                 Lihat Semua
             </a>
         </div>
 
-        <!-- Bestseller Grid -->
+        <!-- Bestseller Grid with 3D Tilt -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             @forelse($featuredProducts as $product)
-                <div class="group cursor-pointer" onclick="@if($product->options->isNotEmpty()) openProductModal({{ $product->id }}) @else quickAddToCart({{ $product->id }}) @endif">
-                    <div class="relative bg-[#4A7C72] rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] shadow-xs group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                <div class="group cursor-pointer toon-tilt-card toon-reveal" onclick="@if($product->options->isNotEmpty()) openProductModal({{ $product->id }}) @else quickAddToCart({{ $product->id }}) @endif">
+                    <div class="relative bg-[#4A7C72] rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/4] shadow-xs group-hover:shadow-2xl transition-all duration-300">
                         <img src="{{ asset($product->image ?: 'images/burger-bg.jpg') }}" alt="{{ $product->name }}"
-                             class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                             class="w-full h-full object-cover group-hover:scale-108 transition duration-500">
                     </div>
                 </div>
             @empty
@@ -128,7 +132,7 @@
          3. PRODUCT VALUE PROPOSITION
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <div class="text-center max-w-2xl mx-auto mb-10 space-y-2 toon-reveal">
             <h2 class="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight">
                 Kelezatan Otentik di Setiap Gigitan
             </h2>
@@ -140,7 +144,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <!-- Feature 1 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 space-y-3 group toon-tilt-card toon-reveal">
                 <div class="w-14 h-14 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
                 </div>
@@ -151,7 +155,7 @@
             </div>
 
             <!-- Feature 2 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 space-y-3 group toon-tilt-card toon-reveal">
                 <div class="w-14 h-14 rounded-2xl bg-orange-50 group-hover:bg-orange-500 text-orange-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
                 </div>
@@ -162,7 +166,7 @@
             </div>
 
             <!-- Feature 3 -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 space-y-3 group sm:col-span-2 sm:w-1/2 sm:justify-self-center lg:col-span-1 lg:w-auto">
+            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs hover:shadow-xl transition-all duration-300 space-y-3 group sm:col-span-2 sm:w-1/2 sm:justify-self-center lg:col-span-1 lg:w-auto toon-tilt-card toon-reveal">
                 <div class="w-14 h-14 rounded-2xl bg-red-50 group-hover:bg-red-500 text-red-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                 </div>
@@ -179,12 +183,12 @@
          4. ABOUT US TEASER
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden relative">
+        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden relative toon-reveal">
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
 
                 <!-- Left Column: Visual Story & Mascot -->
-                <div class="lg:col-span-5 flex flex-col items-center text-center p-6 sm:p-8 rounded-3xl bg-[#FAF1E1]/70 border border-[#EFE5D0] relative">
+                <div class="lg:col-span-5 flex flex-col items-center text-center p-6 sm:p-8 rounded-3xl bg-[#FAF1E1]/70 border border-[#EFE5D0] relative toon-tilt-card">
                     <div class="relative mb-5">
                         <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger Story" class="h-44 sm:h-52 w-auto object-contain drop-shadow-md">
                         <span class="absolute -bottom-2 right-2 bg-bites-red text-white text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-xs">
@@ -212,7 +216,7 @@
                     </p>
 
                     <div class="pt-2">
-                        <a href="{{ route('about') }}" class="inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3 rounded-2xl transition shadow-md active:scale-95">
+                        <a href="{{ route('about') }}" class="toon-btn-bounce inline-flex items-center gap-2 bg-gray-900 hover:bg-black text-white text-xs sm:text-sm font-extrabold px-6 py-3 rounded-2xl transition shadow-md cursor-pointer">
                             <span>Tentang Kami</span>
                             <span>&rarr;</span>
                         </a>
@@ -229,7 +233,7 @@
          5. QUALITY STANDARDS & TAKEAWAY EXCELLENCE
          ═══════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-2xl mx-auto mb-10 space-y-2">
+        <div class="text-center max-w-2xl mx-auto mb-10 space-y-2 toon-reveal">
             <h2 class="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight">
                 Standar Mutu &amp; Layanan Takeaway Kami
             </h2>
@@ -241,7 +245,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <!-- Pillar 1 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 group toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
@@ -257,7 +261,7 @@
             </div>
 
             <!-- Pillar 2 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 group toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="w-12 h-12 rounded-2xl bg-orange-50 group-hover:bg-orange-500 text-orange-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
@@ -273,7 +277,7 @@
             </div>
 
             <!-- Pillar 3 -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-5 hover:shadow-xl transition-all duration-300 group toon-tilt-card toon-reveal">
                 <div class="space-y-3">
                     <div class="w-12 h-12 rounded-2xl bg-emerald-50 group-hover:bg-emerald-500 text-emerald-700 group-hover:text-white flex items-center justify-center transition duration-300 shadow-2xs">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>

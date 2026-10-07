@@ -26,6 +26,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Users
+        $defaultAdmin = User::firstOrCreate(
+            ['email' => 'admin@toonburger.com'],
+            [
+                'name' => 'Administrator',
+                'username' => 'admin',
+                'phone_number' => '081234567890',
+                'role' => 'admin',
+                'address' => 'Jl. Boulevard Utama No. 1, Banjarbaru',
+                'password' => Hash::make('Password123'),
+            ]
+        );
+
         $admin = User::firstOrCreate(
             ['email' => 'hugo@toonburger.com'],
             [
