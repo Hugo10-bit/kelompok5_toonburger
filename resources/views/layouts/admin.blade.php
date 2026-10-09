@@ -264,9 +264,9 @@
             </nav>
         </div>
 
-        <!-- Secondary Bottom Section (Mockup: Home page and Logout) -->
+        <!-- Secondary Bottom Section (Halaman Utama & Logout dinonaktifkan/dihapus) -->
+        {{--
         <div class="pt-8 space-y-2 text-sm font-medium">
-            {{-- Tombol Halaman Utama / Beranda (dinonaktifkan sementara, hapus comment tag ini untuk mengaktifkan kembali)
             <a href="{{ route('home') }}"
                class="flex items-center gap-4 px-5 py-3.5 transition rounded-full text-[#374151] hover:bg-gray-100/80 hover:text-gray-900">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -275,9 +275,7 @@
                 </svg>
                 <span data-i18n="nav_homepage">Home page</span>
             </a>
-            --}}
 
-            <!-- Logout Button -->
             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group text-left">
                 <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
@@ -287,6 +285,7 @@
                 <span data-i18n="nav_logout">Logout</span>
             </button>
         </div>
+        --}}
     </aside>
 
     <!-- Main content -->
