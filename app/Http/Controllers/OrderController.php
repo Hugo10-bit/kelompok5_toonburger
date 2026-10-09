@@ -148,6 +148,10 @@ class OrderController extends Controller
      */
     public function show($order_number)
     {
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) {
+            return redirect()->route('admin.orders.show', $order_number);
+        }
+
         $relations = ['items', 'table', 'reviews'];
         if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
             $relations[] = 'payment';
