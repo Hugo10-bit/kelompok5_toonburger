@@ -196,7 +196,7 @@
 
                         <!-- Secondary Links (Detail & Batalkan) -->
                         <div class="flex items-center justify-between text-[11px] pt-1 px-1">
-                            <a href="{{ route('orders.show', $order->order_number) }}" target="_blank" class="text-gray-500 hover:text-gray-800 font-semibold transition" data-i18n="orders_view_detail">
+                            <a href="{{ route('admin.orders.show', $order->order_number) }}" class="text-gray-500 hover:text-[#385A56] font-semibold transition" data-i18n="orders_view_detail">
                                 Lihat Detail
                             </a>
 
