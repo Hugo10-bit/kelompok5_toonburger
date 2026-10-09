@@ -86,17 +86,6 @@
 
         <!-- TOP CURVED ARC IN GRANITE #466967 WITH TOON BURGER LOGO -->
         <div class="relative w-full z-10">
-            <!-- Mobile Back to Homepage button -->
-            <a href="{{ route('home') }}"
-               class="md:hidden absolute top-3.5 left-3.5 z-30 inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-black/25 hover:bg-black/40 backdrop-blur-xs px-3 py-1.5 rounded-full border border-white/20 transition-all active:scale-95 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-white"
-               aria-label="Back to Homepage"
-               title="Kembali ke Beranda">
-                <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                <span class="text-[11px] font-medium">Home</span>
-            </a>
-
             <!-- Curved background SVG -->
             <div class="relative w-full overflow-hidden">
                 <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-32 sm:h-36 lg:h-40 block drop-shadow-xs">
@@ -162,18 +151,6 @@
     <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl flex flex-col justify-center items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-10 md:py-16 overflow-y-auto relative z-10">
 
         <div class="w-full max-w-sm sm:max-w-md mx-auto">
-
-            <!-- Back to Homepage -->
-            <div class="mb-6">
-                <a href="{{ route('home') }}"
-                   class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#466967] hover:text-[#344E4C] bg-[#FAF1E1] hover:bg-[#F1D9B3]/80 border border-[#466967]/15 rounded-xl px-4 py-2.5 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-[#466967] focus:ring-offset-2 min-h-[44px] shadow-2xs"
-                   title="Kembali ke Beranda">
-                    <svg class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1 shrink-0 text-[#466967]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    <span>Back to Homepage</span>
-                </a>
-            </div>
 
             <!-- FLASH ALERTS -->
             @if(session('status'))

@@ -61,13 +61,9 @@
                 {{ $slot }}
             </div>
 
-            <div class="mt-6 text-center text-xs text-[#466967] font-semibold flex items-center justify-center gap-3">
-                <a href="{{ route('home') }}" class="hover:underline focus:outline-none focus:ring-2 focus:ring-[#466967] rounded px-2 py-1">
-                    &larr; Back to Homepage
-                </a>
-                <span class="text-gray-400">&bull;</span>
+            <div class="mt-6 text-center text-xs text-[#466967] font-semibold">
                 <a href="{{ route('login') }}" class="hover:underline focus:outline-none focus:ring-2 focus:ring-[#466967] rounded px-2 py-1">
-                    Kembali ke Halaman Login
+                    &larr; Kembali ke Halaman Login
                 </a>
             </div>
         </div>
