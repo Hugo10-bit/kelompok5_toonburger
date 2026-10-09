@@ -165,6 +165,27 @@ class AdminController extends Controller
     }
 
     /**
+     * Detail Pesanan (Sesuai Mockup Figma Admin Panel).
+     */
+    public function orderDetail($order_number)
+    {
+        $relations = ['items', 'table', 'user'];
+        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
+            $relations[] = 'payment';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
+            $relations[] = 'items.product';
+        }
+
+        $order = Order::with($relations)
+            ->where('order_number', $order_number)
+            ->orWhere('id', $order_number)
+            ->firstOrFail();
+
+        return view('admin.order-detail', compact('order'));
+    }
+
+    /**
      * Update order status (Kitchen Flow).
      */
     public function updateOrderStatus(Request $request, $id)
@@ -614,7 +635,7 @@ class AdminController extends Controller
                 'success' => true,
                 'message' => "Pesanan POS {$order->order_number} berhasil dicatat dan lunas!",
                 'order_number' => $order->order_number,
-                'redirect' => route('orders.show', $order->order_number),
+                'redirect' => route('admin.orders.show', $order->order_number),
             ]);
         });
     }
