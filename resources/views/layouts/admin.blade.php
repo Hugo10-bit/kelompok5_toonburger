@@ -266,7 +266,7 @@
 
         <!-- Secondary Bottom Section (Mockup: Home page and Logout) -->
         <div class="pt-8 space-y-2 text-sm font-medium">
-            <!-- Home page -->
+            {{-- Tombol Halaman Utama / Beranda (dinonaktifkan sementara, hapus comment tag ini untuk mengaktifkan kembali)
             <a href="{{ route('home') }}"
                class="flex items-center gap-4 px-5 py-3.5 transition rounded-full text-[#374151] hover:bg-gray-100/80 hover:text-gray-900">
                 <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -275,6 +275,7 @@
                 </svg>
                 <span data-i18n="nav_homepage">Home page</span>
             </a>
+            --}}
 
             <!-- Logout Button -->
             <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group text-left">
@@ -692,6 +693,8 @@
                 // Orders
                 orders_title: 'Proses Pesanan',
                 orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
+                order_detail_title: 'Detail Pesanan',
+                order_detail_subtitle: 'Konfirmasi dan kelola status pesanan ini.',
                 orders_refresh: 'Segarkan',
                 orders_tab_all: 'Semua',
                 orders_tab_pending: 'Menunggu',
@@ -832,6 +835,8 @@
                 // Orders
                 orders_title: 'Order Processing',
                 orders_subtitle: 'Manage order flow and customer order status in real time.',
+                order_detail_title: 'Order Details',
+                order_detail_subtitle: 'Confirm and manage the status of this order.',
                 orders_refresh: 'Refresh',
                 orders_tab_all: 'All',
                 orders_tab_pending: 'Pending',
