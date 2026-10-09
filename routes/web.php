@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
 
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+            Route::get('/orders/{order_number}', [AdminController::class, 'orderDetail'])->name('orders.show');
             Route::post('/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
 
             Route::get('/products', [AdminController::class, 'products'])->name('products');
