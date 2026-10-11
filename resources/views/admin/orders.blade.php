@@ -125,7 +125,11 @@
                         <div class="flex items-center justify-between text-xs text-gray-700">
                             <span class="font-bold text-gray-900">{{ $order->customer_name }}</span>
                             <span class="text-gray-400 text-[11px]">
-                                {{ $order->restaurant_table_id ? 'Meja ' . ($order->table->table_number ?? $order->restaurant_table_id) : ($order->order_type === 'takeaway' ? 'Take Away' : 'Dine In') }}
+                                @if($order->restaurant_table_id)
+                                    <span data-i18n="order_detail_table">Meja</span> {{ $order->table->table_number ?? $order->restaurant_table_id }}
+                                @else
+                                    {{ $order->order_type === 'takeaway' ? 'Take Away' : 'Dine In' }}
+                                @endif
                             </span>
                         </div>
 
@@ -139,7 +143,7 @@
                                         {{ $item->quantity }}x {{ $item->product_name }}
                                     </span>
                                     <span class="font-bold text-gray-900">
-                                        Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                                        <span data-i18n="currency">Rp</span> {{ number_format($item->subtotal, 0, ',', '.') }}
                                     </span>
                                 </div>
                             @endforeach
@@ -151,7 +155,7 @@
                         <div class="flex items-center justify-between">
                             <span class="font-extrabold text-xs text-gray-900 uppercase tracking-wide" data-i18n="orders_total">Total</span>
                             <span class="font-black text-sm text-gray-900">
-                                Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                                <span data-i18n="currency">Rp</span> {{ number_format($order->total_amount, 0, ',', '.') }}
                             </span>
                         </div>
                     </div>
@@ -201,7 +205,7 @@
                             </a>
 
                             @if(!in_array($order->status, ['completed', 'cancelled']))
-                                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?')">
+                                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirmCancelOrderList('{{ $order->order_number }}')">
                                     @csrf
                                     <input type="hidden" name="status" value="cancelled">
                                     <button type="submit" class="text-[#DE3B28] hover:text-red-700 font-semibold transition" data-i18n="orders_reject">
@@ -222,4 +226,11 @@
     @endif
 
 </div>
+
+<script>
+    function confirmCancelOrderList(orderNum) {
+        const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+        return confirm(isEn ? `Are you sure you want to cancel order #${orderNum}?` : `Apakah Anda yakin ingin membatalkan pesanan #${orderNum}?`);
+    }
+</script>
 @endsection

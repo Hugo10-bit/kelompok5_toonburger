@@ -25,7 +25,7 @@
                 <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                <span>Kembali ke Proses Pesanan</span>
+                <span data-i18n="order_detail_back">Kembali ke Proses Pesanan</span>
             </a>
         </div>
     </div>
@@ -35,43 +35,43 @@
         <!-- Top Row Status & Payment -->
         <div class="flex items-start justify-between gap-4 flex-wrap">
             <div>
-                <span class="text-[11px] font-medium text-gray-400 block mb-1">Status Dapur</span>
+                <span class="text-[11px] font-medium text-gray-400 block mb-1" data-i18n="order_detail_kitchen_status">Status Dapur</span>
                 <div class="flex items-center gap-2 font-extrabold text-sm sm:text-base text-gray-900">
                     @if($order->status === 'pending')
                         <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
-                        <span>• Menunggu Konfirmasi</span>
+                        <span data-i18n="order_status_kitchen_pending">• Menunggu Konfirmasi</span>
                     @elseif($order->status === 'confirmed')
                         <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
-                        <span>• Pesanan Dikonfirmasi</span>
+                        <span data-i18n="order_status_kitchen_confirmed">• Pesanan Dikonfirmasi</span>
                     @elseif($order->status === 'preparing')
                         <span class="w-2.5 h-2.5 rounded-full bg-[#EF4444] inline-block"></span>
-                        <span>• Pesanan Sedang Dimasak</span>
+                        <span data-i18n="order_status_kitchen_preparing">• Pesanan Sedang Dimasak</span>
                     @elseif($order->status === 'ready')
                         <span class="w-2.5 h-2.5 rounded-full bg-teal-500 inline-block"></span>
-                        <span>• Pesanan Siap Saji</span>
+                        <span data-i18n="order_status_kitchen_ready">• Pesanan Siap Saji</span>
                     @elseif($order->status === 'completed')
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
-                        <span>• Pesanan Selesai</span>
+                        <span data-i18n="order_status_kitchen_completed">• Pesanan Selesai</span>
                     @elseif($order->status === 'cancelled')
                         <span class="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block"></span>
-                        <span>• Pesanan Dibatalkan</span>
+                        <span data-i18n="order_status_kitchen_cancelled">• Pesanan Dibatalkan</span>
                     @endif
                 </div>
             </div>
 
             <div class="text-right">
-                <span class="text-[11px] font-medium text-gray-400 block mb-1">Status Pembayaran</span>
+                <span class="text-[11px] font-medium text-gray-400 block mb-1" data-i18n="order_detail_payment_status">Status Pembayaran</span>
                 @if($order->payment_status === 'paid')
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-[#D1FAE5]/60 text-[#065F46] border border-[#A7F3D0]/60">
-                        Lunas ({{ strtolower($order->payment_method) === 'qris' ? 'Qris' : ucfirst($order->payment_method ?: 'Cash') }})
+                        <span data-i18n="order_detail_paid">Lunas</span>&nbsp;({{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : ucfirst($order->payment_method ?: 'Cash') }})
                     </span>
                 @elseif($order->payment_status === 'refunded')
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                        Refund
+                        <span data-i18n="order_detail_refunded">Refund</span>
                     </span>
                 @else
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                        Belum Lunas ({{ strtolower($order->payment_method) === 'qris' ? 'Qris' : ucfirst($order->payment_method ?: 'Cash') }})
+                        <span data-i18n="order_detail_unpaid">Belum Lunas</span>&nbsp;({{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : ucfirst($order->payment_method ?: 'Cash') }})
                     </span>
                 @endif
             </div>
@@ -103,7 +103,7 @@
                     <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 1 ? 'bg-[#F5B025] text-gray-900 shadow-2xs' : 'bg-[#E5E7EB] text-gray-500' }}">
                         1
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center">Menunggu</span>
+                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center" data-i18n="stepper_pending">Menunggu</span>
                 </div>
 
                 <!-- 2. Dimasak -->
@@ -111,7 +111,7 @@
                     <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 2 ? 'bg-[#F5B025] text-gray-900 shadow-2xs' : 'bg-[#E5E7EB] text-gray-500' }}">
                         2
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center">Dimasak</span>
+                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center" data-i18n="stepper_cooking">Dimasak</span>
                 </div>
 
                 <!-- 3. Siap Saji -->
@@ -119,7 +119,7 @@
                     <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 3 ? 'bg-[#F5B025] text-gray-900 shadow-2xs' : 'bg-[#E5E7EB] text-gray-500' }}">
                         3
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center">Siap Saji</span>
+                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center" data-i18n="stepper_ready">Siap Saji</span>
                 </div>
 
                 <!-- 4. Selesai -->
@@ -127,7 +127,7 @@
                     <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 4 ? 'bg-[#F5B025] text-gray-900 shadow-2xs' : 'bg-[#E5E7EB] text-gray-500' }}">
                         4
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center">Selesai</span>
+                    <span class="text-xs font-semibold text-gray-700 mt-2.5 text-center" data-i18n="stepper_completed">Selesai</span>
                 </div>
             </div>
         </div>
@@ -137,10 +137,10 @@
     <div class="border border-gray-200/80 rounded-2xl p-6 sm:p-7 bg-white shadow-2xs">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
             <div>
-                <span class="text-xs font-medium text-gray-400 block mb-1">Tipe Pesanan</span>
+                <span class="text-xs font-medium text-gray-400 block mb-1" data-i18n="order_detail_order_type">Tipe Pesanan</span>
                 <span class="text-sm font-bold text-gray-900 block">
                     @if($order->restaurant_table_id)
-                        Dine In (Meja {{ $order->table->table_number ?? $order->restaurant_table_id }})
+                        Dine In (<span data-i18n="order_detail_table">Meja</span> {{ $order->table->table_number ?? $order->restaurant_table_id }})
                     @elseif(in_array(strtolower($order->order_type ?? ''), ['pickup', 'pickup order']))
                         Pickup Order
                     @elseif(strtolower($order->order_type ?? '') === 'takeaway')
@@ -152,19 +152,19 @@
             </div>
 
             <div>
-                <span class="text-xs font-medium text-gray-400 block mb-1">Nama Pemesan</span>
+                <span class="text-xs font-medium text-gray-400 block mb-1" data-i18n="order_detail_customer_name">Nama Pemesan</span>
                 <span class="text-sm font-bold text-gray-900 block">{{ $order->customer_name }}</span>
             </div>
 
             <div>
-                <span class="text-xs font-medium text-gray-400 block mb-1">No. Telepon</span>
+                <span class="text-xs font-medium text-gray-400 block mb-1" data-i18n="order_detail_customer_phone">No. Telepon</span>
                 <span class="text-sm font-bold text-gray-900 block">{{ $order->customer_phone ?: '-' }}</span>
             </div>
 
             <div>
-                <span class="text-xs font-medium text-gray-400 block mb-1">Metode Pembayaran</span>
+                <span class="text-xs font-medium text-gray-400 block mb-1" data-i18n="order_detail_payment_method">Metode Pembayaran</span>
                 <span class="text-sm font-bold text-gray-900 block">
-                    {{ strtolower($order->payment_method) === 'qris' ? 'Qris' : ucfirst($order->payment_method ?: 'Cash') }}
+                    {{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : ucfirst($order->payment_method ?: 'Cash') }}
                 </span>
             </div>
         </div>
@@ -172,28 +172,32 @@
 
     <!-- 3. Card Catatan Pesanan (Persis Mockup Figma) -->
     <div class="border border-gray-200/80 rounded-2xl p-6 sm:p-7 bg-white shadow-2xs space-y-2">
-        <span class="text-xs font-medium text-gray-400 block">Catatan Pesanan</span>
+        <span class="text-xs font-medium text-gray-400 block" data-i18n="order_detail_notes">Catatan Pesanan</span>
         <div class="bg-[#F5F5F5] rounded-xl p-4 text-xs sm:text-sm text-gray-600 font-medium">
-            {{ $order->notes ?: 'Tanpa catatan' }}
+            @if($order->notes)
+                {{ $order->notes }}
+            @else
+                <span data-i18n="order_detail_no_notes">Tanpa catatan</span>
+            @endif
         </div>
     </div>
 
     <!-- 4. Card Rincian Pesanan (Persis Mockup Figma) -->
     <div class="border border-gray-200/80 rounded-2xl p-6 sm:p-7 bg-white shadow-2xs space-y-4">
-        <h3 class="text-xs font-bold text-gray-700 tracking-wider">Rincian Pesanan</h3>
+        <h3 class="text-xs font-bold text-gray-700 tracking-wider" data-i18n="order_detail_items_title">Rincian Pesanan</h3>
 
         <div class="space-y-2.5">
             @foreach($order->items as $item)
                 <div class="bg-[#F5F5F5] rounded-xl p-4 flex items-center justify-between">
                     <div>
                         <h4 class="font-bold text-xs sm:text-sm text-gray-900">{{ $item->product_name }}</h4>
-                        <p class="text-xs text-gray-400 mt-0.5">{{ $item->quantity }}x Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $item->quantity }}x <span data-i18n="currency">Rp</span> {{ number_format($item->price, 0, ',', '.') }}</p>
                         @if(!empty($item->notes))
-                            <p class="text-[11px] text-gray-500 mt-0.5 italic">Catatan: {{ $item->notes }}</p>
+                            <p class="text-[11px] text-gray-500 mt-0.5 italic"><span data-i18n="order_detail_item_note">Catatan:</span> {{ $item->notes }}</p>
                         @endif
                     </div>
                     <div class="font-extrabold text-xs sm:text-sm text-gray-900">
-                        Rp {{ number_format($item->subtotal, 0, ',', '.') }}
+                        <span data-i18n="currency">Rp</span> {{ number_format($item->subtotal, 0, ',', '.') }}
                     </div>
                 </div>
             @endforeach
@@ -202,28 +206,28 @@
         @if($order->tax_amount > 0 || $order->discount_amount > 0)
             <div class="pt-2 border-t border-gray-100 space-y-1.5 text-xs text-gray-600">
                 <div class="flex justify-between">
-                    <span>Subtotal</span>
-                    <span class="font-bold">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+                    <span data-i18n="order_detail_subtotal">Subtotal</span>
+                    <span class="font-bold"><span data-i18n="currency">Rp</span> {{ number_format($order->subtotal, 0, ',', '.') }}</span>
                 </div>
                 @if($order->discount_amount > 0)
                     <div class="flex justify-between text-emerald-600">
-                        <span>Diskon</span>
-                        <span class="font-bold">-Rp {{ number_format($order->discount_amount, 0, ',', '.') }}</span>
+                        <span data-i18n="order_detail_discount">Diskon</span>
+                        <span class="font-bold">-<span data-i18n="currency">Rp</span> {{ number_format($order->discount_amount, 0, ',', '.') }}</span>
                     </div>
                 @endif
                 @if($order->tax_amount > 0)
                     <div class="flex justify-between">
-                        <span>Pajak</span>
-                        <span class="font-bold">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
+                        <span data-i18n="order_detail_tax">Pajak</span>
+                        <span class="font-bold"><span data-i18n="currency">Rp</span> {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
                     </div>
                 @endif
             </div>
         @endif
 
         <div class="pt-3 border-t border-gray-200/80 flex items-center justify-between">
-            <span class="font-extrabold text-sm sm:text-base text-gray-900">Total</span>
+            <span class="font-extrabold text-sm sm:text-base text-gray-900" data-i18n="order_detail_total">Total</span>
             <span class="font-black text-base sm:text-lg text-gray-900">
-                Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                <span data-i18n="currency">Rp</span> {{ number_format($order->total_amount, 0, ',', '.') }}
             </span>
         </div>
     </div>
@@ -235,7 +239,7 @@
                 <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
-                <span>Cetak Struk</span>
+                <span data-i18n="order_detail_print_receipt">Cetak Struk</span>
             </button>
         </div>
 
@@ -245,7 +249,7 @@
                     @csrf
                     <input type="hidden" name="status" value="preparing">
                     <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
-                        Terima & Masak Pesanan
+                        <span data-i18n="order_detail_accept_cook">Terima & Masak Pesanan</span>
                     </button>
                 </form>
             @elseif(in_array($order->status, ['confirmed', 'preparing']))
@@ -253,7 +257,7 @@
                     @csrf
                     <input type="hidden" name="status" value="ready">
                     <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
-                        Tandai Siap Saji
+                        <span data-i18n="order_detail_mark_ready">Tandai Siap Saji</span>
                     </button>
                 </form>
             @elseif($order->status === 'ready')
@@ -262,17 +266,17 @@
                     <input type="hidden" name="status" value="completed">
                     <input type="hidden" name="payment_status" value="paid">
                     <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
-                        Selesaikan Pesanan
+                        <span data-i18n="order_detail_complete">Selesaikan Pesanan</span>
                     </button>
                 </form>
             @endif
 
             @if(!in_array($order->status, ['completed', 'cancelled']))
-                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')">
+                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirmCancelOrder()">
                     @csrf
                     <input type="hidden" name="status" value="cancelled">
                     <button type="submit" class="text-[#DE3B28] hover:bg-red-50 border border-red-200 font-bold py-2.5 px-5 rounded-full text-xs transition cursor-pointer">
-                        Batalkan Pesanan
+                        <span data-i18n="order_detail_cancel">Batalkan Pesanan</span>
                     </button>
                 </form>
             @endif
@@ -280,4 +284,11 @@
     </div>
 
 </div>
+
+<script>
+    function confirmCancelOrder() {
+        const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+        return confirm(isEn ? 'Are you sure you want to cancel this order?' : 'Apakah Anda yakin ingin membatalkan pesanan ini?');
+    }
+</script>
 @endsection
