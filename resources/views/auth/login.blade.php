@@ -148,9 +148,12 @@
     </div>
 
     <!-- ═══ RIGHT PANEL: WHITE FORM CARD ═══ -->
-    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl flex flex-col justify-center items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-10 md:py-16 overflow-y-auto relative z-10">
+    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl flex flex-col justify-between items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-8 md:py-10 overflow-y-auto relative z-10">
 
-        <div class="w-full max-w-sm sm:max-w-md mx-auto">
+        <!-- Top anchor for optical balance -->
+        <div class="hidden md:block w-full h-1"></div>
+
+        <div class="w-full max-w-sm sm:max-w-md mx-auto my-auto py-4">
 
             <!-- FLASH ALERTS -->
             @if(session('status'))
@@ -186,8 +189,8 @@
             <!-- ── 1. LOGIN FORM ("Welcome Back!") ── -->
             <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
                 <div class="mb-7">
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Welcome Back!</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1">Please enter your detail first</p>
+                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 tracking-tight whitespace-nowrap" id="login-title">Selamat Datang Kembali!</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
                 <form action="{{ route('login') }}" method="POST" class="space-y-4 text-xs">
@@ -196,33 +199,33 @@
 
                     <!-- Username / Email Field -->
                     <div>
-                        <label for="login-email" class="block text-xs font-semibold text-gray-800 mb-1.5">Username or Email</label>
+                        <label for="login-email" class="block text-xs font-semibold text-gray-800 mb-1.5" id="login-email-label">Username</label>
                         <input type="text"
                                name="email"
                                id="login-email"
                                required
                                autofocus
                                autocomplete="username"
-                               placeholder="Enter your username or email"
+                               placeholder="Masukkan Username"
                                value="{{ old('form_type') === 'login' ? old('email', old('username')) : (old('email', old('username')) ?: 'admin') }}"
                                class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                     </div>
 
                     <!-- Password Field -->
                     <div>
-                        <label for="login-password" class="block text-xs font-semibold text-gray-800 mb-1.5">Password</label>
+                        <label for="login-password" class="block text-xs font-semibold text-gray-800 mb-1.5" id="login-password-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
                                    id="login-password"
                                    required
                                    autocomplete="current-password"
-                                   placeholder="Enter your password"
+                                   placeholder="Masukkan Password"
                                    value="Password123"
                                    class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#466967] rounded cursor-pointer"
+                                    class="absolute inset-y-0 right-0 pr-3.5 pl-2 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -236,30 +239,25 @@
                     <div class="flex items-center justify-between text-xs pt-1">
                         <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 font-medium">
                             <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#466967] focus:ring-[#466967] border-gray-300">
-                            <span>Remember Me</span>
+                            <span id="remember-label-text">Ingat Saya</span>
                         </label>
-                        <div class="flex items-center gap-3">
-                            <button type="button" onclick="fillAdminCreds()" class="text-[11px] text-gray-400 hover:text-[#466967] font-medium transition cursor-pointer underline">
-                                Demo Admin
-                            </button>
-                            <a href="{{ route('password.request') }}" class="text-xs text-gray-500 hover:text-[#466967] font-medium transition focus:outline-none focus:underline">
-                                Forgot Password?
-                            </a>
-                        </div>
+                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 hover:text-[#466967] font-medium transition focus:outline-none focus:underline">
+                            Lupa Password?
+                        </a>
                     </div>
 
                     <!-- Login Button -->
                     <div class="pt-3">
                         <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] focus:ring-offset-2">
-                            <span>Login</span>
+                            <span id="login-btn-text">Login</span>
                         </button>
                     </div>
 
                     <!-- Toggle to Register -->
                     <p class="text-center text-xs text-gray-500 pt-2">
-                        Don't have an account?
-                        <button type="button" onclick="switchToRegister()" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
-                            Sign Up Now
+                        <span id="no-account-text">Belum Punya Akun?</span>
+                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                            Daftar Sekarang
                         </button>
                     </p>
                 </form>
@@ -268,8 +266,8 @@
             <!-- ── 2. CREATE ACCOUNT FORM ("Create Account") ── -->
             <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }} transition-all duration-300">
                 <div class="mb-7">
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">Create Account</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1">Join Toon Burger family</p>
+                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 tracking-tight whitespace-nowrap" id="register-title">Buat Akun</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
                 </div>
 
                 <form action="{{ route('register') }}" method="POST" class="space-y-4 text-xs">
@@ -278,14 +276,14 @@
 
                     <!-- Username -->
                     <div>
-                        <label for="register-username" class="block text-xs font-semibold text-gray-800 mb-1">Username</label>
+                        <label for="register-username" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-username-label">Username</label>
                         <div class="relative">
                             <input type="text"
                                    name="username"
                                    id="register-username"
                                    required
                                    autocomplete="username"
-                                   placeholder="Enter your username"
+                                   placeholder="Masukkan username anda"
                                    value="{{ old('form_type') === 'register' ? old('username') : '' }}"
                                    class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-10 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                             <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -298,43 +296,43 @@
 
                     <!-- Email -->
                     <div>
-                        <label for="register-email" class="block text-xs font-semibold text-gray-800 mb-1">Email</label>
+                        <label for="register-email" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-email-label">Email</label>
                         <input type="email"
                                name="email"
                                id="register-email"
                                required
                                autocomplete="email"
-                               placeholder="Enter your email"
+                               placeholder="Masukkan email anda"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
                                class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                     </div>
 
                     <!-- Mobile Number -->
                     <div>
-                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 mb-1">Mobile Number</label>
+                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-phone-label">Nomor Telepon</label>
                         <input type="tel"
                                name="phone_number"
                                id="register-phone"
                                autocomplete="tel"
-                               placeholder="Enter your mobile number"
+                               placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
                                class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                     </div>
 
                     <!-- Password -->
                     <div>
-                        <label for="register-password" class="block text-xs font-semibold text-gray-800 mb-1">Password</label>
+                        <label for="register-password" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-pass-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
                                    id="register-password"
                                    required
                                    autocomplete="new-password"
-                                   placeholder="Enter your password (min. 6 characters)"
+                                   placeholder="Masukkan password (min. 6 karakter)"
                                    class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-10 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-[#466967] rounded cursor-pointer"
+                                    class="absolute inset-y-0 right-0 pr-3.5 pl-2 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -344,18 +342,18 @@
                         </div>
                     </div>
 
-                    <!-- Sign Up Button -->
+                    <!-- Sign Up / Register Button -->
                     <div class="pt-3">
                         <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] focus:ring-offset-2">
-                            <span>Sign Up</span>
+                            <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>
 
                     <!-- Toggle to Login -->
                     <p class="text-center text-xs text-gray-500 pt-2">
-                        Already have an account?
-                        <button type="button" onclick="switchToLogin()" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
-                            Login Now
+                        <span id="have-account-text">Sudah punya akun?</span>
+                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                            Login Sekarang
                         </button>
                     </p>
                 </form>
@@ -363,21 +361,246 @@
 
         </div>
 
+        <!-- ── BOTTOM FOOTER: LANGUAGE TOGGLE ── -->
+        <div class="w-full max-w-sm sm:max-w-md mx-auto pt-6 pb-2 sm:pb-4 flex items-center justify-center relative select-none z-20">
+            <div class="relative inline-block text-left" id="lang-dropdown-container">
+                <button type="button"
+                        id="lang-toggle-btn"
+                        onclick="toggleLanguageDropdown(event)"
+                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 focus:outline-none transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-gray-50/80"
+                        aria-expanded="false"
+                        aria-haspopup="true">
+                    <span id="lang-current-label">Indonesia</span>
+                    <svg id="lang-chevron" class="w-3.5 h-3.5 text-gray-500 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="lang-dropdown-menu"
+                     class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-50 transition-all duration-150">
+                    <button type="button"
+                            onclick="changeLanguage('id')"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 hover:text-[#466967] flex items-center justify-between cursor-pointer transition-colors"
+                            id="lang-opt-id">
+                        <span>Indonesia</span>
+                        <span id="check-id" class="text-[#466967] font-bold">✓</span>
+                    </button>
+                    <button type="button"
+                            onclick="changeLanguage('en')"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 hover:text-[#466967] flex items-center justify-between cursor-pointer transition-colors"
+                            id="lang-opt-en">
+                        <span>English</span>
+                        <span id="check-en" class="text-[#466967] font-bold hidden">✓</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- SCRIPT FOR SWITCHING TABS & TOGGLING PASSWORD -->
+    <!-- SCRIPT FOR SWITCHING TABS, TOGGLING PASSWORD, AND LANGUAGE LOCALIZATION -->
     <script>
+        const translations = {
+            id: {
+                currentLabel: 'Indonesia',
+                loginTitle: 'Selamat Datang Kembali!',
+                loginSubtitle: 'Tolong isi detail anda terlebih dahulu.',
+                loginEmailLabel: 'Username',
+                loginEmailPlaceholder: 'Masukkan Username',
+                loginPasswordLabel: 'Password',
+                loginPasswordPlaceholder: 'Masukkan Password',
+                rememberMe: 'Ingat Saya',
+                forgotPassword: 'Lupa Password?',
+                loginButton: 'Login',
+                noAccount: 'Belum Punya Akun?',
+                signUpNow: 'Daftar Sekarang',
+                registerTitle: 'Buat Akun',
+                registerSubtitle: 'Bergabung dengan keluarga Toon Burger',
+                regUsernameLabel: 'Username',
+                regUsernamePlaceholder: 'Masukkan username anda',
+                regEmailLabel: 'Email',
+                regEmailPlaceholder: 'Masukkan email anda',
+                regPhoneLabel: 'Nomor Telepon',
+                regPhonePlaceholder: 'Masukkan nomor telepon anda',
+                regPasswordLabel: 'Password',
+                regPasswordPlaceholder: 'Masukkan password (min. 6 karakter)',
+                registerButton: 'Daftar',
+                haveAccount: 'Sudah punya akun?',
+                loginNow: 'Login Sekarang',
+                pageTitleLogin: 'Selamat Datang Kembali! - Toon Burger',
+                pageTitleRegister: 'Buat Akun - Toon Burger'
+            },
+            en: {
+                currentLabel: 'English',
+                loginTitle: 'Welcome Back!',
+                loginSubtitle: 'Please enter your detail first',
+                loginEmailLabel: 'Username or Email',
+                loginEmailPlaceholder: 'Enter your username or email',
+                loginPasswordLabel: 'Password',
+                loginPasswordPlaceholder: 'Enter your password',
+                rememberMe: 'Remember Me',
+                forgotPassword: 'Forgot Password?',
+                loginButton: 'Login',
+                noAccount: "Don't have an account?",
+                signUpNow: 'Sign Up Now',
+                registerTitle: 'Create Account',
+                registerSubtitle: 'Join Toon Burger family',
+                regUsernameLabel: 'Username',
+                regUsernamePlaceholder: 'Enter your username',
+                regEmailLabel: 'Email',
+                regEmailPlaceholder: 'Enter your email',
+                regPhoneLabel: 'Mobile Number',
+                regPhonePlaceholder: 'Enter your mobile number',
+                regPasswordLabel: 'Password',
+                regPasswordPlaceholder: 'Enter your password (min. 6 characters)',
+                registerButton: 'Sign Up',
+                haveAccount: 'Already have an account?',
+                loginNow: 'Login Now',
+                pageTitleLogin: 'Welcome Back! - Toon Burger',
+                pageTitleRegister: 'Create Account - Toon Burger'
+            }
+        };
+
+        function toggleLanguageDropdown(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('lang-dropdown-menu');
+            const chevron = document.getElementById('lang-chevron');
+            const btn = document.getElementById('lang-toggle-btn');
+            if (!menu) return;
+            const isHidden = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !isHidden);
+            if (chevron) chevron.classList.toggle('rotate-180', isHidden);
+            if (btn) btn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+        }
+
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+            localStorage.setItem('toon_lang', lang);
+            applyLanguage(lang);
+
+            const menu = document.getElementById('lang-dropdown-menu');
+            const chevron = document.getElementById('lang-chevron');
+            const btn = document.getElementById('lang-toggle-btn');
+            if (menu) menu.classList.add('hidden');
+            if (chevron) chevron.classList.remove('rotate-180');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang] || translations.id;
+
+            const currentLabel = document.getElementById('lang-current-label');
+            if (currentLabel) currentLabel.textContent = t.currentLabel;
+
+            const checkId = document.getElementById('check-id');
+            const checkEn = document.getElementById('check-en');
+            if (checkId) checkId.classList.toggle('hidden', lang !== 'id');
+            if (checkEn) checkEn.classList.toggle('hidden', lang !== 'en');
+
+            // Login Form
+            const loginTitle = document.getElementById('login-title');
+            if (loginTitle) loginTitle.textContent = t.loginTitle;
+            const loginSubtitle = document.getElementById('login-subtitle');
+            if (loginSubtitle) loginSubtitle.textContent = t.loginSubtitle;
+            const loginEmailLabel = document.getElementById('login-email-label');
+            if (loginEmailLabel) loginEmailLabel.textContent = t.loginEmailLabel;
+            const loginEmail = document.getElementById('login-email');
+            if (loginEmail) loginEmail.placeholder = t.loginEmailPlaceholder;
+            const loginPasswordLabel = document.getElementById('login-password-label');
+            if (loginPasswordLabel) loginPasswordLabel.textContent = t.loginPasswordLabel;
+            const loginPassword = document.getElementById('login-password');
+            if (loginPassword) loginPassword.placeholder = t.loginPasswordPlaceholder;
+            const rememberText = document.getElementById('remember-label-text');
+            if (rememberText) rememberText.textContent = t.rememberMe;
+            const forgotPassLink = document.getElementById('forgot-pass-link');
+            if (forgotPassLink) forgotPassLink.textContent = t.forgotPassword;
+            const loginBtnText = document.getElementById('login-btn-text');
+            if (loginBtnText) loginBtnText.textContent = t.loginButton;
+            const noAccountText = document.getElementById('no-account-text');
+            if (noAccountText) noAccountText.textContent = t.noAccount;
+            const switchToRegisterBtn = document.getElementById('switch-to-register-btn');
+            if (switchToRegisterBtn) switchToRegisterBtn.textContent = t.signUpNow;
+
+            // Register Form
+            const registerTitle = document.getElementById('register-title');
+            if (registerTitle) registerTitle.textContent = t.registerTitle;
+            const registerSubtitle = document.getElementById('register-subtitle');
+            if (registerSubtitle) registerSubtitle.textContent = t.registerSubtitle;
+            const regUsernameLabel = document.getElementById('reg-username-label');
+            if (regUsernameLabel) regUsernameLabel.textContent = t.regUsernameLabel;
+            const regUsername = document.getElementById('register-username');
+            if (regUsername) regUsername.placeholder = t.regUsernamePlaceholder;
+            const regEmailLabel = document.getElementById('reg-email-label');
+            if (regEmailLabel) regEmailLabel.textContent = t.regEmailLabel;
+            const regEmail = document.getElementById('register-email');
+            if (regEmail) regEmail.placeholder = t.regEmailPlaceholder;
+            const regPhoneLabel = document.getElementById('reg-phone-label');
+            if (regPhoneLabel) regPhoneLabel.textContent = t.regPhoneLabel;
+            const regPhone = document.getElementById('register-phone');
+            if (regPhone) regPhone.placeholder = t.regPhonePlaceholder;
+            const regPassLabel = document.getElementById('reg-pass-label');
+            if (regPassLabel) regPassLabel.textContent = t.regPasswordLabel;
+            const regPass = document.getElementById('register-password');
+            if (regPass) regPass.placeholder = t.regPasswordPlaceholder;
+            const registerBtnText = document.getElementById('register-btn-text');
+            if (registerBtnText) registerBtnText.textContent = t.registerButton;
+            const haveAccountText = document.getElementById('have-account-text');
+            if (haveAccountText) haveAccountText.textContent = t.haveAccount;
+            const switchToLoginBtn = document.getElementById('switch-to-login-btn');
+            if (switchToLoginBtn) switchToLoginBtn.textContent = t.loginNow;
+
+            const isLoginActive = !document.getElementById('login-form-panel').classList.contains('hidden');
+            document.title = isLoginActive ? t.pageTitleLogin : t.pageTitleRegister;
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const container = document.getElementById('lang-dropdown-container');
+            const menu = document.getElementById('lang-dropdown-menu');
+            const chevron = document.getElementById('lang-chevron');
+            const btn = document.getElementById('lang-toggle-btn');
+            if (container && !container.contains(e.target)) {
+                if (menu && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    if (chevron) chevron.classList.remove('rotate-180');
+                    if (btn) btn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        // Close dropdown on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const menu = document.getElementById('lang-dropdown-menu');
+                const chevron = document.getElementById('lang-chevron');
+                const btn = document.getElementById('lang-toggle-btn');
+                if (menu && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    if (chevron) chevron.classList.remove('rotate-180');
+                    if (btn) btn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('toon_lang') || 'id';
+            applyLanguage(savedLang);
+        });
+
         function switchToRegister() {
             document.getElementById('login-form-panel').classList.add('hidden');
             document.getElementById('register-form-panel').classList.remove('hidden');
-            document.title = "Create Account - Toon Burger";
+            const currentLang = localStorage.getItem('toon_lang') || 'id';
+            document.title = (translations[currentLang] || translations.id).pageTitleRegister;
             window.history.replaceState(null, '', '{{ route("register") }}');
         }
 
         function switchToLogin() {
             document.getElementById('register-form-panel').classList.add('hidden');
             document.getElementById('login-form-panel').classList.remove('hidden');
-            document.title = "Welcome Back! - Toon Burger";
+            const currentLang = localStorage.getItem('toon_lang') || 'id';
+            document.title = (translations[currentLang] || translations.id).pageTitleLogin;
             window.history.replaceState(null, '', '{{ route("login") }}');
         }
 
@@ -388,17 +611,12 @@
             input.type = isPassword ? 'text' : 'password';
 
             if (isPassword) {
-                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>`;
+                btn.setAttribute('aria-label', 'Sembunyikan Password');
+                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>`;
             } else {
+                btn.setAttribute('aria-label', 'Tampilkan Password');
                 btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
             }
-        }
-
-        function fillAdminCreds() {
-            const emailInput = document.getElementById('login-email');
-            const passInput = document.getElementById('login-password');
-            if (emailInput) emailInput.value = 'admin@toonburger.com';
-            if (passInput) passInput.value = 'Password123';
         }
     </script>
 </body>
