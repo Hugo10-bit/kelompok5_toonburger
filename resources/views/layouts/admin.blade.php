@@ -756,6 +756,7 @@
                 btn_cancel: 'Batal',
                 transaction: 'Transaksi',
                 queue: 'Antrean',
+                currency: 'Rp',
             },
             EN: {
                 // Layout: Nav
@@ -898,16 +899,26 @@
                 btn_cancel: 'Cancel',
                 transaction: 'Transaction',
                 queue: 'Queue',
+                currency: 'IDR',
             }
         };
 
         function applyTranslations(lang) {
-            const dict = _tbTranslations[lang] || _tbTranslations['ID'];
+            const isEn = (lang === 'EN' || lang === 'US');
+            const dict = _tbTranslations[isEn ? 'EN' : 'ID'] || _tbTranslations['ID'];
+            const currencyStr = isEn ? 'IDR' : 'Rp';
+
             // Text content
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (dict[key] !== undefined) el.textContent = dict[key];
             });
+
+            // Currency elements
+            document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix').forEach(el => {
+                el.textContent = currencyStr;
+            });
+
             // Attribute translation (e.g. placeholder)
             document.querySelectorAll('[data-i18n-attr]').forEach(el => {
                 el.getAttribute('data-i18n-attr').split(';').forEach(pair => {
@@ -1115,7 +1126,7 @@
                                 </div>
                                 <div class="min-w-0">
                                     <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(p.name)}</div>
-                                    <div class="text-[11px] text-gray-500 font-medium">${p.price_formatted}</div>
+                                    <div class="text-[11px] text-gray-500 font-medium">${isEn && p.price_formatted ? p.price_formatted.replace(/^Rp\s*/i, 'IDR ') : p.price_formatted}</div>
                                 </div>
                             </div>
                             <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${p.is_available ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
@@ -1145,7 +1156,7 @@
                                 </div>
                                 <div class="min-w-0">
                                     <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(o.order_number)} <span class="text-gray-400 font-normal">(${escapeHeaderHtml(o.customer_name)})</span></div>
-                                    <div class="text-[11px] text-gray-500 font-medium">${o.total_formatted}</div>
+                                    <div class="text-[11px] text-gray-500 font-medium">${isEn && o.total_formatted ? o.total_formatted.replace(/^Rp\s*/i, 'IDR ') : o.total_formatted}</div>
                                 </div>
                             </div>
                             <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 capitalize">
