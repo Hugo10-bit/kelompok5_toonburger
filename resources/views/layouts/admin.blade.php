@@ -661,6 +661,7 @@
                 dash_col_action: 'Aksi',
                 dash_detail: 'Detail',
                 dash_best_selling: 'Menu Terlaris',
+                dash_products_sold: 'Produk Terjual',
                 // Orders
                 orders_title: 'Proses Pesanan',
                 orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
@@ -839,6 +840,7 @@
                 dash_col_action: 'Action',
                 dash_detail: 'Detail',
                 dash_best_selling: 'Best Selling Menu',
+                dash_products_sold: 'Products Sold',
                 // Orders
                 orders_title: 'Order Processing',
                 orders_subtitle: 'Manage order flow and customer order status in real time.',

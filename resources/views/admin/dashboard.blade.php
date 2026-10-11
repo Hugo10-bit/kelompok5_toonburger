@@ -28,7 +28,7 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    IDR. {{ $todayRevenue > 0 ? number_format($todayRevenue, 0, ',', '.') : '500.000' }}
+                    <span data-i18n="currency">Rp</span> {{ $todayRevenue > 0 ? number_format($todayRevenue, 0, ',', '.') : '500.000' }}
                 </span>
             </div>
             <div>
@@ -143,40 +143,45 @@
                                     [
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Adzriel Fathi',
-                                        'total' => 'IDR 66.000',
-                                        'status' => 'Finished',
+                                        'total' => '66.000',
+                                        'status' => 'Completed',
+                                        'status_key' => 'stepper_completed',
                                         'dot' => 'bg-[#3B82F6]',
                                         'url' => route('admin.orders'),
                                     ],
                                     [
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Hugo Putra',
-                                        'total' => 'IDR 60.500',
+                                        'total' => '60.500',
                                         'status' => 'Ready to Serve',
+                                        'status_key' => 'stepper_ready',
                                         'dot' => 'bg-[#10B981]',
                                         'url' => route('admin.orders'),
                                     ],
                                     [
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Cornelius Hugo',
-                                        'total' => 'IDR 126.500',
+                                        'total' => '126.500',
                                         'status' => 'Cooking',
+                                        'status_key' => 'stepper_cooking',
                                         'dot' => 'bg-[#EF4444]',
                                         'url' => route('admin.orders'),
                                     ],
                                     [
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Rizki Prawira',
-                                        'total' => 'IDR 87.500',
+                                        'total' => '87.500',
                                         'status' => 'Cooking',
+                                        'status_key' => 'stepper_cooking',
                                         'dot' => 'bg-[#EF4444]',
                                         'url' => route('admin.orders'),
                                     ],
                                     [
                                         'number' => 'TB-20260917-0007',
                                         'name' => 'Waiz Fadillah',
-                                        'total' => 'IDR 55.000',
-                                        'status' => 'Waiting',
+                                        'total' => '55.000',
+                                        'status' => 'Pending',
+                                        'status_key' => 'stepper_pending',
                                         'dot' => 'bg-[#F59E0B]',
                                         'url' => route('admin.orders'),
                                     ],
@@ -192,16 +197,16 @@
                                         {{ $order['name'] }}
                                     </td>
                                     <td class="py-4 px-4 font-bold text-gray-900 text-xs">
-                                        {{ $order['total'] }}
+                                        <span data-i18n="currency">Rp</span> {{ $order['total'] }}
                                     </td>
                                     <td class="py-4 px-4">
                                         <span class="inline-flex items-center gap-2 text-xs text-gray-800 font-medium">
                                             <span class="w-1.5 h-1.5 rounded-full {{ $order['dot'] }}"></span>
-                                            <span>{{ $order['status'] }}</span>
+                                            <span data-i18n="{{ $order['status_key'] }}">{{ $order['status'] }}</span>
                                         </span>
                                     </td>
                                     <td class="py-4 px-4 text-center">
-                                        <a href="{{ $order['url'] }}" class="inline-block bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-4 py-1 rounded-full transition text-[11px] shadow-2xs">
+                                        <a href="{{ $order['url'] }}" class="inline-block bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-4 py-1 rounded-full transition text-[11px] shadow-2xs" data-i18n="dash_detail">
                                             Detail
                                         </a>
                                     </td>
@@ -220,11 +225,11 @@
                 <div class="space-y-2.5">
                     @php
                         $menuItems = [
-                            ['name' => 'Cheese Chiken Burger', 'sold' => '179 Produk Terjual'],
-                            ['name' => 'Very Cheese Burger', 'sold' => '170 Produk Terjual'],
-                            ['name' => 'Double Beef Burger', 'sold' => '156 Produk Terjual'],
-                            ['name' => 'BBQ Beef Burger', 'sold' => '150 Produk Terjual'],
-                            ['name' => 'Hot Chiken Burger', 'sold' => '138 Produk Terjual'],
+                            ['name' => 'Cheese Chiken Burger', 'sold_count' => 179],
+                            ['name' => 'Very Cheese Burger', 'sold_count' => 170],
+                            ['name' => 'Double Beef Burger', 'sold_count' => 156],
+                            ['name' => 'BBQ Beef Burger', 'sold_count' => 150],
+                            ['name' => 'Hot Chiken Burger', 'sold_count' => 138],
                         ];
                     @endphp
 
@@ -235,7 +240,7 @@
                             </span>
                             <div class="min-w-0 flex-1">
                                 <h4 class="font-bold text-xs text-gray-900 truncate leading-tight">{{ $item['name'] }}</h4>
-                                <span class="text-[10px] text-gray-400 font-normal block mt-0.5">{{ $item['sold'] }}</span>
+                                <span class="text-[10px] text-gray-400 font-normal block mt-0.5">{{ $item['sold_count'] }} <span data-i18n="dash_products_sold">Produk Terjual</span></span>
                             </div>
                         </div>
                     @endforeach
