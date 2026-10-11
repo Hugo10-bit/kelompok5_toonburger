@@ -193,18 +193,8 @@
                 <!-- 1. Dashboards -->
                 <a href="{{ route('admin.dashboard') }}"
                    class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- 4 Bars with outline -->
-                        <rect x="3" y="14" width="2.5" height="7" rx="0.8" />
-                        <rect x="8" y="10" width="2.5" height="11" rx="0.8" />
-                        <rect x="13" y="12" width="2.5" height="9" rx="0.8" />
-                        <rect x="18" y="7" width="2.5" height="14" rx="0.8" />
-                        <!-- Connecting line with 4 small circles -->
-                        <path d="M4.25 11 L9.25 6.5 L14.25 9.5 L19.25 4" />
-                        <circle cx="4.25" cy="11" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
-                        <circle cx="9.25" cy="6.5" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
-                        <circle cx="14.25" cy="9.5" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
-                        <circle cx="19.25" cy="4" r="1.3" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                        <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
                     <span data-i18n="nav_dashboard">Dashboards</span>
                 </a>
@@ -212,9 +202,8 @@
                 <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
                    class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="7" r="3" />
-                        <rect x="4.5" y="14" width="15" height="6.5" rx="3.25" />
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
                     <span data-i18n="nav_profile">Admin Profile</span>
                 </a>
@@ -223,12 +212,11 @@
                 <a href="{{ route('admin.orders') }}"
                    class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Receipt outline with top-left folded tab and zigzag bottom -->
-                        <path d="M7 4 H18.5 A 1 1 0 0 1 19.5 5 V 20 L 16.5 18.5 L 13.5 20 L 10.5 18.5 L 7.5 20 V 7.5" />
-                        <path d="M7.5 7.5 H 4.5 C 3.9 7.5 3.5 7.1 3.5 6.5 V 4.5 C 3.5 4.2 3.8 4 4.1 4 H 7.5" />
-                        <line x1="9.5" y1="8.5" x2="16.5" y2="8.5" />
-                        <line x1="9.5" y1="12" x2="16.5" y2="12" />
-                        <line x1="9.5" y1="15.5" x2="13.5" y2="15.5" />
+                        <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
+                        <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
+                        <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
+                        <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
+                        <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
                     </svg>
                     <span data-i18n="nav_orders">Order Processing</span>
                 </a>
@@ -236,15 +224,8 @@
                 <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
                    class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Burger (left) -->
-                        <path d="M 3.5 10 C 3.5 6.8 6 5 10 5 C 13.5 5 15.8 6.5 16.2 9.5 H 3.5 Z" />
-                        <line x1="3.5" y1="13" x2="16.5" y2="13" />
-                        <line x1="3.5" y1="17" x2="16.5" y2="17" />
-                        <!-- Drink with straw (right) -->
-                        <line x1="18.5" y1="2.5" x2="18.5" y2="6.5" />
-                        <line x1="16" y1="6.5" x2="21" y2="6.5" />
-                        <path d="M 20.5 6.5 L 19.5 17.5 C 19.4 18.6 18.5 19.5 17.4 19.5 H 16" />
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                        <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
                     <span data-i18n="nav_products">Product Data</span>
                 </a>
@@ -252,12 +233,8 @@
                 <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
                    class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Front price tag -->
-                        <path d="M 8.5 3.5 H 15.5 A 1 1 0 0 1 16.2 3.8 L 21.2 8.8 A 1 1 0 0 1 21.2 10.2 L 14.2 17.2 A 1 1 0 0 1 12.8 17.2 L 7.8 12.2 A 1 1 0 0 1 7.5 11.5 V 4.5 A 1 1 0 0 1 8.5 3.5 Z" />
-                        <circle cx="12" cy="7.5" r="1.3" fill="currentColor" />
-                        <!-- Back tag outline -->
-                        <path d="M 5 8.5 L 3.2 10.3 A 1 1 0 0 0 3.2 11.7 L 10.2 18.7 A 1 1 0 0 0 11.6 18.7 L 13.5 16.8" />
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
                     </svg>
                     <span data-i18n="nav_categories">Product Categories</span>
                 </a>
@@ -455,38 +432,33 @@
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch" style="padding-bottom: env(safe-area-inset-bottom);">
         <a href="{{ route('admin.dashboard') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="14" width="2.5" height="7" rx="0.8"/>
-                <rect x="8" y="10" width="2.5" height="11" rx="0.8"/>
-                <rect x="13" y="12" width="2.5" height="9" rx="0.8"/>
-                <rect x="18" y="7" width="2.5" height="14" rx="0.8"/>
-                <path d="M4.25 11 L9.25 6.5 L14.25 9.5 L19.25 4"/>
+            <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
+                <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_dashboard">Dashboard</span>
         </a>
         <a href="{{ route('admin.orders') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.orders*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 4 H18.5 A 1 1 0 0 1 19.5 5 V 20 L 16.5 18.5 L 13.5 20 L 10.5 18.5 L 7.5 20 V 7.5"/>
-                <line x1="9.5" y1="8.5" x2="16.5" y2="8.5"/>
-                <line x1="9.5" y1="12" x2="16.5" y2="12"/>
+                <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
+                <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
+                <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
+                <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
+                <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_orders_short">Pesanan</span>
         </a>
         <a href="{{ route('admin.products') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.products*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M 3.5 10 C 3.5 6.8 6 5 10 5 C 13.5 5 15.8 6.5 16.2 9.5 H 3.5 Z"/>
-                <line x1="3.5" y1="13" x2="16.5" y2="13"/>
-                <line x1="3.5" y1="17" x2="16.5" y2="17"/>
+            <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
+                <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_products_short">Produk</span>
         </a>
         <a href="{{ route('admin.categories') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.categories*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M 8.5 3.5 H 15.5 A 1 1 0 0 1 16.2 3.8 L 21.2 8.8 A 1 1 0 0 1 21.2 10.2 L 14.2 17.2 A 1 1 0 0 1 12.8 17.2 L 7.8 12.2 A 1 1 0 0 1 7.5 11.5 V 4.5 A 1 1 0 0 1 8.5 3.5 Z"/>
-                <circle cx="12" cy="7.5" r="1.3" fill="currentColor"/>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_categories_short">Kategori</span>
         </a>
