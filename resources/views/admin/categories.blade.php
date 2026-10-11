@@ -70,9 +70,9 @@
             <table class="w-full text-left text-xs" id="category-table">
                 <thead class="bg-[#F0F4F3] text-gray-600 font-bold border-b border-gray-200/70 text-[11px] tracking-wide">
                     <tr>
-                        <th class="py-3.5 px-4 w-16 text-center">No</th>
-                        <th class="py-3.5 px-4">Nama Kategori</th>
-                        <th class="py-3.5 px-4 text-center w-28">Aksi</th>
+                        <th class="py-3.5 px-4 w-16 text-center" data-i18n="categories_col_no">No</th>
+                        <th class="py-3.5 px-4" data-i18n="categories_col_name">Nama Kategori</th>
+                        <th class="py-3.5 px-4 text-center w-28" data-i18n="categories_col_action">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100" id="category-table-body">
@@ -98,7 +98,7 @@
                                         </svg>
                                     </button>
 
-                                    <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', {{ json_encode('kategori ' . $cat->name) }})"
+                                    <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', {{ json_encode($cat->name) }})"
                                             class="w-9 h-9 rounded-lg bg-red-50 hover:bg-red-100 text-[#DE3B28] flex items-center justify-center transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400"
                                             title="Hapus Kategori">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,8 +111,8 @@
                     @empty
                         <tr>
                             <td colspan="3" class="py-12 text-center text-gray-400">
-                                <div class="font-bold text-sm text-gray-700 mb-1">Belum Ada Kategori</div>
-                                <p class="text-xs">Klik tombol <strong>+ Tambah Kategori</strong> untuk membuat kategori menu baru.</p>
+                                <div class="font-bold text-sm text-gray-700 mb-1" data-i18n="categories_empty_title">Belum Ada Kategori</div>
+                                <p class="text-xs" data-i18n="categories_empty_desc">Klik tombol + Tambah Kategori untuk membuat kategori menu baru.</p>
                             </td>
                         </tr>
                     @endforelse
@@ -140,10 +140,10 @@
             </div>
 
             <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
+                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="categories_save">
                     Simpan
                 </button>
-                <button type="button" onclick="closeAddCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block">
+                <button type="button" onclick="closeAddCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
                     Batal
                 </button>
             </div>
@@ -168,10 +168,10 @@
             </div>
 
             <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
+                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="categories_save_changes">
                     Simpan Perubahan
                 </button>
-                <button type="button" onclick="closeEditCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block">
+                <button type="button" onclick="closeEditCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
                     Batal
                 </button>
             </div>

@@ -755,6 +755,13 @@
                 products_edit_modal_desc: 'Perbarui rincian, harga, atau foto menu Toon Burger.',
                 products_edit_photo: 'Ganti Foto Menu',
                 products_save_changes: 'Simpan Perubahan',
+                products_all_categories: 'Semua Kategori',
+                products_unit_portion: 'Porsi',
+                products_placeholder_name: 'Nama Produk Baru',
+                products_placeholder_desc: 'Deskripsi menu Toon Burger...',
+                products_toggle_status_title: 'Klik untuk ubah ketersediaan',
+                products_edit_btn_title: 'Edit Produk',
+                products_delete_btn_title: 'Hapus Produk',
                 // Categories
                 categories_title: 'Kelola Kategori Produk',
                 categories_subtitle: 'Kelola kategori untuk pengelompokan menu Toon Burger',
@@ -924,7 +931,7 @@
                 products_add_modal_desc: 'Fill in the details for the new Toon Burger menu item.',
                 products_label_name: 'Product Name',
                 products_label_category: 'Category',
-                products_label_price: 'Price (Rp)',
+                products_label_price: 'Price (IDR)',
                 products_label_stock: 'Stock (Portions)',
                 products_label_photo: 'Upload Photo',
                 products_label_desc: 'Description',
@@ -934,6 +941,13 @@
                 products_edit_modal_desc: 'Update the details, price, or photo of this menu item.',
                 products_edit_photo: 'Replace Menu Photo',
                 products_save_changes: 'Save Changes',
+                products_all_categories: 'All Categories',
+                products_unit_portion: 'Portions',
+                products_placeholder_name: 'New Product Name',
+                products_placeholder_desc: 'Toon Burger menu description...',
+                products_toggle_status_title: 'Click to change availability',
+                products_edit_btn_title: 'Edit Product',
+                products_delete_btn_title: 'Delete Product',
                 // Categories
                 categories_title: 'Manage Product Categories',
                 categories_subtitle: 'Manage categories for Toon Burger menu grouping',
@@ -998,6 +1012,13 @@
                     if (dict[key] !== undefined) el.setAttribute(attr.trim(), dict[key]);
                 });
             });
+
+            // Special dynamic options (e.g. Category select)
+            const optAllCat = document.getElementById('opt-all-categories');
+            if (optAllCat && dict['products_all_categories']) {
+                const count = optAllCat.getAttribute('data-count');
+                optAllCat.textContent = `${dict['products_all_categories']}${count ? ' (' + count + ')' : ''}`;
+            }
         }
 
         function selectLanguage(lang, code) {
