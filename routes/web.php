@@ -37,11 +37,11 @@ Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store'
 Route::get('/orders/{order_number}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{order_number}/pay', [OrderController::class, 'pay'])->name('orders.pay');
 Route::post('/orders/{order_number}/review', [OrderController::class, 'storeReview'])->name('orders.review');
-Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
-
 require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
+
     Route::get('/dashboard', function () {
         if (auth()->user()->isAdmin() || auth()->user()->isStaff()) {
             return redirect()->route('admin.dashboard');

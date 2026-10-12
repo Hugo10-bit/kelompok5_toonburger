@@ -1316,7 +1316,17 @@
             } else {
                 selectLanguage('Bahasa Indonesia', 'ID');
             }
-        } catch (e) {}
+        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
+        window.addEventListener('pageshow', function (event) {
+            const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
+            const isBackForward = event.persisted || 
+                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
+                (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
+
+            if (isBackForward) {
+                window.location.reload();
+            }
+        });
     </script>
 </body>
 </html>
