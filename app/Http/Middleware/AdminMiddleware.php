@@ -16,7 +16,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu untuk mengakses area Admin / POS.');
+            return redirect()->route('login')->with('warning', 'Wajib login terlebih dahulu.');
         }
 
         // Only Admin and Staff are allowed

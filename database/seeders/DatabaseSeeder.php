@@ -189,199 +189,144 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 5. Products & Product Options
-        // Product 1: Ultimate Double Cheeseburger
-        $p1 = Product::firstOrCreate(
-            ['slug' => 'ultimate-double-cheeseburger'],
+        // 5. Products Matching Screenshot media_1792999772746.png
+        $catCheese = Category::firstOrCreate(['slug' => 'cheese-burger'], ['name' => 'Cheese Burger', 'is_active' => true, 'sort_order' => 1]);
+        $catChicken = Category::firstOrCreate(['slug' => 'chicken-burger'], ['name' => 'Chicken Burger', 'is_active' => true, 'sort_order' => 2]);
+        $catBeef = Category::firstOrCreate(['slug' => 'beef-burger'], ['name' => 'Beef Burger', 'is_active' => true, 'sort_order' => 3]);
+        $catHotdog = Category::firstOrCreate(['slug' => 'hotdog'], ['name' => 'Hotdog', 'is_active' => true, 'sort_order' => 4]);
+
+        $menuProducts = [
             [
-                'category_id' => $catBurgers->id,
-                'name' => 'Ultimate Double Cheeseburger',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan saus spesial Toon Burger dalam brioche bun panggang.',
-                'price' => 55000,
-                'original_price' => 65000,
-                'image' => 'images/products/1787822761_ultimate-double-cheeseburger.jpg',
-                'is_available' => true,
-                'is_featured' => true,
-                'calories' => 780,
-                'prep_time_minutes' => 10,
-            ]
-        );
-
-        // $optPatty = ProductOption::firstOrCreate(
-        //     ['product_id' => $p1->id, 'name' => 'Pilihan Patty'],
-        //     ['type' => 'single', 'is_required' => true]
-        // );
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Double Patty (Standard)'], ['additional_price' => 0, 'is_default' => true]);
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optPatty->id, 'name' => 'Triple Patty (+1 Patty)'], ['additional_price' => 18000, 'is_default' => false]);
-
-        // $optTopping = ProductOption::firstOrCreate(
-        //     ['product_id' => $p1->id, 'name' => 'Ekstra Topping'],
-        //     ['type' => 'multiple', 'is_required' => false]
-        // );
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Extra Melted Cheddar'], ['additional_price' => 6000, 'is_default' => false]);
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Crispy Smoked Beef Bacon'], ['additional_price' => 8000, 'is_default' => false]);
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optTopping->id, 'name' => 'Pickled Jalapenos'], ['additional_price' => 4000, 'is_default' => false]);
-
-        // Product 2: Truffle Mushroom Beef Burger
-        $p2 = Product::firstOrCreate(
-            ['slug' => 'truffle-mushroom-beef-burger'],
+                'id' => 1,
+                'name' => 'Very Cheese Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 35000,
+                'image' => 'images/products/very-cheese-burger.png',
+                'slug' => 'very-cheese-burger',
+            ],
             [
-                'category_id' => $catBurgers->id,
-                'name' => 'Truffle Mushroom Beef Burger',
-                'description' => 'Patty daging sapi panggang dengan sauteed champignon mushrooms, keju Swiss meleleh, dan saus truffle mayo aromatik.',
-                'price' => 62000,
-                'original_price' => 70000,
-                'image' => 'images/products/1787822783_truffle-mushroom-beef-burger.webp',
-                'is_available' => true,
-                'is_featured' => true,
-                'calories' => 710,
-                'prep_time_minutes' => 12,
-            ]
-        );
-
-        // Product 3: Spicy Crunchy Chicken Burger
-        $p3 = Product::firstOrCreate(
-            ['slug' => 'spicy-crunchy-chicken-burger'],
-            [
-                'category_id' => $catBurgers->id,
-                'name' => 'Spicy Crunchy Chicken Burger',
-                'description' => 'Paha ayam fillet goreng renyah ekstra pedas, selada segar, coleslaw creamy, dan saus peri-peri.',
-                'price' => 42000,
-                'original_price' => 48000,
-                'image' => 'images/products/1787822792_spicy-crunchy-chicken-burger.jpg',
-                'is_available' => true,
-                'is_featured' => false,
-                'calories' => 620,
-                'prep_time_minutes' => 8,
-            ]
-        );
-
-        // $optSpicy = ProductOption::firstOrCreate(
-        //     ['product_id' => $p3->id, 'name' => 'Level Kepedasan'],
-        //     ['type' => 'single', 'is_required' => true]
-        // );
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Mild (Level 1)'], ['additional_price' => 0, 'is_default' => true]);
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Hot Rush (Level 2)'], ['additional_price' => 0, 'is_default' => false]);
-        // ProductOptionValue::firstOrCreate(['product_option_id' => $optSpicy->id, 'name' => 'Inferno Dare (Level 3)'], ['additional_price' => 3000, 'is_default' => false]);
-
-        // Product 4: Super Combo Feast
-        $p4 = Product::firstOrCreate(
-            ['slug' => 'super-combo-feast'],
-            [
-                'category_id' => $catCombos->id,
-                'name' => 'Super Combo Feast',
-                'description' => 'Paket lengkap 1 Ultimate Double Cheeseburger + Large Golden Fries + 1 Toon Burger Soft Drink 16oz.',
-                'price' => 69000,
-                'original_price' => 88000,
-                'image' => 'images/products/1787822801_super-combo-feast.jpg',
-                'is_available' => true,
-                'is_featured' => true,
-                'calories' => 1100,
-                'prep_time_minutes' => 10,
-            ]
-        );
-
-        // Product 5: Fire Wings Spicy Glaze (6 Pcs)
-        Product::firstOrCreate(
-            ['slug' => 'fire-wings-spicy-glaze'],
-            [
+                'id' => 2,
+                'name' => 'Cheese Chicken Burger',
                 'category_id' => $catChicken->id,
-                'name' => 'Fire Wings Spicy Glaze (6 Pcs)',
-                'description' => 'Sayap ayam krispi berbalut saus pedas manis karamel khas Toon Burger bertabur biji wijen sangrai.',
-                'price' => 45000,
-                'original_price' => null,
-                'image' => 'images/products/1787822811_fire-wings-spicy-glaze-6-pcs.jpg',
-                'is_available' => true,
-                'is_featured' => false,
-                'calories' => 540,
-                'prep_time_minutes' => 10,
-            ]
-        );
-
-        // Product 6: Loaded Cheese & Beef Bacon Fries
-        Product::firstOrCreate(
-            ['slug' => 'loaded-cheese-bacon-fries'],
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 23000,
+                'image' => 'images/products/cheese-chicken-burger.png',
+                'slug' => 'cheese-chicken-burger',
+            ],
             [
-                'category_id' => $catSides->id,
-                'name' => 'Loaded Cheese & Bacon Fries',
-                'description' => 'Kentang goreng renyah disiram saus keju cheddar hangat, taburan beef bacon gurih, dan daun bawang segar.',
-                'price' => 32000,
-                'original_price' => 38000,
-                'image' => 'images/products/1787822823_loaded-cheese-bacon-fries.jpg',
-                'is_available' => true,
-                'is_featured' => true,
-                'calories' => 460,
-                'prep_time_minutes' => 6,
-            ]
-        );
-
-        // Product 7: Classic French Fries (Large)
-        Product::firstOrCreate(
-            ['slug' => 'classic-french-fries-large'],
+                'id' => 3,
+                'name' => 'BBQ Beef Burger',
+                'category_id' => $catBeef->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 37000,
+                'image' => 'images/products/bbq-beef-burger.png',
+                'slug' => 'bbq-beef-burger',
+            ],
             [
-                'category_id' => $catSides->id,
-                'name' => 'Classic French Fries (Large)',
-                'description' => 'Kentang goreng renyah dengan taburan garam laut gurih alami.',
-                'price' => 22000,
-                'original_price' => null,
-                'image' => 'images/products/1787822832_classic-french-fries-large.jpg',
-                'is_available' => true,
-                'is_featured' => false,
-                'calories' => 320,
-                'prep_time_minutes' => 5,
-            ]
-        );
-
-        // Product 8: Toon Burger Vanilla Milkshake
-        Product::firstOrCreate(
-            ['slug' => 'toon-burger-vanilla-milkshake'],
+                'id' => 4,
+                'name' => 'Double Cheese Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/products/double-cheese-burger.png',
+                'slug' => 'double-cheese-burger-1',
+            ],
             [
-                'category_id' => $catDrinks->id,
-                'name' => 'Toon Burger Creamy Vanilla Shake',
-                'description' => 'Milkshake vanilla kental dibuat dari fresh milk dan gelato vanilla asli dengan whipped cream di atasnya.',
-                'price' => 28000,
-                'original_price' => null,
-                'image' => 'images/products/1787822840_toonburger-creamy-vanilla-shake.jpg',
-                'is_available' => true,
-                'is_featured' => false,
-                'calories' => 380,
-                'prep_time_minutes' => 4,
-            ]
-        );
-
-        // Product 9: Iced Fresh Lemon Tea
-        Product::firstOrCreate(
-            ['slug' => 'iced-fresh-lemon-tea'],
+                'id' => 5,
+                'name' => 'Regular Cheese Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 25000,
+                'image' => 'images/products/regular-cheese-burger.png',
+                'slug' => 'regular-cheese-burger',
+            ],
             [
-                'category_id' => $catDrinks->id,
-                'name' => 'Iced Fresh Lemon Tea',
-                'description' => 'Teh hitam seduh segar berpadu dengan perasan lemon asli dan daun mint sejuk.',
-                'price' => 18000,
-                'original_price' => null,
-                'image' => 'images/products/1787822848_iced-fresh-lemon-tea.jpg',
-                'is_available' => true,
-                'is_featured' => false,
-                'calories' => 90,
-                'prep_time_minutes' => 3,
-            ]
-        );
-
-        // Product 10: Choco Lava Ice Cream
-        Product::firstOrCreate(
-            ['slug' => 'choco-lava-ice-cream'],
+                'id' => 6,
+                'name' => 'Beef Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 23000,
+                'image' => 'images/products/beef-burger.png',
+                'slug' => 'beef-burger',
+            ],
             [
-                'category_id' => $catDesserts->id,
-                'name' => 'Choco Lava Ice Cream Cup',
-                'description' => 'Warm molten chocolate cake dengan lelehan cokelat di dalam disajikan bersama satu scoop es krim vanila.',
-                'price' => 26000,
-                'original_price' => 30000,
-                'image' => 'images/products/1787822857_choco-lava-ice-cream-cup.jpg',
-                'is_available' => true,
-                'is_featured' => true,
-                'calories' => 350,
-                'prep_time_minutes' => 6,
-            ]
-        );
+                'id' => 7,
+                'name' => 'Regular Chicken Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 35000,
+                'image' => 'images/products/regular-chicken-burger.png',
+                'slug' => 'regular-chicken-burger',
+            ],
+            [
+                'id' => 8,
+                'name' => 'Hot Chicken Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/products/hot-chicken-burger.png',
+                'slug' => 'hot-chicken-burger',
+            ],
+            [
+                'id' => 9,
+                'name' => 'Classic Hotdog',
+                'category_id' => $catHotdog->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 20000,
+                'image' => 'images/products/classic-hotdog.png',
+                'slug' => 'classic-hotdog',
+            ],
+            [
+                'id' => 10,
+                'name' => 'Meat Cheesy Hotdog',
+                'category_id' => $catHotdog->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/products/meat-cheesy-hotdog.png',
+                'slug' => 'meat-cheesy-hotdog',
+            ],
+            [
+                'id' => 11,
+                'name' => 'Double Cheese Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/products/double-cheese-burger.png',
+                'slug' => 'double-cheese-burger-2',
+            ],
+            [
+                'id' => 12,
+                'name' => 'Double Cheese Burger',
+                'category_id' => $catCheese->id,
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/products/double-cheese-burger.png',
+                'slug' => 'double-cheese-burger-3',
+            ],
+        ];
+
+        $p1 = null;
+        foreach ($menuProducts as $data) {
+            $p = Product::updateOrCreate(
+                ['id' => $data['id']],
+                [
+                    'name' => $data['name'],
+                    'category_id' => $data['category_id'],
+                    'description' => $data['description'],
+                    'price' => $data['price'],
+                    'image' => $data['image'],
+                    'slug' => $data['slug'],
+                    'is_available' => true,
+                    'is_featured' => ($data['id'] <= 4),
+                    'calories' => 550,
+                    'prep_time_minutes' => 10,
+                ]
+            );
+            if ($data['id'] === 1) {
+                $p1 = $p;
+            }
+        }
 
         // 6. Sample Completed Order & Payment
         $order = Order::firstOrCreate(

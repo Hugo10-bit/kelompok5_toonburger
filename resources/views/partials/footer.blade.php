@@ -1,4 +1,4 @@
-<footer class="relative text-white mt-16 sm:mt-24 pt-14 sm:pt-16 pb-8 select-none overflow-hidden" style="background-color: #3b5c56;">
+<footer class="relative text-white mt-0 pt-14 sm:pt-16 pb-8 select-none overflow-hidden" style="background-color: #3b5c56;">
     <!-- Topographic Contour Lines Background -->
     <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20 select-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400" fill="none">
         <path d="M-100 120 C 150 160, 350 70, 600 110 C 850 150, 1050 80, 1300 130" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>

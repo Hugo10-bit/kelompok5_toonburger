@@ -70,6 +70,11 @@
         .static-burger {
             transform: rotate(var(--rot, 0deg));
         }
+        /* Prevent Edge/IE native password reveal button from overlapping custom toggle button */
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none;
+        }
     </style>
 </head>
 <body class="h-full w-full bg-[#F1D9B3] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative">
@@ -156,6 +161,40 @@
         <div class="w-full max-w-sm sm:max-w-md mx-auto my-auto py-4">
 
             <!-- FLASH ALERTS -->
+            @if(session('warning'))
+                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                    <div class="flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <span id="alert-warning-text">{{ session('warning') }}</span>
+                    </div>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                </div>
+            @else
+                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
+                    <div class="flex items-center gap-2.5">
+                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
+                    </div>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-800 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                </div>
+            @endif
+
             @if(session('status'))
                 <div class="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs">
                     <div class="flex items-center gap-2">
@@ -193,7 +232,7 @@
                     <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-4 text-xs">
+                <form action="{{ route('login') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="login">
 
@@ -225,7 +264,7 @@
                                    class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 pr-3.5 pl-2 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -270,7 +309,7 @@
                     <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
                 </div>
 
-                <form action="{{ route('register') }}" method="POST" class="space-y-4 text-xs">
+                <form action="{{ route('register') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="register">
 
@@ -329,10 +368,10 @@
                                    required
                                    autocomplete="new-password"
                                    placeholder="Masukkan password (min. 6 karakter)"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-10 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-11 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 pr-3.5 pl-2 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -586,6 +625,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('toon_lang') || 'id';
             applyLanguage(savedLang);
+
+            if (localStorage.getItem('tb_logged_out') === '1') {
+                const warnAlert = document.getElementById('alert-warning');
+                if (warnAlert) {
+                    warnAlert.classList.remove('hidden');
+                    warnAlert.classList.add('flex');
+                }
+                localStorage.removeItem('tb_logged_out');
+            }
         });
 
         function switchToRegister() {
@@ -612,15 +660,24 @@
 
             if (isPassword) {
                 btn.setAttribute('aria-label', 'Sembunyikan Password');
-                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg>`;
+                btn.innerHTML = `<svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3l18 18"/></svg>`;
             } else {
                 btn.setAttribute('aria-label', 'Tampilkan Password');
-                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
+                btn.innerHTML = `<svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`;
             }
         }
 
         // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
         window.addEventListener('pageshow', function (event) {
+            if (localStorage.getItem('tb_logged_out') === '1') {
+                const warnAlert = document.getElementById('alert-warning');
+                if (warnAlert) {
+                    warnAlert.classList.remove('hidden');
+                    warnAlert.classList.add('flex');
+                }
+                localStorage.removeItem('tb_logged_out');
+            }
+
             const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
             const isBackForward = event.persisted || 
                 (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 

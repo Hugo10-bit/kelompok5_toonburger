@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
-    <!-- Google Fonts: Poppins + Nunito -->
+    <!-- Google Fonts: Poppins + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,6 +35,7 @@
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
+                        luckiest: ['"Luckiest Guy"', 'cursive'],
                     }
                 }
             }
@@ -42,6 +43,29 @@
     </script>
     <style>
         html { scroll-behavior: smooth; overflow-x: clip; }
+        .font-brand {
+            font-family: 'Luckiest Guy', cursive;
+            letter-spacing: 0.04em;
+        }
+        .retro-grid-bg {
+            background-color: #FAF5E8;
+            background-image: 
+                linear-gradient(to right, rgba(59, 92, 86, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 92, 86, 0.07) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: 200%;
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: clip;
@@ -1195,6 +1219,9 @@
         }
 
         function submitLogoutForm() {
+            try {
+                localStorage.setItem('tb_logged_out', '1');
+            } catch (e) {}
             const btn = document.getElementById('modal-logout-submit-btn');
             if (btn) {
                 btn.disabled = true;

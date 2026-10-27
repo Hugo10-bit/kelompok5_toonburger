@@ -53,6 +53,21 @@ class MenuController extends Controller
         $search = $request->query('q');
         $tableNum = $request->query('table'); // If scanned QR: ?table=Meja 01
 
+        $cardMetadata = [
+            1  => ['badge' => 'CHEESE BURGER',  'bg' => '#F5C518'],
+            2  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FDE2B8'],
+            3  => ['badge' => 'BEEF BURGER',    'bg' => '#E60000'],
+            4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
+            5  => ['badge' => 'CHEESE BURGER',  'bg' => '#B9D7F9'],
+            6  => ['badge' => 'CHEESE BURGER',  'bg' => '#FB923C'],
+            7  => ['badge' => 'CHEESE BURGER',  'bg' => '#DDD6FE'],
+            8  => ['badge' => 'CHEESE BURGER',  'bg' => '#FBCFE8'],
+            9  => ['badge' => 'HOTDOG',         'bg' => '#FED7AA'],
+            10 => ['badge' => 'HOTDOG',         'bg' => '#F5C518'],
+            11 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
+            12 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
+        ];
+
         if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
             $query = Product::with(['category', 'reviews.user'])
                 ->where('is_available', true);
@@ -70,14 +85,14 @@ class MenuController extends Controller
                 });
             }
 
-            $products = $query->orderByDesc('is_featured')->orderBy('name')->get();
+            $products = $query->orderBy('id')->take(12)->get();
         } else {
             $products = collect([]);
         }
 
         $tables = RestaurantTable::where('status', 'available')->get();
 
-        return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables'));
+        return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata'));
     }
 
     /**

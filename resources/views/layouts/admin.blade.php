@@ -8,6 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        if (localStorage.getItem('tb_logged_out') === '1') {
+            document.documentElement.style.display = 'none';
+            window.location.replace("{{ route('login') }}");
+        }
+    </script>
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
     <!-- Google Fonts: Roboto -->
@@ -518,6 +527,9 @@
         }
 
         function submitLogoutForm() {
+            try {
+                localStorage.setItem('tb_logged_out', '1');
+            } catch (e) {}
             const btn = document.getElementById('admin-modal-logout-submit-btn');
             if (btn) {
                 btn.disabled = true;
@@ -1316,14 +1328,23 @@
             } else {
                 selectLanguage('Bahasa Indonesia', 'ID');
             }
+        } catch (err) {}
+
         // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
         window.addEventListener('pageshow', function (event) {
+            if (localStorage.getItem('tb_logged_out') === '1') {
+                document.documentElement.style.display = 'none';
+                window.location.replace("{{ route('login') }}");
+                return;
+            }
+
             const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
             const isBackForward = event.persisted || 
                 (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
                 (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
 
             if (isBackForward) {
+                document.documentElement.style.display = 'none';
                 window.location.reload();
             }
         });

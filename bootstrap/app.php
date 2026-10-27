@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: '*');
-        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectGuestsTo(function () {
+            session()->flash('warning', 'Wajib login terlebih dahulu.');
+            return route('login');
+        });
         $middleware->web(append: [
             \App\Http\Middleware\PreventBackHistory::class,
         ]);
