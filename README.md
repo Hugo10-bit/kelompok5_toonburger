@@ -39,7 +39,7 @@ Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan oper
 
 ## Teknologi yang Digunakan
 
-- PHP 8.2
+- PHP 8.4+
 - Laravel 12
 - JavaScript
 - Vite
@@ -80,7 +80,7 @@ Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan oper
 
 Sebelum menjalankan project, pastikan sistem Anda sudah memiliki:
 
-- PHP >= 8.2
+- PHP >= 8.4+
 - Composer
 - Node.js dan npm
 - Database (MySQL atau SQLite)
