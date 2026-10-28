@@ -86,8 +86,18 @@
                             </td>
 
                             <!-- Stok -->
-                            <td class="py-3.5 px-4 text-gray-600 font-medium">
-                                {{ $prod->calories ? ($prod->calories > 100 ? 50 : $prod->calories) : 50 }} <span data-i18n="products_unit_portion">Porsi</span>
+                            <td class="py-3.5 px-4 font-medium text-xs">
+                                @if($prod->is_available)
+                                    <span class="inline-flex items-center gap-1.5 text-emerald-700 font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        Tersedia
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 text-rose-600 font-semibold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                                        Habis
+                                    </span>
+                                @endif
                             </td>
 
                             <!-- Status -->

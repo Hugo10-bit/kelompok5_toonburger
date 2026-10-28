@@ -246,147 +246,45 @@
 
             <!-- 4 Product Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @forelse($featuredProducts as $product)
+                    <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                        <div>
+                            <!-- Top Image Box: Full Bleed Seamless -->
+                            <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
+                                <img src="{{ asset($product->image ?: 'images/hero-burger.png') }}"
+                                     alt="{{ $product->name }}"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
 
-                <!-- 1. Very Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
-                        <!-- Top Image Box: Yellow Background (Full Bleed Seamless) -->
-                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
-                            <img src="{{ asset('images/products/very-cheese-burger.png') }}"
-                                 alt="Very Cheese Burger"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div class="pt-3 pb-1">
+                                <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
+                                    {{ $product->category->name ?? 'BURGER' }}
+                                </span>
+                                <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                    {{ $product->name }}
+                                </h3>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
+                                    {{ $product->description }}
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="pt-3 pb-1">
-                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
-                                CHEESE BURGER
+                        <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
+                            <span class="font-black text-base text-gray-900">
+                                Rp {{ number_format($product->price, 0, ',', '.') }}
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
-                                Very Cheese Burger
-                            </h3>
-                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
-                            </p>
+                            <button type="button"
+                                    onclick="quickAddToCart({{ $product->id }})"
+                                    class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                Pesan
+                            </button>
                         </div>
                     </div>
-
-                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                        <span class="font-black text-base text-gray-900">
-                            Rp 35.000
-                        </span>
-                        <button type="button"
-                                onclick="quickAddToCart(1)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
-                            Pesan
-                        </button>
+                @empty
+                    <div class="col-span-full py-12 text-center text-gray-400">
+                        <p class="text-sm font-medium">Belum ada menu best seller yang ditampilkan.</p>
                     </div>
-                </div>
-
-                <!-- 2. Cheese Chicken Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
-                        <!-- Top Image Box: Beige/Tan Background (Full Bleed Seamless) -->
-                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
-                            <img src="{{ asset('images/products/cheese-chicken-burger.png') }}"
-                                 alt="Cheese Chicken Burger"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        </div>
-
-                        <div class="pt-3 pb-1">
-                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
-                                CHICKEN BURGER
-                            </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
-                                Cheese Chicken Burger
-                            </h3>
-                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                        <span class="font-black text-base text-gray-900">
-                            Rp 23.000
-                        </span>
-                        <button type="button"
-                                onclick="quickAddToCart(2)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
-                            Pesan
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 3. BBQ Beef Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
-                        <!-- Top Image Box: Vibrant Red Background (Full Bleed Seamless) -->
-                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
-                            <img src="{{ asset('images/products/bbq-beef-burger.png') }}"
-                                 alt="BBQ Beef Burger"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        </div>
-
-                        <div class="pt-3 pb-1">
-                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
-                                BEEF BURGER
-                            </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
-                                BBQ Beef Burger
-                            </h3>
-                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                        <span class="font-black text-base text-gray-900">
-                            Rp 37.000
-                        </span>
-                        <button type="button"
-                                onclick="quickAddToCart(3)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
-                            Pesan
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 4. Double Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
-                        <!-- Top Image Box: Soft Green Background (Full Bleed Seamless) -->
-                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
-                            <img src="{{ asset('images/products/double-cheese-burger.png') }}"
-                                 alt="Double Cheese Burger"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        </div>
-
-                        <div class="pt-3 pb-1">
-                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
-                                CHEESE BURGER
-                            </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
-                                Double Cheese Burger
-                            </h3>
-                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                        <span class="font-black text-base text-gray-900">
-                            Rp 33.000
-                        </span>
-                        <button type="button"
-                                onclick="quickAddToCart(4)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
-                            Pesan
-                        </button>
-                    </div>
-                </div>
-
+                @endforelse
             </div>
 
             <!-- ═══════════════════════════════════════════════

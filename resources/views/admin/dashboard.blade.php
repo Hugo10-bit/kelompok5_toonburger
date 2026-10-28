@@ -28,13 +28,19 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    <span data-i18n="currency">Rp</span> {{ $todayRevenue > 0 ? number_format($todayRevenue, 0, ',', '.') : '500.000' }}
+                    <span data-i18n="currency">Rp</span> {{ number_format($todayRevenue, 0, ',', '.') }}
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_up5">
-                    Up 5% from yesterday.
-                </span>
+                @if($revenueGrowth >= 0)
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                        +{{ $revenueGrowth }}% dari kemarin
+                    </span>
+                @else
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444]">
+                        {{ $revenueGrowth }}% dari kemarin
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -51,13 +57,19 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $totalOrdersToday > 0 ? $totalOrdersToday : 50 }} <span data-i18n="transaction">Transaction</span>
+                    {{ $totalOrdersToday }} <span data-i18n="transaction">Transaction</span>
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_up2">
-                    Up 2% from yesterday.
-                </span>
+                @if($ordersGrowth >= 0)
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                        +{{ $ordersGrowth }}% dari kemarin
+                    </span>
+                @else
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444]">
+                        {{ $ordersGrowth }}% dari kemarin
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -75,13 +87,19 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $pendingOrders > 0 ? $pendingOrders : 9 }} <span data-i18n="queue">Antrean</span>
+                    {{ $pendingOrders }} <span data-i18n="queue">Antrean</span>
                 </span>
             </div>
             <div>
-                <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]" data-i18n="dash_needs_processing">
-                    Needs to be processed immediately.
-                </span>
+                @if($pendingOrders > 0)
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#FEF3C7] text-[#D97706]" data-i18n="dash_needs_processing">
+                        Perlu segera diproses.
+                    </span>
+                @else
+                    <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
+                        Semua antrean tertangani.
+                    </span>
+                @endif
             </div>
         </div>
 
@@ -96,15 +114,15 @@
             </div>
             <div class="my-3">
                 <span class="text-2xl sm:text-[26px] font-extrabold text-gray-900 tracking-tight block">
-                    {{ $totalProducts > 0 ? $totalProducts : 24 }} <span data-i18n="nav_products_short">Products</span>
+                    {{ $totalProducts }} <span data-i18n="nav_products_short">Products</span>
                 </span>
             </div>
             <div class="flex items-center gap-2 flex-wrap">
                 <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#E8F8F0] text-[#10B981]">
-                    {{ $activeProducts > 0 ? $activeProducts : 20 }} <span class="ml-0.5" data-i18n="dash_active">Active</span>
+                    {{ $activeProducts }} <span class="ml-0.5" data-i18n="dash_active">Active</span>
                 </span>
                 <span class="inline-flex items-center text-[10px] sm:text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#FEE2E2] text-[#EF4444]">
-                    {{ $outOfStockProducts > 0 ? $outOfStockProducts : 2 }} <span class="ml-0.5" data-i18n="dash_out_of_stock">Out Of Stocks</span>
+                    {{ $outOfStockProducts }} <span class="ml-0.5" data-i18n="dash_out_of_stock">Out Of Stocks</span>
                 </span>
             </div>
         </div>
@@ -138,80 +156,46 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            @php
-                                $displayOrders = [
-                                    [
-                                        'number' => 'TB-20260917-0007',
-                                        'name' => 'Adzriel Fathi',
-                                        'total' => '66.000',
-                                        'status' => 'Completed',
-                                        'status_key' => 'stepper_completed',
-                                        'dot' => 'bg-[#3B82F6]',
-                                        'url' => route('admin.orders'),
-                                    ],
-                                    [
-                                        'number' => 'TB-20260917-0007',
-                                        'name' => 'Hugo Putra',
-                                        'total' => '60.500',
-                                        'status' => 'Ready to Serve',
-                                        'status_key' => 'stepper_ready',
-                                        'dot' => 'bg-[#10B981]',
-                                        'url' => route('admin.orders'),
-                                    ],
-                                    [
-                                        'number' => 'TB-20260917-0007',
-                                        'name' => 'Cornelius Hugo',
-                                        'total' => '126.500',
-                                        'status' => 'Cooking',
-                                        'status_key' => 'stepper_cooking',
-                                        'dot' => 'bg-[#EF4444]',
-                                        'url' => route('admin.orders'),
-                                    ],
-                                    [
-                                        'number' => 'TB-20260917-0007',
-                                        'name' => 'Rizki Prawira',
-                                        'total' => '87.500',
-                                        'status' => 'Cooking',
-                                        'status_key' => 'stepper_cooking',
-                                        'dot' => 'bg-[#EF4444]',
-                                        'url' => route('admin.orders'),
-                                    ],
-                                    [
-                                        'number' => 'TB-20260917-0007',
-                                        'name' => 'Waiz Fadillah',
-                                        'total' => '55.000',
-                                        'status' => 'Pending',
-                                        'status_key' => 'stepper_pending',
-                                        'dot' => 'bg-[#F59E0B]',
-                                        'url' => route('admin.orders'),
-                                    ],
-                                ];
-                            @endphp
-
-                            @foreach($displayOrders as $order)
+                            @forelse($recentOrders as $order)
+                                @php
+                                    $statusConfig = match($order->status) {
+                                        'completed' => ['dot' => 'bg-[#3B82F6]', 'key' => 'stepper_completed', 'label' => 'Selesai'],
+                                        'ready' => ['dot' => 'bg-[#10B981]', 'key' => 'stepper_ready', 'label' => 'Siap Saji'],
+                                        'preparing' => ['dot' => 'bg-[#EF4444]', 'key' => 'stepper_cooking', 'label' => 'Dimasak'],
+                                        'confirmed' => ['dot' => 'bg-[#8B5CF6]', 'key' => 'stepper_cooking', 'label' => 'Dikonfirmasi'],
+                                        'cancelled' => ['dot' => 'bg-gray-400', 'key' => 'orders_status_cancelled', 'label' => 'Dibatalkan'],
+                                        default => ['dot' => 'bg-[#F59E0B]', 'key' => 'stepper_pending', 'label' => 'Menunggu'],
+                                    };
+                                @endphp
                                 <tr class="hover:bg-gray-50/70 transition">
                                     <td class="py-4 px-4 font-semibold text-gray-800 text-xs">
-                                        {{ $order['number'] }}
+                                        {{ $order->order_number }}
                                     </td>
                                     <td class="py-4 px-4 text-gray-700 text-xs font-normal">
-                                        {{ $order['name'] }}
+                                        {{ $order->customer_name ?: ($order->user->name ?? 'Pelanggan') }}
                                     </td>
                                     <td class="py-4 px-4 font-bold text-gray-900 text-xs">
-                                        <span data-i18n="currency">Rp</span> {{ $order['total'] }}
+                                        <span data-i18n="currency">Rp</span> {{ number_format($order->total_amount, 0, ',', '.') }}
                                     </td>
                                     <td class="py-4 px-4">
                                         <span class="inline-flex items-center gap-2 text-xs text-gray-800 font-medium">
-                                            <span class="w-1.5 h-1.5 rounded-full {{ $order['dot'] }}"></span>
-                                            <span data-i18n="{{ $order['status_key'] }}">{{ $order['status'] }}</span>
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $statusConfig['dot'] }}"></span>
+                                            <span data-i18n="{{ $statusConfig['key'] }}">{{ $statusConfig['label'] }}</span>
                                         </span>
                                     </td>
                                     <td class="py-4 px-4 text-center">
-                                        <a href="{{ $order['url'] }}" class="inline-block bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-4 py-1 rounded-full transition text-[11px] shadow-2xs" data-i18n="dash_detail">
+                                        <a href="{{ route('admin.orders.show', $order->order_number) }}" class="inline-block bg-white hover:bg-gray-50 border border-gray-300 hover:border-gray-400 text-gray-700 font-medium px-4 py-1 rounded-full transition text-[11px] shadow-2xs" data-i18n="dash_detail">
                                             Detail
                                         </a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-8 text-center text-gray-400 text-xs">
+                                        Belum ada pesanan terbaru.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -223,27 +207,21 @@
             <div>
                 <h3 class="font-bold text-base text-gray-900 mb-4 tracking-tight" data-i18n="dash_best_selling">Best selling Menu</h3>
                 <div class="space-y-2.5">
-                    @php
-                        $menuItems = [
-                            ['name' => 'Cheese Chiken Burger', 'sold_count' => 179],
-                            ['name' => 'Very Cheese Burger', 'sold_count' => 170],
-                            ['name' => 'Double Beef Burger', 'sold_count' => 156],
-                            ['name' => 'BBQ Beef Burger', 'sold_count' => 150],
-                            ['name' => 'Hot Chiken Burger', 'sold_count' => 138],
-                        ];
-                    @endphp
-
-                    @foreach($menuItems as $idx => $item)
+                    @forelse($topProducts as $idx => $item)
                         <div class="flex items-center gap-3.5 p-3 rounded-2xl bg-[#F0F2F4] hover:bg-gray-200/60 transition">
                             <span class="w-6 h-6 rounded-full bg-[#3D5A58] text-white font-bold text-xs flex items-center justify-center shrink-0">
                                 {{ $idx + 1 }}
                             </span>
                             <div class="min-w-0 flex-1">
-                                <h4 class="font-bold text-xs text-gray-900 truncate leading-tight">{{ $item['name'] }}</h4>
-                                <span class="text-[10px] text-gray-400 font-normal block mt-0.5">{{ $item['sold_count'] }} <span data-i18n="dash_products_sold">Produk Terjual</span></span>
+                                <h4 class="font-bold text-xs text-gray-900 truncate leading-tight">{{ $item->product_name }}</h4>
+                                <span class="text-[10px] text-gray-400 font-normal block mt-0.5">{{ $item->total_qty }} <span data-i18n="dash_products_sold">Produk Terjual</span></span>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        <div class="py-8 text-center text-gray-400 text-xs">
+                            Belum ada penjualan menu.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </div>

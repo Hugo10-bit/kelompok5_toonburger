@@ -29,6 +29,16 @@ class AdminController extends Controller
         $totalTables = RestaurantTable::count();
         $totalCustomers = User::where('role', 'customer')->count();
 
+        $yesterdayRevenue = Order::whereDate('created_at', today()->subDay())->where('payment_status', 'paid')->sum('total_amount');
+        $revenueGrowth = $yesterdayRevenue > 0
+            ? round((($todayRevenue - $yesterdayRevenue) / $yesterdayRevenue) * 100)
+            : ($todayRevenue > 0 ? 100 : 0);
+
+        $yesterdayOrders = Order::whereDate('created_at', today()->subDay())->count();
+        $ordersGrowth = $yesterdayOrders > 0
+            ? round((($totalOrdersToday - $yesterdayOrders) / $yesterdayOrders) * 100)
+            : ($totalOrdersToday > 0 ? 100 : 0);
+
         $recentOrders = Order::with(['items', 'table', 'user'])->latest()->take(7)->get();
 
         $topProducts = OrderItem::select('product_name', DB::raw('SUM(quantity) as total_qty'), DB::raw('SUM(subtotal) as total_sales'))
@@ -43,7 +53,9 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact(
             'todayRevenue',
+            'revenueGrowth',
             'totalOrdersToday',
+            'ordersGrowth',
             'pendingOrders',
             'occupiedTables',
             'totalTables',
