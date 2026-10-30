@@ -17,6 +17,14 @@
             window.location.replace("{{ route('login') }}");
         }
     </script>
+    <!-- Prevent theme flash (FOUC) -->
+    <script>
+        if (localStorage.getItem('toon_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
     <!-- Google Fonts: Roboto -->
@@ -28,6 +36,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -85,9 +94,313 @@
         .animate-modal-pop {
             animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        /* =========================================================
+           Global Header Search Input (Clean & Transparent in both Light & Dark)
+           ========================================================= */
+        #global-header-search,
+        #global-header-search:focus,
+        #global-header-search:active,
+        #global-header-search:hover {
+            background-color: transparent !important;
+            background: transparent !important;
+            border: 0 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+        }
+
+        /* =========================================================
+           Subtle Bottom-Only Card Shadows (Light Mode)
+           ========================================================= */
+        aside#admin-sidebar,
+        header,
+        .bg-white.rounded-3xl,
+        .bg-white.rounded-2xl,
+        .bg-white.rounded-\[28px\],
+        .bg-white.rounded-\[32px\],
+        .grid > .bg-white,
+        .lg\:col-span-8.bg-white,
+        .lg\:col-span-4.bg-white {
+            box-shadow: 0 7px 16px -4px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.03) !important;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .grid > .bg-white:hover {
+            box-shadow: 0 11px 22px -5px rgba(0, 0, 0, 0.09), 0 4px 6px -2px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* =========================================================
+           Dark Mode Precision Styling (Matching User Mockup)
+           ========================================================= */
+        html.dark {
+            color-scheme: dark;
+        }
+        html.dark body {
+            background-color: #404040 !important;
+            color: #E5E7EB !important;
+        }
+        html.dark ::-webkit-scrollbar-track {
+            background: #303030;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #525252;
+            border-radius: 9999px;
+        }
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: #666666;
+        }
+
+        /* Main surfaces: Sidebar, Top Header, Dashboard wrapper card */
+        html.dark aside#admin-sidebar,
+        html.dark header,
+        html.dark .bg-white {
+            background-color: #303030 !important;
+            border-color: #404040 !important;
+            color: #E5E7EB;
+        }
+
+        /* Bottom-only subtle card shadows in Dark Mode */
+        html.dark aside#admin-sidebar,
+        html.dark header,
+        html.dark .bg-white.rounded-3xl,
+        html.dark .bg-white.rounded-2xl,
+        html.dark .bg-white.rounded-\[28px\],
+        html.dark .bg-white.rounded-\[32px\],
+        html.dark .grid > .bg-white,
+        html.dark .lg\:col-span-8.bg-white,
+        html.dark .lg\:col-span-4.bg-white {
+            box-shadow: 0 9px 20px -5px rgba(0, 0, 0, 0.48), 0 3px 6px -2px rgba(0, 0, 0, 0.28) !important;
+        }
+
+        html.dark .grid > .bg-white:hover {
+            box-shadow: 0 13px 26px -6px rgba(0, 0, 0, 0.62), 0 4px 8px -3px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        /* 4 Metric cards inside Dashboard */
+        html.dark .grid > .bg-white {
+            background-color: #3F3F3F !important;
+            border-color: #4A4A4A !important;
+        }
+
+        /* Sidebar items in dark mode */
+        html.dark #admin-sidebar a.bg-\[\#415C58\],
+        html.dark #admin-sidebar a.bg-\[\#3E615D\] {
+            background-color: #3E615D !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]) {
+            color: #D1D5DB !important;
+        }
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]):hover {
+            background-color: #3D3D3D !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #admin-sidebar button {
+            color: #D1D5DB;
+        }
+        html.dark #admin-sidebar button:hover {
+            background-color: #3D3D3D !important;
+        }
+
+        /* Header elements */
+        html.dark header form,
+        html.dark header .bg-\[\#F0F3F7\],
+        html.dark header .hover\:bg-\[\#EAEFF4\]:hover {
+            background-color: #525252 !important;
+            border-color: #5E5E5E !important;
+        }
+        html.dark header form:focus-within {
+            background-color: #525252 !important;
+            border-color: #707070 !important;
+            box-shadow: 0 0 0 2px rgba(62, 97, 93, 0.4) !important;
+        }
+        html.dark header input#global-header-search,
+        html.dark header input#global-header-search:focus {
+            background-color: transparent !important;
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            color: #FFFFFF !important;
+        }
+        html.dark header input#global-header-search::placeholder {
+            color: #B0B0B0 !important;
+        }
+        html.dark #header-lang-btn {
+            background-color: #303030 !important;
+            border-color: #525252 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-btn .text-gray-900 {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-btn .text-gray-400 {
+            color: #B0B0B0 !important;
+        }
+        html.dark #header-profile-chevron {
+            color: #D1D5DB !important;
+        }
+
+        /* Header Dropdown (Mockup has #525252 charcoal background with #606060 border) */
+        html.dark #header-profile-dropdown,
+        html.dark #header-lang-dropdown,
+        html.dark #header-search-results {
+            background-color: #525252 !important;
+            border-color: #606060 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+        }
+        html.dark #header-profile-dropdown a,
+        html.dark #header-profile-dropdown button {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-dropdown svg {
+            color: #E5E7EB !important;
+        }
+        html.dark #header-profile-dropdown a:hover,
+        html.dark #header-profile-dropdown button:hover {
+            background-color: #606060 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-dropdown hr {
+            border-color: #666666 !important;
+        }
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\],
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\] svg {
+            color: #EF4444 !important;
+        }
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\]:hover {
+            background-color: rgba(239, 68, 68, 0.15) !important;
+            color: #F87171 !important;
+        }
+
+        html.dark #header-lang-dropdown button {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-lang-dropdown button:hover {
+            background-color: #606060 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Modals */
+        html.dark #logout-confirm-modal .bg-white,
+        html.dark #delete-confirm-modal .bg-white,
+        html.dark [id$="-modal"] .bg-white {
+            background-color: #303030 !important;
+            border-color: #4A4A4A !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+        }
+
+        /* Typography & Borders */
+        html.dark .text-gray-900,
+        html.dark .text-gray-800 {
+            color: #FFFFFF !important;
+        }
+        html.dark .text-gray-700 {
+            color: #E5E7EB !important;
+        }
+        html.dark .text-gray-600,
+        html.dark .text-gray-500,
+        html.dark .text-gray-400 {
+            color: #B0B0B0 !important;
+        }
+
+        html.dark .border-gray-100,
+        html.dark .border-gray-200,
+        html.dark .border-gray-200\/80,
+        html.dark .border-gray-200\/90,
+        html.dark .border-gray-300,
+        html.dark hr {
+            border-color: #3F3F3F !important;
+        }
+
+        /* Table inside Pesanan Terbaru (Latest Orders) */
+        html.dark table thead tr {
+            background-color: #4A4A4A !important;
+            border-color: #525252 !important;
+        }
+        html.dark table thead th {
+            color: #D1D5DB !important;
+        }
+        html.dark table tbody tr {
+            background-color: #303030 !important;
+            border-color: #3F3F3F !important;
+        }
+        html.dark table tbody tr:hover {
+            background-color: #383838 !important;
+        }
+        /* Detail button pill in table */
+        html.dark table tbody a[data-i18n="dash_detail"] {
+            background-color: transparent !important;
+            border-color: #888888 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark table tbody a[data-i18n="dash_detail"]:hover {
+            background-color: #525252 !important;
+            border-color: #AAAAAA !important;
+        }
+
+        /* Menu Terlaris (Best Selling) items in dark mode: grey pill #696969 with dark circle #303030 */
+        html.dark .bg-\[\#F0F2F4\] {
+            background-color: #696969 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark .bg-\[\#F0F2F4\]:hover {
+            background-color: #757575 !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] h4 {
+            color: #FFFFFF !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] span {
+            color: #E0E0E0 !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] span.bg-\[\#3D5A58\] {
+            background-color: #303030 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Metric card status badges */
+        html.dark .bg-\[\#E8F8F0\],
+        html.dark .bg-emerald-50 {
+            background-color: #1E453B !important;
+            color: #34D399 !important;
+        }
+        html.dark .bg-\[\#FEE2E2\],
+        html.dark .bg-red-50 {
+            background-color: #4A2626 !important;
+            color: #F87171 !important;
+        }
+        html.dark .bg-amber-50,
+        html.dark .bg-orange-50 {
+            background-color: #4A3A20 !important;
+            color: #FBBF24 !important;
+        }
+        html.dark .bg-blue-50 {
+            background-color: #243852 !important;
+            color: #60A5FA !important;
+        }
+
+        /* Form elements (input, select, textarea) */
+        html.dark input:not([type="checkbox"]):not([type="radio"]):not(#global-header-search),
+        html.dark select,
+        html.dark textarea {
+            background-color: #3F3F3F !important;
+            border-color: #525252 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark input:not([type="checkbox"]):not([type="radio"]):not(#global-header-search)::placeholder,
+        html.dark textarea::placeholder {
+            color: #9CA3AF !important;
+        }
+        html.dark input:focus:not(#global-header-search),
+        html.dark select:focus,
+        html.dark textarea:focus {
+            border-color: #3E615D !important;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
+<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] transition-colors duration-200 antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -186,7 +499,8 @@
             <!-- Logo Section with Mascot + TOON BURGER text -->
             <div class="pt-2 pb-8 flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105 block dark:hidden">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105 hidden dark:block">
                 </a>
                 <!-- Mobile Close Button -->
                 <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
@@ -300,10 +614,11 @@
                         <input type="text"
                                name="q"
                                id="global-header-search"
-                               placeholder="Search for something..."
+                               placeholder="Cari Sesuatu..."
                                autocomplete="off"
                                data-i18n-attr="placeholder:search_placeholder"
-                               class="bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                               style="background-color: transparent !important; background: transparent !important; border: none !important; outline: none !important; box-shadow: none !important;"
+                               class="!bg-transparent bg-transparent border-0 outline-none focus:outline-none focus:ring-0 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 w-full font-normal">
                         <button type="button"
                                 id="header-search-clear"
                                 onclick="clearHeaderSearch()"
@@ -386,21 +701,44 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-3 z-50 hidden animate-modal-pop">
-                        <div class="px-3 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">Tb</div>
-                            <div class="min-w-0 flex-1">
-                                <div class="font-bold text-xs text-gray-900 truncate">Toon Burger</div>
-                                <div class="text-[11px] text-gray-400 truncate">Toonburger@gmail.com</div>
-                                <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]" data-i18n="role_admin">Administrator</span>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
-                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                <span data-i18n="nav_logout">Logout</span>
-                            </button>
-                        </div>
+                    <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-56 sm:w-60 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
+                        <!-- 1. Profile -->
+                        <a href="{{ route('admin.profile') }}" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition">
+                            <svg class="w-5 h-5 text-gray-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span data-i18n="dropdown_profile">Profile</span>
+                        </a>
+
+                        <!-- 2. Mode Gelap / Mode Terang Toggle -->
+                        <button type="button" onclick="toggleAdminTheme()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
+                            <svg id="header-theme-moon-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                            <svg id="header-theme-sun-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            <span id="header-theme-label" data-i18n="dropdown_theme">Mode Gelap</span>
+                        </button>
+
+                        <!-- 3. Beranda -->
+                        <a href="{{ route('home') }}" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition">
+                            <svg class="w-5 h-5 text-gray-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span data-i18n="dropdown_home">Beranda</span>
+                        </a>
+
+                        <!-- Separator line -->
+                        <hr class="my-1.5 border-gray-100">
+
+                        <!-- 4. Logout -->
+                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-[#DE3B28] hover:bg-red-50/80 transition text-left cursor-pointer">
+                            <svg class="w-5 h-5 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            <span data-i18n="dropdown_logout">Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -635,7 +973,7 @@
                 nav_orders_short: 'Pesanan',
                 nav_products: 'Data Produk',
                 nav_products_short: 'Produk',
-                nav_categories: 'Kategori Produk',
+                nav_categories: 'Data Kategori',
                 nav_categories_short: 'Kategori',
                 nav_homepage: 'Halaman Utama',
                 nav_logout: 'Keluar',
@@ -649,24 +987,24 @@
                 delete_confirm_btn: 'Ya, Hapus',
                 cancel: 'Batalkan',
                 // Header
-                search_placeholder: 'Cari sesuatu...',
+                search_placeholder: 'Cari Sesuatu...',
                 searching: 'Mencari data...',
                 role_admin: 'Administrator',
                 // Dashboard
-                dash_greeting: 'Halo, Admin Toon Burger.',
-                dash_subtitle: 'Pantau performa penjualan dan pesanan aktif hari ini.',
-                dash_metric_profit: 'Keuntungan Hari Ini',
+                dash_greeting: 'Halo, Admin Toon Burger',
+                dash_subtitle: 'Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.',
+                dash_metric_profit: 'Pendapatan Hari Ini',
                 dash_metric_orders: 'Pesanan Hari Ini',
-                dash_metric_progress: 'Pesanan Diproses',
+                dash_metric_progress: 'Pesanan Dalam Proses',
                 dash_metric_products: 'Total Produk',
-                dash_up5: 'Naik 5% dari kemarin.',
-                dash_up2: 'Naik 2% dari kemarin.',
-                dash_needs_processing: 'Perlu segera diproses.',
+                dash_up5: 'Naik 5% dari kemarin',
+                dash_up2: 'Naik 2% dari kemarin',
+                dash_needs_processing: 'Perlu Segera Di Proses',
                 dash_active: 'Aktif',
                 dash_out_of_stock: 'Habis',
                 dash_latest_order: 'Pesanan Terbaru',
                 dash_see_all: 'Lihat semua',
-                dash_col_order_num: 'Nomor Pesanan',
+                dash_col_order_num: 'No. Pesanan',
                 dash_col_customer: 'Nama Pelanggan',
                 dash_col_total: 'Total',
                 dash_col_status: 'Status',
@@ -812,6 +1150,11 @@
                 transaction: 'Transaksi',
                 queue: 'Antrean',
                 currency: 'Rp',
+                // Header Dropdown (Top Right)
+                dropdown_profile: 'Profile',
+                dropdown_theme: 'Mode Gelap',
+                dropdown_home: 'Beranda',
+                dropdown_logout: 'Logout',
             },
             EN: {
                 // Layout: Nav
@@ -998,6 +1341,11 @@
                 transaction: 'Transaction',
                 queue: 'Queue',
                 currency: 'IDR',
+                // Header Dropdown (Top Right)
+                dropdown_profile: 'Profile',
+                dropdown_theme: 'Dark Mode',
+                dropdown_home: 'Home',
+                dropdown_logout: 'Logout',
             }
         };
 
@@ -1085,6 +1433,7 @@
             }
 
             applyTranslations(code === 'US' ? 'EN' : 'ID');
+            updateAdminThemeUI(getAdminTheme());
 
             try {
                 localStorage.setItem('tb_admin_lang', code);
@@ -1114,6 +1463,59 @@
                     chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
                 }
             }
+        }
+
+        // ==========================================
+        // Theme Management (Light / Dark Mode)
+        // ==========================================
+        function getAdminTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+
+        function updateAdminThemeUI(theme) {
+            const isDark = (theme === 'dark');
+            const moonIcon = document.getElementById('header-theme-moon-icon');
+            const sunIcon = document.getElementById('header-theme-sun-icon');
+            const themeLabel = document.getElementById('header-theme-label');
+            const isEn = (window._tbLang === 'US' || window._tbLang === 'EN');
+
+            if (moonIcon && sunIcon) {
+                if (isDark) {
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden');
+                } else {
+                    moonIcon.classList.remove('hidden');
+                    sunIcon.classList.add('hidden');
+                }
+            }
+
+            if (themeLabel) {
+                if (isDark) {
+                    themeLabel.textContent = isEn ? 'Light Mode' : 'Mode Terang';
+                } else {
+                    themeLabel.textContent = isEn ? 'Dark Mode' : 'Mode Gelap';
+                }
+            }
+        }
+
+        function setAdminTheme(theme) {
+            try {
+                localStorage.setItem('toon_theme', theme);
+            } catch (err) {}
+
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            updateAdminThemeUI(theme);
+        }
+
+        function toggleAdminTheme() {
+            const current = getAdminTheme();
+            const next = (current === 'dark') ? 'light' : 'dark';
+            setAdminTheme(next);
         }
 
         let searchDebounceTimer = null;
@@ -1318,6 +1720,12 @@
                 searchResults.classList.add('hidden');
             }
         });
+
+        // Restore theme preference
+        try {
+            const savedTheme = localStorage.getItem('toon_theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            setAdminTheme(savedTheme);
+        } catch (err) {}
 
         // Restore language preference
         try {
