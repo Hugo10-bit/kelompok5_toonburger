@@ -85,6 +85,31 @@
         .animate-modal-pop {
             animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        html.dark body {
+            background-color: #111827;
+            color: #F3F4F6;
+        }
+        html.dark aside,
+        html.dark header,
+        html.dark main > div,
+        html.dark #header-profile-dropdown,
+        html.dark #header-lang-dropdown {
+            background-color: #1F2937 !important;
+            border-color: #374151 !important;
+            color: #F3F4F6 !important;
+        }
+        html.dark #header-profile-btn.bg-\[\#F2F2F2\] {
+            background-color: #374151 !important;
+        }
+        html.dark .text-gray-900,
+        html.dark .text-gray-800,
+        html.dark .text-\[\#333333\] {
+            color: #F9FAFB !important;
+        }
+        html.dark .text-gray-700,
+        html.dark .text-gray-600 {
+            color: #D1D5DB !important;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
@@ -183,43 +208,42 @@
     <!-- Sidebar -->
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
-            <!-- Logo Section with Mascot + TOON BURGER text -->
-            <div class="pt-2 pb-8 flex items-center justify-between md:justify-center relative">
+            <!-- Logo Section with Mascot + TOON BURGER text and bottom divider -->
+            <div class="pt-1 pb-5 mb-5 border-b border-gray-100 flex items-center justify-between md:justify-center relative -mx-6 px-6">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
                     <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105">
                 </a>
-                <!-- Mobile Close Button -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-4 top-0 text-gray-400 hover:text-gray-700 p-2 rounded-xl hover:bg-gray-100 transition min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Tutup Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
 
-            <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
-            <nav class="space-y-3 text-sm font-medium">
+            <!-- Primary Navigation Links -->
+            <nav class="space-y-2.5 text-sm font-medium">
 
-                <!-- 1. Dashboards -->
+                <!-- 1. Dashboard -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-3.5 px-5 py-3.5 min-h-[44px] transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
-                    <span data-i18n="nav_dashboard">Dashboards</span>
+                    <span data-i18n="nav_dashboard">Dashboard</span>
                 </a>
 
-                <!-- 2. Admin Profile -->
+                <!-- 2. Profil Admin -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-3.5 px-5 py-3.5 min-h-[44px] transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
-                    <span data-i18n="nav_profile">Admin Profile</span>
+                    <span data-i18n="nav_profile">Profil Admin</span>
                 </a>
 
-                <!-- 3. Order processing -->
+                <!-- 3. Proses Pesanan -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-3.5 px-5 py-3.5 min-h-[44px] transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                         <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
@@ -227,25 +251,25 @@
                         <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
                         <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
                     </svg>
-                    <span data-i18n="nav_orders">Order Processing</span>
+                    <span data-i18n="nav_orders">Proses Pesanan</span>
                 </a>
 
-                <!-- 4. Product Data -->
+                <!-- 4. Data Produk -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-3.5 px-5 py-3.5 min-h-[44px] transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
-                    <span data-i18n="nav_products">Product Data</span>
+                    <span data-i18n="nav_products">Data Produk</span>
                 </a>
 
-                <!-- 5. Product Categories -->
+                <!-- 5. Data Kategori -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-3.5 px-5 py-3.5 min-h-[44px] transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 8H7V5h2v3z"/>
                     </svg>
-                    <span data-i18n="nav_categories">Product Categories</span>
+                    <span data-i18n="nav_categories">Data Kategori</span>
                 </a>
             </nav>
         </div>
@@ -300,7 +324,7 @@
                         <input type="text"
                                name="q"
                                id="global-header-search"
-                               placeholder="Search for something..."
+                               placeholder="Cari Sesuatu..."
                                autocomplete="off"
                                data-i18n-attr="placeholder:search_placeholder"
                                class="bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
@@ -336,69 +360,75 @@
                     <button type="button"
                             id="header-lang-btn"
                             onclick="toggleLanguageDropdown(event)"
-                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
+                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 min-h-[44px] flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
                         <span id="header-lang-flag" class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
                             <svg class="w-full h-full" viewBox="0 0 64 64">
-                                <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
-                                <g clip-path="url(#circle-flag-header)">
-                                    <path fill="#B22234" d="M0 0h64v64H0z"/>
-                                    <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
-                                    <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
-                                    <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
-                                    <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
-                                    <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
-                                    <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                                <clipPath id="circle-flag-id-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                <g clip-path="url(#circle-flag-id-init)">
+                                    <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                    <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
                                 </g>
                             </svg>
                         </span>
-                        <span id="header-lang-label" class="text-sm font-medium text-gray-700">English</span>
+                        <span id="header-lang-label" class="text-xs sm:text-sm font-normal text-gray-600">Indonesia</span>
                         <svg id="header-lang-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
-                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
-                            <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
-                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
+                            <span class="flex items-center gap-2.5"><span>Indonesia</span></span>
+                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
-                        <button type="button" onclick="selectLanguage('Bahasa Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
-                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Bahasa Indonesia</span></span>
-                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 min-h-[44px] rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
+                            <span class="flex items-center gap-2.5"><span>English</span></span>
+                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                     </div>
                 </div>
 
-                <!-- Profile badge -->
                 <div class="relative select-none">
-                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
-                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">Tb</div>
-                        <div class="text-left leading-tight hidden sm:block">
-                            <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
-                            <div class="text-xs text-gray-400 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
+                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 px-3.5 py-2 rounded-2xl hover:bg-[#F2F2F2]/70 cursor-pointer group focus:outline-none text-left transition">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FA9A1B] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs">Tb</div>
+                        <div class="text-left leading-tight hidden sm:block pr-1">
+                            <div class="font-bold text-sm text-[#333333] leading-tight">Toon Burger</div>
+                            <div class="text-xs text-gray-500 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
                         </div>
                         <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-3 z-50 hidden animate-modal-pop">
-                        <div class="px-3 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">Tb</div>
-                            <div class="min-w-0 flex-1">
-                                <div class="font-bold text-xs text-gray-900 truncate">Toon Burger</div>
-                                <div class="text-[11px] text-gray-400 truncate">Toonburger@gmail.com</div>
-                                <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981]" data-i18n="role_admin">Administrator</span>
-                            </div>
+                    <div id="header-profile-dropdown" class="absolute right-0 left-0 min-w-[215px] top-full mt-1.5 bg-white rounded-xl border border-gray-200/90 shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden z-50 hidden animate-modal-pop">
+                        <div class="py-1.5">
+                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 hover:bg-gray-100/80 transition">
+                                <svg class="w-5 h-5 text-gray-900 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="7.5" r="3.2"/>
+                                    <path d="M5.5 19.2c0-2.4 2.9-4.2 6.5-4.2s6.5 1.8 6.5 4.2v.8h-13v-.8z"/>
+                                </svg>
+                                <span data-i18n="drop_profile">Profile</span>
+                            </a>
+                            <button type="button" onclick="toggleAdminTheme(event)" class="w-full flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 hover:bg-gray-100/80 transition cursor-pointer text-left">
+                                <svg class="w-5 h-5 text-gray-900 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                </svg>
+                                <span data-i18n="drop_darkmode">Mode Gelap</span>
+                            </button>
+                            <a href="{{ route('home') }}" class="flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 hover:bg-gray-100/80 transition">
+                                <svg class="w-5 h-5 text-gray-900 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 10.5L12 3.5l8 7V19.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V10.5z"/>
+                                    <path d="M9.5 20.5v-6h5v6"/>
+                                </svg>
+                                <span data-i18n="drop_home">Beranda</span>
+                            </a>
                         </div>
-                        <div>
-                            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
-                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                <span data-i18n="nav_logout">Logout</span>
+                        <div class="border-t border-gray-200/90 py-1">
+                            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-[#B9382C] hover:bg-red-50/70 transition cursor-pointer text-left">
+                                <svg class="w-5 h-5 text-[#B9382C] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10"/>
+                                    <path d="M15 16l4-4-4-4"/>
+                                    <path d="M19 12H9"/>
+                                </svg>
+                                <span data-i18n="drop_logout">Logout</span>
                             </button>
                         </div>
                     </div>
@@ -599,8 +629,10 @@
 
             const profileDropdown = document.getElementById('header-profile-dropdown');
             const profileChevron = document.getElementById('header-profile-chevron');
+            const profileBtn = document.getElementById('header-profile-btn');
             if (profileDropdown) profileDropdown.classList.add('hidden');
             if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+            if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
 
             const searchResults = document.getElementById('header-search-results');
             if (searchResults) searchResults.classList.add('hidden');
@@ -612,10 +644,12 @@
             const chevron = document.getElementById('header-lang-chevron');
             const profileDropdown = document.getElementById('header-profile-dropdown');
             const profileChevron = document.getElementById('header-profile-chevron');
+            const profileBtn = document.getElementById('header-profile-btn');
             const searchResults = document.getElementById('header-search-results');
 
             if (profileDropdown) profileDropdown.classList.add('hidden');
             if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+            if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
             if (searchResults) searchResults.classList.add('hidden');
 
             if (dropdown) {
@@ -629,17 +663,21 @@
         const _tbTranslations = {
             ID: {
                 // Layout: Nav
-                nav_dashboard: 'Dashboards',
+                nav_dashboard: 'Dashboard',
                 nav_profile: 'Profil Admin',
                 nav_orders: 'Proses Pesanan',
                 nav_orders_short: 'Pesanan',
                 nav_products: 'Data Produk',
                 nav_products_short: 'Produk',
-                nav_categories: 'Kategori Produk',
+                nav_categories: 'Data Kategori',
                 nav_categories_short: 'Kategori',
                 nav_homepage: 'Halaman Utama',
                 nav_logout: 'Keluar',
                 nav_logout_short: 'Keluar',
+                drop_profile: 'Profile',
+                drop_darkmode: 'Mode Gelap',
+                drop_home: 'Beranda',
+                drop_logout: 'Logout',
                 // Layout: Modals
                 logout_title: 'Konfirmasi Keluar',
                 logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
@@ -649,24 +687,24 @@
                 delete_confirm_btn: 'Ya, Hapus',
                 cancel: 'Batalkan',
                 // Header
-                search_placeholder: 'Cari sesuatu...',
+                search_placeholder: 'Cari Sesuatu...',
                 searching: 'Mencari data...',
                 role_admin: 'Administrator',
                 // Dashboard
-                dash_greeting: 'Halo, Admin Toon Burger.',
-                dash_subtitle: 'Pantau performa penjualan dan pesanan aktif hari ini.',
-                dash_metric_profit: 'Keuntungan Hari Ini',
+                dash_greeting: 'Halo, Admin Toon Burger',
+                dash_subtitle: 'Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.',
+                dash_metric_profit: 'Pendapatan Hari Ini',
                 dash_metric_orders: 'Pesanan Hari Ini',
-                dash_metric_progress: 'Pesanan Diproses',
+                dash_metric_progress: 'Pesanan Dalam Proses',
                 dash_metric_products: 'Total Produk',
-                dash_up5: 'Naik 5% dari kemarin.',
-                dash_up2: 'Naik 2% dari kemarin.',
-                dash_needs_processing: 'Perlu segera diproses.',
+                dash_up5: 'Naik 5% dari kemarin',
+                dash_up2: 'Naik 2% dari kemarin',
+                dash_needs_processing: 'Perlu Segera Di Proses',
                 dash_active: 'Aktif',
                 dash_out_of_stock: 'Habis',
                 dash_latest_order: 'Pesanan Terbaru',
                 dash_see_all: 'Lihat semua',
-                dash_col_order_num: 'Nomor Pesanan',
+                dash_col_order_num: 'No. Pesanan',
                 dash_col_customer: 'Nama Pelanggan',
                 dash_col_total: 'Total',
                 dash_col_status: 'Status',
@@ -675,32 +713,32 @@
                 dash_best_selling: 'Menu Terlaris',
                 dash_products_sold: 'Produk Terjual',
                 // Orders
-                orders_title: 'Proses Pesanan',
-                orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
+                orders_title: 'Proses pesanan',
+                orders_subtitle: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
                 order_detail_title: 'Detail Pesanan',
                 order_detail_subtitle: 'Konfirmasi dan kelola status pesanan ini.',
                 orders_refresh: 'Segarkan',
                 orders_tab_all: 'Semua',
                 orders_tab_pending: 'Menunggu',
-                orders_tab_processing: 'Diproses',
-                orders_tab_ready: 'Siap Diambil',
+                orders_tab_processing: 'Dimasak',
+                orders_tab_ready: 'Siap Saji',
                 orders_tab_completed: 'Selesai',
                 orders_tab_cancelled: 'Dibatalkan',
                 orders_empty_title: 'Tidak ada pesanan dalam status ini',
                 orders_empty_desc: 'Saat ada pesanan baru masuk, pesanan akan segera tampil di sini.',
                 orders_status_completed: 'Selesai',
-                orders_status_ready: 'Siap Diambil',
-                orders_status_processing: 'Diproses',
+                orders_status_ready: 'Siap Saji',
+                orders_status_processing: 'Dimasak',
                 orders_status_cancelled: 'Dibatalkan',
                 orders_status_pending: 'Menunggu',
                 orders_total: 'Total',
-                orders_accept: 'Terima Pesanan',
-                orders_mark_ready: 'Pesanan Siap',
-                orders_complete: 'Selesaikan Pesanan',
+                orders_accept: 'konfirmasi pesanan',
+                orders_mark_ready: 'konfirmasi pesanan',
+                orders_complete: 'konfirmasi pesanan',
                 orders_done_badge: 'Pesanan Selesai',
                 orders_cancelled_badge: 'Pesanan Dibatalkan',
-                orders_view_detail: 'Lihat Detail',
-                orders_reject: 'Tolak Pesanan',
+                orders_view_detail: 'Lihat Detail Pesanan',
+                orders_reject: 'Batalkan',
                 // Order Detail
                 order_detail_back: 'Kembali ke Proses Pesanan',
                 order_detail_kitchen_status: 'Status Dapur',
@@ -737,53 +775,53 @@
                 order_detail_complete: 'Selesaikan Pesanan',
                 order_detail_cancel: 'Batalkan Pesanan',
                 // Products
-                products_title: 'Kelola Data Produk',
-                products_subtitle: 'Kelola daftar menu dan produk Toon Burger',
+                products_title: 'Halaman Data Produk',
+                products_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
                 products_search: 'Cari nama menu...',
-                products_add_btn: 'Tambah Produk',
-                products_col_no: 'No',
-                products_col_menu: 'Menu / Produk',
+                products_add_btn: 'Tambahkan',
+                products_col_no: 'No.',
+                products_col_menu: 'Menu',
                 products_col_category: 'Kategori',
                 products_col_price: 'Harga',
-                products_col_stock: 'Stok',
+                products_col_stock: 'kalori',
                 products_col_status: 'Status',
                 products_col_action: 'Aksi',
                 products_available: 'Tersedia',
                 products_out: 'Habis',
                 products_empty_title: 'Belum Ada Menu',
-                products_empty_desc: 'Klik tombol + Tambah Produk untuk memasukkan menu baru.',
+                products_empty_desc: 'Klik tombol Tambahkan untuk memasukkan menu baru.',
                 // Add Product Modal
                 products_add_modal_title: 'Tambah Produk Baru',
                 products_add_modal_desc: 'Lengkapi informasi menu Toon Burger yang akan ditambahkan.',
                 products_label_name: 'Nama Produk',
                 products_label_category: 'Kategori',
                 products_label_price: 'Harga (Rp)',
-                products_label_stock: 'Stok (Porsi)',
+                products_label_stock: 'Kalori (kcal)',
                 products_label_photo: 'Upload Foto',
                 products_label_desc: 'Deskripsi',
-                products_add_submit: 'Tambah Produk',
+                products_add_submit: 'Tambahkan',
                 // Edit Product Modal
                 products_edit_modal_title: 'Edit Menu',
                 products_edit_modal_desc: 'Perbarui rincian, harga, atau foto menu Toon Burger.',
                 products_edit_photo: 'Ganti Foto Menu',
                 products_save_changes: 'Simpan Perubahan',
                 products_all_categories: 'Semua Kategori',
-                products_unit_portion: 'Porsi',
+                products_unit_portion: 'kcal',
                 products_placeholder_name: 'Nama Produk Baru',
-                products_placeholder_desc: 'Deskripsi menu Toon Burger...',
+                products_placeholder_desc: 'Burger dengan patty daging yang juicy,',
                 products_toggle_status_title: 'Klik untuk ubah ketersediaan',
                 products_edit_btn_title: 'Edit Produk',
                 products_delete_btn_title: 'Hapus Produk',
                 // Categories
-                categories_title: 'Kelola Kategori Produk',
-                categories_subtitle: 'Kelola kategori untuk pengelompokan menu Toon Burger',
+                categories_title: 'Halaman Kategori Produk',
+                categories_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
                 categories_search: 'Cari kategori...',
-                categories_add_btn: 'Tambah Kategori',
-                categories_col_no: 'No',
-                categories_col_name: 'Nama Kategori',
+                categories_add_btn: 'Tambahkan',
+                categories_col_no: 'No.',
+                categories_col_name: 'Kategori',
                 categories_col_action: 'Aksi',
                 categories_empty_title: 'Belum Ada Kategori',
-                categories_empty_desc: 'Klik tombol + Tambah Kategori untuk membuat kategori menu baru.',
+                categories_empty_desc: 'Klik tombol Tambahkan untuk membuat kategori menu baru.',
                 categories_add_modal_title: 'Tambah Kategori',
                 categories_label_name: 'Nama Kategori',
                 categories_save: 'Simpan',
@@ -1100,6 +1138,7 @@
             if (e) e.stopPropagation();
             const dropdown = document.getElementById('header-profile-dropdown');
             const chevron = document.getElementById('header-profile-chevron');
+            const profileBtn = document.getElementById('header-profile-btn');
             const langDropdown = document.getElementById('header-lang-dropdown');
             const langChevron = document.getElementById('header-lang-chevron');
             const searchResults = document.getElementById('header-search-results');
@@ -1113,8 +1152,26 @@
                 if (chevron) {
                     chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
                 }
+                if (profileBtn) {
+                    profileBtn.classList.toggle('bg-[#F2F2F2]', !isHidden);
+                }
             }
         }
+
+        function toggleAdminTheme(e) {
+            if (e) e.stopPropagation();
+            const isDark = document.documentElement.classList.toggle('dark');
+            try {
+                localStorage.setItem('tb_admin_theme', isDark ? 'dark' : 'light');
+            } catch (err) {}
+            closeAllHeaderDropdowns();
+        }
+
+        try {
+            if (localStorage.getItem('tb_admin_theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        } catch (err) {}
 
         let searchDebounceTimer = null;
         const searchInput = document.getElementById('global-header-search');
@@ -1310,6 +1367,7 @@
             if (profileDropdown && !profileDropdown.contains(e.target) && (!profileBtn || !profileBtn.contains(e.target))) {
                 profileDropdown.classList.add('hidden');
                 if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
+                if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
             }
 
             const searchInput = document.getElementById('global-header-search');
@@ -1326,7 +1384,7 @@
             if (savedLang === 'US') {
                 selectLanguage('English', 'US');
             } else {
-                selectLanguage('Bahasa Indonesia', 'ID');
+                selectLanguage('Indonesia', 'ID');
             }
         } catch (err) {}
 

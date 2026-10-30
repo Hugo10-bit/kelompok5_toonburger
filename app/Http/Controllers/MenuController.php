@@ -19,23 +19,40 @@ class MenuController extends Controller
             ->take(6)
             ->get();
 
-        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
-            $featuredProducts = Product::with(['category', 'reviews.user'])
-                ->where('is_available', true)
-                ->where('is_featured', true)
-                ->take(4)
-                ->get();
-
-            // Fallback if not enough featured products
-            if ($featuredProducts->isEmpty()) {
-                $featuredProducts = Product::with(['category', 'reviews.user'])
-                    ->where('is_available', true)
-                    ->take(4)
-                    ->get();
-            }
-        } else {
-            $featuredProducts = collect([]);
-        }
+        $featuredProducts = collect([
+            (object) [
+                'id' => 1,
+                'name' => 'Very Cheese Burger',
+                'category_label' => 'CHEESE BURGER',
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 35000,
+                'image' => 'images/bestseller_very_cheese.png',
+            ],
+            (object) [
+                'id' => 6,
+                'name' => 'Cheese Chicken Burger',
+                'category_label' => 'CHICKEN BURGER',
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 23000,
+                'image' => 'images/bestseller_cheese_chicken.png',
+            ],
+            (object) [
+                'id' => 3,
+                'name' => 'BBQ Beef Burger',
+                'category_label' => 'BEEF BURGER',
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 37000,
+                'image' => 'images/bestseller_bbq_beef.png',
+            ],
+            (object) [
+                'id' => 4,
+                'name' => 'Double Cheese Burger',
+                'category_label' => 'CHEESE BURGER',
+                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'price' => 33000,
+                'image' => 'images/bestseller_double_cheese.png',
+            ],
+        ]);
 
         return view('home', compact('categories', 'featuredProducts'));
     }

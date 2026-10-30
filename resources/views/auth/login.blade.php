@@ -9,26 +9,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
-    <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
+    <title>{{ $currentMode === 'register' ? 'Buat Akun' : 'Selamat Datang Kembali!' }} - Toon Burger</title>
 
-    <!-- Google Fonts: Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         toon: {
-                            granite: '#466967',
+                            granite: '#3F5E5A',
+                            'granite-btn': '#436460',
                             'granite-dark': '#344E4C',
-                            wheat: '#F1D9B3',
+                            wheat: '#EAD5B3',
                             rust: '#C1502D',
-                            cream: '#FAF1E1',
                             dark: '#263A38',
                         }
                     },
@@ -49,173 +48,172 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F1D9B3;
-            color: #263A38;
+            background-color: #EAD5B3;
+            color: #111827;
             overflow-x: hidden;
+        }
+        .wheat-canvas {
+            background-color: #EAD5B3;
+            background-image: radial-gradient(rgba(63, 94, 90, 0.085) 1px, transparent 0);
+            background-size: 4px 4px;
         }
         .font-brand {
             font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.03em;
+            text-shadow: 3px 4px 0px rgba(45, 40, 35, 0.24);
         }
-        /* Classic retro checkerboard pattern */
-        .checkerboard-pattern {
+        /* 3-row retro checkerboard (3 x 18px = 54px height) */
+        .checkerboard-3rows {
+            height: 54px;
             background-image:
-                linear-gradient(45deg, #466967 25%, transparent 25%),
-                linear-gradient(-45deg, #466967 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #466967 75%),
-                linear-gradient(-45deg, transparent 75%, #466967 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+                linear-gradient(45deg, #3F5E5A 25%, transparent 25%),
+                linear-gradient(-45deg, #3F5E5A 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #3F5E5A 75%),
+                linear-gradient(-45deg, transparent 75%, #3F5E5A 75%);
+            background-size: 36px 36px;
+            background-position: 0 0, 0 18px, 18px -18px, -18px 0;
         }
         .static-burger {
             transform: rotate(var(--rot, 0deg));
+            filter: drop-shadow(-6px 8px 7px rgba(0, 0, 0, 0.26));
         }
-        /* Prevent Edge/IE native password reveal button from overlapping custom toggle button */
+        /* Hide native Edge/IE password reveal icon so it does not overlap custom toggle */
         input[type="password"]::-ms-reveal,
         input[type="password"]::-ms-clear {
             display: none;
         }
+        *:focus-visible {
+            outline: 2px solid #3F5E5A;
+            outline-offset: 2px;
+        }
+        .dark *:focus-visible {
+            outline: 2px solid #82B3AD;
+            outline-offset: 2px;
+        }
     </style>
 </head>
-<body class="h-full w-full bg-[#F1D9B3] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative">
+<body class="min-h-screen lg:h-screen w-full wheat-canvas flex flex-col md:flex-row overflow-y-auto lg:overflow-hidden m-0 p-0 relative">
 
-    <!-- TOP GREEN ARC CONTINUOUS EXTENSION (For showing #466967 behind rounded-tl of white panel) -->
-    <div class="hidden md:block absolute top-0 left-0 right-0 h-32 lg:h-40 pointer-events-none z-0 overflow-hidden">
-        <svg viewBox="0 0 1000 130" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M 0 0 L 1000 0 L 1000 70 Q 250 140 0 70 Z" fill="#466967" />
-        </svg>
-    </div>
+    <!-- Top granite fill behind the rounded top-left corner of the right form card on desktop -->
+    <div class="hidden md:block absolute top-0 left-0 right-0 h-24 bg-[#3F5E5A] pointer-events-none z-0"></div>
 
-    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER ═══ -->
-    <div class="w-full md:w-[47%] lg:w-[47%] h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10">
+    <!-- Left panel: Toon Burger poster -->
+    <div class="w-full md:w-[46.5%] lg:w-[46.5%] min-h-[480px] md:h-screen wheat-canvas relative flex flex-col justify-between overflow-hidden p-0 shrink-0 select-none z-10">
 
-        <!-- TOP CURVED ARC IN GRANITE #466967 WITH TOON BURGER LOGO -->
+        <!-- Top curved granite header with mascot logo -->
         <div class="relative w-full z-10">
-            <!-- Curved background SVG -->
             <div class="relative w-full overflow-hidden">
-                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-32 sm:h-36 lg:h-40 block drop-shadow-xs">
-                    <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" fill="#466967" />
+                <svg viewBox="0 0 500 135" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-[136px] block">
+                    <path d="M 0 0 L 500 0 L 500 32 Q 250 148 0 32 Z" fill="#3F5E5A" />
                 </svg>
 
-                <!-- Mascot & Text inside Arc -->
-                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3">
-                    <a href="{{ route('home') }}" class="focus:outline-none focus:ring-2 focus:ring-white rounded-lg">
+                <div class="absolute inset-0 flex flex-col items-center justify-start pt-1.5 sm:pt-2 lg:pt-2.5">
+                    <a href="{{ route('welcome') }}" class="rounded-lg inline-flex items-center justify-center min-w-[44px] min-h-[44px]" aria-label="Halaman Awal Toon Burger">
                         <img src="{{ asset('images/toonburger-logo-white.png') }}"
                              alt="Toon Burger"
-                             class="h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
+                             class="h-20 sm:h-24 lg:h-[96px] w-auto object-contain drop-shadow-sm -translate-y-1">
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- STATIONARY BURGERS -->
-        <!-- 1. Top-Left Stationary Burger -->
+        <!-- 4 rotated burgers matching reference layout -->
         <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: -15deg;"
-             class="static-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
+             alt="Smash Burger"
+             style="--rot: -3deg;"
+             class="static-burger absolute top-[26%] left-[6.5%] w-12 sm:w-14 lg:w-[58px] pointer-events-none z-20">
 
-        <!-- 2. Top-Right Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: 14deg;"
-             class="static-burger absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
+             alt="Double Smash Burger"
+             style="--rot: 6deg;"
+             class="static-burger absolute top-[17%] right-[7%] w-20 sm:w-24 lg:w-[122px] pointer-events-none z-20">
 
-        <!-- 3. Bottom-Left Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: -9deg;"
-             class="static-burger absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
+             alt="Triple Cheese Burger"
+             style="--rot: -19deg;"
+             class="static-burger absolute bottom-[23.5%] left-[5.5%] w-20 sm:w-24 lg:w-[122px] pointer-events-none z-20">
 
-        <!-- 4. Bottom-Right Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: 18deg;"
-             class="static-burger absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
+             alt="Cheese Burger"
+             style="--rot: -26deg;"
+             class="static-burger absolute bottom-[29.5%] right-[11.5%] w-13 sm:w-15 lg:w-[64px] pointer-events-none z-20">
 
-        <!-- CENTER BRAND HEADLINE -->
-        <div class="my-auto py-8 sm:py-10 px-4 sm:px-6 text-center relative z-20">
-            <h1 class="font-brand text-5xl sm:text-6xl md:text-6xl lg:text-[76px] xl:text-[88px] leading-[1.0] text-[#466967] tracking-wider uppercase drop-shadow-xs">
+        <!-- Center slogan (left-aligned lines inside centered block) -->
+        <div class="my-auto py-6 sm:py-8 px-6 flex justify-center items-center relative z-20">
+            <h1 class="font-brand text-4xl sm:text-5xl md:text-[46px] lg:text-[54px] xl:text-[60px] leading-[1.38] text-[#3F5E5A] uppercase text-left inline-block">
                 EAT GOOD.<br>
                 FEEL GOOD.<br>
                 LIVE GOOD.
             </h1>
         </div>
 
-        <!-- BOTTOM CHECKERBOARD & SINCE 2024 -->
-        <div class="w-full relative z-20 pt-2 pb-5">
-            <div class="w-full h-8 checkerboard-pattern opacity-90"></div>
-            <div class="text-center pt-3 text-xs font-semibold text-[#466967]/80 tracking-widest uppercase">
-                -Since 2024-
+        <!-- Bottom 3-row checkerboard and Since 2025 -->
+        <div class="w-full relative z-20 pb-5 sm:pb-7">
+            <div class="w-full checkerboard-3rows"></div>
+            <div class="text-center pt-5 sm:pt-6 text-xs sm:text-[13px] font-semibold text-[#263A38] tracking-normal">
+                - Since 2025-
             </div>
         </div>
 
     </div>
 
-    <!-- ═══ RIGHT PANEL: WHITE FORM CARD ═══ -->
-    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl flex flex-col justify-between items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-8 md:py-10 overflow-y-auto relative z-10">
+    <!-- Right panel: White / Dark form card -->
+    <div id="right-auth-card" class="w-full md:w-[53.5%] lg:w-[53.5%] min-h-screen md:h-screen bg-white dark:bg-[#182221] text-[#111827] dark:text-[#F9FAFB] md:rounded-tl-[36px] md:rounded-bl-[36px] shadow-2xl flex flex-col justify-between items-center px-6 sm:px-12 lg:px-20 xl:px-24 py-6 sm:py-8 overflow-y-auto relative z-10 transition-colors duration-200">
 
-        <!-- Top anchor for optical balance -->
-        <div class="hidden md:block w-full h-1"></div>
+        <div class="hidden md:block w-full h-2 shrink-0"></div>
 
-        <div class="w-full max-w-sm sm:max-w-md mx-auto my-auto py-4">
+        <div class="w-full max-w-[430px] mx-auto my-auto py-4">
 
-            <!-- FLASH ALERTS -->
             @if(session('warning'))
-                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="alert">
                     <div class="flex items-center gap-2.5">
-                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">{{ session('warning') }}</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 dark:text-amber-300 hover:text-amber-950 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @else
-                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 border border-amber-300 text-amber-900 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
+                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 text-xs font-semibold rounded-lg items-center justify-between" role="alert">
                     <div class="flex items-center gap-2.5">
-                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 dark:text-amber-300 hover:text-amber-950 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-800 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                <div class="mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="alert">
                     <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span>{{ session('error') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 dark:text-red-300 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('status'))
-                <div class="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs">
+                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="status">
                     <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 cursor-pointer">&times;</button>
-                </div>
-            @endif
-
-            @if(session('success'))
-                <div class="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-xl flex justify-between items-center shadow-xs">
-                    <span>{{ session('success') }}</span>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 cursor-pointer">&times;</button>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 dark:text-emerald-300 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-6 p-4 bg-[#FFF1F0] border border-red-200/80 text-toon-rust text-xs font-semibold rounded-2xl flex items-center gap-2.5 shadow-2xs">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
-                    <span class="font-bold">
+                <div class="mb-6 p-3.5 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-300 dark:border-red-800 text-[#B42318] dark:text-red-200 text-xs font-semibold rounded-lg flex items-center gap-2.5" role="alert">
+                    <svg class="w-4 h-4 text-[#B42318] dark:text-red-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>
                         @if($errors->has('email') || $errors->has('username') || $errors->has('password'))
                             Username, email, atau password yang dimasukkan salah.
                         @else
@@ -225,20 +223,19 @@
                 </div>
             @endif
 
-            <!-- ── 1. LOGIN FORM ("Welcome Back!") ── -->
-            <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
-                <div class="mb-7">
-                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 tracking-tight whitespace-nowrap" id="login-title">Selamat Datang Kembali!</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
+            <!-- Login Form Panel -->
+            <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }}">
+                <div class="mb-9">
+                    <h2 class="text-2xl sm:text-[32px] lg:text-[34px] font-bold text-[#111827] dark:text-white tracking-tight leading-tight" id="login-title">Selamat Datang Kembali!</h2>
+                    <p class="text-xs sm:text-[15px] text-[#4B5563] dark:text-[#CBD5E1] font-normal mt-1.5" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
-                <form action="{{ route('login') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
+                <form id="login-form" action="{{ route('login') }}" method="POST" onsubmit="handleAuthSubmit(this, 'login-btn-text', 'Memproses...')" class="space-y-5 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="login">
 
-                    <!-- Username / Email Field -->
                     <div>
-                        <label for="login-email" class="block text-xs font-semibold text-gray-800 mb-1.5" id="login-email-label">Username</label>
+                        <label for="login-email" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1.5" id="login-email-label">Username</label>
                         <input type="text"
                                name="email"
                                id="login-email"
@@ -246,13 +243,12 @@
                                autofocus
                                autocomplete="username"
                                placeholder="Masukkan Username"
-                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : (old('email', old('username')) ?: 'admin') }}"
-                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : '' }}"
+                               class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white font-normal placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
-                    <!-- Password Field -->
                     <div>
-                        <label for="login-password" class="block text-xs font-semibold text-gray-800 mb-1.5" id="login-password-label">Password</label>
+                        <label for="login-password" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1.5" id="login-password-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
@@ -260,11 +256,10 @@
                                    required
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
-                                   value="Password123"
-                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white border border-transparent focus:border-[#466967] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                                   class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white font-normal placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#E2E8F0] hover:text-[#3F5E5A] dark:hover:text-[#82B3AD] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -274,104 +269,90 @@
                         </div>
                     </div>
 
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between text-xs pt-1">
-                        <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 font-medium">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#466967] focus:ring-[#466967] border-gray-300">
+                    <div class="flex items-center justify-between text-xs pt-0.5">
+                        <label class="inline-flex items-center gap-2 cursor-pointer select-none text-[#111827] dark:text-[#F9FAFB] font-medium min-h-[44px]">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[2px] text-[#3F5E5A] focus:ring-[#3F5E5A] border-[#6B7280] dark:border-[#94A3B8] bg-transparent">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 hover:text-[#466967] font-medium transition focus:outline-none focus:underline">
+                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-[11.5px] text-[#111827] dark:text-[#F9FAFB] hover:underline font-medium transition min-h-[44px] inline-flex items-center">
                             Lupa Password?
                         </a>
                     </div>
 
-                    <!-- Login Button -->
-                    <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] focus:ring-offset-2">
+                    <div class="pt-1">
+                        <button type="submit" id="login-submit-btn" class="w-full bg-[#436460] hover:bg-[#35514E] text-white font-semibold py-3 px-6 rounded-[8px] transition active:scale-[0.99] min-h-[44px] text-xs sm:text-[13.5px] flex items-center justify-center gap-2 cursor-pointer">
                             <span id="login-btn-text">Login</span>
                         </button>
                     </div>
 
-                    <!-- Toggle to Register -->
-                    <p class="text-center text-xs text-gray-500 pt-2">
-                        <span id="no-account-text">Belum Punya Akun?</span>
-                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                    <div class="text-center text-xs pt-1 flex items-center justify-center gap-1 flex-wrap">
+                        <span id="no-account-text" class="text-[#59626E] dark:text-[#94A3B8]">Belum Punya Akun?</span>
+                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#111827] dark:text-white hover:underline font-medium cursor-pointer min-h-[44px] inline-flex items-center px-1">
                             Daftar Sekarang
                         </button>
-                    </p>
+                    </div>
                 </form>
             </div>
 
-            <!-- ── 2. CREATE ACCOUNT FORM ("Create Account") ── -->
-            <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }} transition-all duration-300">
+            <!-- Register Form Panel -->
+            <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }}">
                 <div class="mb-7">
-                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 tracking-tight whitespace-nowrap" id="register-title">Buat Akun</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 font-normal mt-1" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
+                    <h2 class="text-2xl sm:text-[32px] font-bold text-[#111827] dark:text-white tracking-tight leading-tight" id="register-title">Buat Akun</h2>
+                    <p class="text-xs sm:text-[15px] text-[#4B5563] dark:text-[#CBD5E1] font-normal mt-1.5" id="register-subtitle">Bergabung dengan keluarga Toon Burger.</p>
                 </div>
 
-                <form action="{{ route('register') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
+                <form id="register-form" action="{{ route('register') }}" method="POST" onsubmit="handleAuthSubmit(this, 'register-btn-text', 'Memproses...')" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="register">
 
-                    <!-- Username -->
                     <div>
-                        <label for="register-username" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-username-label">Username</label>
-                        <div class="relative">
-                            <input type="text"
-                                   name="username"
-                                   id="register-username"
-                                   required
-                                   autocomplete="username"
-                                   placeholder="Masukkan username anda"
-                                   value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-10 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                            </span>
-                        </div>
+                        <label for="register-username" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-username-label">Username</label>
+                        <input type="text"
+                               name="username"
+                               id="register-username"
+                               required
+                               autocomplete="username"
+                               placeholder="Masukkan Username"
+                               value="{{ old('form_type') === 'register' ? old('username') : '' }}"
+                               class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
-                    <!-- Email -->
                     <div>
-                        <label for="register-email" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-email-label">Email</label>
+                        <label for="register-email" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-email-label">Email</label>
                         <input type="email"
                                name="email"
                                id="register-email"
                                required
                                autocomplete="email"
-                               placeholder="Masukkan email anda"
+                               placeholder="Masukkan Email"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                               class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
-                    <!-- Mobile Number -->
                     <div>
-                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-phone-label">Nomor Telepon</label>
+                        <label for="register-phone" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-phone-label">Nomor Telepon</label>
                         <input type="tel"
                                name="phone_number"
                                id="register-phone"
                                autocomplete="tel"
-                               placeholder="Masukkan nomor telepon anda"
+                               placeholder="Masukkan Nomor Telepon"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                               class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
-                    <!-- Password -->
                     <div>
-                        <label for="register-password" class="block text-xs font-semibold text-gray-800 mb-1" id="reg-pass-label">Password</label>
+                        <label for="register-password" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-pass-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
                                    id="register-password"
                                    required
                                    autocomplete="new-password"
-                                   placeholder="Masukkan password (min. 6 karakter)"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white border border-gray-200 focus:border-[#466967] rounded-xl p-3 pr-11 min-h-[44px] text-xs sm:text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#466967] transition">
+                                   placeholder="Masukkan Password (min. 6 karakter)"
+                                   class="w-full bg-transparent border-0 border-b border-[#6B7280] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#717A86] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] focus:outline-none focus:text-[#466967] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#E2E8F0] hover:text-[#3F5E5A] dark:hover:text-[#82B3AD] transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -381,64 +362,88 @@
                         </div>
                     </div>
 
-                    <!-- Sign Up / Register Button -->
-                    <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] focus:ring-offset-2">
+                    <div class="pt-2">
+                        <button type="submit" id="register-submit-btn" class="w-full bg-[#436460] hover:bg-[#35514E] text-white font-semibold py-3 px-6 rounded-[8px] transition active:scale-[0.99] min-h-[44px] text-xs sm:text-[13.5px] flex items-center justify-center gap-2 cursor-pointer">
                             <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>
 
-                    <!-- Toggle to Login -->
-                    <p class="text-center text-xs text-gray-500 pt-2">
-                        <span id="have-account-text">Sudah punya akun?</span>
-                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                    <div class="text-center text-xs pt-1 flex items-center justify-center gap-1 flex-wrap">
+                        <span id="have-account-text" class="text-[#59626E] dark:text-[#94A3B8]">Sudah punya akun?</span>
+                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#111827] dark:text-white hover:underline font-medium cursor-pointer min-h-[44px] inline-flex items-center px-1">
                             Login Sekarang
                         </button>
-                    </p>
+                    </div>
                 </form>
             </div>
 
         </div>
 
-        <!-- ── BOTTOM FOOTER: LANGUAGE TOGGLE ── -->
-        <div class="w-full max-w-sm sm:max-w-md mx-auto pt-6 pb-2 sm:pb-4 flex items-center justify-center relative select-none z-20">
-            <div class="relative inline-block text-left" id="lang-dropdown-container">
+        <!-- Bottom bar: Centered Language Selector & Bottom-Right Theme Pill Toggle -->
+        <div class="w-full max-w-[460px] mx-auto pt-4 pb-1 flex items-center justify-between relative select-none z-20">
+            <!-- Left spacer to keep language selector optically centered -->
+            <div class="w-[66px] hidden sm:block" aria-hidden="true"></div>
+
+            <!-- Language Dropdown -->
+            <div class="relative inline-block text-left mx-auto sm:mx-0" id="lang-dropdown-container">
                 <button type="button"
                         id="lang-toggle-btn"
                         onclick="toggleLanguageDropdown(event)"
-                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 focus:outline-none transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-gray-50/80"
+                        class="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-normal text-[#59626E] dark:text-[#CBD5E1] hover:text-[#111827] dark:hover:text-white transition-colors cursor-pointer min-h-[44px] px-3 rounded-lg"
                         aria-expanded="false"
                         aria-haspopup="true">
                     <span id="lang-current-label">Indonesia</span>
-                    <svg id="lang-chevron" class="w-3.5 h-3.5 text-gray-500 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <svg id="lang-chevron" class="w-2.5 h-2.5 text-[#59626E] dark:text-[#CBD5E1] transition-transform duration-200" viewBox="0 0 10 6" fill="currentColor">
+                        <path d="M0 0.5L5 5.5L10 0.5H0Z" />
                     </svg>
                 </button>
 
-                <!-- Dropdown Menu -->
                 <div id="lang-dropdown-menu"
-                     class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-50 transition-all duration-150">
+                     class="hidden absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#22302E] rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1.5 z-50">
                     <button type="button"
                             onclick="changeLanguage('id')"
-                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 hover:text-[#466967] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2.5 min-h-[44px] text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#2C3E3B] flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-id">
                         <span>Indonesia</span>
-                        <span id="check-id" class="text-[#466967] font-bold">✓</span>
+                        <span id="check-id" class="text-[#3F5E5A] dark:text-[#82B3AD] font-bold">✓</span>
                     </button>
                     <button type="button"
                             onclick="changeLanguage('en')"
-                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 hover:text-[#466967] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2.5 min-h-[44px] text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#2C3E3B] flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-en">
                         <span>English</span>
-                        <span id="check-en" class="text-[#466967] font-bold hidden">✓</span>
+                        <span id="check-en" class="text-[#3F5E5A] dark:text-[#82B3AD] font-bold hidden">✓</span>
                     </button>
                 </div>
             </div>
+
+            <!-- Light / Dark Theme Pill Toggle (Matches bottom-right switch in reference image) -->
+            <button type="button"
+                    id="theme-toggle-btn"
+                    onclick="toggleThemeMode()"
+                    aria-pressed="false"
+                    aria-label="Ganti Tema Terang atau Gelap"
+                    class="min-h-[44px] inline-flex items-center justify-center px-1 cursor-pointer bg-transparent border-0">
+                <span class="w-[66px] h-[32px] rounded-full bg-[#E5E7EB] dark:bg-[#2B3B39] border border-[#D1D5DB] dark:border-[#4B6360] p-[2px] flex items-center justify-between relative transition-colors">
+                    <!-- Sun indicator -->
+                    <span id="theme-sun-pill" class="w-[26px] h-[26px] rounded-full bg-white dark:bg-transparent border border-[#6B7280] dark:border-transparent flex items-center justify-center text-[#374151] dark:text-[#94A3B8] shadow-2xs dark:shadow-none transition-all">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="4"/>
+                            <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>
+                        </svg>
+                    </span>
+                    <!-- Moon indicator -->
+                    <span id="theme-moon-pill" class="w-[26px] h-[26px] rounded-full bg-transparent dark:bg-[#182221] border border-transparent dark:border-[#82B3AD] flex items-center justify-center text-[#9CA3AF] dark:text-[#F9FAFB] transition-all">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                        </svg>
+                    </span>
+                </span>
+            </button>
         </div>
 
     </div>
 
-    <!-- SCRIPT FOR SWITCHING TABS, TOGGLING PASSWORD, AND LANGUAGE LOCALIZATION -->
     <script>
         const translations = {
             id: {
@@ -455,15 +460,15 @@
                 noAccount: 'Belum Punya Akun?',
                 signUpNow: 'Daftar Sekarang',
                 registerTitle: 'Buat Akun',
-                registerSubtitle: 'Bergabung dengan keluarga Toon Burger',
+                registerSubtitle: 'Bergabung dengan keluarga Toon Burger.',
                 regUsernameLabel: 'Username',
-                regUsernamePlaceholder: 'Masukkan username anda',
+                regUsernamePlaceholder: 'Masukkan Username',
                 regEmailLabel: 'Email',
-                regEmailPlaceholder: 'Masukkan email anda',
+                regEmailPlaceholder: 'Masukkan Email',
                 regPhoneLabel: 'Nomor Telepon',
-                regPhonePlaceholder: 'Masukkan nomor telepon anda',
+                regPhonePlaceholder: 'Masukkan Nomor Telepon',
                 regPasswordLabel: 'Password',
-                regPasswordPlaceholder: 'Masukkan password (min. 6 karakter)',
+                regPasswordPlaceholder: 'Masukkan Password (min. 6 karakter)',
                 registerButton: 'Daftar',
                 haveAccount: 'Sudah punya akun?',
                 loginNow: 'Login Sekarang',
@@ -473,18 +478,18 @@
             en: {
                 currentLabel: 'English',
                 loginTitle: 'Welcome Back!',
-                loginSubtitle: 'Please enter your detail first',
-                loginEmailLabel: 'Username or Email',
-                loginEmailPlaceholder: 'Enter your username or email',
+                loginSubtitle: 'Please enter your details first.',
+                loginEmailLabel: 'Username',
+                loginEmailPlaceholder: 'Enter Username',
                 loginPasswordLabel: 'Password',
-                loginPasswordPlaceholder: 'Enter your password',
+                loginPasswordPlaceholder: 'Enter Password',
                 rememberMe: 'Remember Me',
                 forgotPassword: 'Forgot Password?',
                 loginButton: 'Login',
                 noAccount: "Don't have an account?",
                 signUpNow: 'Sign Up Now',
                 registerTitle: 'Create Account',
-                registerSubtitle: 'Join Toon Burger family',
+                registerSubtitle: 'Join the Toon Burger family.',
                 regUsernameLabel: 'Username',
                 regUsernamePlaceholder: 'Enter your username',
                 regEmailLabel: 'Email',
@@ -492,7 +497,7 @@
                 regPhoneLabel: 'Mobile Number',
                 regPhonePlaceholder: 'Enter your mobile number',
                 regPasswordLabel: 'Password',
-                regPasswordPlaceholder: 'Enter your password (min. 6 characters)',
+                regPasswordPlaceholder: 'Enter your password (min. 6 chars)',
                 registerButton: 'Sign Up',
                 haveAccount: 'Already have an account?',
                 loginNow: 'Login Now',
@@ -500,6 +505,37 @@
                 pageTitleRegister: 'Create Account - Toon Burger'
             }
         };
+
+        function handleAuthSubmit(form, btnTextId, loadingLabel) {
+            localStorage.removeItem('tb_logged_out');
+            const textSpan = document.getElementById(btnTextId);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (textSpan) {
+                textSpan.textContent = loadingLabel;
+            }
+            if (submitBtn) {
+                submitBtn.classList.add('opacity-80');
+                setTimeout(function() {
+                    submitBtn.disabled = true;
+                }, 15);
+            }
+        }
+
+        function applyThemeMode(theme) {
+            const isDark = theme === 'dark';
+            document.documentElement.classList.toggle('dark', isDark);
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) {
+                btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            }
+        }
+
+        function toggleThemeMode() {
+            const isCurrentlyDark = document.documentElement.classList.contains('dark');
+            const nextTheme = isCurrentlyDark ? 'light' : 'dark';
+            localStorage.setItem('toon_theme', nextTheme);
+            applyThemeMode(nextTheme);
+        }
 
         function toggleLanguageDropdown(e) {
             e.stopPropagation();
@@ -537,7 +573,6 @@
             if (checkId) checkId.classList.toggle('hidden', lang !== 'id');
             if (checkEn) checkEn.classList.toggle('hidden', lang !== 'en');
 
-            // Login Form
             const loginTitle = document.getElementById('login-title');
             if (loginTitle) loginTitle.textContent = t.loginTitle;
             const loginSubtitle = document.getElementById('login-subtitle');
@@ -561,7 +596,6 @@
             const switchToRegisterBtn = document.getElementById('switch-to-register-btn');
             if (switchToRegisterBtn) switchToRegisterBtn.textContent = t.signUpNow;
 
-            // Register Form
             const registerTitle = document.getElementById('register-title');
             if (registerTitle) registerTitle.textContent = t.registerTitle;
             const registerSubtitle = document.getElementById('register-subtitle');
@@ -593,7 +627,6 @@
             document.title = isLoginActive ? t.pageTitleLogin : t.pageTitleRegister;
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const container = document.getElementById('lang-dropdown-container');
             const menu = document.getElementById('lang-dropdown-menu');
@@ -608,7 +641,6 @@
             }
         });
 
-        // Close dropdown on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const menu = document.getElementById('lang-dropdown-menu');
@@ -625,6 +657,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('toon_lang') || 'id';
             applyLanguage(savedLang);
+
+            const savedTheme = localStorage.getItem('toon_theme') || 'light';
+            applyThemeMode(savedTheme);
 
             if (localStorage.getItem('tb_logged_out') === '1') {
                 const warnAlert = document.getElementById('alert-warning');
@@ -667,7 +702,6 @@
             }
         }
 
-        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
         window.addEventListener('pageshow', function (event) {
             if (localStorage.getItem('tb_logged_out') === '1') {
                 const warnAlert = document.getElementById('alert-warning');
@@ -679,8 +713,8 @@
             }
 
             const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
-            const isBackForward = event.persisted || 
-                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
+            const isBackForward = event.persisted ||
+                (navEntries.length > 0 && navEntries[0].type === 'back_forward') ||
                 (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
 
             if (isBackForward) {

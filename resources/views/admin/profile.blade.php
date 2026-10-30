@@ -4,80 +4,111 @@
 @section('title', 'Profil Admin - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-8 max-w-4xl mx-auto space-y-7">
+<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-6">
 
-    <!-- Header Section (Sesuai Mockup Foto Board 6) -->
     <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Profil Admin</h1>
-        <p class="text-xs text-gray-400 mt-1">Kelola informasi akun dan kata sandi admin</p>
+        <h1 class="text-2xl sm:text-[28px] font-bold text-[#333333] tracking-tight">Profil Admin</h1>
+        <p class="text-xs sm:text-[13px] text-gray-500 mt-1">Kelola informasi akun dan profil admin</p>
     </div>
 
-    <!-- Avatar & Admin Identity Header -->
-    <div class="flex items-center gap-4 pb-2">
-        <div class="w-14 h-14 rounded-full bg-[#F59E0B] text-white font-black text-xl flex items-center justify-center shadow-xs shrink-0 select-none">
-            TB
+    <div class="flex items-center gap-4 pt-1 pb-2">
+        <div class="w-16 h-16 rounded-full bg-[#F79E1B] text-white font-bold text-lg flex items-center justify-center relative shrink-0 select-none">
+            <span>Tb</span>
+            <span class="w-5 h-5 rounded-full bg-[#D1D5DB] border border-white flex items-center justify-center text-gray-600 absolute bottom-0 right-0 shadow-2xs">
+                <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+            </span>
         </div>
         <div>
-            <h2 class="text-lg font-black text-gray-900 leading-tight">{{ $user->name ?? 'Toon Burger' }}</h2>
-            <p class="text-xs text-gray-400 mt-0.5">{{ $user->email ?? 'toonburger@gmail.com' }}</p>
+            <h2 class="text-xl font-normal text-gray-800 leading-tight">{{ $user->name ?: 'Toon Burger' }}</h2>
+            <p class="text-xs text-gray-400 mt-0.5">{{ $user->email ?: 'Toonburger@gmail.com' }}</p>
         </div>
     </div>
 
-    <!-- Form 1: Informasi Profil -->
     <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-4 text-xs">
         @csrf
 
         <div>
-            <label class="block font-bold text-gray-700 mb-1.5">Nama</label>
-            <input type="text" name="name" value="{{ old('name', $user->name ?? 'Toon Burger') }}" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
+            <label for="profile-username" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Username</label>
+            <input type="text"
+                   id="profile-username"
+                   name="name"
+                   value="{{ old('name', $user->name ?: 'Toon Burger') }}"
+                   required
+                   class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800">
             @error('name') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Email</label>
-                <input type="email" name="email" value="{{ old('email', $user->email ?? 'toonburger@gmail.com') }}" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
+                <label for="profile-email" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Email</label>
+                <input type="email"
+                       id="profile-email"
+                       name="email"
+                       value="{{ old('email', $user->email ?: 'Toonburger@gmail.com') }}"
+                       required
+                       class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800">
                 @error('email') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Nomor Telepon</label>
-                <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '081345956487') }}" placeholder="Contoh: 081345956487" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
+                <label for="profile-phone" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Nomor telfon</label>
+                <input type="text"
+                       id="profile-phone"
+                       name="phone_number"
+                       value="{{ old('phone_number', $user->phone_number ?: '085780153872') }}"
+                       class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800">
                 @error('phone_number') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
             </div>
         </div>
 
-        <div class="pt-2">
-            <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
-                Simpan Perubahan
+        <div>
+            <label for="profile-address" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Alamat</label>
+            <input type="text"
+                   id="profile-address"
+                   name="address"
+                   value="{{ old('address', $user->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714') }}"
+                   class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800">
+            @error('address') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="pt-1">
+            <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3 px-6 rounded-xl w-full min-h-[44px] shadow-2xs transition text-xs select-none cursor-pointer">
+                Simpan
             </button>
         </div>
     </form>
 
-    <hr class="border-gray-200/70 my-6">
-
-    <!-- Form 2: Ubah Kata Sandi -->
-    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-4 text-xs">
+    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-4 pt-6 text-xs">
         @csrf
-        <input type="hidden" name="name" value="{{ $user->name ?? 'Toon Burger' }}">
-        <input type="hidden" name="email" value="{{ $user->email ?? 'toonburger@gmail.com' }}">
+        <input type="hidden" name="name" value="{{ $user->name ?: 'Toon Burger' }}">
+        <input type="hidden" name="email" value="{{ $user->email ?: 'Toonburger@gmail.com' }}">
+        <input type="hidden" name="phone_number" value="{{ $user->phone_number ?: '085780153872' }}">
+        <input type="hidden" name="address" value="{{ $user->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714' }}">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Password Baru</label>
-                <input type="password" name="password" placeholder="Minimal 6 karakter" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                @error('password') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation" placeholder="Ulangi kata sandi baru" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
+        <div>
+            <label for="profile-new-password" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Password baru</label>
+            <input type="password"
+                   id="profile-new-password"
+                   name="password"
+                   placeholder="Masukkan Password"
+                   class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal placeholder-gray-400 focus:outline-none focus:border-[#415C58] transition text-gray-800">
+            @error('password') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
-        <div class="pt-2">
-            <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
-                Perbarui Password
+        <div>
+            <label for="profile-confirm-password" class="block font-bold text-gray-800 mb-1.5 text-[11px]">Konfirmasi Password</label>
+            <input type="password"
+                   id="profile-confirm-password"
+                   name="password_confirmation"
+                   placeholder="Konfirmasi Password"
+                   class="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 min-h-[44px] text-xs font-normal placeholder-gray-400 focus:outline-none focus:border-[#415C58] transition text-gray-800">
+        </div>
+
+        <div class="pt-1">
+            <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3 px-6 rounded-xl w-full min-h-[44px] shadow-2xs transition text-xs select-none cursor-pointer">
+                Simpan
             </button>
         </div>
     </form>

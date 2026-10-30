@@ -1,328 +1,275 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Data Produk - Toon Burger Admin')
+@section('title', 'Data Produk - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-6">
-
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 flex-1">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight" data-i18n="products_title">Kelola Data Produk</h1>
-            <p class="text-xs text-gray-400 mt-1" data-i18n="products_subtitle">Kelola daftar menu dan produk Toon Burger</p>
+            <h1 class="text-2xl sm:text-[28px] font-bold text-[#333333] tracking-tight" data-i18n="prod_title">Halaman Data Produk</h1>
+            <p class="text-xs text-gray-400 mt-1" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-
-        <!-- Action controls -->
-        <div class="flex flex-wrap items-center gap-3">
-            <div class="relative w-48 sm:w-56">
-                <input type="text" id="product-table-search" onkeyup="searchProductTable()" placeholder="Cari nama menu..." data-i18n-attr="placeholder:products_search" class="w-full pl-8 pr-3 py-2 text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 placeholder-gray-400">
-                <svg class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-            </div>
-
+        <div class="flex items-center gap-2.5 relative">
             <div class="relative">
-                <select id="category-filter-select" onchange="filterCategory(this.value)" class="text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full px-4 py-2 font-medium text-gray-700 focus:outline-none focus:border-[#385A56] cursor-pointer transition">
-                    <option value="all" id="opt-all-categories" data-count="{{ $products->count() }}">Semua Kategori ({{ $products->count() }})</option>
+                <button type="button" onclick="toggleProdFilterMenu()" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-600 font-medium px-3.5 py-2 min-h-[36px] rounded-lg transition-colors text-xs inline-flex items-center gap-2 cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M6 12h12m-9 6h6"></path>
+                    </svg>
+                    <span>Filter</span>
+                </button>
+                <div id="prod-filter-menu" class="hidden absolute right-0 mt-1.5 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1.5 z-30">
+                    <button type="button" onclick="applyCategoryFilter('all')" class="w-full text-left px-3.5 py-1.5 text-xs text-gray-700 hover:bg-gray-50 font-medium cursor-pointer">Semua Kategori</button>
                     @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                        <button type="button" onclick="applyCategoryFilter('{{ strtolower($cat->name) }}')" class="w-full text-left px-3.5 py-1.5 text-xs text-gray-600 hover:bg-gray-50 cursor-pointer">{{ $cat->name }}</button>
                     @endforeach
-                </select>
+                </div>
             </div>
 
-            <button type="button" onclick="openAddProductModal()" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-xs transition flex items-center gap-2 select-none">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+            <button type="button" onclick="toggleProductSort()" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-600 font-medium px-3.5 py-2 min-h-[36px] rounded-lg transition-colors text-xs inline-flex items-center gap-2 cursor-pointer">
+                <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16m0 0l-3-3m3 3l3-3m7-9h4m-4 4h3m-3 4h2"></path>
                 </svg>
-                <span data-i18n="products_add_btn">Tambah Produk</span>
+                <span>Sortir</span>
+            </button>
+
+            <button type="button" onclick="openAddModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-4 py-2 min-h-[36px] rounded-lg transition-colors text-xs cursor-pointer" data-i18n="btn_add_prod">
+                Tambahkan
             </button>
         </div>
     </div>
 
-    <!-- Products Table (Sesuai Mockup Foto Board 2) -->
-    <div class="border border-gray-200/80 rounded-2xl overflow-hidden">
+    <div class="border border-gray-200 rounded-[20px] overflow-hidden bg-white">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs" id="product-table">
-                <thead class="bg-[#F0F4F3] text-gray-600 font-bold border-b border-gray-200/70 text-[11px] tracking-wide">
-                    <tr>
-                        <th class="py-3.5 px-4 w-12 text-center" data-i18n="products_col_no">No</th>
-                        <th class="py-3.5 px-4" data-i18n="products_col_menu">Menu / Produk</th>
-                        <th class="py-3.5 px-4" data-i18n="products_col_category">Kategori</th>
-                        <th class="py-3.5 px-4" data-i18n="products_col_price">Harga</th>
-                        <th class="py-3.5 px-4" data-i18n="products_col_stock">Stok</th>
-                        <th class="py-3.5 px-4 text-center" data-i18n="products_col_status">Status</th>
-                        <th class="py-3.5 px-4 text-center" data-i18n="products_col_action">Aksi</th>
+            <table class="w-full text-center border-collapse">
+                <thead>
+                    <tr class="bg-[#EEEEEE] text-gray-700 text-xs font-medium border-b border-gray-200">
+                        <th class="py-3.5 px-5 text-center" data-i18n="col_prod_name">Menu</th>
+                        <th class="py-3.5 px-4 text-center" data-i18n="col_category">Kategori</th>
+                        <th class="py-3.5 px-4 text-center" data-i18n="col_price">Harga</th>
+                        <th class="py-3.5 px-4 text-center">kalori</th>
+                        <th class="py-3.5 px-4 text-center" data-i18n="col_status">Status</th>
+                        <th class="py-3.5 px-4 text-center" data-i18n="col_action">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100" id="product-table-body">
+                <tbody id="product-table-body" class="divide-y divide-gray-200/80 text-xs">
+                    @php
+                        $thumbBgColors = [
+                            'bg-[#F9D649]',
+                            'bg-[#F28B30]',
+                            'bg-[#E53935]',
+                            'bg-[#AED581]',
+                            'bg-[#F48FB1]',
+                            'bg-[#FFD54F]',
+                            'bg-[#FFE082]',
+                            'bg-[#FBC02D]',
+                            'bg-[#FBC02D]',
+                        ];
+                    @endphp
                     @forelse($products as $idx => $prod)
-                        <tr class="product-row hover:bg-gray-50/70 transition" data-category-id="{{ $prod->category_id }}" data-name="{{ strtolower($prod->name) }}">
-                            <!-- No -->
-                            <td class="py-3.5 px-4 text-center font-semibold text-gray-400 text-xs">
-                                {{ $idx + 1 }}
-                            </td>
-
-                            <!-- Foto & Menu Name -->
-                            <td class="py-3.5 px-4 flex items-center gap-3">
-                                <img src="{{ asset($prod->image ?: 'images/burger-bg.jpg') }}" alt="{{ $prod->name }}" class="w-11 h-11 rounded-xl object-cover border border-gray-200 flex-shrink-0 shadow-2xs">
-                                <div>
-                                    <div class="font-extrabold text-gray-900 text-xs leading-tight">
-                                        {{ $prod->name }}
-                                    </div>
-                                    <p class="text-gray-400 text-[11px] line-clamp-1 max-w-xs mt-0.5">
-                                        {{ $prod->description ?: ($prod->category ? $prod->category->name : 'Toon Burger Specialty') }}
-                                    </p>
+                    @php
+                        $catName = $prod->category->name ?? 'Lainnya';
+                        $bgClass = $thumbBgColors[$idx % count($thumbBgColors)];
+                    @endphp
+                    <tr class="hover:bg-gray-50/60 transition-colors product-row" data-name="{{ strtolower($prod->name) }}" data-category="{{ strtolower($catName) }}" data-index="{{ $idx }}">
+                        <td class="py-3.5 px-5 text-left">
+                            <div class="flex items-center gap-3.5 pl-2 sm:pl-4">
+                                <div class="w-10 h-10 rounded-lg {{ $bgClass }} flex items-center justify-center overflow-hidden shrink-0 p-1">
+                                    @if($prod->image)
+                                        <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}" class="w-full h-full object-contain" alt="{{ $prod->name }}">
+                                    @else
+                                        <svg class="w-5 h-5 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
+                                    @endif
                                 </div>
-                            </td>
-
-                            <!-- Kategori -->
-                            <td class="py-3.5 px-4 font-medium text-gray-700">
-                                {{ $prod->category ? $prod->category->name : 'Uncategorized' }}
-                            </td>
-
-                            <!-- Harga -->
-                            <td class="py-3.5 px-4 font-bold text-gray-900 text-xs">
-                                <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
-                            </td>
-
-                            <!-- Stok -->
-                            <td class="py-3.5 px-4 font-medium text-xs">
-                                @if($prod->is_available)
-                                    <span class="inline-flex items-center gap-1.5 text-emerald-700 font-semibold">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                        Tersedia
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center gap-1.5 text-rose-600 font-semibold">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
-                                        Habis
-                                    </span>
-                                @endif
-                            </td>
-
-                            <!-- Status -->
-                            <td class="py-3.5 px-4 text-center">
-                                <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="px-3.5 py-1 rounded-full text-[11px] font-bold transition inline-flex items-center gap-1.5 {{ $prod->is_available ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-rose-100 text-rose-800 hover:bg-rose-200' }}" title="Klik untuk ubah ketersediaan" data-i18n-attr="title:products_toggle_status_title">
-                                        <span class="w-1.5 h-1.5 rounded-full {{ $prod->is_available ? 'bg-emerald-500' : 'bg-rose-500' }}"></span>
-                                        <span data-i18n="{{ $prod->is_available ? 'products_available' : 'products_out' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
+                                <div>
+                                    <div class="font-bold text-gray-900 text-xs leading-snug">{{ $prod->name }}</div>
+                                    <div class="text-[10.5px] text-gray-400 mt-0.5 max-w-[220px] truncate">{{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-3.5 px-4 text-gray-700 font-normal">
+                            {{ $catName }}
+                        </td>
+                        <td class="py-3.5 px-4 text-gray-800 font-medium whitespace-nowrap">
+                            Rp {{ number_format($prod->price, 0, ',', '.') }}
+                        </td>
+                        <td class="py-3.5 px-4 text-gray-700 whitespace-nowrap">
+                            {{ $prod->calories ?? 300 }} kcal
+                        </td>
+                        <td class="py-3.5 px-4 whitespace-nowrap">
+                            <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
+                                @csrf @method('PATCH')
+                                <button type="submit" class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 hover:opacity-80 cursor-pointer" title="Klik untuk ubah status">
+                                    <span class="w-2 h-2 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }}"></span>
+                                    <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
+                                </button>
+                            </form>
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="flex items-center justify-center gap-3">
+                                <button type="button" onclick="openEditModal({{ json_encode($prod) }})" class="text-gray-500 hover:text-gray-800 transition-colors p-1 cursor-pointer" title="Edit">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"></path>
+                                    </svg>
+                                </button>
+                                <form action="{{ route('admin.products.delete', $prod->id) }}" method="POST" onsubmit="return confirm('Hapus produk ini?');" class="inline">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-[#E53935] hover:text-red-700 transition-colors p-1 cursor-pointer" title="Hapus">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
                                     </button>
                                 </form>
-                            </td>
-
-                            <!-- Aksi (Dua Icon Buttons: Edit & Delete Sesuai Mockup Foto) -->
-                            <td class="py-3.5 px-4 text-center">
-                                <div class="flex items-center justify-center gap-1.5">
-                                    <!-- Edit Button (Pencil Icon) -->
-                                    <button type="button" onclick="openEditProductModal({{ json_encode($prod) }})" class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition active:scale-95" title="Edit Produk" data-i18n-attr="title:products_edit_btn_title">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-
-                                    <!-- Delete Button (Red Trash Icon) -->
-                                    <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', {{ json_encode($prod->name) }})" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-[#DE3B28] flex items-center justify-center transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400" title="Hapus Produk" data-i18n-attr="title:products_delete_btn_title">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                            </div>
+                        </td>
+                    </tr>
                     @empty
-                        <tr id="empty-row">
-                            <td colspan="7" class="py-12 text-center text-gray-400">
-                                <div class="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-2">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                                    </svg>
-                                </div>
-                                <div class="font-bold text-sm text-gray-700 mb-1" data-i18n="products_empty_title">Belum Ada Menu</div>
-                                <p class="text-xs" data-i18n="products_empty_desc">Klik tombol <strong>+ Tambah Produk</strong> untuk memasukkan menu baru.</p>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="6" class="py-8 text-center text-gray-400">Belum ada produk.</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 
-</div>
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl relative max-h-[90vh] overflow-y-auto">
+            <h3 id="modalTitle" class="text-lg font-bold text-gray-900 mb-4" data-i18n="mod_prod_add">Tambah Produk Baru</h3>
 
-<!-- Modal Tambah Produk -->
-<div id="add-product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
-        <div class="pb-2">
-            <h3 class="font-extrabold text-2xl text-gray-900 tracking-tight" data-i18n="products_add_modal_title">Tambah Produk Baru</h3>
-            <p class="text-xs text-gray-400 mt-1" data-i18n="products_add_modal_desc">Lengkapi informasi menu Toon Burger yang akan ditambahkan.</p>
+            <form id="productForm" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="_method" id="formMethod" value="POST">
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="lbl_prod_name">Nama Produk</label>
+                        <input type="text" name="name" id="prod_name" required class="w-full border-gray-200 rounded-lg text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Cth: Very Cheese Burger">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="col_category">Kategori</label>
+                            <select name="category_id" id="prod_cat" required class="w-full border-gray-200 rounded-lg text-sm focus:ring-[#415C58] focus:border-[#415C58]">
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="lbl_prod_price">Harga (Rp)</label>
+                            <input type="number" name="price" id="prod_price" required class="w-full border-gray-200 rounded-lg text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="lbl_prod_cal">Kalori (Kcal)</label>
+                            <input type="number" name="calories" id="prod_cal" class="w-full border-gray-200 rounded-lg text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
+                            <input type="file" name="image" accept="image/*" class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1" data-i18n="lbl_prod_desc">Deskripsi</label>
+                        <textarea name="description" id="prod_desc" rows="2" class="w-full border-gray-200 rounded-lg text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Burger dengan patty daging yang juicy,"></textarea>
+                    </div>
+
+                    <div class="flex items-center gap-6 pt-1">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_available" id="prod_avail" value="1" checked class="rounded border-gray-300 text-[#415C58] focus:ring-[#415C58]">
+                            <span class="ml-2 text-xs font-bold text-gray-700" data-i18n="lbl_prod_avail">Tersedia (Stok Ada)</span>
+                        </label>
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_popular" id="prod_pop" value="1" class="rounded border-gray-300 text-orange-500 focus:ring-orange-500">
+                            <span class="ml-2 text-xs font-bold text-gray-700" data-i18n="lbl_prod_pop">Menu Terpopuler</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer" data-i18n="btn_cancel">Batal</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-[#415C58] hover:bg-[#344B48] transition-colors cursor-pointer" data-i18n="btn_save_prod">Simpan Produk</button>
+                </div>
+            </form>
         </div>
-
-        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs">
-            @csrf
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_name">Nama Produk</label>
-                <input type="text" name="name" required placeholder="Nama Produk Baru" data-i18n-attr="placeholder:products_placeholder_name" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
-
-            <div class="grid grid-cols-2 gap-3.5">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_category">Kategori</label>
-                    <select name="category_id" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                        @foreach($categories as $c)
-                            <option value="{{ $c->id }}">{{ $c->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_price">Harga (Rp)</label>
-                    <input type="number" name="price" required placeholder="0" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-bold focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3.5">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_stock">Stok (Porsi)</label>
-                    <input type="number" name="calories" placeholder="50" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_photo">Upload Foto</label>
-                    <input type="file" name="image_file" accept="image/*" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-2.5 focus:outline-none text-[11px] text-gray-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
-                </div>
-            </div>
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_desc">Deskripsi</label>
-                <textarea name="description" rows="3" placeholder="Deskripsi menu Toon Burger..." data-i18n-attr="placeholder:products_placeholder_desc" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 resize-none"></textarea>
-            </div>
-
-            <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="products_add_submit">
-                    Tambah Produk
-                </button>
-                <button type="button" onclick="closeAddProductModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
-                    Batal
-                </button>
-            </div>
-        </form>
     </div>
-</div>
 
-<!-- Modal Edit Produk -->
-<div id="edit-product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
-        <div class="pb-2">
-            <h3 class="font-extrabold text-2xl text-gray-900 tracking-tight" data-i18n="products_edit_modal_title">Edit Menu</h3>
-            <p class="text-xs text-gray-400 mt-1" data-i18n="products_edit_modal_desc">Perbarui rincian, harga, atau foto menu Toon Burger.</p>
-        </div>
+    <script>
+        const modal = document.getElementById('productModal');
+        const form = document.getElementById('productForm');
+        const title = document.getElementById('modalTitle');
+        const methodInput = document.getElementById('formMethod');
+        let prodSortAsc = null;
 
-        <form id="edit-product-form" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs">
-            @csrf
+        function toggleProdFilterMenu() {
+            const menu = document.getElementById('prod-filter-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
 
-            <!-- Nama Menu -->
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_name">Nama Produk</label>
-                <input type="text" name="name" id="edit_name" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
+        function applyCategoryFilter(cat) {
+            const rows = document.querySelectorAll('#product-table-body .product-row');
+            rows.forEach(row => {
+                if (cat === 'all' || row.getAttribute('data-category') === cat) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            const menu = document.getElementById('prod-filter-menu');
+            if (menu) menu.classList.add('hidden');
+        }
 
-            <!-- Kategori & Harga Jual -->
-            <div class="grid grid-cols-2 gap-3.5">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_category">Kategori</label>
-                    <select name="category_id" id="edit_category_id" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                        @foreach($categories as $c)
-                            <option value="{{ $c->id }}">{{ $c->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+        function toggleProductSort() {
+            const tbody = document.getElementById('product-table-body');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('.product-row'));
+            prodSortAsc = prodSortAsc === null ? true : !prodSortAsc;
+            rows.sort((a, b) => {
+                const nameA = a.getAttribute('data-name') || '';
+                const nameB = b.getAttribute('data-name') || '';
+                return prodSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+            });
+            rows.forEach(r => tbody.appendChild(r));
+        }
 
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_price">Harga (Rp)</label>
-                    <input type="number" name="price" id="edit_price" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-bold focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                </div>
-            </div>
+        function openAddModal() {
+            const lang = localStorage.getItem('tb_lang') || 'ID';
+            title.innerText = lang === 'EN' ? 'Add New Product' : 'Tambah Produk Baru';
+            form.action = "{{ route('admin.products.store') }}";
+            methodInput.value = 'POST';
+            form.reset();
+            document.getElementById('prod_avail').checked = true;
+            modal.classList.remove('hidden');
+        }
 
-            <!-- Stok & Foto Menu -->
-            <div class="grid grid-cols-2 gap-3.5">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_stock">Stok (Porsi)</label>
-                    <input type="number" name="calories" id="edit_calories" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                </div>
+        function openEditModal(product) {
+            const lang = localStorage.getItem('tb_lang') || 'ID';
+            title.innerText = (lang === 'EN' ? 'Edit Product: ' : 'Edit Produk: ') + product.name;
+            form.action = `/admin/products/${product.id}`;
+            methodInput.value = 'PUT';
+            document.getElementById('prod_name').value = product.name;
+            document.getElementById('prod_cat').value = product.category_id;
+            document.getElementById('prod_price').value = product.price;
+            document.getElementById('prod_cal').value = product.calories || '';
+            document.getElementById('prod_desc').value = product.description || '';
+            document.getElementById('prod_avail').checked = product.is_available == 1;
+            document.getElementById('prod_pop').checked = product.is_popular == 1;
+            modal.classList.remove('hidden');
+        }
 
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_edit_photo">Ganti Foto Menu</label>
-                    <input type="file" name="image_file" accept="image/*" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-2.5 focus:outline-none text-[11px] text-gray-600 file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-bold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300">
-                </div>
-            </div>
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
 
-            <!-- Deskripsi Menu -->
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="products_label_desc">Deskripsi</label>
-                <textarea name="description" id="edit_description" rows="3" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 resize-none"></textarea>
-            </div>
-
-            <!-- Submit Button & Batal (Sesuai Mockup Board 4) -->
-            <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="products_save_changes">
-                    Simpan Perubahan
-                </button>
-                <button type="button" onclick="closeEditProductModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
-                    Batal
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    function openAddProductModal() {
-        document.getElementById('add-product-modal').classList.remove('hidden');
-    }
-
-    function closeAddProductModal() {
-        document.getElementById('add-product-modal').classList.add('hidden');
-    }
-
-    function openEditProductModal(product) {
-        document.getElementById('edit-product-form').action = `/admin/products/${product.id}/update`;
-        document.getElementById('edit_name').value = product.name;
-        document.getElementById('edit_category_id').value = product.category_id;
-        document.getElementById('edit_price').value = parseInt(product.price);
-        document.getElementById('edit_calories').value = product.calories || 50;
-        document.getElementById('edit_description').value = product.description || '';
-
-        document.getElementById('edit-product-modal').classList.remove('hidden');
-    }
-
-    function closeEditProductModal() {
-        document.getElementById('edit-product-modal').classList.add('hidden');
-    }
-
-    function filterCategory(categoryId) {
-        const rows = document.querySelectorAll('.product-row');
-        rows.forEach(row => {
-            if (categoryId === 'all' || row.getAttribute('data-category-id') === categoryId) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('prod-filter-menu');
+            if (menu && !menu.parentElement.contains(e.target)) {
+                menu.classList.add('hidden');
             }
         });
-    }
-
-    function searchProductTable() {
-        const query = document.getElementById('product-table-search').value.toLowerCase();
-        const rows = document.querySelectorAll('.product-row');
-        rows.forEach(row => {
-            const name = row.getAttribute('data-name');
-            if (!query || name.includes(query)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-</script>
+    </script>
+</div>
 @endsection
