@@ -3,60 +3,62 @@
 @section('title', 'Data Kategori - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 flex-1">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
         <div>
-            <h1 class="text-2xl sm:text-[28px] font-bold text-[#333333] tracking-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
-            <p class="text-xs text-gray-400 mt-1" data-i18n="cat_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
+            <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] tracking-tight leading-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
+            <p class="text-sm sm:text-[15px] text-gray-400 mt-1.5" data-i18n="cat_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-        <div class="flex items-center gap-2.5">
-            <button type="button" onclick="toggleCategorySort()" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-600 font-medium px-3.5 py-2 min-h-[36px] rounded-lg transition-colors text-xs inline-flex items-center gap-2 cursor-pointer">
-                <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <div class="flex items-center gap-3">
+            <button type="button" onclick="toggleCategorySort()" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-600 font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16m0 0l-3-3m3 3l3-3m7-9h4m-4 4h3m-3 4h2"></path>
                 </svg>
                 <span>Sortir</span>
             </button>
 
-            <button type="button" onclick="openAddCatModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-4 py-2 min-h-[36px] rounded-lg transition-colors text-xs cursor-pointer" data-i18n="btn_add_cat">
+            <button type="button" onclick="openAddCatModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-5 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm cursor-pointer" data-i18n="btn_add_cat">
                 Tambahkan
             </button>
         </div>
     </div>
 
-    <div class="border border-gray-200 rounded-[20px] overflow-hidden bg-white">
+    <div class="border border-gray-200 rounded-[22px] overflow-hidden bg-white flex-1">
         <div class="overflow-x-auto">
             <table class="w-full text-center border-collapse">
                 <thead>
-                    <tr class="bg-[#EEEEEE] text-gray-700 text-xs font-medium border-b border-gray-200">
-                        <th class="py-3.5 px-6 text-center w-1/4">No.</th>
-                        <th class="py-3.5 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
-                        <th class="py-3.5 px-6 text-center w-1/4" data-i18n="col_action">Aksi</th>
+                    <tr class="bg-[#EEEEEE] text-gray-700 text-sm font-medium border-b border-gray-200">
+                        <th class="py-4 px-6 text-center w-1/4">No.</th>
+                        <th class="py-4 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
+                        <th class="py-4 px-6 text-center w-1/4" data-i18n="col_action">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="category-table-body" class="divide-y divide-gray-200/80 text-xs">
+                <tbody id="category-table-body" class="divide-y divide-gray-200/80 text-sm">
                     @forelse($categories as $index => $cat)
                     <tr class="hover:bg-gray-50/60 transition-colors category-row" data-name="{{ strtolower($cat->name) }}" data-index="{{ $index }}">
-                        <td class="py-4 px-6 font-bold text-gray-800 category-num">
+                        <td class="py-5 px-6 font-bold text-gray-800 category-num">
                             {{ $index + 1 }}.
                         </td>
-                        <td class="py-4 px-6 text-gray-700 font-normal">
+                        <td class="py-5 px-6 text-gray-700 font-normal">
                             {{ $cat->name }}
                         </td>
-                        <td class="py-4 px-6">
-                            <div class="flex items-center justify-center gap-3.5">
-                                <button type="button" onclick="openEditCatModal({{ json_encode($cat) }})" class="text-gray-500 hover:text-gray-800 transition-colors p-1 cursor-pointer" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"></path>
+                        <td class="py-5 px-6">
+                            <div class="flex items-center justify-center gap-5">
+                                <button type="button" onclick="openEditCatModal({{ json_encode($cat) }})" class="text-[#757575] hover:text-gray-900 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
+                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                        <path d="M15 5l4 4"></path>
                                     </svg>
                                 </button>
-                                <form action="{{ route('admin.categories.delete', $cat->id) }}" method="POST" onsubmit="return confirm('Hapus kategori ini?');" class="inline">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="text-[#E53935] hover:text-red-700 transition-colors p-1 cursor-pointer" title="Hapus">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}')" class="text-[#D9534F] hover:text-red-700 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
                             </div>
                         </td>
                     </tr>

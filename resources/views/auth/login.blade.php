@@ -84,16 +84,40 @@
             transform: rotate(var(--rot, 0deg));
             filter: drop-shadow(-6px 8px 7px rgba(0, 0, 0, 0.25));
         }
+        html {
+            color-scheme: light;
+        }
+        html.dark {
+            color-scheme: dark;
+        }
         input[type="password"]::-ms-reveal,
         input[type="password"]::-ms-clear {
             display: none;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+            -webkit-text-fill-color: #111827 !important;
+            caret-color: #111827 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        html.dark input:-webkit-autofill,
+        html.dark input:-webkit-autofill:hover,
+        html.dark input:-webkit-autofill:focus,
+        html.dark input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #32363F inset !important;
+            -webkit-text-fill-color: #F9FAFB !important;
+            caret-color: #F9FAFB !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
         *:focus-visible {
             outline: 2px solid #3F5E5A;
             outline-offset: 2px;
         }
         .dark *:focus-visible {
-            outline: 2px solid #82B3AD;
+            outline: 2px solid #9CA3AF;
             outline-offset: 2px;
         }
     </style>
@@ -157,7 +181,7 @@
 
     </div>
 
-    <div id="right-auth-card" class="w-full md:w-[53.4%] lg:w-[53.4%] min-h-screen md:h-screen bg-white dark:bg-[#182221] text-[#111827] dark:text-[#F9FAFB] md:rounded-tl-[34px] md:rounded-bl-[34px] shadow-2xl flex flex-col justify-between items-center px-6 sm:px-12 lg:px-20 xl:px-24 py-6 sm:py-8 overflow-y-auto relative z-10 transition-colors duration-200">
+    <div id="right-auth-card" class="w-full md:w-[53.4%] lg:w-[53.4%] min-h-screen md:h-screen bg-white dark:bg-[#32363F] text-[#111827] dark:text-[#F9FAFB] md:rounded-tl-[34px] md:rounded-bl-[34px] shadow-2xl flex flex-col justify-between items-center px-6 sm:px-12 lg:px-20 xl:px-24 py-6 sm:py-8 overflow-y-auto relative z-10 transition-colors duration-200">
 
         <div class="hidden md:block w-full h-2 shrink-0"></div>
 
@@ -225,7 +249,7 @@
             <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }}">
                 <div class="mb-9">
                     <h2 class="text-2xl sm:text-[32px] lg:text-[34px] font-bold text-[#0F172A] dark:text-white tracking-tight leading-tight" id="login-title">Selamat Datang Kembali!</h2>
-                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#CBD5E1] font-normal mt-1.5" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
+                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#D1D5DB] font-normal mt-1.5" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
                 <form id="login-form" action="{{ route('login') }}" method="POST" onsubmit="handleAuthSubmit(this, 'login-btn-text', 'Memproses...')" class="space-y-5 text-xs">
@@ -242,7 +266,7 @@
                                autocomplete="username"
                                placeholder="Masukkan Username"
                                value="{{ old('form_type') === 'login' ? old('email', old('username')) : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white font-normal placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] font-normal placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
                     <div>
@@ -254,10 +278,10 @@
                                    required
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
-                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white font-normal placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] font-normal placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#E2E8F0] hover:text-[#3F5E5A] dark:hover:text-[#82B3AD] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 z-10 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#F3F4F6] hover:text-[#3F5E5A] dark:hover:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -269,7 +293,7 @@
 
                     <div class="flex items-center justify-between text-xs pt-0.5">
                         <label class="inline-flex items-center gap-2 cursor-pointer select-none text-[#111827] dark:text-[#F9FAFB] font-medium min-h-[36px]">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[2px] text-[#3F5E5A] focus:ring-[#3F5E5A] border-[#64748B] dark:border-[#94A3B8] bg-transparent">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[2px] accent-[#3F5E5A] text-[#3F5E5A] focus:ring-[#3F5E5A] border-[#64748B] dark:border-[#9CA3AF] bg-transparent">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
                         <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-[11px] text-[#111827] dark:text-[#F9FAFB] hover:underline font-medium transition min-h-[36px] inline-flex items-center">
@@ -284,8 +308,8 @@
                     </div>
 
                     <div class="text-center text-[11.5px] pt-1 flex items-center justify-center gap-1 flex-wrap">
-                        <span id="no-account-text" class="text-[#94A3B8] dark:text-[#94A3B8]">Belum Punya Akun?</span>
-                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#3F5E5A] dark:text-[#82B3AD] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
+                        <span id="no-account-text" class="text-[#94A3B8] dark:text-[#9CA3AF]">Belum Punya Akun?</span>
+                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#3F5E5A] dark:text-[#A7D7D2] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
                             Daftar Sekarang
                         </button>
                     </div>
@@ -295,7 +319,7 @@
             <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }}">
                 <div class="mb-7">
                     <h2 class="text-2xl sm:text-[32px] font-bold text-[#0F172A] dark:text-white tracking-tight leading-tight" id="register-title">Buat Akun</h2>
-                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#CBD5E1] font-normal mt-1.5" id="register-subtitle">Bergabung dengan keluarga Toon Burger.</p>
+                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#D1D5DB] font-normal mt-1.5" id="register-subtitle">Bergabung dengan keluarga Toon Burger.</p>
                 </div>
 
                 <form id="register-form" action="{{ route('register') }}" method="POST" onsubmit="handleAuthSubmit(this, 'register-btn-text', 'Memproses...')" class="space-y-4 text-xs">
@@ -311,7 +335,7 @@
                                autocomplete="username"
                                placeholder="Masukkan Username"
                                value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
                     <div>
@@ -323,7 +347,7 @@
                                autocomplete="email"
                                placeholder="Masukkan Email"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
                     <div>
@@ -334,7 +358,7 @@
                                autocomplete="tel"
                                placeholder="Masukkan Nomor Telepon"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                     </div>
 
                     <div>
@@ -346,10 +370,10 @@
                                    required
                                    autocomplete="new-password"
                                    placeholder="Masukkan Password (min. 6 karakter)"
-                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#94A3B8] focus:border-[#3F5E5A] dark:focus:border-[#82B3AD] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-white placeholder-[#94A3B8] dark:placeholder-[#94A3B8] focus:outline-none focus:ring-0 transition-colors">
+                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#E2E8F0] hover:text-[#3F5E5A] dark:hover:text-[#82B3AD] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 z-10 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#F3F4F6] hover:text-[#3F5E5A] dark:hover:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -366,8 +390,8 @@
                     </div>
 
                     <div class="text-center text-[11.5px] pt-1 flex items-center justify-center gap-1 flex-wrap">
-                        <span id="have-account-text" class="text-[#94A3B8] dark:text-[#94A3B8]">Sudah punya akun?</span>
-                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#3F5E5A] dark:text-[#82B3AD] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
+                        <span id="have-account-text" class="text-[#94A3B8] dark:text-[#9CA3AF]">Sudah punya akun?</span>
+                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#3F5E5A] dark:text-[#A7D7D2] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
                             Login Sekarang
                         </button>
                     </div>
@@ -383,30 +407,30 @@
                 <button type="button"
                         id="lang-toggle-btn"
                         onclick="toggleLanguageDropdown(event)"
-                        class="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-normal text-[#475569] dark:text-[#CBD5E1] hover:text-[#111827] dark:hover:text-white transition-colors cursor-pointer min-h-[40px] px-3 rounded-lg"
+                        class="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-normal text-[#475569] dark:text-[#D1D5DB] hover:text-[#111827] dark:hover:text-white transition-colors cursor-pointer min-h-[40px] px-3 rounded-lg"
                         aria-expanded="false"
                         aria-haspopup="true">
                     <span id="lang-current-label">Indonesia</span>
-                    <svg id="lang-chevron" class="w-2.5 h-2.5 text-[#475569] dark:text-[#CBD5E1] transition-transform duration-200" viewBox="0 0 10 6" fill="currentColor">
+                    <svg id="lang-chevron" class="w-2.5 h-2.5 text-[#475569] dark:text-[#D1D5DB] transition-transform duration-200" viewBox="0 0 10 6" fill="currentColor">
                         <path d="M0 0.5L5 5.5L10 0.5H0Z" />
                     </svg>
                 </button>
 
                 <div id="lang-dropdown-menu"
-                     class="hidden absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#22302E] rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1.5 z-50">
+                     class="hidden absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#3B404B] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 py-1.5 z-50">
                     <button type="button"
                             onclick="changeLanguage('id')"
-                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#2C3E3B] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#464C59] flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-id">
                         <span>Indonesia</span>
-                        <span id="check-id" class="text-[#3F5E5A] dark:text-[#82B3AD] font-bold">✓</span>
+                        <span id="check-id" class="text-[#3F5E5A] dark:text-[#A7D7D2] font-bold">✓</span>
                     </button>
                     <button type="button"
                             onclick="changeLanguage('en')"
-                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#2C3E3B] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#464C59] flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-en">
                         <span>English</span>
-                        <span id="check-en" class="text-[#3F5E5A] dark:text-[#82B3AD] font-bold hidden">✓</span>
+                        <span id="check-en" class="text-[#3F5E5A] dark:text-[#A7D7D2] font-bold hidden">✓</span>
                     </button>
                 </div>
             </div>
@@ -417,14 +441,14 @@
                     aria-pressed="false"
                     aria-label="Ganti Tema Terang atau Gelap"
                     class="min-h-[40px] inline-flex items-center justify-center px-1 cursor-pointer bg-transparent border-0">
-                <span class="w-[64px] h-[30px] rounded-full bg-[#E5E7EB] dark:bg-[#2B3B39] border border-[#CBD5E1] dark:border-[#4B6360] p-[2px] flex items-center justify-between relative transition-colors">
-                    <span id="theme-sun-pill" class="w-[24px] h-[24px] rounded-full bg-white dark:bg-transparent border border-[#64748B] dark:border-transparent flex items-center justify-center text-[#374151] dark:text-[#94A3B8] shadow-2xs dark:shadow-none transition-all">
+                <span class="w-[64px] h-[30px] rounded-full bg-[#E5E7EB] dark:bg-[#4B5563] border border-[#CBD5E1] dark:border-[#6B7280] p-[2px] flex items-center justify-between relative transition-colors">
+                    <span id="theme-sun-pill" class="w-[24px] h-[24px] rounded-full bg-white dark:bg-transparent border border-[#64748B] dark:border-transparent flex items-center justify-center text-[#374151] dark:text-[#D1D5DB] shadow-2xs dark:shadow-none transition-all">
                         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                             <circle cx="12" cy="12" r="4"/>
                             <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>
                         </svg>
                     </span>
-                    <span id="theme-moon-pill" class="w-[24px] h-[24px] rounded-full bg-transparent dark:bg-[#182221] border border-transparent dark:border-[#82B3AD] flex items-center justify-center text-[#94A3B8] dark:text-[#F9FAFB] transition-all">
+                    <span id="theme-moon-pill" class="w-[24px] h-[24px] rounded-full bg-transparent dark:bg-[#32363F] border border-transparent dark:border-[#9CA3AF] flex items-center justify-center text-[#94A3B8] dark:text-[#F9FAFB] transition-all">
                         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                         </svg>
