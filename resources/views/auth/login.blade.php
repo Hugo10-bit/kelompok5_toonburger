@@ -79,13 +79,25 @@
         }
         .dark .checkerboard-pattern {
             background-image:
-                linear-gradient(45deg, #2D4442 25%, transparent 25%),
-                linear-gradient(-45deg, #2D4442 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #2D4442 75%),
-                linear-gradient(-45deg, transparent 75%, #2D4442 75%);
+                linear-gradient(45deg, #F1D9B3 25%, transparent 25%),
+                linear-gradient(-45deg, #F1D9B3 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #F1D9B3 75%),
+                linear-gradient(-45deg, transparent 75%, #F1D9B3 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
         .static-burger {
             transform: rotate(var(--rot, 0deg));
+        }
+        /* Dark mode autofill transparent/dark styling */
+        .dark input:-webkit-autofill,
+        .dark input:-webkit-autofill:hover, 
+        .dark input:-webkit-autofill:focus, 
+        .dark input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #313131 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
         /* Prevent Edge/IE native password reveal button from overlapping custom toggle button */
         input[type="password"]::-ms-reveal,
@@ -94,32 +106,28 @@
         }
     </style>
 </head>
-<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#151F1E] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
+<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
 
-    <!-- TOP GREEN ARC CONTINUOUS EXTENSION (For showing #466967 behind rounded-tl of white panel) -->
-    <div class="hidden md:block absolute top-0 left-0 right-0 h-32 lg:h-40 pointer-events-none z-0 overflow-hidden">
-        <svg viewBox="0 0 1000 130" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M 0 0 L 1000 0 L 1000 70 Q 250 140 0 70 Z" class="fill-[#466967] dark:fill-[#2D4442] transition-colors duration-200" />
-        </svg>
-    </div>
+    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (WIDENED & EXTENDED UNDER CARD) ═══ -->
+    <div class="w-full md:w-[calc(55%+3rem)] lg:w-[calc(55%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
-    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER ═══ -->
-    <div class="w-full md:w-[47%] lg:w-[47%] h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#1D2A29] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
-
-        <!-- TOP CURVED ARC IN GRANITE #466967 WITH TOON BURGER LOGO -->
+        <!-- TOP CURVED ARC IN GRANITE #466967 (LIGHT) / CREAM #F1D9B3 (DARK) WITH TOON BURGER LOGO -->
         <div class="relative w-full z-10">
-            <!-- Curved background SVG -->
+            <!-- Curved background SVG (Extends full width under the right card without clipping) -->
             <div class="relative w-full overflow-hidden">
                 <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-32 sm:h-36 lg:h-40 block drop-shadow-xs">
-                    <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" class="fill-[#466967] dark:fill-[#2D4442] transition-colors duration-200" />
+                    <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" class="fill-[#466967] dark:fill-[#F1D9B3] transition-colors duration-200" />
                 </svg>
 
-                <!-- Mascot & Text inside Arc -->
-                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3">
-                    <a href="{{ route('home') }}" class="focus:outline-none focus:ring-2 focus:ring-white rounded-lg">
+                <!-- Mascot & Text inside Arc (Optically centered within visible left area) -->
+                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3 md:pr-12">
+                    <a href="{{ route('home') }}" class="focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#466967] rounded-lg">
                         <img src="{{ asset('images/toonburger-logo-white.png') }}"
                              alt="Toon Burger"
-                             class="h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
+                             class="dark:hidden h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
+                        <img src="{{ asset('images/toonburger-logo.png') }}"
+                             alt="Toon Burger"
+                             class="hidden dark:block h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
                     </a>
                 </div>
             </div>
@@ -136,7 +144,7 @@
         <img src="{{ asset('images/floating-burger.png') }}"
              alt="Burger"
              style="--rot: 14deg;"
-             class="static-burger absolute top-36 lg:top-44 right-4 sm:right-7 lg:right-10 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute top-36 lg:top-44 right-8 sm:right-12 lg:right-16 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- 3. Bottom-Left Stationary Burger -->
         <img src="{{ asset('images/floating-burger.png') }}"
@@ -148,10 +156,10 @@
         <img src="{{ asset('images/floating-burger.png') }}"
              alt="Burger"
              style="--rot: 18deg;"
-             class="static-burger absolute bottom-28 lg:bottom-32 right-4 sm:right-7 lg:right-10 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
+             class="static-burger absolute bottom-28 lg:bottom-32 right-8 sm:right-12 lg:right-16 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
 
         <!-- CENTER BRAND HEADLINE -->
-        <div class="my-auto py-8 sm:py-10 px-4 sm:px-6 text-center relative z-20">
+        <div class="my-auto py-8 sm:py-10 px-4 sm:px-6 md:pr-12 text-center relative z-20">
             <h1 class="font-brand text-5xl sm:text-6xl md:text-6xl lg:text-[76px] xl:text-[88px] leading-[1.0] text-[#466967] dark:text-[#F1D9B3] tracking-wider uppercase drop-shadow-xs transition-colors duration-200">
                 EAT GOOD.<br>
                 FEEL GOOD.<br>
@@ -159,18 +167,18 @@
             </h1>
         </div>
 
-        <!-- BOTTOM CHECKERBOARD & SINCE 2024 -->
-        <div class="w-full relative z-20 pt-2 pb-5">
-            <div class="w-full h-8 checkerboard-pattern opacity-90 dark:opacity-60"></div>
-            <div class="text-center pt-3 text-xs font-semibold text-[#466967]/80 dark:text-[#F1D9B3]/80 tracking-widest uppercase transition-colors duration-200">
-                -Since 2024-
+        <!-- BOTTOM CHECKERBOARD & SINCE 2025 -->
+        <div class="w-full relative z-20 pt-2 pb-5 md:pr-12">
+            <div class="w-full h-8 checkerboard-pattern opacity-90 dark:opacity-100"></div>
+            <div class="text-center pt-3 text-xs font-semibold text-[#466967]/80 dark:text-[#F1D9B3] tracking-widest uppercase transition-colors duration-200">
+                - Since 2025-
             </div>
         </div>
 
     </div>
 
-    <!-- ═══ RIGHT PANEL: WHITE FORM CARD ═══ -->
-    <div class="w-full md:w-[53%] lg:w-[53%] min-h-screen md:h-screen bg-white dark:bg-[#182322] md:rounded-tl-[48px] md:rounded-bl-[48px] shadow-2xl dark:shadow-black/50 flex flex-col justify-between items-center px-7 sm:px-14 lg:px-20 xl:px-28 py-8 md:py-10 overflow-y-auto relative z-10 transition-colors duration-200">
+    <!-- ═══ RIGHT PANEL: COMPACT FORM CARD ═══ -->
+    <div class="w-full md:w-[45%] lg:w-[45%] min-h-screen md:h-screen bg-white dark:bg-[#313131] md:rounded-tl-[44px] md:rounded-bl-[44px] shadow-2xl dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-y-auto relative z-20 transition-colors duration-200">
 
         <!-- Top anchor for optical balance -->
         <div class="hidden md:block w-full h-1"></div>
@@ -255,7 +263,7 @@
 
                     <!-- Username / Email Field -->
                     <div>
-                        <label for="login-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1.5" id="login-email-label">Username</label>
+                        <label for="login-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-email-label">Username</label>
                         <input type="text"
                                name="email"
                                id="login-email"
@@ -263,13 +271,13 @@
                                autofocus
                                autocomplete="username"
                                placeholder="Masukkan Username"
-                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : (old('email', old('username')) ?: 'admin') }}"
-                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-transparent dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
+                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : old('email', old('username')) }}"
+                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none px-4 dark:px-0 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
                     <!-- Password Field -->
                     <div>
-                        <label for="login-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1.5" id="login-password-label">Password</label>
+                        <label for="login-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-password-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
@@ -277,11 +285,11 @@
                                    required
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
-                                   value="Password123"
-                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-transparent dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
+                                   value=""
+                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none pl-4 dark:pl-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-[#618a88] focus:outline-none focus:text-[#466967] dark:focus:text-[#618a88] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -294,25 +302,25 @@
                     <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between text-xs pt-1">
                         <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 font-medium">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#466967] dark:bg-gray-800 dark:border-gray-700 focus:ring-[#466967] dark:focus:ring-[#618a88] border-gray-300">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-[#618a88] font-medium transition focus:outline-none focus:underline">
+                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
                             Lupa Password?
                         </a>
                     </div>
 
                     <!-- Login Button -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#466967] dark:hover:bg-[#3a5755] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] focus:ring-offset-2 dark:focus:ring-offset-[#182322]">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="login-btn-text">Login</span>
                         </button>
                     </div>
 
                     <!-- Toggle to Register -->
-                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-2">
+                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-3">
                         <span id="no-account-text">Belum Punya Akun?</span>
-                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] dark:text-[#618a88] dark:hover:text-[#7ba9a6] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Daftar Sekarang
                         </button>
                     </p>
@@ -332,7 +340,7 @@
 
                     <!-- Username -->
                     <div>
-                        <label for="register-username" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1" id="reg-username-label">Username</label>
+                        <label for="register-username" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-username-label">Username</label>
                         <div class="relative">
                             <input type="text"
                                    name="username"
@@ -341,8 +349,8 @@
                                    autocomplete="username"
                                    placeholder="Masukkan username anda"
                                    value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-gray-200 dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl p-3 pr-10 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                            <span class="absolute inset-y-0 right-0 pr-1 flex items-center pointer-events-none text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
@@ -352,7 +360,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label for="register-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1" id="reg-email-label">Email</label>
+                        <label for="register-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-email-label">Email</label>
                         <input type="email"
                                name="email"
                                id="register-email"
@@ -360,24 +368,24 @@
                                autocomplete="email"
                                placeholder="Masukkan email anda"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-gray-200 dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
                     <!-- Mobile Number -->
                     <div>
-                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1" id="reg-phone-label">Nomor Telepon</label>
+                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-phone-label">Nomor Telepon</label>
                         <input type="tel"
                                name="phone_number"
                                id="register-phone"
                                autocomplete="tel"
                                placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-gray-200 dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
                     <!-- Password -->
                     <div>
-                        <label for="register-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1" id="reg-pass-label">Password</label>
+                        <label for="register-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-pass-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
@@ -385,10 +393,10 @@
                                    required
                                    autocomplete="new-password"
                                    placeholder="Masukkan password (min. 6 karakter)"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#223231] dark:hover:bg-[#283b3a] dark:focus:bg-[#1D2A29] border border-gray-200 dark:border-gray-700/60 focus:border-[#466967] dark:focus:border-[#618a88] rounded-xl p-3 pr-11 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition">
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 w-11 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-[#618a88] focus:outline-none focus:text-[#466967] dark:focus:text-[#618a88] transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -400,7 +408,7 @@
 
                     <!-- Sign Up / Register Button -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#466967] dark:hover:bg-[#3a5755] text-white font-bold py-3.5 px-6 rounded-xl shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] focus:ring-offset-2 dark:focus:ring-offset-[#182322]">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>
@@ -408,7 +416,7 @@
                     <!-- Toggle to Login -->
                     <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-2">
                         <span id="have-account-text">Sudah punya akun?</span>
-                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] dark:text-[#618a88] dark:hover:text-[#7ba9a6] hover:underline font-bold ml-1 cursor-pointer focus:outline-none focus:underline">
+                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Login Sekarang
                         </button>
                     </p>
@@ -427,7 +435,7 @@
                 <button type="button"
                         id="lang-toggle-btn"
                         onclick="toggleLanguageDropdown(event)"
-                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-gray-50/80 dark:hover:bg-[#223231]"
+                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-gray-50/80 dark:hover:bg-[#383838]"
                         aria-expanded="false"
                         aria-haspopup="true">
                     <span id="lang-current-label">Indonesia</span>
@@ -438,20 +446,20 @@
 
                 <!-- Dropdown Menu -->
                 <div id="lang-dropdown-menu"
-                     class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#223231] rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-1.5 z-50 transition-all duration-150">
+                     class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#2B2B2B] rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/80 py-1.5 z-50 transition-all duration-150">
                     <button type="button"
                             onclick="changeLanguage('id')"
-                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#2B3D3C] hover:text-[#466967] dark:hover:text-[#618a88] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#383838] hover:text-[#466967] dark:hover:text-white flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-id">
                         <span>Indonesia</span>
-                        <span id="check-id" class="text-[#466967] dark:text-[#618a88] font-bold">✓</span>
+                        <span id="check-id" class="text-[#466967] dark:text-white font-bold">✓</span>
                     </button>
                     <button type="button"
                             onclick="changeLanguage('en')"
-                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#2B3D3C] hover:text-[#466967] dark:hover:text-[#618a88] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#383838] hover:text-[#466967] dark:hover:text-white flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-en">
                         <span>English</span>
-                        <span id="check-en" class="text-[#466967] dark:text-[#618a88] font-bold hidden">✓</span>
+                        <span id="check-en" class="text-[#466967] dark:text-white font-bold hidden">✓</span>
                     </button>
                 </div>
             </div>
@@ -461,7 +469,7 @@
                 <button type="button"
                         id="theme-toggle-btn"
                         onclick="toggleTheme()"
-                        class="inline-flex items-center gap-1 p-[3px] rounded-full border border-gray-200 bg-gray-100 dark:border-gray-700 dark:bg-[#1E2D2C] cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#618a88] focus:ring-offset-2 dark:focus:ring-offset-[#182322]"
+                        class="inline-flex items-center gap-1 p-[3px] rounded-full border border-gray-200 bg-gray-100 dark:border-gray-600/70 dark:bg-[#262626] cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]"
                         role="switch"
                         aria-checked="false"
                         aria-label="Beralih ke mode gelap">
@@ -579,7 +587,7 @@
                     sunIcon.className = "w-6 h-6 rounded-full bg-transparent text-gray-400 flex items-center justify-center transition-all duration-200";
                 }
                 if (moonIcon) {
-                    moonIcon.className = "w-6 h-6 rounded-full bg-[#2A3E3C] text-amber-300 shadow-xs flex items-center justify-center transition-all duration-200";
+                    moonIcon.className = "w-6 h-6 rounded-full bg-[#3D3D3D] text-gray-100 shadow-xs flex items-center justify-center transition-all duration-200";
                 }
             } else {
                 document.documentElement.classList.remove('dark');
