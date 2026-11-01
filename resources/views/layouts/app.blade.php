@@ -297,8 +297,8 @@
     <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
         <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
-            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full shadow-lg border border-white/20 backdrop-blur-md transition relative"
-                 style="background-color: #3b6e64;">
+            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3)] backdrop-blur-md"
+                 style="background-color: rgba(45, 72, 67, 0.70); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);">
 
                 <!-- Brand logo -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
@@ -454,13 +454,12 @@
                             </div>
                         </div>
                     @else
-                        <div class="flex items-center gap-1 text-xs sm:text-sm font-bold text-white shrink-0 select-none">
-                            <a href="{{ route('login') }}" class="hover:text-yellow-300 transition px-2 py-1">
+                        <div class="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
+                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
                                 Login
                             </a>
-                            <span class="text-white/50">/</span>
-                            <a href="{{ route('register') }}" class="hover:text-yellow-300 transition px-2 py-1">
-                                Register
+                            <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-bold px-4 py-1.5 rounded-xl transition shadow-xs">
+                                Sign In
                             </a>
                         </div>
                     @endauth
