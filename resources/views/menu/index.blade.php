@@ -3,7 +3,7 @@
 @section('title', 'Semua Menu - Toon Burger')
 
 @section('content')
-<div class="retro-grid-bg min-h-screen pt-4 sm:pt-6 pb-12 select-none">
+<div class="retro-grid-bg pt-4 sm:pt-6 pb-10 sm:pb-14 select-none">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         <!-- ═══════════════════════════════════════════════
@@ -79,18 +79,11 @@
             <!-- ═══════════════════════════════════════════════
                  3. PAGINATION BAR (Sesuai Foto)
                  ═══════════════════════════════════════════════ -->
-            {{ $products->links('vendor.pagination.toonburger') }}
+            <div class="pt-4 sm:pt-6">
+                {{ $products->links('vendor.pagination.toonburger') }}
+            </div>
         @endif
 
-    </div>
-
-    <!-- ═══════════════════════════════════════════════
-         4. BOTTOM PERSPECTIVE FLOOR GRID (Sesuai Foto)
-         ═══════════════════════════════════════════════ -->
-    <div class="relative w-full h-44 sm:h-64 overflow-hidden pointer-events-none mt-6 sm:mt-10" style="perspective: 350px;">
-        <div class="absolute inset-0 w-full h-[240%]"
-             style="transform: rotateX(60deg); transform-origin: top center; background-size: 44px 44px; background-image: linear-gradient(to right, rgba(59, 92, 86, 0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 92, 86, 0.12) 1px, transparent 1px); mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);">
-        </div>
     </div>
 </div>
 @endsection
