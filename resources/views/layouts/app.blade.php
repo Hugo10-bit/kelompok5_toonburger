@@ -9,7 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Titan+One&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Titan+One&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,6 +35,7 @@
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
                         luckiest: ['"Luckiest Guy"', 'cursive'],
+                        hegarty: ['"BBH Hegarty"', '"Luckiest Guy"', 'sans-serif'],
                     }
                 }
             }
@@ -742,7 +743,7 @@
 
                         <h2 id="modal-product-name"
                             class="text-xl sm:text-2xl lg:text-[28px] font-black text-[#1E332E] uppercase tracking-wide leading-tight mt-1"
-                            style="font-family: 'Titan One', 'Luckiest Guy', sans-serif;">
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', sans-serif;">
                             CHEESE CHICKEN BURGER
                         </h2>
 

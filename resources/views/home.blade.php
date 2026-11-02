@@ -127,7 +127,7 @@
             </div>
 
             <h2 class="text-2xl sm:text-[28px] lg:text-[32px] text-[#243F3B] uppercase tracking-wide pt-0.5"
-                style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                 KENAPA TOON BURGER?
             </h2>
 
@@ -219,7 +219,7 @@
     <!-- Bottom Yellow Ribbon with TOONBURGER ★ matching Figma exactly -->
     <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none">
         <div class="whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center justify-center overflow-x-hidden"
-             style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
             @for($i = 0; $i < 12; $i++)
                 <span class="mx-3.5 flex items-center gap-3">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
             @endfor
@@ -232,7 +232,7 @@
             <div class="flex items-center justify-between gap-4">
                 <div>
                     <h2 class="text-3xl sm:text-4xl lg:text-[42px] text-[#243F3B] uppercase tracking-wide"
-                        style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                        style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                         BEST SELLER
                     </h2>
                     <p class="text-xs sm:text-sm text-gray-500 mt-1.5 max-w-md leading-relaxed">
@@ -294,7 +294,7 @@
                         </div>
                         <div>
                             <h3 class="text-base sm:text-lg md:text-xl text-[#222222] uppercase tracking-wide"
-                                style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                                 NGGAK SEMPAT KE TOKO? GOFOOD AJA!
                             </h3>
                             <p class="text-xs sm:text-sm text-gray-400 mt-1">
@@ -323,7 +323,7 @@
 
                     <div class="md:col-span-7 space-y-4">
                         <h2 class="text-3xl sm:text-4xl lg:text-[40px] text-[#27443E] uppercase leading-[1.1]"
-                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             MENGENAL TOON<br>BURGER
                         </h2>
 
@@ -371,7 +371,7 @@
                     </div>
                     <div>
                         <h3 class="text-lg sm:text-xl lg:text-2xl text-[#27443E] uppercase tracking-wide"
-                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             ADA YANG MAU DITANYAIN?
                         </h3>
                         <p class="text-xs sm:text-sm text-gray-400 mt-1">
