@@ -126,7 +126,7 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeLogoutModal()"></div>
 
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
+        <div class="relative bg-white dark:bg-[#2B2B2B] rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
             <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -134,18 +134,18 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="logout_title">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-2.5" data-i18n="logout_title">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
+            <p class="text-gray-500 dark:text-[#D4D4D4] text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] active:scale-95 text-gray-700 dark:text-white border border-gray-300 dark:border-[#757575] rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
@@ -171,7 +171,7 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeDeleteModal()"></div>
 
-        <div class="relative bg-white rounded-[36px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] px-8 sm:px-12 py-10 sm:py-12 max-w-[520px] w-full text-center z-10 select-none animate-modal-pop border border-gray-200 mx-auto my-auto">
+        <div class="relative bg-white dark:bg-[#2B2B2B] rounded-[36px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] px-8 sm:px-12 py-10 sm:py-12 max-w-[520px] w-full text-center z-10 select-none animate-modal-pop border border-gray-200 dark:border-[#4A4A4A] mx-auto my-auto">
             <div class="flex items-center justify-center mx-auto mb-6 text-[#D45B56]">
                 <svg class="w-28 h-28 text-[#D45B56]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- Top lid handle -->
@@ -187,25 +187,27 @@
                 </svg>
             </div>
 
-            <h3 id="delete-modal-title" class="text-[28px] sm:text-[32px] font-bold text-[#3D3D3D] tracking-tight mb-3 leading-tight">
+            <h3 id="delete-modal-title" class="text-[28px] sm:text-[32px] font-bold text-[#3D3D3D] dark:text-white tracking-tight mb-3 leading-tight" data-i18n="delete_title">
                 Confirm Deletion
             </h3>
 
-            <p id="delete-modal-message" class="text-[#666666] text-sm sm:text-[16px] leading-snug max-w-[390px] mx-auto mb-8 font-normal">
+            <p id="delete-modal-message" class="text-[#666666] dark:text-[#D4D4D4] text-sm sm:text-[16px] leading-snug max-w-[390px] mx-auto mb-8 font-normal" data-i18n="delete_desc">
                 Are you sure you want to delete this product? Deleted products cannot be restored.
             </p>
 
             <div class="flex items-center justify-center gap-5">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#444444] border border-[#555555] rounded-[10px] px-7 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[145px] sm:min-w-[160px] focus:outline-none cursor-pointer">
+                        class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] active:scale-95 text-[#444444] dark:text-white border border-[#555555] dark:border-[#757575] rounded-[10px] px-7 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[145px] sm:min-w-[160px] focus:outline-none cursor-pointer"
+                        data-i18n="delete_cancel">
                     Cancel
                 </button>
                 <form id="global-delete-form" method="POST" action="" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#B3362E] hover:bg-[#9E2E27] active:scale-95 text-white rounded-[10px] px-8 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[165px] sm:min-w-[185px] shadow-xs focus:outline-none cursor-pointer">
+                            class="bg-[#B3362E] hover:bg-[#9E2E27] active:scale-95 text-white rounded-[10px] px-8 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[165px] sm:min-w-[185px] shadow-xs focus:outline-none cursor-pointer"
+                            data-i18n="delete_confirm_btn">
                         Yes, delete
                     </button>
                 </form>
@@ -686,8 +688,9 @@
                 logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
                 logout_confirm_btn: 'Ya, Keluar',
                 delete_title: 'Konfirmasi Hapus',
-                delete_desc: 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
-                delete_confirm_btn: 'Ya, Hapus',
+                delete_desc: 'Apakah Anda yakin ingin menghapus produk ini? Produk yang dihapus tidak dapat dikembalikan.',
+                delete_cancel: 'Batal',
+                delete_confirm_btn: 'Ya, hapus',
                 cancel: 'Batalkan',
                 // Header
                 search_placeholder: 'Cari Sesuatu...',
@@ -715,9 +718,44 @@
                 dash_detail: 'Detail',
                 dash_best_selling: 'Menu Terlaris',
                 dash_products_sold: 'Produk Terjual',
-                // Orders
+                dash_empty_orders: 'Belum ada pesanan terbaru.',
+                dash_empty_best: 'Belum ada penjualan menu.',
+                // Profile
+                prof_title: 'Profil Admin',
+                prof_sub: 'Kelola informasi akun dan profil admin',
+                prof_username: 'Username',
+                prof_email: 'Email',
+                prof_phone: 'Nomor telfon',
+                prof_address: 'Alamat',
+                prof_save: 'Simpan',
+                prof_new_pass: 'Password baru',
+                prof_new_pass_ph: 'Masukkan Password',
+                prof_conf_pass: 'Konfirmasi Password',
+                prof_conf_pass_ph: 'Konfirmasi Password',
+                // Orders (both old & new keys)
                 orders_title: 'Proses pesanan',
                 orders_subtitle: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
+                ord_title: 'Proses pesanan',
+                ord_sub: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
+                tab_all: 'Semua',
+                tab_pending: 'Menunggu',
+                tab_cooking: 'Dimasak',
+                tab_ready: 'Siap Saji',
+                tab_completed: 'Selesai',
+                st_pending: 'Menunggu',
+                st_cooking: 'Dimasak',
+                st_ready: 'Siap Saji',
+                st_completed: 'Selesai',
+                st_cancelled: 'Batal',
+                ord_col_prod: 'Produk',
+                ord_col_qty: 'total',
+                ord_col_price: 'Harga',
+                ord_total_label: 'Total',
+                btn_confirm_order: 'konfirmasi pesanan',
+                ord_done_badge: 'Pesanan Selesai',
+                ord_cancel_badge: 'Pesanan Dibatalkan',
+                btn_detail: 'Lihat Detail Pesanan',
+                ord_empty: 'Belum ada pesanan pada kategori status ini.',
                 order_detail_title: 'Detail Pesanan',
                 order_detail_subtitle: 'Konfirmasi dan kelola status pesanan ini.',
                 orders_refresh: 'Segarkan',
@@ -778,6 +816,30 @@
                 order_detail_complete: 'Selesaikan Pesanan',
                 order_detail_cancel: 'Batalkan Pesanan',
                 // Products
+                prod_title: 'Halaman Data Produk',
+                prod_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                btn_filter: 'Filter',
+                filter_all_cat: 'Semua Kategori',
+                btn_sort: 'Sortir',
+                btn_add_prod: 'Tambahkan',
+                col_prod_name: 'Menu',
+                col_category: 'Kategori',
+                col_price: 'Harga',
+                col_calories: 'kalori',
+                col_status: 'Status',
+                col_action: 'Aksi',
+                st_avail: 'Tersedia',
+                st_empty: 'Habis',
+                mod_prod_add: 'Tambah Produk Baru',
+                lbl_prod_name: 'Nama Produk',
+                lbl_prod_price: 'Harga (Rp)',
+                lbl_prod_cal: 'Kalori (Kcal)',
+                lbl_prod_img: 'Gambar Produk',
+                lbl_prod_desc: 'Deskripsi',
+                lbl_prod_avail: 'Tersedia (Stok Ada)',
+                lbl_prod_pop: 'Menu Terpopuler',
+                btn_save_prod: 'Simpan Produk',
+                prod_empty: 'Belum ada produk.',
                 products_title: 'Halaman Data Produk',
                 products_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
                 products_search: 'Cari nama menu...',
@@ -793,7 +855,6 @@
                 products_out: 'Habis',
                 products_empty_title: 'Belum Ada Menu',
                 products_empty_desc: 'Klik tombol Tambahkan untuk memasukkan menu baru.',
-                // Add Product Modal
                 products_add_modal_title: 'Tambah Produk Baru',
                 products_add_modal_desc: 'Lengkapi informasi menu Toon Burger yang akan ditambahkan.',
                 products_label_name: 'Nama Produk',
@@ -803,7 +864,6 @@
                 products_label_photo: 'Upload Foto',
                 products_label_desc: 'Deskripsi',
                 products_add_submit: 'Tambahkan',
-                // Edit Product Modal
                 products_edit_modal_title: 'Edit Menu',
                 products_edit_modal_desc: 'Perbarui rincian, harga, atau foto menu Toon Burger.',
                 products_edit_photo: 'Ganti Foto Menu',
@@ -816,6 +876,14 @@
                 products_edit_btn_title: 'Edit Produk',
                 products_delete_btn_title: 'Hapus Produk',
                 // Categories
+                cat_title: 'Halaman Kategori Produk',
+                cat_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                btn_add_cat: 'Tambahkan',
+                col_no: 'No.',
+                mod_cat_add: 'Tambah Kategori',
+                lbl_cat_name: 'Nama Kategori',
+                btn_save: 'Simpan',
+                cat_empty: 'Belum ada kategori.',
                 categories_title: 'Halaman Kategori Produk',
                 categories_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
                 categories_search: 'Cari kategori...',
@@ -849,7 +917,7 @@
                 tables_open_menu: 'Buka Menu Meja Ini',
                 tables_change: 'Ubah',
                 // General
-                btn_cancel: 'Batal',
+                btn_cancel: 'Batalkan',
                 transaction: 'Transaksi',
                 queue: 'Antrean',
                 currency: 'Rp',
@@ -867,12 +935,17 @@
                 nav_homepage: 'Home page',
                 nav_logout: 'Logout',
                 nav_logout_short: 'Logout',
+                drop_profile: 'Profile',
+                drop_darkmode: 'Dark Mode',
+                drop_home: 'Home',
+                drop_logout: 'Logout',
                 // Layout: Modals
                 logout_title: 'Confirm Logout',
                 logout_desc: 'Are you sure you want to log out? You will need to log in again to access the admin panel.',
                 logout_confirm_btn: 'Yes, Logout',
                 delete_title: 'Confirm Deletion',
                 delete_desc: 'Are you sure you want to delete this product? Deleted products cannot be restored.',
+                delete_cancel: 'Cancel',
                 delete_confirm_btn: 'Yes, delete',
                 cancel: 'Cancel',
                 // Header
@@ -901,9 +974,44 @@
                 dash_detail: 'Details',
                 dash_best_selling: 'Best-Selling Items',
                 dash_products_sold: 'Products Sold',
-                // Orders
-                orders_title: 'Order Processing',
-                orders_subtitle: 'Manage order flow and customer order status in real time.',
+                dash_empty_orders: 'No recent orders yet.',
+                dash_empty_best: 'No menu sales yet.',
+                // Profile
+                prof_title: 'Admin Profile',
+                prof_sub: 'Manage admin account and profile information',
+                prof_username: 'Username',
+                prof_email: 'Email',
+                prof_phone: 'Phone number',
+                prof_address: 'Address',
+                prof_save: 'Save',
+                prof_new_pass: 'New password',
+                prof_new_pass_ph: 'Enter Password',
+                prof_conf_pass: 'Confirm Password',
+                prof_conf_pass_ph: 'Confirm Password',
+                // Orders (both old & new keys)
+                orders_title: 'Manage Order',
+                orders_subtitle: 'Manage and confirm incoming orders for today.',
+                ord_title: 'Manage Order',
+                ord_sub: 'Manage and confirm incoming orders for today.',
+                tab_all: 'All',
+                tab_pending: 'Wait',
+                tab_cooking: 'Cooked',
+                tab_ready: 'Ready-to-Serve',
+                tab_completed: 'Finished',
+                st_pending: 'Wait',
+                st_cooking: 'Cooked',
+                st_ready: 'Ready-to-Serve',
+                st_completed: 'Finished',
+                st_cancelled: 'Cancelled',
+                ord_col_prod: 'Product',
+                ord_col_qty: 'total',
+                ord_col_price: 'Price',
+                ord_total_label: 'Total',
+                btn_confirm_order: 'Confirm Order',
+                ord_done_badge: 'Order Finished',
+                ord_cancel_badge: 'Order Cancelled',
+                btn_detail: 'View Order Details',
+                ord_empty: 'No orders in this status category yet.',
                 order_detail_title: 'Order Details',
                 order_detail_subtitle: 'Confirm and manage the status of this order.',
                 orders_refresh: 'Refresh',
@@ -921,13 +1029,13 @@
                 orders_status_cancelled: 'Cancelled',
                 orders_status_pending: 'Wait',
                 orders_total: 'Total',
-                orders_accept: 'Accept Order',
-                orders_mark_ready: 'Order Ready',
-                orders_complete: 'Complete Order',
-                orders_done_badge: 'Order Completed',
+                orders_accept: 'Confirm Order',
+                orders_mark_ready: 'Confirm Order',
+                orders_complete: 'Confirm Order',
+                orders_done_badge: 'Order Finished',
                 orders_cancelled_badge: 'Order Cancelled',
-                orders_view_detail: 'View Detail',
-                orders_reject: 'Reject Order',
+                orders_view_detail: 'View Order Details',
+                orders_reject: 'Cancel',
                 // Order Detail
                 order_detail_back: 'Back to Order Processing',
                 order_detail_kitchen_status: 'Kitchen Status',
@@ -964,53 +1072,83 @@
                 order_detail_complete: 'Complete Order',
                 order_detail_cancel: 'Cancel Order',
                 // Products
-                products_title: 'Manage Product Data',
-                products_subtitle: 'Manage the menu and product list of Toon Burger',
+                prod_title: 'Product Data Page',
+                prod_sub: 'Add new menu items, edit details/prices, and monitor stock availability',
+                btn_filter: 'Filter',
+                filter_all_cat: 'All Categories',
+                btn_sort: 'Sort',
+                btn_add_prod: 'Add',
+                col_prod_name: 'Menu',
+                col_category: 'Category',
+                col_price: 'Price',
+                col_calories: 'Calories',
+                col_status: 'Status',
+                col_action: 'Action',
+                st_avail: 'Available',
+                st_empty: 'Sold out',
+                mod_prod_add: 'Add New Product',
+                lbl_prod_name: 'Product Name',
+                lbl_prod_price: 'Price (IDR)',
+                lbl_prod_cal: 'Calories (Kcal)',
+                lbl_prod_img: 'Product Image',
+                lbl_prod_desc: 'Description',
+                lbl_prod_avail: 'Available (In Stock)',
+                lbl_prod_pop: 'Popular Menu',
+                btn_save_prod: 'Save Product',
+                prod_empty: 'No products yet.',
+                products_title: 'Product Data Page',
+                products_subtitle: 'Add new menu items, edit details/prices, and monitor stock availability',
                 products_search: 'Search menu name...',
-                products_add_btn: 'Add Product',
-                products_col_no: 'No',
-                products_col_menu: 'Menu / Product',
+                products_add_btn: 'Add',
+                products_col_no: 'No.',
+                products_col_menu: 'Menu',
                 products_col_category: 'Category',
                 products_col_price: 'Price',
-                products_col_stock: 'Stock',
+                products_col_stock: 'Calories',
                 products_col_status: 'Status',
                 products_col_action: 'Action',
                 products_available: 'Available',
-                products_out: 'Out of Stock',
+                products_out: 'Sold out',
                 products_empty_title: 'No menu items yet',
-                products_empty_desc: 'Click + Add Product to add a new menu item.',
-                // Add Product Modal
+                products_empty_desc: 'Click Add to insert a new menu item.',
                 products_add_modal_title: 'Add New Product',
                 products_add_modal_desc: 'Fill in the details for the new Toon Burger menu item.',
                 products_label_name: 'Product Name',
                 products_label_category: 'Category',
                 products_label_price: 'Price (IDR)',
-                products_label_stock: 'Stock (Portions)',
+                products_label_stock: 'Calories (kcal)',
                 products_label_photo: 'Upload Photo',
                 products_label_desc: 'Description',
-                products_add_submit: 'Add Product',
-                // Edit Product Modal
+                products_add_submit: 'Add',
                 products_edit_modal_title: 'Edit Menu',
                 products_edit_modal_desc: 'Update the details, price, or photo of this menu item.',
                 products_edit_photo: 'Replace Menu Photo',
                 products_save_changes: 'Save Changes',
                 products_all_categories: 'All Categories',
-                products_unit_portion: 'Portions',
+                products_unit_portion: 'kcal',
                 products_placeholder_name: 'New Product Name',
-                products_placeholder_desc: 'Toon Burger menu description...',
+                products_placeholder_desc: 'Juicy beef patty burger,',
                 products_toggle_status_title: 'Click to change availability',
                 products_edit_btn_title: 'Edit Product',
                 products_delete_btn_title: 'Delete Product',
                 // Categories
-                categories_title: 'Manage Product Categories',
-                categories_subtitle: 'Manage categories for Toon Burger menu grouping',
+                cat_title: 'Product Category Page',
+                cat_sub: 'Add new menu items, edit details/prices, and monitor stock availability',
+                btn_add_cat: 'Add',
+                col_no: 'No.',
+                mod_cat_add: 'Add Category',
+                lbl_cat_name: 'Category Name',
+                btn_save: 'Save',
+                cat_empty: 'No categories yet.',
+                categories_title: 'Product Category Page',
+                categories_subtitle: 'Add new menu items, edit details/prices, and monitor stock availability',
                 categories_search: 'Search category...',
-                categories_add_btn: 'Add Category',
-                categories_col_no: 'No',
-                categories_col_name: 'Category Name',
+                categories_add_btn: 'Add',
+                categories_col_no: 'No.',
+                categories_col_name: 'Category',
                 categories_col_action: 'Action',
                 categories_empty_title: 'No Categories Yet',
-                categories_empty_desc: 'Click + Add Category to create a new menu category.',
+                categories_empty_desc: 'Click Add to create a new menu category.',
                 categories_add_modal_title: 'Add Category',
                 categories_label_name: 'Category Name',
                 categories_save: 'Save',
@@ -1036,7 +1174,7 @@
                 tables_change: 'Update',
                 // General
                 btn_cancel: 'Cancel',
-                transaction: 'Transaction',
+                transaction: 'Transactions',
                 queue: 'Queue',
                 currency: 'IDR',
             }
@@ -1056,6 +1194,29 @@
             // Currency elements
             document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix').forEach(el => {
                 el.textContent = currencyStr;
+            });
+
+            // KPI Revenue formatting (ID: Rp. 500.000, EN: IDR 500,000)
+            document.querySelectorAll('[data-kpi-revenue]').forEach(el => {
+                const rawVal = parseInt(el.getAttribute('data-kpi-revenue') || '0', 10);
+                if (isEn) {
+                    el.textContent = 'IDR ' + rawVal.toLocaleString('en-US');
+                } else {
+                    el.textContent = 'Rp. ' + rawVal.toLocaleString('id-ID');
+                }
+            });
+
+            // Relative minutes in orders (e.g. "5 Menit yang lalu" vs "5 Minutes ago")
+            document.querySelectorAll('[data-mins-ago]').forEach(el => {
+                const orig = el.getAttribute('data-orig-label') || el.textContent;
+                if (!el.getAttribute('data-orig-label')) {
+                    el.setAttribute('data-orig-label', orig);
+                }
+                if (isEn) {
+                    el.textContent = orig.replace(/Menit yang lalu/gi, 'Minutes ago');
+                } else {
+                    el.textContent = orig;
+                }
             });
 
             // Attribute translation (e.g. placeholder)
