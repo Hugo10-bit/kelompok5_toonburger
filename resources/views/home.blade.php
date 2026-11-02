@@ -10,38 +10,59 @@
             <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 flex flex-col justify-between"
                  style="background-color: #3E615D;">
 
-                <!-- 4 Comic Sparkle Stars matching exact positions in reference mockup -->
+                <!-- Background Topographic Contour Waves matching Figma mockup -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20 select-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 500" fill="none">
+                    <!-- Left Topographic Waves -->
+                    <path d="M-60 0 C 40 160, 100 320, 160 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M-30 0 C 70 160, 130 320, 190 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M0 0 C 100 160, 160 320, 220 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M30 0 C 130 160, 190 320, 250 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M60 0 C 160 160, 220 320, 280 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M90 0 C 190 160, 250 320, 310 500" stroke="#ffffff" stroke-width="1.2"/>
+
+                    <!-- Right Topographic Waves -->
+                    <path d="M1500 0 C 1410 160, 1330 320, 1240 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1470 0 C 1380 160, 1300 320, 1210 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1440 0 C 1350 160, 1270 320, 1180 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1410 0 C 1320 160, 1240 320, 1150 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1380 0 C 1290 160, 1210 320, 1120 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1350 0 C 1260 160, 1180 320, 1090 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1320 0 C 1230 160, 1150 320, 1060 500" stroke="#ffffff" stroke-width="1.2"/>
+                    <path d="M1290 0 C 1200 160, 1120 320, 1030 500" stroke="#ffffff" stroke-width="1.2"/>
+                </svg>
+
+                <!-- 4 Comic Sparkle Stars matching exact positions in Figma mockup -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="top: 25.5%; left: 3.5%; animation-delay: 0s;">
+                     style="top: 24%; left: 3.5%; animation-delay: 0s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 28.5%; left: 66%; animation-delay: 0.7s;">
+                     style="top: 26%; left: 66%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 75.5%; left: 40.5%; animation-delay: 1.4s;">
+                     style="top: 72%; left: 40.5%; animation-delay: 1.4s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 71.5%; left: 77%; animation-delay: 2.1s;">
+                     style="top: 68%; left: 77%; animation-delay: 2.1s;">
 
-                <div class="relative z-10 max-w-[1120px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-10">
+                <div class="relative z-10 max-w-[1140px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-8">
 
                     <!-- Left Column: Heading, Subtitle, CTA Buttons -->
                     <div class="lg:col-span-6 space-y-3.5 sm:space-y-4 pb-2 lg:pb-0">
-                        <h1 class="text-white uppercase leading-[0.98] text-4xl sm:text-5xl lg:text-[54px] xl:text-[58px] tracking-wide"
-                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.2px #1E2E2B; text-shadow: 3px 3px 0px #1E2E2B;">
+                        <h1 class="text-white uppercase leading-[0.96] text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] tracking-wide"
+                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.5px #1E2E2B; text-shadow: 3px 4px 0px #1E2E2B;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
                         </h1>
 
-                        <p class="text-xs sm:text-[13.5px] text-white/90 leading-relaxed font-normal max-w-sm sm:max-w-md">
+                        <p class="text-xs sm:text-[13.5px] text-white/90 leading-relaxed font-normal max-w-sm sm:max-w-md pt-1">
                             Nikmati perpaduan rasa, tekstur, dan bahan pilihan<br class="hidden sm:inline"> dalam setiap hidangan.
                         </p>
 
-                        <div class="flex items-center gap-3.5 pt-2 sm:pt-3">
+                        <div class="flex items-center gap-3.5 pt-3 sm:pt-4">
                             <a href="{{ route('menu') }}"
                                class="font-bold text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-lg border border-black/80 bg-[#F5B027] hover:bg-[#E09E1E] text-gray-950 shadow-[2px_2px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer inline-flex items-center justify-center">
                                 Pickup Order
@@ -54,11 +75,11 @@
                     </div>
 
                     <!-- Right Column: Steam, Burger, Comic Speech Bubble -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-8">
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-6">
                         <div class="relative inline-flex items-center justify-center">
                             <!-- Comic Steam lines above top-left of burger -->
-                            <div class="absolute -top-3 left-4 sm:-top-4 sm:left-6 z-10 pointer-events-none select-none">
-                                <svg class="w-10 h-10 sm:w-11 sm:h-11 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                            <div class="absolute -top-3.5 left-4 sm:-top-5 sm:left-6 z-10 pointer-events-none select-none">
+                                <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
                                     <path d="M12 36 C9 32, 8 28, 7 24" />
                                     <path d="M19 26 C17 21, 16 17, 15 13" />
                                     <path d="M30 18 C30 13, 29 9, 28 5" />
@@ -71,7 +92,7 @@
                                 <img id="hero-burger-img"
                                      src="{{ asset('images/hero-burger.png') }}"
                                      alt="Very Cheese Burger"
-                                     class="w-[230px] sm:w-[270px] lg:w-[290px] xl:w-[310px] h-auto object-contain select-none drop-shadow-[0_14px_24px_rgba(0,0,0,0.32)]">
+                                     class="w-[245px] sm:w-[285px] lg:w-[310px] xl:w-[335px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
                             </div>
 
                             <!-- Comic Speech Bubble Badge at top-right of burger -->
@@ -79,15 +100,22 @@
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
-                                     class="w-36 sm:w-44 lg:w-48 xl:w-52 h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.22)]">
+                                     class="w-38 sm:w-46 lg:w-52 xl:w-56 h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.25)]">
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <!-- 3 Rows Checkered Bottom Border (36px = 3 x 12px) -->
-                <div class="w-full" style="height: 36px; background: repeating-conic-gradient(#3E615D 0% 25%, #ffffff 0% 50%) 0 0 / 24px 24px;"></div>
+                <!-- 3 Rows Checkered Border (36px = 3 x 12px) matching Figma -->
+                <div class="w-full mt-4 sm:mt-6" style="height: 36px; background: repeating-conic-gradient(#3E615D 0% 25%, #ffffff 0% 50%) 0 0 / 24px 24px;"></div>
+
+                <!-- Bottom Teal Strip below checkered border matching Figma layout -->
+                <div class="w-full h-7 sm:h-8"></div>
+
+            </div>
+        </div>
+    </section>
 
             </div>
         </div>

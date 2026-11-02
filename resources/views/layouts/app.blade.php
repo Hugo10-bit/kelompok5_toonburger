@@ -308,25 +308,25 @@
                         </span>
                     </a>
 
-                    <nav class="hidden lg:flex items-center gap-2 xl:gap-4 text-xs sm:text-[13px]">
+                    <nav class="hidden lg:flex items-center gap-1.5 xl:gap-3 text-xs sm:text-[13px]">
                         <a href="{{ route('home') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('home') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
+                           class="px-4 py-1.5 rounded-full transition font-medium
+                                  {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
                             Beranda
                         </a>
                         <a href="{{ route('menu') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('menu*') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
+                           class="px-4 py-1.5 rounded-full transition font-medium
+                                  {{ request()->routeIs('menu*') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
                             Menu
                         </a>
                         <a href="{{ route('about') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('about') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
+                           class="px-4 py-1.5 rounded-full transition font-medium
+                                  {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
                             Tentang
                         </a>
                         <a href="{{ route('contact') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('contact') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
+                           class="px-4 py-1.5 rounded-full transition font-medium
+                                  {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
                             Kontak
                         </a>
                     </nav>
@@ -470,10 +470,10 @@
                         </div>
                     @else
                         <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-[13px] shrink-0 select-none">
-                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 font-medium transition px-1.5 py-1">
+                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 font-medium transition px-2 py-1">
                                 Login
                             </a>
-                            <a href="{{ route('register') }}" class="bg-[#F5B027] hover:bg-[#E09E1E] text-white font-semibold px-4 py-2 rounded-xl transition shadow-2xs">
+                            <a href="{{ route('register') }}" class="bg-[#F5B027] hover:bg-[#E09E1E] text-gray-950 font-bold px-4 py-2 rounded-full transition shadow-xs">
                                 Sign In
                             </a>
                         </div>
