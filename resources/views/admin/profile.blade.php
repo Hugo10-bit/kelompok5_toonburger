@@ -4,83 +4,179 @@
 @section('title', 'Profil Admin - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-6 sm:p-8 max-w-4xl mx-auto space-y-7">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col justify-between space-y-7">
 
-    <!-- Header Section (Sesuai Mockup Foto Board 6) -->
     <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Profil Admin</h1>
-        <p class="text-xs text-gray-400 mt-1">Kelola informasi akun dan kata sandi admin</p>
+        <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prof_title">Profil Admin</h1>
+        <p class="text-sm sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
     </div>
 
-    <!-- Avatar & Admin Identity Header -->
-    <div class="flex items-center gap-4 pb-2">
-        <div class="w-14 h-14 rounded-full bg-[#F59E0B] text-white font-black text-xl flex items-center justify-center shadow-xs shrink-0 select-none">
-            TB
+    <div class="flex items-center gap-5 pt-1 pb-2">
+        <div class="relative shrink-0 select-none">
+            <button type="button"
+                    onclick="document.getElementById('profile-avatar-input').click()"
+                    title="Ubah Foto Profil"
+                    class="w-20 h-20 rounded-full bg-[#F79E1B] text-white font-bold text-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group focus:outline-none">
+                @if(!empty($user?->avatar))
+                    <img id="profile-avatar-preview"
+                         src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar) }}"
+                         alt="Avatar"
+                         class="w-full h-full object-cover">
+                    <span id="profile-avatar-initials" class="hidden">Tb</span>
+                @else
+                    <img id="profile-avatar-preview" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                    <span id="profile-avatar-initials">Tb</span>
+                @endif
+                <span class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </span>
+            </button>
+            <button type="button"
+                    onclick="document.getElementById('profile-avatar-input').click()"
+                    title="Ubah Foto Profil"
+                    aria-label="Ubah Foto Profil"
+                    class="w-6 h-6 rounded-full bg-[#D1D5DB] hover:bg-[#BFC5CE] dark:bg-[#4F4F4F] dark:hover:bg-[#616161] border border-white dark:border-[#2B2B2B] flex items-center justify-center text-gray-600 dark:text-white absolute bottom-0 right-0 shadow-2xs cursor-pointer transition active:scale-95 focus:outline-none z-10">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+            </button>
         </div>
         <div>
-            <h2 class="text-lg font-black text-gray-900 leading-tight">{{ $user->name ?? 'Toon Burger' }}</h2>
-            <p class="text-xs text-gray-400 mt-0.5">{{ $user->email ?? 'toonburger@gmail.com' }}</p>
+            <h2 class="text-2xl font-normal text-gray-800 dark:text-white leading-tight">{{ $user?->name ?: 'Toon Burger' }}</h2>
+            <p class="text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
+            @error('avatar') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
     </div>
 
-    <!-- Form 1: Informasi Profil -->
-    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-4 text-xs">
+    <form id="admin-profile-form" action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-5 text-sm">
         @csrf
+        <input type="file"
+               id="profile-avatar-input"
+               name="avatar"
+               accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+               class="hidden"
+               onchange="handleAdminAvatarChange(this)">
 
         <div>
-            <label class="block font-bold text-gray-700 mb-1.5">Nama</label>
-            <input type="text" name="name" value="{{ old('name', $user->name ?? 'Toon Burger') }}" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            @error('name') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
+            <label for="profile-username" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_username">Username</label>
+            <input type="text"
+                   id="profile-username"
+                   name="name"
+                   value="{{ old('name', $user?->name ?: 'Toon Burger') }}"
+                   required
+                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+            @error('name') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Email</label>
-                <input type="email" name="email" value="{{ old('email', $user->email ?? 'toonburger@gmail.com') }}" required class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                @error('email') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
+                <label for="profile-email" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_email">Email</label>
+                <input type="email"
+                       id="profile-email"
+                       name="email"
+                       value="{{ old('email', $user?->email ?: 'Toonburger@gmail.com') }}"
+                       required
+                       class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+                @error('email') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Nomor Telepon</label>
-                <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number ?? '081345956487') }}" placeholder="Contoh: 081345956487" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                @error('phone_number') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
+                <label for="profile-phone" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_phone">Nomor telfon</label>
+                <input type="text"
+                       id="profile-phone"
+                       name="phone_number"
+                       value="{{ old('phone_number', $user?->phone_number ?: '085780153872') }}"
+                       class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+                @error('phone_number') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
             </div>
         </div>
 
-        <div class="pt-2">
-            <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
-                Simpan Perubahan
+        <div>
+            <label for="profile-address" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_address">Alamat</label>
+            <input type="text"
+                   id="profile-address"
+                   name="address"
+                   value="{{ old('address', $user?->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714') }}"
+                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+            @error('address') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="pt-1">
+            <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3.5 px-6 rounded-xl w-full min-h-[48px] shadow-2xs transition text-sm select-none cursor-pointer" data-i18n="prof_save">
+                Simpan
             </button>
         </div>
     </form>
 
-    <hr class="border-gray-200/70 my-6">
-
-    <!-- Form 2: Ubah Kata Sandi -->
-    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-4 text-xs">
+    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 pt-6 text-sm">
         @csrf
-        <input type="hidden" name="name" value="{{ $user->name ?? 'Toon Burger' }}">
-        <input type="hidden" name="email" value="{{ $user->email ?? 'toonburger@gmail.com' }}">
+        <input type="hidden" name="name" value="{{ $user?->name ?: 'Toon Burger' }}">
+        <input type="hidden" name="email" value="{{ $user?->email ?: 'Toonburger@gmail.com' }}">
+        <input type="hidden" name="phone_number" value="{{ $user?->phone_number ?: '085780153872' }}">
+        <input type="hidden" name="address" value="{{ $user?->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714' }}">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Password Baru</label>
-                <input type="password" name="password" placeholder="Minimal 6 karakter" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-                @error('password') <span class="text-[#DE3B28] text-[11px] font-semibold mt-1 block">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation" placeholder="Ulangi kata sandi baru" class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
+        <div>
+            <label for="profile-new-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_new_pass">Password baru</label>
+            <input type="password"
+                   id="profile-new-password"
+                   name="password"
+                   placeholder="Masukkan Password"
+                   data-i18n-attr="placeholder:prof_new_pass_ph"
+                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+            @error('password') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
-        <div class="pt-2">
-            <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none">
-                Perbarui Password
+        <div>
+            <label for="profile-confirm-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_conf_pass">Konfirmasi Password</label>
+            <input type="password"
+                   id="profile-confirm-password"
+                   name="password_confirmation"
+                   placeholder="Konfirmasi Password"
+                   data-i18n-attr="placeholder:prof_conf_pass_ph"
+                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+        </div>
+
+        <div class="pt-1">
+            <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3.5 px-6 rounded-xl w-full min-h-[48px] shadow-2xs transition text-sm select-none cursor-pointer" data-i18n="prof_save">
+                Simpan
             </button>
         </div>
     </form>
+
+    <script>
+        function handleAdminAvatarChange(input) {
+            if (!input.files || !input.files[0]) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('profile-avatar-preview');
+                const initials = document.getElementById('profile-avatar-initials');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                if (initials) {
+                    initials.classList.add('hidden');
+                }
+                const headerAvatarImg = document.getElementById('header-profile-avatar-img');
+                const headerAvatarInit = document.getElementById('header-profile-avatar-initials');
+                if (headerAvatarImg) {
+                    headerAvatarImg.src = e.target.result;
+                    headerAvatarImg.classList.remove('hidden');
+                }
+                if (headerAvatarInit) {
+                    headerAvatarInit.classList.add('hidden');
+                }
+                // Auto-submit form to persist new avatar immediately
+                const form = document.getElementById('admin-profile-form');
+                if (form) form.submit();
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 
 </div>
 @endsection

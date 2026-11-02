@@ -6,7 +6,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [MenuController::class, 'home'])->name('home');
+Route::get('/', [MenuController::class, 'home'])->name('welcome');
+Route::get('/home', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');
 Route::get('/about', [MenuController::class, 'about'])->name('about');
@@ -46,7 +47,7 @@ Route::middleware('auth')->group(function () {
         if (auth()->user()->isAdmin() || auth()->user()->isStaff()) {
             return redirect()->route('admin.dashboard');
         }
-        return redirect()->route('menu');
+        return redirect()->route('home');
     })->name('dashboard');
 
     Route::middleware('admin')->group(function () {
@@ -59,12 +60,13 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
             Route::get('/orders/{order_number}', [AdminController::class, 'orderDetail'])->name('orders.show');
-            Route::post('/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
+            Route::match(['post', 'patch'], '/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
 
             Route::get('/products', [AdminController::class, 'products'])->name('products');
             Route::post('/products/store', [AdminController::class, 'storeProduct'])->name('products.store');
-            Route::post('/products/{id}/update', [AdminController::class, 'updateProduct'])->name('products.update');
-            Route::post('/products/{id}/toggle', [AdminController::class, 'toggleProduct'])->name('products.toggle');
+            Route::match(['post', 'put'], '/products/{id}/update', [AdminController::class, 'updateProduct'])->name('products.update');
+            Route::match(['post', 'put'], '/products/{id}', [AdminController::class, 'updateProduct']);
+            Route::match(['post', 'patch'], '/products/{id}/toggle', [AdminController::class, 'toggleProduct'])->name('products.toggle');
             Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('products.delete');
 
             Route::get('/tables', [AdminController::class, 'tables'])->name('tables');
@@ -72,11 +74,12 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
             Route::post('/categories/store', [AdminController::class, 'storeCategory'])->name('categories.store');
-            Route::post('/categories/{id}/update', [AdminController::class, 'updateCategory'])->name('categories.update');
+            Route::match(['post', 'put'], '/categories/{id}/update', [AdminController::class, 'updateCategory'])->name('categories.update');
+            Route::match(['post', 'put'], '/categories/{id}', [AdminController::class, 'updateCategory']);
             Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
 
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
-            Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+            Route::match(['post', 'put'], '/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
 
             Route::get('/coupons', [AdminController::class, 'coupons'])->name('coupons');
             Route::get('/settings', [AdminController::class, 'coupons'])->name('settings');

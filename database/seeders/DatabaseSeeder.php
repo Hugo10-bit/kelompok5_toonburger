@@ -6,55 +6,46 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
-// use App\Models\OrderItemOption;
-// use App\Models\Payment;
 use App\Models\Product;
-// use App\Models\ProductOption;
-// use App\Models\ProductOptionValue;
 use App\Models\RestaurantTable;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-//use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // 1. Users
-        $defaultAdmin = User::firstOrCreate(
-            ['email' => 'admin@toonburger.com'],
+        $defaultAdmin = User::updateOrCreate(
+            ['username' => 'admin'],
             [
-                'name' => 'Administrator',
-                'username' => 'admin',
-                'phone_number' => '081234567890',
+                'name' => 'Toon Burger',
+                'email' => 'Toonburger@gmail.com',
+                'phone_number' => '085780153872',
                 'role' => 'admin',
-                'address' => 'Jl. Boulevard Utama No. 1, Banjarbaru',
+                'address' => 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714',
                 'password' => Hash::make('Password123'),
             ]
         );
 
-        $admin = User::firstOrCreate(
-            ['email' => 'hugo@toonburger.com'],
+        $admin = User::updateOrCreate(
+            ['username' => 'hugo'],
             [
                 'name' => 'Hugo Putra',
-                'username' => 'hugo',
+                'email' => 'hugo@toonburger.com',
                 'phone_number' => '081345956487',
                 'role' => 'admin',
-                'address' => 'Jl. Boulevard Utama No. 1, Banjarbaru',
+                'address' => 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714',
                 'password' => Hash::make('Password123'),
             ]
         );
 
-        $staff = User::firstOrCreate(
-            ['email' => 'kasir@toonburger.com'],
+        $staff = User::updateOrCreate(
+            ['username' => 'kasir_utama'],
             [
                 'name' => 'Kasir Toon Burger',
-                'username' => 'kasir_utama',
+                'email' => 'kasir@toonburger.com',
                 'phone_number' => '081298765432',
                 'role' => 'staff',
                 'address' => 'Outlet Toon Burger Banjarbaru',
@@ -62,11 +53,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $customer = User::firstOrCreate(
-            ['email' => 'customer@gmail.com'],
+        $customer = User::updateOrCreate(
+            ['username' => 'budisantoso'],
             [
                 'name' => 'Budi Santoso',
-                'username' => 'budisantoso',
+                'email' => 'customer@gmail.com',
                 'phone_number' => '081377889900',
                 'role' => 'customer',
                 'address' => 'Jl. Mawar Indah No. 12, Banjarmasin',
@@ -74,11 +65,9 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Restaurant Tables
-        $tables = [];
         for ($i = 1; $i <= 10; $i++) {
             $num = str_pad($i, 2, '0', STR_PAD_LEFT);
-            $tables[] = RestaurantTable::firstOrCreate(
+            RestaurantTable::firstOrCreate(
                 ['table_number' => "Meja $num"],
                 [
                     'capacity' => ($i % 3 === 0) ? 6 : (($i % 2 === 0) ? 4 : 2),
@@ -88,7 +77,6 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // 3. Coupons
         Coupon::firstOrCreate(
             ['code' => 'WELCOMEBITE'],
             [
@@ -134,175 +122,141 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 4. Categories
-        $catBurgers = Category::firstOrCreate(
-            ['slug' => 'burgers'],
-            [
-                'name' => 'Signature Burgers',
-                'is_active' => true,
-                'sort_order' => 1,
-            ]
+        // 7 exact categories from Image 5 (Data Kategori)
+        \Illuminate\Support\Facades\DB::table('categories')->update([
+            'slug' => \Illuminate\Support\Facades\DB::raw("CONCAT('cat-tmp-', id)")
+        ]);
+        $categoriesData = [
+            ['id' => 1, 'slug' => 'cheese-burger', 'name' => 'Cheese Burger', 'sort_order' => 1],
+            ['id' => 2, 'slug' => 'beef-burger', 'name' => 'Beef Burger', 'sort_order' => 2],
+            ['id' => 3, 'slug' => 'chicken-burger', 'name' => 'Chicken Burger', 'sort_order' => 3],
+            ['id' => 4, 'slug' => 'chicken-wing', 'name' => 'Chicken Wing', 'sort_order' => 4],
+            ['id' => 5, 'slug' => 'hot-dog', 'name' => 'Hot Dog', 'sort_order' => 5],
+            ['id' => 6, 'slug' => 'snacks', 'name' => 'Snacks', 'sort_order' => 6],
+            ['id' => 7, 'slug' => 'minuman', 'name' => 'Minuman', 'sort_order' => 7],
+        ];
+
+        $catMap = [];
+        foreach ($categoriesData as $catItem) {
+            $catMap[$catItem['slug']] = Category::updateOrCreate(
+                ['id' => $catItem['id']],
+                [
+                    'slug' => $catItem['slug'],
+                    'name' => $catItem['name'],
+                    'is_active' => true,
+                    'sort_order' => $catItem['sort_order'],
+                ]
+            );
+        }
+        Category::where('id', '>', 7)->update(['is_active' => false]);
+        $archivedCat = Category::updateOrCreate(
+            ['id' => 8],
+            ['slug' => 'archived-menu', 'name' => 'Archived', 'is_active' => false, 'sort_order' => 99]
         );
 
-        $catCombos = Category::firstOrCreate(
-            ['slug' => 'combos'],
-            [
-                'name' => 'Rush Combos',
-                'is_active' => true,
-                'sort_order' => 2,
-            ]
-        );
-
-        $catChicken = Category::firstOrCreate(
-            ['slug' => 'chicken'],
-            [
-                'name' => 'Crispy Chicken',
-                'is_active' => true,
-                'sort_order' => 3,
-            ]
-        );
-
-        $catSides = Category::firstOrCreate(
-            ['slug' => 'sides'],
-            [
-                'name' => 'Sides & Snacks',
-                'is_active' => true,
-                'sort_order' => 4,
-            ]
-        );
-
-        $catDrinks = Category::firstOrCreate(
-            ['slug' => 'drinks'],
-            [
-                'name' => 'Drinks & Shakes',
-                'is_active' => true,
-                'sort_order' => 5,
-            ]
-        );
-
-        $catDesserts = Category::firstOrCreate(
-            ['slug' => 'desserts'],
-            [
-                'name' => 'Sweet Desserts',
-                'is_active' => true,
-                'sort_order' => 6,
-            ]
-        );
-
-        // 5. Products Matching Screenshot media_1792999772746.png
-        $catCheese = Category::firstOrCreate(['slug' => 'cheese-burger'], ['name' => 'Cheese Burger', 'is_active' => true, 'sort_order' => 1]);
-        $catChicken = Category::firstOrCreate(['slug' => 'chicken-burger'], ['name' => 'Chicken Burger', 'is_active' => true, 'sort_order' => 2]);
-        $catBeef = Category::firstOrCreate(['slug' => 'beef-burger'], ['name' => 'Beef Burger', 'is_active' => true, 'sort_order' => 3]);
-        $catHotdog = Category::firstOrCreate(['slug' => 'hotdog'], ['name' => 'Hotdog', 'is_active' => true, 'sort_order' => 4]);
-
+        // 9 exact products from Image 4 (Data Produk)
+        \Illuminate\Support\Facades\DB::table('products')->update([
+            'slug' => \Illuminate\Support\Facades\DB::raw("CONCAT('prod-tmp-', id)")
+        ]);
         $menuProducts = [
             [
                 'id' => 1,
-                'name' => 'Very Cheese Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 35000,
+                'name' => 'very Cheese Burger',
+                'category_id' => $catMap['cheese-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 33000,
+                'calories' => 300,
+                'is_available' => true,
                 'image' => 'images/products/very-cheese-burger.png',
                 'slug' => 'very-cheese-burger',
             ],
             [
                 'id' => 2,
-                'name' => 'Cheese Chicken Burger',
-                'category_id' => $catChicken->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 23000,
-                'image' => 'images/products/cheese-chicken-burger.png',
-                'slug' => 'cheese-chicken-burger',
-            ],
-            [
-                'id' => 3,
-                'name' => 'BBQ Beef Burger',
-                'category_id' => $catBeef->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 37000,
-                'image' => 'images/products/bbq-beef-burger.png',
-                'slug' => 'bbq-beef-burger',
-            ],
-            [
-                'id' => 4,
-                'name' => 'Double Cheese Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 33000,
-                'image' => 'images/products/double-cheese-burger.png',
-                'slug' => 'double-cheese-burger-1',
-            ],
-            [
-                'id' => 5,
-                'name' => 'Regular Cheese Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 25000,
-                'image' => 'images/products/regular-cheese-burger.png',
-                'slug' => 'regular-cheese-burger',
-            ],
-            [
-                'id' => 6,
                 'name' => 'Beef Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 23000,
+                'category_id' => $catMap['beef-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 29000,
+                'calories' => 320,
+                'is_available' => true,
                 'image' => 'images/products/beef-burger.png',
                 'slug' => 'beef-burger',
             ],
             [
-                'id' => 7,
-                'name' => 'Regular Chicken Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 35000,
-                'image' => 'images/products/regular-chicken-burger.png',
-                'slug' => 'regular-chicken-burger',
+                'id' => 3,
+                'name' => 'BBQ Burger',
+                'category_id' => $catMap['beef-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 29000,
+                'calories' => 280,
+                'is_available' => true,
+                'image' => 'images/products/bbq-beef-burger.png',
+                'slug' => 'bbq-burger',
             ],
             [
-                'id' => 8,
+                'id' => 4,
+                'name' => 'Double Cheese Burger',
+                'category_id' => $catMap['cheese-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 43000,
+                'calories' => 480,
+                'is_available' => true,
+                'image' => 'images/products/double-cheese-burger.png',
+                'slug' => 'double-cheese-burger',
+            ],
+            [
+                'id' => 5,
                 'name' => 'Hot Chicken Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'category_id' => $catMap['chicken-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
                 'price' => 33000,
+                'calories' => 450,
+                'is_available' => true,
                 'image' => 'images/products/hot-chicken-burger.png',
                 'slug' => 'hot-chicken-burger',
             ],
             [
-                'id' => 9,
+                'id' => 6,
+                'name' => 'Cheese Chicken Burger',
+                'category_id' => $catMap['chicken-burger']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 35000,
+                'calories' => 370,
+                'is_available' => true,
+                'image' => 'images/products/cheese-chicken-burger.png',
+                'slug' => 'cheese-chicken-burger',
+            ],
+            [
+                'id' => 7,
                 'name' => 'Classic Hotdog',
-                'category_id' => $catHotdog->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 20000,
+                'category_id' => $catMap['hot-dog']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 27500,
+                'calories' => 250,
+                'is_available' => false,
                 'image' => 'images/products/classic-hotdog.png',
                 'slug' => 'classic-hotdog',
             ],
             [
-                'id' => 10,
+                'id' => 8,
                 'name' => 'Meat Cheesy Hotdog',
-                'category_id' => $catHotdog->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
+                'category_id' => $catMap['hot-dog']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
                 'price' => 33000,
+                'calories' => 270,
+                'is_available' => false,
                 'image' => 'images/products/meat-cheesy-hotdog.png',
-                'slug' => 'meat-cheesy-hotdog',
+                'slug' => 'meat-cheesy-hotdog-1',
             ],
             [
-                'id' => 11,
-                'name' => 'Double Cheese Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 33000,
-                'image' => 'images/products/double-cheese-burger.png',
-                'slug' => 'double-cheese-burger-2',
-            ],
-            [
-                'id' => 12,
-                'name' => 'Double Cheese Burger',
-                'category_id' => $catCheese->id,
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 33000,
-                'image' => 'images/products/double-cheese-burger.png',
-                'slug' => 'double-cheese-burger-3',
+                'id' => 9,
+                'name' => 'Meat Cheesy Hotdog',
+                'category_id' => $catMap['hot-dog']->id,
+                'description' => 'Burger dengan patty daging yang juicy,',
+                'price' => 60000,
+                'calories' => 250,
+                'is_available' => false,
+                'image' => 'images/products/meat-cheesy-hotdog.png',
+                'slug' => 'meat-cheesy-hotdog-2',
             ],
         ];
 
@@ -317,9 +271,9 @@ class DatabaseSeeder extends Seeder
                     'price' => $data['price'],
                     'image' => $data['image'],
                     'slug' => $data['slug'],
-                    'is_available' => true,
+                    'is_available' => $data['is_available'],
                     'is_featured' => ($data['id'] <= 4),
-                    'calories' => 550,
+                    'calories' => $data['calories'],
                     'prep_time_minutes' => 10,
                 ]
             );
@@ -327,80 +281,168 @@ class DatabaseSeeder extends Seeder
                 $p1 = $p;
             }
         }
+        Product::where('id', '>', 9)->update(['category_id' => $archivedCat->id]);
 
-        // 6. Sample Completed Order & Payment
-        $order = Order::firstOrCreate(
-            ['order_number' => 'TB-20260820-0001'],
+        // 12 Orders matching Image 3 (Proses pesanan):
+        // Counts: Semua (12), Menunggu (2), Dimasak (5), Siap Saji (3), Selesai (2)
+        \Illuminate\Support\Facades\DB::table('orders')->update([
+            'order_number' => \Illuminate\Support\Facades\DB::raw("CONCAT('ORD-TMP-', id)")
+        ]);
+        $ordersData = [
             [
-                'user_id' => $customer->id,
-                'restaurant_table_id' => null,
-                'order_type' => 'takeaway',
+                'order_number' => 'TB-20260917-00012',
+                'customer_name' => 'Hugo Putra',
+                'status' => 'pending',
+                'total_amount' => 125000,
+                'notes' => '3 Menit yang lalu',
+                'mins_ago' => 3,
+            ],
+            [
+                'order_number' => 'TB-20260917-00011',
+                'customer_name' => 'Adzriel Fathi',
+                'status' => 'pending',
+                'total_amount' => 125000,
+                'notes' => '5 Menit yang lalu',
+                'mins_ago' => 5,
+            ],
+            [
+                'order_number' => 'TB-20260917-00010',
+                'customer_name' => 'Cornelius Hugo',
+                'status' => 'preparing',
+                'total_amount' => 125000,
+                'notes' => '8 Menit yang lalu',
+                'mins_ago' => 8,
+            ],
+            [
+                'order_number' => 'TB-20260917-00009',
+                'customer_name' => 'Waiz Fadillah',
+                'status' => 'preparing',
+                'total_amount' => 125000,
+                'notes' => '10 Menit yang lalu',
+                'mins_ago' => 10,
+            ],
+            [
+                'order_number' => 'TB-20260917-00008',
+                'customer_name' => 'Rakha Azhar',
+                'status' => 'preparing',
+                'total_amount' => 125000,
+                'notes' => '11 menit yang lalu',
+                'mins_ago' => 11,
+            ],
+            [
+                'order_number' => 'TB-20260917-00007',
+                'customer_name' => 'Hugo Putra',
+                'status' => 'preparing',
+                'total_amount' => 125000,
+                'notes' => '25 menityang lalu',
+                'mins_ago' => 25,
+            ],
+            [
+                'order_number' => 'TB-20260917-00006',
+                'customer_name' => 'Rizki Prawira',
+                'status' => 'preparing',
+                'total_amount' => 87500,
+                'notes' => '30 Menit yang lalu',
+                'mins_ago' => 30,
+            ],
+            [
+                'order_number' => 'TB-20260917-00005',
+                'customer_name' => 'Hugo Putra',
+                'status' => 'ready',
+                'total_amount' => 60500,
+                'notes' => '35 Menit yang lalu',
+                'mins_ago' => 35,
+            ],
+            [
+                'order_number' => 'TB-20260917-00004',
+                'customer_name' => 'Budi Santoso',
+                'status' => 'ready',
+                'total_amount' => 125000,
+                'notes' => '40 Menit yang lalu',
+                'mins_ago' => 40,
+            ],
+            [
+                'order_number' => 'TB-20260917-00003',
+                'customer_name' => 'Nadia Putri',
+                'status' => 'ready',
+                'total_amount' => 125000,
+                'notes' => '45 Menit yang lalu',
+                'mins_ago' => 45,
+            ],
+            [
+                'order_number' => 'TB-20260917-00002',
+                'customer_name' => 'Adzriel Fathi',
                 'status' => 'completed',
-                'payment_status' => 'paid',
-                'payment_method' => 'qris',
-                'subtotal' => 87000,
-                'tax_amount' => 8700,
-                'discount_amount' => 15000,
-                'total_amount' => 80700,
-                'notes' => 'Tolong saus sambal diperbanyak ya.',
-                'customer_name' => $customer->name,
-                'customer_phone' => $customer->phone_number,
-            ]
-        );
-
-        $item1 = OrderItem::firstOrCreate(
-            ['order_id' => $order->id, 'product_id' => $p1->id],
+                'total_amount' => 66000,
+                'notes' => '50 Menit yang lalu',
+                'mins_ago' => 50,
+            ],
             [
-                'product_name' => $p1->name,
-                'price' => 55000,
-                'quantity' => 1,
-                'subtotal' => 55000,
-                'notes' => 'Brioche bun agak garing',
-            ]
-        );
+                'order_number' => 'TB-20260917-00001',
+                'customer_name' => 'Dimas Pratama',
+                'status' => 'completed',
+                'total_amount' => 125000,
+                'notes' => '55 Menit yang lalu',
+                'mins_ago' => 55,
+            ],
+        ];
 
-        // OrderItemOption::firstOrCreate(
-        //     ['order_item_id' => $item1->id, 'option_name' => 'Pilihan Patty'],
-        //     ['option_value_name' => 'Double Patty (Standard)', 'additional_price' => 0]
-        // );
-        // OrderItemOption::firstOrCreate(
-        //     ['order_item_id' => $item1->id, 'option_name' => 'Ekstra Topping'],
-        //     ['option_value_name' => 'Extra Melted Cheddar', 'additional_price' => 6000]
-        // );
+        foreach ($ordersData as $idx => $ordInfo) {
+            $order = Order::updateOrCreate(
+                ['id' => $idx + 1],
+                [
+                    'order_number' => $ordInfo['order_number'],
+                    'user_id' => $customer->id,
+                    'restaurant_table_id' => null,
+                    'order_type' => 'takeaway',
+                    'status' => $ordInfo['status'],
+                    'payment_status' => 'paid',
+                    'payment_method' => 'qris',
+                    'subtotal' => 114000,
+                    'tax_amount' => 11000,
+                    'discount_amount' => 0,
+                    'total_amount' => $ordInfo['total_amount'],
+                    'notes' => $ordInfo['notes'],
+                    'customer_name' => $ordInfo['customer_name'],
+                    'customer_phone' => '085780153872',
+                    'created_at' => now()->subMinutes($ordInfo['mins_ago']),
+                    'updated_at' => now()->subMinutes($ordInfo['mins_ago']),
+                ]
+            );
 
-        $item2 = OrderItem::firstOrCreate(
-            ['order_id' => $order->id, 'product_name' => 'Loaded Cheese & Bacon Fries'],
-            [
-                'product_id' => null,
-                'price' => 32000,
-                'quantity' => 1,
-                'subtotal' => 32000,
-                'notes' => null,
-            ]
-        );
+            $existingItems = OrderItem::where('order_id', $order->id)->orderBy('id')->get();
+            for ($k = 0; $k < 3; $k++) {
+                if (isset($existingItems[$k])) {
+                    $existingItems[$k]->update([
+                        'product_id' => $p1->id,
+                        'product_name' => 'Very cheese Burger',
+                        'price' => 38000,
+                        'quantity' => 1,
+                        'subtotal' => 38000,
+                    ]);
+                } else {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $p1->id,
+                        'product_name' => 'Very cheese Burger',
+                        'price' => 38000,
+                        'quantity' => 1,
+                        'subtotal' => 38000,
+                    ]);
+                }
+            }
+        }
 
-        // Payment::firstOrCreate(
-        //     ['order_id' => $order->id],
-        //     [
-        //         'transaction_code' => 'TRX-' . strtoupper(Str::random(10)),
-        //         'payment_method' => 'qris',
-        //         'amount' => 80700,
-        //         'status' => 'success',
-        //         'payment_details' => [
-        //             'provider' => 'QRIS GoPay / BCA',
-        //             'reference_id' => 'QRIS-' . time(),
-        //         ],
-        //         'paid_at' => now()->subMinutes(30),
-        //     ]
-        // );
-
-        Review::firstOrCreate(
-            ['user_id' => $customer->id, 'product_id' => $p1->id],
-            [
-                'order_id' => $order->id,
-                'rating' => 5,
-                'comment' => 'Burger paling juicy dan enak! Keju dan sausnya mantap banget!',
-            ]
-        );
+        $firstOrder = Order::first();
+        if ($firstOrder && $p1) {
+            Review::firstOrCreate(
+                ['user_id' => $customer->id, 'product_id' => $p1->id],
+                [
+                    'order_id' => $firstOrder->id,
+                    'rating' => 5,
+                    'comment' => 'Burger paling juicy dan enak! Keju dan sausnya mantap banget!',
+                ]
+            );
+        }
     }
 }

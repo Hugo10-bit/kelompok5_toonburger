@@ -1,54 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Kontak & Live Location Outlet - Toon Burger Banjarbaru')
+@section('title', 'Kontak - Toon Burger')
 
 @section('content')
-<!-- Leaflet CSS & JS for Live Interactive Map -->
+<!-- Leaflet CSS & JS for Interactive Map -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <style>
-    /* Radar pulse animations for Live Pin */
-    .radar-pulse-ring {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-color: rgba(222, 59, 40, 0.35);
-        animation: radarPulse 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        pointer-events: none;
-    }
-    .radar-pulse-ring-outer {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        background-color: rgba(245, 158, 11, 0.2);
-        animation: radarPulse 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite 0.6s;
-        pointer-events: none;
-    }
-    @keyframes radarPulse {
-        0% {
-            transform: translate(-50%, -50%) scale(0.3);
-            opacity: 1;
-        }
-        80% {
-            transform: translate(-50%, -50%) scale(1.4);
-            opacity: 0;
-        }
-        100% {
-            transform: translate(-50%, -50%) scale(1.5);
-            opacity: 0;
-        }
-    }
     .leaflet-popup-content-wrapper {
-        border-radius: 20px !important;
+        border-radius: 16px !important;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
         padding: 4px !important;
         border: 1px solid #EFE5D0 !important;
@@ -59,500 +20,417 @@
     .leaflet-container {
         font-family: 'Poppins', sans-serif !important;
     }
+    /* Match bottom-right zoom buttons to mockup */
+    .leaflet-bottom.leaflet-right .leaflet-control-zoom {
+        border: 1px solid #E5E7EB !important;
+        border-radius: 8px !important;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        margin-right: 16px !important;
+        margin-bottom: 16px !important;
+    }
+    .leaflet-bottom.leaflet-right .leaflet-control-zoom a {
+        width: 32px !important;
+        height: 32px !important;
+        line-height: 30px !important;
+        font-size: 16px !important;
+        color: #4B5563 !important;
+        background-color: #FFFFFF !important;
+    }
+    .leaflet-bottom.leaflet-right .leaflet-control-zoom a:hover {
+        background-color: #F9FAFB !important;
+        color: #111827 !important;
+    }
+    .leaflet-control-attribution {
+        display: none !important;
+    }
+    .contact-fine-grid-bg {
+        background-color: #FAF4E4;
+        background-image:
+            linear-gradient(to right, rgba(180, 166, 136, 0.16) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(180, 166, 136, 0.16) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
 </style>
 
-<div class="space-y-12 lg:space-y-16 pb-16">
+<div>
 
     <!-- ═══════════════════════════════════════════════
-         1. HERO HEADER (OUTLET BANJARBARU) — Full Size Edge-to-Edge
+         1. TOP MAP SECTION ON 3D PERSPECTIVE GRID
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
-        <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-32 sm:pt-36 lg:pt-40 pb-14 sm:pb-18"
-                 style="background-color: #3b6e64; min-height: 520px;">
+    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[108px] sm:pt-[122px] pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
+             style="background-color: #FAF3E3;">
 
-                <!-- Partikel Bintang Komik Asli -->
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 h-auto"
-                     style="top: 25%; left: 6%; animation-delay: 0s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="bottom: 25%; left: 42%; animation-delay: 0.7s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="top: 22%; right: 12%; animation-delay: 1.4s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 h-auto"
-                     style="bottom: 20%; right: 30%; animation-delay: 2.1s;">
+        <!-- 3D Perspective Grid Background SVG -->
+        <div class="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
+            <svg class="w-full h-full" viewBox="0 0 1440 700" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#DFD5C0" stroke-width="1">
+                    <!-- Horizontal perspective lines (getting progressively wider toward bottom) -->
+                    <line x1="0" y1="20" x2="1440" y2="20" />
+                    <line x1="0" y1="45" x2="1440" y2="45" />
+                    <line x1="0" y1="75" x2="1440" y2="75" />
+                    <line x1="0" y1="110" x2="1440" y2="110" />
+                    <line x1="0" y1="150" x2="1440" y2="150" />
+                    <line x1="0" y1="196" x2="1440" y2="196" />
+                    <line x1="0" y1="248" x2="1440" y2="248" />
+                    <line x1="0" y1="308" x2="1440" y2="308" />
+                    <line x1="0" y1="376" x2="1440" y2="376" />
+                    <line x1="0" y1="452" x2="1440" y2="452" />
+                    <line x1="0" y1="536" x2="1440" y2="536" />
+                    <line x1="0" y1="628" x2="1440" y2="628" />
 
-                <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 pt-4">
-                    <div class="max-w-3xl space-y-5 text-left toon-reveal">
-                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
-                            style="font-family: 'Nunito', 'Arial Black', sans-serif;">
-                            Kunjungi Outlet &amp; <br class="hidden sm:inline">
-                            <span class="text-yellow-300">Live Location</span> Banjarbaru
+                    <!-- Radiating perspective lines from top center vanishing point -->
+                    <line x1="720" y1="-220" x2="-700" y2="700" />
+                    <line x1="720" y1="-220" x2="-480" y2="700" />
+                    <line x1="720" y1="-220" x2="-280" y2="700" />
+                    <line x1="720" y1="-220" x2="-90" y2="700" />
+                    <line x1="720" y1="-220" x2="80" y2="700" />
+                    <line x1="720" y1="-220" x2="230" y2="700" />
+                    <line x1="720" y1="-220" x2="365" y2="700" />
+                    <line x1="720" y1="-220" x2="490" y2="700" />
+                    <line x1="720" y1="-220" x2="608" y2="700" />
+                    <line x1="720" y1="-220" x2="720" y2="700" />
+                    <line x1="720" y1="-220" x2="832" y2="700" />
+                    <line x1="720" y1="-220" x2="950" y2="700" />
+                    <line x1="720" y1="-220" x2="1075" y2="700" />
+                    <line x1="720" y1="-220" x2="1210" y2="700" />
+                    <line x1="720" y1="-220" x2="1360" y2="700" />
+                    <line x1="720" y1="-220" x2="1530" y2="700" />
+                    <line x1="720" y1="-220" x2="1720" y2="700" />
+                    <line x1="720" y1="-220" x2="1920" y2="700" />
+                    <line x1="720" y1="-220" x2="2140" y2="700" />
+                </g>
+            </svg>
+        </div>
+
+        <!-- Map Card -->
+        <div class="relative z-10 max-w-6xl mx-auto">
+            <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#8F9693] p-5 sm:p-8">
+
+                <!-- Header Row -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-xl sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
+                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            TEMUKAN LOKASI OUTLET KAMI!
                         </h1>
-
-                        <p class="text-sm sm:text-base text-white/85 leading-relaxed font-normal max-w-2xl">
-                            Beralamat di <strong>Loktabat Utara, Banjarbaru Utara</strong>. Pantau radar outlet secara real-time dan kalkulasikan jarak tempuh GPS langsung dari perangkat Anda.
+                        <p class="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1">
+                            Kami hadir lebih dekat dengan Anda. Mampir dan nikmati pengalaman<br class="hidden sm:inline">
+                            terbaik bersama kami!
                         </p>
-
                     </div>
-                </div>
 
-                <!-- Checkered Bottom Border -->
-                <div class="absolute bottom-0 left-0 w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
+                    <!-- Right Controls -->
+                    <div class="flex flex-wrap items-center gap-2.5 self-start md:self-center">
+                        <!-- Segmented Toggle: Peta Jalan / Satelit Google -->
+                        <div class="bg-[#EBEBEB] p-1 rounded-lg inline-flex items-center border border-gray-200/80">
+                            <button type="button"
+                                    id="btn-view-leaflet"
+                                    onclick="switchMapView('roadmap')"
+                                    class="bg-white text-gray-800 shadow-2xs rounded-md px-3.5 py-1.5 text-[11px] sm:text-xs font-medium transition cursor-pointer">
+                                Peta Jalan
+                            </button>
+                            <button type="button"
+                                    id="btn-view-google"
+                                    onclick="switchMapView('satellite')"
+                                    class="bg-transparent text-gray-500 hover:text-gray-700 rounded-md px-3.5 py-1.5 text-[11px] sm:text-xs font-medium transition cursor-pointer">
+                                Satelit Google
+                            </button>
+                        </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         2. 3 INFO HIGHLIGHT CARDS (BANJARBARU)
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- Address Card -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-2xs">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        </div>
-                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
-                            Plus Code
-                        </span>
-                    </div>
-                    <h3 class="font-extrabold text-base text-gray-900">Alamat Outlet Utama</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed font-medium">
-                        HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan, Indonesia.
-                    </p>
-                    <div class="pt-1 flex flex-wrap gap-1.5 text-[11px] font-semibold text-gray-500">
-                        <span class="bg-stone-100 px-2 py-0.5 rounded-md">WiFi Gratis</span>
-                        <span class="bg-stone-100 px-2 py-0.5 rounded-md">Area Tunggu Nyaman</span>
-                        <span class="bg-stone-100 px-2 py-0.5 rounded-md">Parkir Luas</span>
-                        <span class="bg-stone-100 px-2 py-0.5 rounded-md">Quick Pick-up</span>
-                    </div>
-                </div>
-                <button type="button" onclick="copyAddressToClipboard()" class="toon-btn-bounce text-xs text-amber-700 font-extrabold hover:text-amber-800 bg-amber-50 hover:bg-amber-100/80 py-2.5 px-3 rounded-xl transition text-center flex items-center justify-center gap-1.5 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                    <span>Salin Alamat Lengkap</span>
-                </button>
-            </div>
-
-            <!-- Hours Card -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-2xs">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <span id="store-live-badge" class="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span>Buka Sekarang</span>
-                        </span>
-                    </div>
-                    <h3 class="font-extrabold text-base text-gray-900">Jam Operasional (WITA)</h3>
-                    <div class="text-xs text-gray-600 space-y-1.5 leading-relaxed">
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
-                            <span class="font-medium text-gray-700">Senin:</span>
-                            <span class="font-black text-rose-600 bg-rose-50 border border-rose-200/80 px-2 py-0.5 rounded text-[11px] font-mono">LIBUR / TUTUP</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
-                            <span class="font-medium text-gray-700">Selasa - Jumat:</span>
-                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:00 WITA</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
-                            <span class="font-medium text-gray-700">Sabtu:</span>
-                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:30 WITA</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b border-gray-100 pb-1">
-                            <span class="font-medium text-gray-700">Minggu:</span>
-                            <span class="font-bold text-gray-900 font-mono">17:00 - 22:00 WITA</span>
-                        </div>
-                    </div>
-                    <p class="text-[11px] text-amber-800 font-semibold bg-amber-50/80 p-2 rounded-xl">
-                        Khusus Takeaway (Bawa Pulang) &amp; Pesan Antar Online. Tidak melayani Dine-in (makan di tempat).
-                    </p>
-                </div>
-                <div class="text-xs font-bold text-toon-granite bg-teal-50/80 py-2.5 px-3 rounded-xl text-center border border-teal-100">
-                    🍔 Buka Selasa – Minggu • Mulai Pukul 17:00 WITA (Senin Libur)
-                </div>
-            </div>
-
-            <!-- WhatsApp & Direct Chat -->
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs flex flex-col justify-between space-y-4 toon-tilt-card toon-reveal">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-2xs">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        </div>
-                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
-                            Layanan Outlet
-                        </span>
-                    </div>
-                    <h3 class="font-extrabold text-base text-gray-900">WhatsApp &amp; Layanan Pelanggan</h3>
-                    <p class="text-xs text-gray-600 leading-relaxed font-medium">
-                        Hubungi admin outlet kami untuk konfirmasi pesanan takeaway jumlah banyak atau katering acara:
-                    </p>
-                    <div class="space-y-1 text-xs">
-                        <a href="https://wa.me/6281345956487" target="_blank" rel="noopener noreferrer" class="font-extrabold text-emerald-700 hover:text-emerald-800 text-sm font-mono transition flex items-center gap-1.5" id="wa-display-number">
-                            <span>+62 813-4595-6487</span>
+                        <!-- Google Maps External Button -->
+                        <a href="https://www.google.com/maps/search/?api=1&query=HR7F%2BP8M,+Loktabat+Utara,+Kec.+Banjarbaru+Utara,+Kota+Banjar+Baru,+Kalimantan+Selatan"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="bg-[#415C58] hover:bg-[#344B48] text-white text-[11px] sm:text-xs font-medium px-4 py-2 rounded-lg inline-flex items-center gap-1.5 transition cursor-pointer">
+                            <span>Google Maps</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                            </svg>
                         </a>
-                        <div class="text-gray-500 text-[11px]">Email: outlet.banjarbaru@toonburger.com</div>
                     </div>
                 </div>
-                <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="toon-btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black px-4 py-2.5 rounded-xl transition text-center shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
-                    <span>Chat WhatsApp Outlet</span>
-                </a>
-            </div>
 
+                <!-- Map Viewport -->
+                <div class="mt-5 relative w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
+                    <div id="live-leaflet-map" class="w-full h-full z-10"></div>
+                </div>
+
+            </div>
         </div>
     </section>
 
     <!-- ═══════════════════════════════════════════════
-         3. LIVE LOCATION INTERACTIVE MAP & RADAR TRACKING
+         2. FAQ & "LET'S GET IN TOUCH WITH US!" CLIPBOARD FORM
          ═══════════════════════════════════════════════ -->
-    <section id="live-map-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 toon-reveal">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-sm p-6 sm:p-10 space-y-6 overflow-hidden">
+    <section class="contact-fine-grid-bg py-14 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
 
-            <!-- Map Section Header -->
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-gray-100">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                        Live Location Outlet Toon Burger Banjarbaru
-                    </h2>
-                </div>
+            <!-- Left Column: FAQ Accordion -->
+            <div class="lg:col-span-6">
+                <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
+                    style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                    PERTANYAAN YANG<br>
+                    SERING DITANYAKAN
+                </h2>
+                <p class="text-xs sm:text-[13px] text-[#4A6B65]/85 mt-2.5 mb-7 leading-relaxed max-w-md">
+                    Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.
+                </p>
 
-                <!-- Map View Switcher Buttons -->
-                <div class="flex items-center gap-2">
-                    <button type="button" id="btn-view-leaflet" onclick="switchMapView('roadmap')" class="bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                        <span>Peta Jalan</span>
-                    </button>
-                    <button type="button" id="btn-view-google" onclick="switchMapView('satellite')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>
-                        <span>Satelit Google</span>
-                    </button>
-                    <a href="https://www.google.com/maps/search/?api=1&query=HR7F%2BP8M,+Loktabat+Utara,+Kec.+Banjarbaru+Utara,+Kota+Banjar+Baru,+Kalimantan+Selatan" target="_blank" class="bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-extrabold px-4 py-2 rounded-xl transition flex items-center gap-1">
-                        <span>Buka di Google Maps</span>
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Map Viewports Container -->
-            <div class="relative w-full h-[460px] sm:h-[520px] rounded-3xl overflow-hidden border border-[#EFE5D0] shadow-inner bg-gray-100">
-
-                <!-- Leaflet Live Radar Map -->
-                <div id="live-leaflet-map" class="w-full h-full z-10"></div>
-
-                <!-- Google Maps Embed Iframe (Hidden by default) -->
-                <div id="google-maps-frame" class="w-full h-full hidden z-10">
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        frameborder="0"
-                        style="border:0;"
-                        src="https://maps.google.com/maps?q=-3.435747,114.823253&hl=id&z=17&output=embed"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- GPS Geolocation Distance Calculator Box -->
-            <div class="bg-gradient-to-br from-[#FAF1E1] to-[#F5EAD4] rounded-3xl p-6 sm:p-8 border border-[#EFE5D0] space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                        <h3 class="text-base sm:text-lg font-black text-gray-900 leading-tight flex items-center gap-2">
-                            <svg class="w-5 h-5 text-bites-red" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            <span>Cek Jarak &amp; Rute dari Lokasi Anda Saat Ini</span>
-                        </h3>
-                        <p class="text-xs text-gray-600 mt-1">
-                            Aktifkan GPS browser Anda untuk mengetahui jarak tempuh langsung dan estimasi waktu sampai ke Toon Burger.
-                        </p>
-                    </div>
-
-                    <button type="button" id="btn-detect-location" onclick="detectUserLocation()" class="bg-bites-red hover:bg-red-700 active:scale-95 text-white text-xs sm:text-sm font-extrabold px-6 py-3.5 rounded-2xl transition shadow-md flex items-center gap-2 shrink-0 self-start sm:self-auto">
-                        <svg class="w-4 h-4 animate-spin hidden" id="geo-spinner" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                        <span id="geo-btn-text">Deteksi Lokasi Saya &amp; Hitung Jarak</span>
-                    </button>
-                </div>
-
-                <!-- Dynamic Real-time HUD Result (Hidden until user calculates) -->
-                <div id="live-distance-result" class="hidden pt-4 border-t border-[#E6DEC8] animate-modal-pop">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-white rounded-2xl p-4 border border-[#EFE5D0] shadow-xs">
-                            <div class="text-[10px] font-bold text-gray-400 uppercase">Jarak Langsung GPS</div>
-                            <div class="text-xl font-black text-bites-red font-mono mt-0.5" id="hud-distance">-</div>
-                            <div class="text-[11px] text-gray-500 mt-0.5">Jarak garis lurus ke outlet</div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl p-4 border border-[#EFE5D0] shadow-xs">
-                            <div class="text-[10px] font-bold text-gray-400 uppercase">Estimasi Sepeda Motor</div>
-                            <div class="text-xl font-black text-gray-900 font-mono mt-0.5" id="hud-time-motor">-</div>
-                            <div class="text-[11px] text-emerald-600 font-semibold mt-0.5">Kecepatan rata-rata 35 km/h</div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl p-4 border border-[#EFE5D0] shadow-xs">
-                            <div class="text-[10px] font-bold text-gray-400 uppercase">Estimasi Mobil</div>
-                            <div class="text-xl font-black text-gray-900 font-mono mt-0.5" id="hud-time-car">-</div>
-                            <div class="text-[11px] text-gray-500 mt-0.5">Lalu lintas normal Banjarbaru</div>
-                        </div>
-
-                        <div class="bg-white rounded-2xl p-4 border border-[#EFE5D0] shadow-xs flex flex-col justify-between">
-                            <div>
-                                <div class="text-[10px] font-bold text-gray-400 uppercase">Status Pengiriman</div>
-                                <div class="text-xs font-black text-emerald-700 mt-0.5" id="hud-delivery-status">Tercakup Pengiriman!</div>
-                            </div>
-                            <a id="hud-nav-link" href="https://www.google.com/maps/dir/?api=1&destination=-3.436224,114.838423" target="_blank" class="mt-2 inline-flex items-center justify-center gap-1.5 bg-gray-900 hover:bg-black text-white text-[11px] font-bold py-2 px-3 rounded-xl transition shadow-xs active:scale-95">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                                <span>Buka Rute GPS</span>
-                                <span>&rarr;</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         4. INTERACTIVE FORM & FAQ
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
-
-                <!-- Left: FAQ Accordion -->
-                <div class="lg:col-span-5 space-y-6">
-                    <div>
-                        <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                            Frequently Asked Questions
-                        </h2>
-                        <p class="text-xs text-gray-500 mt-1">Pertanyaan umum seputar pemesanan dan outlet di Loktabat Utara, Banjarbaru.</p>
-                    </div>
-
-                    <!-- FAQ List -->
-                    <div class="space-y-3">
-                        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200/80 text-xs space-y-1">
-                            <div class="font-extrabold text-amber-950">Apakah Toon Burger menyediakan fasilitas makan di tempat (Dine-in)?</div>
-                            <p class="text-amber-900 leading-relaxed font-medium">
-                                <strong>Tidak.</strong> Outlet Toon Burger Banjarbaru beroperasi dengan format <strong>Quick Takeaway Hub &amp; Cloud Kitchen</strong>. Kami khusus melayani pesanan <strong>Takeaway (Bungkus Bawa Pulang)</strong> dan <strong>Delivery Online</strong>. Kami tidak menyediakan meja/kursi makan di tempat.
-                            </p>
-                        </div>
-
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200/70 text-xs space-y-1">
-                            <div class="font-extrabold text-gray-900">Di mana patokan lokasi Toon Burger Banjarbaru?</div>
-                            <p class="text-gray-500 leading-relaxed">
-                                Kami berada di area Loktabat Utara, Kecamatan Banjarbaru Utara (Plus Code: <strong>HR7F+P8M</strong>), dengan akses jalan yang mudah dijangkau dari pusat kota Banjarbaru dan Martapura.
-                            </p>
-                        </div>
-
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200/70 text-xs space-y-1">
-                            <div class="font-extrabold text-gray-900">Apakah tersedia layanan pesan antar (Delivery)?</div>
-                            <p class="text-gray-500 leading-relaxed">
-                                Ya! Kami melayani delivery di seluruh wilayah Banjarbaru, Martapura, dan sekitarnya. Anda bisa pesan langsung melalui website ini atau WhatsApp.
-                            </p>
-                        </div>
-
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200/70 text-xs space-y-1">
-                            <div class="font-extrabold text-gray-900">Apakah semua menu 100% Halal?</div>
-                            <p class="text-gray-500 leading-relaxed">
-                                Ya, 100% Halal bersertifikat. Semua daging sapi, ayam, roti brioche, hingga keju dan saus kami terjamin halal dan higienis.
-                            </p>
-                        </div>
-
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-200/70 text-xs space-y-1">
-                            <div class="font-extrabold text-gray-900">Bisa pesan untuk katering atau acara rombongan?</div>
-                            <p class="text-gray-500 leading-relaxed">
-                                Tentu bisa! Silakan isi formulir di samping atau hubungi WhatsApp kami H-2 untuk penawaran menu takeaway katering kantor, ulang tahun, atau acara komunitas.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Inquiry / Takeaway Order Form -->
-                <div class="lg:col-span-7 bg-[#FAF1E1]/40 p-6 sm:p-8 rounded-3xl border border-[#EFE5D0]">
-                    <h3 class="text-xl font-black text-gray-900 mb-1">Formulir Pesan Takeaway / Katering</h3>
-                    <p class="text-xs text-gray-500 mb-6">Lengkapi data Anda, tim Toon Burger Banjarbaru akan segera merespons via WhatsApp.</p>
-
-                    <form onsubmit="handleContactSubmit(event)" class="space-y-4 text-xs font-semibold">
-                        <div>
-                            <label class="block text-gray-700 mb-1">Nama Lengkap *</label>
-                            <input type="text" id="contact-name" required placeholder="Contoh: Muhammad Rizky"
-                                   class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-gray-700 mb-1">Alamat Email *</label>
-                                <input type="email" id="contact-email" required placeholder="rizky@email.com"
-                                       class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 mb-1">Nomor WhatsApp *</label>
-                                <input type="tel" id="contact-phone" required placeholder="0813-4595-6487"
-                                       class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-700 mb-1">Kategori Keperluan</label>
-                            <select id="contact-category" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-2.5 text-xs text-gray-900 focus:border-bites-orange outline-none transition">
-                                <option value="Pesanan Takeaway Cepat">Pesanan Takeaway Cepat (Ambil di Outlet)</option>
-                                <option value="Pesanan Katering / Acara">Pesanan Katering Kantor / Acara</option>
-                                <option value="Pertanyaan Menu & Pengiriman">Pertanyaan Menu &amp; Ongkir Pengiriman</option>
-                                <option value="Kerjasama & Masukan">Kerjasama / Masukan</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-700 mb-1">Isi Pesan / Detail Pesanan *</label>
-                            <textarea id="contact-message" rows="4" required placeholder="Tuliskan menu yang ingin dipesan, jam perkiraan pengambilan takeaway di outlet, atau detail acara..."
-                                      class="w-full bg-white border border-gray-300 rounded-xl p-3 text-xs text-gray-900 focus:border-bites-orange focus:ring-2 focus:ring-bites-orange/20 outline-none transition"></textarea>
-                        </div>
-
-                        <button type="submit" class="w-full bg-gray-900 hover:bg-black text-white font-black text-xs sm:text-sm py-3.5 rounded-xl transition shadow-md active:scale-95 flex items-center justify-center gap-2">
-                            <span>Kirim Formulir Sekarang</span>
-                            <span>&rarr;</span>
+                <div class="space-y-3.5" id="faq-accordion-list">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                        <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
+                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                                Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
+                            </span>
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
                         </button>
-                    </form>
-                </div>
+                        <div class="faq-body hidden">
+                            <div class="border-t border-gray-200 mx-5"></div>
+                            <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
+                                Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.
+                            </p>
+                        </div>
+                    </div>
 
+                    <!-- FAQ 2 -->
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                        <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
+                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                                Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?
+                            </span>
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="faq-body hidden">
+                            <div class="border-t border-gray-200 mx-5"></div>
+                            <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
+                                Tentu bisa! Saat memilih menu di halaman katalog, Anda dapat menyesuaikan tambahan topping seperti ekstra keju atau menuliskan catatan khusus untuk koki sebelum memasukkan menu ke keranjang.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 (Expanded by default as in reference mockup) -->
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                        <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
+                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                                Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
+                            </span>
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="faq-body">
+                            <div class="border-t border-gray-200 mx-5"></div>
+                            <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
+                                Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                        <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
+                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                                Apakah Toon Burger melayani pesan antar langsung lewat website ini?
+                            </span>
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="faq-body hidden">
+                            <div class="border-t border-gray-200 mx-5"></div>
+                            <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
+                                Ya! Kami melayani pesan antar langsung melalui website ini untuk area Banjarbaru dan sekitarnya, maupun pemesanan untuk diambil sendiri di outlet (Takeaway).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                        <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
+                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                                Bisakah saya Bagaimana jika saya terlambat mengambil pesanan di outlet? mengubah atau membatalkan pesanan yang sudah dibayar?
+                            </span>
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="faq-body hidden">
+                            <div class="border-t border-gray-200 mx-5"></div>
+                            <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
+                                Pesanan Anda akan kami jaga tetap hangat menggunakan kemasan khusus. Apabila Anda mengalami kendala di perjalanan, silakan konfirmasi melalui WhatsApp agar tim outlet kami dapat membantu menyimpan pesanan Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Right Column: Clipboard Contact Card -->
+            <div class="lg:col-span-6 pt-5 sm:pt-6">
+                <div class="relative mx-auto w-full">
+
+                    <!-- Top Tan Clipboard Clip Illustration -->
+                    <div class="absolute -top-7 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center select-none pointer-events-none">
+                        <!-- Top loop with hole -->
+                        <div class="w-7 h-5 rounded-t-full bg-[#E5C697] border border-[#C5A472] flex items-center justify-center -mb-1 shadow-2xs">
+                            <div class="w-2.5 h-2.5 rounded-full bg-[#FAF4E4] border border-[#C5A472]"></div>
+                        </div>
+                        <!-- Middle clip tier -->
+                        <div class="w-16 h-3.5 rounded-t-md bg-[#E8CBA0] border border-[#C5A472] z-10"></div>
+                        <!-- Bottom clip base -->
+                        <div class="w-20 h-3 rounded-xs bg-[#DFBE8F] border-x border-b border-[#C5A472] shadow-xs z-10"></div>
+                    </div>
+
+                    <!-- White Card Body -->
+                    <div class="bg-white rounded-t-[26px] pt-10 sm:pt-12 px-6 sm:px-10 pb-8 border-x border-t border-gray-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
+                        <h2 class="text-2xl sm:text-3xl lg:text-[32px] text-[#27443E] uppercase leading-[1.15] tracking-wide"
+                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            LET'S GET IN TOUCH<br>
+                            WITH US!
+                        </h2>
+
+                        <!-- Dashed Divider -->
+                        <div class="border-b border-dashed border-gray-300 my-5"></div>
+
+                        <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                            <div>
+                                <label for="contact-name" class="block text-xs font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
+                                <input type="text"
+                                       id="contact-name"
+                                       required
+                                       placeholder="Nama Lengkap Anda"
+                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                            </div>
+
+                            <div>
+                                <label for="contact-email" class="block text-xs font-bold text-gray-800 mb-1.5">Email</label>
+                                <input type="email"
+                                       id="contact-email"
+                                       required
+                                       placeholder="emailanda@domain.com"
+                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                            </div>
+
+                            <div>
+                                <label for="contact-phone" class="block text-xs font-bold text-gray-800 mb-1.5">Nomor Telepon</label>
+                                <input type="tel"
+                                       id="contact-phone"
+                                       required
+                                       placeholder="08xxxxxxxxxx"
+                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                            </div>
+
+                            <div>
+                                <label for="contact-message" class="block text-xs font-bold text-gray-800 mb-1.5">Pesan</label>
+                                <textarea id="contact-message"
+                                          rows="4"
+                                          required
+                                          placeholder="Tulis Pesan Anda Disini..."
+                                          class="w-full bg-white border border-gray-300 rounded-lg p-3.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition resize-none"></textarea>
+                            </div>
+
+                            <div class="pt-1">
+                                <button type="submit"
+                                        class="w-full bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium text-xs sm:text-[13px] py-3 rounded-lg transition flex items-center justify-center gap-2 cursor-pointer">
+                                    <span>Kirim Pesan</span>
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Bottom Scalloped / Wavy Paper Edge -->
+                    <div class="w-full overflow-hidden leading-none -mt-[1px] relative z-10 select-none pointer-events-none drop-shadow-[0_4px_4px_rgba(0,0,0,0.06)]">
+                        <svg class="w-full h-5 sm:h-6 block" viewBox="0 0 600 28" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 0,0 L 600,0 L 600,8
+                                     C 587.5,8 587.5,24 575,24 C 562.5,24 562.5,8 550,8
+                                     C 537.5,8 537.5,24 525,24 C 512.5,24 512.5,8 500,8
+                                     C 487.5,8 487.5,24 475,24 C 462.5,24 462.5,8 450,8
+                                     C 437.5,8 437.5,24 425,24 C 412.5,24 412.5,8 400,8
+                                     C 387.5,8 387.5,24 375,24 C 362.5,24 362.5,8 350,8
+                                     C 337.5,8 337.5,24 325,24 C 312.5,24 312.5,8 300,8
+                                     C 287.5,8 287.5,24 275,24 C 262.5,24 262.5,8 250,8
+                                     C 237.5,8 237.5,24 225,24 C 212.5,24 212.5,8 200,8
+                                     C 187.5,8 187.5,24 175,24 C 162.5,24 162.5,8 150,8
+                                     C 137.5,8 137.5,24 125,24 C 112.5,24 112.5,8 100,8
+                                     C 87.5,8 87.5,24 75,24 C 62.5,24 62.5,8 50,8
+                                     C 37.5,8 37.5,24 25,24 C 12.5,24 12.5,8 0,8 Z"
+                                  fill="#FFFFFF"
+                                  stroke="#E5E7EB"
+                                  stroke-width="1"/>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </section>
 
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     JAVASCRIPT: LIVE MAP & GEOLOCATION TRACKER
-     ═══════════════════════════════════════════════ -->
 <script>
-    // TOON BURGER BANJARBARU OUTLET COORDINATES
     const STORE_LAT = -3.435747;
     const STORE_LNG = 114.823253;
-    const STORE_ADDRESS = "HR7F+P8M, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan, Indonesia";
 
     let map = null;
     let storeMarker = null;
-    let userMarker = null;
-    let routeLine = null;
     let currentTileLayer = null;
 
-    // Initialize Leaflet Live Map
     document.addEventListener("DOMContentLoaded", function () {
         initLiveMap();
-        checkStoreOperatingHours();
     });
 
     function initLiveMap() {
         const container = document.getElementById('live-leaflet-map');
         if (!container || typeof L === 'undefined') return;
 
-        // Create Map instance centered on Toon Burger Banjarbaru
         map = L.map('live-leaflet-map', {
             center: [STORE_LAT, STORE_LNG],
-            zoom: 16,
-            zoomControl: true,
-            scrollWheelZoom: false // Avoid accidental zoom when scrolling page
+            zoom: 17,
+            zoomControl: false,
+            scrollWheelZoom: false
         });
 
-        // Add Google Maps Clean Roadmap tiles (No Watermark, No API Key Required)
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
         currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
             maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            attribution: '&copy; Google Maps'
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
         }).addTo(map);
 
-        const recenterControl = L.control({ position: 'bottomright' });
-        recenterControl.onAdd = function () {
-            const button = L.DomUtil.create('button', 'bg-white hover:bg-gray-50 text-gray-800 text-xs font-bold px-3.5 py-2.5 rounded-2xl shadow-lg border border-gray-200/80 flex items-center gap-2 transition active:scale-95 min-h-[44px]');
-            button.type = 'button';
-            button.setAttribute('aria-label', 'Pusatkan peta ke outlet Toon Burger');
-            button.title = 'Pusatkan ke Outlet';
-            button.innerHTML = '<svg class="w-3.5 h-3.5 text-bites-red" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg><span>Pusatkan ke Outlet</span>';
-            L.DomEvent.disableClickPropagation(button);
-            L.DomEvent.on(button, 'click', centerStoreMap);
-            return button;
-        };
-        recenterControl.addTo(map);
-
-        // Custom HTML Animated Radar Icon for Outlet
+        // Google-Maps-style orange pin + TOON BURGER label matching mockup
         const storeIcon = L.divIcon({
-            className: 'custom-store-pin',
+            className: 'custom-toon-pin',
             html: `
-                <div class="relative" style="width: 50px; height: 50px;">
-                    <div class="radar-pulse-ring-outer"></div>
-                    <div class="radar-pulse-ring"></div>
-                    <div class="relative z-10 w-12 h-12 rounded-2xl bg-gradient-to-tr from-bites-red to-orange-500 text-white flex items-center justify-center shadow-2xl border-2 border-white transform hover:scale-110 transition duration-200">
-                        <svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5C3 6.358 6.358 3 10.5 3h3C17.642 3 21 6.358 21 10.5v.5H3v-.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 14h20M4 17h16M5 20h14"/></svg>
+                <div style="display: flex; align-items: center; gap: 6px; transform: translate(-16px, -36px); pointer-events: auto;">
+                    <div style="position: relative; width: 32px; height: 40px; flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.28));">
+                        <svg viewBox="0 0 32 42" width="32" height="40" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 1C7.716 1 1 7.716 1 16c0 10.2 15 24.5 15 24.5S31 26.2 31 16C31 7.716 24.284 1 16 1z" fill="#F26B1D" stroke="#FFFFFF" stroke-width="2"/>
+                            <!-- Fork & Spoon icon -->
+                            <path d="M12 10v5c0 .8.6 1.5 1.4 1.5v5.5h1.2v-5.5c.8 0 1.4-.7 1.4-1.5v-5h-1v4h-.6v-4h-.8v4h-.6v-4H12zm6.8 0c-1.2 0-2.2 1.2-2.2 2.7v3.3h1.4v6h1.3V10h-.5z" fill="#FFFFFF"/>
+                        </svg>
                     </div>
+                    <span style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; color: #E8601C; letter-spacing: 0.02em; white-space: nowrap; text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 0 2px 4px rgba(255,255,255,0.9);">
+                        TOON BURGER
+                    </span>
                 </div>
             `,
-            iconSize: [50, 50],
-            iconAnchor: [25, 25],
-            popupAnchor: [0, -28]
+            iconSize: [160, 42],
+            iconAnchor: [0, 0],
+            popupAnchor: [16, -34]
         });
 
-        // Add Store Marker
         storeMarker = L.marker([STORE_LAT, STORE_LNG], { icon: storeIcon }).addTo(map);
-
-        // Bind Store Info Popup
-        const popupContent = `
-            <div style="font-family: 'Poppins', sans-serif; min-width: 210px; padding: 4px;">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                    <div style="background: #DE3B28; color: white; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                        <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5C3 6.358 6.358 3 10.5 3h3C17.642 3 21 6.358 21 10.5v.5H3v-.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 14h20M4 17h16M5 20h14"/></svg>
-                    </div>
-                    <div>
-                        <div style="font-weight: 900; font-size: 13px; color: #1F2937; line-height: 1.2;">Toon Burger, Banjarbaru Utara Jln Berlian</div>
-                        <div style="font-size: 10px; color: #059669; font-weight: 700; display: flex; items-center; gap: 4px;">
-                            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #10B981; margin-top: 4px;"></span>
-                            <span>Buka 17:00 WITA (Khusus Takeaway &amp; Delivery)</span>
-                        </div>
-                    </div>
-                </div>
-                <div style="font-size: 11px; color: #4B5563; line-height: 1.4; margin-bottom: 8px;">
-                    Jl. Berlian, Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjarbaru (HR7F+P8M)
-                </div>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <a href="https://www.google.com/maps/dir/?api=1&destination=${STORE_LAT},${STORE_LNG}" target="_blank"
-                       style="background: #111827; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-block;">
-                        Petunjuk Arah &rarr;
-                    </a>
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                       style="background: #EE2737; color: white; text-decoration: none; font-size: 10px; font-weight: 800; padding: 5px 9px; border-radius: 8px; display: inline-flex; align-items: center; gap: 3px;">
-                        <span>GoFood 4.9 ★</span>
-                    </a>
-                    <button onclick="copyAddressToClipboard()"
-                            style="background: #F3F4F6; color: #374151; border: 1px solid #D1D5DB; font-size: 10px; font-weight: 700; padding: 5px 7px; border-radius: 8px; cursor: pointer;">
-                        Salin Alamat
-                    </button>
-                </div>
-            </div>
-        `;
-
-        storeMarker.bindPopup(popupContent, { autoPan: false }).openPopup();
     }
 
-    function centerStoreMap() {
-        if (!map || !storeMarker) return;
-        map.setView(storeMarker.getLatLng(), 16, { animate: true });
-        storeMarker.openPopup();
-    }
-
-    // Switch between Google Roadmap and Google Satellite Hybrid
     function switchMapView(viewType) {
         if (!map) return;
         const btnLeaflet = document.getElementById('btn-view-leaflet');
@@ -562,273 +440,61 @@
             map.removeLayer(currentTileLayer);
         }
 
-        if (viewType === 'google' || viewType === 'satellite') {
+        const activeClass = 'bg-white text-gray-800 shadow-2xs rounded-md px-3.5 py-1.5 text-[11px] sm:text-xs font-medium transition cursor-pointer';
+        const inactiveClass = 'bg-transparent text-gray-500 hover:text-gray-700 rounded-md px-3.5 py-1.5 text-[11px] sm:text-xs font-medium transition cursor-pointer';
+
+        if (viewType === 'satellite' || viewType === 'google') {
             currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
-                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                attribution: '&copy; Google Maps Satelit'
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
             }).addTo(map);
 
-            if (btnGoogle) btnGoogle.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5';
-            if (btnLeaflet) btnLeaflet.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5';
+            if (btnGoogle) btnGoogle.className = activeClass;
+            if (btnLeaflet) btnLeaflet.className = inactiveClass;
         } else {
             currentTileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                 maxZoom: 20,
-                subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                attribution: '&copy; Google Maps'
+                subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
             }).addTo(map);
 
-            if (btnLeaflet) btnLeaflet.className = 'bg-gray-900 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs flex items-center gap-1.5';
-            if (btnGoogle) btnGoogle.className = 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5';
+            if (btnLeaflet) btnLeaflet.className = activeClass;
+            if (btnGoogle) btnGoogle.className = inactiveClass;
         }
 
         map.invalidateSize();
     }
 
-    // Real-Time GPS User Location Detector & Distance Calculation
-    function detectUserLocation() {
-        if (!navigator.geolocation) {
-            Swal.fire({
-                icon: 'error',
-                title: 'GPS Tidak Didukung',
-                text: 'Browser Anda tidak mendukung deteksi lokasi otomatis.',
-                confirmButtonColor: '#466967'
-            });
-            return;
+    function toggleFaqItem(button) {
+        const item = button.closest('.faq-item');
+        if (!item) return;
+        const body = item.querySelector('.faq-body');
+        const chevron = item.querySelector('.faq-chevron');
+        if (!body) return;
+
+        const isHidden = body.classList.contains('hidden');
+        if (isHidden) {
+            body.classList.remove('hidden');
+            if (chevron) chevron.classList.add('rotate-180');
+        } else {
+            body.classList.add('hidden');
+            if (chevron) chevron.classList.remove('rotate-180');
         }
-
-        const spinner = document.getElementById('geo-spinner');
-        const btnText = document.getElementById('geo-btn-text');
-        spinner.classList.remove('hidden');
-        btnText.innerText = "Mendeteksi Koordinat GPS Anda...";
-
-        navigator.geolocation.getCurrentPosition(
-            function (position) {
-                spinner.classList.add('hidden');
-                btnText.innerText = "Update Lokasi Saya";
-
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-
-                // Ensure Leaflet map is visible
-                switchMapView('leaflet');
-
-                // Add or update User Marker with pulsing blue locator
-                const userIcon = L.divIcon({
-                    className: 'custom-user-pin',
-                    html: `
-                        <div class="relative" style="width: 40px; height: 40px;">
-                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(59, 130, 246, 0.3); animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;"></div>
-                            <div class="relative z-10 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg border-2 border-white font-black text-xs">
-                                <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
-                            </div>
-                        </div>
-                    `,
-                    iconSize: [40, 40],
-                    iconAnchor: [20, 20]
-                });
-
-                if (userMarker) {
-                    userMarker.setLatLng([userLat, userLng]);
-                } else {
-                    userMarker = L.marker([userLat, userLng], { icon: userIcon }).addTo(map);
-                    userMarker.bindPopup("<b>Lokasi Anda Saat Ini</b><br>Menghitung rute ke Toon Burger...");
-                }
-
-                // Draw flight path line connecting User to Outlet
-                if (routeLine) {
-                    map.removeLayer(routeLine);
-                }
-
-                routeLine = L.polyline([[userLat, userLng], [STORE_LAT, STORE_LNG]], {
-                    color: '#DE3B28',
-                    weight: 3.5,
-                    dashArray: '8, 8',
-                    opacity: 0.85
-                }).addTo(map);
-
-                // Fit map to show both user and store
-                map.fitBounds([[userLat, userLng], [STORE_LAT, STORE_LNG]], {
-                    padding: [60, 60],
-                    animate: true
-                });
-
-                // Calculate Distance using Haversine Formula
-                const distanceKm = calculateHaversineKm(userLat, userLng, STORE_LAT, STORE_LNG);
-
-                // Estimate Travel Times
-                // Motor avg 35 km/h + 3 min prep
-                const motorMinutes = Math.max(3, Math.round((distanceKm / 35) * 60) + 2);
-                // Car avg 25 km/h + traffic
-                const carMinutes = Math.max(5, Math.round((distanceKm / 25) * 60) + 4);
-
-                // Update HUD
-                const hudPanel = document.getElementById('live-distance-result');
-                hudPanel.classList.remove('hidden');
-
-                document.getElementById('hud-distance').innerText = distanceKm < 1
-                    ? Math.round(distanceKm * 1000) + ' Meter'
-                    : distanceKm.toFixed(2) + ' km';
-
-                document.getElementById('hud-time-motor').innerText = `~${motorMinutes} Menit`;
-                document.getElementById('hud-time-car').innerText = `~${carMinutes} Menit`;
-
-                const deliveryStatus = document.getElementById('hud-delivery-status');
-                if (distanceKm <= 5) {
-                    deliveryStatus.innerHTML = '<span class="text-emerald-700">✓ Sangat Dekat (Ongkir Promo Cepat)</span>';
-                } else if (distanceKm <= 18) {
-                    deliveryStatus.innerHTML = '<span class="text-emerald-700">✓ Terjangkau Antar (Kota Banjarbaru)</span>';
-                } else {
-                    deliveryStatus.innerHTML = '<span class="text-amber-700">Luar Area Antar (Disarankan Ambil Sendiri / Takeaway)</span>';
-                }
-
-                document.getElementById('hud-nav-link').href = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${STORE_LAT},${STORE_LNG}`;
-
-                // SweetAlert Success Notification
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Live Location Terhubung!',
-                    html: `Jarak Anda saat ini adalah <b>${distanceKm.toFixed(2)} km</b> dari outlet Toon Burger Banjarbaru.<br><span style="font-size: 12px; color: #6B7280;">Estimasi perjalanan ~${motorMinutes} menit dengan sepeda motor.</span>`,
-                    confirmButtonColor: '#466967',
-                    confirmButtonText: 'Bagus, Lihat Peta',
-                    customClass: { popup: 'rounded-3xl' }
-                });
-            },
-            function (error) {
-                spinner.classList.add('hidden');
-                btnText.innerText = "Deteksi Lokasi Saya & Hitung Jarak";
-                let msg = 'Gagal mendeteksi lokasi.';
-                if (error.code === error.PERMISSION_DENIED) {
-                    msg = 'Izin lokasi ditolak oleh Anda. Silakan izinkan akses lokasi di browser untuk menggunakan fitur ini.';
-                } else if (error.code === error.POSITION_UNAVAILABLE) {
-                    msg = 'Sinyal GPS tidak tersedia pada perangkat Anda saat ini.';
-                } else if (error.code === error.TIMEOUT) {
-                    msg = 'Permintaan waktu deteksi GPS habis. Silakan coba kembali.';
-                }
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Deteksi Lokasi Gagal',
-                    text: msg,
-                    confirmButtonColor: '#466967'
-                });
-            },
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            }
-        );
     }
 
-    // Haversine Formula (Calculates Distance in KM)
-    function calculateHaversineKm(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Earth Radius in KM
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
-    // Copy Address Helper
-    function copyAddressToClipboard() {
-        navigator.clipboard.writeText(STORE_ADDRESS).then(() => {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: 'Alamat outlet Banjarbaru berhasil disalin!',
-                showConfirmButton: false,
-                timer: 2500
-            });
-        });
-    }
-
-    // Check Operating Hours (WITA / UTC+8)
-    function checkStoreOperatingHours() {
-        const now = new Date();
-        // Convert to WITA (UTC+8)
-        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-        const witaTime = new Date(utc + (3600000 * 8));
-        const day = witaTime.getDay(); // 0: Sun, 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat
-        const hour = witaTime.getHours();
-        const minute = witaTime.getMinutes();
-        const totalMinutes = hour * 60 + minute;
-
-        const badge = document.getElementById('store-live-badge');
-        if (!badge) return;
-
-        let isOpen = false;
-        let statusBadgeHtml = '';
-
-        if (day === 1) { // Monday (Senin): CLOSED / LIBUR
-            isOpen = false;
-            statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (Senin Libur • Buka Selasa 17:00)</span>`;
-            badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-        } else if (day === 6) { // Saturday (Sabtu): 17:00 - 22:30
-            const openMin = 17 * 60; // 1020
-            const closeMin = 22 * 60 + 30; // 1350
-            if (totalMinutes >= openMin && totalMinutes < closeMin) {
-                isOpen = true;
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Buka Sekarang (s/d 22:30 WITA)</span>`;
-                badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            } else if (totalMinutes < openMin) {
-                isOpen = false;
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Tutup (Buka 17:00 WITA Hari Ini)</span>`;
-                badge.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            } else {
-                isOpen = false;
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (Buka Minggu 17:00 WITA)</span>`;
-                badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            }
-        } else { // Tuesday, Wednesday, Thursday, Friday, Sunday: 17:00 - 22:00
-            const openMin = 17 * 60; // 1020
-            const closeMin = 22 * 60; // 1320
-            if (totalMinutes >= openMin && totalMinutes < closeMin) {
-                isOpen = true;
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>Buka Sekarang (s/d 22:00 WITA)</span>`;
-                badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            } else if (totalMinutes < openMin) {
-                isOpen = false;
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span><span>Tutup (Buka 17:00 WITA Hari Ini)</span>`;
-                badge.className = "bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            } else {
-                isOpen = false;
-                const nextDayText = (day === 0) ? 'Buka Selasa 17:00 WITA' : 'Buka Besok 17:00 WITA';
-                statusBadgeHtml = `<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span><span>Tutup (${nextDayText})</span>`;
-                badge.className = "bg-rose-100 text-rose-800 text-[10px] font-black px-2.5 py-1 rounded-full uppercase flex items-center gap-1 shadow-xs";
-            }
-        }
-
-        badge.innerHTML = statusBadgeHtml;
-    }
-
-    // Contact Form Submission
     function handleContactSubmit(event) {
         event.preventDefault();
         const name = document.getElementById('contact-name').value;
-        const category = document.getElementById('contact-category').value;
 
         Swal.fire({
             icon: 'success',
             title: 'Pesan Terkirim!',
-            text: `Terima kasih ${name}, pesan mengenai "${category}" telah diterima oleh tim Toon Burger Banjarbaru. Kami akan segera menghubungi WhatsApp Anda.`,
-            confirmButtonColor: '#466967',
+            text: `Terima kasih ${name}, pesan Anda telah diterima oleh tim Toon Burger. Kami akan segera menghubungi Anda.`,
+            confirmButtonColor: '#415C58',
             confirmButtonText: 'Selesai',
             customClass: { popup: 'rounded-3xl' }
         });
 
         event.target.reset();
-    }
-
-    // Official WhatsApp Direct Handler (R-26 & R-38 Verified)
-    function handleWhatsAppClick(event, customMessage = '') {
-        if (event) event.preventDefault();
-        const message = customMessage || 'Halo Toon Burger, saya ingin bertanya mengenai pemesanan takeaway & menu.';
-        window.open(`https://wa.me/6281345956487?text=${encodeURIComponent(message)}`, '_blank');
     }
 </script>
 @endsection

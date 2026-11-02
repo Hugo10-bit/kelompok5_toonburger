@@ -1,210 +1,143 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Kategori Produk - Toon Burger Admin')
+@section('title', 'Data Kategori - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-4 sm:p-6 lg:p-8 space-y-5 sm:space-y-6">
-
-    <!-- Header -->
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
         <div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight" data-i18n="categories_title">Kelola Kategori Produk</h1>
-            <p class="text-xs text-gray-400 mt-1" data-i18n="categories_subtitle">Kelola kategori untuk pengelompokan menu Toon Burger</p>
+            <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
+            <p class="text-sm sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="cat_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-            <div class="relative">
-                <input type="text" id="category-table-search" onkeyup="searchCategoryTable()" placeholder="Cari kategori..."
-                       class="w-full sm:w-48 lg:w-56 pl-8 pr-3 py-2.5 text-xs bg-[#F4F5F7] border border-gray-200/70 rounded-full focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800 placeholder-gray-400">
-                <svg class="w-3.5 h-3.5 text-gray-400 absolute left-3 top-3 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        <div class="flex items-center gap-3">
+            <button type="button" onclick="toggleCategorySort()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4 text-gray-500 dark:text-[#D4D4D4]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16m0 0l-3-3m3 3l3-3m7-9h4m-4 4h3m-3 4h2"></path>
                 </svg>
-            </div>
+                <span data-i18n="btn_sort">Sortir</span>
+            </button>
 
-            <button type="button" onclick="openAddCategoryModal()"
-                    class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold text-xs px-5 py-3 sm:py-2.5 rounded-full shadow-xs transition flex items-center justify-center gap-2 select-none w-full sm:w-auto">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                </svg>
-                <span data-i18n="categories_add_btn">Tambah Kategori</span>
+            <button type="button" onclick="openAddCatModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-5 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm cursor-pointer" data-i18n="btn_add_cat">
+                Tambahkan
             </button>
         </div>
     </div>
 
-    <!-- Mobile: card list (< sm) -->
-    <div class="sm:hidden space-y-2">
-        @forelse($categories as $idx => $cat)
-            <div class="category-row flex items-center justify-between gap-3 bg-[#F8F9FA] rounded-2xl px-4 py-3.5" data-name="{{ strtolower($cat->name) }}">
-                <div class="flex items-center gap-3 min-w-0">
-                    <span class="text-xs font-semibold text-gray-400 shrink-0">{{ $idx + 1 }}</span>
-                    <span class="font-extrabold text-gray-900 text-xs uppercase tracking-wide truncate">{{ $cat->name }}</span>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <button type="button" onclick="openEditCategoryModal({{ json_encode($cat) }})"
-                            class="w-11 h-11 rounded-xl bg-white border border-gray-200 text-gray-600 flex items-center justify-center transition active:scale-95 shadow-xs"
-                            title="Edit Kategori">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                        </svg>
-                    </button>
-                    <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', {{ json_encode('kategori ' . $cat->name) }})"
-                            class="w-11 h-11 rounded-xl bg-red-50 border border-red-100 text-[#DE3B28] flex items-center justify-center transition active:scale-95"
-                            title="Hapus Kategori">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        @empty
-            <div class="py-12 text-center text-gray-400">
-                <div class="font-bold text-sm text-gray-700 mb-1">Belum Ada Kategori</div>
-                <p class="text-xs">Klik tombol <strong>+ Tambah Kategori</strong> untuk membuat kategori menu baru.</p>
-            </div>
-        @endforelse
-    </div>
-
-    <!-- Desktop: table (sm+) -->
-    <div class="hidden sm:block border border-gray-200/80 rounded-2xl overflow-hidden">
+    <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs" id="category-table">
-                <thead class="bg-[#F0F4F3] text-gray-600 font-bold border-b border-gray-200/70 text-[11px] tracking-wide">
-                    <tr>
-                        <th class="py-3.5 px-4 w-16 text-center" data-i18n="categories_col_no">No</th>
-                        <th class="py-3.5 px-4" data-i18n="categories_col_name">Nama Kategori</th>
-                        <th class="py-3.5 px-4 text-center w-28" data-i18n="categories_col_action">Aksi</th>
+            <table class="w-full text-center border-collapse">
+                <thead>
+                    <tr class="bg-[#EEEEEE] dark:bg-[#9E9E9E] text-gray-700 dark:text-[#222222] text-sm font-medium border-b border-gray-200 dark:border-[#757575]">
+                        <th class="py-4 px-6 text-center w-1/4" data-i18n="col_no">No.</th>
+                        <th class="py-4 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
+                        <th class="py-4 px-6 text-center w-1/4" data-i18n="col_action">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100" id="category-table-body">
-                    @forelse($categories as $idx => $cat)
-                        <tr class="category-row hover:bg-gray-50/70 transition" data-name="{{ strtolower($cat->name) }}">
-                            <td class="py-3.5 px-4 text-center font-semibold text-gray-400 text-xs">
-                                {{ $idx + 1 }}
-                            </td>
-
-                            <td class="py-3.5 px-4">
-                                <span class="font-extrabold text-gray-900 text-xs uppercase tracking-wide">
-                                    {{ $cat->name }}
-                                </span>
-                            </td>
-
-                            <td class="py-3.5 px-4 text-center">
-                                <div class="flex items-center justify-center gap-1.5">
-                                    <button type="button" onclick="openEditCategoryModal({{ json_encode($cat) }})"
-                                            class="w-9 h-9 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition active:scale-95"
-                                            title="Edit Kategori">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                        </svg>
-                                    </button>
-
-                                    <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', {{ json_encode($cat->name) }})"
-                                            class="w-9 h-9 rounded-lg bg-red-50 hover:bg-red-100 text-[#DE3B28] flex items-center justify-center transition active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-400"
-                                            title="Hapus Kategori">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                <tbody id="category-table-body" class="divide-y divide-gray-200/80 dark:divide-[#444444] text-sm">
+                    @forelse($categories as $index => $cat)
+                    <tr class="hover:bg-gray-50/60 dark:hover:bg-[#353535] transition-colors category-row" data-name="{{ strtolower($cat->name) }}" data-index="{{ $index }}">
+                        <td class="py-5 px-6 font-bold text-gray-800 dark:text-white category-num">
+                            {{ $index + 1 }}.
+                        </td>
+                        <td class="py-5 px-6 text-gray-700 dark:text-[#E5E5E5] font-normal">
+                            {{ $cat->name }}
+                        </td>
+                        <td class="py-5 px-6">
+                            <div class="flex items-center justify-center gap-5">
+                                <button type="button" onclick="openEditCatModal({{ json_encode($cat) }})" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
+                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                        <path d="M15 5l4 4"></path>
+                                    </svg>
+                                </button>
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="3" class="py-12 text-center text-gray-400">
-                                <div class="font-bold text-sm text-gray-700 mb-1" data-i18n="categories_empty_title">Belum Ada Kategori</div>
-                                <p class="text-xs" data-i18n="categories_empty_desc">Klik tombol + Tambah Kategori untuk membuat kategori menu baru.</p>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="3" class="py-8 text-center text-gray-400" data-i18n="cat_empty">Belum ada kategori.</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 
-</div>
+    <div id="catModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-sm w-full p-6 shadow-xl relative border border-gray-100 dark:border-[#4A4A4A]">
+            <h3 id="catModalTitle" class="text-lg font-bold text-gray-900 dark:text-white mb-4" data-i18n="mod_cat_add">Tambah Kategori</h3>
 
-<!-- Modal Tambah Kategori -->
-<div id="add-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
-    <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
-        <div class="pb-1">
-            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight" data-i18n="categories_add_modal_title">Tambah Kategori</h3>
+            <form id="catForm" action="{{ route('admin.categories.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="_method" id="catFormMethod" value="POST">
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-2" data-i18n="lbl_cat_name">Nama Kategori</label>
+                    <input type="text" name="name" id="cat_name" required class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Cth: Cheese Burger">
+                </div>
+
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-[#4A4A4A]">
+                    <button type="button" onclick="closeCatModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-600 dark:text-white bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] transition-colors cursor-pointer" data-i18n="btn_cancel">Batal</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-[#415C58] hover:bg-[#344B48] transition-colors cursor-pointer" data-i18n="btn_save">Simpan</button>
+                </div>
+            </form>
         </div>
-
-        <form action="{{ route('admin.categories.store') }}" method="POST" class="space-y-4 text-xs">
-            @csrf
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="categories_label_name">Nama Kategori</label>
-                <input type="text" name="name" required placeholder="Masukkan nama kategori"
-                       class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
-
-            <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="categories_save">
-                    Simpan
-                </button>
-                <button type="button" onclick="closeAddCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
-                    Batal
-                </button>
-            </div>
-        </form>
     </div>
+
+    <script>
+        const catModal = document.getElementById('catModal');
+        const catForm = document.getElementById('catForm');
+        const catTitle = document.getElementById('catModalTitle');
+        const catMethod = document.getElementById('catFormMethod');
+        let catSortAsc = null;
+
+        function toggleCategorySort() {
+            const tbody = document.getElementById('category-table-body');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('.category-row'));
+            catSortAsc = catSortAsc === null ? true : !catSortAsc;
+            rows.sort((a, b) => {
+                const nameA = a.getAttribute('data-name') || '';
+                const nameB = b.getAttribute('data-name') || '';
+                return catSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+            });
+            rows.forEach((r, idx) => {
+                const numCell = r.querySelector('.category-num');
+                if (numCell) numCell.textContent = (idx + 1) + '.';
+                tbody.appendChild(r);
+            });
+        }
+
+        function openAddCatModal() {
+            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+            catTitle.innerText = isEn ? 'Add Category' : 'Tambah Kategori';
+            catForm.action = "{{ route('admin.categories.store') }}";
+            catMethod.value = 'POST';
+            catForm.reset();
+            catModal.classList.remove('hidden');
+        }
+
+        function openEditCatModal(cat) {
+            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+            catTitle.innerText = isEn ? 'Edit Category' : 'Edit Kategori';
+            catForm.action = `/admin/categories/${cat.id}`;
+            catMethod.value = 'PUT';
+            document.getElementById('cat_name').value = cat.name;
+            catModal.classList.remove('hidden');
+        }
+
+        function closeCatModal() {
+            catModal.classList.add('hidden');
+        }
+    </script>
 </div>
-
-<!-- Modal Edit Kategori -->
-<div id="edit-category-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2px] hidden">
-    <div class="bg-white rounded-3xl max-w-sm sm:max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-5 border border-gray-100 animate-modal-pop">
-        <div class="pb-1">
-            <h3 class="font-extrabold text-xl sm:text-2xl text-gray-900 tracking-tight" data-i18n="categories_edit_modal_title">Edit Kategori</h3>
-        </div>
-
-        <form id="edit-category-form" method="POST" class="space-y-4 text-xs">
-            @csrf
-
-            <div>
-                <label class="block font-bold text-gray-700 mb-1.5" data-i18n="categories_label_name">Nama Kategori</label>
-                <input type="text" name="name" id="edit_category_name" required placeholder="Nama Kategori"
-                       class="w-full bg-[#F4F5F7] border border-gray-200/80 rounded-xl p-3 font-medium focus:outline-none focus:border-[#385A56] focus:bg-white transition text-gray-800">
-            </div>
-
-            <div class="pt-2 space-y-3 text-center">
-                <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-3 px-6 rounded-full w-full shadow-xs transition text-xs select-none" data-i18n="categories_save_changes">
-                    Simpan Perubahan
-                </button>
-                <button type="button" onclick="closeEditCategoryModal()" class="text-gray-400 hover:text-gray-600 font-semibold text-xs transition inline-block" data-i18n="btn_cancel">
-                    Batal
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    function openAddCategoryModal() {
-        document.getElementById('add-category-modal').classList.remove('hidden');
-    }
-
-    function closeAddCategoryModal() {
-        document.getElementById('add-category-modal').classList.add('hidden');
-    }
-
-    function openEditCategoryModal(category) {
-        document.getElementById('edit-category-form').action = `/admin/categories/${category.id}/update`;
-        document.getElementById('edit_category_name').value = category.name;
-        document.getElementById('edit-category-modal').classList.remove('hidden');
-    }
-
-    function closeEditCategoryModal() {
-        document.getElementById('edit-category-modal').classList.add('hidden');
-    }
-
-    function searchCategoryTable() {
-        const query = document.getElementById('category-table-search').value.toLowerCase();
-        const rows = document.querySelectorAll('.category-row');
-        rows.forEach(row => {
-            const name = row.getAttribute('data-name');
-            row.style.display = (!query || name.includes(query)) ? '' : 'none';
-        });
-    }
-</script>
 @endsection
