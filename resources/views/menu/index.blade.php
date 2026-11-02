@@ -39,7 +39,7 @@
                         $bgColor = $cardMetadata[$product->id]['bg'] ?? '#F5C518';
                     @endphp
                     <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                        <div>
+                        <div onclick="openProductModal({{ $product->id }})" class="cursor-pointer">
                             <!-- Top Image Box: Seamless Full-Bleed Product Image Matching Reference -->
                             <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                                 <img src="{{ asset($product->image) }}"
@@ -52,7 +52,7 @@
                                 <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                     {{ $badge }}
                                 </span>
-                                <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#3b5a53] transition-colors">
                                     {{ $product->name }}
                                 </h3>
                                 <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -67,7 +67,7 @@
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </span>
                             <button type="button"
-                                    onclick="quickAddToCart({{ $product->id }})"
+                                    onclick="openProductModal({{ $product->id }})"
                                     class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                                 Pesan
                             </button>

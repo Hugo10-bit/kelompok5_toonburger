@@ -704,62 +704,118 @@
     </div>
 
     <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL -->
-    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden"></div>
-    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fade-in" onclick="event.stopPropagation()">
+    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-200"></div>
+    <div id="product-modal" onclick="closeProductModal()" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 hidden overflow-y-auto">
+        <div class="relative bg-[#FAF5E8] retro-grid-bg rounded-[32px] sm:rounded-[36px] border-2 border-black shadow-[8px_8px_0px_#27443E] max-w-4xl w-full p-5 sm:p-8 lg:p-10 animate-modal-pop my-auto text-gray-900 overflow-hidden"
+             onclick="event.stopPropagation()">
 
-            <!-- Modal Header / Image -->
-            <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-48 overflow-hidden flex items-center justify-center">
-                <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
-                <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold transition">
-                    &times;
-                </button>
-            </div>
+            <!-- Close Button -->
+            <button type="button"
+                    onclick="closeProductModal()"
+                    class="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 text-gray-800 flex items-center justify-center transition cursor-pointer z-20 focus:outline-none"
+                    aria-label="Tutup modal">
+                <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
 
-            <!-- Modal Content -->
-            <div class="p-6 overflow-y-auto flex-1 space-y-4">
-                <div>
-                    <div class="flex items-start justify-between gap-2">
-                        <h3 id="modal-product-name" class="font-extrabold text-xl text-gray-900 leading-tight">Product Name</h3>
-                        <span id="modal-product-price" class="text-bites-red font-black text-lg whitespace-nowrap">Rp 0</span>
-                    </div>
-                    <p id="modal-product-desc" class="text-xs text-gray-500 mt-1 leading-relaxed">Description</p>
-                    <div class="flex items-center gap-3 mt-2 text-[11px] text-gray-500 font-medium">
-                        <span id="modal-product-calories" class="bg-gray-100 px-2 py-0.5 rounded font-semibold">0 kcal</span>
-                        <span id="modal-product-time" class="hidden">0 menit</span>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
+
+                <!-- Left Column: Burger Image Card -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="w-full max-w-[340px] aspect-square rounded-[28px] sm:rounded-[32px] border-2 border-black shadow-[6px_6px_0px_#2E4A44] overflow-hidden bg-[#EFE3CF] flex items-center justify-center p-4 sm:p-6">
+                        <img id="modal-product-image"
+                             src=""
+                             alt="Menu"
+                             class="w-full h-full object-contain select-none drop-shadow-md">
                     </div>
                 </div>
 
-                <!-- Dynamic Options Form -->
-                <form id="product-options-form" class="space-y-4 pt-2 border-t border-gray-100">
-                    <input type="hidden" id="modal-product-id" name="product_id" value="">
-
-                    <div id="modal-options-container" class="space-y-4">
-                        <!-- Filled by JS -->
-                    </div>
-
-                    <!-- Notes -->
+                <!-- Right Column: Details & Actions -->
+                <div class="md:col-span-7 flex flex-col justify-between space-y-3 sm:space-y-4">
+                    <!-- Category, Name, Price -->
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Catatan Koki (Opsional):</label>
-                        <input type="text" id="modal-notes" name="notes" placeholder="Contoh: Jangan pakai bawang bombay, extra saus..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-bites-orange focus:outline-none">
-                    </div>
-                </form>
-            </div>
+                        <span id="modal-product-category"
+                              class="text-[11px] sm:text-xs font-bold text-[#6D837E] uppercase tracking-wider block">
+                            CHICKEN BURGER
+                        </span>
 
-            <!-- Modal Footer -->
-            <div class="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between gap-3">
-                <div class="flex items-center border border-gray-300 rounded-xl bg-white overflow-hidden">
-                    <button type="button" onclick="adjustModalQty(-1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">-</button>
-                    <input type="number" id="modal-quantity" value="1" min="1" readonly class="w-10 text-center font-bold text-xs text-gray-900 border-none focus:outline-none">
-                    <button type="button" onclick="adjustModalQty(1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">+</button>
+                        <h2 id="modal-product-name"
+                            class="text-xl sm:text-2xl lg:text-[28px] font-black text-[#1E332E] uppercase tracking-wide leading-tight mt-1"
+                            style="font-family: 'Titan One', 'Luckiest Guy', sans-serif;">
+                            CHEESE CHICKEN BURGER
+                        </h2>
+
+                        <div id="modal-product-price"
+                             class="text-base sm:text-lg lg:text-xl font-black text-[#1E332E] mt-1">
+                            RP 35.000
+                        </div>
+                    </div>
+
+                    <!-- Thin Divider Line -->
+                    <div class="border-t border-gray-300/80 my-0.5"></div>
+
+                    <!-- Description -->
+                    <p id="modal-product-desc"
+                       class="text-xs sm:text-[13px] text-gray-600 leading-relaxed font-normal">
+                        Deskripsi produk...
+                    </p>
+
+                    <!-- Options Form (Hidden if not used) -->
+                    <div id="modal-options-container" class="space-y-2 hidden"></div>
+
+                    <!-- Catatan Pesanan -->
+                    <div>
+                        <label for="modal-notes" class="block text-xs font-bold text-gray-900 mb-1.5">
+                            Catatan Pesanan
+                        </label>
+                        <textarea id="modal-notes"
+                                  name="notes"
+                                  rows="3"
+                                  placeholder="Contoh: saus dipisah, tanpa selada..."
+                                  class="w-full bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-3 text-xs sm:text-[13px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3E615D] focus:ring-1 focus:ring-[#3E615D] transition resize-none shadow-2xs"></textarea>
+                    </div>
+
+                    <!-- Bottom Row: Quantity & Add to Cart -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <!-- Quantity Selector -->
+                        <div class="inline-flex items-center bg-white border border-gray-200 rounded-xl px-2.5 py-1.5 shadow-2xs">
+                            <button type="button"
+                                    onclick="adjustModalQty(-1)"
+                                    class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 font-bold text-base transition cursor-pointer select-none active:scale-90"
+                                    aria-label="Kurang kuantitas">
+                                -
+                            </button>
+                            <input type="number"
+                                   id="modal-quantity"
+                                   value="1"
+                                   min="1"
+                                   readonly
+                                   class="w-8 sm:w-10 text-center font-bold text-xs sm:text-sm text-gray-900 border-none focus:outline-none select-none bg-transparent">
+                            <button type="button"
+                                    onclick="adjustModalQty(1)"
+                                    class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 font-bold text-base transition cursor-pointer select-none active:scale-90"
+                                    aria-label="Tambah kuantitas">
+                                +
+                            </button>
+                        </div>
+
+                        <!-- Add to Cart Button -->
+                        <button type="button"
+                                id="modal-add-to-cart-btn"
+                                onclick="submitAddToCart()"
+                                class="flex-1 bg-[#3E615D] hover:bg-[#324F4C] active:scale-[0.98] text-white text-xs sm:text-sm font-bold py-2.5 sm:py-3 px-5 sm:px-6 rounded-xl transition shadow-xs flex items-center justify-center gap-2.5 cursor-pointer">
+                            <span>Tambahkan ke keranjang</span>
+                            <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <input type="hidden" id="modal-product-id" name="product_id" value="">
                 </div>
 
-                <button type="button" onclick="submitAddToCart()" class="flex-1 bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold py-3 px-4 rounded-xl flex items-center justify-between text-xs sm:text-sm shadow-md transition active:scale-98">
-                    <span>+ Tambahkan ke Keranjang</span>
-                    <span id="modal-total-btn-price" class="font-black">Rp 0</span>
-                </button>
             </div>
-
         </div>
     </div>
 
@@ -958,58 +1014,42 @@
                 currentModalProduct = data.product;
                 document.getElementById('modal-product-id').value = currentModalProduct.id;
                 document.getElementById('modal-product-name').innerText = currentModalProduct.name;
-                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
-                document.getElementById('modal-product-price').innerText = formatRupiah(currentModalProduct.price);
-                document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
-                document.getElementById('modal-product-calories').innerText = `${currentModalProduct.calories || 450} kcal`;
-                document.getElementById('modal-product-time').innerText = `${currentModalProduct.prep_time_minutes || 8} menit`;
-                document.getElementById('modal-quantity').value = 1;
-                document.getElementById('modal-notes').value = '';
+                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan burger terbaik khas Toon Burger dengan bahan berkualitas segar dan lezat.';
 
-                const optContainer = document.getElementById('modal-options-container');
-                if (currentModalProduct.options && currentModalProduct.options.length > 0) {
-                    optContainer.innerHTML = currentModalProduct.options.map(opt => `
-                        <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200/80">
-                            <div class="flex items-center justify-between mb-2">
-                                <h5 class="text-xs font-bold text-gray-900">${opt.name}</h5>
-                                ${opt.is_required ? `<span class="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Wajib</span>` : `<span class="text-[10px] text-gray-400">Opsional</span>`}
-                            </div>
-                            <div class="space-y-1.5">
-                                ${opt.values.map(val => `
-                                    <label class="flex items-center justify-between p-2 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-bites-orange transition text-xs">
-                                        <div class="flex items-center gap-2">
-                                            <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
-                                                   name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
-                                                   value="${val.id}"
-                                                   data-price="${val.additional_price}"
-                                                   ${val.is_default ? 'checked' : ''}
-                                                   onchange="recalculateModalPrice()"
-                                                   class="text-bites-orange focus:ring-bites-orange">
-                                            <span class="font-medium text-gray-800">${val.name}</span>
-                                        </div>
-                                        <span class="font-bold text-gray-600 text-[11px]">
-                                            ${Number(val.additional_price) > 0 ? '+ ' + formatRupiah(val.additional_price) : 'Gratis'}
-                                        </span>
-                                    </label>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    optContainer.innerHTML = `<p class="text-xs text-gray-400 italic">Menu standar siap saji.</p>`;
+                const catElem = document.getElementById('modal-product-category');
+                if (catElem) {
+                    catElem.innerText = (currentModalProduct.category ? currentModalProduct.category.name : 'BURGER').toUpperCase();
                 }
 
-                recalculateModalPrice();
+                const priceElem = document.getElementById('modal-product-price');
+                if (priceElem) {
+                    priceElem.innerText = 'RP ' + Number(currentModalProduct.price).toLocaleString('id-ID');
+                }
+
+                const imgElem = document.getElementById('modal-product-image');
+                if (imgElem) {
+                    imgElem.src = currentModalProduct.image ? '/' + currentModalProduct.image.replace(/^\//, '') : '/images/hero-burger.png';
+                    imgElem.alt = currentModalProduct.name;
+                }
+
+                document.getElementById('modal-quantity').value = 1;
+                const notesElem = document.getElementById('modal-notes');
+                if (notesElem) notesElem.value = '';
+
                 document.getElementById('product-modal').classList.remove('hidden');
                 document.getElementById('product-modal-backdrop').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
             } catch (e) {
                 console.error(e);
             }
         }
 
         function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            document.getElementById('product-modal-backdrop').classList.add('hidden');
+            const modal = document.getElementById('product-modal');
+            const backdrop = document.getElementById('product-modal-backdrop');
+            if (modal) modal.classList.add('hidden');
+            if (backdrop) backdrop.classList.add('hidden');
+            document.body.style.overflow = '';
         }
 
         function adjustModalQty(delta) {

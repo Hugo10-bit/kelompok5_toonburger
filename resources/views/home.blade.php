@@ -233,19 +233,19 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($featuredProducts as $product)
-                    <div class="bg-white rounded-[24px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-4 flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1">
-                        <div>
-                            <div class="w-full rounded-2xl overflow-hidden">
+                    <div class="bg-white rounded-[24px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-4 flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 group">
+                        <div onclick="openProductModal({{ $product->id }})" class="cursor-pointer">
+                            <div class="w-full rounded-2xl overflow-hidden bg-gray-50 flex items-center justify-center p-2">
                                 <img src="{{ asset($product->image) }}"
                                      alt="{{ $product->name }}"
-                                     class="w-full h-auto object-contain block">
+                                     class="w-full h-auto object-contain block group-hover:scale-105 transition-transform duration-300">
                             </div>
 
                             <div class="pt-3.5 pb-1">
                                 <span class="text-[10px] font-bold text-[#E6A817] uppercase tracking-wider block">
                                     {{ $product->category_label ?? ($product->category->name ?? 'CHEESE BURGER') }}
                                 </span>
-                                <h3 class="font-extrabold text-[15px] text-gray-900 mt-0.5 leading-snug">
+                                <h3 class="font-extrabold text-[15px] text-gray-900 mt-0.5 leading-snug group-hover:text-[#415C58] transition-colors">
                                     {{ $product->name }}
                                 </h3>
                                 <p class="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mt-1">
@@ -259,7 +259,7 @@
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </span>
                             <button type="button"
-                                    onclick="quickAddToCart({{ $product->id }})"
+                                    onclick="openProductModal({{ $product->id }})"
                                     class="bg-[#415C58] hover:bg-[#344B48] text-white text-xs font-medium px-5 py-2 rounded-lg transition active:scale-95 cursor-pointer">
                                 Pesan
                             </button>
