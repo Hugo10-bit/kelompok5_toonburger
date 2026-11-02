@@ -63,7 +63,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5B82E] transition duration-150 inline-block">
+                        <a href="https://www.tiktok.com/@toonburger.id?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5B82E] transition duration-150 inline-block">
                             Tiktok
                         </a>
                     </li>
