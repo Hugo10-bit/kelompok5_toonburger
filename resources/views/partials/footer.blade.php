@@ -19,9 +19,9 @@
                 <a href="{{ route('home') }}" class="group inline-flex flex-col items-center text-center">
                     <img src="{{ asset('images/toon-head.png') }}"
                          alt="Toon Burger Mascot"
-                         class="h-20 sm:h-24 w-auto object-contain mb-3 transition transform group-hover:scale-105 duration-200">
-                    <span class="font-black text-white text-xl sm:text-2xl uppercase tracking-wider block leading-tight"
-                          style="font-family: 'Nunito', 'Arial Black', sans-serif; letter-spacing: 0.05em;">
+                         class="h-24 sm:h-28 w-auto object-contain mb-3 transition transform group-hover:scale-105 duration-200">
+                    <span class="font-normal text-white text-2xl sm:text-3xl uppercase tracking-wider block leading-tight"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
                         TOON BURGER
                     </span>
                 </a>

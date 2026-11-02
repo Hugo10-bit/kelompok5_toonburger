@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
-    <!-- Google Fonts: Poppins + Nunito + Luckiest Guy -->
+    <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,7 +35,9 @@
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
-                        luckiest: ['"Luckiest Guy"', 'cursive'],
+                        luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive', 'sans-serif'],
+                        brand: ['"BBH Hegarty"', 'sans-serif'],
+                        hegarty: ['"BBH Hegarty"', 'sans-serif'],
                     }
                 }
             }
@@ -44,8 +46,8 @@
     <style>
         html { scroll-behavior: smooth; overflow-x: clip; }
         .font-brand {
-            font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.04em;
+            font-family: 'BBH Hegarty', cursive, sans-serif;
+            letter-spacing: 0.03em;
         }
         .retro-grid-bg {
             background-color: #FAF5E8;
@@ -297,15 +299,15 @@
     <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
         <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
-            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3)] backdrop-blur-md"
-                 style="background-color: rgba(45, 72, 67, 0.70); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);">
+            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
+                 style="background-color: rgba(45, 72, 67, 0.58); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);">
 
                 <!-- Brand logo -->
                 <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Toon Burger Logo"
-                         class="h-8 sm:h-9 w-auto object-contain transition group-hover:scale-105">
-                    <span class="font-black text-white text-base sm:text-lg uppercase tracking-wide shrink-0"
-                          style="font-family: 'Nunito', 'Arial Black', sans-serif; letter-spacing: 0.04em;">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
+                         class="h-11 sm:h-12 md:h-14 w-auto object-contain transition group-hover:scale-105 drop-shadow-xs">
+                    <span class="font-normal text-white text-xl sm:text-2xl uppercase tracking-wider shrink-0 leading-none pt-0.5"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
                         TOON BURGER
                     </span>
                 </a>

@@ -11,10 +11,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
 
-    <!-- Google Fonts: Luckiest Guy & Poppins -->
+    <!-- Google Fonts: Bebas Neue, Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 
     <!-- Prevent theme flash (FOUC) -->
     <script>
@@ -45,6 +45,7 @@
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
                         luckiest: ['"Luckiest Guy"', 'cursive'],
+                        brand: ['"Luckiest Guy"', 'cursive'],
                     }
                 }
             }
@@ -65,7 +66,13 @@
         }
         .font-brand {
             font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
+        }
+        .headline-shadow {
+            text-shadow: 3px 3px 0px rgba(45, 75, 71, 0.28);
+        }
+        .dark .headline-shadow {
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.40);
         }
         /* Classic retro checkerboard pattern */
         .checkerboard-pattern {
@@ -108,77 +115,89 @@
 </head>
 <body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
 
-    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (WIDENED & EXTENDED UNDER CARD) ═══ -->
-    <div class="w-full md:w-[calc(55%+3rem)] lg:w-[calc(55%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
+    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
-        <!-- TOP CURVED ARC IN GRANITE #466967 (LIGHT) / CREAM #F1D9B3 (DARK) WITH TOON BURGER LOGO -->
+        <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
-            <!-- Curved background SVG (Extends full width under the right card without clipping) -->
             <div class="relative w-full overflow-hidden">
-                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-32 sm:h-36 lg:h-40 block drop-shadow-xs">
+                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-36 block drop-shadow-xs">
                     <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" class="fill-[#466967] dark:fill-[#F1D9B3] transition-colors duration-200" />
                 </svg>
+            </div>
+        </div>
 
-                <!-- Mascot & Text inside Arc (Optically centered within visible left area) -->
-                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5 lg:pt-3 md:pr-12">
-                    <a href="{{ route('home') }}" class="focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#466967] rounded-lg">
-                        <img src="{{ asset('images/toonburger-logo-white.png') }}"
-                             alt="Toon Burger"
-                             class="dark:hidden h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
-                        <img src="{{ asset('images/toonburger-logo.png') }}"
-                             alt="Toon Burger"
-                             class="hidden dark:block h-20 sm:h-24 lg:h-26 w-auto object-contain drop-shadow-md -translate-y-1 sm:-translate-y-2">
-                    </a>
+        <!-- INNER VISIBLE CONTAINER: Exactly 100% of visible area (excluding the 3rem overlap under card) -->
+        <div class="w-full md:w-[calc(100%-3rem)] h-full absolute inset-y-0 left-0 flex flex-col justify-between z-20 pointer-events-none">
+
+            <!-- MASCOT HEAD & WHITE "TOON BURGER" TEXT (Optically centered in visible area, neat & proportional) -->
+            <div class="pt-2 sm:pt-2.5 lg:pt-3 flex flex-col items-center justify-start pointer-events-auto">
+                <a href="{{ route('home') }}" class="group flex flex-col items-center text-center focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#466967] rounded-lg">
+                    <img src="{{ asset('images/toon-head.png') }}"
+                         alt="Toon Burger Mascot"
+                         class="h-12 sm:h-14 lg:h-16 w-auto object-contain drop-shadow-md transition group-hover:scale-105 duration-200">
+                    <span class="text-white dark:text-[#263A38] text-[11px] sm:text-xs md:text-[13px] font-normal uppercase tracking-wider block leading-none mt-1 drop-shadow-xs"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.12em;">
+                        TOON BURGER
+                    </span>
+                </a>
+            </div>
+
+            <!-- 4 BURGERS: PRECISELY SIZED & POSITIONED WITH PERFECT SYMMETRY IN VISIBLE CONTAINER -->
+            <!-- 1. Top-Left Burger: Small (~52px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(-15deg);"
+                 class="absolute top-[26%] left-6 sm:left-8 md:left-9 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
+
+            <!-- 2. Top-Right Burger: BIG (~100px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(14deg);"
+                 class="absolute top-[17%] right-6 sm:right-8 md:right-10 w-20 sm:w-24 lg:w-28 h-auto drop-shadow-md pointer-events-none select-none">
+
+            <!-- 3. Bottom-Left Burger: BIGGEST (~130px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(-10deg);"
+                 class="absolute bottom-[23%] left-6 sm:left-8 md:left-9 w-24 sm:w-28 md:w-32 lg:w-36 h-auto drop-shadow-md pointer-events-none select-none">
+
+            <!-- 4. Bottom-Right Burger: Small (~52px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(18deg);"
+                 class="absolute bottom-[27%] right-6 sm:right-8 md:right-10 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
+
+            <!-- CENTER BRAND HEADLINE (PERFECTLY CENTERED, ENLARGED, BEAUTIFULLY SPACED, RETRO 3D SHADOW) -->
+            <div class="my-auto py-4 px-6 sm:px-8 flex items-center justify-center w-full pointer-events-auto">
+                <div class="text-left select-none inline-block space-y-4 sm:space-y-5 lg:space-y-6">
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        EAT GOOD.
+                    </div>
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        FEEL GOOD.
+                    </div>
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        LIVE GOOD.
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- STATIONARY BURGERS -->
-        <!-- 1. Top-Left Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: -15deg;"
-             class="static-burger absolute top-32 lg:top-40 left-4 sm:left-7 lg:left-10 w-14 sm:w-18 lg:w-22 drop-shadow-md pointer-events-none opacity-95 z-20">
-
-        <!-- 2. Top-Right Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: 14deg;"
-             class="static-burger absolute top-36 lg:top-44 right-8 sm:right-12 lg:right-16 w-18 sm:w-22 lg:w-28 drop-shadow-md pointer-events-none opacity-95 z-20">
-
-        <!-- 3. Bottom-Left Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: -9deg;"
-             class="static-burger absolute bottom-24 lg:bottom-28 left-4 sm:left-7 lg:left-10 w-22 sm:w-26 lg:w-32 drop-shadow-md pointer-events-none opacity-95 z-20">
-
-        <!-- 4. Bottom-Right Stationary Burger -->
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Burger"
-             style="--rot: 18deg;"
-             class="static-burger absolute bottom-28 lg:bottom-32 right-8 sm:right-12 lg:right-16 w-16 sm:w-20 lg:w-26 drop-shadow-md pointer-events-none opacity-95 z-20">
-
-        <!-- CENTER BRAND HEADLINE -->
-        <div class="my-auto py-8 sm:py-10 px-4 sm:px-6 md:pr-12 text-center relative z-20">
-            <h1 class="font-brand text-5xl sm:text-6xl md:text-6xl lg:text-[76px] xl:text-[88px] leading-[1.0] text-[#466967] dark:text-[#F1D9B3] tracking-wider uppercase drop-shadow-xs transition-colors duration-200">
-                EAT GOOD.<br>
-                FEEL GOOD.<br>
-                LIVE GOOD.
-            </h1>
-        </div>
-
-        <!-- BOTTOM CHECKERBOARD & SINCE 2025 -->
-        <div class="w-full relative z-20 pt-2 pb-5 md:pr-12">
-            <div class="w-full h-8 checkerboard-pattern opacity-90 dark:opacity-100"></div>
-            <div class="text-center pt-3 text-xs font-semibold text-[#466967]/80 dark:text-[#F1D9B3] tracking-widest uppercase transition-colors duration-200">
+            <!-- SINCE 2025 TEXT (Centered in visible area) -->
+            <div class="w-full text-center pb-5 pt-2 text-xs sm:text-sm font-semibold text-[#466967]/80 dark:text-[#F1D9B3] tracking-widest uppercase transition-colors duration-200 pointer-events-auto">
                 - Since 2025-
             </div>
+        </div>
+
+        <!-- BOTTOM CHECKERBOARD (Extends under card for seamless rounded-bl curve) -->
+        <div class="w-full relative z-10 pb-12">
+            <div class="w-full h-8 sm:h-9 checkerboard-pattern opacity-90 dark:opacity-100"></div>
         </div>
 
     </div>
 
     <!-- ═══ RIGHT PANEL: COMPACT FORM CARD ═══ -->
-    <div class="w-full md:w-[45%] lg:w-[45%] min-h-screen md:h-screen bg-white dark:bg-[#313131] md:rounded-tl-[44px] md:rounded-bl-[44px] shadow-2xl dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-y-auto relative z-20 transition-colors duration-200">
+    <div class="w-full md:w-[52%] lg:w-[52%] xl:w-[53%] min-h-screen md:h-screen bg-white dark:bg-[#313131] md:rounded-tl-[44px] md:rounded-bl-[44px] shadow-[-10px_0_30px_rgba(0,0,0,0.08)] md:shadow-[-12px_0_36px_rgba(0,0,0,0.10)] dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-y-auto relative z-30 transition-colors duration-200">
 
         <!-- Top anchor for optical balance -->
         <div class="hidden md:block w-full h-1"></div>

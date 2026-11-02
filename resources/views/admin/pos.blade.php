@@ -7,10 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>POS Kasir - Toon Burger</title>
 
-    <!-- Google Fonts: Luckiest Guy & Poppins -->
+    <!-- Google Fonts: Bebas Neue, Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,9 +56,9 @@
     <!-- TOP BAR -->
     <header class="bg-white text-gray-800 border-b border-[#E6DEC8] px-6 py-3 flex items-center justify-between flex-shrink-0 shadow-xs">
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5">
-                <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-9 w-auto object-contain">
-                <span class="font-brand text-xl text-toon-granite">TOON BURGER</span>
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 group">
+                <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger" class="h-10 sm:h-11 w-auto object-contain transition group-hover:scale-105">
+                <span class="text-xl sm:text-2xl text-toon-granite tracking-wider leading-none pt-0.5" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">TOON BURGER</span>
             </a>
             <div class="h-5 w-px bg-gray-200"></div>
             <span class="bg-toon-granite text-white font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider">

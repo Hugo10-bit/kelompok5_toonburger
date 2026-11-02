@@ -46,7 +46,7 @@
                     <!-- Left: Headline + Subtitle + Buttons -->
                     <div class="lg:col-span-5 space-y-4 pb-6 lg:pb-10 toon-reveal">
                         <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
-                            style="font-family: 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
                         </h1>
 
@@ -129,7 +129,7 @@
 
             <!-- Title: KENAPA TOON BURGER? -->
             <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
-                style="font-family: 'Luckiest Guy', cursive;">
+                style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                 KENAPA TOON BURGER?
             </h2>
 
@@ -203,7 +203,7 @@
          ═══════════════════════════════════════════════ -->
     <div class="w-full bg-[#F5A623] border-y-2 border-black py-3 overflow-hidden select-none">
         <div class="animate-marquee whitespace-nowrap text-sm sm:text-base font-black text-black uppercase tracking-wider flex items-center"
-             style="font-family: 'Luckiest Guy', cursive;">
+             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
             <span class="mx-3 flex items-center gap-2">TOONBURGER <span class="text-[#E02424]">★</span></span>
             <span class="mx-3 flex items-center gap-2">TOONBURGER <span class="text-[#E02424]">★</span></span>
             <span class="mx-3 flex items-center gap-2">TOONBURGER <span class="text-[#E02424]">★</span></span>
@@ -229,7 +229,7 @@
             <div class="flex items-end justify-between gap-4">
                 <div>
                     <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
-                        style="font-family: 'Luckiest Guy', cursive;">
+                        style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                         BEST SELLER
                     </h2>
                     <p class="text-xs sm:text-sm text-gray-600 mt-1 max-w-lg">
@@ -430,7 +430,7 @@
                     <!-- Left: Text -->
                     <div class="md:col-span-7 space-y-4">
                         <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase leading-[1.05]"
-                            style="font-family: 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             MENGENAL TOON<br>BURGER
                         </h2>
 
@@ -478,7 +478,7 @@
                     <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 relative flex items-center justify-center">
                         <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor">
                             <path d="M32 6C17.64 6 6 17.64 6 32c0 5.4 1.64 10.42 4.45 14.59L8 58l12.18-2.67C23.94 56.91 27.84 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"/>
-                            <text x="32" y="39" fill="white" font-size="28" font-family="'Luckiest Guy', sans-serif" font-weight="bold" text-anchor="middle">?</text>
+                            <text x="32" y="39" fill="white" font-size="28" font-family="'BBH Hegarty', sans-serif" font-weight="bold" text-anchor="middle">?</text>
                         </svg>
                     </div>
                     <div>

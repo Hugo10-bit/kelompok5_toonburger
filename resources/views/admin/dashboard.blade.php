@@ -3,7 +3,7 @@
 @section('title', 'Dashboards - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-7">
+<div class="bg-white rounded-[32px] border border-gray-200/80 shadow-xs p-6 sm:p-8 space-y-7" style="border-radius: 32px;">
 
     <!-- Greeting & Header -->
     <div>

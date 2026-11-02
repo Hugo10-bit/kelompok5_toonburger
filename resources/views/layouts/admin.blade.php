@@ -496,11 +496,10 @@
     <!-- Sidebar -->
     <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
-            <!-- Logo Section with Mascot + TOON BURGER text -->
+            <!-- Logo Section with Mascot (Hanya Kepala Mascot, Tanpa Tulisan Sesuai Permintaan) -->
             <div class="pt-2 pb-8 flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105 block dark:hidden">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-28 sm:h-32 w-auto object-contain transition group-hover:scale-105 hidden dark:block">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Mascot" class="h-28 sm:h-32 md:h-36 w-auto object-contain transition group-hover:scale-105 drop-shadow-md">
                 </a>
                 <!-- Mobile Close Button -->
                 <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 p-1.5 rounded-xl hover:bg-gray-100 transition" aria-label="Tutup Menu">
