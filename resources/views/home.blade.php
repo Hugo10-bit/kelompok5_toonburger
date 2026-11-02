@@ -39,7 +39,7 @@
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 26%; left: 66%; animation-delay: 0.7s;">
+                     style="top: 26%; left: 60%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
@@ -47,9 +47,9 @@
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 68%; left: 77%; animation-delay: 2.1s;">
+                     style="top: 68%; left: 82%; animation-delay: 2.1s;">
 
-                <div class="relative z-10 max-w-[1140px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-8">
+                <div class="relative z-10 max-w-[1180px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-8">
 
                     <!-- Left Column: Heading, Subtitle, CTA Buttons -->
                     <div class="lg:col-span-6 space-y-3.5 sm:space-y-4 pb-2 lg:pb-0">
@@ -74,12 +74,12 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Steam, Burger, Comic Speech Bubble -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-6">
+                    <!-- Right Column: Steam, Burger, Comic Speech Bubble (Positioned without overlapping) -->
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-14 xl:pr-18">
                         <div class="relative inline-flex items-center justify-center">
                             <!-- Comic Steam lines above top-left of burger -->
-                            <div class="absolute -top-3.5 left-4 sm:-top-5 sm:left-6 z-10 pointer-events-none select-none">
-                                <svg class="w-10 h-10 sm:w-12 sm:h-12 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                            <div class="absolute -top-3.5 left-3 sm:-top-5 sm:left-4 z-10 pointer-events-none select-none">
+                                <svg class="w-10 h-10 sm:w-11 sm:h-11 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
                                     <path d="M12 36 C9 32, 8 28, 7 24" />
                                     <path d="M19 26 C17 21, 16 17, 15 13" />
                                     <path d="M30 18 C30 13, 29 9, 28 5" />
@@ -87,20 +87,20 @@
                                 </svg>
                             </div>
 
-                            <!-- Burger Image -->
-                            <div class="relative z-10">
+                            <!-- Burger Image (Full clear view, no badge overlapping it) -->
+                            <div class="relative z-20">
                                 <img id="hero-burger-img"
                                      src="{{ asset('images/hero-burger.png') }}"
                                      alt="Very Cheese Burger"
-                                     class="w-[245px] sm:w-[285px] lg:w-[310px] xl:w-[335px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
+                                     class="w-[225px] sm:w-[260px] lg:w-[285px] xl:w-[305px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
                             </div>
 
-                            <!-- Comic Speech Bubble Badge at top-right of burger -->
-                            <div class="absolute -top-10 -right-12 sm:-top-12 sm:-right-16 lg:-top-14 lg:-right-20 z-20 pointer-events-none select-none">
+                            <!-- Comic Speech Bubble Badge placed to the top-right without covering burger -->
+                            <div class="absolute -top-12 -right-24 sm:-top-14 sm:-right-32 lg:-top-16 lg:-right-36 xl:-top-18 xl:-right-44 z-10 pointer-events-none select-none">
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
-                                     class="w-38 sm:w-46 lg:w-52 xl:w-56 h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.25)]">
+                                     class="w-36 sm:w-44 lg:w-48 xl:w-52 h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.22)]">
                             </div>
                         </div>
                     </div>
