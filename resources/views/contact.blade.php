@@ -104,7 +104,7 @@
         </div>
 
         <!-- Map Card -->
-        <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="relative z-10 max-w-6xl mx-auto toon-reveal">
             <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#8F9693] p-5 sm:p-8">
 
                 <!-- Header Row -->
@@ -168,18 +168,20 @@
 
             <!-- Left Column: FAQ Accordion -->
             <div class="lg:col-span-6">
-                <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
-                    style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-                    PERTANYAAN YANG<br>
-                    SERING DITANYAKAN
-                </h2>
-                <p class="text-xs sm:text-[13px] text-[#4A6B65]/85 mt-2.5 mb-7 leading-relaxed max-w-md">
-                    Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.
-                </p>
+                <div class="toon-reveal">
+                    <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
+                        style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                        PERTANYAAN YANG<br>
+                        SERING DITANYAKAN
+                    </h2>
+                    <p class="text-xs sm:text-[13px] text-[#4A6B65]/85 mt-2.5 mb-7 leading-relaxed max-w-md">
+                        Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.
+                    </p>
+                </div>
 
                 <div class="space-y-3.5" id="faq-accordion-list">
                     <!-- FAQ 1 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 50ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
@@ -197,7 +199,7 @@
                     </div>
 
                     <!-- FAQ 2 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 100ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?
@@ -215,7 +217,7 @@
                     </div>
 
                     <!-- FAQ 3 (Expanded by default as in reference mockup) -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 150ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
@@ -233,7 +235,7 @@
                     </div>
 
                     <!-- FAQ 4 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 200ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Apakah Toon Burger melayani pesan antar langsung lewat website ini?
@@ -251,7 +253,7 @@
                     </div>
 
                     <!-- FAQ 5 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition">
+                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 250ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya Bagaimana jika saya terlambat mengambil pesanan di outlet? mengubah atau membatalkan pesanan yang sudah dibayar?
@@ -271,7 +273,7 @@
             </div>
 
             <!-- Right Column: Clipboard Contact Card -->
-            <div class="lg:col-span-6 pt-5 sm:pt-6">
+            <div class="lg:col-span-6 pt-5 sm:pt-6 toon-reveal" style="transition-delay: 150ms;">
                 <div class="relative mx-auto w-full">
 
                     <!-- Top Tan Clipboard Clip Illustration -->

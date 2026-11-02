@@ -9,7 +9,7 @@
         <!-- ═══════════════════════════════════════════════
              1. HEADER: SEMUA MENU
              ═══════════════════════════════════════════════ -->
-        <div class="space-y-1.5 text-left pt-2 sm:pt-4">
+        <div class="space-y-1.5 text-left pt-2 sm:pt-4 toon-reveal">
             <h1 class="text-3xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
                 style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                 SEMUA MENU
@@ -22,7 +22,7 @@
         <!-- ═══════════════════════════════════════════════
              2. CATEGORY FILTER PILLS (Matching Figma Mockup)
              ═══════════════════════════════════════════════ -->
-        <div class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5">
+        <div class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5 toon-reveal" style="transition-delay: 80ms;">
             <!-- "Semua" Pill -->
             @php
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
@@ -48,7 +48,7 @@
         </div>
 
         @if($products->isEmpty())
-            <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-12 text-center max-w-lg mx-auto space-y-4">
+            <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-12 text-center max-w-lg mx-auto space-y-4 toon-reveal">
                 <div class="text-4xl">🍔</div>
                 <h3 class="font-bold text-lg text-gray-900">Menu Tidak Ditemukan</h3>
                 <p class="text-xs text-gray-500 max-w-xs mx-auto">Menu yang Anda cari tidak tersedia. Silakan cek menu favorit lainnya.</p>
@@ -66,7 +66,8 @@
                         $badge = $cardMetadata[$product->id]['badge'] ?? ($product->category->name ?? 'BURGER');
                         $bgColor = $cardMetadata[$product->id]['bg'] ?? '#FFC83B';
                     @endphp
-                    <div class="bg-white rounded-[24px] sm:rounded-[26px] border-[1.8px] border-black shadow-[5px_6px_0px_#6E7571] p-4 sm:p-4.5 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                    <div class="bg-white rounded-[24px] sm:rounded-[26px] border-[1.8px] border-black shadow-[5px_6px_0px_#6E7571] p-4 sm:p-4.5 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal"
+                         style="transition-delay: {{ ($loop->index % 4) * 80 }}ms;">
                         <div onclick="openProductModal({{ $product->id }})" class="cursor-pointer">
                             <!-- Top Image Box: Vibrant Colored Background Matching Reference -->
                             <div class="w-full aspect-[1.32] rounded-[20px] overflow-hidden flex items-center justify-center p-3 relative"
@@ -108,7 +109,7 @@
             <!-- ═══════════════════════════════════════════════
                  4. PAGINATION BAR
                  ═══════════════════════════════════════════════ -->
-            <div class="pt-4 sm:pt-6">
+            <div class="pt-4 sm:pt-6 toon-reveal" style="transition-delay: 100ms;">
                 {{ $products->links('vendor.pagination.toonburger') }}
             </div>
         @endif
