@@ -63,26 +63,30 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $categories = Category::where('is_active', true)
+            ->withCount(['products' => function ($q) {
+                $q->where('is_available', true);
+            }])
             ->orderBy('sort_order')
             ->get();
 
+        $totalAllProducts = Product::where('is_available', true)->count();
         $selectedCategory = $request->query('category', 'all');
         $search = $request->query('q');
         $tableNum = $request->query('table'); // If scanned QR: ?table=Meja 01
 
         $cardMetadata = [
-            1  => ['badge' => 'CHEESE BURGER',  'bg' => '#F5C518'],
-            2  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FDE2B8'],
-            3  => ['badge' => 'BEEF BURGER',    'bg' => '#E60000'],
-            4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
-            5  => ['badge' => 'CHEESE BURGER',  'bg' => '#B9D7F9'],
-            6  => ['badge' => 'CHEESE BURGER',  'bg' => '#FB923C'],
-            7  => ['badge' => 'CHEESE BURGER',  'bg' => '#DDD6FE'],
-            8  => ['badge' => 'CHEESE BURGER',  'bg' => '#FBCFE8'],
+            1  => ['badge' => 'CHEESE BURGER',  'bg' => '#FFC83B'],
+            2  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FCE5D3'],
+            3  => ['badge' => 'BEEF BURGER',    'bg' => '#E51D1D'],
+            4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A4D477'],
+            5  => ['badge' => 'CHEESE BURGER',  'bg' => '#BFE1FD'],
+            6  => ['badge' => 'BEEF BURGER',    'bg' => '#F67A24'],
+            7  => ['badge' => 'CHEESE BURGER',  'bg' => '#D5C8F6'],
+            8  => ['badge' => 'CHEESE BURGER',  'bg' => '#F5B8DC'],
             9  => ['badge' => 'HOTDOG',         'bg' => '#FED7AA'],
             10 => ['badge' => 'HOTDOG',         'bg' => '#F5C518'],
             11 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
-            12 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
+            12 => ['badge' => 'CHEESE BURGER',  'bg' => '#FCE5D3'],
         ];
 
         if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
@@ -129,7 +133,7 @@ class MenuController extends Controller
 
         $tables = RestaurantTable::where('status', 'available')->get();
 
-        return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata'));
+        return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata', 'totalAllProducts'));
     }
 
     /**
