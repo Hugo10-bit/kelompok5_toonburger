@@ -58,7 +58,7 @@
                 </h4>
                 <ul class="space-y-2.5 text-sm sm:text-[15px] font-normal text-white">
                     <li>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5B82E] transition duration-150 inline-block">
+                        <a href="https://www.instagram.com/toonburger.id?rpxt=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5B82E] transition duration-150 inline-block">
                             Instagram
                         </a>
                     </li>
