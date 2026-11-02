@@ -79,29 +79,7 @@
             <!-- ═══════════════════════════════════════════════
                  3. PAGINATION BAR (Sesuai Foto)
                  ═══════════════════════════════════════════════ -->
-            <div class="flex items-center justify-center gap-2 pt-6 sm:pt-8 select-none">
-                <span class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-[#3b5a53] text-white font-bold flex items-center justify-center text-sm shadow-xs border border-[#3b5a53]">
-                    1
-                </span>
-                <a href="{{ route('menu', ['page' => 2]) }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white text-gray-700 font-semibold flex items-center justify-center text-sm border border-gray-200 hover:border-gray-400 transition cursor-pointer">
-                    2
-                </a>
-                <a href="{{ route('menu', ['page' => 3]) }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white text-gray-700 font-semibold flex items-center justify-center text-sm border border-gray-200 hover:border-gray-400 transition cursor-pointer">
-                    3
-                </a>
-                <a href="{{ route('menu', ['page' => 4]) }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white text-gray-700 font-semibold flex items-center justify-center text-sm border border-gray-200 hover:border-gray-400 transition cursor-pointer">
-                    4
-                </a>
-                <span class="w-10 h-10 sm:w-11 sm:h-11 text-gray-400 font-bold flex items-center justify-center text-sm">
-                    ...
-                </span>
-                <a href="{{ route('menu', ['page' => 6]) }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white text-gray-700 font-semibold flex items-center justify-center text-sm border border-gray-200 hover:border-gray-400 transition cursor-pointer">
-                    6
-                </a>
-                <a href="{{ route('menu', ['page' => 2]) }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white text-gray-700 font-bold flex items-center justify-center text-sm border border-gray-200 hover:border-gray-400 transition cursor-pointer">
-                    &rarr;
-                </a>
-            </div>
+            {{ $products->links('vendor.pagination.toonburger') }}
         @endif
 
     </div>

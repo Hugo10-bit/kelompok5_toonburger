@@ -102,9 +102,29 @@ class MenuController extends Controller
                 });
             }
 
-            $products = $query->orderBy('id')->take(12)->get();
+            $perPage = 12;
+            $totalProductsCount = (clone $query)->count();
+
+            // When there are 12 or fewer real items, simulate pagination up to 6 pages (matching target mockup)
+            if ($totalProductsCount > 0 && $totalProductsCount <= $perPage) {
+                $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage('page') ?: 1;
+                $simulatedTotal = $totalProductsCount * 6;
+                $products = new \Illuminate\Pagination\LengthAwarePaginator(
+                    $query->orderBy('id')->get(),
+                    $simulatedTotal,
+                    $perPage,
+                    $currentPage,
+                    [
+                        'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+                        'pageName' => 'page',
+                    ]
+                );
+                $products->withQueryString();
+            } else {
+                $products = $query->orderBy('id')->paginate($perPage)->withQueryString();
+            }
         } else {
-            $products = collect([]);
+            $products = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 12);
         }
 
         $tables = RestaurantTable::where('status', 'available')->get();

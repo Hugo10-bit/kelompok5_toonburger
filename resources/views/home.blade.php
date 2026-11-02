@@ -204,7 +204,7 @@
     </section>
 
     <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none">
-        <div class="animate-marquee whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center"
+        <div class="whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center justify-center overflow-x-hidden"
              style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
             @for($i = 0; $i < 12; $i++)
                 <span class="mx-3 flex items-center gap-3">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
