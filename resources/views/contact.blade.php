@@ -111,7 +111,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 class="text-xl sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
-                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             TEMUKAN LOKASI OUTLET KAMI!
                         </h1>
                         <p class="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1">
@@ -169,7 +169,7 @@
             <!-- Left Column: FAQ Accordion -->
             <div class="lg:col-span-6">
                 <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
-                    style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                    style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                     PERTANYAAN YANG<br>
                     SERING DITANYAKAN
                 </h2>
@@ -289,7 +289,7 @@
                     <!-- White Card Body -->
                     <div class="bg-white rounded-t-[26px] pt-10 sm:pt-12 px-6 sm:px-10 pb-8 border-x border-t border-gray-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
                         <h2 class="text-2xl sm:text-3xl lg:text-[32px] text-[#27443E] uppercase leading-[1.15] tracking-wide"
-                            style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             LET'S GET IN TOUCH<br>
                             WITH US!
                         </h2>
