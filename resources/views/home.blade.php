@@ -7,89 +7,87 @@
 
     <section id="hero-section" class="relative overflow-hidden -mt-[88px] sm:-mt-[96px]">
         <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-28 sm:pt-32 lg:pt-36 flex flex-col justify-between"
-                 style="background-color: #405E58; min-height: 540px;">
+            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 flex flex-col justify-between"
+                 style="background-color: #3E615D;">
 
-                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 600" fill="none">
-                    <path d="M-40 0 C 40 200, 120 400, 180 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M-10 0 C 70 200, 150 400, 210 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M20 0 C 100 200, 180 400, 240 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M50 0 C 130 200, 210 400, 270 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1480 0 C 1400 200, 1320 400, 1260 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1450 0 C 1370 200, 1290 400, 1230 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1420 0 C 1340 200, 1260 400, 1200 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1390 0 C 1310 200, 1230 400, 1170 600" stroke="#ffffff" stroke-width="1"/>
-                </svg>
-
-                <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto"
-                     style="top: 23%; left: 3.5%; animation-delay: 0s;">
+                <!-- 4 Comic Sparkle Stars matching exact positions in reference mockup -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="top: 26%; right: 33%; animation-delay: 0.7s;">
+                     style="top: 25.5%; left: 3.5%; animation-delay: 0s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 21%; right: 23%; animation-delay: 1.4s;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
+                     style="top: 28.5%; left: 66%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 18%; left: 40%; animation-delay: 2.1s;">
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
+                     style="top: 75.5%; left: 40.5%; animation-delay: 1.4s;">
+                <img src="{{ asset('images/star-sparkle.png') }}"
+                     alt=""
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
+                     style="top: 71.5%; left: 77%; animation-delay: 2.1s;">
 
-                <div class="relative z-10 max-w-[1340px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-14 pt-6 sm:pt-8 pb-8">
+                <div class="relative z-10 max-w-[1120px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-10">
 
-                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-8">
-                        <h1 class="text-white uppercase leading-[0.98] text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] tracking-wide"
-                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.5px #1E2E2B; text-shadow: 3px 4px 0px #1E2E2B;">
+                    <!-- Left Column: Heading, Subtitle, CTA Buttons -->
+                    <div class="lg:col-span-6 space-y-3.5 sm:space-y-4 pb-2 lg:pb-0">
+                        <h1 class="text-white uppercase leading-[0.98] text-4xl sm:text-5xl lg:text-[54px] xl:text-[58px] tracking-wide"
+                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.2px #1E2E2B; text-shadow: 3px 3px 0px #1E2E2B;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
                         </h1>
 
-                        <p class="text-xs sm:text-sm md:text-[15px] text-white/90 leading-relaxed max-w-md font-normal">
-                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.
+                        <p class="text-xs sm:text-[13.5px] text-white/90 leading-relaxed font-normal max-w-sm sm:max-w-md">
+                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan<br class="hidden sm:inline"> dalam setiap hidangan.
                         </p>
 
-                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                        <div class="flex items-center gap-3.5 pt-2 sm:pt-3">
                             <a href="{{ route('menu') }}"
-                               class="font-bold text-xs sm:text-sm px-6 py-3 rounded-xl border border-black bg-[#F5B027] hover:bg-[#E09E1E] text-gray-900 shadow-[2px_3px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
+                               class="font-bold text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-lg border border-black/80 bg-[#F5B027] hover:bg-[#E09E1E] text-gray-950 shadow-[2px_2px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer inline-flex items-center justify-center">
                                 Pickup Order
                             </a>
                             <a href="{{ route('menu') }}"
-                               class="font-normal text-xs sm:text-sm px-6 py-3 rounded-xl border border-white/90 bg-transparent hover:bg-white/10 text-white transition cursor-pointer">
+                               class="font-medium text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-lg border border-white/90 bg-transparent hover:bg-white/10 text-white transition cursor-pointer inline-flex items-center justify-center">
                                 Delivery Order
                             </a>
                         </div>
                     </div>
 
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-4 pb-4 lg:pr-4">
-                        <div class="relative flex items-center justify-center">
-                            <div class="relative z-10 lg:mr-28">
-                                <svg class="absolute -top-4 -left-4 w-12 h-12 text-white pointer-events-none" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                                    <line x1="12" y1="38" x2="6" y2="35" />
-                                    <line x1="20" y1="24" x2="15" y2="18" />
-                                    <line x1="34" y1="15" x2="32" y2="8" />
-                                    <line x1="48" y1="12" x2="49" y2="5" />
+                    <!-- Right Column: Steam, Burger, Comic Speech Bubble -->
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-8">
+                        <div class="relative inline-flex items-center justify-center">
+                            <!-- Comic Steam lines above top-left of burger -->
+                            <div class="absolute -top-3 left-4 sm:-top-4 sm:left-6 z-10 pointer-events-none select-none">
+                                <svg class="w-10 h-10 sm:w-11 sm:h-11 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+                                    <path d="M12 36 C9 32, 8 28, 7 24" />
+                                    <path d="M19 26 C17 21, 16 17, 15 13" />
+                                    <path d="M30 18 C30 13, 29 9, 28 5" />
+                                    <path d="M41 16 C43 12, 43 8, 42 4" />
                                 </svg>
+                            </div>
 
+                            <!-- Burger Image -->
+                            <div class="relative z-10">
                                 <img id="hero-burger-img"
                                      src="{{ asset('images/hero-burger.png') }}"
                                      alt="Very Cheese Burger"
-                                     class="w-[240px] sm:w-[270px] lg:w-[295px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
+                                     class="w-[230px] sm:w-[270px] lg:w-[290px] xl:w-[310px] h-auto object-contain select-none drop-shadow-[0_14px_24px_rgba(0,0,0,0.32)]">
                             </div>
 
-                            <div class="relative lg:absolute lg:-right-6 lg:-top-10 z-20 -ml-8 lg:ml-0 select-none">
+                            <!-- Comic Speech Bubble Badge at top-right of burger -->
+                            <div class="absolute -top-10 -right-12 sm:-top-12 sm:-right-16 lg:-top-14 lg:-right-20 z-20 pointer-events-none select-none">
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
-                                     class="w-40 sm:w-48 lg:w-56 h-auto object-contain">
+                                     class="w-36 sm:w-44 lg:w-48 xl:w-52 h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.22)]">
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="w-full" style="height: 54px; background: repeating-conic-gradient(#385850 0% 25%, #ffffff 0% 50%) 0 0 / 36px 36px;"></div>
+                <!-- 3 Rows Checkered Bottom Border (36px = 3 x 12px) -->
+                <div class="w-full" style="height: 36px; background: repeating-conic-gradient(#3E615D 0% 25%, #ffffff 0% 50%) 0 0 / 24px 24px;"></div>
 
             </div>
         </div>
