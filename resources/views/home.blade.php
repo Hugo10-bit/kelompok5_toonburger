@@ -117,110 +117,97 @@
         </div>
     </section>
 
-            </div>
-        </div>
-    </section>
+    <!-- Section: Kenapa Toon Burger (Matching Figma exactly with authentic background asset and adjusted cards) -->
+    <section class="relative w-full pt-10 pb-12 sm:pt-12 sm:pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
+             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover;">
 
-    <section class="retro-grid-bg relative pt-14 pb-16 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
-
-        <div class="absolute top-0 right-0 w-44 sm:w-64 lg:w-80 pointer-events-none z-10">
-            <svg viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
-                <circle cx="46" cy="14" r="14" fill="#F0AD16"/>
-                <path d="M68,0 L320,0 L320,105 C312,105 308,65 300,65 C292,65 288,125 276,125 C264,125 262,70 250,70 C238,70 236,195 218,195 C200,195 198,65 184,65 C170,65 168,120 154,120 C140,120 136,45 120,45 C104,45 102,155 82,155 C62,155 68,40 68,0 Z" fill="#E39B0B"/>
-                <path d="M72,0 L320,0 L320,98 C312,98 308,58 300,58 C292,58 288,118 276,118 C264,118 262,63 250,63 C238,63 236,188 218,188 C200,188 198,58 184,58 C170,58 168,113 154,113 C140,113 136,38 120,38 C104,38 102,148 82,148 C64,148 72,35 72,0 Z" fill="#F9BE25"/>
-            </svg>
-        </div>
-
-        <svg class="absolute top-16 left-0 w-56 sm:w-72 h-auto pointer-events-none text-[#5A7670]" viewBox="0 0 260 400" fill="none">
-            <path d="M-20,20 C40,140 160,180 220,400" stroke="currentColor" stroke-width="4" opacity="0.75"/>
-            <path d="M-30,70 C30,180 120,220 170,400" stroke="currentColor" stroke-width="1.2" opacity="0.5"/>
-            <path d="M-40,120 C20,220 90,260 130,400" stroke="currentColor" stroke-width="1.2" opacity="0.4"/>
-            <path d="M-50,170 C10,260 60,300 90,400" stroke="currentColor" stroke-width="1.2" opacity="0.3"/>
-        </svg>
-
-        <div class="max-w-6xl mx-auto relative z-20 text-center space-y-3 mb-12">
-            <div class="inline-flex items-center px-5 py-1 rounded-full bg-[#4A6B65] text-white text-xs font-medium border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
+        <div class="max-w-[780px] mx-auto relative z-20 text-center space-y-2 mb-8 sm:mb-9">
+            <div class="inline-flex items-center px-4 py-1 rounded-full bg-[#4C6B65] text-white text-[11px] font-medium border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
                 Keunggulan Kami
             </div>
 
-            <h2 class="text-3xl sm:text-4xl lg:text-[42px] text-[#243F3B] uppercase tracking-wide pt-1"
+            <h2 class="text-2xl sm:text-[28px] lg:text-[32px] text-[#243F3B] uppercase tracking-wide pt-0.5"
                 style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
                 KENAPA TOON BURGER?
             </h2>
 
-            <p class="text-xs sm:text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
+            <p class="text-[11px] sm:text-xs text-gray-500 max-w-[480px] mx-auto leading-relaxed">
                 Nikmati sensasi kelezatan burger terbaik dengan daging pilihan dan bahan segar yang siap memuaskan rasa lapar Anda kapan saja.
             </p>
         </div>
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-20">
+        <div class="max-w-[780px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-4.5 relative z-20">
 
-            <div class="bg-white rounded-[22px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-6 text-left flex flex-col justify-start space-y-3 relative overflow-hidden">
-                <div class="w-10 h-10 rounded-lg border border-[#E59898] bg-[#FDF2F2] flex items-center justify-center text-[#C93B2B]">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <!-- Card 1: 100% Daging -->
+            <div class="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-black shadow-[4px_5px_0px_#6E7571] p-4 text-left flex flex-col justify-start relative overflow-hidden transition-transform duration-200 hover:-translate-y-1">
+                <div class="w-8 h-8 rounded-lg border border-[#F5C2C2] bg-[#FDF2F2] flex items-center justify-center text-[#E03A3A] mb-2.5 shrink-0">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-sm sm:text-[15px] text-gray-900 leading-snug pt-1">
+                <h3 class="font-bold text-[13px] text-gray-900 leading-tight">
                     Terbuat dari 100% Daging
                 </h3>
-                <p class="text-[11.5px] text-gray-500 leading-relaxed relative z-10">
+                <p class="text-[10.5px] text-gray-500 leading-relaxed pt-1 relative z-10">
                     Nikmati patty berkualitas yang dibuat dari 100% daging pilihan.
                 </p>
-                <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-200/70 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="absolute -bottom-2 -right-2 w-16 h-16 text-gray-900 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
                 </svg>
             </div>
 
-            <div class="bg-white rounded-[22px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-6 text-left flex flex-col justify-start space-y-3 relative overflow-hidden">
-                <div class="w-10 h-10 rounded-lg border border-[#9BB0AC] bg-[#F0F4F3] flex items-center justify-center text-[#3B5C56]">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 3c-4 0-7 3-7 7 0 3.5 2.5 7.5 7 11 4.5-3.5 7-7.5 7-11 0-4-3-7-7-7z"/>
-                        <path d="M12 7v13M9 10l3 3 3-3M9 14l3 3 3-3"/>
+            <!-- Card 2: Bahan Segar Setiap Hari -->
+            <div class="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-black shadow-[4px_5px_0px_#6E7571] p-4 text-left flex flex-col justify-start relative overflow-hidden transition-transform duration-200 hover:-translate-y-1">
+                <div class="w-8 h-8 rounded-lg border border-[#BDE0D8] bg-[#F0F7F5] flex items-center justify-center text-[#2E7A6B] mb-2.5 shrink-0">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
+                        <circle cx="12" cy="11" r="3"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-sm sm:text-[15px] text-gray-900 leading-snug pt-1">
+                <h3 class="font-bold text-[13px] text-gray-900 leading-tight">
                     Bahan Segar Setiap Hari
                 </h3>
-                <p class="text-[11.5px] text-gray-500 leading-relaxed relative z-10">
+                <p class="text-[10.5px] text-gray-500 leading-relaxed pt-1 relative z-10">
                     Selalu fresh setiap hari, karena rasa terbaik dimulai dari bahan berkualitas
                 </p>
-                <svg class="absolute -bottom-3 -right-2 w-24 h-24 text-gray-200/70 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 3c-4 0-7 3-7 7 0 3.5 2.5 7.5 7 11 4.5-3.5 7-7.5 7-11 0-4-3-7-7-7z"/>
-                    <path d="M12 7v13M9 10l3 3 3-3"/>
+                <svg class="absolute -bottom-2 -right-2 w-16 h-16 text-gray-900 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
+                    <circle cx="12" cy="11" r="3"/>
                 </svg>
             </div>
 
-            <div class="bg-white rounded-[22px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-6 text-left flex flex-col justify-start space-y-3 relative overflow-hidden">
-                <div class="w-10 h-10 rounded-lg border border-[#F3D179] bg-[#FEF9E7] flex items-center justify-center text-[#E6A817]">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <!-- Card 3: Pesanan Cepat -->
+            <div class="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-black shadow-[4px_5px_0px_#6E7571] p-4 text-left flex flex-col justify-start relative overflow-hidden transition-transform duration-200 hover:-translate-y-1">
+                <div class="w-8 h-8 rounded-lg border border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-2.5 shrink-0">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-sm sm:text-[15px] text-gray-900 leading-snug pt-1">
+                <h3 class="font-bold text-[13px] text-gray-900 leading-tight">
                     Pesanan Cepat
                 </h3>
-                <p class="text-[11.5px] text-gray-500 leading-relaxed relative z-10">
+                <p class="text-[10.5px] text-gray-500 leading-relaxed pt-1 relative z-10">
                     Disiapkan dengan cepat tanpa mengorbankan kualitas dan cita rasa.
                 </p>
-                <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-200/70 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="absolute -bottom-2 -right-2 w-16 h-16 text-gray-900 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
                 </svg>
             </div>
 
-            <div class="bg-white rounded-[22px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-6 text-left flex flex-col justify-start space-y-3 relative overflow-hidden">
-                <div class="w-10 h-10 rounded-lg border border-[#9BC0D9] bg-[#F0F6FA] flex items-center justify-center text-[#3B76A0]">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <!-- Card 4: Porsi Bikin Kenyang -->
+            <div class="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-black shadow-[4px_5px_0px_#6E7571] p-4 text-left flex flex-col justify-start relative overflow-hidden transition-transform duration-200 hover:-translate-y-1">
+                <div class="w-8 h-8 rounded-lg border border-[#BFDBFE] bg-[#EFF6FF] flex items-center justify-center text-[#2563EB] mb-2.5 shrink-0">
+                    <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-sm sm:text-[15px] text-gray-900 leading-snug pt-1">
+                <h3 class="font-bold text-[13px] text-gray-900 leading-tight">
                     Porsi Bikin Kenyang
                 </h3>
-                <p class="text-[11.5px] text-gray-500 leading-relaxed relative z-10">
+                <p class="text-[10.5px] text-gray-500 leading-relaxed pt-1 relative z-10">
                     Porsi pas dan mengenyangkan, cocok untuk menemani rasa lapar kapan saja.
                 </p>
-                <svg class="absolute -bottom-3 -right-2 w-24 h-24 text-gray-200/70 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+                <svg class="absolute -bottom-2 -right-2 w-16 h-16 text-gray-900 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
                 </svg>
             </div>
@@ -229,11 +216,12 @@
 
     </section>
 
+    <!-- Bottom Yellow Ribbon with TOONBURGER ★ matching Figma exactly -->
     <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none">
         <div class="whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center justify-center overflow-x-hidden"
              style="font-family: 'Titan One', 'Luckiest Guy', cursive;">
             @for($i = 0; $i < 12; $i++)
-                <span class="mx-3 flex items-center gap-3">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
+                <span class="mx-3.5 flex items-center gap-3">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
             @endfor
         </div>
     </div>
