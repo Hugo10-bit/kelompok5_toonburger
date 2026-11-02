@@ -401,12 +401,21 @@
                     </div>
                 </div>
 
+                @php $adminHeaderUser = Auth::user(); @endphp
                 <div class="relative select-none">
                     <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3.5 px-4 py-2 rounded-2xl hover:bg-[#F2F2F2]/70 dark:hover:bg-[#383838] cursor-pointer group focus:outline-none text-left transition">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FA9A1B] text-white flex items-center justify-center font-bold text-base sm:text-lg shrink-0 shadow-xs">Tb</div>
+                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FA9A1B] text-white flex items-center justify-center font-bold text-base sm:text-lg shrink-0 shadow-xs overflow-hidden">
+                            @if(!empty($adminHeaderUser?->avatar))
+                                <img id="header-profile-avatar-img" src="{{ str_starts_with($adminHeaderUser->avatar, 'http') ? $adminHeaderUser->avatar : asset($adminHeaderUser->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                                <span id="header-profile-avatar-initials" class="hidden">Tb</span>
+                            @else
+                                <img id="header-profile-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                                <span id="header-profile-avatar-initials">Tb</span>
+                            @endif
+                        </div>
                         <div class="text-left leading-tight hidden sm:block pr-1">
-                            <div class="font-bold text-[15px] lg:text-base text-[#333333] dark:text-white leading-tight">Toon Burger</div>
-                            <div class="text-xs lg:text-[13px] text-gray-500 dark:text-[#BDBDBD] font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
+                            <div class="font-bold text-[15px] lg:text-base text-[#333333] dark:text-white leading-tight">{{ $adminHeaderUser?->name ?: 'Toon Burger' }}</div>
+                            <div class="text-xs lg:text-[13px] text-gray-500 dark:text-[#BDBDBD] font-normal leading-tight mt-0.5">{{ $adminHeaderUser?->email ?: 'Toonburger@gmail.com' }}</div>
                         </div>
                         <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 dark:text-white stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>

@@ -12,29 +12,60 @@
     </div>
 
     <div class="flex items-center gap-5 pt-1 pb-2">
-        <div class="w-20 h-20 rounded-full bg-[#F79E1B] text-white font-bold text-2xl flex items-center justify-center relative shrink-0 select-none">
-            <span>Tb</span>
-            <span class="w-6 h-6 rounded-full bg-[#D1D5DB] dark:bg-[#4F4F4F] border border-white dark:border-[#2B2B2B] flex items-center justify-center text-gray-600 dark:text-white absolute bottom-0 right-0 shadow-2xs">
+        <div class="relative shrink-0 select-none">
+            <button type="button"
+                    onclick="document.getElementById('profile-avatar-input').click()"
+                    title="Ubah Foto Profil"
+                    class="w-20 h-20 rounded-full bg-[#F79E1B] text-white font-bold text-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group focus:outline-none">
+                @if(!empty($user?->avatar))
+                    <img id="profile-avatar-preview"
+                         src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar) }}"
+                         alt="Avatar"
+                         class="w-full h-full object-cover">
+                    <span id="profile-avatar-initials" class="hidden">Tb</span>
+                @else
+                    <img id="profile-avatar-preview" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                    <span id="profile-avatar-initials">Tb</span>
+                @endif
+                <span class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </span>
+            </button>
+            <button type="button"
+                    onclick="document.getElementById('profile-avatar-input').click()"
+                    title="Ubah Foto Profil"
+                    aria-label="Ubah Foto Profil"
+                    class="w-6 h-6 rounded-full bg-[#D1D5DB] hover:bg-[#BFC5CE] dark:bg-[#4F4F4F] dark:hover:bg-[#616161] border border-white dark:border-[#2B2B2B] flex items-center justify-center text-gray-600 dark:text-white absolute bottom-0 right-0 shadow-2xs cursor-pointer transition active:scale-95 focus:outline-none z-10">
                 <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
                 </svg>
-            </span>
+            </button>
         </div>
         <div>
-            <h2 class="text-2xl font-normal text-gray-800 dark:text-white leading-tight">{{ $user->name ?: 'Toon Burger' }}</h2>
-            <p class="text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5">{{ $user->email ?: 'Toonburger@gmail.com' }}</p>
+            <h2 class="text-2xl font-normal text-gray-800 dark:text-white leading-tight">{{ $user?->name ?: 'Toon Burger' }}</h2>
+            <p class="text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
+            @error('avatar') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
     </div>
 
-    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 text-sm">
+    <form id="admin-profile-form" action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-5 text-sm">
         @csrf
+        <input type="file"
+               id="profile-avatar-input"
+               name="avatar"
+               accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+               class="hidden"
+               onchange="handleAdminAvatarChange(this)">
 
         <div>
             <label for="profile-username" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_username">Username</label>
             <input type="text"
                    id="profile-username"
                    name="name"
-                   value="{{ old('name', $user->name ?: 'Toon Burger') }}"
+                   value="{{ old('name', $user?->name ?: 'Toon Burger') }}"
                    required
                    class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
             @error('name') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
@@ -46,7 +77,7 @@
                 <input type="email"
                        id="profile-email"
                        name="email"
-                       value="{{ old('email', $user->email ?: 'Toonburger@gmail.com') }}"
+                       value="{{ old('email', $user?->email ?: 'Toonburger@gmail.com') }}"
                        required
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
                 @error('email') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
@@ -57,7 +88,7 @@
                 <input type="text"
                        id="profile-phone"
                        name="phone_number"
-                       value="{{ old('phone_number', $user->phone_number ?: '085780153872') }}"
+                       value="{{ old('phone_number', $user?->phone_number ?: '085780153872') }}"
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
                 @error('phone_number') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
             </div>
@@ -68,7 +99,7 @@
             <input type="text"
                    id="profile-address"
                    name="address"
-                   value="{{ old('address', $user->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714') }}"
+                   value="{{ old('address', $user?->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714') }}"
                    class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
             @error('address') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
@@ -82,10 +113,10 @@
 
     <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 pt-6 text-sm">
         @csrf
-        <input type="hidden" name="name" value="{{ $user->name ?: 'Toon Burger' }}">
-        <input type="hidden" name="email" value="{{ $user->email ?: 'Toonburger@gmail.com' }}">
-        <input type="hidden" name="phone_number" value="{{ $user->phone_number ?: '085780153872' }}">
-        <input type="hidden" name="address" value="{{ $user->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714' }}">
+        <input type="hidden" name="name" value="{{ $user?->name ?: 'Toon Burger' }}">
+        <input type="hidden" name="email" value="{{ $user?->email ?: 'Toonburger@gmail.com' }}">
+        <input type="hidden" name="phone_number" value="{{ $user?->phone_number ?: '085780153872' }}">
+        <input type="hidden" name="address" value="{{ $user?->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714' }}">
 
         <div>
             <label for="profile-new-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_new_pass">Password baru</label>
@@ -114,6 +145,38 @@
             </button>
         </div>
     </form>
+
+    <script>
+        function handleAdminAvatarChange(input) {
+            if (!input.files || !input.files[0]) return;
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('profile-avatar-preview');
+                const initials = document.getElementById('profile-avatar-initials');
+                if (preview) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                }
+                if (initials) {
+                    initials.classList.add('hidden');
+                }
+                const headerAvatarImg = document.getElementById('header-profile-avatar-img');
+                const headerAvatarInit = document.getElementById('header-profile-avatar-initials');
+                if (headerAvatarImg) {
+                    headerAvatarImg.src = e.target.result;
+                    headerAvatarImg.classList.remove('hidden');
+                }
+                if (headerAvatarInit) {
+                    headerAvatarInit.classList.add('hidden');
+                }
+                // Auto-submit form to persist new avatar immediately
+                const form = document.getElementById('admin-profile-form');
+                if (form) form.submit();
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 
 </div>
 @endsection

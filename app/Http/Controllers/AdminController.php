@@ -521,6 +521,7 @@ class AdminController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
             'phone_number' => 'nullable|string|max:30',
             'address' => 'nullable|string|max:500',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
             'password' => 'nullable|string|min:6|confirmed',
         ]);
 
@@ -531,6 +532,17 @@ class AdminController extends Controller
         }
         if ($request->filled('address')) {
             $user->address = $request->address;
+        }
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $dir = public_path('images/avatars');
+            if (!is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            $filename = 'avatar_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move($dir, $filename);
+            $user->avatar = 'images/avatars/' . $filename;
         }
 
         if ($request->filled('password')) {
