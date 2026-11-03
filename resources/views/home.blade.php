@@ -5,113 +5,99 @@
 @section('content')
 <div class="space-y-0 pb-0">
 
-    <section id="hero-section" class="relative overflow-hidden -mt-[88px] sm:-mt-[96px]">
+    <!-- ═══════════════════════════════════════════════
+         1. HERO SECTION (Sesuai Foto 5)
+         ═══════════════════════════════════════════════ -->
+    <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-24 sm:pt-28 lg:pt-32 flex flex-col justify-between"
-                 style="background-color: #3E615D;">
+            <!-- Hero Background: Dark Slate Green (#385850) -->
+            <div class="relative overflow-hidden w-full pt-32 sm:pt-36 lg:pt-40"
+                 style="background-color: #385850; min-height: 520px;">
 
-                <!-- Background Topographic Contour Waves matching Figma mockup -->
-                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20 select-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 500" fill="none">
-                    <!-- Left Topographic Waves -->
-                    <path d="M-60 0 C 40 160, 100 320, 160 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M-30 0 C 70 160, 130 320, 190 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M0 0 C 100 160, 160 320, 220 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M30 0 C 130 160, 190 320, 250 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M60 0 C 160 160, 220 320, 280 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M90 0 C 190 160, 250 320, 310 500" stroke="#ffffff" stroke-width="1.2"/>
-
-                    <!-- Right Topographic Waves -->
-                    <path d="M1500 0 C 1410 160, 1330 320, 1240 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1470 0 C 1380 160, 1300 320, 1210 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1440 0 C 1350 160, 1270 320, 1180 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1410 0 C 1320 160, 1240 320, 1150 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1380 0 C 1290 160, 1210 320, 1120 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1350 0 C 1260 160, 1180 320, 1090 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1320 0 C 1230 160, 1150 320, 1060 500" stroke="#ffffff" stroke-width="1.2"/>
-                    <path d="M1290 0 C 1200 160, 1120 320, 1030 500" stroke="#ffffff" stroke-width="1.2"/>
+                <!-- Concentric / wavy retro background curves -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 500">
+                    <path d="M-100,50 C200,20 400,120 700,70 C900,30 1100,100 1200,80" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M-100,120 C200,90 400,190 700,140 C900,100 1100,170 1200,150" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M-100,190 C200,160 400,260 700,210 C900,170 1100,240 1200,220" fill="none" stroke="#fff" stroke-width="1.5"/>
+                    <path d="M-100,260 C200,230 400,330 700,280 C900,240 1100,310 1200,290" fill="none" stroke="#fff" stroke-width="1.5"/>
                 </svg>
 
-                <!-- 4 Comic Sparkle Stars matching exact positions in Figma mockup -->
+                <!-- Comic Sparkles Floating in Background -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
+                     alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="top: 24%; left: 3.5%; animation-delay: 0s;">
+                     style="top: 24%; left: 3%; animation-delay: 0s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
+                     alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 26%; left: 60%; animation-delay: 0.7s;">
+                     style="top: 26%; right: 34%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
+                     alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 72%; left: 40.5%; animation-delay: 1.4s;">
+                     style="bottom: 18%; right: 23%; animation-delay: 1.4s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 68%; left: 82%; animation-delay: 2.1s;">
+                     alt="Sparkle"
+                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
+                     style="bottom: 16%; left: 40%; animation-delay: 2.1s;">
 
-                <div class="relative z-10 max-w-[1180px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-6 lg:pb-8">
+                <!-- Content Grid -->
+                <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-8">
 
-                    <!-- Left Column: Heading, Subtitle, CTA Buttons -->
-                    <div class="lg:col-span-6 space-y-3.5 sm:space-y-4 pb-2 lg:pb-0">
-                        <h1 class="text-white uppercase leading-[0.96] text-4xl sm:text-5xl lg:text-[56px] xl:text-[62px] tracking-wide"
-                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.5px #1E2E2B; text-shadow: 3px 4px 0px #1E2E2B;">
+                    <!-- Left: Headline + Subtitle + Buttons -->
+                    <div class="lg:col-span-5 space-y-4 pb-6 lg:pb-10 toon-reveal">
+                        <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
                         </h1>
 
-                        <p class="text-xs sm:text-[13.5px] text-white/90 leading-relaxed font-normal max-w-sm sm:max-w-md pt-1">
-                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan<br class="hidden sm:inline"> dalam setiap hidangan.
+                        <p class="text-xs sm:text-sm md:text-base text-white/90 leading-relaxed max-w-sm sm:max-w-md">
+                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.
                         </p>
 
-                        <div class="flex items-center gap-3.5 pt-3 sm:pt-4">
+                        <!-- CTA Buttons: Pickup Order & Delivery Order -->
+                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
                             <a href="{{ route('menu') }}"
-                               class="font-bold text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-lg border border-black/80 bg-[#F5B027] hover:bg-[#E09E1E] text-gray-950 shadow-[2px_2px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer inline-flex items-center justify-center">
+                               class="font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                                 Pickup Order
                             </a>
                             <a href="{{ route('menu') }}"
-                               class="font-medium text-xs sm:text-sm px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-lg border border-white/90 bg-transparent hover:bg-white/10 text-white transition cursor-pointer inline-flex items-center justify-center">
+                               class="font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                                 Delivery Order
                             </a>
                         </div>
                     </div>
 
-                    <!-- Right Column: Steam, Burger, Comic Speech Bubble (Positioned without overlapping) -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-8 lg:pt-0 lg:pr-14 xl:pr-18">
-                        <div class="relative inline-flex items-center justify-center">
-                            <!-- Comic Steam lines above top-left of burger -->
-                            <div class="absolute -top-3.5 left-3 sm:-top-5 sm:left-4 z-10 pointer-events-none select-none">
-                                <svg class="w-10 h-10 sm:w-11 sm:h-11 text-white opacity-95" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
-                                    <path d="M12 36 C9 32, 8 28, 7 24" />
-                                    <path d="M19 26 C17 21, 16 17, 15 13" />
-                                    <path d="M30 18 C30 13, 29 9, 28 5" />
-                                    <path d="M41 16 C43 12, 43 8, 42 4" />
-                                </svg>
+                    <!-- Center: Hero Double/Triple Cheeseburger with comic dashes -->
+                    <div class="lg:col-span-4 relative flex justify-center items-end self-end pb-4 lg:pb-6 pt-2 sm:pt-4">
+                        <div class="relative z-10">
+                            <!-- Small comic white accent lines above burger -->
+                            <div class="absolute -top-3 left-1/4 flex gap-1.5 opacity-80 pointer-events-none">
+                                <span class="w-1.5 h-3 bg-white rounded-full -rotate-12"></span>
+                                <span class="w-1.5 h-3.5 bg-white rounded-full"></span>
+                                <span class="w-1.5 h-3 bg-white rounded-full rotate-12"></span>
                             </div>
 
-                            <!-- Burger Image (Full clear view, no badge overlapping it) -->
-                            <div class="relative z-20">
-                                <img id="hero-burger-img"
-                                     src="{{ asset('images/hero-burger.png') }}"
-                                     alt="Very Cheese Burger"
-                                     class="w-[225px] sm:w-[260px] lg:w-[285px] xl:w-[305px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
-                            </div>
+                            <img id="hero-burger-img"
+                                 src="{{ asset('images/hero-burger.png') }}"
+                                 alt="Very Cheese Burger"
+                                 class="w-[280px] sm:w-[320px] lg:w-[350px] xl:w-[380px] h-auto object-contain cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 drop-shadow-[0_18px_32px_rgba(0,0,0,0.4)] select-none">
+                        </div>
+                    </div>
 
-                            <!-- Comic Speech Bubble Badge placed to the top-right without covering burger -->
-                            <div class="absolute -top-12 -right-24 sm:-top-14 sm:-right-32 lg:-top-16 lg:-right-36 xl:-top-18 xl:-right-44 z-10 pointer-events-none select-none">
-                                <img id="hero-badge-img"
-                                     src="{{ asset('images/very-cheese-badge.png') }}"
-                                     alt="VERY CHEESE BURGER"
-                                     class="w-36 sm:w-44 lg:w-48 xl:w-52 h-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.22)]">
-                            </div>
+                    <!-- Right: Starburst Comic Speech Bubble ("VERY CHEESE BURGER") -->
+                    <div class="lg:col-span-3 relative flex justify-center lg:justify-end items-center pb-6 lg:pb-10">
+                        <div class="relative cursor-pointer select-none transition-transform hover:scale-105">
+                            <img id="hero-badge-img"
+                                 src="{{ asset('images/very-cheese-badge.png') }}"
+                                 alt="VERY CHEESE BURGER"
+                                 class="w-44 sm:w-52 lg:w-56 xl:w-60 h-auto object-contain drop-shadow-md">
                         </div>
                     </div>
 
                 </div>
 
-                <!-- 3 Rows Checkered Border (36px = 3 x 12px) matching Figma -->
-                <div class="w-full mt-4 sm:mt-6" style="height: 36px; background: repeating-conic-gradient(#3E615D 0% 25%, #ffffff 0% 50%) 0 0 / 24px 24px;"></div>
-
-                <!-- Bottom Teal Strip below checkered border matching Figma layout -->
-                <div class="w-full h-7 sm:h-8"></div>
+                <!-- Retro Checkered Bottom Border (2 rows of black & white squares) -->
+                <div class="w-full" style="height: 24px; background: repeating-conic-gradient(#1a332d 0% 25%, #ffffff 0% 50%) 0 0 / 22px 22px;"></div>
 
             </div>
         </div>
@@ -210,8 +196,6 @@
                 <svg class="absolute -bottom-2 -right-2 w-20 h-20 text-gray-900 opacity-[0.06] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
                 </svg>
-            </div>
-
         </div>
 
     </section>
@@ -226,130 +210,245 @@
         </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════
+         4. BEST SELLER SECTION (Sesuai Foto 4)
+         ═══════════════════════════════════════════════ -->
     <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none">
-        <div class="max-w-6xl mx-auto space-y-8">
+        <div class="max-w-7xl mx-auto space-y-8">
 
-            <div class="flex items-center justify-between gap-4">
+            <!-- Section Header -->
+            <div class="flex items-end justify-between gap-4">
                 <div>
-                    <h2 class="text-3xl sm:text-4xl lg:text-[42px] text-[#243F3B] uppercase tracking-wide"
-                        style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                    <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
+                        style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                         BEST SELLER
                     </h2>
-                    <p class="text-xs sm:text-sm text-gray-500 mt-1.5 max-w-md leading-relaxed">
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1 max-w-lg">
                         Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.
                     </p>
                 </div>
 
                 <a href="{{ route('menu') }}"
-                   class="border border-black/80 bg-transparent hover:bg-white/70 rounded-xl px-5 py-2.5 font-medium text-xs sm:text-sm text-gray-900 transition cursor-pointer flex items-center gap-2 shrink-0">
+                   class="border-2 border-black bg-white rounded-xl px-4 py-2 font-bold text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer flex items-center gap-1.5 shrink-0">
                     <span>Lihat Semua</span>
                     <span>&rarr;</span>
                 </a>
             </div>
 
+            <!-- 4 Product Cards Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($featuredProducts as $product)
-                    <div class="bg-white rounded-[24px] border-[1.5px] border-black shadow-[5px_6px_0px_#6E7571] p-4 flex flex-col justify-between transition-transform duration-200 hover:-translate-y-1 group">
-                        <div onclick="openProductModal({{ $product->id }})" class="cursor-pointer">
-                            <div class="w-full rounded-2xl overflow-hidden bg-gray-50 flex items-center justify-center p-2">
-                                <img src="{{ asset($product->image) }}"
-                                     alt="{{ $product->name }}"
-                                     class="w-full h-auto object-contain block group-hover:scale-105 transition-transform duration-300">
-                            </div>
 
-                            <div class="pt-3.5 pb-1">
-                                <span class="text-[10px] font-bold text-[#E6A817] uppercase tracking-wider block">
-                                    {{ $product->category_label ?? ($product->category->name ?? 'CHEESE BURGER') }}
-                                </span>
-                                <h3 class="font-extrabold text-[15px] text-gray-900 mt-0.5 leading-snug group-hover:text-[#415C58] transition-colors">
-                                    {{ $product->name }}
-                                </h3>
-                                <p class="text-[11px] text-gray-400 line-clamp-2 leading-relaxed mt-1">
-                                    {{ $product->description }}
-                                </p>
-                            </div>
+                <!-- 1. Very Cheese Burger -->
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                    <div>
+                        <!-- Top Image Box: Yellow Background (Full Bleed Seamless) -->
+                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
+                            <img src="{{ asset('images/products/very-cheese-burger.png') }}"
+                                 alt="Very Cheese Burger"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
 
-                        <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                            <span class="font-extrabold text-base text-gray-900">
-                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                        <div class="pt-3 pb-1">
+                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
+                                CHEESE BURGER
                             </span>
-                            <button type="button"
-                                    onclick="openProductModal({{ $product->id }})"
-                                    class="bg-[#415C58] hover:bg-[#344B48] text-white text-xs font-medium px-5 py-2 rounded-lg transition active:scale-95 cursor-pointer">
-                                Pesan
-                            </button>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="pt-4">
-                <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#C85A5A] px-6 sm:px-10 py-6 sm:py-7 flex flex-col sm:flex-row items-center justify-between gap-5">
-                    <div class="flex items-center gap-5">
-                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#C93328] text-white flex items-center justify-center shrink-0">
-                            <svg class="w-9 h-9 sm:w-10 sm:h-10 text-white" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M7 2v9c0 1.1.9 2 2 2v9h2v-9c1.1 0 2-.9 2-2V2h-1.5v7h-1V2h-1v7h-1V2H7zm9.5 0C14.57 2 13 3.79 13 6v5h2.5v11h2V2h-1z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-base sm:text-lg md:text-xl text-[#222222] uppercase tracking-wide"
-                                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-                                NGGAK SEMPAT KE TOKO? GOFOOD AJA!
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                Very Cheese Burger
                             </h3>
-                            <p class="text-xs sm:text-sm text-gray-400 mt-1">
-                                Burger favoritmu diantar langsung ke rumah, langsung dari aplikasi Gojek
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
+                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
                             </p>
                         </div>
                     </div>
 
-                    <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                       class="bg-[#A9322C] hover:bg-[#8F2823] text-white font-medium text-xs sm:text-sm px-5 py-3 rounded-lg transition flex items-center gap-2 shrink-0 cursor-pointer">
-                        <span>Buka Gojek</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-                        </svg>
-                    </a>
+                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
+                        <span class="font-black text-base text-gray-900">
+                            Rp 35.000
+                        </span>
+                        <button type="button"
+                                onclick="quickAddToCart(1)"
+                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                            Pesan
+                        </button>
+                    </div>
                 </div>
+
+                <!-- 2. Cheese Chicken Burger -->
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                    <div>
+                        <!-- Top Image Box: Beige/Tan Background (Full Bleed Seamless) -->
+                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
+                            <img src="{{ asset('images/products/cheese-chicken-burger.png') }}"
+                                 alt="Cheese Chicken Burger"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+
+                        <div class="pt-3 pb-1">
+                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
+                                CHICKEN BURGER
+                            </span>
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                Cheese Chicken Burger
+                            </h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
+                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
+                        <span class="font-black text-base text-gray-900">
+                            Rp 23.000
+                        </span>
+                        <button type="button"
+                                onclick="quickAddToCart(2)"
+                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                            Pesan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. BBQ Beef Burger -->
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                    <div>
+                        <!-- Top Image Box: Vibrant Red Background (Full Bleed Seamless) -->
+                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
+                            <img src="{{ asset('images/products/bbq-beef-burger.png') }}"
+                                 alt="BBQ Beef Burger"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+
+                        <div class="pt-3 pb-1">
+                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
+                                BEEF BURGER
+                            </span>
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                BBQ Beef Burger
+                            </h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
+                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
+                        <span class="font-black text-base text-gray-900">
+                            Rp 37.000
+                        </span>
+                        <button type="button"
+                                onclick="quickAddToCart(3)"
+                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                            Pesan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Double Cheese Burger -->
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                    <div>
+                        <!-- Top Image Box: Soft Green Background (Full Bleed Seamless) -->
+                        <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
+                            <img src="{{ asset('images/products/double-cheese-burger.png') }}"
+                                 alt="Double Cheese Burger"
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+
+                        <div class="pt-3 pb-1">
+                            <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
+                                CHEESE BURGER
+                            </span>
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                                Double Cheese Burger
+                            </h3>
+                            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
+                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
+                        <span class="font-black text-base text-gray-900">
+                            Rp 33.000
+                        </span>
+                        <button type="button"
+                                onclick="quickAddToCart(4)"
+                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                            Pesan
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ═══════════════════════════════════════════════
+                 5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
+                 ═══════════════════════════════════════════════ -->
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#a83232] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
+                        🍴
+                    </div>
+                    <div>
+                        <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
+                            NGGAK SEMPAT  KE TOKO? GOFOOD AJA!
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
+                            Burger favoritmu diantar langsung ke rumah, langsung dari aplikasi Gojek
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
+                   class="bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
+                    <span>Buka Gojek</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                </a>
             </div>
 
         </div>
     </section>
 
-    <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none" style="background-color: #405E58;">
-        <div class="max-w-6xl mx-auto">
-            <div class="bg-white rounded-[28px] p-7 sm:p-10 lg:p-12 shadow-sm">
+    <!-- ═══════════════════════════════════════════════
+         6. MENGENAL TOON BURGER SECTION (Sesuai Foto 3)
+         ═══════════════════════════════════════════════ -->
+    <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none" style="background-color: #385850;">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
 
+                    <!-- Left: Text -->
                     <div class="md:col-span-7 space-y-4">
-                        <h2 class="text-3xl sm:text-4xl lg:text-[40px] text-[#27443E] uppercase leading-[1.1]"
-                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                        <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase leading-[1.05]"
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             MENGENAL TOON<br>BURGER
                         </h2>
 
-                        <p class="text-xs sm:text-[13.5px] text-gray-500 leading-relaxed pt-1">
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed mt-4">
                             Berawal dari kecintaan kami terhadap burger bergaya klasik Amerika dengan daging beraroma asap yang gurih dan roti brioche harum mentega, Toon Burger hadir membawa nuansa karakter kartun retro yang
                         </p>
 
-                        <p class="text-xs sm:text-[13.5px] text-gray-500 leading-relaxed">
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed mt-2">
                             enerjik, ceria, dan bersahabat bagi siapa saja.<br>
                             Setiap patty daging sapi digiling dari potongan daging segar berkualitas pilihan, saus diracik segar setiap pagi di dapur restoran, dan kebersihan adalah standar utama kami.
                         </p>
 
-                        <div class="pt-3">
+                        <div class="pt-4">
                             <a href="{{ route('about') }}"
-                               class="bg-[#415C58] hover:bg-[#344B48] text-white text-xs sm:text-sm font-medium px-5 py-3 rounded-lg inline-flex items-center gap-2 transition cursor-pointer">
+                               class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
                                 <span>Selengkapnya Tentang Kami</span>
                                 <span>&rarr;</span>
                             </a>
                         </div>
                     </div>
 
+                    <!-- Right: Outdoor Sign Photo with cartoon cat -->
                     <div class="md:col-span-5 flex justify-center md:justify-end">
-                        <div class="w-full max-w-[340px] rounded-[22px] overflow-hidden">
+                        <div class="w-full max-w-md rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000] mx-auto md:ml-auto">
                             <img src="{{ asset('images/toonburger-outdoor-sign-hq.png') }}"
                                  alt="Toon Burger Sign"
-                                 class="w-full h-64 sm:h-72 object-cover block">
+                                 class="w-full h-56 sm:h-64 lg:h-72 object-cover">
                         </div>
                     </div>
 
@@ -358,30 +457,33 @@
         </div>
     </section>
 
+    <!-- ═══════════════════════════════════════════════
+         7. ADA YANG MAU DITANYAIN? BANNER (Sesuai Foto 1)
+         ═══════════════════════════════════════════════ -->
     <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none">
-        <div class="max-w-6xl mx-auto">
-            <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#8F9693] px-6 sm:px-10 py-7 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-5">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
 
-                <div class="flex items-center gap-5">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 shrink-0 relative flex items-center justify-center">
-                        <svg class="w-16 h-16 sm:w-20 sm:h-20 text-[#415C58]" viewBox="0 0 64 64" fill="currentColor">
-                            <path d="M32 6C17.64 6 6 16.75 6 30c0 11.4 8.62 20.94 20.2 23.4L26 60l11.2-6.4C49.6 51.4 58 41.7 58 30 58 16.75 46.36 6 32 6z"/>
-                            <text x="32" y="39" fill="white" font-size="30" font-family="'Poppins', sans-serif" font-weight="600" text-anchor="middle">?</text>
+                <div class="flex items-center gap-4">
+                    <!-- Speech bubble question mark icon matching Photo 1 -->
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 relative flex items-center justify-center">
+                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor">
+                            <path d="M32 6C17.64 6 6 17.64 6 32c0 5.4 1.64 10.42 4.45 14.59L8 58l12.18-2.67C23.94 56.91 27.84 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"/>
+                            <text x="32" y="39" fill="white" font-size="28" font-family="'BBH Hegarty', sans-serif" font-weight="bold" text-anchor="middle">?</text>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-lg sm:text-xl lg:text-2xl text-[#27443E] uppercase tracking-wide"
-                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                        <h3 class="font-black text-lg sm:text-xl lg:text-2xl text-gray-900 uppercase tracking-tight">
                             ADA YANG MAU DITANYAIN?
                         </h3>
-                        <p class="text-xs sm:text-sm text-gray-400 mt-1">
+                        <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
                             Ada pertanyaan soal menu, lokasi, atau jam buka? Kami siap membantu."
                         </p>
                     </div>
                 </div>
 
                 <a href="{{ route('contact') }}"
-                   class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium text-xs sm:text-sm px-6 py-3 rounded-lg shrink-0 transition cursor-pointer">
+                   class="bg-[#3b5a53] hover:bg-[#2d4741] text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shrink-0 transition cursor-pointer shadow-xs">
                     Kontak Kami
                 </a>
 

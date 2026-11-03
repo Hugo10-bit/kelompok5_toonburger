@@ -10,8 +10,8 @@
              1. HEADER: SEMUA MENU
              ═══════════════════════════════════════════════ -->
         <div class="space-y-1.5 text-left pt-2 sm:pt-4 toon-reveal">
-            <h1 class="text-3xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
-                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+            <h1 class="font-brand text-3xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
+                style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                 SEMUA MENU
             </h1>
             <p class="text-xs sm:text-sm text-[#47665e] max-w-md leading-relaxed font-medium">

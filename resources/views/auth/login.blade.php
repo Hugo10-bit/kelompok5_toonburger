@@ -9,12 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
-    <title>{{ $currentMode === 'register' ? 'Buat Akun' : 'Selamat Datang Kembali!' }} - Toon Burger</title>
+    <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
 
+    <!-- Google Fonts: Bebas Neue, Luckiest Guy & Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
 
+    <!-- Prevent theme flash (FOUC) -->
     <script>
         if (localStorage.getItem('toon_theme') === 'dark') {
             document.documentElement.classList.add('dark');
@@ -23,6 +25,7 @@
         }
     </script>
 
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -31,17 +34,18 @@
                 extend: {
                     colors: {
                         toon: {
-                            granite: '#3F5E5A',
-                            'granite-btn': '#3F5E5A',
+                            granite: '#466967',
                             'granite-dark': '#344E4C',
-                            wheat: '#EAD5B3',
+                            wheat: '#F1D9B3',
                             rust: '#C1502D',
+                            cream: '#FAF1E1',
                             dark: '#263A38',
                         }
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
                         luckiest: ['"Luckiest Guy"', 'cursive'],
+                        brand: ['"Luckiest Guy"', 'cursive'],
                     }
                 }
             }
@@ -56,187 +60,206 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #EAD5B3;
-            color: #111827;
+            background-color: #F1D9B3;
+            color: #263A38;
             overflow-x: hidden;
-        }
-        .wheat-canvas {
-            background-color: #EAD5B3;
-            background-image: radial-gradient(rgba(63, 94, 90, 0.09) 1px, transparent 0);
-            background-size: 4px 4px;
         }
         .font-brand {
             font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.03em;
-            text-shadow: 2px 4px 3px rgba(35, 35, 35, 0.24);
+            letter-spacing: 0.04em;
         }
-        .checkerboard-3rows {
-            height: 54px;
+        .headline-shadow {
+            text-shadow: 3px 3px 0px rgba(45, 75, 71, 0.28);
+        }
+        .dark .headline-shadow {
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.40);
+        }
+        /* Classic retro checkerboard pattern */
+        .checkerboard-pattern {
             background-image:
-                linear-gradient(45deg, #3F5E5A 25%, transparent 25%),
-                linear-gradient(-45deg, #3F5E5A 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #3F5E5A 75%),
-                linear-gradient(-45deg, transparent 75%, #3F5E5A 75%);
-            background-size: 36px 36px;
-            background-position: 0 0, 0 18px, 18px -18px, -18px 0;
+                linear-gradient(45deg, #466967 25%, transparent 25%),
+                linear-gradient(-45deg, #466967 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #466967 75%),
+                linear-gradient(-45deg, transparent 75%, #466967 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .dark .checkerboard-pattern {
+            background-image:
+                linear-gradient(45deg, #F1D9B3 25%, transparent 25%),
+                linear-gradient(-45deg, #F1D9B3 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #F1D9B3 75%),
+                linear-gradient(-45deg, transparent 75%, #F1D9B3 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
         .static-burger {
             transform: rotate(var(--rot, 0deg));
-            filter: drop-shadow(-6px 8px 7px rgba(0, 0, 0, 0.25));
         }
-        html {
-            color-scheme: light;
+        /* Dark mode autofill transparent/dark styling */
+        .dark input:-webkit-autofill,
+        .dark input:-webkit-autofill:hover, 
+        .dark input:-webkit-autofill:focus, 
+        .dark input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #313131 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
-        html.dark {
-            color-scheme: dark;
-        }
+        /* Prevent Edge/IE native password reveal button from overlapping custom toggle button */
         input[type="password"]::-ms-reveal,
         input[type="password"]::-ms-clear {
             display: none;
         }
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-            -webkit-text-fill-color: #111827 !important;
-            caret-color: #111827 !important;
-            transition: background-color 5000s ease-in-out 0s;
-        }
-        html.dark input:-webkit-autofill,
-        html.dark input:-webkit-autofill:hover,
-        html.dark input:-webkit-autofill:focus,
-        html.dark input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 1000px #32363F inset !important;
-            -webkit-text-fill-color: #F9FAFB !important;
-            caret-color: #F9FAFB !important;
-            transition: background-color 5000s ease-in-out 0s;
-        }
-        *:focus-visible {
-            outline: 2px solid #3F5E5A;
-            outline-offset: 2px;
-        }
-        .dark *:focus-visible {
-            outline: 2px solid #9CA3AF;
-            outline-offset: 2px;
-        }
     </style>
 </head>
-<body class="min-h-screen lg:h-screen w-full wheat-canvas flex flex-col md:flex-row overflow-y-auto lg:overflow-hidden m-0 p-0 relative">
+<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
 
-    <div class="hidden md:block absolute top-0 left-0 right-0 h-24 bg-[#3F5E5A] pointer-events-none z-0"></div>
+    <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
-    <div class="w-full md:w-[46.6%] lg:w-[46.6%] min-h-[480px] md:h-screen wheat-canvas relative flex flex-col justify-between overflow-hidden p-0 shrink-0 select-none z-10">
-
+        <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
             <div class="relative w-full overflow-hidden">
-                <svg viewBox="0 0 500 135" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-[134px] block">
-                    <path d="M 0 0 L 500 0 L 500 38 Q 250 146 0 38 Z" fill="#3F5E5A" />
+                <svg viewBox="0 0 500 130" preserveAspectRatio="none" class="w-full h-28 sm:h-32 lg:h-36 block drop-shadow-xs">
+                    <path d="M 0 0 L 500 0 L 500 65 Q 250 135 0 65 Z" class="fill-[#466967] dark:fill-[#F1D9B3] transition-colors duration-200" />
                 </svg>
-
-                <div class="absolute inset-0 flex flex-col items-center justify-start pt-2 sm:pt-2.5">
-                    <a href="{{ route('welcome') }}" class="rounded-lg inline-flex items-center justify-center min-w-[44px] min-h-[44px]" aria-label="Halaman Awal Toon Burger">
-                        <img src="{{ asset('images/toonburger-logo-white.png') }}"
-                             alt="Toon Burger"
-                             class="h-18 sm:h-20 lg:h-[82px] w-auto object-contain drop-shadow-sm">
-                    </a>
-                </div>
             </div>
         </div>
 
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Smash Burger"
-             style="--rot: -3deg;"
-             class="static-burger absolute top-[26.5%] left-[6.8%] w-12 sm:w-14 lg:w-[56px] pointer-events-none z-20">
+        <!-- INNER VISIBLE CONTAINER: Exactly 100% of visible area (excluding the 3rem overlap under card) -->
+        <div class="w-full md:w-[calc(100%-3rem)] h-full absolute inset-y-0 left-0 flex flex-col justify-between z-20 pointer-events-none">
 
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Double Smash Burger"
-             style="--rot: 6deg;"
-             class="static-burger absolute top-[17%] right-[7%] w-20 sm:w-24 lg:w-[118px] pointer-events-none z-20">
+            <!-- MASCOT HEAD & WHITE "TOON BURGER" TEXT (Optically centered in visible area, neat & proportional) -->
+            <div class="pt-2 sm:pt-2.5 lg:pt-3 flex flex-col items-center justify-start pointer-events-auto">
+                <a href="{{ route('home') }}" class="group flex flex-col items-center text-center focus:outline-none focus:ring-2 focus:ring-white dark:focus:ring-[#466967] rounded-lg">
+                    <img src="{{ asset('images/toon-head.png') }}"
+                         alt="Toon Burger Mascot"
+                         class="h-12 sm:h-14 lg:h-16 w-auto object-contain drop-shadow-md transition group-hover:scale-105 duration-200">
+                    <span class="text-white dark:text-[#263A38] text-[11px] sm:text-xs md:text-[13px] font-normal uppercase tracking-wider block leading-none mt-1 drop-shadow-xs"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.12em;">
+                        TOON BURGER
+                    </span>
+                </a>
+            </div>
 
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Triple Cheese Burger"
-             style="--rot: -19deg;"
-             class="static-burger absolute bottom-[23.5%] left-[5.5%] w-20 sm:w-24 lg:w-[118px] pointer-events-none z-20">
+            <!-- 4 BURGERS: PRECISELY SIZED & POSITIONED WITH PERFECT SYMMETRY IN VISIBLE CONTAINER -->
+            <!-- 1. Top-Left Burger: Small (~52px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(-15deg);"
+                 class="absolute top-[26%] left-6 sm:left-8 md:left-9 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
 
-        <img src="{{ asset('images/floating-burger.png') }}"
-             alt="Cheese Burger"
-             style="--rot: -26deg;"
-             class="static-burger absolute bottom-[29.5%] right-[12%] w-13 sm:w-15 lg:w-[62px] pointer-events-none z-20">
+            <!-- 2. Top-Right Burger: BIG (~100px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(14deg);"
+                 class="absolute top-[17%] right-6 sm:right-8 md:right-10 w-20 sm:w-24 lg:w-28 h-auto drop-shadow-md pointer-events-none select-none">
 
-        <div class="my-auto py-6 sm:py-8 px-6 flex justify-center items-center relative z-20">
-            <h1 class="font-brand text-4xl sm:text-5xl md:text-[44px] lg:text-[52px] xl:text-[56px] leading-[1.42] text-[#3F5E5A] uppercase text-left inline-block">
-                EAT GOOD.<br>
-                FEEL GOOD.<br>
-                LIVE GOOD.
-            </h1>
-        </div>
+            <!-- 3. Bottom-Left Burger: BIGGEST (~130px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(-10deg);"
+                 class="absolute bottom-[23%] left-6 sm:left-8 md:left-9 w-24 sm:w-28 md:w-32 lg:w-36 h-auto drop-shadow-md pointer-events-none select-none">
 
-        <div class="w-full relative z-20 pb-5 sm:pb-6">
-            <div class="w-full checkerboard-3rows"></div>
-            <div class="text-center pt-5 sm:pt-6 text-xs sm:text-[13px] font-semibold text-[#263A38] tracking-normal">
+            <!-- 4. Bottom-Right Burger: Small (~52px) -->
+            <img src="{{ asset('images/floating-burger.png') }}"
+                 alt="Burger"
+                 style="transform: rotate(18deg);"
+                 class="absolute bottom-[27%] right-6 sm:right-8 md:right-10 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
+
+            <!-- CENTER BRAND HEADLINE (PERFECTLY CENTERED, ENLARGED, BEAUTIFULLY SPACED, RETRO 3D SHADOW) -->
+            <div class="my-auto py-4 px-6 sm:px-8 flex items-center justify-center w-full pointer-events-auto">
+                <div class="text-left select-none inline-block space-y-4 sm:space-y-5 lg:space-y-6">
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        EAT GOOD.
+                    </div>
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        FEEL GOOD.
+                    </div>
+                    <div class="font-brand headline-shadow text-4xl sm:text-5xl md:text-[52px] lg:text-[58px] xl:text-[62px] leading-none text-[#466967] dark:text-[#F1D9B3] uppercase tracking-normal transition-colors duration-200">
+                        LIVE GOOD.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SINCE 2025 TEXT (Centered in visible area) -->
+            <div class="w-full text-center pb-5 pt-2 text-xs sm:text-sm font-semibold text-[#466967]/80 dark:text-[#F1D9B3] tracking-widest uppercase transition-colors duration-200 pointer-events-auto">
                 - Since 2025-
             </div>
         </div>
 
+        <!-- BOTTOM CHECKERBOARD (Extends under card for seamless rounded-bl curve) -->
+        <div class="w-full relative z-10 pb-12">
+            <div class="w-full h-8 sm:h-9 checkerboard-pattern opacity-90 dark:opacity-100"></div>
+        </div>
+
     </div>
 
-    <div id="right-auth-card" class="w-full md:w-[53.4%] lg:w-[53.4%] min-h-screen md:h-screen bg-white dark:bg-[#32363F] text-[#111827] dark:text-[#F9FAFB] md:rounded-tl-[34px] md:rounded-bl-[34px] shadow-2xl flex flex-col justify-between items-center px-6 sm:px-12 lg:px-20 xl:px-24 py-6 sm:py-8 overflow-y-auto relative z-10 transition-colors duration-200">
+    <!-- ═══ RIGHT PANEL: COMPACT FORM CARD ═══ -->
+    <div class="w-full md:w-[52%] lg:w-[52%] xl:w-[53%] min-h-screen md:h-screen bg-white dark:bg-[#313131] md:rounded-tl-[44px] md:rounded-bl-[44px] shadow-[-10px_0_30px_rgba(0,0,0,0.08)] md:shadow-[-12px_0_36px_rgba(0,0,0,0.10)] dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-y-auto relative z-30 transition-colors duration-200">
 
-        <div class="hidden md:block w-full h-2 shrink-0"></div>
+        <!-- Top anchor for optical balance -->
+        <div class="hidden md:block w-full h-1"></div>
 
-        <div class="w-full max-w-[420px] mx-auto my-auto py-4">
+        <div class="w-full max-w-sm sm:max-w-md mx-auto my-auto py-4">
 
+            <!-- FLASH ALERTS -->
             @if(session('warning'))
-                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="alert">
+                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2.5">
                         <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">{{ session('warning') }}</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 dark:text-amber-300 hover:text-amber-950 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @else
-                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-200 text-xs font-semibold rounded-lg items-center justify-between" role="alert">
+                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2.5">
                         <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 dark:text-amber-300 hover:text-amber-950 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="alert">
+                <div class="mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-700/80 text-red-800 dark:text-red-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span>{{ session('error') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 dark:text-red-300 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold hover:text-red-900 dark:text-red-300 dark:hover:text-red-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('status'))
-                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-semibold rounded-lg flex items-center justify-between" role="status">
+                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 dark:text-emerald-300 font-bold min-w-[44px] min-h-[44px] -my-2 -mr-2 flex items-center justify-center cursor-pointer" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer">&times;</button>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex justify-between items-center shadow-xs">
+                    <span>{{ session('success') }}</span>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer">&times;</button>
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-6 p-3.5 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-300 dark:border-red-800 text-[#B42318] dark:text-red-200 text-xs font-semibold rounded-lg flex items-center gap-2.5" role="alert">
-                    <svg class="w-4 h-4 text-[#B42318] dark:text-red-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span>
+                <div class="mb-6 p-4 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 text-toon-rust dark:text-red-300 text-xs font-semibold rounded-2xl flex items-center gap-2.5 shadow-2xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
+                    <span class="font-bold">
                         @if($errors->has('email') || $errors->has('username') || $errors->has('password'))
                             Username, email, atau password yang dimasukkan salah.
                         @else
@@ -246,18 +269,20 @@
                 </div>
             @endif
 
-            <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }}">
-                <div class="mb-9">
-                    <h2 class="text-2xl sm:text-[32px] lg:text-[34px] font-bold text-[#0F172A] dark:text-white tracking-tight leading-tight" id="login-title">Selamat Datang Kembali!</h2>
-                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#D1D5DB] font-normal mt-1.5" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
+            <!-- ── 1. LOGIN FORM ("Welcome Back!") ── -->
+            <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
+                <div class="mb-7">
+                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="login-title">Selamat Datang Kembali!</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
-                <form id="login-form" action="{{ route('login') }}" method="POST" onsubmit="handleAuthSubmit(this, 'login-btn-text', 'Memproses...')" class="space-y-5 text-xs">
+                <form action="{{ route('login') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="login">
 
+                    <!-- Username / Email Field -->
                     <div>
-                        <label for="login-email" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1.5" id="login-email-label">Username</label>
+                        <label for="login-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-email-label">Username</label>
                         <input type="text"
                                name="email"
                                id="login-email"
@@ -265,12 +290,13 @@
                                autofocus
                                autocomplete="username"
                                placeholder="Masukkan Username"
-                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] font-normal placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : old('email', old('username')) }}"
+                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none px-4 dark:px-0 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
+                    <!-- Password Field -->
                     <div>
-                        <label for="login-password" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1.5" id="login-password-label">Password</label>
+                        <label for="login-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-password-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
@@ -278,10 +304,11 @@
                                    required
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
-                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] font-normal placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                                   value=""
+                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none pl-4 dark:pl-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-0 z-10 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#F3F4F6] hover:text-[#3F5E5A] dark:hover:text-white transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -291,89 +318,104 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between text-xs pt-0.5">
-                        <label class="inline-flex items-center gap-2 cursor-pointer select-none text-[#111827] dark:text-[#F9FAFB] font-medium min-h-[36px]">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[2px] accent-[#3F5E5A] text-[#3F5E5A] focus:ring-[#3F5E5A] border-[#64748B] dark:border-[#9CA3AF] bg-transparent">
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between text-xs pt-1">
+                        <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 font-medium">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-[11px] text-[#111827] dark:text-[#F9FAFB] hover:underline font-medium transition min-h-[36px] inline-flex items-center">
+                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
                             Lupa Password?
                         </a>
                     </div>
 
-                    <div class="pt-1">
-                        <button type="submit" id="login-submit-btn" class="w-full bg-[#3F5E5A] hover:bg-[#344E4C] text-white font-medium py-3 px-6 rounded-[7px] transition active:scale-[0.99] min-h-[44px] text-xs sm:text-[13.5px] flex items-center justify-center gap-2 cursor-pointer">
+                    <!-- Login Button -->
+                    <div class="pt-3">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="login-btn-text">Login</span>
                         </button>
                     </div>
 
-                    <div class="text-center text-[11.5px] pt-1 flex items-center justify-center gap-1 flex-wrap">
-                        <span id="no-account-text" class="text-[#94A3B8] dark:text-[#9CA3AF]">Belum Punya Akun?</span>
-                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#3F5E5A] dark:text-[#A7D7D2] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
+                    <!-- Toggle to Register -->
+                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-3">
+                        <span id="no-account-text">Belum Punya Akun?</span>
+                        <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Daftar Sekarang
                         </button>
-                    </div>
+                    </p>
                 </form>
             </div>
 
-            <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }}">
+            <!-- ── 2. CREATE ACCOUNT FORM ("Create Account") ── -->
+            <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }} transition-all duration-300">
                 <div class="mb-7">
-                    <h2 class="text-2xl sm:text-[32px] font-bold text-[#0F172A] dark:text-white tracking-tight leading-tight" id="register-title">Buat Akun</h2>
-                    <p class="text-xs sm:text-[15px] text-[#475569] dark:text-[#D1D5DB] font-normal mt-1.5" id="register-subtitle">Bergabung dengan keluarga Toon Burger.</p>
+                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="register-title">Buat Akun</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
                 </div>
 
-                <form id="register-form" action="{{ route('register') }}" method="POST" onsubmit="handleAuthSubmit(this, 'register-btn-text', 'Memproses...')" class="space-y-4 text-xs">
+                <form action="{{ route('register') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="register">
 
+                    <!-- Username -->
                     <div>
-                        <label for="register-username" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-username-label">Username</label>
-                        <input type="text"
-                               name="username"
-                               id="register-username"
-                               required
-                               autocomplete="username"
-                               placeholder="Masukkan Username"
-                               value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                        <label for="register-username" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-username-label">Username</label>
+                        <div class="relative">
+                            <input type="text"
+                                   name="username"
+                                   id="register-username"
+                                   required
+                                   autocomplete="username"
+                                   placeholder="Masukkan username anda"
+                                   value="{{ old('form_type') === 'register' ? old('username') : '' }}"
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                            <span class="absolute inset-y-0 right-0 pr-1 flex items-center pointer-events-none text-gray-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </span>
+                        </div>
                     </div>
 
+                    <!-- Email -->
                     <div>
-                        <label for="register-email" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-email-label">Email</label>
+                        <label for="register-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-email-label">Email</label>
                         <input type="email"
                                name="email"
                                id="register-email"
                                required
                                autocomplete="email"
-                               placeholder="Masukkan Email"
+                               placeholder="Masukkan email anda"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
+                    <!-- Mobile Number -->
                     <div>
-                        <label for="register-phone" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-phone-label">Nomor Telepon</label>
+                        <label for="register-phone" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-phone-label">Nomor Telepon</label>
                         <input type="tel"
                                name="phone_number"
                                id="register-phone"
                                autocomplete="tel"
-                               placeholder="Masukkan Nomor Telepon"
+                               placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] px-0 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                     </div>
 
+                    <!-- Password -->
                     <div>
-                        <label for="register-password" class="block text-xs sm:text-[13.5px] font-medium text-[#111827] dark:text-[#F9FAFB] mb-1" id="reg-pass-label">Password</label>
+                        <label for="register-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="reg-pass-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
                                    id="register-password"
                                    required
                                    autocomplete="new-password"
-                                   placeholder="Masukkan Password (min. 6 karakter)"
-                                   class="w-full bg-transparent border-0 border-b border-[#64748B] dark:border-[#9CA3AF] focus:border-[#3F5E5A] dark:focus:border-[#F3F4F6] pl-0 pr-11 py-2.5 min-h-[44px] text-xs sm:text-[13px] text-[#111827] dark:text-[#F9FAFB] placeholder-[#94A3B8] dark:placeholder-[#9CA3AF] focus:outline-none focus:ring-0 transition-colors">
+                                   placeholder="Masukkan password (min. 6 karakter)"
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-0 z-10 w-11 min-h-[44px] flex items-center justify-end pr-0.5 text-[#111827] dark:text-[#F3F4F6] hover:text-[#3F5E5A] dark:hover:text-white transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -383,82 +425,94 @@
                         </div>
                     </div>
 
-                    <div class="pt-2">
-                        <button type="submit" id="register-submit-btn" class="w-full bg-[#3F5E5A] hover:bg-[#344E4C] text-white font-medium py-3 px-6 rounded-[7px] transition active:scale-[0.99] min-h-[44px] text-xs sm:text-[13.5px] flex items-center justify-center gap-2 cursor-pointer">
+                    <!-- Sign Up / Register Button -->
+                    <div class="pt-3">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>
 
-                    <div class="text-center text-[11.5px] pt-1 flex items-center justify-center gap-1 flex-wrap">
-                        <span id="have-account-text" class="text-[#94A3B8] dark:text-[#9CA3AF]">Sudah punya akun?</span>
-                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#3F5E5A] dark:text-[#A7D7D2] hover:underline font-medium cursor-pointer min-h-[36px] inline-flex items-center px-0.5">
+                    <!-- Toggle to Login -->
+                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-2">
+                        <span id="have-account-text">Sudah punya akun?</span>
+                        <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Login Sekarang
                         </button>
-                    </div>
+                    </p>
                 </form>
             </div>
 
         </div>
 
-        <div class="w-full max-w-[460px] mx-auto pt-4 pb-1 flex items-center justify-between relative select-none z-20">
-            <div class="w-[66px] hidden sm:block" aria-hidden="true"></div>
+        <!-- ── BOTTOM FOOTER: LANGUAGE TOGGLE & THEME TOGGLE ── -->
+        <div class="w-full max-w-sm sm:max-w-md mx-auto pt-6 pb-2 sm:pb-4 flex items-center justify-between relative select-none z-20">
+            <!-- Left invisible spacer so language toggle remains centered on desktop -->
+            <div class="w-[68px] hidden sm:block opacity-0 pointer-events-none" aria-hidden="true"></div>
 
-            <div class="relative inline-block text-left mx-auto sm:mx-0" id="lang-dropdown-container">
+            <!-- Language Dropdown -->
+            <div class="relative inline-block text-left" id="lang-dropdown-container">
                 <button type="button"
                         id="lang-toggle-btn"
                         onclick="toggleLanguageDropdown(event)"
-                        class="inline-flex items-center gap-1.5 text-xs sm:text-[13px] font-normal text-[#475569] dark:text-[#D1D5DB] hover:text-[#111827] dark:hover:text-white transition-colors cursor-pointer min-h-[40px] px-3 rounded-lg"
+                        class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 transition-colors cursor-pointer py-1 px-2.5 rounded-lg hover:bg-gray-50/80 dark:hover:bg-[#383838]"
                         aria-expanded="false"
                         aria-haspopup="true">
                     <span id="lang-current-label">Indonesia</span>
-                    <svg id="lang-chevron" class="w-2.5 h-2.5 text-[#475569] dark:text-[#D1D5DB] transition-transform duration-200" viewBox="0 0 10 6" fill="currentColor">
-                        <path d="M0 0.5L5 5.5L10 0.5H0Z" />
+                    <svg id="lang-chevron" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
 
+                <!-- Dropdown Menu -->
                 <div id="lang-dropdown-menu"
-                     class="hidden absolute bottom-full mb-1.5 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#3B404B] rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 py-1.5 z-50">
+                     class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-36 bg-white dark:bg-[#2B2B2B] rounded-xl shadow-lg border border-gray-100 dark:border-gray-700/80 py-1.5 z-50 transition-all duration-150">
                     <button type="button"
                             onclick="changeLanguage('id')"
-                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#464C59] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#383838] hover:text-[#466967] dark:hover:text-white flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-id">
                         <span>Indonesia</span>
-                        <span id="check-id" class="text-[#3F5E5A] dark:text-[#A7D7D2] font-bold">✓</span>
+                        <span id="check-id" class="text-[#466967] dark:text-white font-bold">✓</span>
                     </button>
                     <button type="button"
                             onclick="changeLanguage('en')"
-                            class="w-full text-left px-3.5 py-2.5 text-xs font-medium text-[#111827] dark:text-white hover:bg-gray-100 dark:hover:bg-[#464C59] flex items-center justify-between cursor-pointer transition-colors"
+                            class="w-full text-left px-3.5 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#383838] hover:text-[#466967] dark:hover:text-white flex items-center justify-between cursor-pointer transition-colors"
                             id="lang-opt-en">
                         <span>English</span>
-                        <span id="check-en" class="text-[#3F5E5A] dark:text-[#A7D7D2] font-bold hidden">✓</span>
+                        <span id="check-en" class="text-[#466967] dark:text-white font-bold hidden">✓</span>
                     </button>
                 </div>
             </div>
 
-            <button type="button"
-                    id="theme-toggle-btn"
-                    onclick="toggleThemeMode()"
-                    aria-pressed="false"
-                    aria-label="Ganti Tema Terang atau Gelap"
-                    class="min-h-[40px] inline-flex items-center justify-center px-1 cursor-pointer bg-transparent border-0">
-                <span class="w-[64px] h-[30px] rounded-full bg-[#E5E7EB] dark:bg-[#4B5563] border border-[#CBD5E1] dark:border-[#6B7280] p-[2px] flex items-center justify-between relative transition-colors">
-                    <span id="theme-sun-pill" class="w-[24px] h-[24px] rounded-full bg-white dark:bg-transparent border border-[#64748B] dark:border-transparent flex items-center justify-center text-[#374151] dark:text-[#D1D5DB] shadow-2xs dark:shadow-none transition-all">
-                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <circle cx="12" cy="12" r="4"/>
-                            <path stroke-linecap="round" d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/>
+            <!-- Dark / Light Mode Switcher (Bottom Right) -->
+            <div class="flex items-center justify-end">
+                <button type="button"
+                        id="theme-toggle-btn"
+                        onclick="toggleTheme()"
+                        class="inline-flex items-center gap-1 p-[3px] rounded-full border border-gray-200 bg-gray-100 dark:border-gray-600/70 dark:bg-[#262626] cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]"
+                        role="switch"
+                        aria-checked="false"
+                        aria-label="Beralih ke mode gelap">
+                    <span id="theme-sun-icon"
+                          class="w-6 h-6 rounded-full bg-white text-gray-700 shadow-xs flex items-center justify-center transition-all duration-200"
+                          title="Mode Terang">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </span>
-                    <span id="theme-moon-pill" class="w-[24px] h-[24px] rounded-full bg-transparent dark:bg-[#32363F] border border-transparent dark:border-[#9CA3AF] flex items-center justify-center text-[#94A3B8] dark:text-[#F9FAFB] transition-all">
-                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    <span id="theme-moon-icon"
+                          class="w-6 h-6 rounded-full bg-transparent text-gray-400 flex items-center justify-center transition-all duration-200"
+                          title="Mode Gelap">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </span>
-                </span>
-            </button>
+                </button>
+            </div>
         </div>
 
     </div>
 
+    <!-- SCRIPT FOR SWITCHING TABS, TOGGLING PASSWORD, AND LANGUAGE LOCALIZATION -->
     <script>
         const translations = {
             id: {
@@ -475,36 +529,40 @@
                 noAccount: 'Belum Punya Akun?',
                 signUpNow: 'Daftar Sekarang',
                 registerTitle: 'Buat Akun',
-                registerSubtitle: 'Bergabung dengan keluarga Toon Burger.',
+                registerSubtitle: 'Bergabung dengan keluarga Toon Burger',
                 regUsernameLabel: 'Username',
-                regUsernamePlaceholder: 'Masukkan Username',
+                regUsernamePlaceholder: 'Masukkan username anda',
                 regEmailLabel: 'Email',
-                regEmailPlaceholder: 'Masukkan Email',
+                regEmailPlaceholder: 'Masukkan email anda',
                 regPhoneLabel: 'Nomor Telepon',
-                regPhonePlaceholder: 'Masukkan Nomor Telepon',
+                regPhonePlaceholder: 'Masukkan nomor telepon anda',
                 regPasswordLabel: 'Password',
-                regPasswordPlaceholder: 'Masukkan Password (min. 6 karakter)',
+                regPasswordPlaceholder: 'Masukkan password (min. 6 karakter)',
                 registerButton: 'Daftar',
                 haveAccount: 'Sudah punya akun?',
                 loginNow: 'Login Sekarang',
                 pageTitleLogin: 'Selamat Datang Kembali! - Toon Burger',
-                pageTitleRegister: 'Buat Akun - Toon Burger'
+                pageTitleRegister: 'Buat Akun - Toon Burger',
+                themeAriaLight: 'Beralih ke mode gelap',
+                themeAriaDark: 'Beralih ke mode terang',
+                themeLightTooltip: 'Mode Terang',
+                themeDarkTooltip: 'Mode Gelap'
             },
             en: {
                 currentLabel: 'English',
                 loginTitle: 'Welcome Back!',
-                loginSubtitle: 'Please enter your details first.',
-                loginEmailLabel: 'Username',
-                loginEmailPlaceholder: 'Enter Username',
+                loginSubtitle: 'Please enter your detail first',
+                loginEmailLabel: 'Username or Email',
+                loginEmailPlaceholder: 'Enter your username or email',
                 loginPasswordLabel: 'Password',
-                loginPasswordPlaceholder: 'Enter Password',
+                loginPasswordPlaceholder: 'Enter your password',
                 rememberMe: 'Remember Me',
                 forgotPassword: 'Forgot Password?',
                 loginButton: 'Login',
                 noAccount: "Don't have an account?",
                 signUpNow: 'Sign Up Now',
                 registerTitle: 'Create Account',
-                registerSubtitle: 'Join the Toon Burger family.',
+                registerSubtitle: 'Join Toon Burger family',
                 regUsernameLabel: 'Username',
                 regUsernamePlaceholder: 'Enter your username',
                 regEmailLabel: 'Email',
@@ -512,44 +570,58 @@
                 regPhoneLabel: 'Mobile Number',
                 regPhonePlaceholder: 'Enter your mobile number',
                 regPasswordLabel: 'Password',
-                regPasswordPlaceholder: 'Enter your password (min. 6 chars)',
+                regPasswordPlaceholder: 'Enter your password (min. 6 characters)',
                 registerButton: 'Sign Up',
                 haveAccount: 'Already have an account?',
                 loginNow: 'Login Now',
                 pageTitleLogin: 'Welcome Back! - Toon Burger',
-                pageTitleRegister: 'Create Account - Toon Burger'
+                pageTitleRegister: 'Create Account - Toon Burger',
+                themeAriaLight: 'Switch to dark mode',
+                themeAriaDark: 'Switch to light mode',
+                themeLightTooltip: 'Light Mode',
+                themeDarkTooltip: 'Dark Mode'
             }
         };
 
-        function handleAuthSubmit(form, btnTextId, loadingLabel) {
-            localStorage.removeItem('tb_logged_out');
-            const textSpan = document.getElementById(btnTextId);
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (textSpan) {
-                textSpan.textContent = loadingLabel;
-            }
-            if (submitBtn) {
-                submitBtn.classList.add('opacity-80');
-                setTimeout(function() {
-                    submitBtn.disabled = true;
-                }, 15);
-            }
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
         }
 
-        function applyThemeMode(theme) {
-            const isDark = theme === 'dark';
-            document.documentElement.classList.toggle('dark', isDark);
+        function setTheme(theme) {
             const btn = document.getElementById('theme-toggle-btn');
-            if (btn) {
-                btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-            }
-        }
+            const sunIcon = document.getElementById('theme-sun-icon');
+            const moonIcon = document.getElementById('theme-moon-icon');
+            const currentLang = localStorage.getItem('toon_lang') || 'id';
+            const t = translations[currentLang] || translations.id;
 
-        function toggleThemeMode() {
-            const isCurrentlyDark = document.documentElement.classList.contains('dark');
-            const nextTheme = isCurrentlyDark ? 'light' : 'dark';
-            localStorage.setItem('toon_theme', nextTheme);
-            applyThemeMode(nextTheme);
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('toon_theme', 'dark');
+                if (btn) {
+                    btn.setAttribute('aria-checked', 'true');
+                    btn.setAttribute('aria-label', t.themeAriaDark);
+                }
+                if (sunIcon) {
+                    sunIcon.className = "w-6 h-6 rounded-full bg-transparent text-gray-400 flex items-center justify-center transition-all duration-200";
+                }
+                if (moonIcon) {
+                    moonIcon.className = "w-6 h-6 rounded-full bg-[#3D3D3D] text-gray-100 shadow-xs flex items-center justify-center transition-all duration-200";
+                }
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('toon_theme', 'light');
+                if (btn) {
+                    btn.setAttribute('aria-checked', 'false');
+                    btn.setAttribute('aria-label', t.themeAriaLight);
+                }
+                if (sunIcon) {
+                    sunIcon.className = "w-6 h-6 rounded-full bg-white text-gray-700 shadow-xs flex items-center justify-center transition-all duration-200";
+                }
+                if (moonIcon) {
+                    moonIcon.className = "w-6 h-6 rounded-full bg-transparent text-gray-400 flex items-center justify-center transition-all duration-200";
+                }
+            }
         }
 
         function toggleLanguageDropdown(e) {
@@ -588,6 +660,7 @@
             if (checkId) checkId.classList.toggle('hidden', lang !== 'id');
             if (checkEn) checkEn.classList.toggle('hidden', lang !== 'en');
 
+            // Login Form
             const loginTitle = document.getElementById('login-title');
             if (loginTitle) loginTitle.textContent = t.loginTitle;
             const loginSubtitle = document.getElementById('login-subtitle');
@@ -611,6 +684,7 @@
             const switchToRegisterBtn = document.getElementById('switch-to-register-btn');
             if (switchToRegisterBtn) switchToRegisterBtn.textContent = t.signUpNow;
 
+            // Register Form
             const registerTitle = document.getElementById('register-title');
             if (registerTitle) registerTitle.textContent = t.registerTitle;
             const registerSubtitle = document.getElementById('register-subtitle');
@@ -640,8 +714,19 @@
 
             const isLoginActive = !document.getElementById('login-form-panel').classList.contains('hidden');
             document.title = isLoginActive ? t.pageTitleLogin : t.pageTitleRegister;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const themeBtn = document.getElementById('theme-toggle-btn');
+            if (themeBtn) {
+                themeBtn.setAttribute('aria-label', isDark ? t.themeAriaDark : t.themeAriaLight);
+            }
+            const sunIcon = document.getElementById('theme-sun-icon');
+            if (sunIcon) sunIcon.setAttribute('title', t.themeLightTooltip);
+            const moonIcon = document.getElementById('theme-moon-icon');
+            if (moonIcon) moonIcon.setAttribute('title', t.themeDarkTooltip);
         }
 
+        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const container = document.getElementById('lang-dropdown-container');
             const menu = document.getElementById('lang-dropdown-menu');
@@ -656,6 +741,7 @@
             }
         });
 
+        // Close dropdown on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const menu = document.getElementById('lang-dropdown-menu');
@@ -674,7 +760,7 @@
             applyLanguage(savedLang);
 
             const savedTheme = localStorage.getItem('toon_theme') || 'light';
-            applyThemeMode(savedTheme);
+            setTheme(savedTheme);
 
             if (localStorage.getItem('tb_logged_out') === '1') {
                 const warnAlert = document.getElementById('alert-warning');
@@ -717,6 +803,7 @@
             }
         }
 
+        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
         window.addEventListener('pageshow', function (event) {
             if (localStorage.getItem('tb_logged_out') === '1') {
                 const warnAlert = document.getElementById('alert-warning');
@@ -728,8 +815,8 @@
             }
 
             const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
-            const isBackForward = event.persisted ||
-                (navEntries.length > 0 && navEntries[0].type === 'back_forward') ||
+            const isBackForward = event.persisted || 
+                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
                 (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
 
             if (isBackForward) {

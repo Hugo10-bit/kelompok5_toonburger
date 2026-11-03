@@ -7,9 +7,10 @@
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
+    <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Titan+One&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,8 +35,9 @@
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
-                        luckiest: ['"Luckiest Guy"', 'cursive'],
-                        hegarty: ['"BBH Hegarty"', '"Luckiest Guy"', 'sans-serif'],
+                        luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive', 'sans-serif'],
+                        brand: ['"BBH Hegarty"', 'sans-serif'],
+                        hegarty: ['"BBH Hegarty"', 'sans-serif'],
                     }
                 }
             }
@@ -44,8 +46,8 @@
     <style>
         html { scroll-behavior: smooth; overflow-x: clip; }
         .font-brand {
-            font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.04em;
+            font-family: 'BBH Hegarty', cursive, sans-serif;
+            letter-spacing: 0.03em;
         }
         .retro-grid-bg {
             background-color: #FAF5E8;
@@ -294,192 +296,177 @@
         @csrf
     </form>
 
+    <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
-        <div class="w-full max-w-[1380px] mx-auto relative">
-            <div class="flex items-center justify-between px-5 sm:px-7 py-2.5 rounded-full shadow-md border border-black/40 backdrop-blur-md transition relative"
-                 style="background-color: rgba(38, 58, 54, 0.72);">
+        <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
+            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
+                 style="background-color: rgba(45, 72, 67, 0.58); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);">
 
-                <div class="flex items-center gap-6 lg:gap-8">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
-                        <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
-                             class="h-9 sm:h-10 w-auto object-contain transition group-hover:scale-105">
-                        <span class="text-white text-xl sm:text-[23px] uppercase tracking-wider shrink-0 leading-none pt-0.5"
-                              style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em;">
-                            TOON BURGER
-                        </span>
+                <!-- Brand logo -->
+                <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
+                         class="h-11 sm:h-12 md:h-14 w-auto object-contain transition group-hover:scale-105 drop-shadow-xs">
+                    <span class="font-normal text-white text-xl sm:text-2xl uppercase tracking-wider shrink-0 leading-none pt-0.5"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
+                        TOON BURGER
+                    </span>
+                </a>
+
+                <!-- Nav links -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
+                    <a href="{{ route('home') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Beranda
                     </a>
+                    <a href="{{ route('menu') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Menu
+                    </a>
+                    <a href="{{ route('about') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Tentang
+                    </a>
+                    <a href="{{ route('contact') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Kontak
+                    </a>
+                </nav>
 
-                    <nav class="hidden lg:flex items-center gap-1.5 xl:gap-3 text-xs sm:text-[13px]">
-                        <a href="{{ route('home') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-full transition font-medium
-                                  {{ request()->routeIs('home') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Beranda
-                        </a>
-                        <a href="{{ route('menu') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-full transition font-medium
-                                  {{ request()->routeIs('menu*') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Menu
-                        </a>
-                        <a href="{{ route('about') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-full transition font-medium
-                                  {{ request()->routeIs('about') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Tentang
-                        </a>
-                        <a href="{{ route('contact') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-full transition font-medium
-                                  {{ request()->routeIs('contact') ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Kontak
-                        </a>
-                    </nav>
+                <!-- Search bar -->
+                <div class="relative hidden md:block w-48 sm:w-60 lg:w-72 xl:w-80">
+                    <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text"
+                               name="q"
+                               id="home-navbar-search"
+                               placeholder="Cheese Burger..."
+                               autocomplete="off"
+                               class="bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                        <button type="button"
+                                id="home-search-clear"
+                                onclick="clearHomeNavbarSearch()"
+                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                aria-label="Bersihkan pencarian">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- Live search dropdown -->
+                    <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
+                        <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
+                            <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Mencari menu...
+                        </div>
+                        <div id="home-search-content"></div>
+                    </div>
                 </div>
 
-                <div class="flex items-center gap-4 sm:gap-5 shrink-0">
-                    <div class="relative hidden md:block w-52 sm:w-64 lg:w-72">
-                        <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
-                            <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <input type="text"
-                                   name="q"
-                                   id="home-navbar-search"
-                                   placeholder="Cheese Burger..."
-                                   autocomplete="off"
-                                   class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
-                            <button type="button"
-                                    id="home-search-clear"
-                                    onclick="clearHomeNavbarSearch()"
-                                    class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
-                                    aria-label="Bersihkan pencarian">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </form>
-
-                        <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
-                            <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
-                                <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Mencari menu...
-                            </div>
-                            <div id="home-search-content"></div>
-                        </div>
-                    </div>
-
+                <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+                    <!-- Cart drawer button -->
                     <button type="button"
                             onclick="toggleCartDrawer()"
                             id="cart-btn"
-                            class="hidden relative w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 items-center justify-center text-white transition cursor-pointer shrink-0"
+                            class="relative w-10 h-10 rounded-full bg-[#E2E8F0]/90 hover:bg-white flex items-center justify-center text-gray-800 shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
                             aria-label="Keranjang Belanja">
-                        <span id="cart-badge" class="text-xs font-bold">{{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}</span>
+                        <svg class="w-5 h-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span id="cart-badge"
+                              class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
+                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+                        </span>
                     </button>
 
                     @auth
-                        <!-- User Profile Dropdown Container -->
-                        <div id="user-dropdown-container" class="relative shrink-0 select-none">
+                        <!-- User profile dropdown -->
+                        <div class="relative" id="user-dropdown-container">
                             <button type="button"
-                                    id="user-menu-button"
                                     onclick="toggleUserDropdown(event)"
-                                    class="flex items-center gap-2 sm:gap-2.5 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 transition cursor-pointer text-left focus:outline-none"
-                                    aria-haspopup="true"
-                                    aria-expanded="false">
-                                @if(Auth::user()->avatar)
-                                    <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
-                                         alt="{{ Auth::user()->name }}"
-                                         class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-amber-300 shrink-0">
-                                @else
-                                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#F5B027] text-gray-950 font-black text-xs flex items-center justify-center border border-black/20 shrink-0">
-                                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                                    id="user-menu-button"
+                                    class="flex items-center gap-2.5 cursor-pointer group focus:outline-none text-left select-none">
+                                <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0">
+                                    {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                </div>
+                                <div class="text-left leading-tight hidden xl:block">
+                                    <div class="font-bold text-sm text-white leading-tight">
+                                        {{ Auth::user()->name }}
                                     </div>
-                                @endif
-
-                                <span class="text-white text-xs sm:text-[13px] font-semibold max-w-[90px] sm:max-w-[130px] truncate hidden md:inline-block">
-                                    {{ Auth::user()->name }}
-                                </span>
-
-                                <svg id="user-menu-arrow" class="w-3.5 h-3.5 text-white/80 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    <div class="text-xs text-white/70 font-normal leading-tight mt-0.5 truncate max-w-[140px]">
+                                        {{ Auth::user()->email }}
+                                    </div>
+                                </div>
+                                <svg id="user-menu-arrow" class="w-4 h-4 text-white/80 stroke-[2] transition-transform duration-200 hidden sm:block shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
 
-                            <!-- Dropdown Menu -->
-                            <div id="user-dropdown-menu"
-                                 class="absolute right-0 top-full mt-2.5 w-60 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-2 z-50 hidden animate-modal-pop text-gray-800">
-
-                                <!-- User Info Header -->
-                                <div class="px-3 py-2.5 border-b border-gray-100 flex items-center gap-3">
-                                    @if(Auth::user()->avatar)
-                                        <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
-                                             alt="{{ Auth::user()->name }}"
-                                             class="w-9 h-9 rounded-full object-cover border border-amber-300 shrink-0">
-                                    @else
-                                        <div class="w-9 h-9 rounded-full bg-[#F5B027] text-gray-950 font-black text-xs flex items-center justify-center border border-black/20 shrink-0">
-                                            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                                        </div>
-                                    @endif
+                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
+                                <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                    </div>
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-xs font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
-                                        <p class="text-[10px] text-gray-500 truncate">{{ Auth::user()->email }}</p>
-                                        <span class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider
-                                            {{ Auth::user()->isAdmin() ? 'bg-rose-100 text-rose-700' : (Auth::user()->isStaff() ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800') }}">
-                                            {{ Auth::user()->role ?? 'Member' }}
+                                        <div class="font-bold text-xs text-gray-900 truncate">
+                                            {{ Auth::user()->name }}
+                                        </div>
+                                        <div class="text-[11px] text-gray-400 truncate">
+                                            {{ Auth::user()->email }}
+                                        </div>
+                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
+                                            {{ Auth::user()->role }}
                                         </span>
                                     </div>
                                 </div>
 
-                                <!-- Links -->
-                                <div class="py-1 space-y-0.5 text-xs font-medium">
-                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                                        <a href="{{ route('admin.dashboard') }}"
-                                           class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                            <svg class="w-4 h-4 text-[#3F5E5A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-                                            </svg>
-                                            <span>Dashboard Admin</span>
-                                        </a>
-                                        <a href="{{ route('admin.profile') }}"
-                                           class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                            <svg class="w-4 h-4 text-[#3F5E5A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                            </svg>
-                                            <span>Profil Admin</span>
-                                        </a>
-                                    @endif
-
-                                    <a href="{{ route('orders.index') }}"
-                                       class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                        <svg class="w-4 h-4 text-[#3F5E5A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                                        </svg>
+                                <div class="space-y-1 text-xs font-medium text-gray-700">
+                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                                         <span>Pesanan Saya</span>
                                     </a>
-                                </div>
-
-                                <div class="border-t border-gray-100 pt-1">
-                                    <button type="button"
-                                            onclick="confirmLogout(event)"
-                                            class="w-full text-left flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition cursor-pointer">
-                                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                                        </svg>
-                                        <span>Keluar Akun</span>
-                                    </button>
+                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-semibold">
+                                            <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                            <span>Dashboard Admin</span>
+                                        </a>
+                                        <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-amber-600 font-semibold">
+                                            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                            <span>Kasir POS</span>
+                                        </a>
+                                    @endif
+                                    <div class="border-t border-gray-100 mt-2 pt-2">
+                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
+                                            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                            <span>Logout</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @else
-                        <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-[13px] shrink-0 select-none">
-                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 font-medium transition px-2 py-1">
+                        <div class="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
+                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
                                 Login
                             </a>
-                            <a href="{{ route('register') }}" class="bg-[#F5B027] hover:bg-[#E09E1E] text-gray-950 font-bold px-4 py-2 rounded-full transition shadow-xs">
+                            <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-bold px-4 py-1.5 rounded-xl transition shadow-xs">
                                 Sign In
                             </a>
                         </div>
                     @endauth
 
+                    <!-- Mobile Hamburger Menu Button -->
                     <button type="button"
                             onclick="toggleMobileNav()"
                             id="mobile-nav-toggle"
@@ -529,58 +516,14 @@
                         Kontak
                     </a>
                     @auth
-                        <div class="pt-2 mt-2 border-t border-gray-100">
-                            <div class="px-3 py-2 flex items-center gap-3 bg-gray-50 rounded-xl mb-1">
-                                @if(Auth::user()->avatar)
-                                    <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
-                                         alt="{{ Auth::user()->name }}"
-                                         class="w-9 h-9 rounded-full object-cover border border-amber-300 shrink-0">
-                                @else
-                                    <div class="w-9 h-9 rounded-full bg-[#F5B027] text-gray-950 font-black text-xs flex items-center justify-center border border-black/20 shrink-0">
-                                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                                    </div>
-                                @endif
-                                <div class="min-w-0 flex-1">
-                                    <p class="text-xs font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
-                                    <p class="text-[10px] text-gray-500 truncate">{{ Auth::user()->email }}</p>
-                                </div>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider
-                                    {{ Auth::user()->isAdmin() ? 'bg-rose-100 text-rose-700' : (Auth::user()->isStaff() ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800') }}">
-                                    {{ Auth::user()->role ?? 'Member' }}
-                                </span>
-                            </div>
-
-                            @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                                <a href="{{ route('admin.dashboard') }}" onclick="toggleMobileNav()"
-                                   class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                    Dashboard Admin
-                                </a>
-                                <a href="{{ route('admin.profile') }}" onclick="toggleMobileNav()"
-                                   class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                    Profil Admin
-                                </a>
-                            @endif
-
-                            <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
-                               class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                                Pesanan Saya
-                            </a>
-                            <button type="button" onclick="confirmLogout(event)"
-                                class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
-                                Logout
-                            </button>
-                        </div>
-                    @else
-                        <div class="pt-2 mt-2 border-t border-gray-100 flex items-center gap-2">
-                            <a href="{{ route('login') }}" onclick="toggleMobileNav()"
-                               class="w-1/2 text-center py-2 text-xs font-semibold text-gray-700 border border-gray-300 rounded-xl hover:bg-gray-50 transition">
-                                Login
-                            </a>
-                            <a href="{{ route('register') }}" onclick="toggleMobileNav()"
-                               class="w-1/2 text-center py-2 text-xs font-semibold text-white bg-[#F5B027] hover:bg-[#E09E1E] rounded-xl transition">
-                                Sign In
-                            </a>
-                        </div>
+                        <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
+                                    class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
+                            Pesanan Saya
+                        </a>
+                        <button type="button" onclick="confirmLogout(event)"
+                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
+                            Logout
+                        </button>
                     @endauth
             </div>
         </div>
@@ -705,118 +648,62 @@
     </div>
 
     <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL -->
-    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-200"></div>
-    <div id="product-modal" onclick="closeProductModal()" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 hidden overflow-y-auto">
-        <div class="relative bg-[#FAF5E8] retro-grid-bg rounded-[32px] sm:rounded-[36px] border-2 border-black shadow-[8px_8px_0px_#27443E] max-w-4xl w-full p-5 sm:p-8 lg:p-10 animate-modal-pop my-auto text-gray-900 overflow-hidden"
-             onclick="event.stopPropagation()">
+    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden"></div>
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fade-in" onclick="event.stopPropagation()">
 
-            <!-- Close Button -->
-            <button type="button"
-                    onclick="closeProductModal()"
-                    class="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 text-gray-800 flex items-center justify-center transition cursor-pointer z-20 focus:outline-none"
-                    aria-label="Tutup modal">
-                <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center">
-
-                <!-- Left Column: Burger Image Card -->
-                <div class="md:col-span-5 flex justify-center">
-                    <div class="w-full max-w-[340px] aspect-square rounded-[28px] sm:rounded-[32px] border-2 border-black shadow-[6px_6px_0px_#2E4A44] overflow-hidden bg-[#EFE3CF] flex items-center justify-center p-4 sm:p-6">
-                        <img id="modal-product-image"
-                             src=""
-                             alt="Menu"
-                             class="w-full h-full object-contain select-none drop-shadow-md">
-                    </div>
-                </div>
-
-                <!-- Right Column: Details & Actions -->
-                <div class="md:col-span-7 flex flex-col justify-between space-y-3 sm:space-y-4">
-                    <!-- Category, Name, Price -->
-                    <div>
-                        <span id="modal-product-category"
-                              class="text-[11px] sm:text-xs font-bold text-[#6D837E] uppercase tracking-wider block">
-                            CHICKEN BURGER
-                        </span>
-
-                        <h2 id="modal-product-name"
-                            class="text-xl sm:text-2xl lg:text-[28px] font-black text-[#1E332E] uppercase tracking-wide leading-tight mt-1"
-                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', sans-serif;">
-                            CHEESE CHICKEN BURGER
-                        </h2>
-
-                        <div id="modal-product-price"
-                             class="text-base sm:text-lg lg:text-xl font-black text-[#1E332E] mt-1">
-                            RP 35.000
-                        </div>
-                    </div>
-
-                    <!-- Thin Divider Line -->
-                    <div class="border-t border-gray-300/80 my-0.5"></div>
-
-                    <!-- Description -->
-                    <p id="modal-product-desc"
-                       class="text-xs sm:text-[13px] text-gray-600 leading-relaxed font-normal">
-                        Deskripsi produk...
-                    </p>
-
-                    <!-- Options Form (Hidden if not used) -->
-                    <div id="modal-options-container" class="space-y-2 hidden"></div>
-
-                    <!-- Catatan Pesanan -->
-                    <div>
-                        <label for="modal-notes" class="block text-xs font-bold text-gray-900 mb-1.5">
-                            Catatan Pesanan
-                        </label>
-                        <textarea id="modal-notes"
-                                  name="notes"
-                                  rows="3"
-                                  placeholder="Contoh: saus dipisah, tanpa selada..."
-                                  class="w-full bg-white border border-gray-200 rounded-xl sm:rounded-2xl p-3 text-xs sm:text-[13px] text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#3E615D] focus:ring-1 focus:ring-[#3E615D] transition resize-none shadow-2xs"></textarea>
-                    </div>
-
-                    <!-- Bottom Row: Quantity & Add to Cart -->
-                    <div class="flex items-center gap-3 pt-2">
-                        <!-- Quantity Selector -->
-                        <div class="inline-flex items-center bg-white border border-gray-200 rounded-xl px-2.5 py-1.5 shadow-2xs">
-                            <button type="button"
-                                    onclick="adjustModalQty(-1)"
-                                    class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 font-bold text-base transition cursor-pointer select-none active:scale-90"
-                                    aria-label="Kurang kuantitas">
-                                -
-                            </button>
-                            <input type="number"
-                                   id="modal-quantity"
-                                   value="1"
-                                   min="1"
-                                   readonly
-                                   class="w-8 sm:w-10 text-center font-bold text-xs sm:text-sm text-gray-900 border-none focus:outline-none select-none bg-transparent">
-                            <button type="button"
-                                    onclick="adjustModalQty(1)"
-                                    class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 font-bold text-base transition cursor-pointer select-none active:scale-90"
-                                    aria-label="Tambah kuantitas">
-                                +
-                            </button>
-                        </div>
-
-                        <!-- Add to Cart Button -->
-                        <button type="button"
-                                id="modal-add-to-cart-btn"
-                                onclick="submitAddToCart()"
-                                class="flex-1 bg-[#3E615D] hover:bg-[#324F4C] active:scale-[0.98] text-white text-xs sm:text-sm font-bold py-2.5 sm:py-3 px-5 sm:px-6 rounded-xl transition shadow-xs flex items-center justify-center gap-2.5 cursor-pointer">
-                            <span>Tambahkan ke keranjang</span>
-                            <svg class="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <input type="hidden" id="modal-product-id" name="product_id" value="">
-                </div>
-
+            <!-- Modal Header / Image -->
+            <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-48 overflow-hidden flex items-center justify-center">
+                <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
+                <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold transition">
+                    &times;
+                </button>
             </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 overflow-y-auto flex-1 space-y-4">
+                <div>
+                    <div class="flex items-start justify-between gap-2">
+                        <h3 id="modal-product-name" class="font-extrabold text-xl text-gray-900 leading-tight">Product Name</h3>
+                        <span id="modal-product-price" class="text-bites-red font-black text-lg whitespace-nowrap">Rp 0</span>
+                    </div>
+                    <p id="modal-product-desc" class="text-xs text-gray-500 mt-1 leading-relaxed">Description</p>
+                    <div class="flex items-center gap-3 mt-2 text-[11px] text-gray-500 font-medium">
+                        <span id="modal-product-calories" class="bg-gray-100 px-2 py-0.5 rounded font-semibold">0 kcal</span>
+                        <span id="modal-product-time" class="hidden">0 menit</span>
+                    </div>
+                </div>
+
+                <!-- Dynamic Options Form -->
+                <form id="product-options-form" class="space-y-4 pt-2 border-t border-gray-100">
+                    <input type="hidden" id="modal-product-id" name="product_id" value="">
+
+                    <div id="modal-options-container" class="space-y-4">
+                        <!-- Filled by JS -->
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">Catatan Koki (Opsional):</label>
+                        <input type="text" id="modal-notes" name="notes" placeholder="Contoh: Jangan pakai bawang bombay, extra saus..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-bites-orange focus:outline-none">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between gap-3">
+                <div class="flex items-center border border-gray-300 rounded-xl bg-white overflow-hidden">
+                    <button type="button" onclick="adjustModalQty(-1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">-</button>
+                    <input type="number" id="modal-quantity" value="1" min="1" readonly class="w-10 text-center font-bold text-xs text-gray-900 border-none focus:outline-none">
+                    <button type="button" onclick="adjustModalQty(1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">+</button>
+                </div>
+
+                <button type="button" onclick="submitAddToCart()" class="flex-1 bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold py-3 px-4 rounded-xl flex items-center justify-between text-xs sm:text-sm shadow-md transition active:scale-98">
+                    <span>+ Tambahkan ke Keranjang</span>
+                    <span id="modal-total-btn-price" class="font-black">Rp 0</span>
+                </button>
+            </div>
+
         </div>
     </div>
 
@@ -1015,42 +902,58 @@
                 currentModalProduct = data.product;
                 document.getElementById('modal-product-id').value = currentModalProduct.id;
                 document.getElementById('modal-product-name').innerText = currentModalProduct.name;
-                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan burger terbaik khas Toon Burger dengan bahan berkualitas segar dan lezat.';
-
-                const catElem = document.getElementById('modal-product-category');
-                if (catElem) {
-                    catElem.innerText = (currentModalProduct.category ? currentModalProduct.category.name : 'BURGER').toUpperCase();
-                }
-
-                const priceElem = document.getElementById('modal-product-price');
-                if (priceElem) {
-                    priceElem.innerText = 'RP ' + Number(currentModalProduct.price).toLocaleString('id-ID');
-                }
-
-                const imgElem = document.getElementById('modal-product-image');
-                if (imgElem) {
-                    imgElem.src = currentModalProduct.image ? '/' + currentModalProduct.image.replace(/^\//, '') : '/images/hero-burger.png';
-                    imgElem.alt = currentModalProduct.name;
-                }
-
+                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
+                document.getElementById('modal-product-price').innerText = formatRupiah(currentModalProduct.price);
+                document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
+                document.getElementById('modal-product-calories').innerText = `${currentModalProduct.calories || 450} kcal`;
+                document.getElementById('modal-product-time').innerText = `${currentModalProduct.prep_time_minutes || 8} menit`;
                 document.getElementById('modal-quantity').value = 1;
-                const notesElem = document.getElementById('modal-notes');
-                if (notesElem) notesElem.value = '';
+                document.getElementById('modal-notes').value = '';
 
+                const optContainer = document.getElementById('modal-options-container');
+                if (currentModalProduct.options && currentModalProduct.options.length > 0) {
+                    optContainer.innerHTML = currentModalProduct.options.map(opt => `
+                        <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200/80">
+                            <div class="flex items-center justify-between mb-2">
+                                <h5 class="text-xs font-bold text-gray-900">${opt.name}</h5>
+                                ${opt.is_required ? `<span class="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Wajib</span>` : `<span class="text-[10px] text-gray-400">Opsional</span>`}
+                            </div>
+                            <div class="space-y-1.5">
+                                ${opt.values.map(val => `
+                                    <label class="flex items-center justify-between p-2 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-bites-orange transition text-xs">
+                                        <div class="flex items-center gap-2">
+                                            <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
+                                                   name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
+                                                   value="${val.id}"
+                                                   data-price="${val.additional_price}"
+                                                   ${val.is_default ? 'checked' : ''}
+                                                   onchange="recalculateModalPrice()"
+                                                   class="text-bites-orange focus:ring-bites-orange">
+                                            <span class="font-medium text-gray-800">${val.name}</span>
+                                        </div>
+                                        <span class="font-bold text-gray-600 text-[11px]">
+                                            ${Number(val.additional_price) > 0 ? '+ ' + formatRupiah(val.additional_price) : 'Gratis'}
+                                        </span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    optContainer.innerHTML = `<p class="text-xs text-gray-400 italic">Menu standar siap saji.</p>`;
+                }
+
+                recalculateModalPrice();
                 document.getElementById('product-modal').classList.remove('hidden');
                 document.getElementById('product-modal-backdrop').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
             } catch (e) {
                 console.error(e);
             }
         }
 
         function closeProductModal() {
-            const modal = document.getElementById('product-modal');
-            const backdrop = document.getElementById('product-modal-backdrop');
-            if (modal) modal.classList.add('hidden');
-            if (backdrop) backdrop.classList.add('hidden');
-            document.body.style.overflow = '';
+            document.getElementById('product-modal').classList.add('hidden');
+            document.getElementById('product-modal-backdrop').classList.add('hidden');
         }
 
         function adjustModalQty(delta) {

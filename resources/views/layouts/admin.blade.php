@@ -17,6 +17,14 @@
             window.location.replace("{{ route('login') }}");
         }
     </script>
+    <!-- Prevent theme flash (FOUC) -->
+    <script>
+        if (localStorage.getItem('toon_theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <title>@yield('title', 'Admin Panel - Toon Burger')</title>
 
     <!-- Google Fonts: Roboto -->
@@ -25,13 +33,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
-    <script>
-        try {
-            if (localStorage.getItem('tb_admin_theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
-        } catch (e) {}
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -93,32 +94,313 @@
         .animate-modal-pop {
             animation: modalPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+
+        /* =========================================================
+           Global Header Search Input (Clean & Transparent in both Light & Dark)
+           ========================================================= */
+        #global-header-search,
+        #global-header-search:focus,
+        #global-header-search:active,
+        #global-header-search:hover {
+            background-color: transparent !important;
+            background: transparent !important;
+            border: 0 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+        }
+
+        /* =========================================================
+           Subtle Bottom-Only Card Shadows (Light Mode)
+           ========================================================= */
+        aside#admin-sidebar,
+        header,
+        .bg-white.rounded-3xl,
+        .bg-white.rounded-2xl,
+        .bg-white.rounded-\[28px\],
+        .bg-white.rounded-\[32px\],
+        .grid > .bg-white,
+        .lg\:col-span-8.bg-white,
+        .lg\:col-span-4.bg-white {
+            box-shadow: 0 7px 16px -4px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.03) !important;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .grid > .bg-white:hover {
+            box-shadow: 0 11px 22px -5px rgba(0, 0, 0, 0.09), 0 4px 6px -2px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* =========================================================
+           Dark Mode Precision Styling (Matching User Mockup)
+           ========================================================= */
+        html.dark {
+            color-scheme: dark;
+        }
         html.dark body {
-            background-color: #3E3E3E !important;
-            color: #F3F4F6;
+            background-color: #404040 !important;
+            color: #E5E7EB !important;
         }
-        html.dark aside,
+        html.dark ::-webkit-scrollbar-track {
+            background: #303030;
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #525252;
+            border-radius: 9999px;
+        }
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: #666666;
+        }
+
+        /* Main surfaces: Sidebar, Top Header, Dashboard wrapper card */
+        html.dark aside#admin-sidebar,
         html.dark header,
-        html.dark main > div,
+        html.dark .bg-white {
+            background-color: #303030 !important;
+            border-color: #404040 !important;
+            color: #E5E7EB;
+        }
+
+        /* Bottom-only subtle card shadows in Dark Mode */
+        html.dark aside#admin-sidebar,
+        html.dark header,
+        html.dark .bg-white.rounded-3xl,
+        html.dark .bg-white.rounded-2xl,
+        html.dark .bg-white.rounded-\[28px\],
+        html.dark .bg-white.rounded-\[32px\],
+        html.dark .grid > .bg-white,
+        html.dark .lg\:col-span-8.bg-white,
+        html.dark .lg\:col-span-4.bg-white {
+            box-shadow: 0 9px 20px -5px rgba(0, 0, 0, 0.48), 0 3px 6px -2px rgba(0, 0, 0, 0.28) !important;
+        }
+
+        html.dark .grid > .bg-white:hover {
+            box-shadow: 0 13px 26px -6px rgba(0, 0, 0, 0.62), 0 4px 8px -3px rgba(0, 0, 0, 0.35) !important;
+        }
+
+        /* 4 Metric cards inside Dashboard */
+        html.dark .grid > .bg-white {
+            background-color: #3F3F3F !important;
+            border-color: #4A4A4A !important;
+        }
+
+        /* Sidebar items in dark mode */
+        html.dark #admin-sidebar a.bg-\[\#415C58\],
+        html.dark #admin-sidebar a.bg-\[\#3E615D\] {
+            background-color: #3E615D !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]) {
+            color: #D1D5DB !important;
+        }
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]):hover {
+            background-color: #3D3D3D !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #admin-sidebar button {
+            color: #D1D5DB;
+        }
+        html.dark #admin-sidebar button:hover {
+            background-color: #3D3D3D !important;
+        }
+
+        /* Header elements */
+        html.dark header form,
+        html.dark header .bg-\[\#F0F3F7\],
+        html.dark header .hover\:bg-\[\#EAEFF4\]:hover {
+            background-color: #525252 !important;
+            border-color: #5E5E5E !important;
+        }
+        html.dark header form:focus-within {
+            background-color: #525252 !important;
+            border-color: #707070 !important;
+            box-shadow: 0 0 0 2px rgba(62, 97, 93, 0.4) !important;
+        }
+        html.dark header input#global-header-search,
+        html.dark header input#global-header-search:focus {
+            background-color: transparent !important;
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            color: #FFFFFF !important;
+        }
+        html.dark header input#global-header-search::placeholder {
+            color: #B0B0B0 !important;
+        }
+        html.dark #header-lang-btn {
+            background-color: #303030 !important;
+            border-color: #525252 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-btn .text-gray-900 {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-btn .text-gray-400 {
+            color: #B0B0B0 !important;
+        }
+        html.dark #header-profile-chevron {
+            color: #D1D5DB !important;
+        }
+
+        /* Header Dropdown (Mockup has #525252 charcoal background with #606060 border) */
         html.dark #header-profile-dropdown,
-        html.dark #header-lang-dropdown {
-            background-color: #2B2B2B !important;
+        html.dark #header-lang-dropdown,
+        html.dark #header-search-results {
+            background-color: #525252 !important;
+            border-color: #606060 !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+        }
+        html.dark #header-profile-dropdown a,
+        html.dark #header-profile-dropdown button {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-dropdown svg {
+            color: #E5E7EB !important;
+        }
+        html.dark #header-profile-dropdown a:hover,
+        html.dark #header-profile-dropdown button:hover {
+            background-color: #606060 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark #header-profile-dropdown hr {
+            border-color: #666666 !important;
+        }
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\],
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\] svg {
+            color: #EF4444 !important;
+        }
+        html.dark #header-profile-dropdown button.text-\[\#DE3B28\]:hover {
+            background-color: rgba(239, 68, 68, 0.15) !important;
+            color: #F87171 !important;
+        }
+
+        html.dark #header-lang-dropdown button {
+            color: #FFFFFF !important;
+        }
+        html.dark #header-lang-dropdown button:hover {
+            background-color: #606060 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Modals */
+        html.dark #logout-confirm-modal .bg-white,
+        html.dark #delete-confirm-modal .bg-white,
+        html.dark [id$="-modal"] .bg-white {
+            background-color: #303030 !important;
+            border-color: #4A4A4A !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+        }
+
+        /* Typography & Borders */
+        html.dark .text-gray-900,
+        html.dark .text-gray-800 {
+            color: #FFFFFF !important;
+        }
+        html.dark .text-gray-700 {
+            color: #E5E7EB !important;
+        }
+        html.dark .text-gray-600,
+        html.dark .text-gray-500,
+        html.dark .text-gray-400 {
+            color: #B0B0B0 !important;
+        }
+
+        html.dark .border-gray-100,
+        html.dark .border-gray-200,
+        html.dark .border-gray-200\/80,
+        html.dark .border-gray-200\/90,
+        html.dark .border-gray-300,
+        html.dark hr {
             border-color: #3F3F3F !important;
-            color: #F3F4F6 !important;
         }
-        html.dark #header-profile-btn.bg-\[\#F2F2F2\] {
-            background-color: #3A3A3A !important;
+
+        /* Table inside Pesanan Terbaru (Latest Orders) */
+        html.dark table thead tr {
+            background-color: #4A4A4A !important;
+            border-color: #525252 !important;
         }
+        html.dark table thead th {
+            color: #D1D5DB !important;
+        }
+        html.dark table tbody tr {
+            background-color: #303030 !important;
+            border-color: #3F3F3F !important;
+        }
+        html.dark table tbody tr:hover {
+            background-color: #383838 !important;
+        }
+        /* Detail button pill in table */
+        html.dark table tbody a[data-i18n="dash_detail"] {
+            background-color: transparent !important;
+            border-color: #888888 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark table tbody a[data-i18n="dash_detail"]:hover {
+            background-color: #525252 !important;
+            border-color: #AAAAAA !important;
+        }
+
+        /* Menu Terlaris (Best Selling) items in dark mode: grey pill #696969 with dark circle #303030 */
+        html.dark .bg-\[\#F0F2F4\] {
+            background-color: #696969 !important;
+            color: #FFFFFF !important;
+        }
+        html.dark .bg-\[\#F0F2F4\]:hover {
+            background-color: #757575 !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] h4 {
+            color: #FFFFFF !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] span {
+            color: #E0E0E0 !important;
+        }
+        html.dark .bg-\[\#F0F2F4\] span.bg-\[\#3D5A58\] {
+            background-color: #303030 !important;
+            color: #FFFFFF !important;
+        }
+
+        /* Metric card status badges */
+        html.dark .bg-\[\#E8F8F0\],
+        html.dark .bg-emerald-50 {
+            background-color: #1E453B !important;
+            color: #34D399 !important;
+        }
+        html.dark .bg-\[\#FEE2E2\],
+        html.dark .bg-red-50 {
+            background-color: #4A2626 !important;
+            color: #F87171 !important;
+        }
+        html.dark .bg-amber-50,
+        html.dark .bg-orange-50 {
+            background-color: #4A3A20 !important;
+            color: #FBBF24 !important;
+        }
+        html.dark .bg-blue-50 {
+            background-color: #243852 !important;
+            color: #60A5FA !important;
+        }
+
+        /* Form elements (input, select, textarea) */
         html.dark input:not([type="checkbox"]):not([type="radio"]):not(#global-header-search),
         html.dark select,
         html.dark textarea {
-            background-color: #383838 !important;
+            background-color: #3F3F3F !important;
             border-color: #525252 !important;
-            color: #F9FAFB !important;
+            color: #FFFFFF !important;
+        }
+        html.dark input:not([type="checkbox"]):not([type="radio"]):not(#global-header-search)::placeholder,
+        html.dark textarea::placeholder {
+            color: #9CA3AF !important;
+        }
+        html.dark input:focus:not(#global-header-search),
+        html.dark select:focus,
+        html.dark textarea:focus {
+            border-color: #3E615D !important;
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#EEF0F2] text-[#1F2937] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
+<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] transition-colors duration-200 antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -126,7 +408,7 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeLogoutModal()"></div>
 
-        <div class="relative bg-white dark:bg-[#2B2B2B] rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
             <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
                 <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -134,18 +416,18 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight mb-2.5" data-i18n="logout_title">
+            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="logout_title">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-gray-500 dark:text-[#D4D4D4] text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
+            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] active:scale-95 text-gray-700 dark:text-white border border-gray-300 dark:border-[#757575] rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
@@ -171,44 +453,37 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeDeleteModal()"></div>
 
-        <div class="relative bg-white dark:bg-[#2B2B2B] rounded-[36px] shadow-[0_8px_30px_rgba(0,0,0,0.12)] px-8 sm:px-12 py-10 sm:py-12 max-w-[520px] w-full text-center z-10 select-none animate-modal-pop border border-gray-200 dark:border-[#4A4A4A] mx-auto my-auto">
-            <div class="flex items-center justify-center mx-auto mb-6 text-[#D45B56]">
-                <svg class="w-28 h-28 text-[#D45B56]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Top lid handle -->
-                    <path d="M47 22C47 18.6863 49.6863 16 53 16H67C70.3137 16 73 18.6863 73 22V25H47V22Z" fill="#D45B56"/>
-                    <!-- Horizontal lid bar -->
-                    <rect x="24" y="25" width="72" height="14" rx="5" stroke="#D45B56" stroke-width="6.5" fill="white"/>
-                    <!-- Trash can body -->
-                    <path d="M32 39H88V92C88 99.732 81.732 106 74 106H46C38.268 106 32 99.732 32 92V39Z" stroke="#D45B56" stroke-width="6.5" fill="white" stroke-linejoin="round"/>
-                    <!-- 3 vertical bars inside -->
-                    <line x1="46" y1="53" x2="46" y2="90" stroke="#D45B56" stroke-width="6.5" stroke-linecap="round"/>
-                    <line x1="60" y1="53" x2="60" y2="90" stroke="#D45B56" stroke-width="6.5" stroke-linecap="round"/>
-                    <line x1="74" y1="53" x2="74" y2="90" stroke="#D45B56" stroke-width="6.5" stroke-linecap="round"/>
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
+            <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
+                <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
                 </svg>
             </div>
 
-            <h3 id="delete-modal-title" class="text-[28px] sm:text-[32px] font-bold text-[#3D3D3D] dark:text-white tracking-tight mb-3 leading-tight" data-i18n="delete_title">
-                Confirm Deletion
+            <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="delete_title">
+                Konfirmasi Hapus
             </h3>
 
-            <p id="delete-modal-message" class="text-[#666666] dark:text-[#D4D4D4] text-sm sm:text-[16px] leading-snug max-w-[390px] mx-auto mb-8 font-normal" data-i18n="delete_desc">
-                Are you sure you want to delete this product? Deleted products cannot be restored.
+            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="delete_desc">
+                Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
             </p>
 
-            <div class="flex items-center justify-center gap-5">
+            <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] active:scale-95 text-[#444444] dark:text-white border border-[#555555] dark:border-[#757575] rounded-[10px] px-7 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[145px] sm:min-w-[160px] focus:outline-none cursor-pointer"
-                        data-i18n="delete_cancel">
-                    Cancel
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        data-i18n="cancel">
+                    Batalkan
                 </button>
                 <form id="global-delete-form" method="POST" action="" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#B3362E] hover:bg-[#9E2E27] active:scale-95 text-white rounded-[10px] px-8 py-2.5 text-sm sm:text-[15px] font-medium transition min-w-[165px] sm:min-w-[185px] shadow-xs focus:outline-none cursor-pointer"
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer"
                             data-i18n="delete_confirm_btn">
-                        Yes, delete
+                        Ya, Hapus
                     </button>
                 </form>
             </div>
@@ -219,71 +494,72 @@
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[300px] xl:w-[315px] bg-white dark:bg-[#2B2B2B] text-gray-800 dark:text-white rounded-[36px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs flex flex-col justify-between p-6 lg:p-7 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
-            <!-- Logo Section with Mascot + TOON BURGER text and bottom divider -->
-            <div class="pt-1 pb-6 mb-6 border-b border-gray-100 dark:border-[#4A4A4A] flex items-center justify-between md:justify-center relative -mx-6 lg:-mx-7 px-6 lg:px-7">
+            <!-- Logo Section with Mascot (Sesuai Referensi Gambar) -->
+            <div class="pt-2 pb-5 mb-5 border-b border-gray-100 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-32 sm:h-36 lg:h-[146px] w-auto object-contain transition group-hover:scale-105 dark:hidden">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-32 sm:h-36 lg:h-[146px] w-auto object-contain transition group-hover:scale-105 hidden dark:block">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 dark:hidden">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 hidden dark:block">
                 </a>
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-4 top-0 text-gray-400 hover:text-gray-700 p-2 rounded-xl hover:bg-gray-100 transition min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label="Tutup Menu">
+                <!-- Mobile Close Button -->
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-[#383838] transition" aria-label="Tutup Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
             </div>
 
-            <!-- Primary Navigation Links -->
-            <nav class="space-y-3 text-[15px] lg:text-[16px] font-medium">
+            <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
+            <nav class="space-y-3 text-sm font-medium">
 
-                <!-- 1. Dashboard -->
+                <!-- 1. Dashboards -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-4 px-6 py-4 min-h-[50px] transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] hover:text-gray-900 dark:hover:text-white' }}">
-                    <svg class="w-[22px] h-[22px] flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
-                    <span data-i18n="nav_dashboard">Dashboard</span>
+                    <span data-i18n="nav_dashboard">Dashboards</span>
                 </a>
 
-                <!-- 2. Profil Admin -->
+                <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-4 px-6 py-4 min-h-[50px] transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] hover:text-gray-900 dark:hover:text-white' }}">
-                    <svg class="w-[22px] h-[22px] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
-                    <span data-i18n="nav_profile">Profil Admin</span>
+                    <span data-i18n="nav_profile">Admin Profile</span>
                 </a>
 
-                <!-- 3. Proses Pesanan -->
+                <!-- 3. Order processing -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-4 px-6 py-4 min-h-[50px] transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] hover:text-gray-900 dark:hover:text-white' }}">
-                    <svg class="w-[22px] h-[22px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                         <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
                         <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
                         <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
                         <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
                     </svg>
-                    <span data-i18n="nav_orders">Proses Pesanan</span>
+                    <span data-i18n="nav_orders">Order Processing</span>
                 </a>
 
-                <!-- 4. Data Produk -->
+                <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-4 px-6 py-4 min-h-[50px] transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] hover:text-gray-900 dark:hover:text-white' }}">
-                    <svg class="w-[22px] h-[22px] flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
-                    <span data-i18n="nav_products">Data Produk</span>
+                    <span data-i18n="nav_products">Product Data</span>
                 </a>
 
-                <!-- 5. Data Kategori -->
+                <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-4 px-6 py-4 min-h-[50px] transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] hover:text-gray-900 dark:hover:text-white' }}">
-                    <svg class="w-[22px] h-[22px] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9 8H7V5h2v3z"/>
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
                     </svg>
-                    <span data-i18n="nav_categories">Data Kategori</span>
+                    <span data-i18n="nav_categories">Product Categories</span>
                 </a>
             </nav>
         </div>
@@ -313,26 +589,26 @@
     </aside>
 
     <!-- Main content -->
-    <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0 min-h-[calc(100vh-3rem)]">
+    <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
 
         <!-- Top Header -->
-        <header class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs px-5 sm:px-8 lg:px-10 py-3.5 sm:py-4 flex items-center justify-between gap-4 select-none relative z-30">
+        <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-4 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-3 select-none relative z-30">
 
             <div class="flex items-center gap-3 flex-1 min-w-0">
                 <!-- Hamburger (mobile only) -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#3A3A3A] rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
 
                 <!-- Brand name (mobile only) -->
-                <span class="md:hidden font-extrabold text-sm text-gray-900 dark:text-white tracking-tight">Toon Burger Admin</span>
+                <span class="md:hidden font-extrabold text-sm text-gray-900 tracking-tight">Toon Burger Admin</span>
 
                 <!-- Search bar (desktop only) -->
-                <div class="relative w-full max-w-[640px] xl:max-w-[720px] hidden md:block">
-                    <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] dark:bg-[#4F4F4F] dark:hover:bg-[#575757] rounded-full px-6 py-3 sm:py-3.5 flex items-center gap-4 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white dark:focus-within:bg-[#4F4F4F] focus-within:border focus-within:border-gray-300 dark:focus-within:border-[#757575]">
-                        <svg class="w-5 h-5 text-gray-400 dark:text-[#D4D4D4] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="relative w-full max-w-[560px] hidden md:block">
+                    <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
+                        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                         <input type="text"
@@ -341,11 +617,12 @@
                                placeholder="Cari Sesuatu..."
                                autocomplete="off"
                                data-i18n-attr="placeholder:search_placeholder"
-                               class="bg-transparent text-[15px] text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-[#D4D4D4] outline-none w-full font-normal">
+                               style="background-color: transparent !important; background: transparent !important; border: none !important; outline: none !important; box-shadow: none !important;"
+                               class="!bg-transparent bg-transparent border-0 outline-none focus:outline-none focus:ring-0 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 w-full font-normal">
                         <button type="button"
                                 id="header-search-clear"
                                 onclick="clearHeaderSearch()"
-                                class="hidden text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white p-0.5 rounded-full transition focus:outline-none"
+                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
                                 aria-label="Bersihkan pencarian">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -354,7 +631,7 @@
                     </form>
 
                     <!-- Live Search Results Dropdown -->
-                    <div id="header-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white dark:bg-[#2B2B2B] rounded-2xl border border-gray-200/90 dark:border-[#4A4A4A] shadow-2xl p-3 z-50 hidden max-h-96 overflow-y-auto animate-modal-pop">
+                    <div id="header-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-3 z-50 hidden max-h-96 overflow-y-auto animate-modal-pop">
                         <div id="header-search-loading" class="hidden text-center py-4 text-xs text-gray-400">
                             <svg class="w-5 h-5 animate-spin mx-auto text-[#415C58] mb-1" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -368,92 +645,100 @@
             </div>
 
             <!-- Right controls -->
-            <div class="flex items-center gap-4 sm:gap-7 shrink-0">
+            <div class="flex items-center gap-3 sm:gap-6 shrink-0">
                 <!-- Language selector (desktop only) -->
                 <div class="relative select-none hidden sm:block">
                     <button type="button"
                             id="header-lang-btn"
                             onclick="toggleLanguageDropdown(event)"
-                            class="bg-white dark:bg-[#2B2B2B] border border-gray-200/90 dark:border-[#BDBDBD] rounded-full px-4 py-2 min-h-[48px] flex items-center gap-3 text-sm font-medium text-gray-700 dark:text-white shadow-2xs hover:bg-gray-50 dark:hover:bg-[#383838] active:scale-95 transition cursor-pointer focus:outline-none">
-                        <span id="header-lang-flag" class="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 dark:border-transparent shrink-0">
+                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
+                        <span id="header-lang-flag" class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
                             <svg class="w-full h-full" viewBox="0 0 64 64">
-                                <clipPath id="circle-flag-id-init"><circle cx="32" cy="32" r="32"/></clipPath>
-                                <g clip-path="url(#circle-flag-id-init)">
-                                    <path fill="#E11B22" d="M0 0h64v32H0z"/>
-                                    <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
+                                <g clip-path="url(#circle-flag-header)">
+                                    <path fill="#B22234" d="M0 0h64v64H0z"/>
+                                    <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                                    <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                                    <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                                    <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                                    <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                                    <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                                    <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                                    <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
                                 </g>
                             </svg>
                         </span>
-                        <span id="header-lang-label" class="text-sm lg:text-[15px] font-normal text-gray-600 dark:text-white">Indonesia</span>
-                        <svg id="header-lang-chevron" class="w-4 h-4 text-gray-700 dark:text-white stroke-[2] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span id="header-lang-label" class="text-sm font-medium text-gray-700">English</span>
+                        <svg id="header-lang-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-[#2B2B2B] rounded-2xl border border-gray-200/90 dark:border-[#4A4A4A] shadow-xl p-2 z-50 hidden animate-modal-pop">
-                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 min-h-[44px] rounded-xl text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition">
-                            <span class="flex items-center gap-2.5"><span>Indonesia</span></span>
-                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] dark:text-[#8CE9B5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
+                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
+                            <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
+                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
-                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 min-h-[44px] rounded-xl text-sm font-semibold text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition mt-1">
-                            <span class="flex items-center gap-2.5"><span>English</span></span>
-                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] dark:text-[#8CE9B5] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('Bahasa Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
+                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Bahasa Indonesia</span></span>
+                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                     </div>
                 </div>
 
-                @php $adminHeaderUser = Auth::user(); @endphp
+                <!-- Profile badge -->
                 <div class="relative select-none">
-                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3.5 px-4 py-2 rounded-2xl hover:bg-[#F2F2F2]/70 dark:hover:bg-[#383838] cursor-pointer group focus:outline-none text-left transition">
-                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FA9A1B] text-white flex items-center justify-center font-bold text-base sm:text-lg shrink-0 shadow-xs overflow-hidden">
-                            @if(!empty($adminHeaderUser?->avatar))
-                                <img id="header-profile-avatar-img" src="{{ str_starts_with($adminHeaderUser->avatar, 'http') ? $adminHeaderUser->avatar : asset($adminHeaderUser->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
-                                <span id="header-profile-avatar-initials" class="hidden">Tb</span>
-                            @else
-                                <img id="header-profile-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden">
-                                <span id="header-profile-avatar-initials">Tb</span>
-                            @endif
+                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">Tb</div>
+                        <div class="text-left leading-tight hidden sm:block">
+                            <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
+                            <div class="text-xs text-gray-400 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
                         </div>
-                        <div class="text-left leading-tight hidden sm:block pr-1">
-                            <div class="font-bold text-[15px] lg:text-base text-[#333333] dark:text-white leading-tight">{{ $adminHeaderUser?->name ?: 'Toon Burger' }}</div>
-                            <div class="text-xs lg:text-[13px] text-gray-500 dark:text-[#BDBDBD] font-normal leading-tight mt-0.5">{{ $adminHeaderUser?->email ?: 'Toonburger@gmail.com' }}</div>
-                        </div>
-                        <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 dark:text-white stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div id="header-profile-dropdown" class="absolute right-0 left-0 min-w-[225px] top-full mt-1.5 bg-white dark:bg-[#2B2B2B] rounded-xl border border-gray-200/90 dark:border-[#4A4A4A] shadow-[0_4px_12px_rgba(0,0,0,0.08)] overflow-hidden z-50 hidden animate-modal-pop">
-                        <div class="py-1.5">
-                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] transition">
-                                <svg class="w-5 h-5 text-gray-900 dark:text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="7.5" r="3.2"/>
-                                    <path d="M5.5 19.2c0-2.4 2.9-4.2 6.5-4.2s6.5 1.8 6.5 4.2v.8h-13v-.8z"/>
-                                </svg>
-                                <span data-i18n="drop_profile">Profile</span>
-                            </a>
-                            <button type="button" onclick="toggleAdminTheme(event)" class="w-full flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] transition cursor-pointer text-left">
-                                <svg class="w-5 h-5 text-gray-900 dark:text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                                </svg>
-                                <span data-i18n="drop_darkmode">Mode Gelap</span>
-                            </button>
-                            <a href="{{ route('home') }}" class="flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-gray-900 dark:text-white hover:bg-gray-100/80 dark:hover:bg-[#3A3A3A] transition">
-                                <svg class="w-5 h-5 text-gray-900 dark:text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 10.5L12 3.5l8 7V19.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V10.5z"/>
-                                    <path d="M9.5 20.5v-6h5v6"/>
-                                </svg>
-                                <span data-i18n="drop_home">Beranda</span>
-                            </a>
-                        </div>
-                        <div class="border-t border-gray-200/90 dark:border-[#4A4A4A] py-1">
-                            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3.5 px-4 py-2.5 text-[15px] font-normal text-[#B9382C] dark:text-[#FCA5A5] hover:bg-red-50/70 dark:hover:bg-[#4A2525] transition cursor-pointer text-left">
-                                <svg class="w-5 h-5 text-[#B9382C] dark:text-[#FCA5A5] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10"/>
-                                    <path d="M15 16l4-4-4-4"/>
-                                    <path d="M19 12H9"/>
-                                </svg>
-                                <span data-i18n="drop_logout">Logout</span>
-                            </button>
-                        </div>
+                    <div id="header-profile-dropdown" class="absolute right-0 top-full mt-2 w-56 sm:w-60 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
+                        <!-- 1. Profile -->
+                        <a href="{{ route('admin.profile') }}" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition">
+                            <svg class="w-5 h-5 text-gray-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            <span data-i18n="dropdown_profile">Profile</span>
+                        </a>
+
+                        <!-- 2. Mode Gelap / Mode Terang Toggle -->
+                        <button type="button" onclick="toggleAdminTheme()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
+                            <svg id="header-theme-moon-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                            </svg>
+                            <svg id="header-theme-sun-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                            <span id="header-theme-label" data-i18n="dropdown_theme">Mode Gelap</span>
+                        </button>
+
+                        <!-- 3. Beranda -->
+                        <a href="{{ route('home') }}" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition">
+                            <svg class="w-5 h-5 text-gray-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                            </svg>
+                            <span data-i18n="dropdown_home">Beranda</span>
+                        </a>
+
+                        <!-- Separator line -->
+                        <hr class="my-1.5 border-gray-100">
+
+                        <!-- 4. Logout -->
+                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-[#DE3B28] hover:bg-red-50/80 transition text-left cursor-pointer">
+                            <svg class="w-5 h-5 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                            <span data-i18n="dropdown_logout">Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -461,31 +746,31 @@
 
         <!-- Flash alerts -->
         @if(session('success'))
-            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
                 <span class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </span>
-                <button onclick="this.parentElement.remove()" class="text-emerald-600 text-lg font-bold">&times;</button>
+                <button onclick="this.parentElement.remove()" class="text-emerald-600 text-base font-bold">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-sm font-semibold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
                 <span class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button onclick="this.parentElement.remove()" class="text-[#DE3B28] text-lg font-bold">&times;</button>
+                <button onclick="this.parentElement.remove()" class="text-[#DE3B28] text-base font-bold">&times;</button>
             </div>
         @endif
 
         <!-- MAIN CONTENT AREA -->
-        <main class="flex-1 flex flex-col min-w-0">
+        <main class="flex-1 min-w-0">
             @yield('admin_content')
         </main>
     </div>
@@ -603,11 +888,20 @@
         }
 
         // Global Delete Modal Handler
-        function openDeleteModal(actionUrl) {
+        function openDeleteModal(actionUrl, itemName = 'data ini') {
             const modal = document.getElementById('delete-confirm-modal');
             const form = document.getElementById('global-delete-form');
+            const message = document.getElementById('delete-modal-message');
             if (modal && form) {
                 form.action = actionUrl;
+                if (message) {
+                    const lang = window._tbLang || 'ID';
+                    if (lang === 'ID') {
+                        message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Tindakan ini tidak dapat dibatalkan.`;
+                    } else {
+                        message.textContent = `Are you sure you want to delete ${itemName}? This action cannot be undone.`;
+                    }
+                }
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
                 modal.style.display = 'flex';
@@ -643,10 +937,8 @@
 
             const profileDropdown = document.getElementById('header-profile-dropdown');
             const profileChevron = document.getElementById('header-profile-chevron');
-            const profileBtn = document.getElementById('header-profile-btn');
             if (profileDropdown) profileDropdown.classList.add('hidden');
             if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
-            if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
 
             const searchResults = document.getElementById('header-search-results');
             if (searchResults) searchResults.classList.add('hidden');
@@ -658,12 +950,10 @@
             const chevron = document.getElementById('header-lang-chevron');
             const profileDropdown = document.getElementById('header-profile-dropdown');
             const profileChevron = document.getElementById('header-profile-chevron');
-            const profileBtn = document.getElementById('header-profile-btn');
             const searchResults = document.getElementById('header-search-results');
 
             if (profileDropdown) profileDropdown.classList.add('hidden');
             if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
-            if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
             if (searchResults) searchResults.classList.add('hidden');
 
             if (dropdown) {
@@ -677,7 +967,7 @@
         const _tbTranslations = {
             ID: {
                 // Layout: Nav
-                nav_dashboard: 'Dashboard',
+                nav_dashboard: 'Dashboards',
                 nav_profile: 'Profil Admin',
                 nav_orders: 'Proses Pesanan',
                 nav_orders_short: 'Pesanan',
@@ -688,18 +978,13 @@
                 nav_homepage: 'Halaman Utama',
                 nav_logout: 'Keluar',
                 nav_logout_short: 'Keluar',
-                drop_profile: 'Profile',
-                drop_darkmode: 'Mode Gelap',
-                drop_home: 'Beranda',
-                drop_logout: 'Logout',
                 // Layout: Modals
                 logout_title: 'Konfirmasi Keluar',
                 logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
                 logout_confirm_btn: 'Ya, Keluar',
                 delete_title: 'Konfirmasi Hapus',
-                delete_desc: 'Apakah Anda yakin ingin menghapus produk ini? Produk yang dihapus tidak dapat dikembalikan.',
-                delete_cancel: 'Batal',
-                delete_confirm_btn: 'Ya, hapus',
+                delete_desc: 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
+                delete_confirm_btn: 'Ya, Hapus',
                 cancel: 'Batalkan',
                 // Header
                 search_placeholder: 'Cari Sesuatu...',
@@ -727,68 +1012,33 @@
                 dash_detail: 'Detail',
                 dash_best_selling: 'Menu Terlaris',
                 dash_products_sold: 'Produk Terjual',
-                dash_empty_orders: 'Belum ada pesanan terbaru.',
-                dash_empty_best: 'Belum ada penjualan menu.',
-                // Profile
-                prof_title: 'Profil Admin',
-                prof_sub: 'Kelola informasi akun dan profil admin',
-                prof_username: 'Username',
-                prof_email: 'Email',
-                prof_phone: 'Nomor telfon',
-                prof_address: 'Alamat',
-                prof_save: 'Simpan',
-                prof_new_pass: 'Password baru',
-                prof_new_pass_ph: 'Masukkan Password',
-                prof_conf_pass: 'Konfirmasi Password',
-                prof_conf_pass_ph: 'Konfirmasi Password',
-                // Orders (both old & new keys)
-                orders_title: 'Proses pesanan',
-                orders_subtitle: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
-                ord_title: 'Proses pesanan',
-                ord_sub: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
-                tab_all: 'Semua',
-                tab_pending: 'Menunggu',
-                tab_cooking: 'Dimasak',
-                tab_ready: 'Siap Saji',
-                tab_completed: 'Selesai',
-                st_pending: 'Menunggu',
-                st_cooking: 'Dimasak',
-                st_ready: 'Siap Saji',
-                st_completed: 'Selesai',
-                st_cancelled: 'Batal',
-                ord_col_prod: 'Produk',
-                ord_col_qty: 'total',
-                ord_col_price: 'Harga',
-                ord_total_label: 'Total',
-                btn_confirm_order: 'konfirmasi pesanan',
-                ord_done_badge: 'Pesanan Selesai',
-                ord_cancel_badge: 'Pesanan Dibatalkan',
-                btn_detail: 'Lihat Detail Pesanan',
-                ord_empty: 'Belum ada pesanan pada kategori status ini.',
+                // Orders
+                orders_title: 'Proses Pesanan',
+                orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
                 order_detail_title: 'Detail Pesanan',
                 order_detail_subtitle: 'Konfirmasi dan kelola status pesanan ini.',
                 orders_refresh: 'Segarkan',
                 orders_tab_all: 'Semua',
                 orders_tab_pending: 'Menunggu',
-                orders_tab_processing: 'Dimasak',
-                orders_tab_ready: 'Siap Saji',
+                orders_tab_processing: 'Diproses',
+                orders_tab_ready: 'Siap Diambil',
                 orders_tab_completed: 'Selesai',
                 orders_tab_cancelled: 'Dibatalkan',
                 orders_empty_title: 'Tidak ada pesanan dalam status ini',
                 orders_empty_desc: 'Saat ada pesanan baru masuk, pesanan akan segera tampil di sini.',
                 orders_status_completed: 'Selesai',
-                orders_status_ready: 'Siap Saji',
-                orders_status_processing: 'Dimasak',
+                orders_status_ready: 'Siap Diambil',
+                orders_status_processing: 'Diproses',
                 orders_status_cancelled: 'Dibatalkan',
                 orders_status_pending: 'Menunggu',
                 orders_total: 'Total',
-                orders_accept: 'konfirmasi pesanan',
-                orders_mark_ready: 'konfirmasi pesanan',
-                orders_complete: 'konfirmasi pesanan',
+                orders_accept: 'Terima Pesanan',
+                orders_mark_ready: 'Pesanan Siap',
+                orders_complete: 'Selesaikan Pesanan',
                 orders_done_badge: 'Pesanan Selesai',
                 orders_cancelled_badge: 'Pesanan Dibatalkan',
-                orders_view_detail: 'Lihat Detail Pesanan',
-                orders_reject: 'Batalkan',
+                orders_view_detail: 'Lihat Detail',
+                orders_reject: 'Tolak Pesanan',
                 // Order Detail
                 order_detail_back: 'Kembali ke Proses Pesanan',
                 order_detail_kitchen_status: 'Status Dapur',
@@ -825,83 +1075,53 @@
                 order_detail_complete: 'Selesaikan Pesanan',
                 order_detail_cancel: 'Batalkan Pesanan',
                 // Products
-                prod_title: 'Halaman Data Produk',
-                prod_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
-                btn_filter: 'Filter',
-                filter_all_cat: 'Semua Kategori',
-                btn_sort: 'Sortir',
-                btn_add_prod: 'Tambahkan',
-                col_prod_name: 'Menu',
-                col_category: 'Kategori',
-                col_price: 'Harga',
-                col_calories: 'kalori',
-                col_status: 'Status',
-                col_action: 'Aksi',
-                st_avail: 'Tersedia',
-                st_empty: 'Habis',
-                mod_prod_add: 'Tambah Produk Baru',
-                lbl_prod_name: 'Nama Produk',
-                lbl_prod_price: 'Harga (Rp)',
-                lbl_prod_cal: 'Kalori (Kcal)',
-                lbl_prod_img: 'Gambar Produk',
-                lbl_prod_desc: 'Deskripsi',
-                lbl_prod_avail: 'Tersedia (Stok Ada)',
-                lbl_prod_pop: 'Menu Terpopuler',
-                btn_save_prod: 'Simpan Produk',
-                prod_empty: 'Belum ada produk.',
-                products_title: 'Halaman Data Produk',
-                products_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                products_title: 'Kelola Data Produk',
+                products_subtitle: 'Kelola daftar menu dan produk Toon Burger',
                 products_search: 'Cari nama menu...',
-                products_add_btn: 'Tambahkan',
-                products_col_no: 'No.',
-                products_col_menu: 'Menu',
+                products_add_btn: 'Tambah Produk',
+                products_col_no: 'No',
+                products_col_menu: 'Menu / Produk',
                 products_col_category: 'Kategori',
                 products_col_price: 'Harga',
-                products_col_stock: 'kalori',
+                products_col_stock: 'Stok',
                 products_col_status: 'Status',
                 products_col_action: 'Aksi',
                 products_available: 'Tersedia',
                 products_out: 'Habis',
                 products_empty_title: 'Belum Ada Menu',
-                products_empty_desc: 'Klik tombol Tambahkan untuk memasukkan menu baru.',
+                products_empty_desc: 'Klik tombol + Tambah Produk untuk memasukkan menu baru.',
+                // Add Product Modal
                 products_add_modal_title: 'Tambah Produk Baru',
                 products_add_modal_desc: 'Lengkapi informasi menu Toon Burger yang akan ditambahkan.',
                 products_label_name: 'Nama Produk',
                 products_label_category: 'Kategori',
                 products_label_price: 'Harga (Rp)',
-                products_label_stock: 'Kalori (kcal)',
+                products_label_stock: 'Stok (Porsi)',
                 products_label_photo: 'Upload Foto',
                 products_label_desc: 'Deskripsi',
-                products_add_submit: 'Tambahkan',
+                products_add_submit: 'Tambah Produk',
+                // Edit Product Modal
                 products_edit_modal_title: 'Edit Menu',
                 products_edit_modal_desc: 'Perbarui rincian, harga, atau foto menu Toon Burger.',
                 products_edit_photo: 'Ganti Foto Menu',
                 products_save_changes: 'Simpan Perubahan',
                 products_all_categories: 'Semua Kategori',
-                products_unit_portion: 'kcal',
+                products_unit_portion: 'Porsi',
                 products_placeholder_name: 'Nama Produk Baru',
-                products_placeholder_desc: 'Burger dengan patty daging yang juicy,',
+                products_placeholder_desc: 'Deskripsi menu Toon Burger...',
                 products_toggle_status_title: 'Klik untuk ubah ketersediaan',
                 products_edit_btn_title: 'Edit Produk',
                 products_delete_btn_title: 'Hapus Produk',
                 // Categories
-                cat_title: 'Halaman Kategori Produk',
-                cat_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
-                btn_add_cat: 'Tambahkan',
-                col_no: 'No.',
-                mod_cat_add: 'Tambah Kategori',
-                lbl_cat_name: 'Nama Kategori',
-                btn_save: 'Simpan',
-                cat_empty: 'Belum ada kategori.',
-                categories_title: 'Halaman Kategori Produk',
-                categories_subtitle: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                categories_title: 'Kelola Kategori Produk',
+                categories_subtitle: 'Kelola kategori untuk pengelompokan menu Toon Burger',
                 categories_search: 'Cari kategori...',
-                categories_add_btn: 'Tambahkan',
-                categories_col_no: 'No.',
-                categories_col_name: 'Kategori',
+                categories_add_btn: 'Tambah Kategori',
+                categories_col_no: 'No',
+                categories_col_name: 'Nama Kategori',
                 categories_col_action: 'Aksi',
                 categories_empty_title: 'Belum Ada Kategori',
-                categories_empty_desc: 'Klik tombol Tambahkan untuk membuat kategori menu baru.',
+                categories_empty_desc: 'Klik tombol + Tambah Kategori untuk membuat kategori menu baru.',
                 categories_add_modal_title: 'Tambah Kategori',
                 categories_label_name: 'Nama Kategori',
                 categories_save: 'Simpan',
@@ -926,125 +1146,90 @@
                 tables_open_menu: 'Buka Menu Meja Ini',
                 tables_change: 'Ubah',
                 // General
-                btn_cancel: 'Batalkan',
+                btn_cancel: 'Batal',
                 transaction: 'Transaksi',
                 queue: 'Antrean',
                 currency: 'Rp',
+                // Header Dropdown (Top Right)
+                dropdown_profile: 'Profile',
+                dropdown_theme: 'Mode Gelap',
+                dropdown_home: 'Beranda',
+                dropdown_logout: 'Logout',
             },
             EN: {
                 // Layout: Nav
-                nav_dashboard: 'Dashboard',
+                nav_dashboard: 'Dashboards',
                 nav_profile: 'Admin Profile',
-                nav_orders: 'Manage Order',
+                nav_orders: 'Order Processing',
                 nav_orders_short: 'Orders',
                 nav_products: 'Product Data',
                 nav_products_short: 'Products',
-                nav_categories: 'Category Data',
+                nav_categories: 'Product Categories',
                 nav_categories_short: 'Categories',
                 nav_homepage: 'Home page',
                 nav_logout: 'Logout',
                 nav_logout_short: 'Logout',
-                drop_profile: 'Profile',
-                drop_darkmode: 'Dark Mode',
-                drop_home: 'Home',
-                drop_logout: 'Logout',
                 // Layout: Modals
                 logout_title: 'Confirm Logout',
                 logout_desc: 'Are you sure you want to log out? You will need to log in again to access the admin panel.',
                 logout_confirm_btn: 'Yes, Logout',
-                delete_title: 'Confirm Deletion',
-                delete_desc: 'Are you sure you want to delete this product? Deleted products cannot be restored.',
-                delete_cancel: 'Cancel',
-                delete_confirm_btn: 'Yes, delete',
+                delete_title: 'Confirm Delete',
+                delete_desc: 'Are you sure you want to delete this item? This action cannot be undone.',
+                delete_confirm_btn: 'Yes, Delete',
                 cancel: 'Cancel',
                 // Header
-                search_placeholder: 'Search Something...',
+                search_placeholder: 'Search for something...',
                 searching: 'Searching...',
                 role_admin: 'Administrator',
                 // Dashboard
-                dash_greeting: 'Hello, Toon Burger Admin',
+                dash_greeting: 'Hello, Toon Burger Admin.',
                 dash_subtitle: "Monitor Toon Burger's sales performance and active orders for today.",
-                dash_metric_profit: "Today's Earnings",
+                dash_metric_profit: "Today's Profits",
                 dash_metric_orders: "Today's Orders",
                 dash_metric_progress: 'Order in Progress',
                 dash_metric_products: 'Total Products',
                 dash_up5: 'Up 5% from yesterday.',
                 dash_up2: 'Up 2% from yesterday.',
-                dash_needs_processing: 'Requires immediate processing',
+                dash_needs_processing: 'Needs to be processed immediately.',
                 dash_active: 'Active',
-                dash_out_of_stock: 'Sold out',
-                dash_latest_order: 'Latest Orders',
+                dash_out_of_stock: 'Out of Stock',
+                dash_latest_order: 'Latest Order',
                 dash_see_all: 'See all',
-                dash_col_order_num: 'Order No.',
+                dash_col_order_num: 'Order Number',
                 dash_col_customer: 'Customer Name',
                 dash_col_total: 'Total',
                 dash_col_status: 'Status',
                 dash_col_action: 'Action',
-                dash_detail: 'Details',
-                dash_best_selling: 'Best-Selling Items',
+                dash_detail: 'Detail',
+                dash_best_selling: 'Best Selling Menu',
                 dash_products_sold: 'Products Sold',
-                dash_empty_orders: 'No recent orders yet.',
-                dash_empty_best: 'No menu sales yet.',
-                // Profile
-                prof_title: 'Admin Profile',
-                prof_sub: 'Manage admin account and profile information',
-                prof_username: 'Username',
-                prof_email: 'Email',
-                prof_phone: 'Phone number',
-                prof_address: 'Address',
-                prof_save: 'Save',
-                prof_new_pass: 'New password',
-                prof_new_pass_ph: 'Enter Password',
-                prof_conf_pass: 'Confirm Password',
-                prof_conf_pass_ph: 'Confirm Password',
-                // Orders (both old & new keys)
-                orders_title: 'Manage Order',
-                orders_subtitle: 'Manage and confirm incoming orders for today.',
-                ord_title: 'Manage Order',
-                ord_sub: 'Manage and confirm incoming orders for today.',
-                tab_all: 'All',
-                tab_pending: 'Wait',
-                tab_cooking: 'Cooked',
-                tab_ready: 'Ready-to-Serve',
-                tab_completed: 'Finished',
-                st_pending: 'Wait',
-                st_cooking: 'Cooked',
-                st_ready: 'Ready-to-Serve',
-                st_completed: 'Finished',
-                st_cancelled: 'Cancelled',
-                ord_col_prod: 'Product',
-                ord_col_qty: 'total',
-                ord_col_price: 'Price',
-                ord_total_label: 'Total',
-                btn_confirm_order: 'Confirm Order',
-                ord_done_badge: 'Order Finished',
-                ord_cancel_badge: 'Order Cancelled',
-                btn_detail: 'View Order Details',
-                ord_empty: 'No orders in this status category yet.',
+                // Orders
+                orders_title: 'Order Processing',
+                orders_subtitle: 'Manage order flow and customer order status in real time.',
                 order_detail_title: 'Order Details',
                 order_detail_subtitle: 'Confirm and manage the status of this order.',
                 orders_refresh: 'Refresh',
                 orders_tab_all: 'All',
-                orders_tab_pending: 'Wait',
-                orders_tab_processing: 'Cooked',
-                orders_tab_ready: 'Ready-to-Serve',
-                orders_tab_completed: 'Finished',
+                orders_tab_pending: 'Pending',
+                orders_tab_processing: 'Processing',
+                orders_tab_ready: 'Ready to Serve',
+                orders_tab_completed: 'Completed',
                 orders_tab_cancelled: 'Cancelled',
                 orders_empty_title: 'No orders with this status',
                 orders_empty_desc: 'New orders will appear here when they come in.',
-                orders_status_completed: 'Finished',
-                orders_status_ready: 'Ready-to-Serve',
-                orders_status_processing: 'Cooked',
+                orders_status_completed: 'Completed',
+                orders_status_ready: 'Ready to Serve',
+                orders_status_processing: 'Processing',
                 orders_status_cancelled: 'Cancelled',
-                orders_status_pending: 'Wait',
+                orders_status_pending: 'Pending',
                 orders_total: 'Total',
-                orders_accept: 'Confirm Order',
-                orders_mark_ready: 'Confirm Order',
-                orders_complete: 'Confirm Order',
-                orders_done_badge: 'Order Finished',
+                orders_accept: 'Accept Order',
+                orders_mark_ready: 'Order Ready',
+                orders_complete: 'Complete Order',
+                orders_done_badge: 'Order Completed',
                 orders_cancelled_badge: 'Order Cancelled',
-                orders_view_detail: 'View Order Details',
-                orders_reject: 'Cancel',
+                orders_view_detail: 'View Detail',
+                orders_reject: 'Reject Order',
                 // Order Detail
                 order_detail_back: 'Back to Order Processing',
                 order_detail_kitchen_status: 'Kitchen Status',
@@ -1058,10 +1243,10 @@
                 order_detail_paid: 'Paid',
                 order_detail_unpaid: 'Unpaid',
                 order_detail_refunded: 'Refunded',
-                stepper_pending: 'Wait',
-                stepper_cooking: 'Cooked',
-                stepper_ready: 'Ready-to-Serve',
-                stepper_completed: 'Finished',
+                stepper_pending: 'Pending',
+                stepper_cooking: 'Cooking',
+                stepper_ready: 'Ready to Serve',
+                stepper_completed: 'Completed',
                 order_detail_order_type: 'Order Type',
                 order_detail_table: 'Table',
                 order_detail_customer_name: 'Customer Name',
@@ -1081,83 +1266,53 @@
                 order_detail_complete: 'Complete Order',
                 order_detail_cancel: 'Cancel Order',
                 // Products
-                prod_title: 'Product Data Page',
-                prod_sub: 'Add new menu items, edit details/prices, and monitor stock availability',
-                btn_filter: 'Filter',
-                filter_all_cat: 'All Categories',
-                btn_sort: 'Sort',
-                btn_add_prod: 'Add',
-                col_prod_name: 'Menu',
-                col_category: 'Category',
-                col_price: 'Price',
-                col_calories: 'Calories',
-                col_status: 'Status',
-                col_action: 'Action',
-                st_avail: 'Available',
-                st_empty: 'Sold out',
-                mod_prod_add: 'Add New Product',
-                lbl_prod_name: 'Product Name',
-                lbl_prod_price: 'Price (IDR)',
-                lbl_prod_cal: 'Calories (Kcal)',
-                lbl_prod_img: 'Product Image',
-                lbl_prod_desc: 'Description',
-                lbl_prod_avail: 'Available (In Stock)',
-                lbl_prod_pop: 'Popular Menu',
-                btn_save_prod: 'Save Product',
-                prod_empty: 'No products yet.',
-                products_title: 'Product Data Page',
-                products_subtitle: 'Add new menu items, edit details/prices, and monitor stock availability',
+                products_title: 'Manage Product Data',
+                products_subtitle: 'Manage the menu and product list of Toon Burger',
                 products_search: 'Search menu name...',
-                products_add_btn: 'Add',
-                products_col_no: 'No.',
-                products_col_menu: 'Menu',
+                products_add_btn: 'Add Product',
+                products_col_no: 'No',
+                products_col_menu: 'Menu / Product',
                 products_col_category: 'Category',
                 products_col_price: 'Price',
-                products_col_stock: 'Calories',
+                products_col_stock: 'Stock',
                 products_col_status: 'Status',
                 products_col_action: 'Action',
                 products_available: 'Available',
-                products_out: 'Sold out',
+                products_out: 'Out of Stock',
                 products_empty_title: 'No menu items yet',
-                products_empty_desc: 'Click Add to insert a new menu item.',
+                products_empty_desc: 'Click + Add Product to add a new menu item.',
+                // Add Product Modal
                 products_add_modal_title: 'Add New Product',
                 products_add_modal_desc: 'Fill in the details for the new Toon Burger menu item.',
                 products_label_name: 'Product Name',
                 products_label_category: 'Category',
                 products_label_price: 'Price (IDR)',
-                products_label_stock: 'Calories (kcal)',
+                products_label_stock: 'Stock (Portions)',
                 products_label_photo: 'Upload Photo',
                 products_label_desc: 'Description',
-                products_add_submit: 'Add',
+                products_add_submit: 'Add Product',
+                // Edit Product Modal
                 products_edit_modal_title: 'Edit Menu',
                 products_edit_modal_desc: 'Update the details, price, or photo of this menu item.',
                 products_edit_photo: 'Replace Menu Photo',
                 products_save_changes: 'Save Changes',
                 products_all_categories: 'All Categories',
-                products_unit_portion: 'kcal',
+                products_unit_portion: 'Portions',
                 products_placeholder_name: 'New Product Name',
-                products_placeholder_desc: 'Juicy beef patty burger,',
+                products_placeholder_desc: 'Toon Burger menu description...',
                 products_toggle_status_title: 'Click to change availability',
                 products_edit_btn_title: 'Edit Product',
                 products_delete_btn_title: 'Delete Product',
                 // Categories
-                cat_title: 'Product Category Page',
-                cat_sub: 'Add new menu items, edit details/prices, and monitor stock availability',
-                btn_add_cat: 'Add',
-                col_no: 'No.',
-                mod_cat_add: 'Add Category',
-                lbl_cat_name: 'Category Name',
-                btn_save: 'Save',
-                cat_empty: 'No categories yet.',
-                categories_title: 'Product Category Page',
-                categories_subtitle: 'Add new menu items, edit details/prices, and monitor stock availability',
+                categories_title: 'Manage Product Categories',
+                categories_subtitle: 'Manage categories for Toon Burger menu grouping',
                 categories_search: 'Search category...',
-                categories_add_btn: 'Add',
-                categories_col_no: 'No.',
-                categories_col_name: 'Category',
+                categories_add_btn: 'Add Category',
+                categories_col_no: 'No',
+                categories_col_name: 'Category Name',
                 categories_col_action: 'Action',
                 categories_empty_title: 'No Categories Yet',
-                categories_empty_desc: 'Click Add to create a new menu category.',
+                categories_empty_desc: 'Click + Add Category to create a new menu category.',
                 categories_add_modal_title: 'Add Category',
                 categories_label_name: 'Category Name',
                 categories_save: 'Save',
@@ -1183,9 +1338,14 @@
                 tables_change: 'Update',
                 // General
                 btn_cancel: 'Cancel',
-                transaction: 'Transactions',
+                transaction: 'Transaction',
                 queue: 'Queue',
                 currency: 'IDR',
+                // Header Dropdown (Top Right)
+                dropdown_profile: 'Profile',
+                dropdown_theme: 'Dark Mode',
+                dropdown_home: 'Home',
+                dropdown_logout: 'Logout',
             }
         };
 
@@ -1203,29 +1363,6 @@
             // Currency elements
             document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix').forEach(el => {
                 el.textContent = currencyStr;
-            });
-
-            // KPI Revenue formatting (ID: Rp. 500.000, EN: IDR 500,000)
-            document.querySelectorAll('[data-kpi-revenue]').forEach(el => {
-                const rawVal = parseInt(el.getAttribute('data-kpi-revenue') || '0', 10);
-                if (isEn) {
-                    el.textContent = 'IDR ' + rawVal.toLocaleString('en-US');
-                } else {
-                    el.textContent = 'Rp. ' + rawVal.toLocaleString('id-ID');
-                }
-            });
-
-            // Relative minutes in orders (e.g. "5 Menit yang lalu" vs "5 Minutes ago")
-            document.querySelectorAll('[data-mins-ago]').forEach(el => {
-                const orig = el.getAttribute('data-orig-label') || el.textContent;
-                if (!el.getAttribute('data-orig-label')) {
-                    el.setAttribute('data-orig-label', orig);
-                }
-                if (isEn) {
-                    el.textContent = orig.replace(/Menit yang lalu/gi, 'Minutes ago');
-                } else {
-                    el.textContent = orig;
-                }
             });
 
             // Attribute translation (e.g. placeholder)
@@ -1296,6 +1433,7 @@
             }
 
             applyTranslations(code === 'US' ? 'EN' : 'ID');
+            updateAdminThemeUI(getAdminTheme());
 
             try {
                 localStorage.setItem('tb_admin_lang', code);
@@ -1311,7 +1449,6 @@
             if (e) e.stopPropagation();
             const dropdown = document.getElementById('header-profile-dropdown');
             const chevron = document.getElementById('header-profile-chevron');
-            const profileBtn = document.getElementById('header-profile-btn');
             const langDropdown = document.getElementById('header-lang-dropdown');
             const langChevron = document.getElementById('header-lang-chevron');
             const searchResults = document.getElementById('header-search-results');
@@ -1325,26 +1462,61 @@
                 if (chevron) {
                     chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
                 }
-                if (profileBtn) {
-                    profileBtn.classList.toggle('bg-[#F2F2F2]', !isHidden);
+            }
+        }
+
+        // ==========================================
+        // Theme Management (Light / Dark Mode)
+        // ==========================================
+        function getAdminTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+        }
+
+        function updateAdminThemeUI(theme) {
+            const isDark = (theme === 'dark');
+            const moonIcon = document.getElementById('header-theme-moon-icon');
+            const sunIcon = document.getElementById('header-theme-sun-icon');
+            const themeLabel = document.getElementById('header-theme-label');
+            const isEn = (window._tbLang === 'US' || window._tbLang === 'EN');
+
+            if (moonIcon && sunIcon) {
+                if (isDark) {
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden');
+                } else {
+                    moonIcon.classList.remove('hidden');
+                    sunIcon.classList.add('hidden');
+                }
+            }
+
+            if (themeLabel) {
+                if (isDark) {
+                    themeLabel.textContent = isEn ? 'Light Mode' : 'Mode Terang';
+                } else {
+                    themeLabel.textContent = isEn ? 'Dark Mode' : 'Mode Gelap';
                 }
             }
         }
 
-        function toggleAdminTheme(e) {
-            if (e) e.stopPropagation();
-            const isDark = document.documentElement.classList.toggle('dark');
+        function setAdminTheme(theme) {
             try {
-                localStorage.setItem('tb_admin_theme', isDark ? 'dark' : 'light');
+                localStorage.setItem('toon_theme', theme);
             } catch (err) {}
-            closeAllHeaderDropdowns();
+
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            updateAdminThemeUI(theme);
         }
 
-        try {
-            if (localStorage.getItem('tb_admin_theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
-        } catch (err) {}
+        function toggleAdminTheme() {
+            const current = getAdminTheme();
+            const next = (current === 'dark') ? 'light' : 'dark';
+            setAdminTheme(next);
+        }
 
         let searchDebounceTimer = null;
         const searchInput = document.getElementById('global-header-search');
@@ -1540,7 +1712,6 @@
             if (profileDropdown && !profileDropdown.contains(e.target) && (!profileBtn || !profileBtn.contains(e.target))) {
                 profileDropdown.classList.add('hidden');
                 if (profileChevron) profileChevron.style.transform = 'rotate(0deg)';
-                if (profileBtn) profileBtn.classList.remove('bg-[#F2F2F2]');
             }
 
             const searchInput = document.getElementById('global-header-search');
@@ -1550,6 +1721,12 @@
             }
         });
 
+        // Restore theme preference
+        try {
+            const savedTheme = localStorage.getItem('toon_theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            setAdminTheme(savedTheme);
+        } catch (err) {}
+
         // Restore language preference
         try {
             const savedLang = localStorage.getItem('tb_admin_lang') || 'ID';
@@ -1557,7 +1734,7 @@
             if (savedLang === 'US') {
                 selectLanguage('English', 'US');
             } else {
-                selectLanguage('Indonesia', 'ID');
+                selectLanguage('Bahasa Indonesia', 'ID');
             }
         } catch (err) {}
 
