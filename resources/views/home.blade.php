@@ -80,7 +80,13 @@
                             <img id="hero-burger-img"
                                  src="{{ asset('images/hero-burger.png') }}"
                                  alt="Very Cheese Burger"
-                                 class="w-[280px] sm:w-[320px] lg:w-[350px] xl:w-[380px] h-auto object-contain cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 drop-shadow-[0_18px_32px_rgba(0,0,0,0.4)] select-none">
+                                 fetchpriority="high"
+                                 loading="eager"
+                                 decoding="sync"
+                                 width="380"
+                                 height="380"
+                                 style="will-change: transform;"
+                                 class="w-[280px] sm:w-[320px] lg:w-[350px] xl:w-[380px] h-auto object-contain cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95 drop-shadow-[0_18px_32px_rgba(0,0,0,0.4)] select-none">
                         </div>
                     </div>
 

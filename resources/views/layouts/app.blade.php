@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/hero-burger.png') }}" fetchpriority="high">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
     <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
@@ -1449,23 +1450,39 @@
             });
         }
 
-        // 2. Hero Mouse Parallax Interaction
+        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & cached rect to eliminate lag)
         function initHeroParallax() {
             const hero = document.getElementById('hero-section');
             const burger = document.getElementById('hero-burger-img');
             const badge = document.getElementById('hero-badge-img');
             if (!hero || !burger || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-            hero.addEventListener('mousemove', (e) => {
-                const rect = hero.getBoundingClientRect();
-                const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
-                const normY = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+            let ticking = false;
+            let rect = null;
 
-                burger.style.transform = `translate3d(${(normX * 10).toFixed(1)}px, ${(normY * 8).toFixed(1)}px, 0)`;
-                if (badge) {
-                    badge.style.transform = `translate3d(${(-normX * 8).toFixed(1)}px, ${(-normY * 6).toFixed(1)}px, 0)`;
+            function updateRect() {
+                rect = hero.getBoundingClientRect();
+            }
+            updateRect();
+            window.addEventListener('resize', updateRect, { passive: true });
+            window.addEventListener('scroll', updateRect, { passive: true });
+
+            hero.addEventListener('mousemove', (e) => {
+                if (!rect) updateRect();
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
+                        const normY = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+
+                        burger.style.transform = `translate3d(${(normX * 10).toFixed(1)}px, ${(normY * 8).toFixed(1)}px, 0)`;
+                        if (badge) {
+                            badge.style.transform = `translate3d(${(-normX * 8).toFixed(1)}px, ${(-normY * 6).toFixed(1)}px, 0)`;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-            });
+            }, { passive: true });
 
             hero.addEventListener('mouseleave', () => {
                 burger.style.transform = 'translate3d(0, 0, 0)';
