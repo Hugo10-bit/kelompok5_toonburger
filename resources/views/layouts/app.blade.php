@@ -58,13 +58,14 @@
             background-size: 36px 36px;
         }
         @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0%, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
         .animate-marquee {
             display: flex;
-            width: 200%;
+            width: max-content;
             animation: marquee 25s linear infinite;
+            will-change: transform;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
@@ -238,7 +239,7 @@
 
         /* Accessibility: Respect Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            .toon-bob, .comic-sparkle, .animate-cart-punch {
+            .toon-bob, .comic-sparkle, .animate-cart-punch, .animate-marquee {
                 animation: none !important;
             }
             .toon-tilt-card, .toon-btn-bounce, .toon-reveal {

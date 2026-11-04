@@ -20,8 +20,10 @@
     <script>
         if (localStorage.getItem('toon_theme') === 'dark') {
             document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
         } else {
             document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
         }
     </script>
 
@@ -57,6 +59,12 @@
             width: 100%;
             margin: 0;
             padding: 0;
+        }
+        html {
+            color-scheme: light;
+        }
+        html.dark {
+            color-scheme: dark;
         }
         body {
             font-family: 'Poppins', sans-serif;
@@ -96,12 +104,46 @@
         .static-burger {
             transform: rotate(var(--rot, 0deg));
         }
-        /* Dark mode autofill transparent/dark styling */
+        /* Autofill Styling: Prevent Chrome/Edge dark or yellow autofill backgrounds */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #EBF2FE inset !important;
+            -webkit-text-fill-color: #111827 !important;
+            caret-color: #111827 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+            -webkit-text-fill-color: #111827 !important;
+            caret-color: #111827 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
+        #register-form-panel input:-webkit-autofill,
+        #register-form-panel input:-webkit-autofill:hover, 
+        #register-form-panel input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #F9FAFB inset !important;
+            -webkit-text-fill-color: #111827 !important;
+            caret-color: #111827 !important;
+        }
+        #register-form-panel input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+            -webkit-text-fill-color: #111827 !important;
+            caret-color: #111827 !important;
+        }
+
+        /* Dark mode autofill styling */
         .dark input:-webkit-autofill,
         .dark input:-webkit-autofill:hover, 
-        .dark input:-webkit-autofill:focus, 
         .dark input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 30px #313131 inset !important;
+            -webkit-box-shadow: 0 0 0 1000px #252525 inset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        .dark input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px #1E1E1E inset !important;
             -webkit-text-fill-color: #ffffff !important;
             caret-color: #ffffff !important;
             transition: background-color 5000s ease-in-out 0s;
@@ -291,7 +333,7 @@
                                autocomplete="username"
                                placeholder="Masukkan Username"
                                value="{{ old('form_type') === 'login' ? old('email', old('username')) : old('email', old('username')) }}"
-                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none px-4 dark:px-0 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-transparent dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                     </div>
 
                     <!-- Password Field -->
@@ -305,7 +347,7 @@
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
                                    value=""
-                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-transparent dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none pl-4 dark:pl-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-transparent dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
                                     class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
@@ -368,7 +410,7 @@
                                    autocomplete="username"
                                    placeholder="Masukkan username anda"
                                    value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                             <span class="absolute inset-y-0 right-0 pr-1 flex items-center pointer-events-none text-gray-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -387,7 +429,7 @@
                                autocomplete="email"
                                placeholder="Masukkan email anda"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                     </div>
 
                     <!-- Mobile Number -->
@@ -399,7 +441,7 @@
                                autocomplete="tel"
                                placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                     </div>
 
                     <!-- Password -->
@@ -412,7 +454,7 @@
                                    required
                                    autocomplete="new-password"
                                    placeholder="Masukkan password (min. 6 karakter)"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-transparent dark:hover:bg-transparent dark:focus:bg-transparent border border-gray-200 dark:border-0 dark:border-b dark:border-gray-600/80 focus:border-[#466967] dark:focus:border-white rounded-xl dark:rounded-none p-3 dark:px-0 pr-11 dark:pr-10 py-3 dark:py-2.5 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-0 transition">
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
                                     class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
@@ -597,6 +639,7 @@
 
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
+                document.documentElement.style.colorScheme = 'dark';
                 localStorage.setItem('toon_theme', 'dark');
                 if (btn) {
                     btn.setAttribute('aria-checked', 'true');
@@ -610,6 +653,7 @@
                 }
             } else {
                 document.documentElement.classList.remove('dark');
+                document.documentElement.style.colorScheme = 'light';
                 localStorage.setItem('toon_theme', 'light');
                 if (btn) {
                     btn.setAttribute('aria-checked', 'false');
