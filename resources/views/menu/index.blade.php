@@ -22,7 +22,7 @@
                     <path d="M-100,260 C200,230 400,330 700,280 C900,240 1100,310 1200,290" fill="none" stroke="#fff" stroke-width="1.5"/>
                 </svg>
 
-                <!-- Comic Sparkles Floating in Background -->
+                <!-- Comic Sparkles Floating in Background (Coordinates matching reference) -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
@@ -30,21 +30,21 @@
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 26%; right: 34%; animation-delay: 0.7s;">
+                     style="top: 42%; left: 52%; animation-delay: 0.7s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="bottom: 18%; right: 23%; animation-delay: 1.4s;">
+                     style="bottom: 16%; right: 23%; animation-delay: 1.4s;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 16%; left: 40%; animation-delay: 2.1s;">
+                     style="bottom: 12%; left: 40%; animation-delay: 2.1s;">
 
                 <!-- Content Grid -->
                 <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-8">
 
                     <!-- Left: Headline + Subtitle + Buttons -->
-                    <div class="lg:col-span-5 space-y-4 pb-6 lg:pb-10 toon-reveal">
+                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal">
                         <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             MAU MAKAN<br>APA HARI INI?
@@ -67,36 +67,41 @@
                         </div>
                     </div>
 
-                    <!-- Center: Hero Double/Triple Cheeseburger with comic dashes -->
-                    <div class="lg:col-span-4 relative flex justify-center items-end self-end pb-4 lg:pb-6 pt-2 sm:pt-4">
-                        <div class="relative z-10">
-                            <!-- Small comic white accent lines above burger -->
-                            <div class="absolute -top-3 left-1/4 flex gap-1.5 opacity-80 pointer-events-none">
-                                <span class="w-1.5 h-3 bg-white rounded-full -rotate-12"></span>
-                                <span class="w-1.5 h-3.5 bg-white rounded-full"></span>
-                                <span class="w-1.5 h-3 bg-white rounded-full rotate-12"></span>
+                    <!-- Right: Burger + Speech Bubble Cluster (Burger kecil, posisi agak ke kanan, kalimat agak ke kanan atas sesuai foto) -->
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16">
+                        <div class="relative select-none">
+
+                            <!-- Hero Double/Triple Cheeseburger (Kecil proporsional sesuai foto referensi) -->
+                            <div class="relative z-10 flex justify-center items-end">
+                                <!-- Small comic white accent lines above burger -->
+                                <div class="absolute -top-3 left-[18%] flex gap-1 opacity-80 pointer-events-none z-20">
+                                    <span class="w-1 h-2.5 bg-white rounded-full -rotate-12"></span>
+                                    <span class="w-1 h-3 bg-white rounded-full"></span>
+                                    <span class="w-1 h-2.5 bg-white rounded-full rotate-12"></span>
+                                </div>
+
+                                <img id="hero-burger-img"
+                                     src="{{ asset('images/hero-burger.png') }}"
+                                     alt="Very Cheese Burger"
+                                     fetchpriority="high"
+                                     loading="eager"
+                                     decoding="sync"
+                                     width="200"
+                                     height="175"
+                                     style="will-change: transform;"
+                                     class="w-[155px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
                             </div>
 
-                            <img id="hero-burger-img"
-                                 src="{{ asset('images/hero-burger.png') }}"
-                                 alt="Very Cheese Burger"
-                                 fetchpriority="high"
-                                 loading="eager"
-                                 decoding="sync"
-                                 width="380"
-                                 height="380"
-                                 style="will-change: transform;"
-                                 class="w-[280px] sm:w-[320px] lg:w-[350px] xl:w-[380px] h-auto object-contain cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95 drop-shadow-[0_18px_32px_rgba(0,0,0,0.4)] select-none">
-                        </div>
-                    </div>
+                            <!-- Starburst Comic Speech Bubble ("VERY CHEESE BURGER") - Terpisah di Kanan Atas (Tidak Menempel/Nyambung Burger) -->
+                            <div class="absolute -top-14 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[75%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-150 hover:scale-105">
+                                <img id="hero-badge-img"
+                                     src="{{ asset('images/very-cheese-badge.png') }}"
+                                     alt="VERY CHEESE BURGER"
+                                     fetchpriority="high"
+                                     loading="eager"
+                                     class="w-[150px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-none h-auto object-contain drop-shadow-md select-none">
+                            </div>
 
-                    <!-- Right: Starburst Comic Speech Bubble ("VERY CHEESE BURGER") -->
-                    <div class="lg:col-span-3 relative flex justify-center lg:justify-end items-center pb-6 lg:pb-10">
-                        <div class="relative cursor-pointer select-none transition-transform hover:scale-105">
-                            <img id="hero-badge-img"
-                                 src="{{ asset('images/very-cheese-badge.png') }}"
-                                 alt="VERY CHEESE BURGER"
-                                 class="w-44 sm:w-52 lg:w-56 xl:w-60 h-auto object-contain drop-shadow-md">
                         </div>
                     </div>
 

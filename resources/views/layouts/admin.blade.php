@@ -360,25 +360,47 @@
             color: #FFFFFF !important;
         }
 
-        /* Metric card status badges */
+        /* Metric card status badges & Process Orders Badges */
         html.dark .bg-\[\#E8F8F0\],
-        html.dark .bg-emerald-50 {
+        html.dark .bg-emerald-50,
+        html.dark .bg-\[\#C8E6C9\] {
             background-color: #1E453B !important;
             color: #34D399 !important;
         }
         html.dark .bg-\[\#FEE2E2\],
-        html.dark .bg-red-50 {
+        html.dark .bg-red-50,
+        html.dark .bg-red-100,
+        html.dark .bg-\[\#E6A8A1\] {
             background-color: #4A2626 !important;
             color: #F87171 !important;
         }
         html.dark .bg-amber-50,
-        html.dark .bg-orange-50 {
+        html.dark .bg-orange-50,
+        html.dark .bg-\[\#F9E7B2\] {
             background-color: #4A3A20 !important;
             color: #FBBF24 !important;
         }
-        html.dark .bg-blue-50 {
+        html.dark .bg-blue-50,
+        html.dark .bg-\[\#BBDEFB\] {
             background-color: #243852 !important;
             color: #60A5FA !important;
+        }
+
+        /* Order detail & process inner surface boxes */
+        html.dark .bg-\[\#F5F5F5\],
+        html.dark .bg-\[\#F3F4F6\],
+        html.dark .bg-\[\#F4F5F7\] {
+            background-color: #262626 !important;
+            border-color: #404040 !important;
+        }
+        html.dark .bg-\[\#F5F5F5\] h4,
+        html.dark .bg-\[\#F5F5F5\] div,
+        html.dark .bg-\[\#F3F4F6\],
+        html.dark .bg-\[\#F4F5F7\] {
+            color: #FFFFFF !important;
+        }
+        html.dark .bg-\[\#F5F5F5\] p {
+            color: #D1D5DB !important;
         }
 
         /* Form elements (input, select, textarea) */
