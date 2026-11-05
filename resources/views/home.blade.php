@@ -5,94 +5,78 @@
 @section('content')
 <div class="space-y-0 pb-0">
 
-    <section id="hero-section" class="relative overflow-hidden -mt-[88px] sm:-mt-[96px]">
-        <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-28 sm:pt-32 lg:pt-36 flex flex-col justify-between"
-                 style="background-color: #405E58; min-height: 540px;">
+  <section id="hero-section" class="relative w-full flex flex-col justify-between overflow-hidden -mt-[88px] sm:-mt-[96px]" style="background-color: #405E58; min-height: 540px;">
 
-                <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1440 600" fill="none">
-                    <path d="M-40 0 C 40 200, 120 400, 180 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M-10 0 C 70 200, 150 400, 210 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M20 0 C 100 200, 180 400, 240 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M50 0 C 130 200, 210 400, 270 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1480 0 C 1400 200, 1320 400, 1260 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1450 0 C 1370 200, 1290 400, 1230 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1420 0 C 1340 200, 1260 400, 1200 600" stroke="#ffffff" stroke-width="1"/>
-                    <path d="M1390 0 C 1310 200, 1230 400, 1170 600" stroke="#ffffff" stroke-width="1"/>
-                </svg>
+        <!-- 1. VECTOR BACKGROUND -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-40 z-0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 600">
+            <image href="{{ asset('images/Frame 1028.png') }}" x="0" y="0" width="1440" height="600" preserveAspectRatio="xMidYMid slice" />
+        </svg>
 
-                <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto"
-                     style="top: 23%; left: 3.5%; animation-delay: 0s;">
-                <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="top: 26%; right: 33%; animation-delay: 0.7s;">
-                <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 21%; right: 23%; animation-delay: 1.4s;">
-                <img src="{{ asset('images/star-sparkle.png') }}"
-                     alt=""
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 18%; left: 40%; animation-delay: 2.1s;">
+        <!-- SPARKLES (Animasi dihapus) -->
+        <img src="{{ asset('images/star-sparkle.png') }}" alt="" class="absolute pointer-events-none select-none z-10 w-6 sm:w-7 h-auto" style="top: 23%; left: 3.5%;">
+        <img src="{{ asset('images/star-sparkle.png') }}" alt="" class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto" style="top: 26%; right: 33%;">
+        <img src="{{ asset('images/star-sparkle.png') }}" alt="" class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto" style="bottom: 21%; right: 23%;">
+        <img src="{{ asset('images/star-sparkle.png') }}" alt="" class="absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto" style="bottom: 18%; left: 40%;">
 
-                <div class="relative z-10 max-w-[1340px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-14 pt-6 sm:pt-8 pb-8">
+        <!-- 2. AREA KONTEN UTAMA -->
+        <div class="relative z-10 w-full pt-28 sm:pt-32 lg:pt-36 flex-grow flex flex-col justify-center">
+            <div class="max-w-[1340px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-14 pb-8">
 
-                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-8">
-                        <h1 class="text-white uppercase leading-[0.98] text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] tracking-wide"
-                            style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.5px #1E2E2B; text-shadow: 3px 4px 0px #1E2E2B;">
-                            SETIAP GIGITAN<br>PUNYA CERITA!
-                        </h1>
+                <!-- Teks & Tombol -->
+                <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-8">
+                    <h1 class="text-white uppercase leading-[0.98] text-4xl sm:text-5xl lg:text-[58px] xl:text-[64px] tracking-wide"
+                        style="font-family: 'Luckiest Guy', cursive; -webkit-text-stroke: 1.5px #1E2E2B; text-shadow: 4px 5px 0px #1E2E2B;">
+                        SETIAP GIGITAN<br>PUNYA CERITA!
+                    </h1>
 
-                        <p class="text-xs sm:text-sm md:text-[15px] text-white/90 leading-relaxed max-w-md font-normal">
-                            Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.
-                        </p>
+                    <p class="text-xs sm:text-sm md:text-[15px] text-white/90 leading-relaxed max-w-md font-normal">
+                        Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.
+                    </p>
 
-                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
-                            <a href="{{ route('menu') }}"
-                               class="font-bold text-xs sm:text-sm px-6 py-3 rounded-xl border border-black bg-[#F5B027] hover:bg-[#E09E1E] text-gray-900 shadow-[2px_3px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
-                                Pickup Order
-                            </a>
-                            <a href="{{ route('menu') }}"
-                               class="font-normal text-xs sm:text-sm px-6 py-3 rounded-xl border border-white/90 bg-transparent hover:bg-white/10 text-white transition cursor-pointer">
-                                Delivery Order
-                            </a>
-                        </div>
+                    <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                        <a href="{{ route('menu') }}"
+                           class="font-bold text-xs sm:text-sm px-6 py-3 rounded-xl border border-black bg-[#F5B027] hover:bg-[#E09E1E] text-gray-900 shadow-[2px_3px_0px_#1E2E2B] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
+                            Pickup Order
+                        </a>
+                        <a href="{{ route('menu') }}"
+                           class="font-normal text-xs sm:text-sm px-6 py-3 rounded-xl border border-white/90 bg-transparent hover:bg-white/10 text-white transition cursor-pointer">
+                            Delivery Order
+                        </a>
                     </div>
-
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-4 pb-4 lg:pr-4">
-                        <div class="relative flex items-center justify-center">
-                            <div class="relative z-10 lg:mr-28">
-                                <svg class="absolute -top-4 -left-4 w-12 h-12 text-white pointer-events-none" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                                    <line x1="12" y1="38" x2="6" y2="35" />
-                                    <line x1="20" y1="24" x2="15" y2="18" />
-                                    <line x1="34" y1="15" x2="32" y2="8" />
-                                    <line x1="48" y1="12" x2="49" y2="5" />
-                                </svg>
-
-                                <img id="hero-burger-img"
-                                     src="{{ asset('images/hero-burger.png') }}"
-                                     alt="Very Cheese Burger"
-                                     class="w-[240px] sm:w-[270px] lg:w-[295px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
-                            </div>
-
-                            <div class="relative lg:absolute lg:-right-6 lg:-top-10 z-20 -ml-8 lg:ml-0 select-none">
-                                <img id="hero-badge-img"
-                                     src="{{ asset('images/very-cheese-badge.png') }}"
-                                     alt="VERY CHEESE BURGER"
-                                     class="w-40 sm:w-48 lg:w-56 h-auto object-contain">
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="w-full" style="height: 54px; background: repeating-conic-gradient(#385850 0% 25%, #ffffff 0% 50%) 0 0 / 36px 36px;"></div>
+                <!-- Gambar Burger & Badge -->
+                <div class="lg:col-span-6 relative flex justify-center lg:justify-end items-center pt-4 pb-4 lg:pr-4">
+                    <div class="relative flex items-center justify-center">
+                        <div class="relative z-10 lg:mr-28">
+                            <svg class="absolute -top-4 -left-4 w-12 h-12 text-white pointer-events-none" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                                <line x1="12" y1="38" x2="6" y2="35" />
+                                <line x1="20" y1="24" x2="15" y2="18" />
+                                <line x1="34" y1="15" x2="32" y2="8" />
+                                <line x1="48" y1="12" x2="49" y2="5" />
+                            </svg>
+
+                            <img id="hero-burger-img"
+                                 src="{{ asset('images/hero-burger.png') }}"
+                                 alt="Very Cheese Burger"
+                                 class="w-[240px] sm:w-[270px] lg:w-[295px] h-auto object-contain select-none drop-shadow-[0_16px_28px_rgba(0,0,0,0.35)]">
+                        </div>
+
+                        <div class="relative lg:absolute lg:-right-6 lg:-top-10 z-20 -ml-8 lg:ml-0 select-none">
+     <img id="hero-badge-img"
+         src="{{ asset('images/very-cheese-badge.png') }}"
+         alt="VERY CHEESE BURGER"
+         class="w-40 sm:w-48 lg:w-56 h-auto object-contain">
+</div>
+                    </div>
+                </div>
 
             </div>
         </div>
+
+        <!-- 3. AREA CHECKERBOARD (Warna #405E58) -->
+        <div class="relative z-20 w-full mb-8 sm:mb-10" style="height: 54px; background: repeating-conic-gradient(#405E58 0% 25%, #ffffff 0% 50%) 0 0 / 36px 36px;"></div>
+
     </section>
 
     <section class="retro-grid-bg relative pt-14 pb-16 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
@@ -152,6 +136,7 @@
                         <path d="M12 3c-4 0-7 3-7 7 0 3.5 2.5 7.5 7 11 4.5-3.5 7-7.5 7-11 0-4-3-7-7-7z"/>
                         <path d="M12 7v13M9 10l3 3 3-3M9 14l3 3 3-3"/>
                     </svg>
+                    
                 </div>
                 <h3 class="font-extrabold text-sm sm:text-[15px] text-gray-900 leading-snug pt-1">
                     Bahan Segar Setiap Hari
