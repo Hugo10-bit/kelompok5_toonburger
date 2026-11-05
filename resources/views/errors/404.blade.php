@@ -35,7 +35,6 @@
 
             <!-- Top Pill Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E03A3A] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] mb-4">
-                <span>🍔</span>
                 <span>ERROR 404 • BURGER NYASAR!</span>
             </div>
 
@@ -98,7 +97,7 @@
                 <!-- Explore Menu Button -->
                 <a href="{{ route('menu') }}"
                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FFC72C] hover:bg-[#E8A400] text-gray-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition duration-150 active:scale-95">
-                    <span>🍔</span>
+
                     <span>Lihat Menu Lezat</span>
                     <span>&rarr;</span>
                 </a>
