@@ -93,13 +93,13 @@
                             </div>
 
                             <!-- Starburst Comic Speech Bubble ("VERY CHEESE BURGER") - Terpisah di Kanan Atas (Tidak Menempel/Nyambung Burger) -->
-                            <div class="absolute -top-14 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[75%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-150 hover:scale-105">
+                            <div class="absolute -top-12 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[58%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-150 hover:scale-105">
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
                                      fetchpriority="high"
                                      loading="eager"
-                                     class="w-[150px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-none h-auto object-contain drop-shadow-md select-none">
+                                     class="w-[125px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-full sm:max-w-none h-auto object-contain drop-shadow-md select-none">
                             </div>
 
                         </div>
@@ -254,7 +254,7 @@
             </div>
 
             <!-- 4 Product Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
 
                 <!-- 1. Very Cheese Burger -->
                 <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
@@ -417,7 +417,7 @@
                 </div>
 
                 <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                   class="bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
+                   class="w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
                     <span>Buka Gojek</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>

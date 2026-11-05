@@ -560,17 +560,98 @@
         </div>
     @endif
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-1">
+    <!-- MAIN CONTENT (Safe bottom padding for mobile dock) -->
+    <main class="flex-1 pb-16 md:pb-0">
         @yield('content')
     </main>
 
     <!-- FOOTER (PERSIS FOTO media_1790644528320.png) -->
     @include('partials.footer')
 
+    <!-- ═══════════════════════════════════════════════
+         FLUTTER-STYLE MOBILE BOTTOM NAVIGATION DOCK
+         (Sticky, Touch-Friendly 44px+ hit targets, Safe Area)
+         ═══════════════════════════════════════════════ -->
+    <nav aria-label="Mobile Navigation"
+         class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-black/10 px-3 py-1.5 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] flex items-center justify-around select-none">
+        <!-- 1. Beranda -->
+        <a href="{{ route('home') }}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('home') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+            <svg class="w-5 h-5 {{ request()->routeIs('home') ? 'stroke-[2.5]' : 'stroke-[1.8]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="text-[10px] mt-0.5 tracking-tight">Beranda</span>
+            @if(request()->routeIs('home'))
+                <span class="w-1.5 h-1.5 bg-[#27443E] rounded-full mt-0.5"></span>
+            @endif
+        </a>
+
+        <!-- 2. Menu -->
+        <a href="{{ route('menu') }}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('menu*') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
+            </svg>
+            <span class="text-[10px] mt-0.5 tracking-tight">Menu</span>
+            @if(request()->routeIs('menu*'))
+                <span class="w-1.5 h-1.5 bg-[#27443E] rounded-full mt-0.5"></span>
+            @endif
+        </a>
+
+        <!-- 3. Keranjang (Pusat / Floating Action) -->
+        <button type="button"
+                id="mobile-dock-cart-btn"
+                onclick="toggleCartDrawer()"
+                class="relative flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-0.5 px-2 rounded-2xl text-gray-700 transition active:scale-95 cursor-pointer">
+            <div class="relative w-9 h-9 rounded-full bg-[#27443E] text-white flex items-center justify-center shadow-[0_2px_8px_rgba(39,68,62,0.35)]">
+                <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span id="mobile-dock-cart-badge"
+                      class="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#DE3B28] text-white text-[10px] font-extrabold flex items-center justify-center border border-white leading-none shadow-xs">
+                    {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+                </span>
+            </div>
+            <span class="text-[10px] mt-0.5 text-[#27443E] font-bold tracking-tight">Pesanan</span>
+        </button>
+
+        <!-- 4. Kontak -->
+        <a href="{{ route('contact') }}"
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('contact') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+            <svg class="w-5 h-5 {{ request()->routeIs('contact') ? 'stroke-[2.5]' : 'stroke-[1.8]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="text-[10px] mt-0.5 tracking-tight">Kontak</span>
+            @if(request()->routeIs('contact'))
+                <span class="w-1.5 h-1.5 bg-[#27443E] rounded-full mt-0.5"></span>
+            @endif
+        </a>
+
+        <!-- 5. Akun / Login -->
+        @auth
+            <a href="{{ route('orders.index') }}"
+               class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('orders*') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+                <div class="w-6 h-6 rounded-full bg-[#FFA000] text-white flex items-center justify-center text-[10px] font-black">
+                    {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                </div>
+                <span class="text-[10px] mt-0.5 tracking-tight truncate max-w-[48px]">Akun</span>
+            </a>
+        @else
+            <a href="{{ route('login') }}"
+               class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('login') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+                <svg class="w-5 h-5 stroke-[1.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-[10px] mt-0.5 tracking-tight">Masuk</span>
+            </a>
+        @endauth
+    </nav>
+
     <!-- CART FLOATING CARD -->
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
-    <div id="cart-drawer" class="fixed top-20 right-4 w-[90vw] max-w-sm bg-white rounded-3xl shadow-2xl border border-gray-200/60 z-50 flex flex-col max-h-[calc(100vh-6rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
+    <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[90vw] max-w-sm bg-white rounded-3xl shadow-2xl border border-gray-200/60 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
 
         <!-- Cart Header (Fixed Top) -->
         <div class="p-4 sm:p-4.5 bg-gray-50/90 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
@@ -649,13 +730,16 @@
         </div>
     </div>
 
-    <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL -->
-    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden"></div>
-    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-fade-in" onclick="event.stopPropagation()">
+    <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL (Flutter-style Bottom Sheet on mobile, Centered on desktop) -->
+    <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+        <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-lg w-full max-h-[88vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-modal-pop" onclick="event.stopPropagation()">
+
+            <!-- Mobile Drag Handle Pill -->
+            <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0"></div>
 
             <!-- Modal Header / Image -->
-            <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-48 overflow-hidden flex items-center justify-center">
+            <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-44 sm:h-48 overflow-hidden flex items-center justify-center">
                 <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
                 <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold transition">
                     &times;
@@ -774,12 +858,14 @@
         function renderCart(cart) {
             const container = document.getElementById('cart-items-container');
             const badge = document.getElementById('cart-badge');
+            const mobileDockBadge = document.getElementById('mobile-dock-cart-badge');
             const countText = document.getElementById('cart-items-count-text');
             const checkoutTotal = document.getElementById('checkout-btn-total');
             const couponSection = document.getElementById('cart-coupon-section');
             const summarySection = document.getElementById('cart-summary-section');
 
-            badge.innerText = cart.item_count || 0;
+            if (badge) badge.innerText = cart.item_count || 0;
+            if (mobileDockBadge) mobileDockBadge.innerText = cart.item_count || 0;
             countText.innerText = `${cart.item_count || 0} menu dipilih`;
 
             document.getElementById('cart-subtotal').innerText = formatRupiah(cart.subtotal);
@@ -1097,6 +1183,9 @@
         function animateCartBadge() {
             const badge = document.getElementById('cart-badge');
             const cartBtn = document.getElementById('cart-btn');
+            const mobileDockBtn = document.getElementById('mobile-dock-cart-btn');
+            const mobileDockBadge = document.getElementById('mobile-dock-cart-badge');
+
             if (cartBtn) {
                 cartBtn.classList.remove('animate-cart-punch');
                 void cartBtn.offsetWidth;
@@ -1105,12 +1194,28 @@
                     cartBtn.classList.remove('animate-cart-punch');
                 }, 500);
             }
+            if (mobileDockBtn) {
+                mobileDockBtn.classList.remove('animate-cart-punch');
+                void mobileDockBtn.offsetWidth;
+                mobileDockBtn.classList.add('animate-cart-punch');
+                setTimeout(() => {
+                    mobileDockBtn.classList.remove('animate-cart-punch');
+                }, 500);
+            }
             if (badge) {
                 badge.classList.remove('scale-125');
                 void badge.offsetWidth;
                 badge.classList.add('scale-125');
                 setTimeout(() => {
                     badge.classList.remove('scale-125');
+                }, 350);
+            }
+            if (mobileDockBadge) {
+                mobileDockBadge.classList.remove('scale-125');
+                void mobileDockBadge.offsetWidth;
+                mobileDockBadge.classList.add('scale-125');
+                setTimeout(() => {
+                    mobileDockBadge.classList.remove('scale-125');
                 }, 350);
             }
         }

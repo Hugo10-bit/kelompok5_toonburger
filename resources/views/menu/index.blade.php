@@ -136,13 +136,13 @@
         <!-- ═══════════════════════════════════════════════
              2. CATEGORY FILTER PILLS (Matching Figma Mockup)
              ═══════════════════════════════════════════════ -->
-        <div class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5 toon-reveal" style="transition-delay: 80ms;">
+        <div class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2.5 pt-0.5 toon-reveal scroll-smooth snap-x snap-mandatory touch-pan-x" style="transition-delay: 80ms; -webkit-overflow-scrolling: touch;">
             <!-- "Semua" Pill -->
             @php
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
             @endphp
             <a href="{{ route('menu', array_filter(['q' => $search, 'table' => $tableNum])) }}"
-               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer">
+               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4.5 sm:px-5 py-2 sm:py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[42px] active:scale-95">
                 <span>Semua</span>
             </a>
 
@@ -152,7 +152,7 @@
                     $isActive = ($selectedCategory === $category->slug);
                 @endphp
                 <a href="{{ route('menu', array_filter(['category' => $category->slug, 'q' => $search, 'table' => $tableNum])) }}"
-                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer">
+                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4.5 sm:px-5 py-2 sm:py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[42px] active:scale-95">
                     <span>{{ $category->name }}</span>
                 </a>
             @endforeach
@@ -171,7 +171,7 @@
             <!-- ═══════════════════════════════════════════════
                  3. PRODUCT CARDS GRID (Matching Figma Mockup)
                  ═══════════════════════════════════════════════ -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 @foreach($products as $product)
                     @php
                         $categoryName = $product->category->name ?? ($cardMetadata[$product->id]['badge'] ?? 'BURGER');
@@ -206,14 +206,14 @@
                             </div>
                         </div>
 
-                        <!-- Bottom Row: Price & Pesan Button -->
+                        <!-- Bottom Row: Price & Pesan Button (Tap-friendly min-h 40px) -->
                         <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-2">
                             <span class="font-extrabold text-sm sm:text-base text-gray-900">
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </span>
                             <button type="button"
                                     onclick="openProductModal({{ $product->id }})"
-                                    class="bg-[#27443E] hover:bg-[#1E3631] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-xs cursor-pointer">
+                                    class="bg-[#27443E] hover:bg-[#1E3631] text-white text-xs font-bold px-4.5 py-2 rounded-lg transition active:scale-95 shadow-xs cursor-pointer min-h-[38px] flex items-center justify-center">
                                 Pesan
                             </button>
                         </div>
