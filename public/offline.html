@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Laragon Sedang Istirahat | Toon Burger</title>
+    <title>Dapur Sedang Istirahat | Toon Burger</title>
     <link rel="icon" type="image/png" href="/images/toon-head.png">
 
     <!-- Google Fonts -->
@@ -61,7 +61,7 @@
             border: 2.5px solid #000000;
             border-radius: 32px;
             box-shadow: 8px 8px 0px #27443E;
-            max-width: 600px;
+            max-width: 580px;
             width: 100%;
             padding: 2.5rem 2rem;
             text-align: center;
@@ -73,13 +73,13 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background-color: #D92625;
+            background-color: #E03A3A;
             color: #ffffff;
             font-size: 0.78rem;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            padding: 0.4rem 1rem;
+            padding: 0.45rem 1.15rem;
             border-radius: 9999px;
             border: 2px solid #000000;
             box-shadow: 2.5px 2.5px 0px #000000;
@@ -88,8 +88,8 @@
 
         .burger-container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 155px;
+            height: 155px;
             margin: 0.5rem auto 1.25rem auto;
             display: flex;
             align-items: center;
@@ -126,8 +126,8 @@
             box-shadow: 2px 2px 0px #000000;
             transform: rotate(12deg);
             z-index: 3;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -141,7 +141,7 @@
 
         h1 {
             font-family: 'BBH Hegarty', 'Luckiest Guy', cursive, sans-serif;
-            font-size: 2rem;
+            font-size: 2.1rem;
             line-height: 1.15;
             text-transform: uppercase;
             color: #243F3B;
@@ -153,61 +153,56 @@
             font-size: 0.88rem;
             color: #4A5568;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
+            max-width: 460px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .step-box {
-            background-color: #F8F6F0;
-            border: 1.8px dashed #27443E;
-            border-radius: 18px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.75rem;
-            text-align: left;
+        /* Comic Speech Bubble */
+        .comic-quote {
+            background-color: #FFF9E6;
+            border: 2px solid #000000;
+            border-radius: 20px;
+            box-shadow: 4px 4px 0px #27443E;
+            padding: 0.9rem 1.25rem;
+            margin: 1.25rem auto 1.5rem auto;
+            max-width: 460px;
             display: flex;
-            align-items: flex-start;
-            gap: 0.85rem;
+            align-items: center;
+            gap: 0.75rem;
+            text-align: left;
+            position: relative;
         }
 
-        .step-icon {
-            font-size: 1.5rem;
+        .comic-quote .quote-icon {
+            font-size: 1.6rem;
             line-height: 1;
             flex-shrink: 0;
-            margin-top: 2px;
         }
 
-        .step-text h4 {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #27443E;
-            margin-bottom: 0.25rem;
-        }
-
-        .step-text p {
-            font-size: 0.75rem;
-            color: #556B64;
-            line-height: 1.45;
-        }
-
-        .step-text code {
-            background: #E8E3D7;
-            padding: 2px 6px;
-            border-radius: 6px;
+        .comic-quote p {
+            font-size: 0.8rem;
             font-weight: 700;
-            font-size: 0.75rem;
-            color: #1E2E2B;
+            color: #27443E;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .divider {
+            width: 90px;
+            height: 6px;
+            background-color: #F5B027;
+            border: 1.5px solid #000000;
+            border-radius: 9999px;
+            margin: 1.25rem auto;
         }
 
         .actions {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             gap: 0.75rem;
-        }
-
-        @media (min-width: 480px) {
-            .actions {
-                flex-direction: row;
-                justify-content: center;
-            }
+            margin-top: 1rem;
         }
 
         .btn {
@@ -215,79 +210,77 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            font-size: 0.82rem;
+            font-size: 0.84rem;
             font-weight: 800;
-            padding: 0.85rem 1.5rem;
+            padding: 0.85rem 1.75rem;
             border-radius: 16px;
             border: 2px solid #000000;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.15s ease;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
         }
 
         .btn-primary {
             background-color: #27443E;
             color: #ffffff;
-            box-shadow: 4px 4px 0px #000000;
         }
 
         .btn-primary:hover {
             background-color: #1E3631;
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000000;
         }
 
-        .btn-secondary {
-            background-color: #FFC72C;
-            color: #121212;
-            box-shadow: 4px 4px 0px #000000;
-        }
-
-        .btn-secondary:hover {
-            background-color: #E8A400;
-            transform: translate(2px, 2px);
-            box-shadow: 2px 2px 0px #000000;
-        }
-
-        .status-bar {
+        .status-pill {
             margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #E2E8F0;
+            padding: 0.5rem 1rem;
+            background: #F8F6F0;
+            border: 1.5px solid #E2D9C5;
+            border-radius: 9999px;
             font-size: 0.75rem;
-            color: #718096;
-            display: flex;
+            color: #556B64;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
-            background-color: #E53E3E;
+            background-color: #F5A623;
             display: inline-block;
             animation: pulseGlow 1.5s infinite;
         }
 
         .status-dot.connected {
-            background-color: #38A169;
+            background-color: #10B981;
         }
     </style>
 </head>
 <body>
 
-    <!-- Floating Sparkles -->
+    <!-- Floating Comic Sparkles -->
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="top: 12%; left: 10%; width: 28px;">
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="top: 20%; right: 12%; width: 24px; animation-delay: 1s;">
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 15%; left: 14%; width: 30px; animation-delay: 0.5s;">
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 22%; right: 15%; width: 22px; animation-delay: 1.5s;">
 
     <div class="card">
-        <!-- Top Badge -->
+        <!-- Top Pill Badge -->
         <div class="badge">
-            <span>🔌</span>
-            <span>SERVER LARAGON SEDANG NONAKTIF</span>
+            <span>🍔</span>
+            <span>DAPUR SEDANG ISTIRAHAT • TUNGGU SEBENTAR YA!</span>
         </div>
 
         <!-- Animated Center Burger -->
@@ -300,45 +293,46 @@
         </div>
 
         <!-- Heading -->
-        <h1>Waduh! Dapur Laragon Sedang Tutup</h1>
+        <h1>Waduh! Chef Lagi Ngaso Dulu</h1>
 
-        <!-- Friendly Description -->
+        <!-- Friendly Cartoon Description -->
         <p class="desc">
-            Koneksi ke server lokal terputus karena aplikasi <strong>Laragon</strong> di komputermu sedang mati atau belum dinyalakan.
+            Panggangan burger lagi didinginkan sejenak dan chef lagi nyiapin bumbu rahasia berikutnya. Tenang, aroma lezat Toon Burger bakal segera kembali!
         </p>
 
-        <!-- Quick How-to Box -->
-        <div class="step-box">
-            <div class="step-icon">💡</div>
-            <div class="step-text">
-                <h4>Cara Menghidupkan Kembali:</h4>
-                <p>1. Buka aplikasi <strong>Laragon</strong> di komputermu.<br>
-                   2. Klik tombol <code>Start All</code> untuk menyalakan <strong>Apache & MySQL</strong>.<br>
-                   3. Halaman ini akan <strong>otomatis tersambung kembali</strong> begitu server menyala!</p>
-            </div>
+        <!-- Comic Speech Bubble -->
+        <div class="comic-quote">
+            <span class="quote-icon">💭</span>
+            <p>"Patty double cheese paling juicy butuh racikan pas. Halaman ini bakal otomatis kebuka begitu dapur siap!"</p>
         </div>
 
-        <!-- Action Buttons -->
+        <!-- Comic Divider -->
+        <div class="divider"></div>
+
+        <!-- Action Button -->
         <div class="actions">
             <button type="button" onclick="checkAndReload()" class="btn btn-primary" id="retry-btn">
                 <span>🔄</span>
-                <span>Coba Hubungkan Sekarang</span>
+                <span>Cek Dapur Sekarang</span>
             </button>
         </div>
 
-        <!-- Auto-reconnect live status indicator -->
-        <div class="status-bar" id="status-bar">
-            <span class="status-dot" id="status-dot"></span>
-            <span id="status-text">Mendeteksi koneksi server setiap 3 detik...</span>
+        <!-- Auto-reconnect Cartoon Status Pill -->
+        <div>
+            <div class="status-pill" id="status-pill">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">Sedang mengintip wajan dapur Toon Burger...</span>
+            </div>
         </div>
     </div>
 
     <script>
-        let isReconnecting = false;
+        let isChecking = false;
 
         async function checkServer() {
+            if (isChecking) return false;
+            isChecking = true;
             try {
-                // Ping Laravel health endpoint or root with timestamp to avoid browser cache
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 2000);
 
@@ -354,15 +348,17 @@
                     const text = document.getElementById('status-text');
                     const btn = document.getElementById('retry-btn');
                     if (dot) dot.classList.add('connected');
-                    if (text) text.innerText = 'Server menyala! Mengalihkan ke Toon Burger...';
-                    if (btn) btn.innerText = '✅ Tersambung! Membuka...';
+                    if (text) text.innerText = '✨ Dapur sudah siap! Membuka gerai Toon Burger...';
+                    if (btn) btn.innerHTML = '<span>✅</span><span>Dapur Buka! Membuka...</span>';
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 500);
                     return true;
                 }
             } catch (err) {
-                // Server still down, keep polling
+                // Server still resting, keep listening
+            } finally {
+                isChecking = false;
             }
             return false;
         }
@@ -370,18 +366,18 @@
         async function checkAndReload() {
             const btn = document.getElementById('retry-btn');
             const text = document.getElementById('status-text');
-            if (btn) btn.innerText = '⏳ Mengecek server...';
-            if (text) text.innerText = 'Menghubungi server Laragon...';
+            if (btn) btn.innerHTML = '<span>⏳</span><span>Mengecek dapur...</span>';
+            if (text) text.innerText = 'Mencari aroma panggangan burger...';
 
             const online = await checkServer();
             if (!online) {
                 if (btn) {
-                    btn.innerText = '❌ Belum Nyala, Coba Lagi';
+                    btn.innerHTML = '<span>💤</span><span>Dapur Masih Santai, Coba Lagi</span>';
                     setTimeout(() => {
-                        btn.innerHTML = '<span>🔄</span><span>Coba Hubungkan Sekarang</span>';
-                    }, 2000);
+                        btn.innerHTML = '<span>🔄</span><span>Cek Dapur Sekarang</span>';
+                    }, 2200);
                 }
-                if (text) text.innerText = 'Server belum aktif. Pastikan klik "Start All" di Laragon.';
+                if (text) text.innerText = 'Dapur masih istirahat. Mengecek lagi secara otomatis...';
             }
         }
 
@@ -390,4 +386,3 @@
     </script>
 </body>
 </html>
-

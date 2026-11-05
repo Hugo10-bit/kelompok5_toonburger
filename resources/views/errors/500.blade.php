@@ -36,7 +36,7 @@
             <!-- Top Pill Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E03A3A] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] mb-4">
                 <span>⚡</span>
-                <span>ERROR 500 • KONEKSI TERPUTUS</span>
+                <span>ERROR 500 • SAUS KEJU TUMPAH!</span>
             </div>
 
             <!-- Big Comic 500 Display with Animated Burger in the Middle -->
@@ -70,22 +70,24 @@
             <!-- Punchy Comic Title -->
             <h1 class="text-2xl sm:text-3xl lg:text-4xl text-[#243F3B] uppercase tracking-wide mt-2"
                 style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-                Waduh! Database Laragon Mati
+                Waduh! Dapur Kena Guncangan
             </h1>
 
             <!-- Humorous & Friendly Subtitle -->
             <p class="text-xs sm:text-sm md:text-base text-gray-600 max-w-lg mx-auto mt-3 leading-relaxed">
-                {{ $message ?? 'Koneksi ke database MySQL terputus atau layanan Laragon sedang nonaktif. Pastikan tombol Start All di Laragon sudah dinyalakan ya!' }}
+                Sepertinya ada saus keju yang tumpah di ruang mesin dapur kami. Tim chef Toon Burger sedang beres-beres, yuk coba beberapa saat lagi!
             </p>
 
-            <!-- Laragon Quick Hint Box -->
-            <div class="my-6 p-4 rounded-2xl bg-[#F8F6F0] border-[1.8px] border-dashed border-[#27443E] text-left max-w-lg mx-auto flex items-start gap-3">
-                <span class="text-2xl leading-none">💡</span>
-                <div class="text-xs sm:text-[13px] text-gray-700 leading-snug">
-                    <strong class="text-[#27443E] block mb-1">Solusi Mudah:</strong>
-                    Buka jendela aplikasi <strong>Laragon</strong> lalu klik tombol <strong>"Start All"</strong> (pastikan Apache & MySQL berstatus menyala).
-                </div>
+            <!-- Comic Speech Bubble -->
+            <div class="my-6 p-4 rounded-2xl bg-[#FFF9E6] border-2 border-black shadow-[4px_4px_0px_#27443E] text-left max-w-lg mx-auto flex items-center gap-3">
+                <span class="text-2xl leading-none shrink-0">💭</span>
+                <p class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug m-0">
+                    "Panggangan lagi diistirahatkan sejenak. Chef kami lagi nyiapin kembali bahan-bahan segar terbaik!"
+                </p>
             </div>
+
+            <!-- Comic Divider -->
+            <div class="w-24 h-1.5 bg-[#F5B027] border border-black rounded-full mx-auto my-6"></div>
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 pt-1">
