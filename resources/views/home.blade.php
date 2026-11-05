@@ -112,6 +112,10 @@
 
             </div>
         </div>
+
+        <!-- 3. AREA CHECKERBOARD (Warna #405E58) -->
+        <div class="relative z-20 w-full mb-8 sm:mb-10" style="height: 54px; background: repeating-conic-gradient(#405E58 0% 25%, #ffffff 0% 50%) 0 0 / 36px 36px;"></div>
+
     </section>
 
     <!-- Section: Kenapa Toon Burger (Matching Figma exactly with enlarged spacious cards) -->
@@ -160,6 +164,7 @@
                         <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
                         <circle cx="12" cy="11" r="3"/>
                     </svg>
+                    
                 </div>
                 <h3 class="font-extrabold text-base sm:text-[17px] text-gray-900 leading-snug">
                     Bahan Segar Setiap Hari
