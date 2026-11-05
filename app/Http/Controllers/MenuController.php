@@ -76,17 +76,17 @@ class MenuController extends Controller
 
         $cardMetadata = [
             1  => ['badge' => 'CHEESE BURGER',  'bg' => '#FFC83B'],
-            2  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FCE5D3'],
+            2  => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
             3  => ['badge' => 'BEEF BURGER',    'bg' => '#E51D1D'],
             4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A4D477'],
-            5  => ['badge' => 'CHEESE BURGER',  'bg' => '#BFE1FD'],
-            6  => ['badge' => 'BEEF BURGER',    'bg' => '#F67A24'],
-            7  => ['badge' => 'CHEESE BURGER',  'bg' => '#D5C8F6'],
-            8  => ['badge' => 'CHEESE BURGER',  'bg' => '#F5B8DC'],
-            9  => ['badge' => 'HOTDOG',         'bg' => '#FED7AA'],
-            10 => ['badge' => 'HOTDOG',         'bg' => '#F5C518'],
+            5  => ['badge' => 'CHICKEN BURGER', 'bg' => '#BFE1FD'],
+            6  => ['badge' => 'CHICKEN BURGER', 'bg' => '#F67A24'],
+            7  => ['badge' => 'HOT DOG',        'bg' => '#D5C8F6'],
+            8  => ['badge' => 'SNACKS',         'bg' => '#F5B8DC'],
+            9  => ['badge' => 'MINUMAN',        'bg' => '#FED7AA'],
+            10 => ['badge' => 'CHICKEN WING',   'bg' => '#F5C518'],
             11 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
-            12 => ['badge' => 'CHEESE BURGER',  'bg' => '#FCE5D3'],
+            12 => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
         ];
 
         if (\Illuminate\Support\Facades\Schema::hasTable('products')) {

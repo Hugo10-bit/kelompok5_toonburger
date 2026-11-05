@@ -174,8 +174,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($products as $product)
                     @php
-                        $badge = $cardMetadata[$product->id]['badge'] ?? ($product->category->name ?? 'BURGER');
-                        $bgColor = $cardMetadata[$product->id]['bg'] ?? '#FFC83B';
+                        $categoryName = $product->category->name ?? ($cardMetadata[$product->id]['badge'] ?? 'BURGER');
+                        $badge = strtoupper($categoryName);
+                        $palettes = ['#FFC83B', '#FCE5D3', '#E51D1D', '#A4D477', '#BFE1FD', '#F67A24', '#D5C8F6', '#F5B8DC', '#FED7AA', '#F5C518', '#A7D79E', '#FCE5D3'];
+                        $bgColor = $cardMetadata[$product->id]['bg'] ?? ($palettes[($loop->index) % count($palettes)] ?? '#FFC83B');
                     @endphp
                     <div class="bg-white rounded-[24px] sm:rounded-[26px] border-[1.8px] border-black shadow-[5px_6px_0px_#6E7571] p-4 sm:p-4.5 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal"
                          style="transition-delay: {{ ($loop->index % 4) * 80 }}ms;">
@@ -192,7 +194,7 @@
 
                             <!-- Content: Category, Title, Description -->
                             <div class="pt-3 pb-1">
-                                <span class="text-[10px] sm:text-[11px] font-bold text-[#D97706] uppercase tracking-wider block">
+                                <span class="text-[10.5px] sm:text-[11px] font-extrabold text-[#D97706] uppercase tracking-wider block">
                                     {{ $badge }}
                                 </span>
                                 <h3 class="font-bold text-sm sm:text-base text-gray-900 mt-1 leading-snug group-hover:text-[#27443E] transition-colors">
