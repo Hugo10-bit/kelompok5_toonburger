@@ -101,6 +101,21 @@
             background-size: 20px 20px;
             background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
+        /* Classic retro grid background matching Beranda User */
+        .retro-grid-bg {
+            background-color: #F1D9B3;
+            background-image:
+                linear-gradient(to right, rgba(59, 92, 86, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 92, 86, 0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+        .dark .retro-grid-bg {
+            background-color: #324B48;
+            background-image:
+                linear-gradient(to right, rgba(241, 217, 179, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(241, 217, 179, 0.07) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
         .static-burger {
             transform: rotate(var(--rot, 0deg));
         }
@@ -155,10 +170,10 @@
         }
     </style>
 </head>
-<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
+<body class="h-full w-full retro-grid-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200">
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
-    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full retro-grid-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
         <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
