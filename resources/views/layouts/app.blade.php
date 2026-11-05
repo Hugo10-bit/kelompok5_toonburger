@@ -299,16 +299,16 @@
     </form>
 
     <!-- Navbar -->
-    <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
+    <header class="sticky top-0 z-50 px-2 sm:px-6 lg:px-8 pt-2.5 sm:pt-4 pb-2 select-none">
         <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
-            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
-                 style="background-color: rgba(45, 72, 67, 0.58); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);">
+            <div class="flex items-center justify-between px-3.5 sm:px-7 lg:px-8 py-2 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
+                 style="background-color: rgba(45, 72, 67, 0.65); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);">
 
                 <!-- Brand logo -->
-                <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+                <a href="{{ route('home') }}" class="flex items-center gap-1.5 sm:gap-2.5 group shrink-0 min-w-0">
                     <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
-                         class="h-11 sm:h-12 md:h-14 w-auto object-contain transition group-hover:scale-105 drop-shadow-xs">
-                    <span class="font-normal text-white text-xl sm:text-2xl uppercase tracking-wider shrink-0 leading-none pt-0.5"
+                         class="h-9 sm:h-12 md:h-14 w-auto object-contain transition group-hover:scale-105 drop-shadow-xs shrink-0">
+                    <span class="font-normal text-white text-lg sm:text-2xl uppercase tracking-wider shrink-0 leading-none pt-0.5"
                           style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
                         TOON BURGER
                     </span>
@@ -458,7 +458,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
+                        <div class="hidden sm:flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
                             <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
                                 Login
                             </a>
@@ -472,7 +472,7 @@
                     <button type="button"
                             onclick="toggleMobileNav()"
                             id="mobile-nav-toggle"
-                            class="lg:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition focus:outline-none"
+                            class="lg:hidden p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition focus:outline-none shrink-0"
                             aria-label="Toggle Menu">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -526,6 +526,17 @@
                             class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
                             Logout
                         </button>
+                    @else
+                        <div class="pt-2.5 mt-2 border-t border-gray-100 flex items-center gap-2">
+                            <a href="{{ route('login') }}" onclick="toggleMobileNav()"
+                               class="flex-1 text-center py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-bold transition">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" onclick="toggleMobileNav()"
+                               class="flex-1 text-center py-2.5 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-bold transition shadow-xs">
+                                Sign In
+                            </a>
+                        </div>
                     @endauth
             </div>
         </div>

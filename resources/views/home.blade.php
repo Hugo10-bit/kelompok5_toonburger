@@ -11,7 +11,7 @@
     <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
             <!-- Hero Background: Dark Slate Green (#385850) -->
-            <div class="relative overflow-hidden w-full pt-32 sm:pt-36 lg:pt-40"
+            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40"
                  style="background-color: #385850; min-height: 520px;">
 
                 <!-- Concentric / wavy retro background curves -->

@@ -58,7 +58,7 @@
     <!-- ═══════════════════════════════════════════════
          1. TOP MAP SECTION ON 3D PERSPECTIVE GRID
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[108px] sm:pt-[122px] pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
+    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[122px] sm:pt-[126px] pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
              style="background-color: #FAF3E3;">
 
         <!-- 3D Perspective Grid Background SVG -->

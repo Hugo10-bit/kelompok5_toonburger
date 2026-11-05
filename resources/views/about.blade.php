@@ -10,7 +10,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-32 sm:pt-36 lg:pt-40 pb-14 sm:pb-18"
+            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40 pb-14 sm:pb-18"
                  style="background-color: #3b6e64; min-height: 520px;">
 
                 <!-- Partikel Bintang Komik Asli -->
