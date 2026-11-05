@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Laragon Sedang Istirahat | Toon Burger</title>
+    <link rel="icon" type="image/png" href="/images/toon-head.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Luckiest+Guy&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FAF5E9;
+            color: #1E2E2B;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(to right, rgba(59, 92, 86, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 92, 86, 0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        @keyframes toonBob {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.35; transform: scale(1); }
+            50% { opacity: 0.65; transform: scale(1.08); }
+        }
+
+        @keyframes sparkleRotate {
+            0% { transform: scale(0.85) rotate(0deg); opacity: 0.4; }
+            50% { transform: scale(1.15) rotate(180deg); opacity: 0.9; }
+            100% { transform: scale(0.85) rotate(360deg); opacity: 0.4; }
+        }
+
+        .toon-bob {
+            animation: toonBob 3.6s ease-in-out infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkleRotate 4s ease-in-out infinite;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 2.5px solid #000000;
+            border-radius: 32px;
+            box-shadow: 8px 8px 0px #27443E;
+            max-width: 600px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #D92625;
+            color: #ffffff;
+            font-size: 0.78rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            border: 2px solid #000000;
+            box-shadow: 2.5px 2.5px 0px #000000;
+            margin-bottom: 1.25rem;
+        }
+
+        .burger-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0.5rem auto 1.25rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background-color: rgba(255, 199, 44, 0.4);
+            filter: blur(20px);
+            z-index: 1;
+            animation: pulseGlow 2.5s infinite;
+        }
+
+        .burger-img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.25));
+        }
+
+        .mascot-hat {
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            background: #FAF5E9;
+            border: 2px solid #000000;
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 2px 2px 0px #000000;
+            transform: rotate(12deg);
+            z-index: 3;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mascot-hat img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-family: 'BBH Hegarty', 'Luckiest Guy', cursive, sans-serif;
+            font-size: 2rem;
+            line-height: 1.15;
+            text-transform: uppercase;
+            color: #243F3B;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+
+        p.desc {
+            font-size: 0.88rem;
+            color: #4A5568;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-box {
+            background-color: #F8F6F0;
+            border: 1.8px dashed #27443E;
+            border-radius: 18px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.75rem;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+
+        .step-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-text h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #27443E;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-text p {
+            font-size: 0.75rem;
+            color: #556B64;
+            line-height: 1.45;
+        }
+
+        .step-text code {
+            background: #E8E3D7;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #1E2E2B;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        @media (min-width: 480px) {
+            .actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            font-weight: 800;
+            padding: 0.85rem 1.5rem;
+            border-radius: 16px;
+            border: 2px solid #000000;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-primary {
+            background-color: #27443E;
+            color: #ffffff;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #1E3631;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        .btn-secondary {
+            background-color: #FFC72C;
+            color: #121212;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .btn-secondary:hover {
+            background-color: #E8A400;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        .status-bar {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E2E8F0;
+            font-size: 0.75rem;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #E53E3E;
+            display: inline-block;
+            animation: pulseGlow 1.5s infinite;
+        }
+
+        .status-dot.connected {
+            background-color: #38A169;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Sparkles -->
+    <img src="/images/star-sparkle.png" alt="" class="sparkle" style="top: 12%; left: 10%; width: 28px;">
+    <img src="/images/star-sparkle.png" alt="" class="sparkle" style="top: 20%; right: 12%; width: 24px; animation-delay: 1s;">
+    <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 15%; left: 14%; width: 30px; animation-delay: 0.5s;">
+    <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 22%; right: 15%; width: 22px; animation-delay: 1.5s;">
+
+    <div class="card">
+        <!-- Top Badge -->
+        <div class="badge">
+            <span>🔌</span>
+            <span>SERVER LARAGON SEDANG NONAKTIF</span>
+        </div>
+
+        <!-- Animated Center Burger -->
+        <div class="burger-container toon-bob">
+            <div class="glow-ring"></div>
+            <img src="/images/hero-burger-real.png" alt="Burger Toon" class="burger-img" onerror="this.src='/images/toon-head.png'">
+            <div class="mascot-hat">
+                <img src="/images/toon-head.png" alt="Toon Mascot">
+            </div>
+        </div>
+
+        <!-- Heading -->
+        <h1>Waduh! Dapur Laragon Sedang Tutup</h1>
+
+        <!-- Friendly Description -->
+        <p class="desc">
+            Koneksi ke server lokal terputus karena aplikasi <strong>Laragon</strong> di komputermu sedang mati atau belum dinyalakan.
+        </p>
+
+        <!-- Quick How-to Box -->
+        <div class="step-box">
+            <div class="step-icon">💡</div>
+            <div class="step-text">
+                <h4>Cara Menghidupkan Kembali:</h4>
+                <p>1. Buka aplikasi <strong>Laragon</strong> di komputermu.<br>
+                   2. Klik tombol <code>Start All</code> untuk menyalakan <strong>Apache & MySQL</strong>.<br>
+                   3. Halaman ini akan <strong>otomatis tersambung kembali</strong> begitu server menyala!</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+            <button type="button" onclick="checkAndReload()" class="btn btn-primary" id="retry-btn">
+                <span>🔄</span>
+                <span>Coba Hubungkan Sekarang</span>
+            </button>
+        </div>
+
+        <!-- Auto-reconnect live status indicator -->
+        <div class="status-bar" id="status-bar">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">Mendeteksi koneksi server setiap 3 detik...</span>
+        </div>
+    </div>
+
+    <script>
+        let isReconnecting = false;
+
+        async function checkServer() {
+            try {
+                // Ping Laravel health endpoint or root with timestamp to avoid browser cache
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+                const response = await fetch('/up?t=' + Date.now(), { 
+                    method: 'GET', 
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+                clearTimeout(timeoutId);
+
+                if (response.ok || response.status === 200 || response.status === 302) {
+                    const dot = document.getElementById('status-dot');
+                    const text = document.getElementById('status-text');
+                    const btn = document.getElementById('retry-btn');
+                    if (dot) dot.classList.add('connected');
+                    if (text) text.innerText = 'Server menyala! Mengalihkan ke Toon Burger...';
+                    if (btn) btn.innerText = '✅ Tersambung! Membuka...';
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 500);
+                    return true;
+                }
+            } catch (err) {
+                // Server still down, keep polling
+            }
+            return false;
+        }
+
+        async function checkAndReload() {
+            const btn = document.getElementById('retry-btn');
+            const text = document.getElementById('status-text');
+            if (btn) btn.innerText = '⏳ Mengecek server...';
+            if (text) text.innerText = 'Menghubungi server Laragon...';
+
+            const online = await checkServer();
+            if (!online) {
+                if (btn) {
+                    btn.innerText = '❌ Belum Nyala, Coba Lagi';
+                    setTimeout(() => {
+                        btn.innerHTML = '<span>🔄</span><span>Coba Hubungkan Sekarang</span>';
+                    }, 2000);
+                }
+                if (text) text.innerText = 'Server belum aktif. Pastikan klik "Start All" di Laragon.';
+            }
+        }
+
+        // Auto-ping server every 3 seconds
+        setInterval(checkServer, 3000);
+    </script>
+</body>
+</html>

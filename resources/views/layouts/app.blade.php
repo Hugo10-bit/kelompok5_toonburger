@@ -1527,6 +1527,13 @@
                 window.location.reload();
             }
         });
+
+        // Register Service Worker for offline & Laragon down handling
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

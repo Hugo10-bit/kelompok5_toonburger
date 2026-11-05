@@ -29,5 +29,27 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\PDOException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Layanan database MySQL di Laragon sedang mati. Silakan nyalakan MySQL di Laragon.',
+                ], 500);
+            }
+            return response()->view('errors.500', [
+                'message' => 'Koneksi ke database MySQL terputus atau layanan MySQL di Laragon sedang mati. Pastikan tombol "Start All" di Laragon sudah dinyalakan ya!',
+            ], 500);
+        });
+
+        $exceptions->render(function (\Illuminate\Database\QueryException $e, $request) {
+            if (str_contains($e->getMessage(), 'Connection refused') || str_contains($e->getMessage(), '2002') || str_contains($e->getMessage(), 'Server gone away') || str_contains($e->getMessage(), 'target machine actively refused it')) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'message' => 'Layanan database MySQL di Laragon sedang mati. Silakan nyalakan MySQL di Laragon.',
+                    ], 500);
+                }
+                return response()->view('errors.500', [
+                    'message' => 'Koneksi ke database MySQL terputus atau layanan MySQL di Laragon sedang mati. Pastikan tombol "Start All" di Laragon sudah dinyalakan ya!',
+                ], 500);
+            }
+        });
     })->create();
