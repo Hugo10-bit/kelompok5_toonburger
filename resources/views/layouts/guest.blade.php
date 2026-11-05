@@ -8,10 +8,10 @@
 
         <title>{{ config('app.name', 'Toon Burger') }}</title>
 
-        <!-- Google Fonts: Luckiest Guy & Poppins -->
+        <!-- Google Fonts: BBH Hegarty, Luckiest Guy & Poppins -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Luckiest+Guy&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
         <!-- Tailwind CSS & Breeze Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -31,7 +31,8 @@
                         },
                         fontFamily: {
                             poppins: ['Poppins', 'sans-serif'],
-                            luckiest: ['"Luckiest Guy"', 'cursive'],
+                            luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive'],
+                            brand: ['"BBH Hegarty"', 'sans-serif'],
                         }
                     }
                 }
@@ -44,7 +45,7 @@
                 color: #263A38;
             }
             .font-brand {
-                font-family: 'Luckiest Guy', cursive;
+                font-family: 'BBH Hegarty', 'Luckiest Guy', cursive, sans-serif;
                 letter-spacing: 0.05em;
             }
         </style>

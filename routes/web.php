@@ -6,10 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('auth.login', ['mode' => 'login']);
-})->name('welcome');
-
+Route::get('/', [MenuController::class, 'home'])->name('welcome');
 Route::get('/home', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');

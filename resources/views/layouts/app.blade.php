@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/hero-burger.png') }}" fetchpriority="high">
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
+    <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Titan+One&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,7 +36,9 @@
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
-                        luckiest: ['"Luckiest Guy"', 'cursive'],
+                        luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive', 'sans-serif'],
+                        brand: ['"BBH Hegarty"', 'sans-serif'],
+                        hegarty: ['"BBH Hegarty"', 'sans-serif'],
                     }
                 }
             }
@@ -43,8 +47,8 @@
     <style>
         html { scroll-behavior: smooth; overflow-x: clip; }
         .font-brand {
-            font-family: 'Luckiest Guy', cursive;
-            letter-spacing: 0.04em;
+            font-family: 'BBH Hegarty', cursive, sans-serif;
+            letter-spacing: 0.03em;
         }
         .retro-grid-bg {
             background-color: #FAF5E8;
@@ -54,13 +58,14 @@
             background-size: 36px 36px;
         }
         @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0%, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
         .animate-marquee {
             display: flex;
-            width: 200%;
+            width: max-content;
             animation: marquee 25s linear infinite;
+            will-change: transform;
         }
         .animate-marquee:hover {
             animation-play-state: paused;
@@ -234,7 +239,7 @@
 
         /* Accessibility: Respect Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            .toon-bob, .comic-sparkle, .animate-cart-punch {
+            .toon-bob, .comic-sparkle, .animate-cart-punch, .animate-marquee {
                 animation: none !important;
             }
             .toon-tilt-card, .toon-btn-bounce, .toon-reveal {
@@ -293,97 +298,177 @@
         @csrf
     </form>
 
+    <!-- Navbar -->
     <header class="sticky top-0 z-40 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 pb-2 select-none">
-        <div class="w-full max-w-[1380px] mx-auto relative">
-            <div class="flex items-center justify-between px-5 sm:px-7 py-2.5 rounded-full shadow-md border border-black/40 backdrop-blur-md transition relative"
-                 style="background-color: rgba(38, 58, 54, 0.72);">
+        <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
+            <div class="flex items-center justify-between px-5 sm:px-7 lg:px-8 py-2.5 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
+                 style="background-color: rgba(45, 72, 67, 0.58); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);">
 
-                <div class="flex items-center gap-6 lg:gap-8">
-                    <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
-                        <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
-                             class="h-9 sm:h-10 w-auto object-contain transition group-hover:scale-105">
-                        <span class="text-white text-xl sm:text-[23px] uppercase tracking-wider shrink-0 leading-none pt-0.5"
-                              style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.04em;">
-                            TOON BURGER
-                        </span>
+                <!-- Brand logo -->
+                <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+                    <img src="{{ asset('images/toon-head.png') }}" alt="Toon Burger Logo"
+                         class="h-11 sm:h-12 md:h-14 w-auto object-contain transition group-hover:scale-105 drop-shadow-xs">
+                    <span class="font-normal text-white text-xl sm:text-2xl uppercase tracking-wider shrink-0 leading-none pt-0.5"
+                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
+                        TOON BURGER
+                    </span>
+                </a>
+
+                <!-- Nav links -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
+                    <a href="{{ route('home') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('home') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Beranda
                     </a>
+                    <a href="{{ route('menu') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Menu
+                    </a>
+                    <a href="{{ route('about') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('about') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Tentang
+                    </a>
+                    <a href="{{ route('contact') }}" data-page-transition
+                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                        Kontak
+                    </a>
+                </nav>
 
-                    <nav class="hidden lg:flex items-center gap-2 xl:gap-4 text-xs sm:text-[13px]">
-                        <a href="{{ route('home') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('home') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Beranda
-                        </a>
-                        <a href="{{ route('menu') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('menu*') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Menu
-                        </a>
-                        <a href="{{ route('about') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('about') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Tentang
-                        </a>
-                        <a href="{{ route('contact') }}" data-page-transition
-                           class="px-4 py-1.5 rounded-xl transition font-medium
-                                  {{ request()->routeIs('contact') ? 'bg-white/25 text-white' : 'text-white/90 hover:text-white hover:bg-white/10' }}">
-                            Kontak
-                        </a>
-                    </nav>
+                <!-- Search bar -->
+                <div class="relative hidden md:block w-48 sm:w-60 lg:w-72 xl:w-80">
+                    <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
+                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text"
+                               name="q"
+                               id="home-navbar-search"
+                               placeholder="Cheese Burger..."
+                               autocomplete="off"
+                               class="bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                        <button type="button"
+                                id="home-search-clear"
+                                onclick="clearHomeNavbarSearch()"
+                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                aria-label="Bersihkan pencarian">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- Live search dropdown -->
+                    <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
+                        <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
+                            <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Mencari menu...
+                        </div>
+                        <div id="home-search-content"></div>
+                    </div>
                 </div>
 
-                <div class="flex items-center gap-4 sm:gap-5 shrink-0">
-                    <div class="relative hidden md:block w-52 sm:w-64 lg:w-72">
-                        <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
-                            <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                            <input type="text"
-                                   name="q"
-                                   id="home-navbar-search"
-                                   placeholder="Cheese Burger..."
-                                   autocomplete="off"
-                                   class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
-                            <button type="button"
-                                    id="home-search-clear"
-                                    onclick="clearHomeNavbarSearch()"
-                                    class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
-                                    aria-label="Bersihkan pencarian">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </form>
-
-                        <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
-                            <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
-                                <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Mencari menu...
-                            </div>
-                            <div id="home-search-content"></div>
-                        </div>
-                    </div>
-
+                <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+                    <!-- Cart drawer button -->
                     <button type="button"
                             onclick="toggleCartDrawer()"
                             id="cart-btn"
-                            class="hidden relative w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 items-center justify-center text-white transition cursor-pointer shrink-0"
+                            class="relative w-10 h-10 rounded-full bg-[#E2E8F0]/90 hover:bg-white flex items-center justify-center text-gray-800 shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
                             aria-label="Keranjang Belanja">
-                        <span id="cart-badge" class="text-xs font-bold">{{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}</span>
+                        <svg class="w-5 h-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span id="cart-badge"
+                              class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
+                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+                        </span>
                     </button>
 
-                    <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-[13px] shrink-0 select-none">
-                        <a href="{{ route('login') }}" class="text-white hover:text-white/80 font-medium transition px-1.5 py-1">
-                            Login
-                        </a>
-                        <a href="{{ route('register') }}" class="bg-[#F5B027] hover:bg-[#E09E1E] text-white font-semibold px-4 py-2 rounded-xl transition shadow-2xs">
-                            Sign In
-                        </a>
-                    </div>
+                    @auth
+                        <!-- User profile dropdown -->
+                        <div class="relative" id="user-dropdown-container">
+                            <button type="button"
+                                    onclick="toggleUserDropdown(event)"
+                                    id="user-menu-button"
+                                    class="flex items-center gap-2.5 cursor-pointer group focus:outline-none text-left select-none">
+                                <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0">
+                                    {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                </div>
+                                <div class="text-left leading-tight hidden xl:block">
+                                    <div class="font-bold text-sm text-white leading-tight">
+                                        {{ Auth::user()->name }}
+                                    </div>
+                                    <div class="text-xs text-white/70 font-normal leading-tight mt-0.5 truncate max-w-[140px]">
+                                        {{ Auth::user()->email }}
+                                    </div>
+                                </div>
+                                <svg id="user-menu-arrow" class="w-4 h-4 text-white/80 stroke-[2] transition-transform duration-200 hidden sm:block shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
 
+                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
+                                <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                                        {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <div class="font-bold text-xs text-gray-900 truncate">
+                                            {{ Auth::user()->name }}
+                                        </div>
+                                        <div class="text-[11px] text-gray-400 truncate">
+                                            {{ Auth::user()->email }}
+                                        </div>
+                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
+                                            {{ Auth::user()->role }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1 text-xs font-medium text-gray-700">
+                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                        <span>Pesanan Saya</span>
+                                    </a>
+                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-semibold">
+                                            <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                            <span>Dashboard Admin</span>
+                                        </a>
+                                        <a href="{{ route('admin.pos') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-amber-600 font-semibold">
+                                            <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                            <span>Kasir POS</span>
+                                        </a>
+                                    @endif
+                                    <div class="border-t border-gray-100 mt-2 pt-2">
+                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
+                                            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                            <span>Logout</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
+                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
+                                Login
+                            </a>
+                            <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-bold px-4 py-1.5 rounded-xl transition shadow-xs">
+                                Sign In
+                            </a>
+                        </div>
+                    @endauth
+
+                    <!-- Mobile Hamburger Menu Button -->
                     <button type="button"
                             onclick="toggleMobileNav()"
                             id="mobile-nav-toggle"
@@ -1366,23 +1451,39 @@
             });
         }
 
-        // 2. Hero Mouse Parallax Interaction
+        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & cached rect to eliminate lag)
         function initHeroParallax() {
             const hero = document.getElementById('hero-section');
             const burger = document.getElementById('hero-burger-img');
             const badge = document.getElementById('hero-badge-img');
             if (!hero || !burger || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-            hero.addEventListener('mousemove', (e) => {
-                const rect = hero.getBoundingClientRect();
-                const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
-                const normY = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+            let ticking = false;
+            let rect = null;
 
-                burger.style.transform = `translate3d(${(normX * 10).toFixed(1)}px, ${(normY * 8).toFixed(1)}px, 0)`;
-                if (badge) {
-                    badge.style.transform = `translate3d(${(-normX * 8).toFixed(1)}px, ${(-normY * 6).toFixed(1)}px, 0)`;
+            function updateRect() {
+                rect = hero.getBoundingClientRect();
+            }
+            updateRect();
+            window.addEventListener('resize', updateRect, { passive: true });
+            window.addEventListener('scroll', updateRect, { passive: true });
+
+            hero.addEventListener('mousemove', (e) => {
+                if (!rect) updateRect();
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
+                        const normY = (e.clientY - rect.top - (rect.height / 2)) / (rect.height / 2);
+
+                        burger.style.transform = `translate3d(${(normX * 10).toFixed(1)}px, ${(normY * 8).toFixed(1)}px, 0)`;
+                        if (badge) {
+                            badge.style.transform = `translate3d(${(-normX * 8).toFixed(1)}px, ${(-normY * 6).toFixed(1)}px, 0)`;
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-            });
+            }, { passive: true });
 
             hero.addEventListener('mouseleave', () => {
                 burger.style.transform = 'translate3d(0, 0, 0)';

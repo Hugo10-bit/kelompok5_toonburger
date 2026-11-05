@@ -37,37 +37,37 @@
             @php
                 $badgeConfig = match($order->status) {
                     'pending' => [
-                        'bg' => 'bg-[#F9E7B2] text-[#5C4D26]',
+                        'bg' => 'bg-[#F9E7B2] dark:bg-[#4A3A20] text-[#5C4D26] dark:text-[#FBBF24] border border-transparent dark:border-amber-700/50',
                         'label' => 'Menunggu',
                         'i18n' => 'st_pending',
                         'icon' => '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2"></path></svg>',
                     ],
                     'confirmed', 'preparing' => [
-                        'bg' => 'bg-[#E6A8A1] text-[#5A2520]',
+                        'bg' => 'bg-[#E6A8A1] dark:bg-[#4A2626] text-[#5A2520] dark:text-[#F87171] border border-transparent dark:border-red-800/50',
                         'label' => 'Dimasak',
                         'i18n' => 'st_cooking',
                         'icon' => '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 4v2m4-2v2m4-2v2M4 11h14a1 1 0 011 1v2a5 5 0 01-5 5H9a5 5 0 01-5-5v-2a1 1 0 011-1zm15 1h1.5a1.5 1.5 0 010 3H19"></path></svg>',
                     ],
                     'ready' => [
-                        'bg' => 'bg-[#C8E6C9] text-[#255A2A]',
+                        'bg' => 'bg-[#C8E6C9] dark:bg-[#1E453B] text-[#255A2A] dark:text-[#34D399] border border-transparent dark:border-emerald-700/50',
                         'label' => 'Siap Saji',
                         'i18n' => 'st_ready',
                         'icon' => '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>',
                     ],
                     'completed' => [
-                        'bg' => 'bg-[#BBDEFB] text-[#1E3A8A]',
+                        'bg' => 'bg-[#BBDEFB] dark:bg-[#243852] text-[#1E3A8A] dark:text-[#60A5FA] border border-transparent dark:border-blue-700/50',
                         'label' => 'Selesai',
                         'i18n' => 'st_completed',
                         'icon' => '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
                     ],
                     'cancelled' => [
-                        'bg' => 'bg-red-100 text-red-700',
+                        'bg' => 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-400 border border-transparent dark:border-red-900/50',
                         'label' => 'Batal',
                         'i18n' => 'st_cancelled',
                         'icon' => '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>',
                     ],
                     default => [
-                        'bg' => 'bg-gray-100 text-gray-700',
+                        'bg' => 'bg-gray-100 dark:bg-[#3D3D3D] text-gray-700 dark:text-gray-200 border border-transparent dark:border-gray-700',
                         'label' => $order->status,
                         'i18n' => '',
                         'icon' => '',
@@ -96,7 +96,7 @@
                     <div class="flex items-start justify-between gap-2 mb-3.5">
                         <div>
                             <h3 class="text-xl font-extrabold text-gray-900 dark:text-white leading-tight">{{ $order->customer_name }}</h3>
-                            <p class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-1" data-mins-ago="{{ $minsAgo }}">{{ $relativeLabel }}</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-300 mt-1" data-mins-ago="{{ $minsAgo }}">{{ $relativeLabel }}</p>
                         </div>
                         <span class="px-3 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1.5 {{ $badgeConfig['bg'] }}">
                             {!! $badgeConfig['icon'] !!}
@@ -105,7 +105,7 @@
                     </div>
 
                     <div class="border-t border-gray-200 dark:border-[#555555] pt-3 pb-3">
-                        <div class="grid grid-cols-12 text-xs text-gray-400 dark:text-[#BDBDBD] mb-2">
+                        <div class="grid grid-cols-12 text-xs text-gray-400 dark:text-gray-300 font-medium mb-2">
                             <span class="col-span-6" data-i18n="ord_col_prod">Produk</span>
                             <span class="col-span-2 text-center" data-i18n="ord_col_qty">total</span>
                             <span class="col-span-4 text-right" data-i18n="ord_col_price">Harga</span>
@@ -137,7 +137,7 @@
                         </button>
                     </form>
                     @else
-                    <div class="w-full bg-gray-100 dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0] font-medium py-3 px-4 rounded-xl text-xs sm:text-[13.5px] text-center" data-i18n="{{ $order->status == 'completed' ? 'ord_done_badge' : 'ord_cancel_badge' }}">
+                    <div class="w-full bg-gray-100 dark:bg-[#444444] text-gray-700 dark:!text-white font-semibold py-3 px-4 rounded-xl text-xs sm:text-[13.5px] text-center border border-transparent dark:border-[#555555]" data-i18n="{{ $order->status == 'completed' ? 'ord_done_badge' : 'ord_cancel_badge' }}">
                         {{ $order->status == 'completed' ? 'Pesanan Selesai' : 'Pesanan Dibatalkan' }}
                     </div>
                     @endif
