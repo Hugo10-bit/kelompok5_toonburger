@@ -11,7 +11,7 @@
     <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
             <!-- Hero Background: Dark Slate Green (#385850) -->
-            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40"
+            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40 flex flex-col justify-between"
                  style="background-color: #385850; min-height: 520px;">
 
                 <!-- Concentric / wavy retro background curves -->
@@ -107,14 +107,16 @@
 
                 </div>
 
-                <!-- Retro Checkered Bottom Border (2 rows of black & white squares) -->
-                <div class="w-full" style="height: 24px; background: repeating-conic-gradient(#1a332d 0% 25%, #ffffff 0% 50%) 0 0 / 22px 22px;"></div>
+                <div class="w-full mt-auto">
+                    <!-- Checkered Accent Line (3 baris kotak hitam-putih di dalam background hijau) -->
+                    <div class="w-full relative z-20" style="height: 36px; background: repeating-conic-gradient(#385850 0% 25%, #ffffff 0% 50%) 0 0 / 24px 24px;"></div>
+
+                    <!-- Dark Green Bottom Spacer (Bagian hijau di bawah garis kotak-kotak sebelum perbatasan cream) -->
+                    <div class="w-full h-8 sm:h-9 lg:h-10"></div>
+                </div>
 
             </div>
         </div>
-
-        <!-- 3. AREA CHECKERBOARD (Warna #405E58) -->
-        <div class="relative z-20 w-full mb-8 sm:mb-10" style="height: 54px; background: repeating-conic-gradient(#405E58 0% 25%, #ffffff 0% 50%) 0 0 / 36px 36px;"></div>
 
     </section>
 
