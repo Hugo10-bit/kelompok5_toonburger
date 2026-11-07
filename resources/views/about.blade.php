@@ -1,160 +1,554 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang Kami - Toon Burger Indonesia')
+@section('title', 'Tentang Kami - Toon Burger')
 
 @section('content')
-<div class="space-y-16 lg:space-y-20 pb-16">
+<style>
+    .about-fine-grid-bg {
+        background-color: #FAF4E4;
+        background-image:
+            linear-gradient(to right, rgba(180, 166, 136, 0.17) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(180, 166, 136, 0.17) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
 
-    <!-- ═══════════════════════════════════════════════
-         1. HERO HEADER (ABOUT US) — Full Size Edge-to-Edge
-         ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
-        <div class="w-full">
-            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40 pb-14 sm:pb-18"
-                 style="background-color: #3b6e64; min-height: 520px;">
+    /* Keep outgoing slide at opacity 1 underneath while incoming slide fades to 1 so background never bleeds at midpoint. */
+    .about-slide-photo {
+        opacity: 0;
+        z-index: 1;
+        transition: opacity 650ms cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: opacity;
+    }
+    .about-slide-photo.is-prev {
+        opacity: 1;
+        z-index: 1;
+        transition: none;
+    }
+    .about-slide-photo.is-active {
+        opacity: 1;
+        z-index: 2;
+    }
 
-                <!-- Partikel Bintang Komik Asli -->
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 h-auto"
-                     style="top: 25%; left: 8%; animation-delay: 0s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="bottom: 25%; left: 45%; animation-delay: 0.7s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 h-auto"
-                     style="top: 22%; right: 14%; animation-delay: 1.4s;">
-                <img src="{{ asset('images/star-sparkle.png') }}" alt="Sparkle"
-                     class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 h-auto"
-                     style="bottom: 20%; right: 28%; animation-delay: 2.1s;">
+    .about-slide-caption {
+        opacity: 0;
+        transform: translateY(6px);
+        pointer-events: none;
+        transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .about-slide-caption.is-active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition-delay: 110ms;
+    }
 
-                <!-- Content Grid (Max-W-7xl for neat alignment) -->
-                <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-8 pt-4">
-                    <div class="max-w-2xl space-y-4 text-left toon-reveal">
-                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white"
-                            style="font-family: 'Nunito', 'Arial Black', sans-serif;">
-                            Kisah &amp; Cinta di Balik <br>
-                            <span class="text-yellow-300">Toon Burger</span>
+    .sticky-review-card {
+        transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 220ms ease;
+    }
+    .sticky-review-card:hover {
+        transform: translateY(-4px) rotate(0deg) !important;
+        box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
+        z-index: 20;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-slide-photo,
+        .about-slide-caption,
+        .sticky-review-card {
+            transition: none !important;
+        }
+    }
+</style>
+
+<div>
+    {{-- Negative top margin pulls the perspective grid behind the sticky translucent navbar, matching contact.blade.php. --}}
+    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[118px] sm:pt-[126px] pb-10 sm:pb-14 lg:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
+             style="background-color: #FAF3E3;">
+
+        <div class="absolute inset-0 pointer-events-none select-none overflow-hidden z-0" aria-hidden="true">
+            <svg class="w-full h-full" viewBox="0 0 1440 700" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="#DFD5C0" stroke-width="1">
+                    <line x1="0" y1="20" x2="1440" y2="20" />
+                    <line x1="0" y1="45" x2="1440" y2="45" />
+                    <line x1="0" y1="75" x2="1440" y2="75" />
+                    <line x1="0" y1="110" x2="1440" y2="110" />
+                    <line x1="0" y1="150" x2="1440" y2="150" />
+                    <line x1="0" y1="196" x2="1440" y2="196" />
+                    <line x1="0" y1="248" x2="1440" y2="248" />
+                    <line x1="0" y1="308" x2="1440" y2="308" />
+                    <line x1="0" y1="376" x2="1440" y2="376" />
+                    <line x1="0" y1="452" x2="1440" y2="452" />
+                    <line x1="0" y1="536" x2="1440" y2="536" />
+                    <line x1="0" y1="628" x2="1440" y2="628" />
+
+                    <line x1="720" y1="-220" x2="-700" y2="700" />
+                    <line x1="720" y1="-220" x2="-480" y2="700" />
+                    <line x1="720" y1="-220" x2="-280" y2="700" />
+                    <line x1="720" y1="-220" x2="-90" y2="700" />
+                    <line x1="720" y1="-220" x2="80" y2="700" />
+                    <line x1="720" y1="-220" x2="230" y2="700" />
+                    <line x1="720" y1="-220" x2="365" y2="700" />
+                    <line x1="720" y1="-220" x2="490" y2="700" />
+                    <line x1="720" y1="-220" x2="608" y2="700" />
+                    <line x1="720" y1="-220" x2="720" y2="700" />
+                    <line x1="720" y1="-220" x2="832" y2="700" />
+                    <line x1="720" y1="-220" x2="950" y2="700" />
+                    <line x1="720" y1="-220" x2="1075" y2="700" />
+                    <line x1="720" y1="-220" x2="1210" y2="700" />
+                    <line x1="720" y1="-220" x2="1360" y2="700" />
+                    <line x1="720" y1="-220" x2="1530" y2="700" />
+                    <line x1="720" y1="-220" x2="1720" y2="700" />
+                    <line x1="720" y1="-220" x2="1920" y2="700" />
+                    <line x1="720" y1="-220" x2="2140" y2="700" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="relative z-10 max-w-6xl mx-auto toon-reveal">
+            <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#8F9693] p-4 sm:p-6 lg:p-7">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center">
+
+                    <div class="lg:col-span-6 grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="rounded-2xl overflow-hidden bg-[#141414] aspect-[351/429]">
+                            <img src="{{ asset('images/about-burger-1.png') }}"
+                                 alt="Burger daging sapi panggang Toon Burger dengan keju leleh dan beef strip renyah"
+                                 width="351"
+                                 height="429"
+                                 fetchpriority="high"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="rounded-2xl overflow-hidden bg-[#24120A] aspect-[351/429]">
+                            <img src="{{ asset('images/about-burger-2.png') }}"
+                                 alt="Detail lelehan dua macam keju dan daging asap panggang di dalam roti brioche"
+                                 width="351"
+                                 height="429"
+                                 loading="eager"
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 space-y-3.5 sm:space-y-4 lg:pr-3 py-1">
+                        <h1 class="text-2xl sm:text-3xl lg:text-[30px] text-[#27443E] uppercase tracking-wide leading-tight"
+                            style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                            TENTANG TOON BURGER
                         </h1>
 
-                        <p class="text-sm sm:text-base text-white/80 leading-relaxed font-normal max-w-xl">
-                            Kami memadukan keceriaan estetika kartun retro dengan kelezatan burger daging sapi panggang berkualitas tinggi. Setiap gigitan adalah petualangan rasa yang penuh senyuman!
+                        <p class="text-xs sm:text-[13.5px] text-[#4B5563] leading-relaxed">
+                            Toon Burger lahir dari mimpi sederhana: menciptakan burger yang tidak hanya mengenyangkan perut, tetapi juga menghadirkan kebahagiaan sejati seperti saat menonton kartun favorit di masa kecil.
+                        </p>
+
+                        <p class="text-xs sm:text-[13.5px] text-[#4B5563] leading-relaxed">
+                            Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong class="font-semibold text-[#1F2937]">100% daging sapi lokal pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus khas dapur kami dari nol.
                         </p>
                     </div>
 
-                    <!-- Right Mascot / Visual -->
-                    <div class="relative flex justify-center items-center shrink-0">
-                        <div class="toon-bob">
-                            <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger Mascot"
-                                 class="h-44 sm:h-56 lg:h-64 w-auto object-contain drop-shadow-2xl hover:scale-105 transition duration-500 cursor-pointer select-none">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section aria-label="Capaian Toon Burger"
+             class="w-full border-b border-[#E2D9C5] py-7 sm:py-9 lg:py-10 px-4 sm:px-6 lg:px-8"
+             style="background-color: #FAF6EC;">
+        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6 sm:gap-x-8 toon-reveal">
+            <div class="flex flex-col items-start md:items-start">
+                <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+                    15.000+
+                </span>
+                <span class="text-[11.5px] sm:text-xs text-[#57534E] font-medium mt-1.5">
+                    Burger Terjual &amp; Ludes
+                </span>
+            </div>
+
+            <div class="flex flex-col items-start md:items-start">
+                <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+                    100%
+                </span>
+                <span class="text-[11.5px] sm:text-xs text-[#57534E] font-medium mt-1.5">
+                    Terbuat dari daging asli
+                </span>
+            </div>
+
+            <div class="flex flex-col items-start md:items-start">
+                <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+                    90%
+                </span>
+                <span class="text-[11.5px] sm:text-xs text-[#57534E] font-medium mt-1.5">
+                    Kepuasan Pelanggan
+                </span>
+            </div>
+
+            <div class="flex flex-col items-start md:items-start">
+                <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+                    5.0/5.0
+                </span>
+                <span class="text-[11.5px] sm:text-xs text-[#57534E] font-medium mt-1.5">
+                    Rating pelanggan di Gofood
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-fine-grid-bg py-10 sm:py-13 lg:py-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]">
+        <div class="max-w-6xl mx-auto toon-reveal">
+            <div id="about-visi-misi-carousel"
+                 role="region"
+                 aria-roledescription="carousel"
+                 aria-label="Visi dan Misi Toon Burger"
+                 class="relative w-full h-[320px] sm:h-[380px] lg:h-[445px] rounded-[24px] sm:rounded-[28px] overflow-hidden bg-[#121816] shadow-[0_14px_34px_-10px_rgba(30,46,43,0.22)] select-none">
+
+                <div class="absolute inset-0">
+                    <img data-slide-photo="0"
+                         src="{{ asset('images/about-visi.png') }}"
+                         alt="Hidangan lengkap burger sapi, ayam goreng renyah, kentang goreng, dan saus racikan dapur Toon Burger"
+                         width="1010"
+                         height="350"
+                         class="about-slide-photo is-active absolute inset-0 w-full h-full object-cover object-[58%_center] sm:object-center">
+
+                    <img data-slide-photo="1"
+                         src="{{ asset('images/about-misi.png') }}"
+                         alt="Pelanggan menikmati double smash burger hangat dengan keju leleh dan bawang karamel"
+                         width="1010"
+                         height="350"
+                         loading="lazy"
+                         class="about-slide-photo absolute inset-0 w-full h-full object-cover object-center">
+                </div>
+
+                {{-- Stationary dark scrim guarantees >= 4.5:1 AA contrast across the entire bottom caption and controls area. --}}
+                <div class="absolute inset-0 z-10 pointer-events-none"
+                     aria-hidden="true"
+                     style="background: linear-gradient(to top, rgba(8, 12, 11, 0.95) 0%, rgba(8, 12, 11, 0.84) 32%, rgba(8, 12, 11, 0.30) 58%, rgba(8, 12, 11, 0) 78%);"></div>
+
+                <div class="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-7 lg:p-9 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+
+                    <div class="relative min-h-[108px] sm:min-h-[96px] flex-1 max-w-xl" aria-live="polite">
+                        <div data-slide-caption="0"
+                             class="about-slide-caption is-active">
+                            <h2 class="text-lg sm:text-xl lg:text-[23px] font-bold text-white tracking-tight leading-snug">
+                                Visi Kami
+                            </h2>
+                            <p class="text-xs sm:text-[13.5px] text-white/95 leading-relaxed mt-1.5">
+                                Menjadi destinasi burger lokal kebanggaan Banjarbaru yang menyajikan rasa daging sapi asli, roti brioche panggang segar, dan saus racikan dapur sendiri dalam setiap porsi yang jujur dan mengenyangkan.
+                            </p>
+                        </div>
+
+                        <div data-slide-caption="1"
+                             aria-hidden="true"
+                             class="about-slide-caption absolute inset-x-0 bottom-0">
+                            <h2 class="text-lg sm:text-xl lg:text-[23px] font-bold text-white tracking-tight leading-snug">
+                                Misi Kami
+                            </h2>
+                            <p class="text-xs sm:text-[13.5px] text-white/95 leading-relaxed mt-1.5">
+                                Menggiling 100% daging sapi pilihan tanpa campuran tepung setiap hari, memanggang burger saat pesanan masuk agar tiba tetap hangat, serta menjaga standar dapur halal dan bersih untuk setiap pelanggan.
+                            </p>
                         </div>
                     </div>
+
+                    <div class="flex items-center justify-end gap-2.5 shrink-0 self-end">
+                        <button type="button"
+                                id="about-carousel-prev"
+                                onclick="stepAboutSlide(-1)"
+                                aria-label="Slide sebelumnya (Visi atau Misi)"
+                                class="w-11 h-11 rounded-full border-[1.5px] border-white/85 bg-[#0B1110]/75 hover:bg-white hover:text-[#111827] text-white flex items-center justify-center transition cursor-pointer active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F4BE1E]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6"/>
+                            </svg>
+                        </button>
+
+                        <button type="button"
+                                id="about-carousel-next"
+                                onclick="stepAboutSlide(1)"
+                                aria-label="Slide berikutnya (Visi atau Misi)"
+                                class="w-11 h-11 rounded-full border-[1.5px] border-white/85 bg-[#0B1110]/75 hover:bg-white hover:text-[#111827] text-white flex items-center justify-center transition cursor-pointer active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F4BE1E]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m0 0l-6-6m6 6l-6 6"/>
+                            </svg>
+                        </button>
+                    </div>
+
                 </div>
-
-                <!-- Checkered Bottom Border -->
-                <div class="absolute bottom-0 left-0 w-full" style="height: 24px; background: repeating-conic-gradient(#1a3d36 0% 25%, #f0ede6 0% 50%) 0 0 / 24px 24px;"></div>
-
             </div>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════
-         2. ORIGIN STORY & MASCOT PHILOSOPHY
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-[32px] sm:rounded-[40px] border border-[#E6DEC8] shadow-xs p-6 sm:p-12 lg:p-14 overflow-hidden toon-reveal">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+    @php
+        $reviews = [
+            [
+                'name' => 'Putri Arina',
+                'quote' => 'Telat mau nyobain karena baru kesampaian, enakk bangett baru tau sayur selada dkk ya disaus makanya gurih bangett, next bakal order lagi',
+                'theme' => 'yellow',
+                'tilt' => 'lg:rotate-[2.4deg]',
+            ],
+            [
+                'name' => 'Bram',
+                'quote' => 'Rasa udah improve, udah engga ada dominan asam lagi dan sudah balance, saus signature nya sudah mulai berasa, good job',
+                'theme' => 'green',
+                'tilt' => 'lg:-rotate-[1.5deg]',
+            ],
+            [
+                'name' => 'Hasnul',
+                'quote' => 'Enak bangett burgernyaaa, menunya dilengkapin lagi plisssssss',
+                'theme' => 'cream',
+                'tilt' => 'lg:rotate-[2deg]',
+            ],
+            [
+                'name' => 'Nadya Nabilah',
+                'quote' => 'Tertau karna iklan, baru pertama nyoba eh seenak ituuu, balik lagi besokk',
+                'theme' => 'yellow',
+                'tilt' => 'lg:-rotate-[1.6deg]',
+            ],
+            [
+                'name' => 'Jihan',
+                'quote' => 'Enak bangettttttt, kejunyaaaaaaaa',
+                'theme' => 'cream',
+                'tilt' => 'lg:-rotate-[2.8deg]',
+            ],
+            [
+                'name' => 'Ayu Dewi Fortuna',
+                'quote' => 'Enakk sekali burgernya dan red velvet nya enak juga',
+                'theme' => 'yellow',
+                'tilt' => 'lg:rotate-[1.3deg]',
+            ],
+            [
+                'name' => 'Anindya Esti',
+                'quote' => 'Selalu enak, bestttt burger in townn!!!',
+                'theme' => 'green',
+                'tilt' => 'lg:-rotate-[1.8deg]',
+            ],
+        ];
 
-                <!-- Mascot & Visual Box -->
-                <div class="lg:col-span-5 flex flex-col items-center text-center p-8 rounded-3xl bg-[#FAF1E1]/80 border border-[#EFE5D0] relative toon-tilt-card">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger Mascot" class="h-48 sm:h-56 w-auto object-contain drop-shadow-md mb-4">
-                    <div class="inline-block bg-bites-red text-white text-[11px] font-black uppercase px-3.5 py-1 rounded-full shadow-xs mb-2">
-                        Est. 2024 • Banjarbaru
-                    </div>
-                    <h3 class="text-lg font-black text-gray-900">The Original Cartoon Burgers</h3>
-                    <p class="text-xs text-gray-600 mt-1 max-w-xs">
-                        "Cita rasa autentik, porsi berani, dan kebahagiaan di setiap gigitan."
-                    </p>
-                </div>
+        $themeStyles = [
+            'yellow' => [
+                'bg' => 'bg-[#F4BE1E]',
+                'star' => 'text-[#1E2E2B]',
+                'name' => 'text-[#1E2E2B]',
+                'quote' => 'text-[#243733]',
+                'divider' => 'border-[#1E2E2B]/25',
+                'watermark' => 'text-[#1E2E2B]/15',
+            ],
+            'green' => [
+                'bg' => 'bg-[#3B5954]',
+                'star' => 'text-white',
+                'name' => 'text-white',
+                'quote' => 'text-[#F1F6F5]',
+                'divider' => 'border-white/30',
+                'watermark' => 'text-white/15',
+            ],
+            'cream' => [
+                'bg' => 'bg-[#F6EBB9]',
+                'star' => 'text-[#2D4C46]',
+                'name' => 'text-[#1E2E2B]',
+                'quote' => 'text-[#2A413D]',
+                'divider' => 'border-[#27443E]/25',
+                'watermark' => 'text-[#27443E]/15',
+            ],
+        ];
+    @endphp
 
-                <!-- Story Text -->
-                <div class="lg:col-span-7 space-y-5">
-                    <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                        Dari Dapur Impian Hingga Menjadi Burger Terfavorit
-                    </h2>
+    <section class="retro-grid-bg pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto">
 
-                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Toon Burger lahir dari mimpi sederhana: menciptakan burger yang tidak hanya mengenyangkan perut, tetapi juga menghadirkan kebahagiaan sejati seperti saat menonton kartun favorit di masa kecil.
-                    </p>
-
-                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                        Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong>100% daging sapi lokal pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus legendaris kami dari nol.
-                    </p>
-
-                    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-950 font-medium leading-relaxed">
-                        <strong>Filosofi Kami:</strong> Toon Burger beroperasi dengan konsep <em>Cloud Kitchen &amp; Quick Takeaway Hub</em>. Kami fokus menyajikan pesanan bungkus bawa pulang dan pesan antar secepat kilat dengan kemasan insulated thermal yang menjaga burger tetap panas dan fresh sampai ke tangan Anda.
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         3. OUR 4 KITCHEN COMMITMENTS
-         ═══════════════════════════════════════════════ -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div class="text-center max-w-2xl mx-auto space-y-2 toon-reveal">
-            <h2 class="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">
-                4 Komitmen Mutu Toon Burger
-            </h2>
-            <p class="text-xs sm:text-sm text-gray-600">
-                Prinsip ketat yang kami jalankan setiap hari demi kepuasan Anda.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs space-y-3 toon-tilt-card toon-reveal">
-                <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
-                </div>
-                <h3 class="font-extrabold text-base text-gray-900">Daging Murni 100%</h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
-                    Hanya potongan daging sapi lokal pilihan. Tanpa pengawet kimiawi dan tanpa pengisi tepung.
+            <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12 lg:mb-14 toon-reveal">
+                <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase tracking-wide leading-tight"
+                    style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                    KATA MEREKA YANG UDAH NYOBA!
+                </h2>
+                <p class="text-xs sm:text-[13px] text-[#57534E] leading-relaxed mt-2 flex items-center justify-center gap-2 flex-wrap">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#57534E] shrink-0" aria-hidden="true"></span>
+                    <span>Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.</span>
                 </p>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs space-y-3 toon-tilt-card toon-reveal">
-                <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-800 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c-4.97 0-9 3.134-9 7 0 1.5.62 2.89 1.68 4h14.64c1.06-1.11 1.68-2.5 1.68-4 0-3.866-4.03-7-9-7zM4 17h16a2 2 0 012 2v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a2 2 0 012-2z"/></svg>
+            {{-- Desktop uses the 4 + 3 staggered sticky-note wall; tablet reflows to a 2-column grid; phone stacks cleanly. --}}
+            <div class="hidden lg:block space-y-5 toon-reveal">
+                <div class="grid grid-cols-4 gap-3.5">
+                    @foreach(array_slice($reviews, 0, 4) as $review)
+                        @php $s = $themeStyles[$review['theme']]; @endphp
+                        <article class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
+                            <div class="w-full flex flex-col items-center">
+                                <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
+                                    @for($i = 0; $i < 5; $i++)
+                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
+                                        </svg>
+                                    @endfor
+                                </div>
+
+                                <h3 class="font-bold text-xs {{ $s['name'] }} mt-4">
+                                    {{ $review['name'] }}
+                                </h3>
+
+                                <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
+
+                                <p class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
+                                    "{{ $review['quote'] }}"
+                                </p>
+                            </div>
+
+                            <div class="pt-3 {{ $s['watermark'] }}" aria-hidden="true">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
+                                </svg>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
-                <h3 class="font-extrabold text-base text-gray-900">Roti Panggang Segar</h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
-                    Dipanggang langsung setiap fajar dengan resep artisanal brioche butter yang empuk dan harum mentega.
-                </p>
+
+                <div class="grid grid-cols-3 gap-4 max-w-[760px] mx-auto">
+                    @foreach(array_slice($reviews, 4, 3) as $review)
+                        @php $s = $themeStyles[$review['theme']]; @endphp
+                        <article class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
+                            <div class="w-full flex flex-col items-center">
+                                <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
+                                    @for($i = 0; $i < 5; $i++)
+                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
+                                        </svg>
+                                    @endfor
+                                </div>
+
+                                <h3 class="font-bold text-xs {{ $s['name'] }} mt-4">
+                                    {{ $review['name'] }}
+                                </h3>
+
+                                <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
+
+                                <p class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
+                                    "{{ $review['quote'] }}"
+                                </p>
+                            </div>
+
+                            <div class="pt-3 {{ $s['watermark'] }}" aria-hidden="true">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
+                                </svg>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
             </div>
 
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs space-y-3 toon-tilt-card toon-reveal">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                </div>
-                <h3 class="font-extrabold text-base text-gray-900">100% Halal &amp; Higienis</h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
-                    Seluruh bahan baku bersertifikasi halal dengan pengawasan standar sanitasi dapur bertaraf internasional.
-                </p>
-            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:hidden toon-reveal">
+                @foreach($reviews as $idx => $review)
+                    @php
+                        $s = $themeStyles[$review['theme']];
+                        $mobileTilt = $idx % 2 === 0 ? 'sm:rotate-[1deg]' : 'sm:-rotate-[1deg]';
+                        $lastSpan = $idx === count($reviews) - 1 ? 'sm:col-span-2 sm:max-w-[calc(50%-0.625rem)] sm:mx-auto w-full' : '';
+                    @endphp
+                    <article class="sticky-review-card relative {{ $s['bg'] }} {{ $mobileTilt }} {{ $lastSpan }} border-[2.5px] border-white rounded-[8px] shadow-[0_10px_22px_-6px_rgba(30,46,43,0.2)] p-5 min-h-[210px] flex flex-col items-center justify-between text-center">
+                        <div class="w-full flex flex-col items-center">
+                            <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }}" aria-label="Rating 5 dari 5 bintang">
+                                @for($i = 0; $i < 5; $i++)
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
+                                    </svg>
+                                @endfor
+                            </div>
 
-            <div class="bg-white rounded-3xl p-6 border border-[#E6DEC8] shadow-xs space-y-3 toon-tilt-card toon-reveal">
-                <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-800 flex items-center justify-center">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
-                </div>
-                <h3 class="font-extrabold text-base text-gray-900">Dibuat Segar Sesuai Pesanan</h3>
-                <p class="text-xs text-gray-600 leading-relaxed">
-                    Tidak ada burger yang disimpan di pemanas lampu. Burger Anda baru dimasak begitu tiket pesanan masuk.
-                </p>
+                            <h3 class="font-bold text-xs sm:text-[13px] {{ $s['name'] }} mt-3.5">
+                                {{ $review['name'] }}
+                            </h3>
+
+                            <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
+
+                            <p class="text-xs leading-relaxed font-medium {{ $s['quote'] }}">
+                                "{{ $review['quote'] }}"
+                            </p>
+                        </div>
+
+                        <div class="pt-3 {{ $s['watermark'] }}" aria-hidden="true">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
+                            </svg>
+                        </div>
+                    </article>
+                @endforeach
             </div>
 
         </div>
     </section>
 </div>
+
+<script>
+    (function () {
+        let currentSlide = 0;
+        const totalSlides = 2;
+        const carousel = document.getElementById('about-visi-misi-carousel');
+        if (!carousel) return;
+
+        const photos = carousel.querySelectorAll('[data-slide-photo]');
+        const captions = carousel.querySelectorAll('[data-slide-caption]');
+        let clearPrevTimer = null;
+
+        window.goToAboutSlide = function (nextIndex) {
+            const target = ((nextIndex % totalSlides) + totalSlides) % totalSlides;
+            if (target === currentSlide) return;
+
+            const previous = currentSlide;
+            currentSlide = target;
+
+            if (clearPrevTimer) {
+                clearTimeout(clearPrevTimer);
+            }
+
+            photos.forEach(function (img, idx) {
+                img.classList.remove('is-active', 'is-prev');
+                if (idx === previous) {
+                    img.classList.add('is-prev');
+                }
+                if (idx === currentSlide) {
+                    // Force reflow when re-activating so opacity transition always runs cleanly.
+                    void img.offsetWidth;
+                    img.classList.add('is-active');
+                }
+            });
+
+            clearPrevTimer = setTimeout(function () {
+                if (photos[previous]) {
+                    photos[previous].classList.remove('is-prev');
+                }
+            }, 680);
+
+            captions.forEach(function (cap, idx) {
+                const active = idx === currentSlide;
+                cap.classList.toggle('is-active', active);
+                if (active) {
+                    cap.removeAttribute('aria-hidden');
+                } else {
+                    cap.setAttribute('aria-hidden', 'true');
+                }
+            });
+        };
+
+        window.stepAboutSlide = function (delta) {
+            window.goToAboutSlide(currentSlide + delta);
+        };
+
+        carousel.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                window.stepAboutSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                window.stepAboutSlide(1);
+            }
+        });
+
+        let touchStartX = null;
+        carousel.addEventListener('touchstart', function (event) {
+            if (event.changedTouches && event.changedTouches.length > 0) {
+                touchStartX = event.changedTouches[0].clientX;
+            }
+        }, { passive: true });
+
+        carousel.addEventListener('touchend', function (event) {
+            if (touchStartX === null || !event.changedTouches || event.changedTouches.length === 0) return;
+            const diffX = event.changedTouches[0].clientX - touchStartX;
+            touchStartX = null;
+            if (Math.abs(diffX) > 40) {
+                window.stepAboutSlide(diffX < 0 ? 1 : -1);
+            }
+        }, { passive: true });
+    })();
+</script>
 @endsection
