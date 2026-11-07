@@ -186,14 +186,15 @@
 
         /* Sidebar items in dark mode */
         html.dark #admin-sidebar a.bg-\[\#415C58\],
+        html.dark #admin-sidebar a.bg-\[\#40605D\],
         html.dark #admin-sidebar a.bg-\[\#3E615D\] {
             background-color: #3E615D !important;
             color: #FFFFFF !important;
         }
-        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]) {
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#40605D\]):not(.bg-\[\#3E615D\]) {
             color: #D1D5DB !important;
         }
-        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#3E615D\]):hover {
+        html.dark #admin-sidebar a:not(.bg-\[\#415C58\]):not(.bg-\[\#40605D\]):not(.bg-\[\#3E615D\]):hover {
             background-color: #3D3D3D !important;
             color: #FFFFFF !important;
         }
@@ -226,7 +227,7 @@
             color: #FFFFFF !important;
         }
         html.dark header input#global-header-search::placeholder {
-            color: #B0B0B0 !important;
+            color: #D1D5DB !important;
         }
         html.dark #header-lang-btn {
             background-color: #303030 !important;
@@ -236,7 +237,8 @@
         html.dark #header-profile-btn .text-gray-900 {
             color: #FFFFFF !important;
         }
-        html.dark #header-profile-btn .text-gray-400 {
+        html.dark #header-profile-btn .text-gray-400,
+        html.dark #header-profile-btn .text-\[\#5F6672\] {
             color: #B0B0B0 !important;
         }
         html.dark #header-profile-chevron {
@@ -420,6 +422,180 @@
         html.dark textarea:focus {
             border-color: #3E615D !important;
         }
+
+        /* Keyboard focus ring across Light & Dark modes */
+        #admin-sidebar a:focus-visible,
+        #admin-sidebar button:focus-visible,
+        header button:focus-visible,
+        header a:focus-visible,
+        .tb-focus-ring:focus-visible {
+            outline: 2px solid #40605D !important;
+            outline-offset: 2px !important;
+        }
+        html.dark #admin-sidebar a:focus-visible,
+        html.dark #admin-sidebar button:focus-visible,
+        html.dark header button:focus-visible,
+        html.dark header a:focus-visible,
+        html.dark .tb-focus-ring:focus-visible {
+            outline: 2px solid #8CC0B9 !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Dashboard components */
+        .tb-metric-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(226, 230, 234, 0.95);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .tb-metric-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.11);
+        }
+        html.dark .tb-metric-card {
+            background-color: #3F3F3F !important;
+            border-color: #4D4D4D !important;
+            box-shadow: 0 9px 20px -5px rgba(0, 0, 0, 0.48), 0 3px 6px -2px rgba(0, 0, 0, 0.28) !important;
+        }
+
+        .tb-metric-icon {
+            background: linear-gradient(180deg, #F8F9FB 0%, #E2E5E9 100%);
+            border: 1px solid #E2E5E9;
+            color: #262626;
+        }
+        html.dark .tb-metric-icon {
+            background: linear-gradient(180deg, #545454 0%, #3A3A3A 100%) !important;
+            border-color: #5C5C5C !important;
+            color: #FFFFFF !important;
+        }
+
+        .tb-badge-positive {
+            background-color: #E6F4EE;
+            color: #13653F;
+        }
+        html.dark .tb-badge-positive {
+            background-color: #1E453B !important;
+            color: #6EE7B7 !important;
+        }
+
+        .tb-badge-danger {
+            background-color: #FCE8E8;
+            color: #B91C1C;
+        }
+        html.dark .tb-badge-danger {
+            background-color: #4A2626 !important;
+            color: #FCA5A5 !important;
+        }
+
+        .tb-metric-footer {
+            background-color: #344B48;
+            color: #FFFFFF;
+            transition: background-color 0.18s ease;
+        }
+        .tb-metric-card:hover .tb-metric-footer {
+            background-color: #2A3E3B;
+        }
+        html.dark .tb-metric-footer {
+            background-color: #2B403D !important;
+            color: #FFFFFF !important;
+        }
+        html.dark .tb-metric-card:hover .tb-metric-footer {
+            background-color: #233532 !important;
+        }
+
+        .tb-panel-card {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(226, 230, 234, 0.95);
+        }
+        html.dark .tb-panel-card {
+            background-color: #383838 !important;
+            border-color: #4A4A4A !important;
+        }
+
+        .tb-period-btn {
+            background-color: #FFFFFF;
+            color: #4B5563;
+            border: 1px solid #6B7280;
+            transition: background-color 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+        }
+        .tb-period-btn:hover:not(.is-active) {
+            background-color: #F3F4F6;
+        }
+        html.dark .tb-period-btn:not(.is-active) {
+            background-color: #383838 !important;
+            color: #E5E7EB !important;
+            border-color: #9CA3AF !important;
+        }
+        html.dark .tb-period-btn:hover:not(.is-active) {
+            background-color: #444444 !important;
+        }
+        .tb-period-btn.is-active,
+        html.dark .tb-period-btn.is-active {
+            background-color: #40605D !important;
+            color: #FFFFFF !important;
+            border-color: #40605D !important;
+        }
+
+        .tb-chart-bar {
+            background: linear-gradient(180deg, #D5DFDE 0%, rgba(213, 223, 222, 0.58) 65%, rgba(213, 223, 222, 0) 100%);
+            transition: height 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease, opacity 0.18s ease;
+        }
+        .tb-chart-bar:hover:not(.is-active) {
+            background: linear-gradient(180deg, #BCCBC9 0%, rgba(188, 203, 201, 0.65) 65%, rgba(188, 203, 201, 0) 100%);
+        }
+        html.dark .tb-chart-bar:not(.is-active) {
+            background: linear-gradient(180deg, rgba(163, 184, 181, 0.42) 0%, rgba(163, 184, 181, 0.18) 65%, rgba(163, 184, 181, 0) 100%) !important;
+        }
+        html.dark .tb-chart-bar:hover:not(.is-active) {
+            background: linear-gradient(180deg, rgba(163, 184, 181, 0.58) 0%, rgba(163, 184, 181, 0.26) 65%, rgba(163, 184, 181, 0) 100%) !important;
+        }
+        .tb-chart-bar.is-active {
+            background: linear-gradient(180deg, #2F4845 0%, #324B48 68%, rgba(50, 75, 72, 0) 100%);
+        }
+        html.dark .tb-chart-bar.is-active {
+            background: linear-gradient(180deg, #527F7A 0%, #3E635F 68%, rgba(62, 99, 95, 0) 100%) !important;
+        }
+
+        .tb-bestseller-item {
+            background-color: #F7F7F8;
+            color: #222222;
+            transition: background-color 0.16s ease;
+        }
+        .tb-bestseller-item:hover {
+            background-color: #EEEFF2;
+        }
+        html.dark .tb-bestseller-item {
+            background-color: #2E2E2E !important;
+            color: #FFFFFF !important;
+        }
+        html.dark .tb-bestseller-item:hover {
+            background-color: #464646 !important;
+        }
+
+        .tb-bestseller-sub {
+            color: #5F6672;
+        }
+        html.dark .tb-bestseller-sub {
+            color: #D1D5DB !important;
+        }
+
+        .tb-bestseller-footer {
+            background-color: #ECEEF0;
+            color: #4B5563;
+            transition: background-color 0.16s ease, color 0.16s ease;
+        }
+        .tb-bestseller-footer:hover {
+            background-color: #E2E5E9;
+            color: #1F2937;
+        }
+        html.dark .tb-bestseller-footer {
+            background-color: #2B2B2B !important;
+            color: #E5E7EB !important;
+        }
+        html.dark .tb-bestseller-footer:hover {
+            background-color: #454545 !important;
+            color: #FFFFFF !important;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] transition-colors duration-200 antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
@@ -449,14 +625,14 @@
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
                 <button type="button"
                         id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center"
+                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
                         data-i18n="logout_confirm_btn">
                     Ya, Keluar
                 </button>
@@ -495,7 +671,7 @@
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] focus:outline-none cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
@@ -503,7 +679,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs focus:outline-none cursor-pointer"
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer"
                             data-i18n="delete_confirm_btn">
                         Ya, Hapus
                     </button>
@@ -516,16 +692,16 @@
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 lg:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 md:w-[244px] lg:w-[258px] xl:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
             <!-- Logo Section with Mascot (Sesuai Referensi Gambar) -->
-            <div class="pt-2 pb-5 mb-5 border-b border-gray-100 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
+            <div class="-mx-6 px-6 pt-2 pb-5 mb-5 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
                     <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 dark:hidden">
                     <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 hidden dark:block">
                 </a>
                 <!-- Mobile Close Button -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-0 top-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-[#383838] transition" aria-label="Tutup Menu">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-4 top-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-[#383838] transition" aria-label="Tutup Menu">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -535,27 +711,27 @@
             <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
             <nav class="space-y-3 text-sm font-medium">
 
-                <!-- 1. Dashboards -->
+                <!-- 1. Dashboard -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
-                    <span data-i18n="nav_dashboard">Dashboards</span>
+                    <span data-i18n="nav_dashboard">Dashboard</span>
                 </a>
 
                 <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
-                    <span data-i18n="nav_profile">Admin Profile</span>
+                    <span data-i18n="nav_profile">Profil Admin</span>
                 </a>
 
                 <!-- 3. Order processing -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                         <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
@@ -563,25 +739,34 @@
                         <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
                         <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
                     </svg>
-                    <span data-i18n="nav_orders">Order Processing</span>
+                    <span data-i18n="nav_orders">Proses Pesanan</span>
                 </a>
 
                 <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
-                    <span data-i18n="nav_products">Product Data</span>
+                    <span data-i18n="nav_products">Data Produk</span>
                 </a>
 
                 <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#415C58] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
                     </svg>
-                    <span data-i18n="nav_categories">Product Categories</span>
+                    <span data-i18n="nav_categories">Data Kategori</span>
+                </a>
+
+                <!-- 6. Pesan Terbaru -->
+                <a href="{{ route('admin.messages') }}"
+                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                        <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
+                    </svg>
+                    <span data-i18n="nav_messages">Pesan Terbaru</span>
                 </a>
             </nav>
         </div>
@@ -618,7 +803,7 @@
 
             <div class="flex items-center gap-3 flex-1 min-w-0">
                 <!-- Hamburger (mobile only) -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-xl transition active:scale-95 focus:outline-none shrink-0" aria-label="Buka Menu Admin">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#374151] dark:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-[#3D3D3D] rounded-xl transition active:scale-95 tb-focus-ring shrink-0" aria-label="Buka Menu Admin">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -629,8 +814,8 @@
 
                 <!-- Search bar (desktop only) -->
                 <div class="relative w-full max-w-[560px] hidden md:block">
-                    <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#415C58]/20 focus-within:bg-white focus-within:border focus-within:border-gray-300">
-                        <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <form action="{{ route('admin.orders') }}" method="GET" class="w-full bg-[#F0F3F7] hover:bg-[#EAEFF4] rounded-full px-5 py-2.5 sm:py-3 flex items-center gap-3.5 transition focus-within:ring-2 focus-within:ring-[#40605D]/30 focus-within:bg-white focus-within:border focus-within:border-gray-300">
+                        <svg class="w-4 h-4 text-[#5F6672] dark:text-[#D1D5DB] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                         <input type="text"
@@ -640,11 +825,11 @@
                                autocomplete="off"
                                data-i18n-attr="placeholder:search_placeholder"
                                style="background-color: transparent !important; background: transparent !important; border: none !important; outline: none !important; box-shadow: none !important;"
-                               class="!bg-transparent bg-transparent border-0 outline-none focus:outline-none focus:ring-0 text-sm text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-300 w-full font-normal">
+                               class="!bg-transparent bg-transparent border-0 outline-none focus:outline-none focus:ring-0 text-sm text-gray-800 dark:text-white placeholder-[#5F6672] dark:placeholder-[#D1D5DB] w-full font-normal">
                         <button type="button"
                                 id="header-search-clear"
                                 onclick="clearHeaderSearch()"
-                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                class="hidden text-[#5F6672] hover:text-gray-800 dark:text-[#D1D5DB] dark:hover:text-white p-0.5 rounded-full transition tb-focus-ring"
                                 aria-label="Bersihkan pencarian">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -673,28 +858,17 @@
                     <button type="button"
                             id="header-lang-btn"
                             onclick="toggleLanguageDropdown(event)"
-                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer focus:outline-none">
+                            class="bg-white border border-gray-200/90 rounded-full px-3.5 py-1.5 flex items-center gap-2.5 text-sm font-medium text-gray-700 shadow-2xs hover:bg-gray-50 active:scale-95 transition cursor-pointer tb-focus-ring">
                         <span id="header-lang-flag" class="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center border border-gray-100 shrink-0">
                             <svg class="w-full h-full" viewBox="0 0 64 64">
-                                <clipPath id="circle-flag-header"><circle cx="32" cy="32" r="32"/></clipPath>
-                                <g clip-path="url(#circle-flag-header)">
-                                    <path fill="#B22234" d="M0 0h64v64H0z"/>
-                                    <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
-                                    <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
-                                    <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
-                                    <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
-                                    <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
-                                    <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
-                                    <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
-                                    <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                                <clipPath id="circle-flag-id-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                <g clip-path="url(#circle-flag-id-init)">
+                                    <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                    <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
                                 </g>
                             </svg>
                         </span>
-                        <span id="header-lang-label" class="text-sm font-medium text-gray-700">English</span>
+                        <span id="header-lang-label" class="text-sm font-medium text-gray-700">Indonesia</span>
                         <svg id="header-lang-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -702,22 +876,22 @@
                     <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
                         <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
                             <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
-                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
-                        <button type="button" onclick="selectLanguage('Bahasa Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
-                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Bahasa Indonesia</span></span>
-                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
+                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Indonesia</span></span>
+                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                     </div>
                 </div>
 
                 <!-- Profile badge -->
                 <div class="relative select-none">
-                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group focus:outline-none text-left">
+                    <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group tb-focus-ring rounded-xl p-0.5 text-left">
                         <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">Tb</div>
                         <div class="text-left leading-tight hidden sm:block">
                             <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
-                            <div class="text-xs text-gray-400 font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
+                            <div class="text-xs text-[#5F6672] font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
                         </div>
                         <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -800,14 +974,14 @@
     <!-- Mobile bottom navigation bar -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch" style="padding-bottom: env(safe-area-inset-bottom);">
         <a href="{{ route('admin.dashboard') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
                 <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_dashboard">Dashboard</span>
         </a>
         <a href="{{ route('admin.orders') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.orders*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.orders*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                 <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
@@ -818,21 +992,21 @@
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_orders_short">Pesanan</span>
         </a>
         <a href="{{ route('admin.products') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.products*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.products*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
                 <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_products_short">Produk</span>
         </a>
         <a href="{{ route('admin.categories') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition {{ request()->routeIs('admin.categories*') ? 'text-[#385A56]' : 'text-gray-400 active:text-[#385A56]' }}">
+           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.categories*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
             </svg>
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_categories_short">Kategori</span>
         </a>
         <button type="button" onclick="confirmLogout(event)"
-                class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] text-[#DE3B28] transition active:opacity-70">
+                class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] text-[#C9301F] dark:text-[#F87171] transition active:opacity-70 tb-focus-ring">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11"/>
                 <path d="M8 12 H19"/>
@@ -989,7 +1163,7 @@
         const _tbTranslations = {
             ID: {
                 // Layout: Nav
-                nav_dashboard: 'Dashboards',
+                nav_dashboard: 'Dashboard',
                 nav_profile: 'Profil Admin',
                 nav_orders: 'Proses Pesanan',
                 nav_orders_short: 'Pesanan',
@@ -997,6 +1171,7 @@
                 nav_products_short: 'Produk',
                 nav_categories: 'Data Kategori',
                 nav_categories_short: 'Kategori',
+                nav_messages: 'Pesan Terbaru',
                 nav_homepage: 'Halaman Utama',
                 nav_logout: 'Keluar',
                 nav_logout_short: 'Keluar',
@@ -1016,14 +1191,22 @@
                 dash_greeting: 'Halo, Admin Toon Burger',
                 dash_subtitle: 'Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.',
                 dash_metric_profit: 'Pendapatan Hari Ini',
+                dash_sub_profit: 'Lorem ipsum dolor',
                 dash_metric_orders: 'Pesanan Hari Ini',
+                dash_sub_orders: 'Lorem ipsum dolor',
                 dash_metric_progress: 'Pesanan Dalam Proses',
+                dash_sub_progress: 'Lorem ipsum dolor',
                 dash_metric_products: 'Total Produk',
+                dash_sub_products: 'Lorem ipsum dolor',
                 dash_up5: 'Naik 5% dari kemarin',
                 dash_up2: 'Naik 2% dari kemarin',
-                dash_needs_processing: 'Perlu Segera Di Proses',
+                dash_needs_processing: 'Perlu segera diproses',
                 dash_active: 'Aktif',
                 dash_out_of_stock: 'Habis',
+                dash_view_detail: 'Lihat Detail',
+                dash_rev_12m: 'Pendapatan 12 Bulan Terakhir',
+                dash_period_h1: 'Jan - Jun',
+                dash_period_h2: 'Jul - Des',
                 dash_latest_order: 'Pesanan Terbaru',
                 dash_see_all: 'Lihat semua',
                 dash_col_order_num: 'No. Pesanan',
@@ -1032,8 +1215,21 @@
                 dash_col_status: 'Status',
                 dash_col_action: 'Aksi',
                 dash_detail: 'Detail',
-                dash_best_selling: 'Menu Terlaris',
+                dash_best_selling: 'Produk Terlaris',
                 dash_products_sold: 'Produk Terjual',
+                dash_see_all_products: 'Lihat Semua Produk',
+                currency_dot: 'Rp.',
+                // Messages
+                messages_title: 'Pesan Terbaru',
+                messages_subtitle: 'Ulasan dan catatan masukan pelanggan dari pesanan yang telah selesai.',
+                messages_filter_all: 'Semua Rating',
+                messages_reset_filter: 'Reset Filter',
+                messages_empty_filtered_title: 'Tidak ada pesan yang sesuai dengan filter',
+                messages_empty_filtered_desc: 'Ubah pilihan rating atau hapus kata kunci pencarian untuk melihat seluruh pesan pelanggan.',
+                messages_show_all: 'Tampilkan Semua Pesan',
+                messages_empty_title: 'Belum ada pesan pelanggan yang masuk',
+                messages_empty_desc: 'Pesan dan ulasan akan otomatis muncul di halaman ini setelah pelanggan menyelesaikan pesanan dan mengirim ulasan.',
+                messages_go_orders: 'Periksa Proses Pesanan',
                 // Orders
                 orders_title: 'Proses Pesanan',
                 orders_subtitle: 'Kelola alur dan status pesanan pelanggan secara realtime.',
@@ -1180,7 +1376,7 @@
             },
             EN: {
                 // Layout: Nav
-                nav_dashboard: 'Dashboards',
+                nav_dashboard: 'Dashboard',
                 nav_profile: 'Admin Profile',
                 nav_orders: 'Order Processing',
                 nav_orders_short: 'Orders',
@@ -1188,6 +1384,7 @@
                 nav_products_short: 'Products',
                 nav_categories: 'Product Categories',
                 nav_categories_short: 'Categories',
+                nav_messages: 'Latest Messages',
                 nav_homepage: 'Home page',
                 nav_logout: 'Logout',
                 nav_logout_short: 'Logout',
@@ -1204,17 +1401,25 @@
                 searching: 'Searching...',
                 role_admin: 'Administrator',
                 // Dashboard
-                dash_greeting: 'Hello, Toon Burger Admin.',
+                dash_greeting: 'Hello, Toon Burger Admin',
                 dash_subtitle: "Monitor Toon Burger's sales performance and active orders for today.",
-                dash_metric_profit: "Today's Profits",
+                dash_metric_profit: "Today's Revenue",
+                dash_sub_profit: 'Lorem ipsum dolor',
                 dash_metric_orders: "Today's Orders",
-                dash_metric_progress: 'Order in Progress',
+                dash_sub_orders: 'Lorem ipsum dolor',
+                dash_metric_progress: 'Orders in Progress',
+                dash_sub_progress: 'Lorem ipsum dolor',
                 dash_metric_products: 'Total Products',
+                dash_sub_products: 'Lorem ipsum dolor',
                 dash_up5: 'Up 5% from yesterday.',
                 dash_up2: 'Up 2% from yesterday.',
-                dash_needs_processing: 'Needs to be processed immediately.',
+                dash_needs_processing: 'Process immediately',
                 dash_active: 'Active',
-                dash_out_of_stock: 'Out of Stock',
+                dash_out_of_stock: 'Out',
+                dash_view_detail: 'View Detail',
+                dash_rev_12m: 'Last 12 Months Revenue',
+                dash_period_h1: 'Jan - Jun',
+                dash_period_h2: 'Jul - Dec',
                 dash_latest_order: 'Latest Order',
                 dash_see_all: 'See all',
                 dash_col_order_num: 'Order Number',
@@ -1223,8 +1428,21 @@
                 dash_col_status: 'Status',
                 dash_col_action: 'Action',
                 dash_detail: 'Detail',
-                dash_best_selling: 'Best Selling Menu',
+                dash_best_selling: 'Best Selling Products',
                 dash_products_sold: 'Products Sold',
+                dash_see_all_products: 'See All Products',
+                currency_dot: 'IDR',
+                // Messages
+                messages_title: 'Latest Messages',
+                messages_subtitle: 'Customer reviews and feedback notes from completed orders.',
+                messages_filter_all: 'All Ratings',
+                messages_reset_filter: 'Reset Filter',
+                messages_empty_filtered_title: 'No messages match the selected filter',
+                messages_empty_filtered_desc: 'Change the rating filter or clear the search query to view all customer messages.',
+                messages_show_all: 'Show All Messages',
+                messages_empty_title: 'No customer messages yet',
+                messages_empty_desc: 'Messages and reviews appear here automatically once customers complete orders and leave feedback.',
+                messages_go_orders: 'Check Order Processing',
                 // Orders
                 orders_title: 'Order Processing',
                 orders_subtitle: 'Manage order flow and customer order status in real time.',
@@ -1401,6 +1619,12 @@
                 const count = optAllCat.getAttribute('data-count');
                 optAllCat.textContent = `${dict['products_all_categories']}${count ? ' (' + count + ')' : ''}`;
             }
+
+            const optAllRatings = document.getElementById('opt-all-ratings');
+            if (optAllRatings && dict['messages_filter_all']) {
+                const count = optAllRatings.getAttribute('data-count');
+                optAllRatings.textContent = `${dict['messages_filter_all']}${count !== null ? ' (' + count + ')' : ''}`;
+            }
         }
 
         function selectLanguage(lang, code) {
@@ -1456,6 +1680,7 @@
 
             applyTranslations(code === 'US' ? 'EN' : 'ID');
             updateAdminThemeUI(getAdminTheme());
+            window.dispatchEvent(new CustomEvent('tb:langchange', { detail: { lang: code === 'US' ? 'EN' : 'ID' } }));
 
             try {
                 localStorage.setItem('tb_admin_lang', code);
@@ -1756,7 +1981,7 @@
             if (savedLang === 'US') {
                 selectLanguage('English', 'US');
             } else {
-                selectLanguage('Bahasa Indonesia', 'ID');
+                selectLanguage('Indonesia', 'ID');
             }
         } catch (err) {}
 

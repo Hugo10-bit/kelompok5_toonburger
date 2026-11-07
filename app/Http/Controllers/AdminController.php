@@ -9,10 +9,12 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\RestaurantTable;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -23,59 +25,71 @@ class AdminController extends Controller
     public function dashboard()
     {
         $todayRevenue = 500000;
-        $totalOrdersToday = 50;
+        $totalOrdersToday = 52;
         $pendingOrders = 9;
         $occupiedTables = RestaurantTable::where('status', 'occupied')->count();
         $totalTables = RestaurantTable::count();
         $totalCustomers = User::where('role', 'customer')->count();
 
-        $revenueGrowth = 5;
-        $ordersGrowth = 2;
+        $revenueGrowth = '5,2';
+        $ordersGrowth = '2,1';
+        $yearlyRevenue = 250493012;
 
-        $recentOrders = collect([
-            (object) [
-                'id' => 1,
-                'order_number' => 'TB-20260917-0007',
-                'customer_name' => 'Adzriel Fathi',
-                'total_amount' => 66000,
-                'status' => 'completed',
+        $chartPeriods = [
+            'jan_jun' => [
+                ['id_month' => 'Jan', 'en_month' => 'Jan', 'date_id' => 'Jan 2026', 'date_en' => 'Jan 2026', 'pct' => 50, 'val_id' => 'Rp 4.900.000', 'val_en' => 'IDR 4,900,000'],
+                ['id_month' => 'Feb', 'en_month' => 'Feb', 'date_id' => 'Feb 2026', 'date_en' => 'Feb 2026', 'pct' => 62, 'val_id' => 'Rp 6.200.000', 'val_en' => 'IDR 6,200,000'],
+                ['id_month' => 'Mar', 'en_month' => 'Mar', 'date_id' => 'Jan 2026', 'date_en' => 'Jan 2026', 'pct' => 86, 'val_id' => 'Rp 5.000.000', 'val_en' => 'IDR 5,000,000'],
+                ['id_month' => 'Apr', 'en_month' => 'Apr', 'date_id' => 'Apr 2026', 'date_en' => 'Apr 2026', 'pct' => 77, 'val_id' => 'Rp 7.700.000', 'val_en' => 'IDR 7,700,000'],
+                ['id_month' => 'Mei', 'en_month' => 'May', 'date_id' => 'Mei 2026', 'date_en' => 'May 2026', 'pct' => 54, 'val_id' => 'Rp 5.400.000', 'val_en' => 'IDR 5,400,000'],
+                ['id_month' => 'Jun', 'en_month' => 'Jun', 'date_id' => 'Jun 2026', 'date_en' => 'Jun 2026', 'pct' => 84, 'val_id' => 'Rp 8.400.000', 'val_en' => 'IDR 8,400,000'],
             ],
-            (object) [
-                'id' => 2,
-                'order_number' => 'TB-20260917-0007',
-                'customer_name' => 'Hugo Putra',
-                'total_amount' => 60500,
-                'status' => 'ready',
+            'jul_des' => [
+                ['id_month' => 'Jul', 'en_month' => 'Jul', 'date_id' => 'Jul 2026', 'date_en' => 'Jul 2026', 'pct' => 68, 'val_id' => 'Rp 6.800.000', 'val_en' => 'IDR 6,800,000'],
+                ['id_month' => 'Agu', 'en_month' => 'Aug', 'date_id' => 'Agu 2026', 'date_en' => 'Aug 2026', 'pct' => 74, 'val_id' => 'Rp 7.400.000', 'val_en' => 'IDR 7,400,000'],
+                ['id_month' => 'Sep', 'en_month' => 'Sep', 'date_id' => 'Sep 2026', 'date_en' => 'Sep 2026', 'pct' => 60, 'val_id' => 'Rp 6.000.000', 'val_en' => 'IDR 6,000,000'],
+                ['id_month' => 'Okt', 'en_month' => 'Oct', 'date_id' => 'Okt 2026', 'date_en' => 'Oct 2026', 'pct' => 89, 'val_id' => 'Rp 8.900.000', 'val_en' => 'IDR 8,900,000'],
+                ['id_month' => 'Nov', 'en_month' => 'Nov', 'date_id' => 'Nov 2026', 'date_en' => 'Nov 2026', 'pct' => 79, 'val_id' => 'Rp 7.900.000', 'val_en' => 'IDR 7,900,000'],
+                ['id_month' => 'Des', 'en_month' => 'Dec', 'date_id' => 'Des 2026', 'date_en' => 'Dec 2026', 'pct' => 92, 'val_id' => 'Rp 9.200.000', 'val_en' => 'IDR 9,200,000'],
             ],
-            (object) [
-                'id' => 3,
-                'order_number' => 'TB-20260917-0007',
-                'customer_name' => 'Cornelius Hugo',
-                'total_amount' => 126500,
-                'status' => 'preparing',
-            ],
-            (object) [
-                'id' => 4,
-                'order_number' => 'TB-20260917-0007',
-                'customer_name' => 'Rizki Prawira',
-                'total_amount' => 87500,
-                'status' => 'preparing',
-            ],
-            (object) [
-                'id' => 5,
-                'order_number' => 'TB-20260917-0007',
-                'customer_name' => 'Waiz Fadillah',
-                'total_amount' => 55000,
-                'status' => 'pending',
-            ],
-        ]);
+        ];
 
         $topProducts = collect([
-            (object) ['product_name' => 'Cheese Chiken Burger', 'total_qty' => 179, 'total_sales' => 6265000],
-            (object) ['product_name' => 'Very Cheese Burger', 'total_qty' => 170, 'total_sales' => 5610000],
-            (object) ['product_name' => 'Double Beef Burger', 'total_qty' => 156, 'total_sales' => 6708000],
-            (object) ['product_name' => 'BBQ Beef Burger', 'total_qty' => 130, 'total_sales' => 3770000],
-            (object) ['product_name' => 'Hot Chiken Burger', 'total_qty' => 125, 'total_sales' => 4125000],
+            (object) [
+                'product_name' => 'Cheese Chiken Burger',
+                'search_term' => 'Cheese',
+                'total_qty' => 179,
+                'image' => 'images/products/cheese-chicken-burger.png',
+                'bg_hex' => '#FFE3BE',
+            ],
+            (object) [
+                'product_name' => 'Very Cheese Burger',
+                'search_term' => 'Very Cheese Burger',
+                'total_qty' => 160,
+                'image' => 'images/products/very-cheese-burger.png',
+                'bg_hex' => '#FED638',
+            ],
+            (object) [
+                'product_name' => 'Double Cheese Burger',
+                'search_term' => 'Double Cheese Burger',
+                'total_qty' => 149,
+                'image' => 'images/products/double-cheese-burger.png',
+                'bg_hex' => '#BEE183',
+            ],
+            (object) [
+                'product_name' => 'BBQ Beef Burger',
+                'search_term' => 'BBQ Beef Burger',
+                'total_qty' => 143,
+                'image' => 'images/products/bbq-beef-burger.png',
+                'bg_hex' => '#FE0405',
+            ],
+            (object) [
+                'product_name' => 'Hot Chicken Burger',
+                'search_term' => 'Hot Chicken Burger',
+                'total_qty' => 133,
+                'image' => 'images/products/hot-chicken-burger.png',
+                'bg_hex' => '#FEC2E6',
+            ],
         ]);
 
         $totalProducts = 24;
@@ -94,7 +108,8 @@ class AdminController extends Controller
             'totalProducts',
             'activeProducts',
             'outOfStockProducts',
-            'recentOrders',
+            'yearlyRevenue',
+            'chartPeriods',
             'topProducts'
         ));
     }
@@ -552,6 +567,39 @@ class AdminController extends Controller
         $user->save();
 
         return back()->with('success', 'Profil admin berhasil diperbarui!');
+    }
+
+    /**
+     * Customer reviews and order feedback messages.
+     */
+    public function messages(Request $request)
+    {
+        $rating = $request->query('rating', 'all');
+        $search = trim($request->query('search', $request->query('q', '')));
+
+        $messages = collect();
+        $totalCount = 0;
+
+        if (Schema::hasTable('reviews')) {
+            $totalCount = Review::count();
+            $query = Review::with(['user', 'order', 'product'])->latest();
+
+            if ($rating !== 'all' && in_array((int) $rating, [1, 2, 3, 4, 5], true)) {
+                $query->where('rating', (int) $rating);
+            }
+
+            if ($search !== '') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('comment', 'like', "%{$search}%")
+                        ->orWhereHas('user', fn ($u) => $u->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('order', fn ($o) => $o->where('order_number', 'like', "%{$search}%")->orWhere('customer_name', 'like', "%{$search}%"));
+                });
+            }
+
+            $messages = $query->paginate(8)->withQueryString();
+        }
+
+        return view('admin.messages', compact('messages', 'rating', 'search', 'totalCount'));
     }
 
     /**

@@ -78,6 +78,8 @@ Route::middleware('auth')->group(function () {
             Route::match(['post', 'put'], '/categories/{id}', [AdminController::class, 'updateCategory']);
             Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
 
+            Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::match(['post', 'put'], '/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
 
