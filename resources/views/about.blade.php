@@ -210,7 +210,6 @@
                          alt="Pelanggan menikmati double smash burger hangat dengan keju leleh dan bawang karamel"
                          width="1010"
                          height="350"
-                         loading="lazy"
                          class="about-slide-photo absolute inset-0 w-full h-full object-cover object-center">
                 </div>
 
@@ -221,7 +220,7 @@
 
                 <div class="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-7 lg:p-9 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
 
-                    <div class="relative min-h-[108px] sm:min-h-[96px] flex-1 max-w-xl" aria-live="polite">
+                    <div id="about-carousel-live" class="relative min-h-[108px] sm:min-h-[96px] flex-1 max-w-xl" aria-live="off">
                         <div data-slide-caption="0"
                              class="about-slide-caption is-active">
                             <h2 class="text-lg sm:text-xl lg:text-[23px] font-bold text-white tracking-tight leading-snug">
@@ -473,16 +472,23 @@
     (function () {
         let currentSlide = 0;
         const totalSlides = 2;
+        const autoIntervalMs = 4000;
         const carousel = document.getElementById('about-visi-misi-carousel');
         if (!carousel) return;
 
+        const liveRegion = document.getElementById('about-carousel-live');
         const photos = carousel.querySelectorAll('[data-slide-photo]');
         const captions = carousel.querySelectorAll('[data-slide-caption]');
         let clearPrevTimer = null;
+        let autoSlideTimer = null;
 
-        window.goToAboutSlide = function (nextIndex) {
+        window.goToAboutSlide = function (nextIndex, isManual) {
             const target = ((nextIndex % totalSlides) + totalSlides) % totalSlides;
             if (target === currentSlide) return;
+
+            if (liveRegion) {
+                liveRegion.setAttribute('aria-live', isManual ? 'polite' : 'off');
+            }
 
             const previous = currentSlide;
             currentSlide = target;
@@ -520,9 +526,40 @@
             });
         };
 
+        function stopAutoSlide() {
+            if (autoSlideTimer) {
+                clearInterval(autoSlideTimer);
+                autoSlideTimer = null;
+            }
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            if (document.hidden) return;
+            autoSlideTimer = setInterval(function () {
+                window.goToAboutSlide(currentSlide + 1, false);
+            }, autoIntervalMs);
+        }
+
         window.stepAboutSlide = function (delta) {
-            window.goToAboutSlide(currentSlide + delta);
+            window.goToAboutSlide(currentSlide + delta, true);
+            startAutoSlide();
         };
+
+        carousel.addEventListener('focusin', stopAutoSlide);
+        carousel.addEventListener('focusout', function (event) {
+            if (!carousel.contains(event.relatedTarget)) {
+                startAutoSlide();
+            }
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                stopAutoSlide();
+            } else {
+                startAutoSlide();
+            }
+        });
 
         carousel.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowLeft') {
@@ -549,6 +586,8 @@
                 window.stepAboutSlide(diffX < 0 ? 1 : -1);
             }
         }, { passive: true });
+
+        startAutoSlide();
     })();
 </script>
 @endsection
