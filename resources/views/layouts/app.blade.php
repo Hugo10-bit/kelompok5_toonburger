@@ -670,78 +670,61 @@
             <p class="text-[13px] text-[#737373] mt-1 font-normal" id="cart-items-count-text">{{ $initialCartCount }} Menu Dipilih</p>
         </div>
 
-        <!-- Cart Body (Items + Promo + Summary + Button all flowing together) -->
-        <div class="overflow-y-auto p-4 space-y-3.5 flex-1 hide-scrollbar">
+        <!-- Scrollable Burger Orders Container (Only this section scrolls!) -->
+        <div id="cart-items-container" class="overflow-y-auto px-5 pt-4 pb-2 space-y-3.5 {{ $initialCartCount > 0 ? 'max-h-[348px]' : '' }}">
+            <div class="py-7 px-4 flex flex-col items-center text-center">
+                <img src="{{ asset('images/empty-cart.png') }}"
+                     alt="Keranjang Kosong"
+                     class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
+                <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
+                    Keranjangmu masih kosong nih
+                </h4>
+                <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
+                    <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
+                    <span class="block">perut kosongmu hari ini</span>
+                </p>
+                <button type="button"
+                        onclick="startOrderFromCart()"
+                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                    Mulai Pesan Sekarang
+                </button>
+            </div>
+        </div>
 
-            <!-- Items Container -->
-            <div id="cart-items-container" class="space-y-2.5">
-                <div class="py-7 px-4 flex flex-col items-center text-center">
-                    <img src="{{ asset('images/empty-cart.png') }}"
-                         alt="Keranjang Kosong"
-                         class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
-                    <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
-                        Keranjangmu masih kosong nih
-                    </h4>
-                    <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
-                        <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
-                        <span class="block">perut kosongmu hari ini</span>
-                    </p>
-                    <button type="button"
-                            onclick="startOrderFromCart()"
-                            class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
-                        Mulai Pesan Sekarang
-                    </button>
-                </div>
+        <!-- Fixed Bottom Footer (Subtotal Menu + Checkout Button stay fixed and never scroll) -->
+        <div id="cart-fixed-footer" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} flex-shrink-0 px-5 pt-2 pb-5 bg-white space-y-4">
+            <!-- Hidden Coupon Elements Preserved for JS Compatibility -->
+            <div id="cart-coupon-section" class="hidden">
+                <input type="text" id="coupon-input">
+                <div id="applied-coupon-badge" class="hidden"><span id="coupon-text"></span></div>
             </div>
 
-            <!-- Coupon Box (directly under items) -->
-            <div id="cart-coupon-section" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} pt-2 border-t border-gray-100">
-                <label class="block text-[11px] font-bold text-gray-700 mb-1 flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5 text-bites-orange" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
-                    </svg>
-                    Punya Kupon Promo?
-                </label>
-                <div class="flex gap-1.5">
-                    <input type="text" id="coupon-input" placeholder="KODE PROMO (misal: TOONBURGER50)" class="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-3 py-1.5 text-xs uppercase font-bold tracking-wider focus:outline-none focus:border-bites-orange focus:bg-white transition">
-                    <button onclick="applyCoupon()" class="bg-gray-900 hover:bg-black text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl transition shadow-xs active:scale-95">
-                        Pakai
-                    </button>
-                </div>
-                <div id="applied-coupon-badge" class="hidden text-xs bg-green-50 text-green-700 border border-green-200 p-2 rounded-xl flex items-center justify-between font-medium mt-1.5">
-                    <div class="flex items-center gap-1">
-                        <span class="text-green-600 font-bold">✓</span>
-                        <span id="coupon-text">Promo Terpasang</span>
-                    </div>
-                    <button onclick="removeCoupon()" class="text-red-500 hover:text-red-700 font-bold px-1">&times;</button>
-                </div>
-            </div>
-
-            <!-- Price Breakdown (directly under coupon) -->
-            <div id="cart-summary-section" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} bg-gray-50 rounded-2xl p-3.5 border border-gray-200/80 space-y-1.5 text-xs text-gray-600">
-                <div class="flex justify-between">
+            <!-- Price Breakdown (Fixed) -->
+            <div id="cart-summary-section" class="bg-[#F4F5F7] rounded-[14px] px-4 py-3.5 space-y-2 text-[12px] text-[#6A6F77]">
+                <div class="flex items-center justify-between">
                     <span>Subtotal Menu:</span>
-                    <span id="cart-subtotal" class="font-bold text-gray-900">Rp 0</span>
+                    <span id="cart-subtotal" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
-                <div class="flex justify-between text-green-600 font-medium">
+                <div id="cart-discount-row" class="hidden items-center justify-between text-[#13653F]">
                     <span>Diskon Promo:</span>
-                    <span id="cart-discount" class="font-bold">- Rp 0</span>
+                    <span id="cart-discount" class="font-medium">- Rp 0</span>
                 </div>
-                <div class="flex justify-between">
-                    <span>Pajak PB1 (10%):</span>
-                    <span id="cart-tax" class="font-semibold text-gray-900">Rp 0</span>
+                <div class="flex items-center justify-between">
+                    <span>Pajak PPN (11%)</span>
+                    <span id="cart-tax" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
-                <div class="flex justify-between text-xs font-black text-gray-900 pt-1.5 border-t border-gray-200">
+                <div class="flex items-center justify-between text-[12.5px] font-semibold text-[#2E3137] pt-2.5 mt-1 border-t border-[#E5E7EB]">
                     <span>Total Tagihan:</span>
-                    <span id="cart-total" class="text-bites-red font-black text-sm">Rp 0</span>
+                    <span id="cart-total" class="font-semibold text-[#2E3137]">Rp 0</span>
                 </div>
             </div>
 
-            <!-- Checkout Action Button (Ends right here!) -->
-            <div id="cart-action-section" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} pt-0.5 pb-1">
-                <a href="{{ route('orders.checkout') }}" id="checkout-btn" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-3 px-4 rounded-2xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition active:scale-98 text-xs sm:text-sm">
-                    <span>Lanjut ke Pembayaran</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <!-- Checkout Action Button (Fixed) -->
+            <div id="cart-action-section">
+                <a href="{{ route('orders.checkout') }}"
+                   id="checkout-btn"
+                   class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
+                    Lanjutkan Ke pembayaran
                 </a>
             </div>
         </div>
@@ -890,8 +873,10 @@
             const mobileDockBadge = document.getElementById('mobile-dock-cart-badge');
             const countText = document.getElementById('cart-items-count-text');
             const checkoutTotal = document.getElementById('checkout-btn-total');
-            const couponSection = document.getElementById('cart-coupon-section');
+            const fixedFooter = document.getElementById('cart-fixed-footer');
             const summarySection = document.getElementById('cart-summary-section');
+            const actionSection = document.getElementById('cart-action-section');
+            const discountRow = document.getElementById('cart-discount-row');
 
             if (badge) badge.innerText = cart.item_count || 0;
             if (mobileDockBadge) mobileDockBadge.innerText = cart.item_count || 0;
@@ -905,18 +890,29 @@
                 checkoutTotal.innerText = formatRupiah(cart.total);
             }
 
-            const couponBadge = document.getElementById('applied-coupon-badge');
-            const couponText = document.getElementById('coupon-text');
-            if (cart.coupon) {
-                couponBadge.classList.remove('hidden');
-                couponText.innerText = `Promo ${cart.coupon.code} aktif (-${formatRupiah(cart.discount)})`;
-            } else {
-                couponBadge.classList.add('hidden');
+            if (discountRow) {
+                if (cart.discount && Number(cart.discount) > 0) {
+                    discountRow.classList.remove('hidden');
+                    discountRow.classList.add('flex');
+                } else {
+                    discountRow.classList.add('hidden');
+                    discountRow.classList.remove('flex');
+                }
             }
 
-            const actionSection = document.getElementById('cart-action-section');
+            const couponBadge = document.getElementById('applied-coupon-badge');
+            const couponText = document.getElementById('coupon-text');
+            if (couponBadge && couponText) {
+                if (cart.coupon) {
+                    couponBadge.classList.remove('hidden');
+                    couponText.innerText = `Promo ${cart.coupon.code} aktif (-${formatRupiah(cart.discount)})`;
+                } else {
+                    couponBadge.classList.add('hidden');
+                }
+            }
 
             if (!cart.items || cart.items.length === 0) {
+                container.classList.remove('max-h-[348px]');
                 container.innerHTML = `
                     <div class="py-7 px-4 flex flex-col items-center text-center">
                         <img src="{{ asset('images/empty-cart.png') }}"
@@ -935,41 +931,39 @@
                             Mulai Pesan Sekarang
                         </button>
                     </div>`;
-                if (couponSection) couponSection.classList.add('hidden');
+                if (fixedFooter) fixedFooter.classList.add('hidden');
                 if (summarySection) summarySection.classList.add('hidden');
                 if (actionSection) actionSection.classList.add('hidden');
                 return;
             }
 
-            if (couponSection) couponSection.classList.remove('hidden');
+            container.classList.add('max-h-[348px]');
+            if (fixedFooter) fixedFooter.classList.remove('hidden');
             if (summarySection) summarySection.classList.remove('hidden');
             if (actionSection) actionSection.classList.remove('hidden');
 
             container.innerHTML = cart.items.map(item => `
-                <div class="bg-gray-50 border border-gray-200/80 rounded-2xl p-3.5 flex gap-3 items-center">
-                    <img src="${item.image ? '/' + item.image : '/images/burger-bg.jpg'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-gray-200 flex-shrink-0">
+                <div class="bg-[#F4F5F7] rounded-[14px] p-3.5 flex gap-3.5 items-center">
+                    <img src="${item.image ? '/' + item.image : '/images/burger-bg.jpg'}"
+                         alt="${item.name}"
+                         class="w-[74px] h-[74px] object-cover rounded-[10px] flex-shrink-0">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-1">
-                            <h4 class="font-bold text-xs text-gray-900 truncate">${item.name}</h4>
-                            <button onclick="removeCartItem('${item.cart_key}')" class="text-gray-400 hover:text-red-500 text-sm font-bold">&times;</button>
-                        </div>
-                        <div class="text-[11px] text-gray-500 font-semibold mt-0.5">${formatRupiah(item.unit_price)}</div>
+                        <h4 class="font-semibold text-[14.5px] text-[#33373D] truncate leading-snug">${item.name}</h4>
+                        <div class="text-[13.5px] text-[#6A6F77] font-normal mt-0.5">${formatRupiah(item.unit_price)}</div>
 
-                        ${item.options && item.options.length ? `
-                            <div class="text-[10px] text-gray-400 mt-1 flex flex-wrap gap-1">
-                                ${item.options.map(o => `<span class="bg-white px-1.5 py-0.5 rounded border border-gray-200">+ ${o.value_name}</span>`).join('')}
+                        <div class="flex items-center justify-between mt-2.5 pt-2.5 border-t border-[#E5E7EB]">
+                            <div class="inline-flex items-center bg-white border border-[#E5E7EB] rounded-[6px] px-1 py-0.5 shadow-2xs">
+                                <button type="button"
+                                        onclick="updateCartQty('${item.cart_key}', ${item.quantity - 1})"
+                                        class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
+                                        aria-label="Kurangi jumlah">-</button>
+                                <span class="px-2 text-[11.5px] font-medium text-[#2E3137] select-none">${item.quantity}</span>
+                                <button type="button"
+                                        onclick="updateCartQty('${item.cart_key}', ${item.quantity + 1})"
+                                        class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
+                                        aria-label="Tambah jumlah">+</button>
                             </div>
-                        ` : ''}
-
-                        ${item.notes ? `<div class="text-[10px] text-amber-700 italic mt-0.5 truncate">"${item.notes}"</div>` : ''}
-
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-200/50">
-                            <span class="font-black text-xs text-gray-900">${formatRupiah(item.total_price)}</span>
-                            <div class="flex items-center border border-gray-300 rounded-lg bg-white overflow-hidden text-xs">
-                                <button onclick="updateCartQty('${item.cart_key}', ${item.quantity - 1})" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">-</button>
-                                <span class="px-2 font-bold text-gray-900">${item.quantity}</span>
-                                <button onclick="updateCartQty('${item.cart_key}', ${item.quantity + 1})" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">+</button>
-                            </div>
+                            <span class="font-semibold text-[14.5px] text-[#2E3137]">${formatRupiah(item.total_price)}</span>
                         </div>
                     </div>
                 </div>
@@ -1141,7 +1135,10 @@
                     setTimeout(() => openCartDrawer(), delay);
                     showCartToast(data.message || 'Menu berhasil ditambahkan ke keranjang!');
                 } else {
-                    alert(data.message || 'Gagal menambahkan ke keranjang.');
+                    closeProductModal();
+                    if (data.cart) renderCart(data.cart);
+                    openCartDrawer();
+                    showCartToast(data.message || 'Gagal menambahkan ke keranjang.');
                 }
             } catch (e) {
                 console.error(e);
@@ -1214,7 +1211,11 @@
                     setTimeout(() => openCartDrawer(), delay);
                     showCartToast(data.message || 'Menu berhasil ditambahkan ke keranjang!');
                 } else {
-                    alert(data.message || 'Gagal menambahkan ke keranjang.');
+                    if (data.cart) renderCart(data.cart);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const delay = window.scrollY < 5 ? 0 : 400;
+                    setTimeout(() => openCartDrawer(), delay);
+                    showCartToast(data.message || 'Gagal menambahkan ke keranjang.');
                 }
             } catch (e) {
                 console.error(e);
