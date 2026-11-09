@@ -149,29 +149,16 @@
         }
         .toon-bob {
             animation: toonBobAnimation 4s ease-in-out infinite;
-            will-change: transform;
         }
 
-        /* 2. Comic Sparkle Twinkle */
-        @keyframes comicTwinkle {
-            0%, 100% {
-                transform: scale(0.85) rotate(0deg);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.18) rotate(15deg);
-                opacity: 1;
-            }
-        }
+        /* 2. Comic Sparkle Accent (Static lightweight layer, no infinite GPU repaint) */
         .comic-sparkle {
-            animation: comicTwinkle 2.8s ease-in-out infinite;
-            will-change: transform, opacity;
+            opacity: 0.92;
         }
 
         /* 3. Comic Badge Interactive */
         .comic-badge-interactive {
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            will-change: transform;
         }
         .comic-badge-interactive:hover {
             transform: scale(1.08) rotate(3deg);
@@ -180,7 +167,6 @@
         /* 4. Squash & Stretch Button Micro-interaction */
         .toon-btn-bounce {
             transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease, filter 0.16s ease;
-            will-change: transform;
         }
         .toon-btn-bounce:hover {
             transform: translateY(-2px);
@@ -193,7 +179,6 @@
         .toon-tilt-card {
             transform-style: preserve-3d;
             transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
-            will-change: transform;
         }
 
         /* 6. Cartoon Cart Punch Jiggle */
@@ -225,13 +210,12 @@
         /* 8. Scroll Reveal */
         .toon-reveal {
             opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: opacity, transform;
+            transform: translateY(16px);
+            transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .toon-reveal.revealed {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         /* Accessibility: Respect Reduced Motion */
@@ -1558,7 +1542,7 @@
             });
         }
 
-        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & cached rect to eliminate lag)
+        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & lazy cached rect, zero scroll listeners)
         function initHeroParallax() {
             const hero = document.getElementById('hero-section');
             const burger = document.getElementById('hero-burger-img');
@@ -1568,16 +1552,14 @@
 
             let ticking = false;
             let rect = null;
-
-            function updateRect() {
-                rect = hero.getBoundingClientRect();
-            }
-            updateRect();
-            window.addEventListener('resize', updateRect, { passive: true });
-            window.addEventListener('scroll', updateRect, { passive: true });
+            let rectTs = 0;
 
             hero.addEventListener('mousemove', (e) => {
-                if (!rect) updateRect();
+                const now = performance.now();
+                if (!rect || (now - rectTs > 250)) {
+                    rect = hero.getBoundingClientRect();
+                    rectTs = now;
+                }
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
@@ -1594,9 +1576,10 @@
             }, { passive: true });
 
             hero.addEventListener('mouseleave', () => {
+                rect = null;
                 burger.style.transform = 'translate3d(0, 0, 0)';
                 if (badge) badge.style.transform = 'translate3d(0, 0, 0)';
-            });
+            }, { passive: true });
         }
 
         // 3. Scroll Reveal Interaction
@@ -1895,19 +1878,35 @@
                     });
                 }
 
-                // Warm up primary public navigation pages sequentially in background
-                setTimeout(async () => {
-                    const links = Array.from(document.querySelectorAll('header nav a[href]'))
-                        .map(a => a.href)
-                        .filter(href => isPjaxEligibleAppUrl(href));
-
-                    for (const href of links) {
-                        const key = normalizeAppUrl(href);
-                        if (!_tbAppPageCache.has(key)) {
-                            await prefetchAppUrl(key, false);
-                        }
+                // Warm up primary public navigation pages sequentially during browser idle time after initial load
+                const warmUpPublicNav = () => {
+                    if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''))) {
+                        return;
                     }
-                }, 150);
+                    const runWarmUp = async () => {
+                        const links = Array.from(document.querySelectorAll('header nav a[href]'))
+                            .map(a => a.href)
+                            .filter(href => isPjaxEligibleAppUrl(href));
+
+                        for (const href of links) {
+                            const key = normalizeAppUrl(href);
+                            if (!_tbAppPageCache.has(key)) {
+                                await prefetchAppUrl(key, false);
+                            }
+                        }
+                    };
+                    if ('requestIdleCallback' in window) {
+                        window.requestIdleCallback(() => { runWarmUp(); }, { timeout: 2000 });
+                    } else {
+                        setTimeout(runWarmUp, 600);
+                    }
+                };
+
+                if (document.readyState === 'complete') {
+                    warmUpPublicNav();
+                } else {
+                    window.addEventListener('load', warmUpPublicNav, { once: true });
+                }
             });
 
             // Prefetch on hover/mousedown/touchstart so clicking is instant

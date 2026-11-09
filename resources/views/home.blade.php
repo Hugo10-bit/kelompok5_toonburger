@@ -22,23 +22,35 @@
                     <path d="M-100,260 C200,230 400,330 700,280 C900,240 1100,310 1200,290" fill="none" stroke="#fff" stroke-width="1.5"/>
                 </svg>
 
-                <!-- Comic Sparkles Floating in Background (Coordinates matching reference) -->
+                <!-- Comic Sparkles in Background (Coordinates matching reference) -->
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
+                     width="24"
+                     height="24"
+                     decoding="async"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="top: 24%; left: 3%; animation-delay: 0s;">
+                     style="top: 24%; left: 3%;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
+                     width="20"
+                     height="20"
+                     decoding="async"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="top: 42%; left: 52%; animation-delay: 0.7s;">
+                     style="top: 42%; left: 52%;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
+                     width="20"
+                     height="20"
+                     decoding="async"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-5 h-auto"
-                     style="bottom: 16%; right: 23%; animation-delay: 1.4s;">
+                     style="bottom: 16%; right: 23%;">
                 <img src="{{ asset('images/star-sparkle.png') }}"
                      alt="Sparkle"
+                     width="24"
+                     height="24"
+                     decoding="async"
                      class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto"
-                     style="bottom: 12%; left: 40%; animation-delay: 2.1s;">
+                     style="bottom: 12%; left: 40%;">
 
                 <!-- Content Grid -->
                 <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-8">
@@ -57,11 +69,11 @@
                         <!-- CTA Buttons: Pickup Order & Delivery Order -->
                         <div class="flex flex-wrap items-center gap-3.5 pt-2">
                             <a href="{{ route('menu') }}"
-                               class="font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
+                               class="min-h-[44px] inline-flex items-center justify-center font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                                 Pickup Order
                             </a>
                             <a href="{{ route('menu') }}"
-                               class="font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
+                               class="min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                                 Delivery Order
                             </a>
                         </div>
@@ -85,10 +97,9 @@
                                      alt="Very Cheese Burger"
                                      fetchpriority="high"
                                      loading="eager"
-                                     decoding="sync"
+                                     decoding="async"
                                      width="200"
                                      height="175"
-                                     style="will-change: transform;"
                                      class="w-[155px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
                             </div>
 
@@ -99,6 +110,9 @@
                                      alt="VERY CHEESE BURGER"
                                      fetchpriority="high"
                                      loading="eager"
+                                     decoding="async"
+                                     width="240"
+                                     height="145"
                                      class="w-[125px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-full sm:max-w-none h-auto object-contain drop-shadow-md select-none">
                             </div>
 
@@ -122,7 +136,7 @@
 
     <!-- Section: Kenapa Toon Burger (Matching Figma exactly with enlarged spacious cards) -->
     <section class="relative w-full pt-12 pb-14 sm:pt-16 sm:pb-18 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
-             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover;">
+             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover; content-visibility: auto; contain-intrinsic-size: 1px 520px;">
 
         <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2.5 mb-10 sm:mb-12">
             <div class="inline-flex items-center px-4 py-1 rounded-full bg-[#4C6B65] text-white text-xs font-semibold border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
@@ -233,11 +247,12 @@
     <!-- ═══════════════════════════════════════════════
          4. BEST SELLER SECTION (Sesuai Foto 4)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none">
+    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none"
+             style="content-visibility: auto; contain-intrinsic-size: 1px 680px;">
         <div class="max-w-7xl mx-auto space-y-8">
 
             <!-- Section Header -->
-            <div class="flex items-end justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
                     <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
                         style="font-family: 'BBH Hegarty', cursive, sans-serif;">
@@ -249,7 +264,7 @@
                 </div>
 
                 <a href="{{ route('menu') }}"
-                   class="border-2 border-black bg-white rounded-xl px-4 py-2 font-bold text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer flex items-center gap-1.5 shrink-0">
+                   class="min-h-[44px] self-start sm:self-auto border-2 border-black bg-white rounded-xl px-4 py-2 font-bold text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer inline-flex items-center gap-1.5 shrink-0">
                     <span>Lihat Semua</span>
                     <span>&rarr;</span>
                 </a>
@@ -265,6 +280,10 @@
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/very-cheese-burger.png') }}"
                                  alt="Very Cheese Burger"
+                                 loading="lazy"
+                                 decoding="async"
+                                 width="600"
+                                 height="414"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
 
@@ -287,7 +306,7 @@
                         </span>
                         <button type="button"
                                 onclick="quickAddToCart(1)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -300,6 +319,10 @@
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/cheese-chicken-burger.png') }}"
                                  alt="Cheese Chicken Burger"
+                                 loading="lazy"
+                                 decoding="async"
+                                 width="600"
+                                 height="414"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
 
@@ -322,7 +345,7 @@
                         </span>
                         <button type="button"
                                 onclick="quickAddToCart(2)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -335,6 +358,10 @@
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/bbq-beef-burger.png') }}"
                                  alt="BBQ Beef Burger"
+                                 loading="lazy"
+                                 decoding="async"
+                                 width="600"
+                                 height="414"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
 
@@ -357,7 +384,7 @@
                         </span>
                         <button type="button"
                                 onclick="quickAddToCart(3)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -370,6 +397,10 @@
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/double-cheese-burger.png') }}"
                                  alt="Double Cheese Burger"
+                                 loading="lazy"
+                                 decoding="async"
+                                 width="600"
+                                 height="414"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>
 
@@ -392,7 +423,7 @@
                         </span>
                         <button type="button"
                                 onclick="quickAddToCart(4)"
-                                class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -419,7 +450,7 @@
                 </div>
 
                 <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                   class="w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
+                   class="min-h-[44px] w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
                     <span>Buka Gojek</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -433,7 +464,8 @@
     <!-- ═══════════════════════════════════════════════
          6. MENGENAL TOON BURGER SECTION (Sesuai Foto 3)
          ═══════════════════════════════════════════════ -->
-    <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none" style="background-color: #385850;">
+    <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none"
+             style="background-color: #385850; content-visibility: auto; contain-intrinsic-size: 1px 480px;">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -456,7 +488,7 @@
 
                         <div class="pt-4">
                             <a href="{{ route('about') }}"
-                               class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
+                               class="min-h-[44px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
                                 <span>Selengkapnya Tentang Kami</span>
                                 <span>&rarr;</span>
                             </a>
@@ -468,6 +500,10 @@
                         <div class="w-full max-w-md rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000] mx-auto md:ml-auto">
                             <img src="{{ asset('images/toonburger-outdoor-sign-hq.png') }}"
                                  alt="Toon Burger Sign"
+                                 loading="lazy"
+                                 decoding="async"
+                                 width="600"
+                                 height="420"
                                  class="w-full h-56 sm:h-64 lg:h-72 object-cover">
                         </div>
                     </div>
@@ -480,7 +516,8 @@
     <!-- ═══════════════════════════════════════════════
          7. ADA YANG MAU DITANYAIN? BANNER (Sesuai Foto 1)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none">
+    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none"
+             style="content-visibility: auto; contain-intrinsic-size: 1px 180px;">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
 
@@ -497,13 +534,13 @@
                             ADA YANG MAU DITANYAIN?
                         </h3>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
-                            Ada pertanyaan soal menu, lokasi, atau jam buka? Kami siap membantu."
+                            Ada pertanyaan soal menu, lokasi, atau jam buka? Kami siap membantu.
                         </p>
                     </div>
                 </div>
 
                 <a href="{{ route('contact') }}"
-                   class="bg-[#3b5a53] hover:bg-[#2d4741] text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shrink-0 transition cursor-pointer shadow-xs">
+                   class="min-h-[44px] w-full sm:w-auto inline-flex items-center justify-center bg-[#3b5a53] hover:bg-[#2d4741] text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shrink-0 transition cursor-pointer shadow-xs">
                     Kontak Kami
                 </a>
 
