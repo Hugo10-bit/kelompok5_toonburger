@@ -275,7 +275,7 @@
 
                 <!-- 1. Very Cheese Burger -->
                 <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
+                    <div onclick="openProductModal(1)" class="cursor-pointer">
                         <!-- Top Image Box: Yellow Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/very-cheese-burger.png') }}"
@@ -291,7 +291,7 @@
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHEESE BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
                                 Very Cheese Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -305,7 +305,7 @@
                             Rp 35.000
                         </span>
                         <button type="button"
-                                onclick="quickAddToCart(1)"
+                                onclick="openProductModal(1)"
                                 class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
@@ -314,7 +314,7 @@
 
                 <!-- 2. Cheese Chicken Burger -->
                 <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
+                    <div onclick="openProductModal(6)" class="cursor-pointer">
                         <!-- Top Image Box: Beige/Tan Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/cheese-chicken-burger.png') }}"
@@ -330,21 +330,21 @@
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHICKEN BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
                                 Cheese Chicken Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                                Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat...
                             </p>
                         </div>
                     </div>
 
                     <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
                         <span class="font-black text-base text-gray-900">
-                            Rp 23.000
+                            Rp 35.000
                         </span>
                         <button type="button"
-                                onclick="quickAddToCart(2)"
+                                onclick="openProductModal(6)"
                                 class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
@@ -353,7 +353,7 @@
 
                 <!-- 3. BBQ Beef Burger -->
                 <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
+                    <div onclick="openProductModal(3)" class="cursor-pointer">
                         <!-- Top Image Box: Vibrant Red Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/bbq-beef-burger.png') }}"
@@ -369,11 +369,11 @@
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 BEEF BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
                                 BBQ Beef Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                                Beef patty daging sapi asli gurih berselimut saus smokey BBQ karamel...
                             </p>
                         </div>
                     </div>
@@ -383,7 +383,7 @@
                             Rp 37.000
                         </span>
                         <button type="button"
-                                onclick="quickAddToCart(3)"
+                                onclick="openProductModal(3)"
                                 class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
@@ -392,7 +392,7 @@
 
                 <!-- 4. Double Cheese Burger -->
                 <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
-                    <div>
+                    <div onclick="openProductModal(4)" class="cursor-pointer">
                         <!-- Top Image Box: Soft Green Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
                             <img src="{{ asset('images/products/double-cheese-burger.png') }}"
@@ -408,11 +408,11 @@
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHEESE BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
                                 Double Cheese Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...
+                                Dua patty daging sapi panggang juicy dengan limpahan keju cheddar ganda...
                             </p>
                         </div>
                     </div>
@@ -422,7 +422,7 @@
                             Rp 33.000
                         </span>
                         <button type="button"
-                                onclick="quickAddToCart(4)"
+                                onclick="openProductModal(4)"
                                 class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
                             Pesan
                         </button>
