@@ -27,9 +27,6 @@ class AdminController extends Controller
         $todayRevenue = 500000;
         $totalOrdersToday = 52;
         $pendingOrders = 9;
-        $occupiedTables = RestaurantTable::where('status', 'occupied')->count();
-        $totalTables = RestaurantTable::count();
-        $totalCustomers = User::where('role', 'customer')->count();
 
         $revenueGrowth = '5,2';
         $ordersGrowth = '2,1';
@@ -102,9 +99,6 @@ class AdminController extends Controller
             'totalOrdersToday',
             'ordersGrowth',
             'pendingOrders',
-            'occupiedTables',
-            'totalTables',
-            'totalCustomers',
             'totalProducts',
             'activeProducts',
             'outOfStockProducts',
@@ -128,8 +122,10 @@ class AdminController extends Controller
             ]);
         }
 
-        $products = Product::where('name', 'like', "%{$q}%")
-            ->orWhere('description', 'like', "%{$q}%")
+        $products = Product::where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                    ->orWhere('description', 'like', "%{$q}%");
+            })
             ->select('id', 'name', 'price', 'image', 'is_available')
             ->take(5)
             ->get()
@@ -144,8 +140,10 @@ class AdminController extends Controller
                 ];
             });
 
-        $orders = Order::where('order_number', 'like', "%{$q}%")
-            ->orWhere('customer_name', 'like', "%{$q}%")
+        $orders = Order::where(function ($query) use ($q) {
+                $query->where('order_number', 'like', "%{$q}%")
+                    ->orWhere('customer_name', 'like', "%{$q}%");
+            })
             ->select('id', 'order_number', 'customer_name', 'total_amount', 'status')
             ->take(5)
             ->get()
@@ -187,11 +185,7 @@ class AdminController extends Controller
         $status = $request->query('status', 'all');
         $search = trim($request->query('search', $request->query('q', '')));
 
-        $relations = ['items', 'table', 'user'];
-        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
-            $relations[] = 'payment';
-        }
-        $query = Order::with($relations)->orderBy('id', 'asc');
+        $query = Order::with(['items', 'table', 'user', 'payment'])->orderBy('id', 'asc');
 
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
@@ -208,21 +202,28 @@ class AdminController extends Controller
 
         $orders = $query->paginate(6)->withQueryString();
 
-        $countAll = Order::count();
-        $countPending = Order::where('status', 'pending')->count();
-        $countCooking = Order::whereIn('status', ['confirmed', 'preparing'])->count();
-        $countReady = Order::where('status', 'ready')->count();
-        $countCompleted = Order::where('status', 'completed')->count();
+        $statusCounts = Order::selectRaw('status, COUNT(*) as aggregate')
+            ->groupBy('status')
+            ->pluck('aggregate', 'status');
+
+        $countPending = (int) ($statusCounts['pending'] ?? 0);
+        $countConfirmed = (int) ($statusCounts['confirmed'] ?? 0);
+        $countPreparing = (int) ($statusCounts['preparing'] ?? 0);
+        $countCooking = $countConfirmed + $countPreparing;
+        $countReady = (int) ($statusCounts['ready'] ?? 0);
+        $countCompleted = (int) ($statusCounts['completed'] ?? 0);
+        $countCancelled = (int) ($statusCounts['cancelled'] ?? 0);
+        $countAll = (int) $statusCounts->sum();
 
         $counts = [
             'all' => $countAll,
             'pending' => $countPending,
-            'confirmed' => Order::where('status', 'confirmed')->count(),
-            'preparing' => Order::where('status', 'preparing')->count(),
+            'confirmed' => $countConfirmed,
+            'preparing' => $countPreparing,
             'diproses' => $countCooking,
             'ready' => $countReady,
             'completed' => $countCompleted,
-            'cancelled' => Order::where('status', 'cancelled')->count(),
+            'cancelled' => $countCancelled,
         ];
 
         return view('admin.orders', compact(
@@ -243,15 +244,7 @@ class AdminController extends Controller
      */
     public function orderDetail($order_number)
     {
-        $relations = ['items', 'table', 'user'];
-        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
-            $relations[] = 'payment';
-        }
-        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
-            $relations[] = 'items.product';
-        }
-
-        $order = Order::with($relations)
+        $order = Order::with(['items.product', 'table', 'user', 'payment'])
             ->where('order_number', $order_number)
             ->orWhere('order_number', 'TB-20260917-00007')
             ->orWhere('id', $order_number)
@@ -304,9 +297,7 @@ class AdminController extends Controller
             });
         }
 
-        $products = \Illuminate\Support\Facades\Schema::hasTable('products')
-            ? $query->get()
-            : collect([]);
+        $products = $query->get();
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
 
         return view('admin.products', compact('products', 'categories', 'search'));
@@ -577,27 +568,25 @@ class AdminController extends Controller
         $rating = $request->query('rating', 'all');
         $search = trim($request->query('search', $request->query('q', '')));
 
-        $messages = collect();
-        $totalCount = 0;
+        $query = Review::with(['user', 'order', 'product'])->latest();
 
-        if (Schema::hasTable('reviews')) {
-            $totalCount = Review::count();
-            $query = Review::with(['user', 'order', 'product'])->latest();
-
-            if ($rating !== 'all' && in_array((int) $rating, [1, 2, 3, 4, 5], true)) {
-                $query->where('rating', (int) $rating);
-            }
-
-            if ($search !== '') {
-                $query->where(function ($q) use ($search) {
-                    $q->where('comment', 'like', "%{$search}%")
-                        ->orWhereHas('user', fn ($u) => $u->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('order', fn ($o) => $o->where('order_number', 'like', "%{$search}%")->orWhere('customer_name', 'like', "%{$search}%"));
-                });
-            }
-
-            $messages = $query->paginate(8)->withQueryString();
+        $hasFilter = false;
+        if ($rating !== 'all' && in_array((int) $rating, [1, 2, 3, 4, 5], true)) {
+            $query->where('rating', (int) $rating);
+            $hasFilter = true;
         }
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('comment', 'like', "%{$search}%")
+                    ->orWhereHas('user', fn ($u) => $u->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('order', fn ($o) => $o->where('order_number', 'like', "%{$search}%")->orWhere('customer_name', 'like', "%{$search}%"));
+            });
+            $hasFilter = true;
+        }
+
+        $messages = $query->paginate(8)->withQueryString();
+        $totalCount = $hasFilter ? Review::count() : $messages->total();
 
         return view('admin.messages', compact('messages', 'rating', 'search', 'totalCount'));
     }

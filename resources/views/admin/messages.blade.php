@@ -12,7 +12,7 @@
 
         <form action="{{ route('admin.messages') }}" method="GET" class="flex flex-wrap items-center gap-2.5">
             <select name="rating"
-                    onchange="this.form.submit()"
+                    onchange="this.form.requestSubmit ? this.form.requestSubmit() : this.form.submit()"
                     aria-label="Filter rating ulasan"
                     class="bg-white dark:bg-[#3F3F3F] border border-gray-300 dark:border-[#555555] text-gray-700 dark:text-white text-xs font-medium rounded-xl px-3.5 py-2.5 min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#40605D] cursor-pointer">
                 <option id="opt-all-ratings" data-count="{{ $totalCount }}" value="all" {{ $rating === 'all' ? 'selected' : '' }} data-i18n="messages_filter_all">Semua Rating ({{ $totalCount }})</option>

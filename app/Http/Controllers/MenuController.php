@@ -89,49 +89,45 @@ class MenuController extends Controller
             12 => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
         ];
 
-        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
-            $query = Product::with(['category', 'reviews.user'])
-                ->where('is_available', true);
+        $query = Product::with('category')
+            ->where('is_available', true);
 
-            if ($selectedCategory !== 'all' && !empty($selectedCategory)) {
-                $query->whereHas('category', function ($q) use ($selectedCategory) {
-                    $q->where('slug', $selectedCategory);
-                });
-            }
-
-            if (!empty($search)) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
-                });
-            }
-
-            $perPage = 12;
-            $totalProductsCount = (clone $query)->count();
-
-            // When there are 12 or fewer real items, simulate pagination up to 6 pages (matching target mockup)
-            if ($totalProductsCount > 0 && $totalProductsCount <= $perPage) {
-                $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage('page') ?: 1;
-                $simulatedTotal = $totalProductsCount * 6;
-                $products = new \Illuminate\Pagination\LengthAwarePaginator(
-                    $query->orderBy('id')->get(),
-                    $simulatedTotal,
-                    $perPage,
-                    $currentPage,
-                    [
-                        'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
-                        'pageName' => 'page',
-                    ]
-                );
-                $products->withQueryString();
-            } else {
-                $products = $query->orderBy('id')->paginate($perPage)->withQueryString();
-            }
-        } else {
-            $products = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 12);
+        if ($selectedCategory !== 'all' && !empty($selectedCategory)) {
+            $query->whereHas('category', function ($q) use ($selectedCategory) {
+                $q->where('slug', $selectedCategory);
+            });
         }
 
-        $tables = RestaurantTable::where('status', 'available')->get();
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $perPage = 12;
+        $totalProductsCount = (clone $query)->count();
+
+        // When there are 12 or fewer real items, simulate pagination up to 6 pages (matching target mockup)
+        if ($totalProductsCount > 0 && $totalProductsCount <= $perPage) {
+            $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage('page') ?: 1;
+            $simulatedTotal = $totalProductsCount * 6;
+            $products = new \Illuminate\Pagination\LengthAwarePaginator(
+                $query->orderBy('id')->get(),
+                $simulatedTotal,
+                $perPage,
+                $currentPage,
+                [
+                    'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
+                    'pageName' => 'page',
+                ]
+            );
+            $products->withQueryString();
+        } else {
+            $products = $query->orderBy('id')->paginate($perPage)->withQueryString();
+        }
+
+        $tables = collect();
 
         return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata', 'totalAllProducts'));
     }

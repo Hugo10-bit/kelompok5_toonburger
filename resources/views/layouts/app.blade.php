@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    @if(request()->routeIs('welcome', 'home', 'menu*'))
     <link rel="preload" as="image" href="{{ asset('images/hero-burger.png') }}" fetchpriority="high">
+    @endif
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
     <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
@@ -74,12 +76,7 @@
             font-family: 'Poppins', sans-serif;
             overflow-x: clip;
             max-width: 100vw;
-            animation: pageEnter 0.25s ease-out;
-            transition: opacity 0.22s ease-out;
             caret-color: #D92625;
-        }
-        body.page-exiting {
-            opacity: 0 !important;
         }
         *:focus-visible {
             outline: 2px solid #D92625;
@@ -1498,48 +1495,6 @@
             }
         });
 
-        // Smooth Page Transition Handler
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.transform = 'scaleX(1)';
-                setTimeout(() => { loader.style.opacity = '0'; }, 200);
-            }
-
-            document.addEventListener('click', (e) => {
-                const link = e.target.closest('a');
-                if (!link || !link.hasAttribute('data-page-transition')) return;
-
-                const href = link.getAttribute('href');
-                const target = link.getAttribute('target');
-
-                if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:') || target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
-                    return;
-                }
-
-                if (link.hostname === window.location.hostname) {
-                    if (loader) {
-                        loader.style.opacity = '1';
-                        loader.style.transform = 'scaleX(0.7)';
-                    }
-                    document.body.classList.add('page-exiting');
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.remove('page-exiting');
-        });
-
-        window.addEventListener('pageshow', () => {
-            document.body.classList.remove('page-exiting');
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.transform = 'scaleX(1)';
-                setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
-            }
-        });
-
         // ═══════════════════════════════════════════════
         // INTERACTIVE MICRO-ANIMATION INITIALIZERS
         // ═══════════════════════════════════════════════
@@ -1572,7 +1527,8 @@
             const hero = document.getElementById('hero-section');
             const burger = document.getElementById('hero-burger-img');
             const badge = document.getElementById('hero-badge-img');
-            if (!hero || !burger || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!hero || !burger || hero.dataset.parallaxInit || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            hero.dataset.parallaxInit = 'true';
 
             let ticking = false;
             let rect = null;
@@ -1632,16 +1588,349 @@
             initScrollReveal();
         });
 
-        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
-        window.addEventListener('pageshow', function (event) {
-            const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
-            const isBackForward = event.persisted || 
-                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
-                (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
+        // Instant Single-Click Public Navigation Engine (PJAX + Hover/Background Prefetch)
+        (function () {
+            const _tbAppPageCache = new Map();
+            const _tbAppInFlight = new Map();
+            const _tbLoadedScriptSrcs = new Set();
+            const CACHE_TTL_MS = 90000;
+            let _activeNavController = null;
+            let _bgPrefetchController = null;
 
-            if (isBackForward) {
-                window.location.reload();
+            function normalizeAppUrl(url) {
+                try {
+                    const u = new URL(url, window.location.origin);
+                    u.hash = '';
+                    if (u.pathname === '/') {
+                        u.pathname = '/home';
+                    }
+                    return u.href;
+                } catch (e) {
+                    return url;
+                }
             }
+
+            function isPjaxEligibleAppUrl(rawHref) {
+                if (!rawHref || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) {
+                    return false;
+                }
+                try {
+                    const u = new URL(rawHref, window.location.origin);
+                    if (u.origin !== window.location.origin) return false;
+                    const p = u.pathname;
+                    if (
+                        p.startsWith('/admin') ||
+                        p.startsWith('/login') ||
+                        p.startsWith('/register') ||
+                        p.startsWith('/logout') ||
+                        p.startsWith('/gofood') ||
+                        p.startsWith('/checkout') ||
+                        p.startsWith('/payment')
+                    ) {
+                        return false;
+                    }
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function isNavPathActive(linkPathname, targetPathname) {
+                const lp = linkPathname === '/' ? '/home' : linkPathname;
+                const tp = targetPathname === '/' ? '/home' : targetPathname;
+                if (lp === '/home') return tp === '/home';
+                if (lp === '/menu') return tp === '/menu' || tp.startsWith('/menu/');
+                return tp === lp || tp.startsWith(lp + '/');
+            }
+
+            function updateAppNavHighlight(targetUrl) {
+                let targetPath = '/home';
+                try {
+                    const p = new URL(targetUrl, window.location.origin).pathname;
+                    targetPath = p === '/' ? '/home' : p;
+                } catch (e) {}
+
+                // Desktop Navbar Links
+                document.querySelectorAll('header nav a[href]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold bg-white/20 text-white shadow-2xs';
+                        } else {
+                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold text-white/80 hover:text-white hover:bg-white/10';
+                        }
+                    } catch (e) {}
+                });
+
+                // Mobile Dropdown Menu Links
+                document.querySelectorAll('#mobile-nav-menu a[data-page-transition]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.className = 'block px-4 py-2 rounded-xl transition bg-[#3b6e64]/10 text-[#3b6e64]';
+                        } else {
+                            a.className = 'block px-4 py-2 rounded-xl transition text-gray-700 hover:text-gray-900 hover:bg-gray-100';
+                        }
+                    } catch (e) {}
+                });
+
+                // Mobile Bottom Dock Links
+                document.querySelectorAll('nav[aria-label="Mobile Navigation"] a[href]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.classList.remove('text-gray-500', 'font-medium');
+                            a.classList.add('text-[#27443E]', 'font-black');
+                        } else {
+                            a.classList.remove('text-[#27443E]', 'font-black');
+                            a.classList.add('text-gray-500', 'font-medium');
+                        }
+                    } catch (e) {}
+                });
+            }
+
+            function extractAppPagePayload(htmlText) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+                const mainEl = doc.querySelector('main');
+                if (!mainEl) return null;
+                return {
+                    title: doc.title || document.title,
+                    mainHtml: mainEl.innerHTML,
+                    ts: Date.now()
+                };
+            }
+
+            function prefetchAppUrl(url, isPriority) {
+                const key = normalizeAppUrl(url);
+                const cached = _tbAppPageCache.get(key);
+                if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
+                    return Promise.resolve(cached);
+                }
+                if (_tbAppInFlight.has(key)) {
+                    return _tbAppInFlight.get(key);
+                }
+
+                if (isPriority && _bgPrefetchController) {
+                    try { _bgPrefetchController.abort(); } catch (e) {}
+                    _bgPrefetchController = null;
+                }
+
+                const controller = new AbortController();
+                if (!isPriority) {
+                    _bgPrefetchController = controller;
+                }
+
+                const promise = fetch(key, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    signal: controller.signal,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-TB-PJAX': '1',
+                        'Accept': 'text/html,application/xhtml+xml'
+                    }
+                })
+                .then(res => {
+                    if (!res.ok || res.redirected && res.url.includes('/login')) return null;
+                    return res.text();
+                })
+                .then(html => {
+                    _tbAppInFlight.delete(key);
+                    if (!html) return null;
+                    const payload = extractAppPagePayload(html);
+                    if (payload) {
+                        _tbAppPageCache.set(key, payload);
+                    }
+                    return payload;
+                })
+                .catch(() => {
+                    _tbAppInFlight.delete(key);
+                    return null;
+                });
+
+                _tbAppInFlight.set(key, promise);
+                return promise;
+            }
+
+            function executeAppMainScripts(mainEl) {
+                const scripts = Array.from(mainEl.querySelectorAll('script'));
+                const externalPromises = [];
+
+                scripts.forEach(oldScript => {
+                    if (oldScript.src) {
+                        const src = oldScript.src;
+                        oldScript.remove();
+                        if (_tbLoadedScriptSrcs.has(src) || (src.includes('leaflet') && typeof window.L !== 'undefined')) {
+                            _tbLoadedScriptSrcs.add(src);
+                            return;
+                        }
+                        const p = new Promise(resolve => {
+                            const s = document.createElement('script');
+                            s.src = src;
+                            s.onload = () => { _tbLoadedScriptSrcs.add(src); resolve(); };
+                            s.onerror = () => resolve();
+                            document.head.appendChild(s);
+                        });
+                        externalPromises.push(p);
+                    }
+                });
+
+                const runInline = () => {
+                    scripts.forEach(oldScript => {
+                        if (!oldScript.src) {
+                            const newScript = document.createElement('script');
+                            Array.from(oldScript.attributes).forEach(attr => {
+                                newScript.setAttribute(attr.name, attr.value);
+                            });
+                            newScript.textContent = oldScript.textContent;
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        }
+                    });
+                };
+
+                if (externalPromises.length > 0) {
+                    Promise.all(externalPromises).then(runInline);
+                } else {
+                    runInline();
+                }
+            }
+
+            function applyAppPayload(url, payload, pushHistory) {
+                const mainEl = document.querySelector('main');
+                if (!mainEl || !payload) return false;
+
+                document.title = payload.title;
+                mainEl.innerHTML = payload.mainHtml;
+
+                const mobileMenu = document.getElementById('mobile-nav-menu');
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                const searchDropdown = document.getElementById('home-search-dropdown');
+                if (searchDropdown) searchDropdown.classList.add('hidden');
+
+                if (pushHistory && normalizeAppUrl(window.location.href) !== normalizeAppUrl(url)) {
+                    window.history.pushState({ tbAppPjax: true, url: url }, payload.title, url);
+                }
+
+                updateAppNavHighlight(url);
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+                executeAppMainScripts(mainEl);
+                initTiltCards();
+                initHeroParallax();
+                initScrollReveal();
+                return true;
+            }
+
+            window.tbAppNavigate = function (url, pushHistory = true) {
+                const key = normalizeAppUrl(url);
+                updateAppNavHighlight(key);
+
+                const cached = _tbAppPageCache.get(key);
+                if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
+                    applyAppPayload(url, cached, pushHistory);
+                    return;
+                }
+
+                if (_activeNavController) {
+                    try { _activeNavController.abort(); } catch (e) {}
+                }
+                _activeNavController = new AbortController();
+
+                prefetchAppUrl(key, true).then(payload => {
+                    if (payload) {
+                        applyAppPayload(url, payload, pushHistory);
+                    } else {
+                        window.location.href = url;
+                    }
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const mainEl = document.querySelector('main');
+                if (mainEl) {
+                    _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
+                        title: document.title,
+                        mainHtml: mainEl.innerHTML,
+                        ts: Date.now()
+                    });
+                }
+
+                // Warm up primary public navigation pages sequentially in background
+                setTimeout(async () => {
+                    const links = Array.from(document.querySelectorAll('header nav a[href]'))
+                        .map(a => a.href)
+                        .filter(href => isPjaxEligibleAppUrl(href));
+
+                    for (const href of links) {
+                        const key = normalizeAppUrl(href);
+                        if (!_tbAppPageCache.has(key)) {
+                            await prefetchAppUrl(key, false);
+                        }
+                    }
+                }, 150);
+            });
+
+            // Prefetch on hover/mousedown/touchstart so clicking is instant
+            const triggerAppPrefetch = (e) => {
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const rawHref = link.getAttribute('href');
+                if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
+                prefetchAppUrl(link.href, true);
+            };
+            document.addEventListener('pointerover', triggerAppPrefetch, { passive: true });
+            document.addEventListener('mousedown', triggerAppPrefetch, { passive: true });
+            document.addEventListener('touchstart', triggerAppPrefetch, { passive: true });
+
+            // Intercept single clicks on internal public links
+            document.addEventListener('click', (e) => {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const rawHref = link.getAttribute('href');
+                if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
+
+                e.preventDefault();
+                window.tbAppNavigate(link.href, true);
+            });
+
+            // Intercept GET search/filter forms pointing to internal public routes
+            document.addEventListener('submit', (e) => {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+                const method = (form.getAttribute('method') || 'GET').toUpperCase();
+                if (method === 'GET') {
+                    const action = form.getAttribute('action') || window.location.pathname;
+                    if (!isPjaxEligibleAppUrl(action)) return;
+                    e.preventDefault();
+                    const u = new URL(action, window.location.origin);
+                    const fd = new FormData(form);
+                    u.search = new URLSearchParams(fd).toString();
+                    window.tbAppNavigate(u.href, true);
+                } else {
+                    _tbAppPageCache.clear();
+                }
+            });
+
+            window.addEventListener('popstate', () => {
+                if (isPjaxEligibleAppUrl(window.location.href)) {
+                    window.tbAppNavigate(window.location.href, false);
+                }
+            });
+        })();
+
+        // Reload page on Back / Forward navigation only if user logged out
+        window.addEventListener('pageshow', function () {
+            try {
+                if (localStorage.getItem('tb_logged_out') === '1') {
+                    localStorage.removeItem('tb_logged_out');
+                    window.location.reload();
+                }
+            } catch (e) {}
         });
 
         // Register Service Worker for offline & Laragon down handling

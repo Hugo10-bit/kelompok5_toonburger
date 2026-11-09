@@ -543,7 +543,7 @@
         };
 
         function tickProgress(now) {
-            if (isPaused || document.hidden) {
+            if (isPaused || document.hidden || !document.body.contains(carousel)) {
                 rafId = null;
                 return;
             }
@@ -569,6 +569,7 @@
         }
 
         function startAutoSlide() {
+            if (!document.body.contains(carousel)) return;
             isPaused = false;
             cycleStartTime = performance.now();
             setProgressRatio(0);
@@ -592,13 +593,18 @@
             }
         });
 
-        document.addEventListener('visibilitychange', function () {
+        if (window._tbAboutVisibilityHandler) {
+            document.removeEventListener('visibilitychange', window._tbAboutVisibilityHandler);
+        }
+        window._tbAboutVisibilityHandler = function () {
+            if (!document.body.contains(carousel)) return;
             if (document.hidden) {
                 stopAutoSlide();
             } else {
                 startAutoSlide();
             }
-        });
+        };
+        document.addEventListener('visibilitychange', window._tbAboutVisibilityHandler);
 
         carousel.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowLeft') {
