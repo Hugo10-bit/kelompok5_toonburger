@@ -318,7 +318,7 @@
                 <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
                     <a href="{{ route('home') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
-                              {{ request()->routeIs('home') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                              {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Beranda
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition
@@ -499,7 +499,7 @@
 
                     <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
-                                        {{ request()->routeIs('home') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
+                                        {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         Beranda
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
@@ -587,12 +587,12 @@
          class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-black/10 px-3 py-1.5 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] flex items-center justify-around select-none">
         <!-- 1. Beranda -->
         <a href="{{ route('home') }}"
-           class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('home') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
-            <svg class="w-5 h-5 {{ request()->routeIs('home') ? 'stroke-[2.5]' : 'stroke-[1.8]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-2 rounded-2xl transition active:scale-95 {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'text-[#27443E] font-black' : 'text-gray-500 font-medium hover:text-gray-900' }}">
+            <svg class="w-5 h-5 {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'stroke-[2.5]' : 'stroke-[1.8]' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
             </svg>
             <span class="text-[10px] mt-0.5 tracking-tight">Beranda</span>
-            @if(request()->routeIs('home'))
+            @if(request()->routeIs('home', 'welcome') || request()->is('/'))
                 <span class="w-1.5 h-1.5 bg-[#27443E] rounded-full mt-0.5"></span>
             @endif
         </a>
