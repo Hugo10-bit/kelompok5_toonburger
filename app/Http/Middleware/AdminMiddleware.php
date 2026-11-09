@@ -21,7 +21,7 @@ class AdminMiddleware
 
         // Only Admin and Staff are allowed
         if (!auth()->user()->isAdmin() && !auth()->user()->isStaff()) {
-            return redirect()->route('menu')->with('error', '⛔ Akses Ditolak! Akun Anda tidak memiliki izin untuk mengakses area Admin / POS Kasir.');
+            return redirect()->route('menu')->with('error', '⛔ Akses Ditolak! Akun Anda tidak memiliki izin untuk mengakses area Admin.');
         }
 
         return $next($request);

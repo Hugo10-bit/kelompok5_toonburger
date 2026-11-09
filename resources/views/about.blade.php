@@ -5,7 +5,7 @@
 @section('content')
 <style>
     .about-fine-grid-bg {
-        background-color: #FAF4E4;
+        background-color: #FAF3E3;
         background-image:
             linear-gradient(to right, rgba(180, 166, 136, 0.17) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(180, 166, 136, 0.17) 1px, transparent 1px);
@@ -149,7 +149,7 @@
 
     <section aria-label="Capaian Toon Burger"
              class="w-full border-b border-[#E2D9C5] py-7 sm:py-9 lg:py-10 px-4 sm:px-6 lg:px-8"
-             style="background-color: #FAF6EC;">
+             style="background-color: #FAF3E3;">
         <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6 sm:gap-x-8 toon-reveal">
             <div class="flex flex-col items-start md:items-start">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
@@ -218,7 +218,7 @@
                      aria-hidden="true"
                      style="background: linear-gradient(to top, rgba(8, 12, 11, 0.95) 0%, rgba(8, 12, 11, 0.84) 32%, rgba(8, 12, 11, 0.30) 58%, rgba(8, 12, 11, 0) 78%);"></div>
 
-                <div class="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-7 lg:p-9 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div class="absolute inset-x-0 bottom-0 z-20 px-5 pt-5 pb-6 sm:px-7 sm:pt-7 sm:pb-8 lg:px-9 lg:pt-9 lg:pb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
 
                     <div id="about-carousel-live" class="relative min-h-[108px] sm:min-h-[96px] flex-1 max-w-xl" aria-live="off">
                         <div data-slide-caption="0"
@@ -265,6 +265,13 @@
                         </button>
                     </div>
 
+                </div>
+
+                {{-- Bottom 10-second progress bar synchronized with the automatic Visi/Misi slide transition. --}}
+                <div class="absolute inset-x-0 bottom-0 z-30 h-1.5 sm:h-[6px] bg-white/15 overflow-hidden pointer-events-none" aria-hidden="true">
+                    <div id="about-carousel-progress"
+                         class="h-full w-full bg-white origin-left"
+                         style="transform: scaleX(0); will-change: transform;"></div>
                 </div>
             </div>
         </div>
@@ -472,15 +479,24 @@
     (function () {
         let currentSlide = 0;
         const totalSlides = 2;
-        const autoIntervalMs = 4000;
+        const autoIntervalMs = 10000;
         const carousel = document.getElementById('about-visi-misi-carousel');
         if (!carousel) return;
 
         const liveRegion = document.getElementById('about-carousel-live');
+        const progressBar = document.getElementById('about-carousel-progress');
         const photos = carousel.querySelectorAll('[data-slide-photo]');
         const captions = carousel.querySelectorAll('[data-slide-caption]');
         let clearPrevTimer = null;
-        let autoSlideTimer = null;
+        let rafId = null;
+        let cycleStartTime = performance.now();
+        let isPaused = false;
+
+        function setProgressRatio(ratio) {
+            if (!progressBar) return;
+            const clamped = Math.max(0, Math.min(1, ratio));
+            progressBar.style.transform = 'scaleX(' + clamped.toFixed(4) + ')';
+        }
 
         window.goToAboutSlide = function (nextIndex, isManual) {
             const target = ((nextIndex % totalSlides) + totalSlides) % totalSlides;
@@ -526,19 +542,43 @@
             });
         };
 
+        function tickProgress(now) {
+            if (isPaused || document.hidden || !document.body.contains(carousel)) {
+                rafId = null;
+                return;
+            }
+
+            const elapsed = now - cycleStartTime;
+            if (elapsed >= autoIntervalMs) {
+                window.goToAboutSlide(currentSlide + 1, false);
+                cycleStartTime = now;
+                setProgressRatio(0);
+            } else {
+                setProgressRatio(elapsed / autoIntervalMs);
+            }
+
+            rafId = requestAnimationFrame(tickProgress);
+        }
+
         function stopAutoSlide() {
-            if (autoSlideTimer) {
-                clearInterval(autoSlideTimer);
-                autoSlideTimer = null;
+            isPaused = true;
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
             }
         }
 
         function startAutoSlide() {
-            stopAutoSlide();
-            if (document.hidden) return;
-            autoSlideTimer = setInterval(function () {
-                window.goToAboutSlide(currentSlide + 1, false);
-            }, autoIntervalMs);
+            if (!document.body.contains(carousel)) return;
+            isPaused = false;
+            cycleStartTime = performance.now();
+            setProgressRatio(0);
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+            }
+            if (!document.hidden) {
+                rafId = requestAnimationFrame(tickProgress);
+            }
         }
 
         window.stepAboutSlide = function (delta) {
@@ -553,13 +593,18 @@
             }
         });
 
-        document.addEventListener('visibilitychange', function () {
+        if (window._tbAboutVisibilityHandler) {
+            document.removeEventListener('visibilitychange', window._tbAboutVisibilityHandler);
+        }
+        window._tbAboutVisibilityHandler = function () {
+            if (!document.body.contains(carousel)) return;
             if (document.hidden) {
                 stopAutoSlide();
             } else {
                 startAutoSlide();
             }
-        });
+        };
+        document.addEventListener('visibilitychange', window._tbAboutVisibilityHandler);
 
         carousel.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowLeft') {

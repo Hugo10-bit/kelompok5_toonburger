@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    @if(request()->routeIs('welcome', 'home', 'menu*'))
     <link rel="preload" as="image" href="{{ asset('images/hero-burger.png') }}" fetchpriority="high">
+    @endif
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
     <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
@@ -74,12 +76,7 @@
             font-family: 'Poppins', sans-serif;
             overflow-x: clip;
             max-width: 100vw;
-            animation: pageEnter 0.25s ease-out;
-            transition: opacity 0.22s ease-out;
             caret-color: #D92625;
-        }
-        body.page-exiting {
-            opacity: 0 !important;
         }
         *:focus-visible {
             outline: 2px solid #D92625;
@@ -152,29 +149,16 @@
         }
         .toon-bob {
             animation: toonBobAnimation 4s ease-in-out infinite;
-            will-change: transform;
         }
 
-        /* 2. Comic Sparkle Twinkle */
-        @keyframes comicTwinkle {
-            0%, 100% {
-                transform: scale(0.85) rotate(0deg);
-                opacity: 0.6;
-            }
-            50% {
-                transform: scale(1.18) rotate(15deg);
-                opacity: 1;
-            }
-        }
+        /* 2. Comic Sparkle Accent (Static lightweight layer, no infinite GPU repaint) */
         .comic-sparkle {
-            animation: comicTwinkle 2.8s ease-in-out infinite;
-            will-change: transform, opacity;
+            opacity: 0.92;
         }
 
         /* 3. Comic Badge Interactive */
         .comic-badge-interactive {
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            will-change: transform;
         }
         .comic-badge-interactive:hover {
             transform: scale(1.08) rotate(3deg);
@@ -183,7 +167,6 @@
         /* 4. Squash & Stretch Button Micro-interaction */
         .toon-btn-bounce {
             transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease, filter 0.16s ease;
-            will-change: transform;
         }
         .toon-btn-bounce:hover {
             transform: translateY(-2px);
@@ -196,7 +179,6 @@
         .toon-tilt-card {
             transform-style: preserve-3d;
             transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
-            will-change: transform;
         }
 
         /* 6. Cartoon Cart Punch Jiggle */
@@ -228,13 +210,12 @@
         /* 8. Scroll Reveal */
         .toon-reveal {
             opacity: 0;
-            transform: translateY(20px) scale(0.98);
-            transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: opacity, transform;
+            transform: translateY(16px);
+            transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .toon-reveal.revealed {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         /* Accessibility: Respect Reduced Motion */
@@ -657,144 +638,174 @@
     </nav>
 
     <!-- CART FLOATING CARD -->
+    @php
+        $initialCartCount = session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0;
+    @endphp
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
-    <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[90vw] max-w-sm bg-white rounded-3xl shadow-2xl border border-gray-200/60 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
+    <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[92vw] max-w-[385px] bg-white rounded-[20px] shadow-2xl border border-gray-200/80 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
 
         <!-- Cart Header (Fixed Top) -->
-        <div class="p-4 sm:p-4.5 bg-gray-50/90 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-bites-yellow flex items-center justify-center font-extrabold text-xs text-bites-dark shadow-xs">TB</div>
-                <div>
-                    <h3 class="font-extrabold text-gray-900 text-sm leading-tight">Keranjang Pesanan</h3>
-                    <p class="text-[11px] text-gray-500" id="cart-items-count-text">0 menu dipilih</p>
-                </div>
-            </div>
-            <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-gray-700 hover:bg-gray-200 w-7 h-7 rounded-full flex items-center justify-center text-lg font-bold transition">&times;</button>
+        <div class="px-6 py-5 bg-white border-b border-[#E5E7EB] flex-shrink-0">
+            <h3 class="font-semibold text-[#2E3137] text-[18px] leading-snug">Keranjang Pesanan</h3>
+            <p class="text-[13px] text-[#737373] mt-1 font-normal" id="cart-items-count-text">{{ $initialCartCount }} Menu Dipilih</p>
         </div>
 
-        <!-- Cart Body (Items + Promo + Summary + Button all flowing together) -->
-        <div class="overflow-y-auto p-4 space-y-3.5 flex-1 hide-scrollbar">
+        <!-- Scrollable Burger Orders Container (Only this section scrolls!) -->
+        <div id="cart-items-container" class="overflow-y-auto px-5 pt-4 pb-2 space-y-3.5 {{ $initialCartCount > 0 ? 'max-h-[348px]' : '' }}">
+            <div class="py-7 px-4 flex flex-col items-center text-center">
+                <img src="{{ asset('images/empty-cart.png') }}"
+                     alt="Keranjang Kosong"
+                     class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
+                <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
+                    Keranjangmu masih kosong nih
+                </h4>
+                <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
+                    <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
+                    <span class="block">perut kosongmu hari ini</span>
+                </p>
+                <button type="button"
+                        onclick="startOrderFromCart()"
+                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                    Mulai Pesan Sekarang
+                </button>
+            </div>
+        </div>
 
-            <!-- Items Container -->
-            <div id="cart-items-container" class="space-y-2.5">
-                <div class="text-center py-10 text-gray-400">
-                    <div class="font-bold text-sm mb-1">[Kosong]</div>
-                    <p class="text-xs font-medium">Keranjang Anda masih kosong</p>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Pilih menu favorit Anda di katalog!</p>
-                </div>
+        <!-- Fixed Bottom Footer (Subtotal Menu + Checkout Button stay fixed and never scroll) -->
+        <div id="cart-fixed-footer" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} flex-shrink-0 px-5 pt-2 pb-5 bg-white space-y-4">
+            <!-- Hidden Coupon Elements Preserved for JS Compatibility -->
+            <div id="cart-coupon-section" class="hidden">
+                <input type="text" id="coupon-input">
+                <div id="applied-coupon-badge" class="hidden"><span id="coupon-text"></span></div>
             </div>
 
-            <!-- Coupon Box (directly under items) -->
-            <div id="cart-coupon-section" class="pt-2 border-t border-gray-100">
-                <label class="block text-[11px] font-bold text-gray-700 mb-1 flex items-center gap-1">
-                    <svg class="w-3.5 h-3.5 text-bites-orange" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
-                    </svg>
-                    Punya Kupon Promo?
-                </label>
-                <div class="flex gap-1.5">
-                    <input type="text" id="coupon-input" placeholder="KODE PROMO (misal: TOONBURGER50)" class="flex-1 bg-gray-50 border border-gray-300 rounded-xl px-3 py-1.5 text-xs uppercase font-bold tracking-wider focus:outline-none focus:border-bites-orange focus:bg-white transition">
-                    <button onclick="applyCoupon()" class="bg-gray-900 hover:bg-black text-white text-xs font-extrabold px-3.5 py-1.5 rounded-xl transition shadow-xs active:scale-95">
-                        Pakai
-                    </button>
-                </div>
-                <div id="applied-coupon-badge" class="hidden text-xs bg-green-50 text-green-700 border border-green-200 p-2 rounded-xl flex items-center justify-between font-medium mt-1.5">
-                    <div class="flex items-center gap-1">
-                        <span class="text-green-600 font-bold">✓</span>
-                        <span id="coupon-text">Promo Terpasang</span>
-                    </div>
-                    <button onclick="removeCoupon()" class="text-red-500 hover:text-red-700 font-bold px-1">&times;</button>
-                </div>
-            </div>
-
-            <!-- Price Breakdown (directly under coupon) -->
-            <div id="cart-summary-section" class="bg-gray-50 rounded-2xl p-3.5 border border-gray-200/80 space-y-1.5 text-xs text-gray-600">
-                <div class="flex justify-between">
+            <!-- Price Breakdown (Fixed) -->
+            <div id="cart-summary-section" class="bg-[#F4F5F7] rounded-[14px] px-4 py-3.5 space-y-2 text-[12px] text-[#6A6F77]">
+                <div class="flex items-center justify-between">
                     <span>Subtotal Menu:</span>
-                    <span id="cart-subtotal" class="font-bold text-gray-900">Rp 0</span>
+                    <span id="cart-subtotal" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
-                <div class="flex justify-between text-green-600 font-medium">
+                <div id="cart-discount-row" class="hidden items-center justify-between text-[#13653F]">
                     <span>Diskon Promo:</span>
-                    <span id="cart-discount" class="font-bold">- Rp 0</span>
+                    <span id="cart-discount" class="font-medium">- Rp 0</span>
                 </div>
-                <div class="flex justify-between">
-                    <span>Pajak PB1 (10%):</span>
-                    <span id="cart-tax" class="font-semibold text-gray-900">Rp 0</span>
+                <div class="flex items-center justify-between">
+                    <span>Pajak PPN (11%)</span>
+                    <span id="cart-tax" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
-                <div class="flex justify-between text-xs font-black text-gray-900 pt-1.5 border-t border-gray-200">
+                <div class="flex items-center justify-between text-[12.5px] font-semibold text-[#2E3137] pt-2.5 mt-1 border-t border-[#E5E7EB]">
                     <span>Total Tagihan:</span>
-                    <span id="cart-total" class="text-bites-red font-black text-sm">Rp 0</span>
+                    <span id="cart-total" class="font-semibold text-[#2E3137]">Rp 0</span>
                 </div>
             </div>
 
-            <!-- Checkout Action Button (Ends right here!) -->
-            <div id="cart-action-section" class="pt-0.5 pb-1">
-                <a href="{{ route('orders.checkout') }}" id="checkout-btn" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-3 px-4 rounded-2xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition active:scale-98 text-xs sm:text-sm">
-                    <span>Lanjut ke Pembayaran</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <!-- Checkout Action Button (Fixed) -->
+            <div id="cart-action-section">
+                <a href="{{ route('orders.checkout') }}"
+                   id="checkout-btn"
+                   class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
+                    Lanjutkan Ke pembayaran
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL (Flutter-style Bottom Sheet on mobile, Centered on desktop) -->
+    <!-- PRODUCT DETAIL & CUSTOMIZATION MODAL (Matching Figma Mockup) -->
     <div id="product-modal-backdrop" onclick="closeProductModal()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden transition-opacity duration-300"></div>
-    <div id="product-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
-        <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-lg w-full max-h-[88vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-modal-pop" onclick="event.stopPropagation()">
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 hidden" onclick="closeProductModal()">
+        <div class="bg-white rounded-[28px] sm:rounded-[34px] max-w-[760px] w-full max-h-[92vh] overflow-y-auto relative p-5 sm:p-7 md:p-8 shadow-2xl border border-gray-150 animate-modal-pop" onclick="event.stopPropagation()">
 
-            <!-- Mobile Drag Handle Pill -->
-            <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0"></div>
+            <!-- Close Button (Top Right) -->
+            <button type="button"
+                    onclick="closeProductModal()"
+                    class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition text-2xl font-light cursor-pointer z-20"
+                    aria-label="Tutup">
+                &times;
+            </button>
 
-            <!-- Modal Header / Image -->
-            <div class="relative bg-gradient-to-tr from-amber-500 to-orange-400 h-44 sm:h-48 overflow-hidden flex items-center justify-center">
-                <img id="modal-product-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Menu" class="w-full h-full object-cover">
-                <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center text-lg font-bold transition">
-                    &times;
-                </button>
-            </div>
-
-            <!-- Modal Content -->
-            <div class="p-6 overflow-y-auto flex-1 space-y-4">
-                <div>
-                    <div class="flex items-start justify-between gap-2">
-                        <h3 id="modal-product-name" class="font-extrabold text-xl text-gray-900 leading-tight">Product Name</h3>
-                        <span id="modal-product-price" class="text-bites-red font-black text-lg whitespace-nowrap">Rp 0</span>
-                    </div>
-                    <p id="modal-product-desc" class="text-xs text-gray-500 mt-1 leading-relaxed">Description</p>
-                    <div class="flex items-center gap-3 mt-2 text-[11px] text-gray-500 font-medium">
-                        <span id="modal-product-calories" class="bg-gray-100 px-2 py-0.5 rounded font-semibold">0 kcal</span>
-                        <span id="modal-product-time" class="hidden">0 menit</span>
-                    </div>
+            <!-- 2-Column Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7 items-stretch">
+                <!-- Left Column: Product Image on Colored Card Background -->
+                <div id="modal-product-card-bg"
+                     class="w-full aspect-[1.1] sm:aspect-auto sm:h-full min-h-[220px] sm:min-h-[300px] md:min-h-[320px] rounded-[22px] overflow-hidden flex items-center justify-center p-5 sm:p-6 relative transition-colors duration-300"
+                     style="background-color: #FFC83B;">
+                    <img id="modal-product-image"
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
+                         alt="Product"
+                         class="w-full max-w-[210px] sm:max-w-[250px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,0.18)] select-none">
                 </div>
 
-                <!-- Dynamic Options Form -->
-                <form id="product-options-form" class="space-y-4 pt-2 border-t border-gray-100">
-                    <input type="hidden" id="modal-product-id" name="product_id" value="">
-
-                    <div id="modal-options-container" class="space-y-4">
-                        <!-- Filled by JS -->
-                    </div>
-
-                    <!-- Notes -->
+                <!-- Right Column: Details, Notes, and Action Button -->
+                <div class="flex flex-col justify-between pt-1 sm:pt-0">
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Catatan Koki (Opsional):</label>
-                        <input type="text" id="modal-notes" name="notes" placeholder="Contoh: Jangan pakai bawang bombay, extra saus..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-bites-orange focus:outline-none">
+                        <!-- Category Badge -->
+                        <span id="modal-product-badge" class="text-xs font-bold text-gray-400 uppercase tracking-wider block">
+                            BURGER
+                        </span>
+
+                        <!-- Product Name -->
+                        <h3 id="modal-product-name" class="font-black text-xl sm:text-2xl text-[#2D3B36] uppercase leading-tight mt-1">
+                            Burger Name
+                        </h3>
+
+                        <!-- Price -->
+                        <div id="modal-product-price" class="font-extrabold text-base sm:text-lg text-[#2D3B36] mt-1.5 tracking-tight">
+                            RP 0
+                        </div>
+
+                        <!-- Appetizing Description -->
+                        <p id="modal-product-desc" class="text-xs sm:text-[13px] text-gray-500 leading-relaxed mt-2.5 sm:mt-3">
+                            Deskripsi menu lezat dari Toon Burger.
+                        </p>
+
+                        <input type="hidden" id="modal-product-id" value="">
+
+                        <!-- Optional Product Options Container (if any) -->
+                        <div id="modal-options-container" class="space-y-2 mt-3 hidden">
+                            <!-- Filled dynamically if product has options -->
+                        </div>
+
+                        <!-- Order Notes Field -->
+                        <div class="mt-4">
+                            <label for="modal-notes" class="block text-xs font-bold text-[#2D3B36] mb-1.5">
+                                Catatan Pesanan
+                            </label>
+                            <textarea id="modal-notes"
+                                      rows="2"
+                                      placeholder="Contoh: saus dipisah, tanpa selada..."
+                                      class="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#385850] focus:ring-1 focus:ring-[#385850] resize-none transition leading-relaxed"></textarea>
+                        </div>
                     </div>
-                </form>
-            </div>
 
-            <!-- Modal Footer -->
-            <div class="p-4 bg-gray-50 border-t border-gray-200 flex items-center justify-between gap-3">
-                <div class="flex items-center border border-gray-300 rounded-xl bg-white overflow-hidden">
-                    <button type="button" onclick="adjustModalQty(-1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">-</button>
-                    <input type="number" id="modal-quantity" value="1" min="1" readonly class="w-10 text-center font-bold text-xs text-gray-900 border-none focus:outline-none">
-                    <button type="button" onclick="adjustModalQty(1)" class="px-3 py-2 text-gray-600 hover:bg-gray-100 font-bold text-sm">+</button>
+                    <!-- Bottom Action Row: Stepper [-] 1 [+] and Compact Add to Cart Button -->
+                    <div class="flex items-center gap-2.5 sm:gap-3 mt-4 sm:mt-5 pt-1">
+                        <!-- Stepper [-] 1 [+] (Tombol Kurang & Tambah Burger) -->
+                        <div class="inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 py-1 shadow-2xs gap-2 shrink-0">
+                            <button type="button"
+                                    onclick="adjustModalQty(-1)"
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold transition cursor-pointer select-none"
+                                    aria-label="Kurang burger">&minus;</button>
+                            <span id="modal-quantity" class="w-4 text-center font-bold text-xs text-gray-900 select-none">1</span>
+                            <button type="button"
+                                    onclick="adjustModalQty(1)"
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold transition cursor-pointer select-none"
+                                    aria-label="Tambah burger">&plus;</button>
+                        </div>
+
+                        <!-- CTA Button (Dikecilkan, Ringkas & Proporsional) -->
+                        <button type="button"
+                                id="modal-submit-btn"
+                                onclick="submitAddToCart()"
+                                class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-bold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
+                            <span>Tambahkan ke keranjang</span>
+                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                                <path d="M3 6h18"/>
+                                <path d="M16 10a4 4 0 0 1-8 0"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-
-                <button type="button" onclick="submitAddToCart()" class="flex-1 bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold py-3 px-4 rounded-xl flex items-center justify-between text-xs sm:text-sm shadow-md transition active:scale-98">
-                    <span>+ Tambahkan ke Keranjang</span>
-                    <span id="modal-total-btn-price" class="font-black">Rp 0</span>
-                </button>
             </div>
 
         </div>
@@ -862,18 +873,32 @@
             }
         }
 
+        function startOrderFromCart() {
+            closeCartDrawer();
+            const menuUrl = '{{ route("menu") }}';
+            if (window.location.pathname === '/menu') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (typeof window.tbAppNavigate === 'function') {
+                window.tbAppNavigate(menuUrl, true);
+            } else {
+                window.location.href = menuUrl;
+            }
+        }
+
         function renderCart(cart) {
             const container = document.getElementById('cart-items-container');
             const badge = document.getElementById('cart-badge');
             const mobileDockBadge = document.getElementById('mobile-dock-cart-badge');
             const countText = document.getElementById('cart-items-count-text');
             const checkoutTotal = document.getElementById('checkout-btn-total');
-            const couponSection = document.getElementById('cart-coupon-section');
+            const fixedFooter = document.getElementById('cart-fixed-footer');
             const summarySection = document.getElementById('cart-summary-section');
+            const actionSection = document.getElementById('cart-action-section');
+            const discountRow = document.getElementById('cart-discount-row');
 
             if (badge) badge.innerText = cart.item_count || 0;
             if (mobileDockBadge) mobileDockBadge.innerText = cart.item_count || 0;
-            countText.innerText = `${cart.item_count || 0} menu dipilih`;
+            countText.innerText = `${cart.item_count || 0} Menu Dipilih`;
 
             document.getElementById('cart-subtotal').innerText = formatRupiah(cart.subtotal);
             document.getElementById('cart-discount').innerText = '- ' + formatRupiah(cart.discount);
@@ -883,59 +908,80 @@
                 checkoutTotal.innerText = formatRupiah(cart.total);
             }
 
-            const couponBadge = document.getElementById('applied-coupon-badge');
-            const couponText = document.getElementById('coupon-text');
-            if (cart.coupon) {
-                couponBadge.classList.remove('hidden');
-                couponText.innerText = `Promo ${cart.coupon.code} aktif (-${formatRupiah(cart.discount)})`;
-            } else {
-                couponBadge.classList.add('hidden');
+            if (discountRow) {
+                if (cart.discount && Number(cart.discount) > 0) {
+                    discountRow.classList.remove('hidden');
+                    discountRow.classList.add('flex');
+                } else {
+                    discountRow.classList.add('hidden');
+                    discountRow.classList.remove('flex');
+                }
             }
 
-            const actionSection = document.getElementById('cart-action-section');
+            const couponBadge = document.getElementById('applied-coupon-badge');
+            const couponText = document.getElementById('coupon-text');
+            if (couponBadge && couponText) {
+                if (cart.coupon) {
+                    couponBadge.classList.remove('hidden');
+                    couponText.innerText = `Promo ${cart.coupon.code} aktif (-${formatRupiah(cart.discount)})`;
+                } else {
+                    couponBadge.classList.add('hidden');
+                }
+            }
 
             if (!cart.items || cart.items.length === 0) {
+                container.classList.remove('max-h-[348px]');
                 container.innerHTML = `
-                    <div class="text-center py-16 text-gray-400">
-                        <div class="font-bold text-sm mb-1">[Kosong]</div>
-                        <p class="text-sm font-medium">Keranjang Anda masih kosong</p>
-                        <p class="text-xs text-gray-400 mt-1">Pilih menu favorit Anda di katalog!</p>
+                    <div class="py-7 px-4 flex flex-col items-center text-center">
+                        <img src="{{ asset('images/empty-cart.png') }}"
+                             alt="Keranjang Kosong"
+                             class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
+                        <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
+                            Keranjangmu masih kosong nih
+                        </h4>
+                        <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
+                            <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
+                            <span class="block">perut kosongmu hari ini</span>
+                        </p>
+                        <button type="button"
+                                onclick="startOrderFromCart()"
+                                class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                            Mulai Pesan Sekarang
+                        </button>
                     </div>`;
-                if (couponSection) couponSection.classList.add('hidden');
+                if (fixedFooter) fixedFooter.classList.add('hidden');
                 if (summarySection) summarySection.classList.add('hidden');
                 if (actionSection) actionSection.classList.add('hidden');
                 return;
             }
 
-            if (couponSection) couponSection.classList.remove('hidden');
+            container.classList.add('max-h-[348px]');
+            if (fixedFooter) fixedFooter.classList.remove('hidden');
             if (summarySection) summarySection.classList.remove('hidden');
             if (actionSection) actionSection.classList.remove('hidden');
 
             container.innerHTML = cart.items.map(item => `
-                <div class="bg-gray-50 border border-gray-200/80 rounded-2xl p-3.5 flex gap-3 items-center">
-                    <img src="${item.image ? '/' + item.image : '/images/burger-bg.jpg'}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl border border-gray-200 flex-shrink-0">
+                <div class="bg-[#F4F5F7] rounded-[14px] p-3.5 flex gap-3.5 items-center">
+                    <img src="${item.image ? '/' + item.image : '/images/burger-bg.jpg'}"
+                         alt="${item.name}"
+                         class="w-[74px] h-[74px] object-cover rounded-[10px] flex-shrink-0">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-1">
-                            <h4 class="font-bold text-xs text-gray-900 truncate">${item.name}</h4>
-                            <button onclick="removeCartItem('${item.cart_key}')" class="text-gray-400 hover:text-red-500 text-sm font-bold">&times;</button>
-                        </div>
-                        <div class="text-[11px] text-gray-500 font-semibold mt-0.5">${formatRupiah(item.unit_price)}</div>
+                        <h4 class="font-semibold text-[14.5px] text-[#33373D] truncate leading-snug">${item.name}</h4>
+                        <div class="text-[13.5px] text-[#6A6F77] font-normal mt-0.5">${formatRupiah(item.unit_price)}</div>
 
-                        ${item.options && item.options.length ? `
-                            <div class="text-[10px] text-gray-400 mt-1 flex flex-wrap gap-1">
-                                ${item.options.map(o => `<span class="bg-white px-1.5 py-0.5 rounded border border-gray-200">+ ${o.value_name}</span>`).join('')}
+                        <div class="flex items-center justify-between mt-2.5 pt-2.5 border-t border-[#E5E7EB]">
+                            <div class="inline-flex items-center bg-white border border-[#E5E7EB] rounded-[6px] px-1 py-0.5 shadow-2xs">
+                                <button type="button"
+                                        onclick="updateCartQty('${item.cart_key}', ${item.quantity - 1})"
+                                        class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
+                                        aria-label="Kurangi jumlah">-</button>
+                                <span class="px-2 text-[11.5px] font-medium text-[#2E3137] select-none">${item.quantity}</span>
+                                <button type="button"
+                                        onclick="updateCartQty('${item.cart_key}', ${item.quantity + 1})"
+                                        class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
+                                        aria-label="Tambah jumlah">+</button>
                             </div>
-                        ` : ''}
-
-                        ${item.notes ? `<div class="text-[10px] text-amber-700 italic mt-0.5 truncate">"${item.notes}"</div>` : ''}
-
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-gray-200/50">
-                            <span class="font-black text-xs text-gray-900">${formatRupiah(item.total_price)}</span>
-                            <div class="flex items-center border border-gray-300 rounded-lg bg-white overflow-hidden text-xs">
-                                <button onclick="updateCartQty('${item.cart_key}', ${item.quantity - 1})" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">-</button>
-                                <span class="px-2 font-bold text-gray-900">${item.quantity}</span>
-                                <button onclick="updateCartQty('${item.cart_key}', ${item.quantity + 1})" class="px-2 py-0.5 text-gray-600 hover:bg-gray-100 font-bold">+</button>
-                            </div>
+                            <span class="font-semibold text-[14.5px] text-[#2E3137]">${formatRupiah(item.total_price)}</span>
                         </div>
                     </div>
                 </div>
@@ -996,66 +1042,86 @@
 
                 currentModalProduct = data.product;
                 document.getElementById('modal-product-id').value = currentModalProduct.id;
-                document.getElementById('modal-product-name').innerText = currentModalProduct.name;
+                document.getElementById('modal-product-name').innerText = (currentModalProduct.name || '').toUpperCase();
+                document.getElementById('modal-product-badge').innerText = (currentModalProduct.badge || 'BURGER').toUpperCase();
                 document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
-                document.getElementById('modal-product-price').innerText = formatRupiah(currentModalProduct.price);
+                document.getElementById('modal-product-price').innerText = (currentModalProduct.formatted_price || formatRupiah(currentModalProduct.price)).toUpperCase();
                 document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
-                document.getElementById('modal-product-calories').innerText = `${currentModalProduct.calories || 450} kcal`;
-                document.getElementById('modal-product-time').innerText = `${currentModalProduct.prep_time_minutes || 8} menit`;
-                document.getElementById('modal-quantity').value = 1;
-                document.getElementById('modal-notes').value = '';
+
+                const cardBg = document.getElementById('modal-product-card-bg');
+                if (cardBg) {
+                    cardBg.style.backgroundColor = currentModalProduct.bg || '#FFC83B';
+                }
+
+                const qtyEl = document.getElementById('modal-quantity');
+                if (qtyEl) {
+                    if ('value' in qtyEl) qtyEl.value = '1';
+                    else qtyEl.innerText = '1';
+                }
+
+                const notesEl = document.getElementById('modal-notes');
+                if (notesEl) notesEl.value = '';
 
                 const optContainer = document.getElementById('modal-options-container');
-                if (currentModalProduct.options && currentModalProduct.options.length > 0) {
-                    optContainer.innerHTML = currentModalProduct.options.map(opt => `
-                        <div class="bg-gray-50 p-3.5 rounded-2xl border border-gray-200/80">
-                            <div class="flex items-center justify-between mb-2">
-                                <h5 class="text-xs font-bold text-gray-900">${opt.name}</h5>
-                                ${opt.is_required ? `<span class="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Wajib</span>` : `<span class="text-[10px] text-gray-400">Opsional</span>`}
+                if (optContainer) {
+                    if (currentModalProduct.options && currentModalProduct.options.length > 0) {
+                        optContainer.classList.remove('hidden');
+                        optContainer.innerHTML = currentModalProduct.options.map(opt => `
+                            <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200/70">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[11px] font-bold text-gray-800">${opt.name}</span>
+                                    ${opt.is_required ? `<span class="text-[9px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Wajib</span>` : `<span class="text-[9px] text-gray-400">Opsional</span>`}
+                                </div>
+                                <div class="space-y-1">
+                                    ${opt.values.map(val => `
+                                        <label class="flex items-center justify-between p-1.5 rounded-lg bg-white border border-gray-200 cursor-pointer hover:border-[#385850] transition text-xs">
+                                            <div class="flex items-center gap-1.5">
+                                                <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
+                                                       name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
+                                                       value="${val.id}"
+                                                       data-price="${val.additional_price}"
+                                                       ${val.is_default ? 'checked' : ''}
+                                                       onchange="recalculateModalPrice()"
+                                                       class="text-[#385850] focus:ring-[#385850]">
+                                                <span class="text-[11px] font-medium text-gray-700">${val.name}</span>
+                                            </div>
+                                            <span class="font-bold text-gray-500 text-[10px]">
+                                                ${Number(val.additional_price) > 0 ? '+ ' + formatRupiah(val.additional_price) : 'Gratis'}
+                                            </span>
+                                        </label>
+                                    `).join('')}
+                                </div>
                             </div>
-                            <div class="space-y-1.5">
-                                ${opt.values.map(val => `
-                                    <label class="flex items-center justify-between p-2 rounded-xl bg-white border border-gray-200 cursor-pointer hover:border-bites-orange transition text-xs">
-                                        <div class="flex items-center gap-2">
-                                            <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
-                                                   name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
-                                                   value="${val.id}"
-                                                   data-price="${val.additional_price}"
-                                                   ${val.is_default ? 'checked' : ''}
-                                                   onchange="recalculateModalPrice()"
-                                                   class="text-bites-orange focus:ring-bites-orange">
-                                            <span class="font-medium text-gray-800">${val.name}</span>
-                                        </div>
-                                        <span class="font-bold text-gray-600 text-[11px]">
-                                            ${Number(val.additional_price) > 0 ? '+ ' + formatRupiah(val.additional_price) : 'Gratis'}
-                                        </span>
-                                    </label>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    optContainer.innerHTML = `<p class="text-xs text-gray-400 italic">Menu standar siap saji.</p>`;
+                        `).join('');
+                    } else {
+                        optContainer.classList.add('hidden');
+                        optContainer.innerHTML = '';
+                    }
                 }
 
                 recalculateModalPrice();
                 document.getElementById('product-modal').classList.remove('hidden');
                 document.getElementById('product-modal-backdrop').classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
             } catch (e) {
                 console.error(e);
             }
         }
 
         function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-            document.getElementById('product-modal-backdrop').classList.add('hidden');
+            const modal = document.getElementById('product-modal');
+            const backdrop = document.getElementById('product-modal-backdrop');
+            if (modal) modal.classList.add('hidden');
+            if (backdrop) backdrop.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
         }
 
         function adjustModalQty(delta) {
-            const input = document.getElementById('modal-quantity');
-            let val = parseInt(input.value) + delta;
+            const qtyEl = document.getElementById('modal-quantity');
+            if (!qtyEl) return;
+            let val = parseInt(qtyEl.innerText || '1') + delta;
             if (val < 1) val = 1;
-            input.value = val;
+            qtyEl.innerText = val;
             recalculateModalPrice();
         }
 
@@ -1068,10 +1134,14 @@
                 unit += Number(inp.getAttribute('data-price') || 0);
             });
 
-            const qty = parseInt(document.getElementById('modal-quantity').value) || 1;
+            const qtyEl = document.getElementById('modal-quantity');
+            const qty = parseInt(qtyEl ? (qtyEl.innerText || qtyEl.value || '1') : '1') || 1;
             const total = unit * qty;
 
-            document.getElementById('modal-total-btn-price').innerText = formatRupiah(total);
+            const priceEl = document.getElementById('modal-product-price');
+            if (priceEl) {
+                priceEl.innerText = formatRupiah(total).toUpperCase();
+            }
         }
 
         async function submitAddToCart() {
@@ -1082,10 +1152,18 @@
                 selectedOptions.push(inp.value);
             });
 
-            const qty = parseInt(document.getElementById('modal-quantity').value) || 1;
-            const notes = document.getElementById('modal-notes').value;
+            const qtyEl = document.getElementById('modal-quantity');
+            const qty = parseInt(qtyEl ? (qtyEl.value || qtyEl.innerText || '1') : '1') || 1;
+            const notesEl = document.getElementById('modal-notes');
+            const notes = notesEl ? notesEl.value : '';
+            const submitBtn = document.getElementById('modal-submit-btn');
 
             try {
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-75');
+                }
+
                 const res = await fetch('{{ route("cart.add") }}', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
@@ -1103,16 +1181,31 @@
                     renderCart(data.cart);
                     animateCartBadge();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    const delay = window.scrollY < 5 ? 0 : 400;
+                    const delay = window.scrollY < 5 ? 0 : 300;
                     setTimeout(() => openCartDrawer(), delay);
                     showCartToast(data.message || 'Menu berhasil ditambahkan ke keranjang!');
                 } else {
-                    alert(data.message || 'Gagal menambahkan ke keranjang.');
+                    closeProductModal();
+                    if (data.cart) renderCart(data.cart);
+                    openCartDrawer();
+                    showCartToast(data.message || 'Gagal menambahkan ke keranjang.');
                 }
             } catch (e) {
                 console.error(e);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-75');
+                }
             }
         }
+
+        // Close product modal with Escape key
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProductModal();
+            }
+        });
 
         // Fly to Cart Animation
         function flyToCart(originElement) {
@@ -1180,7 +1273,11 @@
                     setTimeout(() => openCartDrawer(), delay);
                     showCartToast(data.message || 'Menu berhasil ditambahkan ke keranjang!');
                 } else {
-                    alert(data.message || 'Gagal menambahkan ke keranjang.');
+                    if (data.cart) renderCart(data.cart);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const delay = window.scrollY < 5 ? 0 : 400;
+                    setTimeout(() => openCartDrawer(), delay);
+                    showCartToast(data.message || 'Gagal menambahkan ke keranjang.');
                 }
             } catch (e) {
                 console.error(e);
@@ -1359,6 +1456,8 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLogoutModal();
+                closeCartDrawer();
+                closeProductModal();
                 const userMenu = document.getElementById('user-dropdown-menu');
                 const userArrow = document.getElementById('user-menu-arrow');
                 if (userMenu) userMenu.classList.add('hidden');
@@ -1494,48 +1593,6 @@
             }
         });
 
-        // Smooth Page Transition Handler
-        document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.transform = 'scaleX(1)';
-                setTimeout(() => { loader.style.opacity = '0'; }, 200);
-            }
-
-            document.addEventListener('click', (e) => {
-                const link = e.target.closest('a');
-                if (!link || !link.hasAttribute('data-page-transition')) return;
-
-                const href = link.getAttribute('href');
-                const target = link.getAttribute('target');
-
-                if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:') || target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
-                    return;
-                }
-
-                if (link.hostname === window.location.hostname) {
-                    if (loader) {
-                        loader.style.opacity = '1';
-                        loader.style.transform = 'scaleX(0.7)';
-                    }
-                    document.body.classList.add('page-exiting');
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.remove('page-exiting');
-        });
-
-        window.addEventListener('pageshow', () => {
-            document.body.classList.remove('page-exiting');
-            const loader = document.getElementById('page-loader-bar');
-            if (loader) {
-                loader.style.transform = 'scaleX(1)';
-                setTimeout(() => { loader.style.opacity = '0'; loader.style.transform = 'scaleX(0)'; }, 200);
-            }
-        });
-
         // ═══════════════════════════════════════════════
         // INTERACTIVE MICRO-ANIMATION INITIALIZERS
         // ═══════════════════════════════════════════════
@@ -1563,25 +1620,24 @@
             });
         }
 
-        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & cached rect to eliminate lag)
+        // 2. Hero Mouse Parallax Interaction (Optimized with RAF & lazy cached rect, zero scroll listeners)
         function initHeroParallax() {
             const hero = document.getElementById('hero-section');
             const burger = document.getElementById('hero-burger-img');
             const badge = document.getElementById('hero-badge-img');
-            if (!hero || !burger || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!hero || !burger || hero.dataset.parallaxInit || !window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            hero.dataset.parallaxInit = 'true';
 
             let ticking = false;
             let rect = null;
-
-            function updateRect() {
-                rect = hero.getBoundingClientRect();
-            }
-            updateRect();
-            window.addEventListener('resize', updateRect, { passive: true });
-            window.addEventListener('scroll', updateRect, { passive: true });
+            let rectTs = 0;
 
             hero.addEventListener('mousemove', (e) => {
-                if (!rect) updateRect();
+                const now = performance.now();
+                if (!rect || (now - rectTs > 250)) {
+                    rect = hero.getBoundingClientRect();
+                    rectTs = now;
+                }
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const normX = (e.clientX - rect.left - (rect.width / 2)) / (rect.width / 2);
@@ -1598,9 +1654,10 @@
             }, { passive: true });
 
             hero.addEventListener('mouseleave', () => {
+                rect = null;
                 burger.style.transform = 'translate3d(0, 0, 0)';
                 if (badge) badge.style.transform = 'translate3d(0, 0, 0)';
-            });
+            }, { passive: true });
         }
 
         // 3. Scroll Reveal Interaction
@@ -1628,16 +1685,365 @@
             initScrollReveal();
         });
 
-        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
-        window.addEventListener('pageshow', function (event) {
-            const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
-            const isBackForward = event.persisted || 
-                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
-                (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
+        // Instant Single-Click Public Navigation Engine (PJAX + Hover/Background Prefetch)
+        (function () {
+            const _tbAppPageCache = new Map();
+            const _tbAppInFlight = new Map();
+            const _tbLoadedScriptSrcs = new Set();
+            const CACHE_TTL_MS = 90000;
+            let _activeNavController = null;
+            let _bgPrefetchController = null;
 
-            if (isBackForward) {
-                window.location.reload();
+            function normalizeAppUrl(url) {
+                try {
+                    const u = new URL(url, window.location.origin);
+                    u.hash = '';
+                    if (u.pathname === '/') {
+                        u.pathname = '/home';
+                    }
+                    return u.href;
+                } catch (e) {
+                    return url;
+                }
             }
+
+            function isPjaxEligibleAppUrl(rawHref) {
+                if (!rawHref || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) {
+                    return false;
+                }
+                try {
+                    const u = new URL(rawHref, window.location.origin);
+                    if (u.origin !== window.location.origin) return false;
+                    const p = u.pathname;
+                    if (
+                        p.startsWith('/admin') ||
+                        p.startsWith('/login') ||
+                        p.startsWith('/register') ||
+                        p.startsWith('/logout') ||
+                        p.startsWith('/gofood') ||
+                        p.startsWith('/checkout') ||
+                        p.startsWith('/payment')
+                    ) {
+                        return false;
+                    }
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function isNavPathActive(linkPathname, targetPathname) {
+                const lp = linkPathname === '/' ? '/home' : linkPathname;
+                const tp = targetPathname === '/' ? '/home' : targetPathname;
+                if (lp === '/home') return tp === '/home';
+                if (lp === '/menu') return tp === '/menu' || tp.startsWith('/menu/');
+                return tp === lp || tp.startsWith(lp + '/');
+            }
+
+            function updateAppNavHighlight(targetUrl) {
+                let targetPath = '/home';
+                try {
+                    const p = new URL(targetUrl, window.location.origin).pathname;
+                    targetPath = p === '/' ? '/home' : p;
+                } catch (e) {}
+
+                // Desktop Navbar Links
+                document.querySelectorAll('header nav a[href]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold bg-white/20 text-white shadow-2xs';
+                        } else {
+                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold text-white/80 hover:text-white hover:bg-white/10';
+                        }
+                    } catch (e) {}
+                });
+
+                // Mobile Dropdown Menu Links
+                document.querySelectorAll('#mobile-nav-menu a[data-page-transition]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.className = 'block px-4 py-2 rounded-xl transition bg-[#3b6e64]/10 text-[#3b6e64]';
+                        } else {
+                            a.className = 'block px-4 py-2 rounded-xl transition text-gray-700 hover:text-gray-900 hover:bg-gray-100';
+                        }
+                    } catch (e) {}
+                });
+
+                // Mobile Bottom Dock Links
+                document.querySelectorAll('nav[aria-label="Mobile Navigation"] a[href]').forEach(a => {
+                    try {
+                        const aPath = new URL(a.href, window.location.origin).pathname;
+                        const active = isNavPathActive(aPath, targetPath);
+                        if (active) {
+                            a.classList.remove('text-gray-500', 'font-medium');
+                            a.classList.add('text-[#27443E]', 'font-black');
+                        } else {
+                            a.classList.remove('text-[#27443E]', 'font-black');
+                            a.classList.add('text-gray-500', 'font-medium');
+                        }
+                    } catch (e) {}
+                });
+            }
+
+            function extractAppPagePayload(htmlText) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+                const mainEl = doc.querySelector('main');
+                if (!mainEl) return null;
+                return {
+                    title: doc.title || document.title,
+                    mainHtml: mainEl.innerHTML,
+                    ts: Date.now()
+                };
+            }
+
+            function prefetchAppUrl(url, isPriority) {
+                const key = normalizeAppUrl(url);
+                const cached = _tbAppPageCache.get(key);
+                if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
+                    return Promise.resolve(cached);
+                }
+                if (_tbAppInFlight.has(key)) {
+                    return _tbAppInFlight.get(key);
+                }
+
+                if (isPriority && _bgPrefetchController) {
+                    try { _bgPrefetchController.abort(); } catch (e) {}
+                    _bgPrefetchController = null;
+                }
+
+                const controller = new AbortController();
+                if (!isPriority) {
+                    _bgPrefetchController = controller;
+                }
+
+                const promise = fetch(key, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    signal: controller.signal,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-TB-PJAX': '1',
+                        'Accept': 'text/html,application/xhtml+xml'
+                    }
+                })
+                .then(res => {
+                    if (!res.ok || res.redirected && res.url.includes('/login')) return null;
+                    return res.text();
+                })
+                .then(html => {
+                    _tbAppInFlight.delete(key);
+                    if (!html) return null;
+                    const payload = extractAppPagePayload(html);
+                    if (payload) {
+                        _tbAppPageCache.set(key, payload);
+                    }
+                    return payload;
+                })
+                .catch(() => {
+                    _tbAppInFlight.delete(key);
+                    return null;
+                });
+
+                _tbAppInFlight.set(key, promise);
+                return promise;
+            }
+
+            function executeAppMainScripts(mainEl) {
+                const scripts = Array.from(mainEl.querySelectorAll('script'));
+                const externalPromises = [];
+
+                scripts.forEach(oldScript => {
+                    if (oldScript.src) {
+                        const src = oldScript.src;
+                        oldScript.remove();
+                        if (_tbLoadedScriptSrcs.has(src) || (src.includes('leaflet') && typeof window.L !== 'undefined')) {
+                            _tbLoadedScriptSrcs.add(src);
+                            return;
+                        }
+                        const p = new Promise(resolve => {
+                            const s = document.createElement('script');
+                            s.src = src;
+                            s.onload = () => { _tbLoadedScriptSrcs.add(src); resolve(); };
+                            s.onerror = () => resolve();
+                            document.head.appendChild(s);
+                        });
+                        externalPromises.push(p);
+                    }
+                });
+
+                const runInline = () => {
+                    scripts.forEach(oldScript => {
+                        if (!oldScript.src) {
+                            const newScript = document.createElement('script');
+                            Array.from(oldScript.attributes).forEach(attr => {
+                                newScript.setAttribute(attr.name, attr.value);
+                            });
+                            newScript.textContent = oldScript.textContent;
+                            oldScript.parentNode.replaceChild(newScript, oldScript);
+                        }
+                    });
+                };
+
+                if (externalPromises.length > 0) {
+                    Promise.all(externalPromises).then(runInline);
+                } else {
+                    runInline();
+                }
+            }
+
+            function applyAppPayload(url, payload, pushHistory) {
+                const mainEl = document.querySelector('main');
+                if (!mainEl || !payload) return false;
+
+                document.title = payload.title;
+                mainEl.innerHTML = payload.mainHtml;
+
+                const mobileMenu = document.getElementById('mobile-nav-menu');
+                if (mobileMenu) mobileMenu.classList.add('hidden');
+                const searchDropdown = document.getElementById('home-search-dropdown');
+                if (searchDropdown) searchDropdown.classList.add('hidden');
+
+                if (pushHistory && normalizeAppUrl(window.location.href) !== normalizeAppUrl(url)) {
+                    window.history.pushState({ tbAppPjax: true, url: url }, payload.title, url);
+                }
+
+                updateAppNavHighlight(url);
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+                executeAppMainScripts(mainEl);
+                initTiltCards();
+                initHeroParallax();
+                initScrollReveal();
+                return true;
+            }
+
+            window.tbAppNavigate = function (url, pushHistory = true) {
+                const key = normalizeAppUrl(url);
+                updateAppNavHighlight(key);
+
+                const cached = _tbAppPageCache.get(key);
+                if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
+                    applyAppPayload(url, cached, pushHistory);
+                    return;
+                }
+
+                if (_activeNavController) {
+                    try { _activeNavController.abort(); } catch (e) {}
+                }
+                _activeNavController = new AbortController();
+
+                prefetchAppUrl(key, true).then(payload => {
+                    if (payload) {
+                        applyAppPayload(url, payload, pushHistory);
+                    } else {
+                        window.location.href = url;
+                    }
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const mainEl = document.querySelector('main');
+                if (mainEl) {
+                    _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
+                        title: document.title,
+                        mainHtml: mainEl.innerHTML,
+                        ts: Date.now()
+                    });
+                }
+
+                // Warm up primary public navigation pages sequentially during browser idle time after initial load
+                const warmUpPublicNav = () => {
+                    if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''))) {
+                        return;
+                    }
+                    const runWarmUp = async () => {
+                        const links = Array.from(document.querySelectorAll('header nav a[href]'))
+                            .map(a => a.href)
+                            .filter(href => isPjaxEligibleAppUrl(href));
+
+                        for (const href of links) {
+                            const key = normalizeAppUrl(href);
+                            if (!_tbAppPageCache.has(key)) {
+                                await prefetchAppUrl(key, false);
+                            }
+                        }
+                    };
+                    if ('requestIdleCallback' in window) {
+                        window.requestIdleCallback(() => { runWarmUp(); }, { timeout: 2000 });
+                    } else {
+                        setTimeout(runWarmUp, 600);
+                    }
+                };
+
+                if (document.readyState === 'complete') {
+                    warmUpPublicNav();
+                } else {
+                    window.addEventListener('load', warmUpPublicNav, { once: true });
+                }
+            });
+
+            // Prefetch on hover/mousedown/touchstart so clicking is instant
+            const triggerAppPrefetch = (e) => {
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const rawHref = link.getAttribute('href');
+                if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
+                prefetchAppUrl(link.href, true);
+            };
+            document.addEventListener('pointerover', triggerAppPrefetch, { passive: true });
+            document.addEventListener('mousedown', triggerAppPrefetch, { passive: true });
+            document.addEventListener('touchstart', triggerAppPrefetch, { passive: true });
+
+            // Intercept single clicks on internal public links
+            document.addEventListener('click', (e) => {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                const link = e.target.closest('a[href]');
+                if (!link) return;
+                const rawHref = link.getAttribute('href');
+                if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
+
+                e.preventDefault();
+                window.tbAppNavigate(link.href, true);
+            });
+
+            // Intercept GET search/filter forms pointing to internal public routes
+            document.addEventListener('submit', (e) => {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+                const method = (form.getAttribute('method') || 'GET').toUpperCase();
+                if (method === 'GET') {
+                    const action = form.getAttribute('action') || window.location.pathname;
+                    if (!isPjaxEligibleAppUrl(action)) return;
+                    e.preventDefault();
+                    const u = new URL(action, window.location.origin);
+                    const fd = new FormData(form);
+                    u.search = new URLSearchParams(fd).toString();
+                    window.tbAppNavigate(u.href, true);
+                } else {
+                    _tbAppPageCache.clear();
+                }
+            });
+
+            window.addEventListener('popstate', () => {
+                if (isPjaxEligibleAppUrl(window.location.href)) {
+                    window.tbAppNavigate(window.location.href, false);
+                }
+            });
+        })();
+
+        // Reload page on Back / Forward navigation only if user logged out
+        window.addEventListener('pageshow', function () {
+            try {
+                if (localStorage.getItem('tb_logged_out') === '1') {
+                    localStorage.removeItem('tb_logged_out');
+                    window.location.reload();
+                }
+            } catch (e) {}
         });
 
         // Register Service Worker for offline & Laragon down handling

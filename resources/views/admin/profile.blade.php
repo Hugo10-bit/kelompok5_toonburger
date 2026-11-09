@@ -147,7 +147,7 @@
     </form>
 
     <script>
-        function handleAdminAvatarChange(input) {
+        window.handleAdminAvatarChange = function(input) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
             const reader = new FileReader();
@@ -170,12 +170,11 @@
                 if (headerAvatarInit) {
                     headerAvatarInit.classList.add('hidden');
                 }
-                // Auto-submit form to persist new avatar immediately
                 const form = document.getElementById('admin-profile-form');
                 if (form) form.submit();
             };
             reader.readAsDataURL(file);
-        }
+        };
     </script>
 
 </div>

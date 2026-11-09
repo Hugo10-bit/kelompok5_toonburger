@@ -379,6 +379,7 @@
 </div>
 
 <script>
+(function () {
     const STORE_LAT = -3.435747;
     const STORE_LNG = 114.823253;
 
@@ -386,13 +387,10 @@
     let storeMarker = null;
     let currentTileLayer = null;
 
-    document.addEventListener("DOMContentLoaded", function () {
-        initLiveMap();
-    });
-
     function initLiveMap() {
         const container = document.getElementById('live-leaflet-map');
         if (!container || typeof L === 'undefined') return;
+        if (container._leaflet_id) return;
 
         map = L.map('live-leaflet-map', {
             center: [STORE_LAT, STORE_LNG],
@@ -433,7 +431,13 @@
         storeMarker = L.marker([STORE_LAT, STORE_LNG], { icon: storeIcon }).addTo(map);
     }
 
-    function switchMapView(viewType) {
+    if (document.readyState === 'loading') {
+        document.addEventListener("DOMContentLoaded", initLiveMap);
+    } else {
+        initLiveMap();
+    }
+
+    window.switchMapView = function switchMapView(viewType) {
         if (!map) return;
         const btnLeaflet = document.getElementById('btn-view-leaflet');
         const btnGoogle = document.getElementById('btn-view-google');
@@ -464,9 +468,9 @@
         }
 
         map.invalidateSize();
-    }
+    };
 
-    function toggleFaqItem(button) {
+    window.toggleFaqItem = function toggleFaqItem(button) {
         const item = button.closest('.faq-item');
         if (!item) return;
         const body = item.querySelector('.faq-body');
@@ -481,9 +485,9 @@
             body.classList.add('hidden');
             if (chevron) chevron.classList.remove('rotate-180');
         }
-    }
+    };
 
-    function handleContactSubmit(event) {
+    window.handleContactSubmit = function handleContactSubmit(event) {
         event.preventDefault();
         const name = document.getElementById('contact-name').value;
 
@@ -497,6 +501,7 @@
         });
 
         event.target.reset();
-    }
+    };
+})();
 </script>
 @endsection

@@ -264,6 +264,10 @@
                              style="background-color: {{ $item->bg_hex }};">
                             <img src="{{ asset($item->image) }}"
                                  alt="{{ $item->product_name }}"
+                                 width="44"
+                                 height="44"
+                                 loading="lazy"
+                                 decoding="async"
                                  class="w-full h-full object-contain p-0.5 transition-transform duration-200 group-hover:scale-105">
                         </div>
                         <div class="min-w-0 flex-1">
@@ -307,31 +311,48 @@
             return window._tbLang === 'US' || window._tbLang === 'EN';
         }
 
-        function renderRevenueChart() {
+        let cachedRefs = null;
+
+        function getChartRefs() {
+            if (cachedRefs) return cachedRefs;
             const barsGrid = document.getElementById('revenue-bars-grid');
             const monthsGrid = document.getElementById('revenue-months-grid');
-            const btnH1 = document.getElementById('period-btn-jan-jun');
-            const btnH2 = document.getElementById('period-btn-jul-des');
-            if (!barsGrid || !monthsGrid) return;
+            if (!barsGrid || !monthsGrid) return null;
+            cachedRefs = {
+                btnH1: document.getElementById('period-btn-jan-jun'),
+                btnH2: document.getElementById('period-btn-jul-des'),
+                yAxisEls: Array.from(document.querySelectorAll('[data-yaxis]')),
+                barButtons: Array.from(barsGrid.querySelectorAll('.tb-chart-bar')).map((btn) => ({
+                    btn,
+                    tooltip: btn.querySelector('.tb-bar-tooltip'),
+                    dateEl: btn.querySelector('.tb-tooltip-date'),
+                    valEl: btn.querySelector('.tb-tooltip-val'),
+                })),
+                monthButtons: Array.from(monthsGrid.querySelectorAll('.tb-month-label')),
+            };
+            return cachedRefs;
+        }
+
+        function renderRevenueChart() {
+            const refs = getChartRefs();
+            if (!refs) return;
 
             const isEn = isEnglishActive();
             const rows = chartPeriods[activePeriod] || [];
 
-            if (btnH1 && btnH2) {
+            if (refs.btnH1 && refs.btnH2) {
                 const h1Active = activePeriod === 'jan_jun';
-                btnH1.classList.toggle('is-active', h1Active);
-                btnH1.setAttribute('aria-pressed', h1Active ? 'true' : 'false');
-                btnH2.classList.toggle('is-active', !h1Active);
-                btnH2.setAttribute('aria-pressed', !h1Active ? 'true' : 'false');
+                refs.btnH1.classList.toggle('is-active', h1Active);
+                refs.btnH1.setAttribute('aria-pressed', h1Active ? 'true' : 'false');
+                refs.btnH2.classList.toggle('is-active', !h1Active);
+                refs.btnH2.setAttribute('aria-pressed', !h1Active ? 'true' : 'false');
             }
 
-            document.querySelectorAll('[data-yaxis]').forEach((el) => {
+            refs.yAxisEls.forEach((el) => {
                 const n = el.getAttribute('data-yaxis');
-                el.textContent = isEn ? `${n}M` : `${n}jt`;
+                const nextLabel = isEn ? `${n}M` : `${n}jt`;
+                if (el.textContent !== nextLabel) el.textContent = nextLabel;
             });
-
-            const barButtons = barsGrid.querySelectorAll('.tb-chart-bar');
-            const monthButtons = monthsGrid.querySelectorAll('.tb-month-label');
 
             rows.forEach((row, idx) => {
                 const isSelected = idx === activeBarIndex;
@@ -339,27 +360,25 @@
                 const dateText = isEn ? row.date_en : row.date_id;
                 const valText = isEn ? row.val_en : row.val_id;
 
-                const barBtn = barButtons[idx];
-                if (barBtn) {
-                    barBtn.style.height = `${row.pct}%`;
-                    barBtn.classList.toggle('is-active', isSelected);
-                    barBtn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-                    barBtn.setAttribute('aria-label', `${monthText}: ${valText}`);
+                const barRef = refs.barButtons[idx];
+                if (barRef) {
+                    const nextHeight = `${row.pct}%`;
+                    if (barRef.btn.style.height !== nextHeight) barRef.btn.style.height = nextHeight;
+                    barRef.btn.classList.toggle('is-active', isSelected);
+                    barRef.btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+                    barRef.btn.setAttribute('aria-label', `${monthText}: ${valText}`);
 
-                    const tooltip = barBtn.querySelector('.tb-bar-tooltip');
-                    const dateEl = barBtn.querySelector('.tb-tooltip-date');
-                    const valEl = barBtn.querySelector('.tb-tooltip-val');
-                    if (dateEl) dateEl.textContent = dateText;
-                    if (valEl) valEl.textContent = valText;
-                    if (tooltip) {
-                        tooltip.classList.toggle('block', isSelected);
-                        tooltip.classList.toggle('hidden', !isSelected);
+                    if (barRef.dateEl && barRef.dateEl.textContent !== dateText) barRef.dateEl.textContent = dateText;
+                    if (barRef.valEl && barRef.valEl.textContent !== valText) barRef.valEl.textContent = valText;
+                    if (barRef.tooltip) {
+                        barRef.tooltip.classList.toggle('block', isSelected);
+                        barRef.tooltip.classList.toggle('hidden', !isSelected);
                     }
                 }
 
-                const monthBtn = monthButtons[idx];
+                const monthBtn = refs.monthButtons[idx];
                 if (monthBtn) {
-                    monthBtn.textContent = monthText;
+                    if (monthBtn.textContent.trim() !== monthText) monthBtn.textContent = monthText;
                     monthBtn.classList.toggle('font-medium', isSelected);
                     monthBtn.classList.toggle('text-[#374151]', isSelected);
                     monthBtn.classList.toggle('dark:text-white', isSelected);
@@ -379,8 +398,14 @@
             renderRevenueChart();
         };
 
+        if (window._tbDashLangHandler) {
+            window.removeEventListener('tb:langchange', window._tbDashLangHandler);
+        }
+        window._tbDashLangHandler = renderRevenueChart;
         window.addEventListener('tb:langchange', renderRevenueChart);
-        document.addEventListener('DOMContentLoaded', renderRevenueChart);
+        if (isEnglishActive()) {
+            renderRevenueChart();
+        }
     })();
 </script>
 @endsection

@@ -1,5 +1,5 @@
 // Toon Burger Offline Fallback Service Worker
-const CACHE_NAME = 'toonburger-offline-v2';
+const CACHE_NAME = 'toonburger-offline-v3';
 const PRECACHE_ASSETS = [
     '/offline.html',
     '/images/toon-head.png',
@@ -32,6 +32,10 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     // Only handle GET requests
     if (event.request.method !== 'GET') return;
+
+    const url = new URL(event.request.url);
+    if (url.origin !== self.location.origin) return;
+    if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/pos')) return;
 
     // For HTML navigation requests (page loads)
     if (event.request.mode === 'navigate') {

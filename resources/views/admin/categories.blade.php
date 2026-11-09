@@ -94,50 +94,54 @@
     </div>
 
     <script>
-        const catModal = document.getElementById('catModal');
-        const catForm = document.getElementById('catForm');
-        const catTitle = document.getElementById('catModalTitle');
-        const catMethod = document.getElementById('catFormMethod');
-        let catSortAsc = null;
+        (function () {
+            const catModal = document.getElementById('catModal');
+            const catForm = document.getElementById('catForm');
+            const catTitle = document.getElementById('catModalTitle');
+            const catMethod = document.getElementById('catFormMethod');
+            let catSortAsc = null;
 
-        function toggleCategorySort() {
-            const tbody = document.getElementById('category-table-body');
-            if (!tbody) return;
-            const rows = Array.from(tbody.querySelectorAll('.category-row'));
-            catSortAsc = catSortAsc === null ? true : !catSortAsc;
-            rows.sort((a, b) => {
-                const nameA = a.getAttribute('data-name') || '';
-                const nameB = b.getAttribute('data-name') || '';
-                return catSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-            });
-            rows.forEach((r, idx) => {
-                const numCell = r.querySelector('.category-num');
-                if (numCell) numCell.textContent = (idx + 1) + '.';
-                tbody.appendChild(r);
-            });
-        }
+            window.toggleCategorySort = function () {
+                const tbody = document.getElementById('category-table-body');
+                if (!tbody) return;
+                const rows = Array.from(tbody.querySelectorAll('.category-row'));
+                catSortAsc = catSortAsc === null ? true : !catSortAsc;
+                rows.sort((a, b) => {
+                    const nameA = a.getAttribute('data-name') || '';
+                    const nameB = b.getAttribute('data-name') || '';
+                    return catSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+                });
+                rows.forEach((r, idx) => {
+                    const numCell = r.querySelector('.category-num');
+                    if (numCell) numCell.textContent = (idx + 1) + '.';
+                    tbody.appendChild(r);
+                });
+            };
 
-        function openAddCatModal() {
-            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-            catTitle.innerText = isEn ? 'Add Category' : 'Tambah Kategori';
-            catForm.action = "{{ route('admin.categories.store') }}";
-            catMethod.value = 'POST';
-            catForm.reset();
-            catModal.classList.remove('hidden');
-        }
+            window.openAddCatModal = function () {
+                if (!catModal || !catForm || !catTitle || !catMethod) return;
+                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+                catTitle.innerText = isEn ? 'Add Category' : 'Tambah Kategori';
+                catForm.action = "{{ route('admin.categories.store') }}";
+                catMethod.value = 'POST';
+                catForm.reset();
+                catModal.classList.remove('hidden');
+            };
 
-        function openEditCatModal(cat) {
-            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-            catTitle.innerText = isEn ? 'Edit Category' : 'Edit Kategori';
-            catForm.action = `/admin/categories/${cat.id}`;
-            catMethod.value = 'PUT';
-            document.getElementById('cat_name').value = cat.name;
-            catModal.classList.remove('hidden');
-        }
+            window.openEditCatModal = function (cat) {
+                if (!catModal || !catForm || !catTitle || !catMethod) return;
+                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+                catTitle.innerText = isEn ? 'Edit Category' : 'Edit Kategori';
+                catForm.action = `/admin/categories/${cat.id}`;
+                catMethod.value = 'PUT';
+                document.getElementById('cat_name').value = cat.name;
+                catModal.classList.remove('hidden');
+            };
 
-        function closeCatModal() {
-            catModal.classList.add('hidden');
-        }
+            window.closeCatModal = function () {
+                if (catModal) catModal.classList.add('hidden');
+            };
+        })();
     </script>
 </div>
 @endsection

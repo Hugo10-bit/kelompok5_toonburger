@@ -40,7 +40,7 @@ class CartController extends Controller
             }
         }
 
-        $tax = round(($subtotal - $discount) * 0.10); // 10% PB1 tax
+        $tax = round(($subtotal - $discount) * 0.11); // 11% PPN tax
         $total = max(0, $subtotal - $discount + $tax);
 
         return [

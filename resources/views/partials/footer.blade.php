@@ -1,4 +1,4 @@
-<footer class="relative text-white mt-0 pt-14 sm:pt-16 pb-24 sm:pb-8 select-none overflow-hidden" style="background-color: #3b5c56;">
+<footer class="relative text-white mt-0 pt-14 sm:pt-16 pb-24 sm:pb-8 select-none overflow-hidden" style="background-color: #3b5c56; content-visibility: auto; contain-intrinsic-size: 1px 360px;">
     <!-- Topographic Contour Lines Background -->
     <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20 select-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400" fill="none">
         <path d="M-100 120 C 150 160, 350 70, 600 110 C 850 150, 1050 80, 1300 130" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
@@ -19,6 +19,10 @@
                 <a href="{{ route('home') }}" class="group inline-flex flex-col items-center text-center">
                     <img src="{{ asset('images/toon-head.png') }}"
                          alt="Toon Burger Mascot"
+                         loading="lazy"
+                         decoding="async"
+                         width="112"
+                         height="112"
                          class="h-24 sm:h-28 w-auto object-contain mb-3 transition transform group-hover:scale-105 duration-200">
                     <span class="font-normal text-white text-2xl sm:text-3xl uppercase tracking-wider block leading-tight"
                           style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">

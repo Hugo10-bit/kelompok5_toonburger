@@ -225,13 +225,6 @@
                     </div>
                 @endforeach
             </div>
-
-            <!-- ═══════════════════════════════════════════════
-                 4. PAGINATION BAR
-                 ═══════════════════════════════════════════════ -->
-            <div class="pt-4 sm:pt-6 toon-reveal" style="transition-delay: 100ms;">
-                {{ $products->links('vendor.pagination.toonburger') }}
-            </div>
         @endif
 
     </div>

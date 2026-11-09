@@ -75,7 +75,7 @@
                             <div class="flex items-center gap-4 pl-2 sm:pl-4">
                                 <div class="w-12 h-12 rounded-xl {{ $bgClass }} flex items-center justify-center overflow-hidden shrink-0 p-1">
                                     @if($prod->image)
-                                        <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}" class="w-full h-full object-contain" alt="{{ $prod->name }}">
+                                        <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}" width="48" height="48" loading="lazy" decoding="async" class="w-full h-full object-contain" alt="{{ $prod->name }}">
                                     @else
                                         <svg class="w-6 h-6 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
                                     @endif
@@ -200,78 +200,87 @@
     </div>
 
     <script>
-        const modal = document.getElementById('productModal');
-        const form = document.getElementById('productForm');
-        const title = document.getElementById('modalTitle');
-        const methodInput = document.getElementById('formMethod');
-        let prodSortAsc = null;
+        (function () {
+            const modal = document.getElementById('productModal');
+            const form = document.getElementById('productForm');
+            const title = document.getElementById('modalTitle');
+            const methodInput = document.getElementById('formMethod');
+            let prodSortAsc = null;
 
-        function toggleProdFilterMenu() {
-            const menu = document.getElementById('prod-filter-menu');
-            if (menu) menu.classList.toggle('hidden');
-        }
+            window.toggleProdFilterMenu = function () {
+                const menu = document.getElementById('prod-filter-menu');
+                if (menu) menu.classList.toggle('hidden');
+            };
 
-        function applyCategoryFilter(cat) {
-            const rows = document.querySelectorAll('#product-table-body .product-row');
-            rows.forEach(row => {
-                if (cat === 'all' || row.getAttribute('data-category') === cat) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            const menu = document.getElementById('prod-filter-menu');
-            if (menu) menu.classList.add('hidden');
-        }
+            window.applyCategoryFilter = function (cat) {
+                const rows = document.querySelectorAll('#product-table-body .product-row');
+                rows.forEach(row => {
+                    if (cat === 'all' || row.getAttribute('data-category') === cat) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+                const menu = document.getElementById('prod-filter-menu');
+                if (menu) menu.classList.add('hidden');
+            };
 
-        function toggleProductSort() {
-            const tbody = document.getElementById('product-table-body');
-            if (!tbody) return;
-            const rows = Array.from(tbody.querySelectorAll('.product-row'));
-            prodSortAsc = prodSortAsc === null ? true : !prodSortAsc;
-            rows.sort((a, b) => {
-                const nameA = a.getAttribute('data-name') || '';
-                const nameB = b.getAttribute('data-name') || '';
-                return prodSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-            });
-            rows.forEach(r => tbody.appendChild(r));
-        }
+            window.toggleProductSort = function () {
+                const tbody = document.getElementById('product-table-body');
+                if (!tbody) return;
+                const rows = Array.from(tbody.querySelectorAll('.product-row'));
+                prodSortAsc = prodSortAsc === null ? true : !prodSortAsc;
+                rows.sort((a, b) => {
+                    const nameA = a.getAttribute('data-name') || '';
+                    const nameB = b.getAttribute('data-name') || '';
+                    return prodSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+                });
+                rows.forEach(r => tbody.appendChild(r));
+            };
 
-        function openAddModal() {
-            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-            title.innerText = isEn ? 'Add New Product' : 'Tambah Produk Baru';
-            form.action = "{{ route('admin.products.store') }}";
-            methodInput.value = 'POST';
-            form.reset();
-            document.getElementById('prod_avail').checked = true;
-            modal.classList.remove('hidden');
-        }
+            window.openAddModal = function () {
+                if (!modal || !form || !title || !methodInput) return;
+                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+                title.innerText = isEn ? 'Add New Product' : 'Tambah Produk Baru';
+                form.action = "{{ route('admin.products.store') }}";
+                methodInput.value = 'POST';
+                form.reset();
+                const availEl = document.getElementById('prod_avail');
+                if (availEl) availEl.checked = true;
+                modal.classList.remove('hidden');
+            };
 
-        function openEditModal(product) {
-            const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-            title.innerText = (isEn ? 'Edit Product: ' : 'Edit Produk: ') + product.name;
-            form.action = `/admin/products/${product.id}`;
-            methodInput.value = 'PUT';
-            document.getElementById('prod_name').value = product.name;
-            document.getElementById('prod_cat').value = product.category_id;
-            document.getElementById('prod_price').value = product.price;
-            document.getElementById('prod_cal').value = product.calories || '';
-            document.getElementById('prod_desc').value = product.description || '';
-            document.getElementById('prod_avail').checked = product.is_available == 1;
-            document.getElementById('prod_pop').checked = product.is_popular == 1;
-            modal.classList.remove('hidden');
-        }
+            window.openEditModal = function (product) {
+                if (!modal || !form || !title || !methodInput) return;
+                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
+                title.innerText = (isEn ? 'Edit Product: ' : 'Edit Produk: ') + product.name;
+                form.action = `/admin/products/${product.id}`;
+                methodInput.value = 'PUT';
+                document.getElementById('prod_name').value = product.name;
+                document.getElementById('prod_cat').value = product.category_id;
+                document.getElementById('prod_price').value = product.price;
+                document.getElementById('prod_cal').value = product.calories || '';
+                document.getElementById('prod_desc').value = product.description || '';
+                document.getElementById('prod_avail').checked = product.is_available == 1;
+                document.getElementById('prod_pop').checked = product.is_popular == 1;
+                modal.classList.remove('hidden');
+            };
 
-        function closeModal() {
-            modal.classList.add('hidden');
-        }
+            window.closeModal = function () {
+                if (modal) modal.classList.add('hidden');
+            };
 
-        document.addEventListener('click', function(e) {
-            const menu = document.getElementById('prod-filter-menu');
-            if (menu && !menu.parentElement.contains(e.target)) {
-                menu.classList.add('hidden');
+            if (window._tbProdFilterClickHandler) {
+                document.removeEventListener('click', window._tbProdFilterClickHandler);
             }
-        });
+            window._tbProdFilterClickHandler = function (e) {
+                const menu = document.getElementById('prod-filter-menu');
+                if (menu && menu.parentElement && !menu.parentElement.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            };
+            document.addEventListener('click', window._tbProdFilterClickHandler);
+        })();
     </script>
 </div>
 @endsection

@@ -286,9 +286,9 @@
 </div>
 
 <script>
-    function confirmCancelOrder() {
+    window.confirmCancelOrder = function () {
         const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
         return confirm(isEn ? 'Are you sure you want to cancel this order?' : 'Apakah Anda yakin ingin membatalkan pesanan ini?');
-    }
+    };
 </script>
 @endsection

@@ -7,10 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script>
         if (localStorage.getItem('tb_logged_out') === '1') {
             document.documentElement.style.display = 'none';
@@ -124,6 +121,9 @@
         .lg\:col-span-8.bg-white,
         .lg\:col-span-4.bg-white {
             box-shadow: 0 7px 16px -4px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        .grid > .bg-white {
             transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
 
@@ -288,7 +288,8 @@
         /* Modals */
         html.dark #logout-confirm-modal .bg-white,
         html.dark #delete-confirm-modal .bg-white,
-        html.dark [id$="-modal"] .bg-white {
+        html.dark #productModal > .bg-white,
+        html.dark #catModal > .bg-white {
             background-color: #303030 !important;
             border-color: #4A4A4A !important;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
@@ -598,7 +599,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] transition-colors duration-200 antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
+<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -697,8 +698,8 @@
             <!-- Logo Section with Mascot (Sesuai Referensi Gambar) -->
             <div class="-mx-6 px-6 pt-2 pb-5 mb-5 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 dark:hidden">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition group-hover:scale-105 hidden dark:block">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" width="90" height="90" decoding="async" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition-transform group-hover:scale-105 dark:hidden">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" width="90" height="90" loading="lazy" decoding="async" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block">
                 </a>
                 <!-- Mobile Close Button -->
                 <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-4 top-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-[#383838] transition" aria-label="Tutup Menu">
@@ -1373,6 +1374,71 @@
                 dropdown_theme: 'Mode Gelap',
                 dropdown_home: 'Beranda',
                 dropdown_logout: 'Logout',
+                // Subview keys (Profile, Orders, Products, Categories)
+                prof_title: 'Profil Admin',
+                prof_sub: 'Kelola informasi akun dan profil admin',
+                prof_username: 'Username',
+                prof_email: 'Email',
+                prof_phone: 'Nomor telfon',
+                prof_address: 'Alamat',
+                prof_save: 'Simpan',
+                prof_new_pass: 'Password baru',
+                prof_conf_pass: 'Konfirmasi Password',
+                prof_new_pass_ph: 'Masukkan Password',
+                prof_conf_pass_ph: 'Konfirmasi Password',
+                ord_title: 'Proses pesanan',
+                ord_sub: 'Kelola dan konfirmasi pesanan yang masuk hari ini.',
+                tab_all: 'Semua',
+                tab_pending: 'Menunggu',
+                tab_cooking: 'Dimasak',
+                tab_ready: 'Siap Saji',
+                tab_completed: 'Selesai',
+                st_pending: 'Menunggu',
+                st_cooking: 'Dimasak',
+                st_ready: 'Siap Saji',
+                st_completed: 'Selesai',
+                st_cancelled: 'Batal',
+                ord_col_prod: 'Produk',
+                ord_col_qty: 'total',
+                ord_col_price: 'Harga',
+                ord_total_label: 'Total',
+                btn_confirm_order: 'konfirmasi pesanan',
+                ord_done_badge: 'Pesanan Selesai',
+                ord_cancel_badge: 'Pesanan Dibatalkan',
+                btn_detail: 'Lihat Detail Pesanan',
+                ord_empty: 'Belum ada pesanan pada kategori status ini.',
+                prod_title: 'Halaman Data Produk',
+                prod_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                btn_filter: 'Filter',
+                filter_all_cat: 'Semua Kategori',
+                btn_sort: 'Sortir',
+                btn_add_prod: 'Tambahkan',
+                col_prod_name: 'Menu',
+                col_category: 'Kategori',
+                col_price: 'Harga',
+                col_calories: 'kalori',
+                col_status: 'Status',
+                col_action: 'Aksi',
+                st_avail: 'Tersedia',
+                st_empty: 'Habis',
+                prod_empty: 'Belum ada produk.',
+                mod_prod_add: 'Tambah Produk Baru',
+                lbl_prod_name: 'Nama Produk',
+                lbl_prod_price: 'Harga (Rp)',
+                lbl_prod_cal: 'Kalori (Kcal)',
+                lbl_prod_img: 'Gambar Produk',
+                lbl_prod_desc: 'Deskripsi',
+                lbl_prod_avail: 'Tersedia (Stok Ada)',
+                lbl_prod_pop: 'Menu Terpopuler',
+                btn_save_prod: 'Simpan Produk',
+                cat_title: 'Halaman Kategori Produk',
+                cat_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
+                btn_add_cat: 'Tambahkan',
+                col_no: 'No.',
+                cat_empty: 'Belum ada kategori.',
+                mod_cat_add: 'Tambah Kategori',
+                lbl_cat_name: 'Nama Kategori',
+                btn_save: 'Simpan',
             },
             EN: {
                 // Layout: Nav
@@ -1586,44 +1652,126 @@
                 dropdown_theme: 'Dark Mode',
                 dropdown_home: 'Home',
                 dropdown_logout: 'Logout',
+                // Subview keys (Profile, Orders, Products, Categories)
+                prof_title: 'Admin Profile',
+                prof_sub: 'Manage account information and admin profile',
+                prof_username: 'Username',
+                prof_email: 'Email',
+                prof_phone: 'Phone number',
+                prof_address: 'Address',
+                prof_save: 'Save',
+                prof_new_pass: 'New password',
+                prof_conf_pass: 'Confirm password',
+                prof_new_pass_ph: 'Enter password',
+                prof_conf_pass_ph: 'Confirm password',
+                ord_title: 'Order Processing',
+                ord_sub: 'Manage and confirm incoming orders today.',
+                tab_all: 'All',
+                tab_pending: 'Pending',
+                tab_cooking: 'Cooking',
+                tab_ready: 'Ready to Serve',
+                tab_completed: 'Completed',
+                st_pending: 'Pending',
+                st_cooking: 'Cooking',
+                st_ready: 'Ready to Serve',
+                st_completed: 'Completed',
+                st_cancelled: 'Cancelled',
+                ord_col_prod: 'Product',
+                ord_col_qty: 'Qty',
+                ord_col_price: 'Price',
+                ord_total_label: 'Total',
+                btn_confirm_order: 'Confirm Order',
+                ord_done_badge: 'Order Completed',
+                ord_cancel_badge: 'Order Cancelled',
+                btn_detail: 'View Order Details',
+                ord_empty: 'No orders in this status category yet.',
+                prod_title: 'Product Data Page',
+                prod_sub: 'Add new menu items, edit details/prices, and monitor stock availability',
+                btn_filter: 'Filter',
+                filter_all_cat: 'All Categories',
+                btn_sort: 'Sort',
+                btn_add_prod: 'Add New',
+                col_prod_name: 'Menu',
+                col_category: 'Category',
+                col_price: 'Price',
+                col_calories: 'Calories',
+                col_status: 'Status',
+                col_action: 'Action',
+                st_avail: 'Available',
+                st_empty: 'Out of Stock',
+                prod_empty: 'No products yet.',
+                mod_prod_add: 'Add New Product',
+                lbl_prod_name: 'Product Name',
+                lbl_prod_price: 'Price (IDR)',
+                lbl_prod_cal: 'Calories (Kcal)',
+                lbl_prod_img: 'Product Image',
+                lbl_prod_desc: 'Description',
+                lbl_prod_avail: 'Available (In Stock)',
+                lbl_prod_pop: 'Popular Menu',
+                btn_save_prod: 'Save Product',
+                cat_title: 'Product Categories Page',
+                cat_sub: 'Add new categories and organize Toon Burger menu items',
+                btn_add_cat: 'Add New',
+                col_no: 'No.',
+                cat_empty: 'No categories yet.',
+                mod_cat_add: 'Add Category',
+                lbl_cat_name: 'Category Name',
+                btn_save: 'Save',
             }
         };
+
+        let _cachedI18nNodes = null;
+        let _cachedCurrencyNodes = null;
+        let _cachedAttrNodes = null;
 
         function applyTranslations(lang) {
             const isEn = (lang === 'EN' || lang === 'US');
             const dict = _tbTranslations[isEn ? 'EN' : 'ID'] || _tbTranslations['ID'];
             const currencyStr = isEn ? 'IDR' : 'Rp';
 
-            // Text content
-            document.querySelectorAll('[data-i18n]').forEach(el => {
+            if (!_cachedI18nNodes) {
+                _cachedI18nNodes = Array.from(document.querySelectorAll('[data-i18n]'));
+                _cachedCurrencyNodes = Array.from(document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix'));
+                _cachedAttrNodes = Array.from(document.querySelectorAll('[data-i18n-attr]'));
+            }
+
+            _cachedI18nNodes.forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (dict[key] !== undefined) el.textContent = dict[key];
+                const val = dict[key];
+                if (val !== undefined && el.textContent !== val) {
+                    el.textContent = val;
+                }
             });
 
-            // Currency elements
-            document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix').forEach(el => {
-                el.textContent = currencyStr;
+            _cachedCurrencyNodes.forEach(el => {
+                if (el.textContent !== currencyStr) {
+                    el.textContent = currencyStr;
+                }
             });
 
-            // Attribute translation (e.g. placeholder)
-            document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+            _cachedAttrNodes.forEach(el => {
                 el.getAttribute('data-i18n-attr').split(';').forEach(pair => {
                     const [attr, key] = pair.split(':');
-                    if (dict[key] !== undefined) el.setAttribute(attr.trim(), dict[key]);
+                    const attrName = attr.trim();
+                    const val = dict[key];
+                    if (val !== undefined && el.getAttribute(attrName) !== val) {
+                        el.setAttribute(attrName, val);
+                    }
                 });
             });
 
-            // Special dynamic options (e.g. Category select)
             const optAllCat = document.getElementById('opt-all-categories');
             if (optAllCat && dict['products_all_categories']) {
                 const count = optAllCat.getAttribute('data-count');
-                optAllCat.textContent = `${dict['products_all_categories']}${count ? ' (' + count + ')' : ''}`;
+                const nextCat = `${dict['products_all_categories']}${count ? ' (' + count + ')' : ''}`;
+                if (optAllCat.textContent !== nextCat) optAllCat.textContent = nextCat;
             }
 
             const optAllRatings = document.getElementById('opt-all-ratings');
             if (optAllRatings && dict['messages_filter_all']) {
                 const count = optAllRatings.getAttribute('data-count');
-                optAllRatings.textContent = `${dict['messages_filter_all']}${count !== null ? ' (' + count + ')' : ''}`;
+                const nextRatings = `${dict['messages_filter_all']}${count !== null ? ' (' + count + ')' : ''}`;
+                if (optAllRatings.textContent !== nextRatings) optAllRatings.textContent = nextRatings;
             }
         }
 
@@ -1766,6 +1914,8 @@
         }
 
         let searchDebounceTimer = null;
+        let searchAbortController = null;
+        const searchResultCache = new Map();
         const searchInput = document.getElementById('global-header-search');
         const searchClearBtn = document.getElementById('header-search-clear');
         const searchResults = document.getElementById('header-search-results');
@@ -1773,6 +1923,11 @@
         const searchContent = document.getElementById('header-search-content');
 
         function clearHeaderSearch() {
+            clearTimeout(searchDebounceTimer);
+            if (searchAbortController) {
+                searchAbortController.abort();
+                searchAbortController = null;
+            }
             if (searchInput) {
                 searchInput.value = '';
                 searchInput.focus();
@@ -1786,6 +1941,10 @@
             searchInput.addEventListener('input', function() {
                 const query = this.value.trim();
                 clearTimeout(searchDebounceTimer);
+                if (searchAbortController) {
+                    searchAbortController.abort();
+                    searchAbortController = null;
+                }
 
                 if (query.length > 0) {
                     if (searchClearBtn) searchClearBtn.classList.remove('hidden');
@@ -1800,11 +1959,20 @@
                 }
 
                 if (searchResults) searchResults.classList.remove('hidden');
+
+                if (searchResultCache.has(query)) {
+                    if (searchLoading) searchLoading.classList.add('hidden');
+                    renderHeaderSearchResults(searchResultCache.get(query), query);
+                    return;
+                }
+
                 if (searchLoading) searchLoading.classList.remove('hidden');
                 if (searchContent) searchContent.innerHTML = '';
 
                 searchDebounceTimer = setTimeout(() => {
+                    searchAbortController = new AbortController();
                     fetch(`{{ route('admin.search.live') }}?q=${encodeURIComponent(query)}`, {
+                        signal: searchAbortController.signal,
                         headers: {
                             'Accept': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest'
@@ -1815,16 +1983,18 @@
                         return res.json();
                     })
                     .then(data => {
+                        searchResultCache.set(query, data);
                         if (searchLoading) searchLoading.classList.add('hidden');
                         renderHeaderSearchResults(data, query);
                     })
                     .catch(err => {
+                        if (err && err.name === 'AbortError') return;
                         if (searchLoading) searchLoading.classList.add('hidden');
                         if (searchContent) {
                             searchContent.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">Gagal memuat hasil pencarian.</div>`;
                         }
                     });
-                }, 200);
+                }, 180);
             });
 
             searchInput.addEventListener('focus', function() {
@@ -1968,41 +2138,316 @@
             }
         });
 
-        // Restore theme preference
-        try {
-            const savedTheme = localStorage.getItem('toon_theme') || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-            setAdminTheme(savedTheme);
-        } catch (err) {}
-
-        // Restore language preference
+        // Restore theme and language preferences with zero redundant DOM mutations on default state
         try {
             const savedLang = localStorage.getItem('tb_admin_lang') || 'ID';
             window._tbLang = savedLang;
             if (savedLang === 'US') {
                 selectLanguage('English', 'US');
             } else {
-                selectLanguage('Indonesia', 'ID');
+                const savedTheme = getAdminTheme();
+                if (savedTheme === 'dark') {
+                    updateAdminThemeUI('dark');
+                }
             }
         } catch (err) {}
 
-        // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
-        window.addEventListener('pageshow', function (event) {
+        window.addEventListener('pageshow', function () {
             if (localStorage.getItem('tb_logged_out') === '1') {
                 document.documentElement.style.display = 'none';
                 window.location.replace("{{ route('login') }}");
-                return;
-            }
-
-            const navEntries = window.performance && window.performance.getEntriesByType ? window.performance.getEntriesByType("navigation") : [];
-            const isBackForward = event.persisted || 
-                (navEntries.length > 0 && navEntries[0].type === 'back_forward') || 
-                (window.performance && window.performance.navigation && window.performance.navigation.type === 2);
-
-            if (isBackForward) {
-                document.documentElement.style.display = 'none';
-                window.location.reload();
             }
         });
+
+        // Instant Single-Click Admin Navigation (PJAX + Sequential Prefetch Cache)
+        (function () {
+            const _tbAdminPageCache = new Map();
+            const _tbAdminInFlight = new Map();
+            const ADMIN_CACHE_TTL_MS = 45000;
+            let _tbBgPrefetchAbort = null;
+
+            function normalizeAdminUrl(rawUrl) {
+                try {
+                    const u = new URL(rawUrl, window.location.origin);
+                    u.hash = '';
+                    return u.href;
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            function isAdminInternalUrl(rawUrl) {
+                try {
+                    const u = new URL(rawUrl, window.location.origin);
+                    if (u.origin !== window.location.origin) return false;
+                    const p = u.pathname.replace(/\/+$/, '') || '/';
+                    return p === '/admin' || p.startsWith('/admin/');
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function updateAdminNavHighlight(targetUrl) {
+                let p = '/admin';
+                try {
+                    p = new URL(targetUrl, window.location.origin).pathname.replace(/\/+$/, '') || '/admin';
+                } catch (e) {}
+
+                function matchesNavPath(linkHref) {
+                    try {
+                        const lp = new URL(linkHref, window.location.origin).pathname.replace(/\/+$/, '') || '/admin';
+                        if (lp === '/admin') return p === '/admin';
+                        return p === lp || p.startsWith(lp + '/');
+                    } catch (e) {
+                        return false;
+                    }
+                }
+
+                const sidebarLinks = document.querySelectorAll('#admin-sidebar nav a[href]');
+                sidebarLinks.forEach((a) => {
+                    const active = matchesNavPath(a.getAttribute('href'));
+                    a.className = 'flex items-center gap-4 px-5 py-3.5 transition rounded-full ' +
+                        (active
+                            ? 'bg-[#40605D] text-white font-medium shadow-xs'
+                            : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900');
+                });
+
+                const bottomLinks = document.querySelectorAll('nav.md\\:hidden a[href]');
+                bottomLinks.forEach((a) => {
+                    const active = matchesNavPath(a.getAttribute('href'));
+                    a.className = 'flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring ' +
+                        (active
+                            ? 'text-[#385A56] dark:text-[#8CC0B9]'
+                            : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]');
+                });
+            }
+
+            function closeMobileAdminSidebarIfOpen() {
+                const sidebar = document.getElementById('admin-sidebar');
+                const backdrop = document.getElementById('admin-sidebar-backdrop');
+                if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.add('-translate-x-full');
+                    if (backdrop) backdrop.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
+
+            function runScriptsInContainer(container) {
+                if (!container) return;
+                container.querySelectorAll('script').forEach((oldScript) => {
+                    const newScript = document.createElement('script');
+                    Array.from(oldScript.attributes).forEach((attr) => {
+                        newScript.setAttribute(attr.name, attr.value);
+                    });
+                    newScript.textContent = oldScript.textContent;
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                });
+            }
+
+            function swapAdminMainFromHtml(html, targetUrl, pushHistory) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMain = doc.querySelector('main');
+                const curMain = document.querySelector('main');
+                if (!newMain || !curMain) {
+                    window.location.href = targetUrl;
+                    return false;
+                }
+
+                if (doc.title) {
+                    document.title = doc.title;
+                }
+
+                curMain.innerHTML = newMain.innerHTML;
+                updateAdminNavHighlight(targetUrl);
+                closeAllHeaderDropdowns();
+                closeMobileAdminSidebarIfOpen();
+                document.body.style.overflow = '';
+
+                if (pushHistory && normalizeAdminUrl(window.location.href) !== targetUrl) {
+                    history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
+                }
+
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                runScriptsInContainer(curMain);
+
+                _cachedI18nNodes = null;
+                _cachedCurrencyNodes = null;
+                _cachedAttrNodes = null;
+                if (window._tbLang === 'US' || window._tbLang === 'EN') {
+                    applyTranslations('EN');
+                }
+                return true;
+            }
+
+            function prefetchAdminUrl(rawUrl, isPriority) {
+                if (!isAdminInternalUrl(rawUrl)) return Promise.resolve(null);
+                const key = normalizeAdminUrl(rawUrl);
+                if (!key) return Promise.resolve(null);
+
+                const cached = _tbAdminPageCache.get(key);
+                if (cached && (Date.now() - cached.ts < ADMIN_CACHE_TTL_MS)) {
+                    return Promise.resolve(cached.html);
+                }
+
+                if (_tbAdminInFlight.has(key)) {
+                    return _tbAdminInFlight.get(key);
+                }
+
+                if (isPriority && _tbBgPrefetchAbort) {
+                    _tbBgPrefetchAbort.abort();
+                    _tbBgPrefetchAbort = null;
+                }
+
+                const controller = new AbortController();
+                if (!isPriority) {
+                    _tbBgPrefetchAbort = controller;
+                }
+
+                const promise = fetch(key, {
+                    method: 'GET',
+                    credentials: 'same-origin',
+                    signal: controller.signal,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html,application/xhtml+xml'
+                    }
+                })
+                .then((res) => {
+                    if (!res.ok || res.redirected && !isAdminInternalUrl(res.url)) {
+                        throw new Error('Non-cacheable response');
+                    }
+                    return res.text();
+                })
+                .then((html) => {
+                    _tbAdminInFlight.delete(key);
+                    if (html && html.includes('<main')) {
+                        _tbAdminPageCache.set(key, { html, ts: Date.now() });
+                        return html;
+                    }
+                    return null;
+                })
+                .catch(() => {
+                    _tbAdminInFlight.delete(key);
+                    return null;
+                });
+
+                _tbAdminInFlight.set(key, promise);
+                return promise;
+            }
+
+            function navigateAdminTo(rawUrl, pushHistory = true) {
+                const targetUrl = normalizeAdminUrl(rawUrl);
+                if (!targetUrl || !isAdminInternalUrl(targetUrl)) {
+                    window.location.href = rawUrl;
+                    return;
+                }
+
+                updateAdminNavHighlight(targetUrl);
+                closeAllHeaderDropdowns();
+                closeMobileAdminSidebarIfOpen();
+
+                const cached = _tbAdminPageCache.get(targetUrl);
+                if (cached) {
+                    swapAdminMainFromHtml(cached.html, targetUrl, pushHistory);
+                    if (Date.now() - cached.ts > 8000) {
+                        _tbAdminPageCache.delete(targetUrl);
+                        prefetchAdminUrl(targetUrl, false);
+                    }
+                    return;
+                }
+
+                prefetchAdminUrl(targetUrl, true).then((html) => {
+                    if (html) {
+                        swapAdminMainFromHtml(html, targetUrl, pushHistory);
+                    } else {
+                        window.location.href = targetUrl;
+                    }
+                });
+            }
+
+            window.tbAdminNavigate = navigateAdminTo;
+
+            // Seed current page into cache immediately
+            const initialUrl = normalizeAdminUrl(window.location.href);
+            if (initialUrl) {
+                _tbAdminPageCache.set(initialUrl, {
+                    html: document.documentElement.outerHTML,
+                    ts: Date.now()
+                });
+                history.replaceState({ tbAdminUrl: initialUrl }, document.title, window.location.href);
+            }
+
+            // Prefetch on hover or press
+            function handleLinkPrefetchHint(e) {
+                const link = e.target.closest ? e.target.closest('a[href]') : null;
+                if (!link) return;
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+                if (isAdminInternalUrl(link.href)) {
+                    prefetchAdminUrl(link.href, true);
+                }
+            }
+
+            document.addEventListener('pointerover', handleLinkPrefetchHint, { passive: true });
+            document.addEventListener('mousedown', handleLinkPrefetchHint, { passive: true });
+            document.addEventListener('touchstart', handleLinkPrefetchHint, { passive: true });
+
+            // Instant single-click navigation handler
+            document.addEventListener('click', function (e) {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                const link = e.target.closest ? e.target.closest('a[href]') : null;
+                if (!link) return;
+                const rawHref = link.getAttribute('href');
+                if (!rawHref || rawHref.startsWith('#') || rawHref.startsWith('javascript:') || rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) return;
+                if (link.getAttribute('target') === '_blank' || link.hasAttribute('download') || link.hasAttribute('data-no-pjax')) return;
+                if (!isAdminInternalUrl(link.href)) return;
+
+                e.preventDefault();
+                navigateAdminTo(link.href, true);
+            });
+
+            // Intercept GET forms (search & filters) for instant navigation; clear cache on POST/PUT/PATCH/DELETE
+            document.addEventListener('submit', function (e) {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+                const method = (form.getAttribute('method') || 'GET').toUpperCase();
+                if (method === 'GET' && isAdminInternalUrl(form.action || window.location.href)) {
+                    e.preventDefault();
+                    const actionUrl = new URL(form.action || window.location.href, window.location.origin);
+                    const formData = new FormData(form);
+                    actionUrl.search = new URLSearchParams(formData).toString();
+                    navigateAdminTo(actionUrl.href, true);
+                } else {
+                    _tbAdminPageCache.clear();
+                }
+            });
+
+            // Instant Back/Forward button support
+            window.addEventListener('popstate', function () {
+                if (isAdminInternalUrl(window.location.href)) {
+                    navigateAdminTo(window.location.href, false);
+                }
+            });
+
+            // Sequential background warm-up of primary sidebar links (friendly to single-threaded dev server)
+            setTimeout(async function () {
+                const primaryLinks = [
+                    "{{ route('admin.dashboard') }}",
+                    "{{ route('admin.profile') }}",
+                    "{{ route('admin.orders') }}",
+                    "{{ route('admin.products') }}",
+                    "{{ route('admin.categories') }}",
+                    "{{ route('admin.messages') }}"
+                ];
+                for (const url of primaryLinks) {
+                    const norm = normalizeAdminUrl(url);
+                    if (norm && !_tbAdminPageCache.has(norm)) {
+                        await prefetchAdminUrl(norm, false);
+                    }
+                }
+            }, 120);
+        })();
     </script>
 </body>
 </html>

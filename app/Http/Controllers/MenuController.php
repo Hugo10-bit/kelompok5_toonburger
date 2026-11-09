@@ -14,47 +14,7 @@ class MenuController extends Controller
      */
     public function home()
     {
-        $categories = Category::where('is_active', true)
-            ->orderBy('sort_order')
-            ->take(6)
-            ->get();
-
-        $featuredProducts = collect([
-            (object) [
-                'id' => 1,
-                'name' => 'Very Cheese Burger',
-                'category_label' => 'CHEESE BURGER',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 35000,
-                'image' => 'images/bestseller_very_cheese.png',
-            ],
-            (object) [
-                'id' => 6,
-                'name' => 'Cheese Chicken Burger',
-                'category_label' => 'CHICKEN BURGER',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 23000,
-                'image' => 'images/bestseller_cheese_chicken.png',
-            ],
-            (object) [
-                'id' => 3,
-                'name' => 'BBQ Beef Burger',
-                'category_label' => 'BEEF BURGER',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 37000,
-                'image' => 'images/bestseller_bbq_beef.png',
-            ],
-            (object) [
-                'id' => 4,
-                'name' => 'Double Cheese Burger',
-                'category_label' => 'CHEESE BURGER',
-                'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...',
-                'price' => 33000,
-                'image' => 'images/bestseller_double_cheese.png',
-            ],
-        ]);
-
-        return view('home', compact('categories', 'featuredProducts'));
+        return view('home');
     }
 
     /**
@@ -89,49 +49,25 @@ class MenuController extends Controller
             12 => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
         ];
 
-        if (\Illuminate\Support\Facades\Schema::hasTable('products')) {
-            $query = Product::with(['category', 'reviews.user'])
-                ->where('is_available', true);
+        $query = Product::with('category')
+            ->where('is_available', true);
 
-            if ($selectedCategory !== 'all' && !empty($selectedCategory)) {
-                $query->whereHas('category', function ($q) use ($selectedCategory) {
-                    $q->where('slug', $selectedCategory);
-                });
-            }
-
-            if (!empty($search)) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('description', 'like', "%{$search}%");
-                });
-            }
-
-            $perPage = 12;
-            $totalProductsCount = (clone $query)->count();
-
-            // When there are 12 or fewer real items, simulate pagination up to 6 pages (matching target mockup)
-            if ($totalProductsCount > 0 && $totalProductsCount <= $perPage) {
-                $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage('page') ?: 1;
-                $simulatedTotal = $totalProductsCount * 6;
-                $products = new \Illuminate\Pagination\LengthAwarePaginator(
-                    $query->orderBy('id')->get(),
-                    $simulatedTotal,
-                    $perPage,
-                    $currentPage,
-                    [
-                        'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
-                        'pageName' => 'page',
-                    ]
-                );
-                $products->withQueryString();
-            } else {
-                $products = $query->orderBy('id')->paginate($perPage)->withQueryString();
-            }
-        } else {
-            $products = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 12);
+        if ($selectedCategory !== 'all' && !empty($selectedCategory)) {
+            $query->whereHas('category', function ($q) use ($selectedCategory) {
+                $q->where('slug', $selectedCategory);
+            });
         }
 
-        $tables = RestaurantTable::where('status', 'available')->get();
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->orderBy('id')->get();
+
+        $tables = collect();
 
         return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata', 'totalAllProducts'));
     }
@@ -159,9 +95,50 @@ class MenuController extends Controller
     {
         $product = Product::with(['category', 'reviews.user'])->findOrFail($id);
 
+        $cardMetadata = [
+            1  => ['badge' => 'CHEESE BURGER',  'bg' => '#FFC83B'],
+            2  => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
+            3  => ['badge' => 'BEEF BURGER',    'bg' => '#E51D1D'],
+            4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A4D477'],
+            5  => ['badge' => 'CHICKEN BURGER', 'bg' => '#BFE1FD'],
+            6  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FFC83B'],
+            7  => ['badge' => 'HOT DOG',        'bg' => '#D5C8F6'],
+            8  => ['badge' => 'SNACKS',         'bg' => '#F5B8DC'],
+            9  => ['badge' => 'MINUMAN',        'bg' => '#FED7AA'],
+            10 => ['badge' => 'CHICKEN WING',   'bg' => '#F5C518'],
+            11 => ['badge' => 'CHEESE BURGER',  'bg' => '#A7D79E'],
+            12 => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
+        ];
+
+        $palettes = ['#FFC83B', '#FCE5D3', '#E51D1D', '#A4D477', '#BFE1FD', '#FFC83B', '#D5C8F6', '#F5B8DC', '#FED7AA', '#F5C518', '#A7D79E', '#FCE5D3'];
+        $meta = $cardMetadata[$product->id] ?? [
+            'badge' => strtoupper($product->category->name ?? 'BURGER'),
+            'bg' => $palettes[($product->id - 1) % count($palettes)],
+        ];
+
+        // Rich appetizing descriptions matching mockup quality (R-02 compliant: zero em dashes)
+        $richDescriptions = [
+            1 => 'Dua lapis beef patty juicy, double keju cheddar leleh berlimpah, caramelized onion manis gurih, dan saus spesial Toon Burger di dalam bun brioche mentega hangat.',
+            2 => 'Patty daging sapi pilihan 100% dipanggang sempurna dengan aroma asap khas, disajikan dengan selada segar, tomat, acar timun, dan saus istimewa.',
+            3 => 'Beef patty daging asli gurih berselimut saus smokey BBQ karamel, keju cheddar meleleh, dan bawang bombay panggang yang renyah.',
+            4 => 'Dua patty daging sapi panggang juicy dengan limpahan keju cheddar ganda leleh, saus rahasia Toon Burger, dan bun brioche lembut.',
+            5 => 'Ayam krispi pedas berbalut bumbu rempah cabai merah membara, dipadukan selada segar dan keju leleh untuk sensasi pedas mantap.',
+            6 => 'Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat diapit dua bun wijen panggang yang empuk nan gurih.',
+            7 => 'Sosis sapi premium panggang dengan mustard lembut, saus tomat pilihan, dan roti bun hotdog empuk beraroma mentega.',
+            8 => 'Sosis daging sapi juicy diselimuti lelehan keju mozarella dan cheddar gurih serta taburan daging cincang panggang lezat.',
+        ];
+
+        $desc = $richDescriptions[$product->id] ?? ($product->description ?: 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
+
+        $productData = $product->toArray();
+        $productData['badge'] = $meta['badge'];
+        $productData['bg'] = $meta['bg'];
+        $productData['description'] = $desc;
+        $productData['formatted_price'] = 'Rp ' . number_format($product->price, 0, ',', '.');
+
         return response()->json([
             'success' => true,
-            'product' => $product,
+            'product' => $productData,
         ]);
     }
 
