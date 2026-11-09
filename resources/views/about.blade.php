@@ -270,7 +270,7 @@
                 {{-- Bottom 10-second progress bar synchronized with the automatic Visi/Misi slide transition. --}}
                 <div class="absolute inset-x-0 bottom-0 z-30 h-1.5 sm:h-[6px] bg-white/15 overflow-hidden pointer-events-none" aria-hidden="true">
                     <div id="about-carousel-progress"
-                         class="h-full w-full bg-[#F4BE1E] origin-left"
+                         class="h-full w-full bg-white origin-left"
                          style="transform: scaleX(0); will-change: transform;"></div>
                 </div>
             </div>
