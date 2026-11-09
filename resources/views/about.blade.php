@@ -218,7 +218,7 @@
                      aria-hidden="true"
                      style="background: linear-gradient(to top, rgba(8, 12, 11, 0.95) 0%, rgba(8, 12, 11, 0.84) 32%, rgba(8, 12, 11, 0.30) 58%, rgba(8, 12, 11, 0) 78%);"></div>
 
-                <div class="absolute inset-x-0 bottom-0 z-20 p-5 sm:p-7 lg:p-9 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div class="absolute inset-x-0 bottom-0 z-20 px-5 pt-5 pb-6 sm:px-7 sm:pt-7 sm:pb-8 lg:px-9 lg:pt-9 lg:pb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
 
                     <div id="about-carousel-live" class="relative min-h-[108px] sm:min-h-[96px] flex-1 max-w-xl" aria-live="off">
                         <div data-slide-caption="0"
@@ -265,6 +265,13 @@
                         </button>
                     </div>
 
+                </div>
+
+                {{-- Bottom 10-second progress bar synchronized with the automatic Visi/Misi slide transition. --}}
+                <div class="absolute inset-x-0 bottom-0 z-30 h-1.5 sm:h-[6px] bg-white/15 overflow-hidden pointer-events-none" aria-hidden="true">
+                    <div id="about-carousel-progress"
+                         class="h-full w-full bg-[#F4BE1E] origin-left"
+                         style="transform: scaleX(0); will-change: transform;"></div>
                 </div>
             </div>
         </div>
@@ -472,15 +479,24 @@
     (function () {
         let currentSlide = 0;
         const totalSlides = 2;
-        const autoIntervalMs = 4000;
+        const autoIntervalMs = 10000;
         const carousel = document.getElementById('about-visi-misi-carousel');
         if (!carousel) return;
 
         const liveRegion = document.getElementById('about-carousel-live');
+        const progressBar = document.getElementById('about-carousel-progress');
         const photos = carousel.querySelectorAll('[data-slide-photo]');
         const captions = carousel.querySelectorAll('[data-slide-caption]');
         let clearPrevTimer = null;
-        let autoSlideTimer = null;
+        let rafId = null;
+        let cycleStartTime = performance.now();
+        let isPaused = false;
+
+        function setProgressRatio(ratio) {
+            if (!progressBar) return;
+            const clamped = Math.max(0, Math.min(1, ratio));
+            progressBar.style.transform = 'scaleX(' + clamped.toFixed(4) + ')';
+        }
 
         window.goToAboutSlide = function (nextIndex, isManual) {
             const target = ((nextIndex % totalSlides) + totalSlides) % totalSlides;
@@ -526,19 +542,42 @@
             });
         };
 
+        function tickProgress(now) {
+            if (isPaused || document.hidden) {
+                rafId = null;
+                return;
+            }
+
+            const elapsed = now - cycleStartTime;
+            if (elapsed >= autoIntervalMs) {
+                window.goToAboutSlide(currentSlide + 1, false);
+                cycleStartTime = now;
+                setProgressRatio(0);
+            } else {
+                setProgressRatio(elapsed / autoIntervalMs);
+            }
+
+            rafId = requestAnimationFrame(tickProgress);
+        }
+
         function stopAutoSlide() {
-            if (autoSlideTimer) {
-                clearInterval(autoSlideTimer);
-                autoSlideTimer = null;
+            isPaused = true;
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
             }
         }
 
         function startAutoSlide() {
-            stopAutoSlide();
-            if (document.hidden) return;
-            autoSlideTimer = setInterval(function () {
-                window.goToAboutSlide(currentSlide + 1, false);
-            }, autoIntervalMs);
+            isPaused = false;
+            cycleStartTime = performance.now();
+            setProgressRatio(0);
+            if (rafId !== null) {
+                cancelAnimationFrame(rafId);
+            }
+            if (!document.hidden) {
+                rafId = requestAnimationFrame(tickProgress);
+            }
         }
 
         window.stepAboutSlide = function (delta) {
