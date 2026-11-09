@@ -5,7 +5,7 @@
 @section('content')
 <style>
     .about-fine-grid-bg {
-        background-color: #FAF4E4;
+        background-color: #FAF3E3;
         background-image:
             linear-gradient(to right, rgba(180, 166, 136, 0.17) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(180, 166, 136, 0.17) 1px, transparent 1px);
@@ -149,7 +149,7 @@
 
     <section aria-label="Capaian Toon Burger"
              class="w-full border-b border-[#E2D9C5] py-7 sm:py-9 lg:py-10 px-4 sm:px-6 lg:px-8"
-             style="background-color: #FAF6EC;">
+             style="background-color: #FAF3E3;">
         <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6 sm:gap-x-8 toon-reveal">
             <div class="flex flex-col items-start md:items-start">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
