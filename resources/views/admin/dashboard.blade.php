@@ -13,180 +13,89 @@
             <p class="text-xs sm:text-[13.5px] text-[#6B7280] dark:text-[#C4C9D0] mt-1 font-normal" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
         </div>
 
+        @php
+            $metricCards = [
+                [
+                    'route' => route('admin.orders', ['status' => 'completed']),
+                    'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="11" width="2.8" height="5.2" rx="0.7"></rect><rect x="8.6" y="7.8" width="2.8" height="8.4" rx="0.7"></rect><rect x="13.7" y="4.2" width="2.8" height="12" rx="0.7"></rect></svg>',
+                    'title' => 'Pendapatan Hari Ini',
+                    'title_i18n' => 'dash_metric_profit',
+                    'sub_i18n' => 'dash_sub_profit',
+                    'val' => '<span data-i18n="currency_dot">Rp.</span> ' . number_format($todayRevenue, 0, ',', '.'),
+                    'badge' => "+{$revenueGrowth}% &uarr;",
+                    'badge_class' => 'tb-badge-positive',
+                ],
+                [
+                    'route' => route('admin.orders'),
+                    'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 2.75A1.75 1.75 0 0 0 3.75 4.5v11c0 .966.784 1.75 1.75 1.75h9a1.75 1.75 0 0 0 1.75-1.75v-11A1.75 1.75 0 0 0 14.5 2.75h-9ZM6.5 6a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 6.5 6Zm.75 2.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm-.75 4.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"></path></svg>',
+                    'title' => 'Pesanan Hari Ini',
+                    'title_i18n' => 'dash_metric_orders',
+                    'sub_i18n' => 'dash_sub_orders',
+                    'val' => "{$totalOrdersToday} <span data-i18n=\"transaction\">Transaksi</span>",
+                    'badge' => "+{$ordersGrowth}% &uarr;",
+                    'badge_class' => 'tb-badge-positive',
+                ],
+                [
+                    'route' => route('admin.orders', ['status' => 'diproses']),
+                    'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="11" width="2.8" height="5.2" rx="0.7"></rect><rect x="8.6" y="7.8" width="2.8" height="8.4" rx="0.7"></rect><rect x="13.7" y="4.2" width="2.8" height="12" rx="0.7"></rect></svg>',
+                    'title' => 'Pesanan Dalam Proses',
+                    'title_i18n' => 'dash_metric_progress',
+                    'sub_i18n' => 'dash_sub_progress',
+                    'val' => "{$pendingOrders} <span data-i18n=\"queue\">Antrean</span>",
+                    'badge' => 'Perlu segera diproses',
+                    'badge_class' => 'tb-badge-positive',
+                    'badge_i18n' => 'dash_needs_processing',
+                ],
+                [
+                    'route' => route('admin.products'),
+                    'icon' => '<svg class="w-4 h-4" viewBox="0 -960 960 960" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm0-280q-33 0-56.5-23.5T80-480q0-33 23.5-56.5T160-560h640q33 0 56.5 23.5T880-480q0 33-23.5 56.5T800-400H160Zm665-240H135q-26 0-40.5-21T86-708q34-66 123-109t271-43q182 0 271 43t123 109q15 26 .5 47T825-640Z"/></svg>',
+                    'title' => 'Total Produk',
+                    'title_i18n' => 'dash_metric_products',
+                    'sub_i18n' => 'dash_sub_products',
+                    'val' => "{$totalProducts} <span data-i18n=\"nav_products_short\">Produk</span>",
+                    'badge' => "{$activeProducts} <span class=\"ml-0.5\" data-i18n=\"dash_active\">Aktif</span>",
+                    'badge_class' => 'tb-badge-positive',
+                    'extra_badge' => "<span class=\"tb-badge-danger inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap\">{$outOfStockProducts} <span class=\"ml-0.5\" data-i18n=\"dash_out_of_stock\">Habis</span></span>",
+                ],
+            ];
+        @endphp
+
         <div class="grid grid-cols-1 sm:grid-cols-2 min-[1140px]:grid-cols-4 gap-4 sm:gap-5">
-
-            <a href="{{ route('admin.orders', ['status' => 'completed']) }}"
-               class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
-                <div class="p-4 pb-3.5">
-                    <div class="flex items-center gap-3">
-                        <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" aria-hidden="true">
-                            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <rect x="3.5" y="11" width="2.8" height="5.2" rx="0.7"></rect>
-                                <rect x="8.6" y="7.8" width="2.8" height="8.4" rx="0.7"></rect>
-                                <rect x="13.7" y="4.2" width="2.8" height="12" rx="0.7"></rect>
-                            </svg>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-tight truncate" data-i18n="dash_metric_profit">Pendapatan Hari Ini</div>
-                            <div class="text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-tight mt-0.5 truncate" data-i18n="dash_sub_profit">Lorem ipsum dolor</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-3.5 flex items-center gap-2 flex-wrap">
-                        <span class="text-[18px] xl:text-[20px] font-semibold text-[#262626] dark:text-white tracking-tight leading-none whitespace-nowrap">
-                            <span data-i18n="currency_dot">Rp.</span> {{ number_format($todayRevenue, 0, ',', '.') }}
-                        </span>
-                        <span class="tb-badge-positive inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap">
-                            +{{ $revenueGrowth }}% &uarr;
-                        </span>
-                    </div>
-                </div>
-
-                <div class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal">
-                    <span data-i18n="dash_view_detail">Lihat Detail</span>
-                    <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"></path>
-                        <path d="M13 6l6 6-6 6"></path>
-                    </svg>
-                </div>
-            </a>
-
-            <!-- KARTU ALUR PROSES PESANAN BERCABANG (Diagram Alur Terintegrasi) -->
-            <div class="col-span-1 sm:col-span-2 min-[1140px]:col-span-2 tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
-                <div class="p-4 pb-3">
-                    <div class="flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-2.5">
+            @foreach($metricCards as $m)
+                <a href="{{ $m['route'] }}" class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
+                    <div class="p-4 pb-3.5">
+                        <div class="flex items-center gap-3">
                             <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" aria-hidden="true">
-                                <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 2.75A1.75 1.75 0 0 0 3.75 4.5v11c0 .966.784 1.75 1.75 1.75h9a1.75 1.75 0 0 0 1.75-1.75v-11A1.75 1.75 0 0 0 14.5 2.75h-9ZM6.5 6a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 6.5 6Zm.75 2.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm-.75 4.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"></path>
-                                </svg>
+                                {!! $m['icon'] !!}
                             </div>
                             <div class="min-w-0">
-                                <div class="text-xs sm:text-[13px] font-bold text-[#374151] dark:text-[#F3F4F6] leading-tight flex items-center gap-1.5">
-                                    <span>Alur Proses Pesanan</span>
-                                    <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Live</span>
-                                </div>
-                                <div class="text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-tight mt-0.5">
-                                    Total: <strong class="text-gray-900 dark:text-white">{{ $totalOrdersToday }} Transaksi</strong> hari ini
-                                </div>
+                                <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-tight truncate" data-i18n="{{ $m['title_i18n'] }}">{{ $m['title'] }}</div>
+                                <div class="text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-tight mt-0.5 truncate" data-i18n="{{ $m['sub_i18n'] }}">Lorem ipsum dolor</div>
                             </div>
                         </div>
 
-                        <span class="tb-badge-positive inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full leading-tight whitespace-nowrap">
-                            {{ $pendingOrders }} Antrean Aktif
-                        </span>
-                    </div>
-
-                    <!-- Diagram Alur Bercabang Horizontal -->
-                    <div class="mt-3 pt-2.5 border-t border-gray-100 dark:border-[#4D4D4D]">
-                        <div class="grid grid-cols-4 gap-1.5 sm:gap-2 items-center text-center">
-                            
-                            <!-- Cabang 1: Menunggu -->
-                            <a href="{{ route('admin.orders', ['status' => 'pending']) }}"
-                               class="group/step p-2 rounded-xl bg-amber-50/70 hover:bg-amber-100/90 dark:bg-amber-950/30 dark:hover:bg-amber-900/40 border border-amber-200/80 dark:border-amber-800/40 transition relative flex flex-col items-center justify-between min-h-[64px]">
-                                <div class="text-[9.5px] sm:text-[10.5px] font-bold text-amber-800 dark:text-amber-300 flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                                    <span>Menunggu</span>
-                                </div>
-                                <div class="text-sm sm:text-base font-extrabold text-amber-900 dark:text-amber-200 mt-1">
-                                    {{ $branchPending }}
-                                </div>
-                                <div class="text-[8.5px] text-amber-700/80 dark:text-amber-400">Baru Masuk</div>
-                                <div class="hidden sm:block absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-xs pointer-events-none">&rarr;</div>
-                            </a>
-
-                            <!-- Cabang 2: Dimasak -->
-                            <a href="{{ route('admin.orders', ['status' => 'diproses']) }}"
-                               class="group/step p-2 rounded-xl bg-red-50/70 hover:bg-red-100/90 dark:bg-red-950/30 dark:hover:bg-red-900/40 border border-red-200/80 dark:border-red-800/40 transition relative flex flex-col items-center justify-between min-h-[64px]">
-                                <div class="text-[9.5px] sm:text-[10.5px] font-bold text-red-800 dark:text-red-300 flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                                    <span>Dimasak</span>
-                                </div>
-                                <div class="text-sm sm:text-base font-extrabold text-red-900 dark:text-red-200 mt-1">
-                                    {{ $branchCooking }}
-                                </div>
-                                <div class="text-[8.5px] text-red-700/80 dark:text-red-400">Dapur</div>
-                                <div class="hidden sm:block absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-xs pointer-events-none">&rarr;</div>
-                            </a>
-
-                            <!-- Cabang 3: Siap Saji -->
-                            <a href="{{ route('admin.orders', ['status' => 'ready']) }}"
-                               class="group/step p-2 rounded-xl bg-emerald-50/70 hover:bg-emerald-100/90 dark:bg-emerald-950/30 dark:hover:bg-emerald-900/40 border border-emerald-200/80 dark:border-emerald-800/40 transition relative flex flex-col items-center justify-between min-h-[64px]">
-                                <div class="text-[9.5px] sm:text-[10.5px] font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                                    <span>Siap Saji</span>
-                                </div>
-                                <div class="text-sm sm:text-base font-extrabold text-emerald-900 dark:text-emerald-200 mt-1">
-                                    {{ $branchReady }}
-                                </div>
-                                <div class="text-[8.5px] text-emerald-700/80 dark:text-emerald-400">Siap Ambil</div>
-                                <div class="hidden sm:block absolute -right-2 top-1/2 -translate-y-1/2 z-10 text-gray-400 font-bold text-xs pointer-events-none">&rarr;</div>
-                            </a>
-
-                            <!-- Cabang 4: Selesai -->
-                            <a href="{{ route('admin.orders', ['status' => 'completed']) }}"
-                               class="group/step p-2 rounded-xl bg-blue-50/70 hover:bg-blue-100/90 dark:bg-blue-950/30 dark:hover:bg-blue-900/40 border border-blue-200/80 dark:border-blue-800/40 transition flex flex-col items-center justify-between min-h-[64px]">
-                                <div class="text-[9.5px] sm:text-[10.5px] font-bold text-blue-800 dark:text-blue-300 flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                                    <span>Selesai</span>
-                                </div>
-                                <div class="text-sm sm:text-base font-extrabold text-blue-900 dark:text-blue-200 mt-1">
-                                    {{ $branchCompleted }}
-                                </div>
-                                <div class="text-[8.5px] text-blue-700/80 dark:text-blue-400">Tuntas</div>
-                            </a>
-
+                        <div class="mt-3.5 flex items-center gap-2 flex-wrap">
+                            <span class="text-[18px] xl:text-[20px] font-semibold text-[#262626] dark:text-white tracking-tight leading-none whitespace-nowrap">
+                                {!! $m['val'] !!}
+                            </span>
+                            <span class="{{ $m['badge_class'] }} inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap" @if(!empty($m['badge_i18n'])) data-i18n="{{ $m['badge_i18n'] }}" @endif>
+                                {!! $m['badge'] !!}
+                            </span>
+                            @if(!empty($m['extra_badge']))
+                                {!! $m['extra_badge'] !!}
+                            @endif
                         </div>
                     </div>
-                </div>
 
-                <a href="{{ route('admin.orders') }}"
-                   class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal">
-                    <span>Lihat Papan Kelola Pesanan</span>
-                    <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"></path>
-                        <path d="M13 6l6 6-6 6"></path>
-                    </svg>
+                    <div class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal">
+                        <span data-i18n="dash_view_detail">Lihat Detail</span>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"></path>
+                            <path d="M13 6l6 6-6 6"></path>
+                        </svg>
+                    </div>
                 </a>
-            </div>
-
-            <a href="{{ route('admin.products') }}"
-               class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
-                <div class="p-4 pb-3.5">
-                    <div class="flex items-center gap-3">
-                        <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" aria-hidden="true">
-                            <svg class="w-4 h-4" viewBox="0 -960 960 960" fill="currentColor">
-                                <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm0-280q-33 0-56.5-23.5T80-480q0-33 23.5-56.5T160-560h640q33 0 56.5 23.5T880-480q0 33-23.5 56.5T800-400H160Zm665-240H135q-26 0-40.5-21T86-708q34-66 123-109t271-43q182 0 271 43t123 109q15 26 .5 47T825-640Z"/>
-                            </svg>
-                        </div>
-                        <div class="min-w-0">
-                            <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-tight truncate" data-i18n="dash_metric_products">Total Produk</div>
-                            <div class="text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-tight mt-0.5 truncate" data-i18n="dash_sub_products">Lorem ipsum dolor</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-3.5 flex items-center gap-1.5 flex-wrap">
-                        <span class="text-[18px] xl:text-[20px] font-semibold text-[#262626] dark:text-white tracking-tight leading-none whitespace-nowrap">
-                            {{ $totalProducts }} <span data-i18n="nav_products_short">Produk</span>
-                        </span>
-                        <span class="tb-badge-positive inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap">
-                            {{ $activeProducts }} <span class="ml-0.5" data-i18n="dash_active">Aktif</span>
-                        </span>
-                        <span class="tb-badge-danger inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap">
-                            {{ $outOfStockProducts }} <span class="ml-0.5" data-i18n="dash_out_of_stock">Habis</span>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal">
-                    <span data-i18n="dash_view_detail">Lihat Detail</span>
-                    <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"></path>
-                        <path d="M13 6l6 6-6 6"></path>
-                    </svg>
-                </div>
-            </a>
-
+            @endforeach
         </div>
     </div>
 
