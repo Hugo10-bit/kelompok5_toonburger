@@ -133,8 +133,11 @@
                     <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                         @csrf @method('PATCH')
                         <input type="hidden" name="status" value="{{ $nextStatus }}">
-                        <button type="submit" class="w-full bg-[#415C58] hover:bg-[#344B48] text-white font-medium py-3 px-4 rounded-xl text-xs sm:text-[13.5px] transition-colors cursor-pointer" data-i18n="btn_confirm_order">
-                            konfirmasi pesanan
+                        <button type="button"
+                                onclick="confirmProcessOrder(this, '{{ $nextStatus }}', '{{ $order->order_number }}')"
+                                class="w-full bg-[#415C58] hover:bg-[#344B48] active:scale-98 text-white font-medium py-3 px-4 rounded-xl text-xs sm:text-[13.5px] transition-all cursor-pointer flex items-center justify-center gap-2"
+                                data-i18n="btn_confirm_order">
+                            <span>konfirmasi pesanan</span>
                         </button>
                     </form>
                     @else
@@ -146,10 +149,13 @@
                     <div class="flex items-center justify-between text-xs pt-3">
                         <a href="{{ route('admin.orders.show', $order->order_number) }}" class="text-[#4A7C9B] dark:text-[#93C5FD] hover:underline font-medium" data-i18n="btn_detail">Lihat Detail Pesanan</a>
                         @if(!in_array($order->status, ['completed', 'cancelled']))
-                        <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirm('Batalkan pesanan ini?');">
+                        <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                             @csrf @method('PATCH')
                             <input type="hidden" name="status" value="cancelled">
-                            <button type="submit" class="text-[#E53935] dark:text-[#FCA5A5] hover:underline font-medium cursor-pointer" data-i18n="btn_cancel">Batalkan</button>
+                            <button type="button"
+                                    onclick="confirmCancelOrder(this, '{{ $order->order_number }}')"
+                                    class="text-[#E53935] dark:text-[#FCA5A5] hover:underline font-medium cursor-pointer"
+                                    data-i18n="btn_cancel">Batalkan</button>
                         </form>
                         @endif
                     </div>
@@ -162,4 +168,91 @@
         @endforelse
     </div>
 </div>
+
+<script>
+    window.confirmProcessOrder = function(btn, nextStatus, orderNumber) {
+        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+        const form = btn.closest('form');
+        if (!form) return;
+
+        let statusLabel = 'tahap berikutnya';
+        if (nextStatus === 'diproses' || nextStatus === 'preparing') statusLabel = isEn ? 'Cooking / Kitchen' : 'Dimasak';
+        else if (nextStatus === 'ready') statusLabel = isEn ? 'Ready to Serve' : 'Siap Saji';
+        else if (nextStatus === 'completed') statusLabel = isEn ? 'Completed' : 'Selesai';
+
+        Swal.fire({
+            title: isEn ? 'Process Order?' : 'Konfirmasi Pesanan?',
+            html: isEn 
+                ? `Move order <b>#${orderNumber}</b> to <b>${statusLabel}</b>?`
+                : `Lanjutkan proses pesanan <b>#${orderNumber}</b> ke status <b>${statusLabel}</b>?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#415C58',
+            cancelButtonColor: '#9CA3AF',
+            confirmButtonText: isEn ? 'Yes, Process' : 'Ya, Proses Sekarang',
+            cancelButtonText: isEn ? 'Cancel' : 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let timerInterval;
+                Swal.fire({
+                    title: isEn ? 'Processing Order...' : 'Memproses Pesanan...',
+                    html: isEn 
+                        ? 'Applying status update in <b></b> seconds...'
+                        : 'Meneruskan status pesanan ke dapur dalam <b></b> detik...',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const b = Swal.getPopup().querySelector('b');
+                        timerInterval = setInterval(() => {
+                            if (b) {
+                                const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                                b.textContent = left > 0 ? left : 1;
+                            }
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then(() => {
+                    form.submit();
+                });
+            }
+        });
+    };
+
+    window.confirmCancelOrder = function(btn, orderNumber) {
+        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+        const form = btn.closest('form');
+        if (!form) return;
+
+        Swal.fire({
+            title: isEn ? 'Cancel Order?' : 'Batalkan Pesanan Ini?',
+            html: isEn
+                ? `Are you sure you want to cancel order <b>#${orderNumber}</b>? This action cannot be undone.`
+                : `Apakah Anda yakin ingin membatalkan pesanan <b>#${orderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DE3B28',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: isEn ? 'Yes, Cancel Order' : 'Ya, Batalkan Pesanan',
+            cancelButtonText: isEn ? 'Back' : 'Kembali',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: isEn ? 'Cancelling...' : 'Membatalkan...',
+                    html: isEn ? 'Please wait...' : 'Mohon tunggu sebentar...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                form.submit();
+            }
+        });
+    };
+</script>
 @endsection

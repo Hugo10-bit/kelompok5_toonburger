@@ -343,7 +343,9 @@
                 <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="status" value="preparing">
-                    <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                    <button type="button"
+                            onclick="confirmOrderDetailProcess(this, 'preparing', '{{ $order->order_number }}')"
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_accept_cook">Terima & Masak Pesanan</span>
                     </button>
                 </form>
@@ -351,7 +353,9 @@
                 <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="status" value="ready">
-                    <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                    <button type="button"
+                            onclick="confirmOrderDetailProcess(this, 'ready', '{{ $order->order_number }}')"
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_mark_ready">Tandai Siap Saji</span>
                     </button>
                 </form>
@@ -360,17 +364,21 @@
                     @csrf
                     <input type="hidden" name="status" value="completed">
                     <input type="hidden" name="payment_status" value="paid">
-                    <button type="submit" class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                    <button type="button"
+                            onclick="confirmOrderDetailProcess(this, 'completed', '{{ $order->order_number }}')"
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_complete">Selesaikan Pesanan</span>
                     </button>
                 </form>
             @endif
 
             @if(!in_array($order->status, ['completed', 'cancelled']))
-                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" onsubmit="return confirmCancelOrder()">
+                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="status" value="cancelled">
-                    <button type="submit" class="text-[#DE3B28] dark:text-[#F87171] hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/60 font-bold py-2.5 px-5 rounded-full text-xs transition cursor-pointer">
+                    <button type="button"
+                            onclick="confirmOrderDetailCancel(this, '{{ $order->order_number }}')"
+                            class="text-[#DE3B28] dark:text-[#F87171] hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/60 font-bold py-2.5 px-5 rounded-full text-xs transition cursor-pointer">
                         <span data-i18n="order_detail_cancel">Batalkan Pesanan</span>
                     </button>
                 </form>
@@ -381,9 +389,89 @@
 </div>
 
 <script>
-    window.confirmCancelOrder = function () {
+    window.confirmOrderDetailProcess = function (btn, nextStatus, orderNumber) {
         const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
-        return confirm(isEn ? 'Are you sure you want to cancel this order?' : 'Apakah Anda yakin ingin membatalkan pesanan ini?');
+        const form = btn.closest('form');
+        if (!form) return;
+
+        let statusText = 'Lanjutkan Proses';
+        if (nextStatus === 'preparing') statusText = isEn ? 'Accept & Cook' : 'Terima & Masak';
+        else if (nextStatus === 'ready') statusText = isEn ? 'Mark as Ready to Serve' : 'Tandai Siap Saji';
+        else if (nextStatus === 'completed') statusText = isEn ? 'Complete Order' : 'Selesaikan Pesanan';
+
+        Swal.fire({
+            title: isEn ? 'Update Order Status?' : 'Perbarui Status Pesanan?',
+            html: isEn
+                ? `Proceed order <b>#${orderNumber}</b> to <b>${statusText}</b>?`
+                : `Apakah pesanan <b>#${orderNumber}</b> siap untuk <b>${statusText}</b>?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#385A56',
+            cancelButtonColor: '#9CA3AF',
+            confirmButtonText: isEn ? 'Yes, Proceed' : 'Ya, Lanjutkan',
+            cancelButtonText: isEn ? 'Cancel' : 'Batal',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let timerInterval;
+                Swal.fire({
+                    title: isEn ? 'Processing Order...' : 'Memproses Pesanan...',
+                    html: isEn
+                        ? 'Updating status in <b></b> seconds...'
+                        : 'Memperbarui status pesanan dalam <b></b> detik...',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const b = Swal.getPopup().querySelector('b');
+                        timerInterval = setInterval(() => {
+                            if (b) {
+                                const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                                b.textContent = left > 0 ? left : 1;
+                            }
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then(() => {
+                    form.submit();
+                });
+            }
+        });
+    };
+
+    window.confirmOrderDetailCancel = function (btn, orderNumber) {
+        const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+        const form = btn.closest('form');
+        if (!form) return;
+
+        Swal.fire({
+            title: isEn ? 'Cancel Order?' : 'Batalkan Pesanan Ini?',
+            html: isEn
+                ? `Are you sure you want to cancel order <b>#${orderNumber}</b>? This action cannot be undone.`
+                : `Apakah Anda yakin ingin membatalkan pesanan <b>#${orderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DE3B28',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: isEn ? 'Yes, Cancel Order' : 'Ya, Batalkan Pesanan',
+            cancelButtonText: isEn ? 'Back' : 'Kembali',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: isEn ? 'Cancelling...' : 'Membatalkan...',
+                    html: isEn ? 'Please wait...' : 'Mohon tunggu sebentar...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                form.submit();
+            }
+        });
     };
 </script>
 @endsection
