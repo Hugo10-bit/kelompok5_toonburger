@@ -242,17 +242,25 @@
             }
         });
 
-        // Store initial avatar preview state for cancellation rollback
-        const _initialAvatarPreview = {
-            src: document.getElementById('profile-avatar-preview')?.src || '',
-            hasImage: !document.getElementById('profile-avatar-preview')?.classList.contains('hidden')
-        };
-
         window.handleAdminAvatarChange = function(input) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
-            const reader = new FileReader();
 
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Format File Tidak Sesuai',
+                    text: 'Silakan pilih file gambar dengan format JPEG, PNG, JPG, WEBP, atau GIF.',
+                    confirmButtonColor: '#415C58'
+                });
+                input.value = '';
+                return;
+            }
+
+            // Preview the selected image immediately
+            const reader = new FileReader();
             reader.onload = function(e) {
                 const preview = document.getElementById('profile-avatar-preview');
                 const initials = document.getElementById('profile-avatar-initials');
@@ -264,54 +272,6 @@
                 if (initials) {
                     initials.classList.add('hidden');
                 }
-
-                window.openProfileConfirmModal({
-                    type: 'avatar',
-                    title: 'Konfirmasi Ganti Foto',
-                    message: 'Apakah Anda yakin ingin menggunakan foto ini sebagai foto profil baru Anda?',
-                    confirmText: 'Ya, Ganti Foto',
-                    onConfirm: function() {
-                        const form = document.getElementById('admin-profile-form');
-                        if (form) {
-                            Swal.fire({
-                                title: 'Memperbarui Foto...',
-                                html: 'Sedang mengunggah foto profil baru dalam <b></b> detik...',
-                                timer: 1500,
-                                timerProgressBar: true,
-                                allowOutsideClick: false,
-                                showConfirmButton: false,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                    const b = Swal.getPopup().querySelector('b');
-                                    setInterval(() => {
-                                        if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                                    }, 100);
-                                }
-                            }).then(() => {
-                                form.submit();
-                            });
-                        }
-                    },
-                    onCancel: function() {
-                        // Reset input and restore previous preview
-                        input.value = '';
-                        if (preview) {
-                            preview.src = _initialAvatarPreview.src;
-                            if (_initialAvatarPreview.hasImage) {
-                                preview.classList.remove('hidden');
-                            } else {
-                                preview.classList.add('hidden');
-                            }
-                        }
-                        if (initials) {
-                            if (_initialAvatarPreview.hasImage) {
-                                initials.classList.add('hidden');
-                            } else {
-                                initials.classList.remove('hidden');
-                            }
-                        }
-                    }
-                });
             };
             reader.readAsDataURL(file);
         };
@@ -327,10 +287,17 @@
                     return;
                 }
 
+                const avatarInput = document.getElementById('profile-avatar-input');
+                const hasNewAvatar = avatarInput && avatarInput.files && avatarInput.files.length > 0;
+
+                const message = hasNewAvatar 
+                    ? 'Apakah Anda yakin ingin menyimpan perubahan data dan foto profil admin ini?' 
+                    : 'Apakah Anda yakin ingin menyimpan perubahan informasi profil admin ini?';
+
                 window.openProfileConfirmModal({
-                    type: 'profile',
+                    type: hasNewAvatar ? 'avatar' : 'profile',
                     title: 'Konfirmasi Simpan Profil',
-                    message: 'Apakah Anda yakin ingin menyimpan perubahan informasi profil admin ini?',
+                    message: message,
                     confirmText: 'Ya, Simpan',
                     onConfirm: function() {
                         Swal.fire({
