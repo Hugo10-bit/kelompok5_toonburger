@@ -887,12 +887,30 @@
                 </div>
 
                 <!-- Profile badge -->
+                @php
+                    $adminUser = Auth::user();
+                    $adminName = $adminUser?->name ?: 'Toon Burger';
+                    $adminEmail = $adminUser?->email ?: 'Toonburger@gmail.com';
+                    $adminAvatar = $adminUser?->avatar;
+                    $adminInitials = strtoupper(substr($adminName, 0, 2));
+                @endphp
                 <div class="relative select-none">
                     <button type="button" id="header-profile-btn" onclick="toggleProfileDropdown(event)" class="flex items-center gap-3 cursor-pointer group tb-focus-ring rounded-xl p-0.5 text-left">
-                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition">Tb</div>
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition overflow-hidden">
+                            @if(!empty($adminAvatar))
+                                <img id="header-profile-avatar-img"
+                                     src="{{ str_starts_with($adminAvatar, 'http') ? $adminAvatar : asset($adminAvatar) }}"
+                                     alt="Avatar"
+                                     class="w-full h-full object-cover">
+                                <span id="header-profile-avatar-initials" class="hidden">{{ $adminInitials }}</span>
+                            @else
+                                <img id="header-profile-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden">
+                                <span id="header-profile-avatar-initials">{{ $adminInitials }}</span>
+                            @endif
+                        </div>
                         <div class="text-left leading-tight hidden sm:block">
-                            <div class="font-bold text-sm text-gray-900 leading-tight">Toon Burger</div>
-                            <div class="text-xs text-[#5F6672] font-normal leading-tight mt-0.5">Toonburger@gmail.com</div>
+                            <div class="font-bold text-sm text-gray-900 leading-tight">{{ $adminName }}</div>
+                            <div class="text-xs text-[#5F6672] font-normal leading-tight mt-0.5">{{ $adminEmail }}</div>
                         </div>
                         <svg id="header-profile-chevron" class="w-4 h-4 text-gray-700 stroke-[2] transition-transform duration-200 ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>

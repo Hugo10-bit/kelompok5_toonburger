@@ -170,7 +170,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
-                            <input type="file" name="image" accept="image/*" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200">
+                            <input type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200">
                         </div>
                     </div>
 

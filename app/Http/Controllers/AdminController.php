@@ -321,11 +321,19 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'original_price' => 'nullable|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:99999999',
+            'original_price' => 'nullable|numeric|min:0|max:99999999',
             'description' => 'nullable|string',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+        ], [
+            'image.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
+            'image.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
+            'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'price.max' => 'Harga produk terlalu besar (maksimal Rp 99.999.999).',
         ]);
 
         $imagePath = 'images/burger-bg.jpg';
@@ -366,12 +374,27 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
-            'original_price' => 'nullable|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:99999999',
+            'original_price' => 'nullable|numeric|min:0|max:99999999',
             'description' => 'nullable|string',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
+            'image' => 'nullable',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+        ], [
+            'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
+            'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'price.max' => 'Harga produk terlalu besar (maksimal Rp 99.999.999).',
         ]);
+
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+            ], [
+                'image.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
+                'image.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            ]);
+        }
 
         $imagePath = $product->image;
 
@@ -539,6 +562,10 @@ class AdminController extends Controller
             'address' => 'nullable|string|max:500',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
             'password' => 'nullable|string|min:6|confirmed',
+        ], [
+            'avatar.image' => 'Foto profil wajib berupa file gambar/foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
+            'avatar.mimes' => 'Format foto profil harus berupa file gambar/foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'avatar.max' => 'Ukuran foto profil maksimal 4 MB.',
         ]);
 
         $user->name = $request->name;
