@@ -9,7 +9,7 @@
             <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prod_title">Halaman Data Produk</h1>
             <p class="text-sm sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-        <div class="flex items-center gap-3 relative">
+        <div class="flex items-center gap-2.5 sm:gap-3 relative flex-wrap sm:flex-nowrap">
             <div class="relative">
                 <button type="button" onclick="toggleProdFilterMenu()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4 text-gray-500 dark:text-[#D4D4D4]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -17,10 +17,10 @@
                     </svg>
                     <span data-i18n="btn_filter">Filter</span>
                 </button>
-                <div id="prod-filter-menu" class="hidden absolute right-0 mt-1.5 w-48 bg-white dark:bg-[#2B2B2B] rounded-xl shadow-lg border border-gray-100 dark:border-[#555555] py-1.5 z-30">
-                    <button type="button" onclick="applyCategoryFilter('all')" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3A3A] font-medium cursor-pointer" data-i18n="filter_all_cat">Semua Kategori</button>
+                <div id="prod-filter-menu" class="hidden absolute left-0 mt-2 w-52 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-40 animate-modal-pop">
+                    <button type="button" onclick="applyCategoryFilter('all')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-[#3A3A3A] font-medium transition cursor-pointer" data-i18n="filter_all_cat">Semua Kategori</button>
                     @foreach($categories as $cat)
-                        <button type="button" onclick="applyCategoryFilter('{{ strtolower($cat->name) }}')" class="w-full text-left px-4 py-2 text-sm text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-50 dark:hover:bg-[#3A3A3A] cursor-pointer">{{ $cat->name }}</button>
+                        <button type="button" onclick="applyCategoryFilter('{{ strtolower($cat->name) }}')" class="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition cursor-pointer">{{ $cat->name }}</button>
                     @endforeach
                 </div>
             </div>
