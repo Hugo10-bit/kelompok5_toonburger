@@ -93,12 +93,22 @@ class AdminController extends Controller
         $activeProducts = 20;
         $outOfStockProducts = 2;
 
+        $orderStatusCounts = Order::selectRaw('status, count(*) as c')->groupBy('status')->pluck('c', 'status');
+        $branchPending = (int) ($orderStatusCounts['pending'] ?? 0);
+        $branchCooking = (int) (($orderStatusCounts['confirmed'] ?? 0) + ($orderStatusCounts['preparing'] ?? 0));
+        $branchReady = (int) ($orderStatusCounts['ready'] ?? 0);
+        $branchCompleted = (int) ($orderStatusCounts['completed'] ?? 0);
+
         return view('admin.dashboard', compact(
             'todayRevenue',
             'revenueGrowth',
             'totalOrdersToday',
             'ordersGrowth',
             'pendingOrders',
+            'branchPending',
+            'branchCooking',
+            'branchReady',
+            'branchCompleted',
             'totalProducts',
             'activeProducts',
             'outOfStockProducts',
