@@ -69,35 +69,34 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeLogoutModal()"></div>
 
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
-            <div class="w-20 h-20 rounded-full border-[3px] border-[#DE3B28]/80 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
-                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="w-28 h-28 sm:w-[124px] sm:h-[124px] rounded-full border-[6.5px] sm:border-[7.5px] border-[#D46161] flex items-center justify-center mx-auto mb-6 bg-white dark:bg-[#303030] shrink-0">
+                <svg class="w-11 h-11 sm:w-12 sm:h-12 text-[#D46161]" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 5.5c-1.38 0-2.5 1.05-2.4 2.43l.8 12.14c.08 1.15 1.03 2.05 2.18 2.05s2.1-.9 2.18-2.05l.8-12.14c.1-1.38-1.02-2.43-2.4-2.43zm0 19.38a2.56 2.56 0 100 5.12 2.56 2.56 0 000-5.12z"/>
                 </svg>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="logout_title">
+            <h3 class="text-2xl sm:text-[27px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5" data-i18n="logout_title">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="logout_desc">
+            <p class="text-gray-500 dark:text-gray-300 text-sm leading-relaxed max-w-xs mx-auto mb-7 font-normal" data-i18n="logout_desc">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex items-center justify-center gap-3.5">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] tb-focus-ring cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
                 <button type="button"
                         id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
+                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
                         data-i18n="logout_confirm_btn">
-                    Ya, Keluar
+                    Ya, Logout
                 </button>
             </div>
         </div>
@@ -715,9 +714,9 @@
                 nav_logout: 'Keluar',
                 nav_logout_short: 'Keluar',
                 // Layout: Modals
-                logout_title: 'Konfirmasi Keluar',
+                logout_title: 'Konfirmasi Logout',
                 logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
-                logout_confirm_btn: 'Ya, Keluar',
+                logout_confirm_btn: 'Ya, Logout',
                 delete_title: 'Konfirmasi Hapus',
                 delete_desc: 'Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.',
                 delete_confirm_btn: 'Ya, Hapus',
