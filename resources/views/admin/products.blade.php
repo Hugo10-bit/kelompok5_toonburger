@@ -46,7 +46,6 @@
                         <th class="py-4 px-6 text-center" data-i18n="col_prod_name">Menu</th>
                         <th class="py-4 px-5 text-center" data-i18n="col_category">Kategori</th>
                         <th class="py-4 px-5 text-center" data-i18n="col_price">Harga</th>
-                        <th class="py-4 px-5 text-center" data-i18n="col_calories">kalori</th>
                         <th class="py-4 px-5 text-center" data-i18n="col_status">Status</th>
                         <th class="py-4 px-5 text-center" data-i18n="col_action">Aksi</th>
                     </tr>
@@ -92,9 +91,6 @@
                         <td class="py-4 px-5 text-gray-800 dark:text-white font-medium whitespace-nowrap">
                             <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
                         </td>
-                        <td class="py-4 px-5 text-gray-700 dark:text-[#D4D4D4] whitespace-nowrap">
-                            {{ $prod->calories ?? 300 }} kcal
-                        </td>
                         <td class="py-4 px-5 whitespace-nowrap">
                             <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
                                 @csrf @method('PATCH')
@@ -126,7 +122,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="py-8 text-center text-gray-400" data-i18n="prod_empty">Belum ada produk.</td>
+                        <td colspan="5" class="py-8 text-center text-gray-400" data-i18n="prod_empty">Belum ada produk.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -164,15 +160,9 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_cal">Kalori (Kcal)</label>
-                            <input type="number" name="calories" id="prod_cal" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="300">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
-                            <input type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200">
-                        </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
+                        <input type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200">
                     </div>
 
                     <div>
@@ -260,7 +250,6 @@
                 document.getElementById('prod_name').value = product.name;
                 document.getElementById('prod_cat').value = product.category_id;
                 document.getElementById('prod_price').value = product.price;
-                document.getElementById('prod_cal').value = product.calories || '';
                 document.getElementById('prod_desc').value = product.description || '';
                 document.getElementById('prod_avail').checked = product.is_available == 1;
                 document.getElementById('prod_pop').checked = product.is_popular == 1;
