@@ -272,7 +272,10 @@
             };
 
             if (form) {
+                let isSubmitting = false;
                 form.addEventListener('submit', function (e) {
+                    if (isSubmitting) return;
+
                     const priceInput = document.getElementById('prod_price');
                     if (priceInput) {
                         const price = parseFloat(priceInput.value);
@@ -292,6 +295,49 @@
                             priceInput.focus();
                             return false;
                         }
+                    }
+
+                    // Jeda proses saat mengedit atau menambahkan produk
+                    e.preventDefault();
+                    isSubmitting = true;
+                    if (modal) modal.classList.add('hidden');
+
+                    const isEdit = methodInput && methodInput.value === 'PUT';
+                    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+                    const titleText = isEdit 
+                        ? (isEn ? 'Saving Changes...' : 'Menyimpan Perubahan...') 
+                        : (isEn ? 'Adding Product...' : 'Menambahkan Menu...');
+                    const descText = isEdit 
+                        ? (isEn ? 'Updating menu details in <b></b> seconds...' : 'Sedang menyimpan perubahan menu dalam <b></b> detik...') 
+                        : (isEn ? 'Adding new menu item in <b></b> seconds...' : 'Sedang memproses menu baru dalam <b></b> detik...');
+
+                    if (typeof Swal !== 'undefined') {
+                        let timerInterval;
+                        Swal.fire({
+                            title: titleText,
+                            html: descText,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const b = Swal.getPopup().querySelector('b');
+                                timerInterval = setInterval(() => {
+                                    if (b) {
+                                        const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                                        b.textContent = left > 0 ? left : 1;
+                                    }
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then(() => {
+                            form.submit();
+                        });
+                    } else {
+                        form.submit();
                     }
                 });
             }

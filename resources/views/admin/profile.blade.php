@@ -171,10 +171,56 @@
                     headerAvatarInit.classList.add('hidden');
                 }
                 const form = document.getElementById('admin-profile-form');
-                if (form) form.submit();
+                if (form) {
+                    Swal.fire({
+                        title: 'Memperbarui Foto...',
+                        html: 'Sedang mengunggah foto profil baru dalam <b></b> detik...',
+                        timer: 1500,
+                        timerProgressBar: true,
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            const b = Swal.getPopup().querySelector('b');
+                            setInterval(() => {
+                                if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                            }, 100);
+                        }
+                    }).then(() => {
+                        form.submit();
+                    });
+                }
             };
             reader.readAsDataURL(file);
         };
+
+        // Cooldown delay on profile and password form submit
+        document.querySelectorAll('form[action="{{ route('admin.profile.update') }}"]').forEach(f => {
+            let isSubmitting = false;
+            f.addEventListener('submit', function (e) {
+                if (isSubmitting) return;
+                e.preventDefault();
+                isSubmitting = true;
+
+                Swal.fire({
+                    title: 'Menyimpan Profil...',
+                    html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const b = Swal.getPopup().querySelector('b');
+                        setInterval(() => {
+                            if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                        }, 100);
+                    }
+                }).then(() => {
+                    f.submit();
+                });
+            });
+        });
     </script>
 
 </div>

@@ -29,6 +29,8 @@
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -880,6 +882,112 @@
 
             if (isBackForward) {
                 window.location.reload();
+            }
+        });
+
+        // Login form submission with SweetAlert2 cooldown delay & feedback
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(session('success'))
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: "{{ session('success') }}",
+                        timer: 2500,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end',
+                        timerProgressBar: true
+                    });
+                }
+            @endif
+
+            const loginForm = document.querySelector('#login-form-panel form');
+            if (loginForm) {
+                let isLoggingIn = false;
+                loginForm.addEventListener('submit', function (e) {
+                    if (isLoggingIn) return;
+                    e.preventDefault();
+
+                    const submitBtn = loginForm.querySelector('button[type="submit"]');
+                    const emailInput = document.getElementById('login-email');
+                    const passInput = document.getElementById('login-password');
+
+                    if (!emailInput || !emailInput.value.trim() || !passInput || !passInput.value) {
+                        return;
+                    }
+
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                    }
+
+                    const formData = new FormData(loginForm);
+
+                    fetch(loginForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(async response => {
+                        const data = await response.json().catch(() => ({}));
+                        if (response.ok && data.success) {
+                            isLoggingIn = true;
+                            try { localStorage.removeItem('tb_logged_out'); } catch (e) {}
+
+                            let timerInterval;
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Login Berhasil!',
+                                html: 'Selamat datang kembali! Mengalihkan ke dashboard dalam <b></b> detik...',
+                                timer: 1500,
+                                timerProgressBar: true,
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    const b = Swal.getPopup().querySelector('b');
+                                    timerInterval = setInterval(() => {
+                                        if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                                    }, 100);
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval);
+                                }
+                            }).then(() => {
+                                window.location.href = data.redirect || "{{ route('dashboard') }}";
+                            });
+                        } else {
+                            if (submitBtn) {
+                                submitBtn.disabled = false;
+                                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                            }
+                            let errorMsg = 'Username atau password yang Anda masukkan salah!';
+                            if (data.errors) {
+                                const firstKey = Object.keys(data.errors)[0];
+                                if (firstKey && data.errors[firstKey][0]) {
+                                    errorMsg = data.errors[firstKey][0];
+                                }
+                            } else if (data.message) {
+                                errorMsg = data.message;
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Login Gagal',
+                                text: errorMsg,
+                                confirmButtonColor: '#466967',
+                                confirmButtonText: 'Coba Lagi'
+                            });
+                        }
+                    })
+                    .catch(() => {
+                        isLoggingIn = true;
+                        loginForm.submit();
+                    });
+                });
             }
         });
     </script>

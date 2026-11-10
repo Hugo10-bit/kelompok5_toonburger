@@ -719,7 +719,7 @@
                         data-i18n="cancel">
                     Batalkan
                 </button>
-                <form id="global-delete-form" method="POST" action="" class="inline">
+                <form id="global-delete-form" method="POST" action="" class="inline" onsubmit="return handleGlobalDeleteSubmit(event, this)">
                     @csrf
                     @method('DELETE')
                     <button type="submit"
@@ -1126,23 +1126,81 @@
             try {
                 localStorage.setItem('tb_logged_out', '1');
             } catch (e) {}
-            const btn = document.getElementById('admin-modal-logout-submit-btn');
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = `
-                    <svg class="w-3.5 h-3.5 animate-spin mr-1.5" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Keluar...
-                `;
-            }
+            closeLogoutModal();
+
             const form = document.getElementById('global-logout-form');
-            if (form) {
-                form.submit();
+            const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+
+            if (typeof Swal !== 'undefined') {
+                let timerInterval;
+                Swal.fire({
+                    title: isEn ? 'Logout Successful' : 'Logout Berhasil',
+                    html: isEn 
+                        ? 'Closing admin session in <b></b> seconds... See you soon!' 
+                        : 'Sedang keluar dari akun dalam <b></b> detik... Sampai jumpa kembali!',
+                    icon: 'success',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        const b = Swal.getPopup().querySelector('b');
+                        timerInterval = setInterval(() => {
+                            if (b) {
+                                const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                                b.textContent = left > 0 ? left : 1;
+                            }
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then(() => {
+                    if (form) form.submit();
+                    else window.location.href = "{{ route('logout') }}";
+                });
             } else {
-                window.location.href = "{{ route('logout') }}";
+                if (form) form.submit();
+                else window.location.href = "{{ route('logout') }}";
             }
+        }
+
+        function handleGlobalDeleteSubmit(e, form) {
+            if (e) e.preventDefault();
+            closeDeleteModal();
+            const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+
+            if (typeof Swal !== 'undefined') {
+                let timerInterval;
+                Swal.fire({
+                    title: isEn ? 'Deleting Data...' : 'Menghapus Data...',
+                    html: isEn 
+                        ? 'Deleting selected data in <b></b> seconds...' 
+                        : 'Sedang memproses penghapusan data dalam <b></b> detik...',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const b = Swal.getPopup().querySelector('b');
+                        timerInterval = setInterval(() => {
+                            if (b) {
+                                const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                                b.textContent = left > 0 ? left : 1;
+                            }
+                        }, 100);
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);
+                    }
+                }).then(() => {
+                    form.submit();
+                });
+            } else {
+                form.submit();
+            }
+            return false;
         }
 
         // Global Delete Modal Handler
