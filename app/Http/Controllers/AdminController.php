@@ -321,8 +321,8 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0|max:99999999',
-            'original_price' => 'nullable|numeric|min:0|max:99999999',
+            'price' => 'required|numeric|min:1000|max:1000000',
+            'original_price' => 'nullable|numeric|min:1000|max:1000000',
             'description' => 'nullable|string',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
@@ -333,7 +333,13 @@ class AdminController extends Controller
             'image.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
             'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
             'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
-            'price.max' => 'Harga produk terlalu besar (maksimal Rp 99.999.999).',
+            'price.required' => 'Harga produk/pesanan wajib diisi.',
+            'price.numeric' => 'Harga produk/pesanan harus berupa angka nominal valid.',
+            'price.min' => 'Harga produk/pesanan minimal Rp 1.000.',
+            'price.max' => 'Harga produk/pesanan terlalu berlebihan (maksimal Rp 1.000.000).',
+            'original_price.numeric' => 'Harga asli/coret harus berupa angka.',
+            'original_price.min' => 'Harga asli/coret minimal Rp 1.000.',
+            'original_price.max' => 'Harga asli/coret terlalu berlebihan (maksimal Rp 1.000.000).',
         ]);
 
         $imagePath = 'images/burger-bg.jpg';
@@ -374,8 +380,8 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0|max:99999999',
-            'original_price' => 'nullable|numeric|min:0|max:99999999',
+            'price' => 'required|numeric|min:1000|max:1000000',
+            'original_price' => 'nullable|numeric|min:1000|max:1000000',
             'description' => 'nullable|string',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
@@ -384,7 +390,13 @@ class AdminController extends Controller
         ], [
             'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
             'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
-            'price.max' => 'Harga produk terlalu besar (maksimal Rp 99.999.999).',
+            'price.required' => 'Harga produk/pesanan wajib diisi.',
+            'price.numeric' => 'Harga produk/pesanan harus berupa angka nominal valid.',
+            'price.min' => 'Harga produk/pesanan minimal Rp 1.000.',
+            'price.max' => 'Harga produk/pesanan terlalu berlebihan (maksimal Rp 1.000.000).',
+            'original_price.numeric' => 'Harga asli/coret harus berupa angka.',
+            'original_price.min' => 'Harga asli/coret minimal Rp 1.000.',
+            'original_price.max' => 'Harga asli/coret terlalu berlebihan (maksimal Rp 1.000.000).',
         ]);
 
         if ($request->hasFile('image')) {

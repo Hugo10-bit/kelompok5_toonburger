@@ -159,7 +159,8 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_price">Harga (Rp)</label>
-                            <input type="number" name="price" id="prod_price" required class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                            <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="500" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                            <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block">Min. Rp 1.000 &mdash; Maks. Rp 1.000.000</span>
                         </div>
                     </div>
 
@@ -269,6 +270,31 @@
             window.closeModal = function () {
                 if (modal) modal.classList.add('hidden');
             };
+
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    const priceInput = document.getElementById('prod_price');
+                    if (priceInput) {
+                        const price = parseFloat(priceInput.value);
+                        if (isNaN(price) || price < 1000 || price > 1000000) {
+                            e.preventDefault();
+                            if (typeof Swal !== 'undefined') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Harga Tidak Wajar',
+                                    text: 'Harga produk/pesanan tidak boleh berlebihan! Minimal Rp 1.000 dan maksimal Rp 1.000.000.',
+                                    confirmButtonColor: '#415C58',
+                                    confirmButtonText: 'Perbaiki Harga'
+                                });
+                            } else {
+                                alert('Harga produk/pesanan tidak boleh berlebihan! Minimal Rp 1.000 dan maksimal Rp 1.000.000.');
+                            }
+                            priceInput.focus();
+                            return false;
+                        }
+                    }
+                });
+            }
 
             if (window._tbProdFilterClickHandler) {
                 document.removeEventListener('click', window._tbProdFilterClickHandler);
