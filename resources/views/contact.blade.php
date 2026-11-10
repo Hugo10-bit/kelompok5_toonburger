@@ -170,17 +170,17 @@
                         </div>
                     </div>
 
-                    <!-- FAQ 3 (Expanded by default as in reference mockup) -->
+                    <!-- FAQ 3 -->
                     <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 150ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
-                        <div class="faq-body">
+                        <div class="faq-body hidden">
                             <div class="border-t border-gray-200 mx-5"></div>
                             <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
                                 Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.
@@ -210,7 +210,7 @@
                     <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 250ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
-                                Bisakah saya Bagaimana jika saya terlambat mengambil pesanan di outlet? mengubah atau membatalkan pesanan yang sudah dibayar?
+                                Bagaimana jika saya terlambat mengambil pesanan di outlet?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
@@ -231,71 +231,70 @@
                 <div class="relative mx-auto w-full">
 
                     <!-- Top Tan Clipboard Clip Illustration -->
-                    <div class="absolute -top-7 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center select-none pointer-events-none">
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center select-none pointer-events-none">
                         <!-- Top loop with hole -->
-                        <div class="w-7 h-5 rounded-t-full bg-[#E5C697] border border-[#C5A472] flex items-center justify-center -mb-1 shadow-2xs">
-                            <div class="w-2.5 h-2.5 rounded-full bg-[#FAF4E4] border border-[#C5A472]"></div>
+                        <div class="w-9 h-6 rounded-t-lg bg-[#E2C799] border-2 border-[#9D8053] flex items-center justify-center -mb-1 shadow-2xs">
+                            <div class="w-3 h-3 rounded-full bg-[#FAF4E4] border border-[#9D8053]"></div>
                         </div>
-                        <!-- Middle clip tier -->
-                        <div class="w-16 h-3.5 rounded-t-md bg-[#E8CBA0] border border-[#C5A472] z-10"></div>
-                        <!-- Bottom clip base -->
-                        <div class="w-20 h-3 rounded-xs bg-[#DFBE8F] border-x border-b border-[#C5A472] shadow-xs z-10"></div>
+                        <!-- Bottom clip bar -->
+                        <div class="w-24 h-4 rounded-xs bg-[#D6B785] border-2 border-[#9D8053] shadow-xs z-10"></div>
                     </div>
 
                     <!-- White Card Body -->
-                    <div class="bg-white rounded-t-[26px] pt-10 sm:pt-12 px-6 sm:px-10 pb-8 border-x border-t border-gray-200/90 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
-                        <h2 class="text-2xl sm:text-3xl lg:text-[32px] text-[#27443E] uppercase leading-[1.15] tracking-wide"
+                    <div class="bg-white rounded-t-[28px] sm:rounded-t-[34px] pt-10 sm:pt-12 px-6 sm:px-10 pb-7 border-x border-t border-gray-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
+                        <h2 class="text-3xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             LET'S GET IN TOUCH<br>
                             WITH US!
                         </h2>
 
                         <!-- Dashed Divider -->
-                        <div class="border-b border-dashed border-gray-300 my-5"></div>
+                        <div class="border-b border-dashed border-gray-300 my-6"></div>
 
                         <form onsubmit="handleContactSubmit(event)" class="space-y-4">
                             <div>
-                                <label for="contact-name" class="block text-xs font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
+                                <label for="contact-name" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
                                 <input type="text"
                                        id="contact-name"
                                        required
                                        placeholder="Nama Lengkap Anda"
-                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                                       class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
 
                             <div>
-                                <label for="contact-email" class="block text-xs font-bold text-gray-800 mb-1.5">Email</label>
+                                <label for="contact-email" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Email</label>
                                 <input type="email"
                                        id="contact-email"
                                        required
-                                       placeholder="emailanda@domain.com"
-                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                                       placeholder="Emailanda@Gmail.com"
+                                       class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
 
                             <div>
-                                <label for="contact-phone" class="block text-xs font-bold text-gray-800 mb-1.5">Nomor Telepon</label>
+                                <label for="contact-phone" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nomor Telefon</label>
                                 <input type="tel"
                                        id="contact-phone"
                                        required
-                                       placeholder="08xxxxxxxxxx"
-                                       class="w-full bg-white border border-gray-300 rounded-lg px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition">
+                                       placeholder="08xxx-xxx-xxx"
+                                       class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
 
                             <div>
-                                <label for="contact-message" class="block text-xs font-bold text-gray-800 mb-1.5">Pesan</label>
+                                <label for="contact-message" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
                                 <textarea id="contact-message"
-                                          rows="4"
+                                          rows="3"
                                           required
-                                          placeholder="Tulis Pesan Anda Disini..."
-                                          class="w-full bg-white border border-gray-300 rounded-lg p-3.5 text-xs text-gray-800 placeholder-gray-400 focus:border-[#415C58] focus:ring-2 focus:ring-[#415C58]/15 outline-none transition resize-none"></textarea>
+                                          placeholder="Tulis Pesan Anda Disini...."
+                                          class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition resize-none"></textarea>
                             </div>
 
-                            <div class="pt-1">
+                            <div class="pt-2">
                                 <button type="submit"
-                                        class="w-full bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium text-xs sm:text-[13px] py-3 rounded-lg transition flex items-center justify-center gap-2 cursor-pointer">
+                                        class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] text-white font-bold text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
                                     <span>Kirim Pesan</span>
-                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                                    <svg class="w-4 h-4 text-white -rotate-12 translate-y-[-1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                                     </svg>
                                 </button>
                             </div>
@@ -319,8 +318,8 @@
                                      C 87.5,8 87.5,24 75,24 C 62.5,24 62.5,8 50,8
                                      C 37.5,8 37.5,24 25,24 C 12.5,24 12.5,8 0,8 Z"
                                   fill="#FFFFFF"
-                                  stroke="#E5E7EB"
-                                  stroke-width="1"/>
+                                  stroke="#CBD5E1"
+                                  stroke-width="1.2"/>
                         </svg>
                     </div>
 
