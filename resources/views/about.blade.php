@@ -3,63 +3,6 @@
 @section('title', 'Tentang Kami - Toon Burger')
 
 @section('content')
-<style>
-    .about-fine-grid-bg {
-        background-color: #FAF3E3;
-        background-image:
-            linear-gradient(to right, rgba(180, 166, 136, 0.17) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(180, 166, 136, 0.17) 1px, transparent 1px);
-        background-size: 10px 10px;
-    }
-
-    /* Keep outgoing slide at opacity 1 underneath while incoming slide fades to 1 so background never bleeds at midpoint. */
-    .about-slide-photo {
-        opacity: 0;
-        z-index: 1;
-        transition: opacity 650ms cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: opacity;
-    }
-    .about-slide-photo.is-prev {
-        opacity: 1;
-        z-index: 1;
-        transition: none;
-    }
-    .about-slide-photo.is-active {
-        opacity: 1;
-        z-index: 2;
-    }
-
-    .about-slide-caption {
-        opacity: 0;
-        transform: translateY(6px);
-        pointer-events: none;
-        transition: opacity 380ms cubic-bezier(0.4, 0, 0.2, 1), transform 380ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .about-slide-caption.is-active {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-        transition-delay: 110ms;
-    }
-
-    .sticky-review-card {
-        transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 220ms ease;
-    }
-    .sticky-review-card:hover {
-        transform: translateY(-4px) rotate(0deg) !important;
-        box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
-        z-index: 20;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .about-slide-photo,
-        .about-slide-caption,
-        .sticky-review-card {
-            transition: none !important;
-        }
-    }
-</style>
-
 <div>
     {{-- Negative top margin pulls the perspective grid behind the sticky translucent navbar, matching contact.blade.php. --}}
     <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[118px] sm:pt-[126px] pb-10 sm:pb-14 lg:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"

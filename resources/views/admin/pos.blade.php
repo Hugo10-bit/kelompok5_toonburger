@@ -45,11 +45,7 @@
             }
         }
     </script>
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .font-brand { font-family: 'Luckiest Guy', cursive; }
-        .font-mono-code { font-family: 'Courier New', Courier, monospace; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body class="h-full bg-[#FAF1E1] flex flex-col antialiased overflow-hidden">
 

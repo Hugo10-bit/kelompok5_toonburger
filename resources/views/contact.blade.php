@@ -7,52 +7,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<style>
-    .leaflet-popup-content-wrapper {
-        border-radius: 16px !important;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
-        padding: 4px !important;
-        border: 1px solid #EFE5D0 !important;
-    }
-    .leaflet-popup-tip {
-        background: white !important;
-    }
-    .leaflet-container {
-        font-family: 'Poppins', sans-serif !important;
-    }
-    /* Match bottom-right zoom buttons to mockup */
-    .leaflet-bottom.leaflet-right .leaflet-control-zoom {
-        border: 1px solid #E5E7EB !important;
-        border-radius: 8px !important;
-        overflow: hidden;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
-        margin-right: 16px !important;
-        margin-bottom: 16px !important;
-    }
-    .leaflet-bottom.leaflet-right .leaflet-control-zoom a {
-        width: 32px !important;
-        height: 32px !important;
-        line-height: 30px !important;
-        font-size: 16px !important;
-        color: #4B5563 !important;
-        background-color: #FFFFFF !important;
-    }
-    .leaflet-bottom.leaflet-right .leaflet-control-zoom a:hover {
-        background-color: #F9FAFB !important;
-        color: #111827 !important;
-    }
-    .leaflet-control-attribution {
-        display: none !important;
-    }
-    .contact-fine-grid-bg {
-        background-color: #FAF4E4;
-        background-image:
-            linear-gradient(to right, rgba(180, 166, 136, 0.16) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(180, 166, 136, 0.16) 1px, transparent 1px);
-        background-size: 10px 10px;
-    }
-</style>
-
 <div>
 
     <!-- ═══════════════════════════════════════════════

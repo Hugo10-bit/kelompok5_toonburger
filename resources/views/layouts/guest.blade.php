@@ -38,17 +38,7 @@
                 }
             }
         </script>
-        <style>
-            body {
-                font-family: 'Poppins', sans-serif;
-                background-color: #F1D9B3;
-                color: #263A38;
-            }
-            .font-brand {
-                font-family: 'BBH Hegarty', 'Luckiest Guy', cursive, sans-serif;
-                letter-spacing: 0.05em;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body class="min-h-full bg-[#F1D9B3] text-gray-900 antialiased flex flex-col justify-center items-center py-10 px-4 sm:px-6">
         <div class="w-full sm:max-w-md flex flex-col items-center">
