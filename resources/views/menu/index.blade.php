@@ -147,6 +147,7 @@
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
             @endphp
             <a href="{{ route('menu', array_filter(['q' => $search, 'table' => $tableNum])) }}"
+               data-preserve-scroll
                class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[40px] active:scale-95">
                 <span>Semua</span>
             </a>
@@ -157,6 +158,7 @@
                     $isActive = ($selectedCategory === $category->slug);
                 @endphp
                 <a href="{{ route('menu', array_filter(['category' => $category->slug, 'q' => $search, 'table' => $tableNum])) }}"
+                   data-preserve-scroll
                    class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[40px] active:scale-95">
                     <span>{{ $category->name }}</span>
                 </a>

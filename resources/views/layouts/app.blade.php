@@ -1896,9 +1896,12 @@
                 }
             }
 
-            function applyAppPayload(url, payload, pushHistory) {
+            function applyAppPayload(url, payload, pushHistory, preserveScroll = false) {
                 const mainEl = document.querySelector('main');
                 if (!mainEl || !payload) return false;
+
+                const currentScrollY = preserveScroll ? window.scrollY : 0;
+                const currentScrollX = preserveScroll ? window.scrollX : 0;
 
                 document.title = payload.title;
                 mainEl.innerHTML = payload.mainHtml;
@@ -1909,11 +1912,15 @@
                 if (searchDropdown) searchDropdown.classList.add('hidden');
 
                 if (pushHistory && normalizeAppUrl(window.location.href) !== normalizeAppUrl(url)) {
-                    window.history.pushState({ tbAppPjax: true, url: url }, payload.title, url);
+                    window.history.pushState({ tbAppPjax: true, url: url, scrollY: currentScrollY }, payload.title, url);
                 }
 
                 updateAppNavHighlight(url);
-                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                if (preserveScroll) {
+                    window.scrollTo({ top: currentScrollY, left: currentScrollX, behavior: 'instant' });
+                } else {
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                }
 
                 executeAppMainScripts(mainEl);
                 initTiltCards();
@@ -1922,13 +1929,13 @@
                 return true;
             }
 
-            window.tbAppNavigate = function (url, pushHistory = true) {
+            window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false) {
                 const key = normalizeAppUrl(url);
                 updateAppNavHighlight(key);
 
                 const cached = _tbAppPageCache.get(key);
                 if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
-                    applyAppPayload(url, cached, pushHistory);
+                    applyAppPayload(url, cached, pushHistory, preserveScroll);
                     return;
                 }
 
@@ -1939,7 +1946,7 @@
 
                 prefetchAppUrl(key, true).then(payload => {
                     if (payload) {
-                        applyAppPayload(url, payload, pushHistory);
+                        applyAppPayload(url, payload, pushHistory, preserveScroll);
                     } else {
                         window.location.href = url;
                     }
@@ -2007,8 +2014,10 @@
                 const rawHref = link.getAttribute('href');
                 if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
 
+                const preserveScroll = link.hasAttribute('data-preserve-scroll');
+
                 e.preventDefault();
-                window.tbAppNavigate(link.href, true);
+                window.tbAppNavigate(link.href, true, preserveScroll);
             });
 
             // Intercept GET search/filter forms pointing to internal public routes
@@ -2023,15 +2032,18 @@
                     const u = new URL(action, window.location.origin);
                     const fd = new FormData(form);
                     u.search = new URLSearchParams(fd).toString();
-                    window.tbAppNavigate(u.href, true);
+                    const preserveScroll = form.hasAttribute('data-preserve-scroll');
+                    window.tbAppNavigate(u.href, true, preserveScroll);
                 } else {
                     _tbAppPageCache.clear();
                 }
             });
 
-            window.addEventListener('popstate', () => {
+            window.addEventListener('popstate', (e) => {
                 if (isPjaxEligibleAppUrl(window.location.href)) {
-                    window.tbAppNavigate(window.location.href, false);
+                    const state = e.state || {};
+                    const preserveScroll = typeof state.scrollY === 'number';
+                    window.tbAppNavigate(window.location.href, false, preserveScroll);
                 }
             });
         })();
