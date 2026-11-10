@@ -82,8 +82,9 @@
                 };
 
                 $minsAgo = max(1, (int) abs(now()->diffInMinutes($order->created_at)));
-                $relativeLabel = $order->notes && str_contains($order->notes, 'Menit')
-                    ? $order->notes
+                $rawNotes = $order->notes ? str_ireplace('menityang', 'menit yang', $order->notes) : '';
+                $relativeLabel = $rawNotes && (stripos($rawNotes, 'menit') !== false || stripos($rawNotes, 'jam') !== false)
+                    ? $rawNotes
                     : ($minsAgo . ' Menit yang lalu');
             @endphp
 

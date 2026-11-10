@@ -597,6 +597,47 @@
             background-color: #454545 !important;
             color: #FFFFFF !important;
         }
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            #admin-sidebar,
+            #admin-sidebar-backdrop,
+            header,
+            nav,
+            .tb-bestseller-footer,
+            .tb-metric-footer,
+            .no-print {
+                display: none !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+            .tb-panel-card,
+            .bg-white,
+            .dark\:bg-\[\#2B2B2B\],
+            .dark\:bg-\[\#333333\],
+            .dark\:bg-\[\#3C3C3C\] {
+                border: none !important;
+                box-shadow: none !important;
+                background: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            .screen-view {
+                display: none !important;
+            }
+            #thermal-receipt {
+                display: block !important;
+                width: 100% !important;
+                max-width: 320px !important;
+                margin: 0 auto !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0">

@@ -213,14 +213,14 @@
                             </div>
                         </div>
 
-                        <!-- Bottom Row: Price & Pesan Button (Matching Home Card) -->
+                        <!-- Bottom Row: Price & Pesan Button (Matching Home Card & Figma) -->
                         <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
                             <span class="font-black text-base text-gray-900">
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </span>
                             <button type="button"
                                     onclick="openProductModal({{ $product->id }})"
-                                    class="bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-5 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                    class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
                                 Pesan
                             </button>
                         </div>

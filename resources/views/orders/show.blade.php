@@ -17,8 +17,8 @@
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Status & Bukti Pesanan</h1>
         </div>
 
-        <div class="flex items-center gap-2">
-            <button onclick="window.print()" class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5">
+        <div class="flex items-center gap-2 no-print">
+            <button onclick="window.print()" class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5 cursor-pointer">
                 Cetak Struk
             </button>
             <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-xs">

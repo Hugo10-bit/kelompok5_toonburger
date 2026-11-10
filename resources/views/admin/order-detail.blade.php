@@ -3,7 +3,102 @@
 @section('title', 'Detail Pesanan #' . $order->order_number . ' - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-8 space-y-6">
+<!-- PRINT RECEIPT STYLED CONTAINER (Only visible when printing / clean thermal receipt format) -->
+<div id="thermal-receipt" class="hidden font-mono text-black text-xs p-4 max-w-[320px] mx-auto leading-tight">
+    <div class="text-center pb-3 border-b border-dashed border-black">
+        <h2 class="text-base font-extrabold uppercase tracking-wide">TOON BURGER</h2>
+        <p class="text-[10px] mt-0.5">Jl. Panglima Batur No. 45, Banjarbaru</p>
+        <p class="text-[10px]">Telp: 0813-4595-6487</p>
+    </div>
+
+    <div class="py-2.5 border-b border-dashed border-black space-y-1 text-[11px]">
+        <div class="flex justify-between">
+            <span>No. Order:</span>
+            <span class="font-bold">{{ $order->order_number }}</span>
+        </div>
+        <div class="flex justify-between">
+            <span>Waktu:</span>
+            <span>{{ $order->created_at->format('d/m/Y H:i') }}</span>
+        </div>
+        <div class="flex justify-between">
+            <span>Kasir/Staff:</span>
+            <span>{{ Auth::user()->name ?? 'Admin' }}</span>
+        </div>
+        <div class="flex justify-between">
+            <span>Pelanggan:</span>
+            <span class="font-bold">{{ $order->customer_name }}</span>
+        </div>
+        <div class="flex justify-between">
+            <span>Tipe:</span>
+            <span class="uppercase font-bold">{{ $order->order_type ?: 'Takeaway' }}</span>
+        </div>
+        @if($order->restaurant_table_id)
+        <div class="flex justify-between">
+            <span>Meja:</span>
+            <span class="font-bold">{{ $order->table->table_number ?? $order->restaurant_table_id }}</span>
+        </div>
+        @endif
+    </div>
+
+    <div class="py-2.5 border-b border-dashed border-black space-y-2">
+        @foreach($order->items as $item)
+            <div class="flex justify-between items-start text-[11px]">
+                <div class="pr-2">
+                    <div class="font-bold">{{ $item->product_name }}</div>
+                    <div class="text-[10px] text-gray-700">{{ $item->quantity }} x {{ number_format($item->price, 0, ',', '.') }}</div>
+                    @if(!empty($item->notes))
+                        <div class="text-[9.5px] italic">({{ $item->notes }})</div>
+                    @endif
+                </div>
+                <div class="font-bold text-right whitespace-nowrap">
+                    {{ number_format($item->subtotal, 0, ',', '.') }}
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="py-2.5 border-b border-dashed border-black space-y-1 text-[11px]">
+        <div class="flex justify-between">
+            <span>Subtotal:</span>
+            <span>Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+        </div>
+        @if($order->discount_amount > 0)
+        <div class="flex justify-between">
+            <span>Diskon:</span>
+            <span>- Rp {{ number_format($order->discount_amount, 0, ',', '.') }}</span>
+        </div>
+        @endif
+        @if($order->tax_amount > 0)
+        <div class="flex justify-between">
+            <span>Pajak (PB1):</span>
+            <span>Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
+        </div>
+        @endif
+        <div class="flex justify-between text-sm font-black pt-1">
+            <span>TOTAL:</span>
+            <span>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between text-[10px] pt-0.5">
+            <span>Metode Bayar:</span>
+            <span class="font-bold uppercase">{{ $order->payment_method ?: 'Cash' }} ({{ strtoupper($order->payment_status ?: 'LUNAS') }})</span>
+        </div>
+    </div>
+
+    @if($order->notes)
+    <div class="py-2 border-b border-dashed border-black text-[10px]">
+        <span class="font-bold block">Catatan Pesanan:</span>
+        <p>{{ str_ireplace('menityang', 'menit yang', $order->notes) }}</p>
+    </div>
+    @endif
+
+    <div class="text-center pt-3 text-[10px] space-y-0.5">
+        <p class="font-bold">Terima Kasih atas Kunjungan Anda!</p>
+        <p>Follow Instagram kami @toonburger.id</p>
+        <p class="text-[9px] text-gray-600 mt-1">*** SIMPAN STRUK INI SEBAGAI BUKTI PEMBAYARAN ***</p>
+    </div>
+</div>
+
+<div class="screen-view bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-8 space-y-6">
 
     <!-- Header Section (Sesuai Mockup Figma) -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -175,7 +270,7 @@
         <span class="text-xs font-medium text-gray-400 dark:text-[#BDBDBD] block" data-i18n="order_detail_notes">Catatan Pesanan</span>
         <div class="bg-[#F5F5F5] dark:bg-[#252525] border border-transparent dark:border-[#404040] rounded-xl p-4 text-xs sm:text-sm text-gray-600 dark:text-[#E5E5E5] font-medium">
             @if($order->notes)
-                {{ $order->notes }}
+                {{ str_ireplace('menityang', 'menit yang', $order->notes) }}
             @else
                 <span data-i18n="order_detail_no_notes">Tanpa catatan</span>
             @endif

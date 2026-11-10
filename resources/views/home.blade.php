@@ -306,7 +306,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(1)"
-                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -345,7 +345,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(6)"
-                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -384,7 +384,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(3)"
-                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
                             Pesan
                         </button>
                     </div>
@@ -423,7 +423,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(4)"
-                                class="min-h-[38px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs font-bold px-4 py-1.5 rounded-lg transition active:scale-95 shadow-2xs cursor-pointer">
+                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
                             Pesan
                         </button>
                     </div>

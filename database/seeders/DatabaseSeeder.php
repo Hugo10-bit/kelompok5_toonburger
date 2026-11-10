@@ -334,7 +334,7 @@ class DatabaseSeeder extends Seeder
                 'customer_name' => 'Hugo Putra',
                 'status' => 'preparing',
                 'total_amount' => 125000,
-                'notes' => '25 menityang lalu',
+                'notes' => '25 Menit yang lalu',
                 'mins_ago' => 25,
             ],
             [

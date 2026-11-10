@@ -229,6 +229,29 @@
                 opacity: 1 !important;
             }
         }
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            header,
+            footer,
+            nav,
+            #mobile-dock-cart-btn,
+            #cart-drawer,
+            #cart-backdrop,
+            #qris-modal,
+            .no-print {
+                display: none !important;
+            }
+            main {
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-full bg-bites-bg text-gray-900 flex flex-col antialiased">
@@ -299,22 +322,22 @@
                 <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
                     <a href="{{ route('home') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
-                              {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                              {{ request()->routeIs('home', 'welcome') || request()->is('/') || request()->is('home') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Beranda
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
-                              {{ request()->routeIs('menu*') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                              {{ request()->routeIs('menu*') || request()->is('menu*') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Menu
                     </a>
                     <a href="{{ route('about') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
-                              {{ request()->routeIs('about') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                              {{ request()->routeIs('about') || request()->is('about') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Tentang
                     </a>
                     <a href="{{ route('contact') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
-                              {{ request()->routeIs('contact') ? 'bg-white/20 text-white shadow-2xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
+                              {{ request()->routeIs('contact') || request()->is('contact') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         Kontak
                     </a>
                 </nav>
@@ -1765,7 +1788,7 @@
                         const aPath = new URL(a.href, window.location.origin).pathname;
                         const active = isNavPathActive(aPath, targetPath);
                         if (active) {
-                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold bg-white/20 text-white shadow-2xs';
+                            a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold bg-white/20 text-white shadow-xs';
                         } else {
                             a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold text-white/80 hover:text-white hover:bg-white/10';
                         }
@@ -1966,6 +1989,7 @@
             };
 
             document.addEventListener('DOMContentLoaded', () => {
+                try { updateAppNavHighlight(window.location.href); } catch (e) {}
                 const mainEl = document.querySelector('main');
                 if (mainEl) {
                     _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
