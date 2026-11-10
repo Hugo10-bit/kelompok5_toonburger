@@ -185,7 +185,12 @@ class AdminController extends Controller
         $status = $request->query('status', 'all');
         $search = trim($request->query('search', $request->query('q', '')));
 
-        $query = Order::with(['items', 'table', 'user', 'payment'])->orderBy('id', 'asc');
+        $relations = ['items', 'table', 'user'];
+        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
+            $relations[] = 'payment';
+        }
+
+        $query = Order::with($relations)->orderBy('id', 'asc');
 
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
@@ -244,7 +249,12 @@ class AdminController extends Controller
      */
     public function orderDetail($order_number)
     {
-        $order = Order::with(['items.product', 'table', 'user', 'payment'])
+        $relations = ['items.product', 'table', 'user'];
+        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
+            $relations[] = 'payment';
+        }
+
+        $order = Order::with($relations)
             ->where('order_number', $order_number)
             ->orWhere('order_number', 'TB-20260917-00007')
             ->orWhere('id', $order_number)
