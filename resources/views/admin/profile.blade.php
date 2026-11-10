@@ -111,7 +111,7 @@
         </div>
     </form>
 
-    <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 pt-6 text-sm">
+    <form id="admin-password-form" action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 pt-6 text-sm">
         @csrf
         <input type="hidden" name="name" value="{{ $user?->name ?: 'Toon Burger' }}">
         <input type="hidden" name="email" value="{{ $user?->email ?: 'Toonburger@gmail.com' }}">
@@ -146,14 +146,117 @@
         </div>
     </form>
 
+    <!-- Modal Konfirmasi Edit Profil Admin -->
+    <div id="profile-confirm-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
+             onclick="closeProfileConfirmModal()"></div>
+
+        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="w-24 h-24 sm:w-[104px] sm:h-[104px] rounded-full border-[6.5px] sm:border-[7.5px] border-[#415C58] flex items-center justify-center mx-auto mb-6 bg-white dark:bg-[#303030] shrink-0 text-[#415C58]">
+                <svg id="profile-modal-icon-profile" class="w-10 h-10 sm:w-11 sm:h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <svg id="profile-modal-icon-password" class="w-10 h-10 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <svg id="profile-modal-icon-avatar" class="w-10 h-10 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
+
+            <h3 id="profile-confirm-title" class="text-2xl sm:text-[26px] font-bold text-gray-900 dark:text-white tracking-tight mb-3">
+                Konfirmasi Simpan Profil
+            </h3>
+
+            <p id="profile-confirm-message" class="text-sm text-gray-500 dark:text-[#A3A3A3] leading-relaxed mb-8 max-w-[340px] mx-auto">
+                Apakah Anda yakin ingin menyimpan perubahan pada profil admin ini?
+            </p>
+
+            <div class="flex items-center justify-center gap-4">
+                <button type="button"
+                        onclick="closeProfileConfirmModal()"
+                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
+                    Batalkan
+                </button>
+                <button type="button"
+                        id="profile-confirm-proceed-btn"
+                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-sm font-semibold shadow-md active:scale-95 transition cursor-pointer">
+                    Ya, Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
+    (function () {
+        let _onProfileConfirm = null;
+        let _onProfileCancel = null;
+
+        window.openProfileConfirmModal = function(options) {
+            const modal = document.getElementById('profile-confirm-modal');
+            const titleEl = document.getElementById('profile-confirm-title');
+            const msgEl = document.getElementById('profile-confirm-message');
+            const btnEl = document.getElementById('profile-confirm-proceed-btn');
+
+            const iconProfile = document.getElementById('profile-modal-icon-profile');
+            const iconPass = document.getElementById('profile-modal-icon-password');
+            const iconAvatar = document.getElementById('profile-modal-icon-avatar');
+
+            if (iconProfile) iconProfile.classList.toggle('hidden', options.type !== 'profile');
+            if (iconPass) iconPass.classList.toggle('hidden', options.type !== 'password');
+            if (iconAvatar) iconAvatar.classList.toggle('hidden', options.type !== 'avatar');
+
+            if (titleEl) titleEl.textContent = options.title || 'Konfirmasi Simpan';
+            if (msgEl) msgEl.textContent = options.message || 'Apakah Anda yakin ingin melanjutkan perubahan?';
+            if (btnEl) btnEl.textContent = options.confirmText || 'Ya, Simpan';
+
+            _onProfileConfirm = options.onConfirm || null;
+            _onProfileCancel = options.onCancel || null;
+
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        };
+
+        window.closeProfileConfirmModal = function(isConfirm = false) {
+            const modal = document.getElementById('profile-confirm-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            if (!isConfirm && typeof _onProfileCancel === 'function') {
+                _onProfileCancel();
+            }
+            _onProfileConfirm = null;
+            _onProfileCancel = null;
+        };
+
+        document.getElementById('profile-confirm-proceed-btn')?.addEventListener('click', function() {
+            const action = _onProfileConfirm;
+            window.closeProfileConfirmModal(true);
+            if (typeof action === 'function') {
+                action();
+            }
+        });
+
+        // Store initial avatar preview state for cancellation rollback
+        const _initialAvatarPreview = {
+            src: document.getElementById('profile-avatar-preview')?.src || '',
+            hasImage: !document.getElementById('profile-avatar-preview')?.classList.contains('hidden')
+        };
+
         window.handleAdminAvatarChange = function(input) {
             if (!input.files || !input.files[0]) return;
             const file = input.files[0];
             const reader = new FileReader();
+
             reader.onload = function(e) {
                 const preview = document.getElementById('profile-avatar-preview');
                 const initials = document.getElementById('profile-avatar-initials');
+
                 if (preview) {
                     preview.src = e.target.result;
                     preview.classList.remove('hidden');
@@ -161,66 +264,164 @@
                 if (initials) {
                     initials.classList.add('hidden');
                 }
-                const headerAvatarImg = document.getElementById('header-profile-avatar-img');
-                const headerAvatarInit = document.getElementById('header-profile-avatar-initials');
-                if (headerAvatarImg) {
-                    headerAvatarImg.src = e.target.result;
-                    headerAvatarImg.classList.remove('hidden');
-                }
-                if (headerAvatarInit) {
-                    headerAvatarInit.classList.add('hidden');
-                }
-                const form = document.getElementById('admin-profile-form');
-                if (form) {
-                    Swal.fire({
-                        title: 'Memperbarui Foto...',
-                        html: 'Sedang mengunggah foto profil baru dalam <b></b> detik...',
-                        timer: 1500,
-                        timerProgressBar: true,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                            const b = Swal.getPopup().querySelector('b');
-                            setInterval(() => {
-                                if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                            }, 100);
+
+                window.openProfileConfirmModal({
+                    type: 'avatar',
+                    title: 'Konfirmasi Ganti Foto',
+                    message: 'Apakah Anda yakin ingin menggunakan foto ini sebagai foto profil baru Anda?',
+                    confirmText: 'Ya, Ganti Foto',
+                    onConfirm: function() {
+                        const form = document.getElementById('admin-profile-form');
+                        if (form) {
+                            Swal.fire({
+                                title: 'Memperbarui Foto...',
+                                html: 'Sedang mengunggah foto profil baru dalam <b></b> detik...',
+                                timer: 1500,
+                                timerProgressBar: true,
+                                allowOutsideClick: false,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                    const b = Swal.getPopup().querySelector('b');
+                                    setInterval(() => {
+                                        if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                                    }, 100);
+                                }
+                            }).then(() => {
+                                form.submit();
+                            });
                         }
-                    }).then(() => {
-                        form.submit();
-                    });
-                }
+                    },
+                    onCancel: function() {
+                        // Reset input and restore previous preview
+                        input.value = '';
+                        if (preview) {
+                            preview.src = _initialAvatarPreview.src;
+                            if (_initialAvatarPreview.hasImage) {
+                                preview.classList.remove('hidden');
+                            } else {
+                                preview.classList.add('hidden');
+                            }
+                        }
+                        if (initials) {
+                            if (_initialAvatarPreview.hasImage) {
+                                initials.classList.add('hidden');
+                            } else {
+                                initials.classList.remove('hidden');
+                            }
+                        }
+                    }
+                });
             };
             reader.readAsDataURL(file);
         };
 
-        // Cooldown delay on profile and password form submit
-        document.querySelectorAll('form[action="{{ route('admin.profile.update') }}"]').forEach(f => {
-            let isSubmitting = false;
-            f.addEventListener('submit', function (e) {
-                if (isSubmitting) return;
+        // Form 1: Admin Profile form submission
+        const profileForm = document.getElementById('admin-profile-form');
+        if (profileForm) {
+            profileForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                isSubmitting = true;
 
-                Swal.fire({
-                    title: 'Menyimpan Profil...',
-                    html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
-                    timer: 1500,
-                    timerProgressBar: true,
-                    allowOutsideClick: false,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                        const b = Swal.getPopup().querySelector('b');
-                        setInterval(() => {
-                            if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                        }, 100);
+                if (!profileForm.checkValidity()) {
+                    profileForm.reportValidity();
+                    return;
+                }
+
+                window.openProfileConfirmModal({
+                    type: 'profile',
+                    title: 'Konfirmasi Simpan Profil',
+                    message: 'Apakah Anda yakin ingin menyimpan perubahan informasi profil admin ini?',
+                    confirmText: 'Ya, Simpan',
+                    onConfirm: function() {
+                        Swal.fire({
+                            title: 'Menyimpan Profil...',
+                            html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const b = Swal.getPopup().querySelector('b');
+                                setInterval(() => {
+                                    if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                                }, 100);
+                            }
+                        }).then(() => {
+                            profileForm.submit();
+                        });
                     }
-                }).then(() => {
-                    f.submit();
                 });
             });
-        });
+        }
+
+        // Form 2: Admin Password form submission
+        const passwordForm = document.getElementById('admin-password-form');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const pass1 = document.getElementById('profile-new-password')?.value || '';
+                const pass2 = document.getElementById('profile-confirm-password')?.value || '';
+
+                if (!pass1) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Password Baru Kosong',
+                        text: 'Silakan masukkan password baru Anda terlebih dahulu.',
+                        confirmButtonColor: '#415C58'
+                    });
+                    return;
+                }
+
+                if (pass1.length < 6) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Password Kurang Panjang',
+                        text: 'Password baru minimal harus 6 karakter.',
+                        confirmButtonColor: '#415C58'
+                    });
+                    return;
+                }
+
+                if (pass1 !== pass2) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Konfirmasi Password Tidak Cocok',
+                        text: 'Konfirmasi password harus sama persis dengan password baru.',
+                        confirmButtonColor: '#415C58'
+                    });
+                    return;
+                }
+
+                window.openProfileConfirmModal({
+                    type: 'password',
+                    title: 'Konfirmasi Ubah Password',
+                    message: 'Apakah Anda yakin ingin memperbarui password akun admin?',
+                    confirmText: 'Ya, Ubah Password',
+                    onConfirm: function() {
+                        Swal.fire({
+                            title: 'Memperbarui Password...',
+                            html: 'Sedang memproses password baru admin dalam <b></b> detik...',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const b = Swal.getPopup().querySelector('b');
+                                setInterval(() => {
+                                    if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                                }, 100);
+                            }
+                        }).then(() => {
+                            passwordForm.submit();
+                        });
+                    }
+                });
+            });
+        }
+    })();
     </script>
 
 </div>

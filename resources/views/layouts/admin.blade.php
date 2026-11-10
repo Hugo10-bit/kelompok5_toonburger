@@ -422,26 +422,26 @@
 
         <!-- Flash alerts -->
         @if(session('success'))
-            <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="alert-auto-dismiss p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
                     <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </span>
-                <button onclick="this.parentElement.remove()" class="text-emerald-600 text-base font-bold">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 text-base font-bold p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs">
+            <div class="alert-auto-dismiss p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
                     <svg class="w-4 h-4 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button onclick="this.parentElement.remove()" class="text-[#DE3B28] text-base font-bold">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] text-base font-bold p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
@@ -1663,6 +1663,34 @@
             }
         } catch (err) {}
 
+        // Auto-dismiss notification alerts
+        window.dismissAlert = function(alertEl) {
+            if (!alertEl || alertEl.dataset.dismissing === 'true') return;
+            alertEl.dataset.dismissing = 'true';
+            alertEl.classList.add('alert-dismissing');
+            setTimeout(function() {
+                if (alertEl && alertEl.parentElement) {
+                    alertEl.remove();
+                }
+            }, 450);
+        };
+
+        window.initAutoDismissAlerts = function(delay = 3500) {
+            const alerts = document.querySelectorAll('.alert-auto-dismiss');
+            alerts.forEach(function(alert) {
+                if (alert.classList.contains('hidden')) return;
+                if (alert.dataset.hasTimer === 'true') return;
+                alert.dataset.hasTimer = 'true';
+                setTimeout(function() {
+                    window.dismissAlert(alert);
+                }, delay);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.initAutoDismissAlerts();
+        });
+
         window.addEventListener('pageshow', function () {
             if (localStorage.getItem('tb_logged_out') === '1') {
                 document.documentElement.style.display = 'none';
@@ -1781,6 +1809,9 @@
 
                 window.scrollTo({ top: 0, behavior: 'instant' });
                 runScriptsInContainer(curMain);
+                if (typeof window.initAutoDismissAlerts === 'function') {
+                    window.initAutoDismissAlerts();
+                }
 
                 _cachedI18nNodes = null;
                 _cachedCurrencyNodes = null;

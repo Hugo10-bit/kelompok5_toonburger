@@ -354,25 +354,25 @@
 
     <!-- FLASH MESSAGES -->
     @if(session('success'))
-        <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
+        <div class="alert-auto-dismiss max-w-7xl mx-auto px-4 mt-4 w-full" role="alert">
             <div class="bg-green-50 border border-green-200 text-green-800 text-xs sm:text-sm font-medium px-4 py-3 rounded-xl flex items-center justify-between shadow-xs">
                 <div class="flex items-center gap-2">
                     <span class="font-bold">[Sukses]</span>
                     <span>{{ session('success') }}</span>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-green-600 hover:text-green-900 font-bold">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-green-600 hover:text-green-900 font-bold p-1 cursor-pointer">&times;</button>
             </div>
         </div>
     @endif
 
     @if(session('error'))
-        <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
+        <div class="alert-auto-dismiss max-w-7xl mx-auto px-4 mt-4 w-full" role="alert">
             <div class="bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm font-medium px-4 py-3 rounded-xl flex items-center justify-between shadow-xs">
                 <div class="flex items-center gap-2">
                     <span class="font-bold">[Perhatian]</span>
                     <span>{{ session('error') }}</span>
                 </div>
-                <button onclick="this.parentElement.remove()" class="text-red-600 hover:text-red-900 font-bold">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 hover:text-red-900 font-bold p-1 cursor-pointer">&times;</button>
             </div>
         </div>
     @endif
@@ -1728,6 +1728,9 @@
                 initTiltCards();
                 initHeroParallax();
                 initScrollReveal();
+                if (typeof window.initAutoDismissAlerts === 'function') {
+                    window.initAutoDismissAlerts();
+                }
                 return true;
             }
 
@@ -1850,6 +1853,34 @@
                 }
             });
         })();
+
+        // Auto-dismiss notification alerts
+        window.dismissAlert = function(alertEl) {
+            if (!alertEl || alertEl.dataset.dismissing === 'true') return;
+            alertEl.dataset.dismissing = 'true';
+            alertEl.classList.add('alert-dismissing');
+            setTimeout(function() {
+                if (alertEl && alertEl.parentElement) {
+                    alertEl.remove();
+                }
+            }, 450);
+        };
+
+        window.initAutoDismissAlerts = function(delay = 3500) {
+            const alerts = document.querySelectorAll('.alert-auto-dismiss');
+            alerts.forEach(function(alert) {
+                if (alert.classList.contains('hidden')) return;
+                if (alert.dataset.hasTimer === 'true') return;
+                alert.dataset.hasTimer = 'true';
+                setTimeout(function() {
+                    window.dismissAlert(alert);
+                }, delay);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.initAutoDismissAlerts();
+        });
 
         // Reload page on Back / Forward navigation only if user logged out
         window.addEventListener('pageshow', function () {

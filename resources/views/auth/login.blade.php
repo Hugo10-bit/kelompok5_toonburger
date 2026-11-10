@@ -150,66 +150,72 @@
 
             <!-- FLASH ALERTS -->
             @if(session('warning'))
-                <div id="alert-warning" class="mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                <div id="alert-warning" class="alert-auto-dismiss mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2.5">
                         <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">{{ session('warning') }}</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @else
-                <div id="alert-warning" class="hidden mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
+                <div id="alert-warning" class="hidden alert-auto-dismiss mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2.5">
                         <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                         <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
                     </div>
-                    <button type="button" onclick="this.closest('#alert-warning').remove()" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-700/80 text-red-800 dark:text-red-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
+                <div class="alert-auto-dismiss mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-700/80 text-red-800 dark:text-red-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-red-600 dark:text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span>{{ session('error') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-red-600 font-bold hover:text-red-900 dark:text-red-300 dark:hover:text-red-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-bold hover:text-red-900 dark:text-red-300 dark:hover:text-red-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('status'))
-                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs">
+                <div class="alert-auto-dismiss mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if(session('success'))
-                <div class="mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex justify-between items-center shadow-xs">
-                    <span>{{ session('success') }}</span>
-                    <button type="button" onclick="this.parentElement.remove()" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer">&times;</button>
+                <div class="alert-auto-dismiss mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex justify-between items-center shadow-xs" role="alert">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-6 p-4 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 text-toon-rust dark:text-red-300 text-xs font-semibold rounded-2xl flex items-center gap-2.5 shadow-2xs">
-                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
-                    <span class="font-bold">
-                        @if($errors->has('email') || $errors->has('username') || $errors->has('password'))
-                            Username, email, atau password yang dimasukkan salah.
-                        @else
-                            {{ $errors->first() }}
-                        @endif
-                    </span>
+                <div class="alert-auto-dismiss mb-6 p-4 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 text-toon-rust dark:text-red-300 text-xs font-semibold rounded-2xl flex items-center justify-between gap-2.5 shadow-2xs" role="alert">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
+                        <span class="font-bold">
+                            @if($errors->has('email') || $errors->has('username') || $errors->has('password'))
+                                Username, email, atau password yang dimasukkan salah.
+                            @else
+                                {{ $errors->first() }}
+                            @endif
+                        </span>
+                    </div>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-bold hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -701,6 +707,29 @@
             }
         });
 
+        function dismissAlert(alertEl) {
+            if (!alertEl || alertEl.dataset.dismissing === 'true') return;
+            alertEl.dataset.dismissing = 'true';
+            alertEl.classList.add('alert-dismissing');
+            setTimeout(function() {
+                if (alertEl && alertEl.parentElement) {
+                    alertEl.remove();
+                }
+            }, 450);
+        }
+
+        function initAutoDismissAlerts(delay = 3500) {
+            const alerts = document.querySelectorAll('.alert-auto-dismiss');
+            alerts.forEach(function(alert) {
+                if (alert.classList.contains('hidden')) return;
+                if (alert.dataset.hasTimer === 'true') return;
+                alert.dataset.hasTimer = 'true';
+                setTimeout(function() {
+                    dismissAlert(alert);
+                }, delay);
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('toon_lang') || 'id';
             applyLanguage(savedLang);
@@ -708,11 +737,16 @@
             const savedTheme = localStorage.getItem('toon_theme') || 'light';
             setTheme(savedTheme);
 
+            initAutoDismissAlerts();
+
             if (localStorage.getItem('tb_logged_out') === '1') {
                 const warnAlert = document.getElementById('alert-warning');
                 if (warnAlert) {
                     warnAlert.classList.remove('hidden');
                     warnAlert.classList.add('flex');
+                    setTimeout(function() {
+                        dismissAlert(warnAlert);
+                    }, 3500);
                 }
                 localStorage.removeItem('tb_logged_out');
             }
@@ -756,6 +790,9 @@
                 if (warnAlert) {
                     warnAlert.classList.remove('hidden');
                     warnAlert.classList.add('flex');
+                    setTimeout(function() {
+                        dismissAlert(warnAlert);
+                    }, 3500);
                 }
                 localStorage.removeItem('tb_logged_out');
             }
