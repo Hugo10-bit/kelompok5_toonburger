@@ -1,121 +1,170 @@
-<footer class="relative text-white mt-0 pt-14 sm:pt-16 pb-24 sm:pb-8 select-none overflow-hidden" style="background-color: #3b5c56; content-visibility: auto; contain-intrinsic-size: 1px 360px;">
-    <!-- Topographic Contour Lines Background -->
-    <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20 select-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400" fill="none">
-        <path d="M-100 120 C 150 160, 350 70, 600 110 C 850 150, 1050 80, 1300 130" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-        <path d="M-100 190 C 180 230, 400 140, 650 180 C 900 220, 1100 150, 1300 200" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-        <path d="M-100 260 C 200 310, 420 210, 700 250 C 950 290, 1120 220, 1300 270" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-        <path d="M-100 330 C 220 370, 450 290, 750 320 C 1000 350, 1150 300, 1300 340" stroke="rgba(255,255,255,0.25)" stroke-width="1.2"/>
-        <path d="M150 450 C 320 320, 550 290, 780 350 C 930 400, 1050 450, 1180 500" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <path d="M280 430 C 420 360, 600 340, 740 380 C 850 420, 950 450, 1050 470" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
-        <path d="M400 420 C 500 380, 630 370, 710 400 C 780 430, 850 450, 920 460" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-    </svg>
+<footer class="relative w-full pt-12 sm:pt-16 md:pt-20 bg-transparent select-none" style="content-visibility: auto; contain-intrinsic-size: 1px 360px;">
+    <!-- Main Dark Forest Green Card with Rounded Top matching design reference -->
+    <div class="relative bg-[#253B36] rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] text-white pt-14 sm:pt-16 lg:pt-20 pb-10 sm:pb-12 shadow-[0_-10px_35px_rgba(0,0,0,0.06)]">
 
-    <div class="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-10">
-        <!-- Main Footer Columns -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10 md:gap-8 lg:gap-12 items-start mb-12 sm:mb-14">
+        <!-- Topographic Contour Lines Background -->
+        <div class="absolute inset-0 rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] overflow-hidden pointer-events-none">
+            <svg class="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400" fill="none">
+                <!-- Concentric circular & wavy contours radiating around center & mascot -->
+                <ellipse cx="600" cy="80" rx="260" ry="120" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
+                <ellipse cx="600" cy="80" rx="380" ry="170" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
+                <ellipse cx="600" cy="80" rx="520" ry="230" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
+                <path d="M-100 140 C 200 180, 420 90, 600 120 C 780 150, 1000 80, 1300 140" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
+                <path d="M-100 230 C 180 270, 420 180, 600 220 C 780 260, 1020 170, 1300 230" stroke="rgba(255,255,255,0.20)" stroke-width="1.2"/>
+                <path d="M-100 320 C 220 370, 450 280, 600 310 C 750 340, 980 270, 1300 330" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
+                <path d="M120 420 C 320 320, 500 300, 700 330 C 900 360, 1080 430, 1280 440" stroke="rgba(255,255,255,0.14)" stroke-width="1.2"/>
+            </svg>
+        </div>
 
-            <!-- Column 1: Brand Mascot Head & TOON BURGER -->
-            <div class="sm:col-span-2 md:col-span-3 flex flex-col items-center md:items-start justify-start">
-                <a href="{{ route('home') }}" class="group inline-flex flex-col items-center text-center">
-                    <img src="{{ asset('images/toon-head.png') }}"
-                         alt="Toon Burger Mascot"
-                         loading="lazy"
-                         decoding="async"
-                         width="112"
-                         height="112"
-                         class="h-24 sm:h-28 w-auto object-contain mb-3 transition transform group-hover:scale-105 duration-200">
-                    <span class="font-normal text-white text-2xl sm:text-3xl uppercase tracking-wider block leading-tight"
-                          style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em;">
+        <!-- Mascot Head: overlaps the top rounded border, centered -->
+        <div class="absolute -top-12 sm:-top-16 lg:-top-20 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
+            <a href="{{ route('home') }}" class="group block transition transform hover:scale-105 duration-200">
+                <img src="{{ asset('images/toon-head.png') }}"
+                     alt="Toon Burger Mascot"
+                     loading="lazy"
+                     decoding="async"
+                     width="160"
+                     height="160"
+                     class="w-24 sm:w-32 md:w-36 lg:w-40 h-auto object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.25)]">
+            </a>
+        </div>
+
+        <!-- Content Area -->
+        <div class="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-12">
+
+            <!-- Title "TOON BURGER" centered under mascot -->
+            <div class="text-center mb-10 sm:mb-12">
+                <a href="{{ route('home') }}" class="inline-block group">
+                    <h2 class="font-normal text-white text-3xl sm:text-4xl lg:text-[44px] uppercase tracking-[0.06em] leading-tight group-hover:text-[#EBD8A4] transition duration-150"
+                        style="font-family: 'Bebas Neue', sans-serif;">
                         TOON BURGER
-                    </span>
+                    </h2>
                 </a>
             </div>
 
-            <!-- Column 2: NAVIGASI -->
-            <div class="md:col-span-2">
-                <h4 class="text-base sm:text-[17px] font-bold text-[#F5C537] uppercase tracking-wider mb-4 sm:mb-5">
-                    NAVIGASI
-                </h4>
-                <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white">
-                    <li>
-                        <a href="{{ route('home') }}" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Beranda
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('menu') }}" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Menu
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('about') }}" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Tentang
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('contact') }}" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Kontak
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <!-- Columns: Navigasi & Sosial (Left), Jam Buka (Right) -->
+            <div class="grid grid-cols-2 sm:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-start">
 
-            <!-- Column 3: SOSIAL -->
-            <div class="md:col-span-2">
-                <h4 class="text-base sm:text-[17px] font-bold text-[#F5C537] uppercase tracking-wider mb-4 sm:mb-5">
-                    SOSIAL
-                </h4>
-                <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white">
-                    <li>
-                        <a href="https://www.instagram.com/toonburger.id?rpxt=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Instagram
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.tiktok.com/@toonburger.id?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Tiktok
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="hover:text-[#F5C537] transition duration-150 inline-block">
-                            Whatsapp
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <!-- Left Group: Navigasi -->
+                <div class="col-span-1 sm:col-span-3 lg:col-span-3">
+                    <h3 class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
+                        NAVIGASI
+                    </h3>
+                    <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">
+                        <li>
+                            <a href="{{ route('home') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                                Beranda
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('menu') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                                Menu
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('about') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                                Tentang
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('contact') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                                Kontak
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
-            <!-- Column 4: JAM BUKA -->
-            <div class="md:col-span-5">
-                <h4 class="text-base sm:text-[17px] font-bold text-[#F5C537] uppercase tracking-wider mb-4 sm:mb-5">
-                    JAM BUKA
-                </h4>
-                <div class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white">
-                    <div class="flex justify-between items-center gap-4 sm:gap-8">
-                        <span class="text-white font-normal">Senin:</span>
-                        <span class="text-white font-normal text-right">Libur/Tutup</span>
-                    </div>
-                    <div class="flex justify-between items-center gap-4 sm:gap-8">
-                        <span class="text-white font-normal">Selasa-Jumat:</span>
-                        <span class="text-white font-normal text-right">17:00 - 22:00 WITA</span>
-                    </div>
-                    <div class="flex justify-between items-center gap-4 sm:gap-8">
-                        <span class="text-white font-normal">Sabtu:</span>
-                        <span class="text-white font-normal text-right">17:00 - 22:30 WITA</span>
-                    </div>
-                    <div class="flex justify-between items-center gap-4 sm:gap-8">
-                        <span class="text-white font-normal">Minggu:</span>
-                        <span class="text-white font-normal text-right">17:00 - 22:00 WITA</span>
+                <!-- Middle Group: Sosial -->
+                <div class="col-span-1 sm:col-span-4 lg:col-span-4">
+                    <h3 class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
+                        SOSIAL
+                    </h3>
+                    <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">
+                        <li>
+                            <a href="https://www.instagram.com/toonburger.id?rpxt=ZDNlZDc0MzIxNw=="
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                                <span>Instagram</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('whatsapp') }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                                <span>Whatsapp</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.tiktok.com/@toonburger.id?is_from_webapp=1&sender_device=pc"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                                <span>Tiktok</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('gofood') }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                                <span>Gojek</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Right Group: Jam Buka -->
+                <div class="col-span-2 sm:col-span-5 lg:col-span-5">
+                    <h3 class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
+                        JAM BUKA
+                    </h3>
+                    <div class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">
+                        <p class="leading-relaxed">
+                            <span>Senin:</span>
+                            <span class="ml-2 font-light text-white/90">(Tutup)</span>
+                        </p>
+                        <p class="leading-relaxed">
+                            <span>Selasa-Jumat:</span>
+                            <span class="ml-2 font-light text-white/90">(17:00 - 22:00 WITA)</span>
+                        </p>
+                        <p class="leading-relaxed">
+                            <span>Sabtu-Minggu:</span>
+                            <span class="ml-2 font-light text-white/90">(17:00 - 22:30 WITA)</span>
+                        </p>
                     </div>
                 </div>
+
             </div>
 
-        </div>
+            <!-- Divider Line & Copyright -->
+            <div class="w-full border-t border-white/15 mt-12 sm:mt-14 pt-6 sm:pt-7 text-center">
+                <p class="text-xs sm:text-sm text-white/80 font-normal tracking-wide">
+                    &copy; 2026 Toon Burger. All Rights Reserved.
+                </p>
+            </div>
 
-        <!-- Horizontal Divider Line -->
-        <div class="w-full border-t border-white/20 pt-6 sm:pt-7 text-center">
-            <p class="text-xs sm:text-sm text-white/80 font-normal tracking-wide">
-                © 2026 Toon Burger. All Rights Reserved.
-            </p>
         </div>
     </div>
 </footer>
