@@ -708,12 +708,6 @@
 
         <!-- Fixed Bottom Footer (Subtotal Menu + Checkout Button stay fixed and never scroll) -->
         <div id="cart-fixed-footer" class="{{ $initialCartCount > 0 ? '' : 'hidden' }} flex-shrink-0 px-5 pt-2 pb-5 bg-white space-y-4">
-            <!-- Hidden Coupon Elements Preserved for JS Compatibility -->
-            <div id="cart-coupon-section" class="hidden">
-                <input type="text" id="coupon-input">
-                <div id="applied-coupon-badge" class="hidden"><span id="coupon-text"></span></div>
-            </div>
-
             <!-- Price Breakdown (Fixed) -->
             <div id="cart-summary-section" class="bg-[#F4F5F7] rounded-[14px] px-4 py-3.5 space-y-2 text-[12px] text-[#6A6F77]">
                 <div class="flex items-center justify-between">
@@ -953,17 +947,6 @@
                 }
             }
 
-            const couponBadge = document.getElementById('applied-coupon-badge');
-            const couponText = document.getElementById('coupon-text');
-            if (couponBadge && couponText) {
-                if (cart.coupon) {
-                    couponBadge.classList.remove('hidden');
-                    couponText.innerText = `Promo ${cart.coupon.code} aktif (-${formatRupiah(cart.discount)})`;
-                } else {
-                    couponBadge.classList.add('hidden');
-                }
-            }
-
             if (!cart.items || cart.items.length === 0) {
                 container.classList.remove('max-h-[348px]');
                 container.innerHTML = `
@@ -1038,32 +1021,6 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
                 body: JSON.stringify({ cart_key: cartKey })
-            });
-            const data = await res.json();
-            if (data.cart) renderCart(data.cart);
-        }
-
-        async function applyCoupon() {
-            const code = document.getElementById('coupon-input').value;
-            if (!code) return;
-            const res = await fetch('{{ route("cart.coupon.apply") }}', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
-                body: JSON.stringify({ code })
-            });
-            const data = await res.json();
-            if (data.success) {
-                document.getElementById('coupon-input').value = '';
-                renderCart(data.cart);
-            } else {
-                alert(data.message || 'Kupon tidak dapat digunakan.');
-            }
-        }
-
-        async function removeCoupon() {
-            const res = await fetch('{{ route("cart.coupon.remove") }}', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN }
             });
             const data = await res.json();
             if (data.cart) renderCart(data.cart);

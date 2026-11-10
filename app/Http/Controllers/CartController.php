@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductOptionValue;
 use Illuminate\Http\Request;
@@ -15,7 +14,6 @@ class CartController extends Controller
     public function getCart()
     {
         $cart = session()->get('cart', []);
-        $coupon = session()->get('applied_coupon');
 
         $subtotal = 0;
         foreach ($cart as $item) {
@@ -23,32 +21,15 @@ class CartController extends Controller
         }
 
         $discount = 0;
-        if ($coupon) {
-            $c = Coupon::where('code', $coupon['code'])->where('is_active', true)->first();
-            if ($c && $c->isValid()) {
-                if ($c->discount_type === 'percentage') {
-                    $discount = ($subtotal * $c->discount_value) / 100;
-                    if ($c->max_discount && $discount > $c->max_discount) {
-                        $discount = $c->max_discount;
-                    }
-                } else {
-                    $discount = min($c->discount_value, $subtotal);
-                }
-            } else {
-                session()->forget('applied_coupon');
-                $coupon = null;
-            }
-        }
-
-        $tax = round(($subtotal - $discount) * 0.11); // 11% PPN tax
-        $total = max(0, $subtotal - $discount + $tax);
+        $tax = round($subtotal * 0.11); // 11% PPN tax
+        $total = max(0, $subtotal + $tax);
 
         return [
             'items' => array_values($cart),
             'item_count' => array_sum(array_column($cart, 'quantity')),
             'subtotal' => $subtotal,
-            'discount' => $discount,
-            'coupon' => $coupon,
+            'discount' => 0,
+            'coupon' => null,
             'tax' => $tax,
             'total' => $total,
         ];
@@ -183,65 +164,11 @@ class CartController extends Controller
     }
 
     /**
-     * Apply coupon code.
-     */
-    public function applyCoupon(Request $request)
-    {
-        $request->validate(['code' => 'required|string']);
-        $code = strtoupper(trim($request->code));
-
-        $coupon = Coupon::where('code', $code)->where('is_active', true)->first();
-
-        if (!$coupon || !$coupon->isValid()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Kode voucher tidak valid atau sudah kedaluwarsa.',
-            ], 422);
-        }
-
-        $cartData = $this->getCart();
-        if ($cartData['subtotal'] < $coupon->min_spend) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Minimal belanja untuk voucher ini adalah Rp ' . number_format($coupon->min_spend, 0, ',', '.'),
-            ], 422);
-        }
-
-        session()->put('applied_coupon', [
-            'id' => $coupon->id,
-            'code' => $coupon->code,
-            'type' => $coupon->discount_type,
-            'value' => (float)$coupon->discount_value,
-            'min_spend' => (float)$coupon->min_spend,
-            'max_discount' => (float)$coupon->max_discount,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => "Voucher {$coupon->code} berhasil digunakan!",
-            'cart' => $this->getCart(),
-        ]);
-    }
-
-    /**
-     * Remove applied coupon.
-     */
-    public function removeCoupon()
-    {
-        session()->forget('applied_coupon');
-        return response()->json([
-            'success' => true,
-            'message' => 'Voucher dibatalkan.',
-            'cart' => $this->getCart(),
-        ]);
-    }
-
-    /**
      * Clear the whole cart.
      */
     public function clear()
     {
-        session()->forget(['cart', 'applied_coupon']);
+        session()->forget('cart');
         return response()->json([
             'success' => true,
             'message' => 'Keranjang dikosongkan.',

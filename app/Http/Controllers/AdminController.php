@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -638,56 +637,6 @@ class AdminController extends Controller
         $totalCount = $hasFilter ? Review::count() : $messages->total();
 
         return view('admin.messages', compact('messages', 'rating', 'search', 'totalCount'));
-    }
-
-    /**
-     * Coupons Management.
-     */
-    public function coupons()
-    {
-        $coupons = Coupon::latest()->get();
-        return view('admin.coupons', compact('coupons'));
-    }
-
-    /**
-     * Store coupon.
-     */
-    public function storeCoupon(Request $request)
-    {
-        $request->validate([
-            'code' => 'required|string|unique:coupons,code|max:20',
-            'discount_type' => 'required|in:fixed,percentage',
-            'discount_value' => 'required|numeric|min:1',
-            'min_spend' => 'nullable|numeric|min:0',
-            'max_discount' => 'nullable|numeric|min:0',
-            'usage_limit' => 'nullable|integer|min:1',
-        ]);
-
-        Coupon::create([
-            'code' => strtoupper($request->code),
-            'discount_type' => $request->discount_type,
-            'discount_value' => $request->discount_value,
-            'min_spend' => $request->min_spend ?? 0,
-            'max_discount' => $request->max_discount,
-            'usage_limit' => $request->usage_limit,
-            'valid_from' => now(),
-            'valid_until' => now()->addMonths(3),
-            'is_active' => true,
-        ]);
-
-        return back()->with('success', 'Voucher diskon baru berhasil dibuat!');
-    }
-
-    /**
-     * Toggle coupon active status.
-     */
-    public function toggleCoupon($id)
-    {
-        $coupon = Coupon::findOrFail($id);
-        $coupon->is_active = !$coupon->is_active;
-        $coupon->save();
-
-        return back()->with('success', "Status voucher {$coupon->code} diperbarui.");
     }
 
     /**

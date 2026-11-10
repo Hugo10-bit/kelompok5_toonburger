@@ -170,7 +170,6 @@ composer run dev
 - `/admin/orders` : manajemen pesanan
 - `/admin/products` : manajemen produk
 - `/admin/categories` : manajemen kategori
-- `/admin/coupons` : manajemen kupon
 - `/pos` : POS kasir
 
 ## Catatan Pengembangan

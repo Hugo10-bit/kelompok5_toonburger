@@ -180,23 +180,11 @@
                         @endforeach
                     </div>
 
-                    <!-- Voucher Applied Info -->
-                    @if($cart['coupon'])
-                        <div class="bg-green-50 text-green-800 text-xs p-3 rounded-xl border border-green-200 flex items-center justify-between font-bold">
-                            <span>Voucher Aktif: {{ $cart['coupon']['code'] }}</span>
-                            <span>- Rp {{ number_format($cart['discount'], 0, ',', '.') }}</span>
-                        </div>
-                    @endif
-
                     <!-- Price Calculations -->
                     <div class="space-y-2 text-xs text-gray-600 pt-3 border-t border-gray-100">
                         <div class="flex justify-between">
                             <span>Subtotal Menu:</span>
                             <span class="font-semibold text-gray-900">Rp {{ number_format($cart['subtotal'], 0, ',', '.') }}</span>
-                        </div>
-                        <div class="flex justify-between text-green-600">
-                            <span>Diskon Voucher:</span>
-                            <span class="font-semibold">- Rp {{ number_format($cart['discount'], 0, ',', '.') }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span>Pajak Restoran PB1 (10%):</span>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemOption;
@@ -131,13 +130,8 @@ class OrderController extends Controller
                 RestaurantTable::where('id', $order->restaurant_table_id)->update(['status' => 'occupied']);
             }
 
-            // If coupon applied, increment usage count
-            if ($cart['coupon']) {
-                Coupon::where('id', $cart['coupon']['id'])->increment('usage_count');
-            }
-
             // Clear session cart
-            session()->forget(['cart', 'applied_coupon']);
+            session()->forget('cart');
 
             return redirect()->route('orders.show', $order->order_number)->with('success', 'Pesanan Anda berhasil dibuat!');
         });

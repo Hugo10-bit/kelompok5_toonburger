@@ -5,23 +5,6 @@
 @section('admin_content')
 <div class="max-w-7xl mx-auto space-y-6">
 
-    <!-- Settings Navigation Tabs -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-1">
-        <a href="{{ route('admin.coupons') }}" class="px-5 py-2.5 rounded-full text-xs font-bold bg-white hover:bg-gray-100 text-gray-700 border border-[#E6DEC8] shadow-xs flex items-center gap-2 shrink-0 transition">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="5" width="20" height="14" rx="2"/>
-                <line x1="2" y1="10" x2="22" y2="10"/>
-            </svg>
-            <span data-i18n="coupons_tab">Voucher & Kupon Promo</span>
-        </a>
-        <a href="{{ route('admin.tables') }}" class="px-5 py-2.5 rounded-full text-xs font-bold bg-[#3D5A58] text-white shadow-xs flex items-center gap-2 shrink-0">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-            </svg>
-            <span data-i18n="tables_tab">Meja Restoran</span>
-        </a>
-    </div>
-
     <div class="flex items-center justify-between bg-white p-6 rounded-3xl border border-[#E6DEC8] shadow-xs">
         <div>
             <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900" data-i18n="tables_title">Manajemen Meja Restoran</h1>

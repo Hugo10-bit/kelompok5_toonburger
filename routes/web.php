@@ -28,8 +28,6 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/update', [CartController::class, 'update'])->name('update');
     Route::post('/remove', [CartController::class, 'remove'])->name('remove');
     Route::post('/clear', [CartController::class, 'clear'])->name('clear');
-    Route::post('/coupon', [CartController::class, 'applyCoupon'])->name('coupon.apply');
-    Route::post('/coupon/remove', [CartController::class, 'removeCoupon'])->name('coupon.remove');
 });
 
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
@@ -82,11 +80,6 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::match(['post', 'put'], '/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
-
-            Route::get('/coupons', [AdminController::class, 'coupons'])->name('coupons');
-            Route::get('/settings', [AdminController::class, 'coupons'])->name('settings');
-            Route::post('/coupons/store', [AdminController::class, 'storeCoupon'])->name('coupons.store');
-            Route::post('/coupons/{id}/toggle', [AdminController::class, 'toggleCoupon'])->name('coupons.toggle');
         });
     });
 });

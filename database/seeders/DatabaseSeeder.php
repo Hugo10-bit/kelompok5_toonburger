@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -76,51 +75,6 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
-
-        Coupon::firstOrCreate(
-            ['code' => 'WELCOMEBITE'],
-            [
-                'discount_type' => 'fixed',
-                'discount_value' => 15000,
-                'min_spend' => 40000,
-                'max_discount' => 15000,
-                'valid_from' => now()->subDays(1),
-                'valid_until' => now()->addMonths(6),
-                'usage_limit' => 500,
-                'usage_count' => 12,
-                'is_active' => true,
-            ]
-        );
-
-        Coupon::firstOrCreate(
-            ['code' => 'TOONBURGER50'],
-            [
-                'discount_type' => 'percentage',
-                'discount_value' => 50,
-                'min_spend' => 60000,
-                'max_discount' => 30000,
-                'valid_from' => now()->subDays(1),
-                'valid_until' => now()->addMonths(3),
-                'usage_limit' => 200,
-                'usage_count' => 45,
-                'is_active' => true,
-            ]
-        );
-
-        Coupon::firstOrCreate(
-            ['code' => 'CHEESEFEAST'],
-            [
-                'discount_type' => 'fixed',
-                'discount_value' => 20000,
-                'min_spend' => 80000,
-                'max_discount' => 20000,
-                'valid_from' => now()->subDays(5),
-                'valid_until' => now()->addMonths(1),
-                'usage_limit' => 100,
-                'usage_count' => 8,
-                'is_active' => true,
-            ]
-        );
 
         // 7 exact categories from Image 5 (Data Kategori)
         \Illuminate\Support\Facades\DB::table('categories')->update([
