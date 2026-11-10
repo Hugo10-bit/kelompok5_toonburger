@@ -452,7 +452,7 @@
     </div>
 
     <!-- Mobile bottom navigation bar -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch" style="padding-bottom: env(safe-area-inset-bottom);">
+    <nav id="admin-bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch transition-transform duration-300 ease-in-out" style="padding-bottom: env(safe-area-inset-bottom);">
         <a href="{{ route('admin.dashboard') }}"
            class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
             <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
@@ -500,6 +500,7 @@
         function toggleAdminSidebar() {
             const sidebar = document.getElementById('admin-sidebar');
             const backdrop = document.getElementById('admin-sidebar-backdrop');
+            const bottomNav = document.getElementById('admin-bottom-nav');
             if (!sidebar || !backdrop) return;
 
             const isClosed = sidebar.classList.contains('-translate-x-full');
@@ -507,10 +508,12 @@
                 sidebar.classList.remove('-translate-x-full');
                 backdrop.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
+                if (bottomNav) bottomNav.classList.add('translate-y-full');
             } else {
                 sidebar.classList.add('-translate-x-full');
                 backdrop.classList.add('hidden');
                 document.body.classList.remove('overflow-hidden');
+                if (bottomNav) bottomNav.classList.remove('translate-y-full');
             }
         }
 
@@ -1764,10 +1767,12 @@
             function closeMobileAdminSidebarIfOpen() {
                 const sidebar = document.getElementById('admin-sidebar');
                 const backdrop = document.getElementById('admin-sidebar-backdrop');
+                const bottomNav = document.getElementById('admin-bottom-nav');
                 if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
                     sidebar.classList.add('-translate-x-full');
                     if (backdrop) backdrop.classList.add('hidden');
                     document.body.classList.remove('overflow-hidden');
+                    if (bottomNav) bottomNav.classList.remove('translate-y-full');
                 }
             }
 
