@@ -1,120 +1,149 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Error - Halaman Tidak Ditemukan | Toon Burger</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-@section('title', '404 - Halaman Tidak Ditemukan | Toon Burger')
+        .serif-num {
+            font-family: 'Times New Roman', Times, Georgia, serif;
+            font-weight: 700;
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+        }
 
-@section('content')
-<div class="relative min-h-[calc(100vh-140px)] flex items-center justify-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
-     style="background-color: #FAF5E9;">
+        @keyframes floatSlow1 {
+            0%, 100% { transform: translate(0, 0) rotate(-15deg); }
+            50% { transform: translate(-12px, -16px) rotate(-18deg); }
+        }
+        @keyframes floatSlow2 {
+            0%, 100% { transform: translate(0, 0) rotate(25deg); }
+            50% { transform: translate(14px, -12px) rotate(22deg); }
+        }
+        @keyframes tunnelPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
 
-    <!-- Retro Grid Background Texture -->
-    <div class="absolute inset-0 retro-grid-bg opacity-70 pointer-events-none"></div>
+        .anim-float-1 { animation: floatSlow1 8s ease-in-out infinite; }
+        .anim-float-2 { animation: floatSlow2 9.5s ease-in-out infinite; }
+        .anim-tunnel { animation: tunnelPulse 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="relative min-h-screen w-full bg-black flex items-center justify-center overflow-hidden m-0 p-0">
 
-    <!-- Comic Floating Sparkles -->
-    <img src="{{ asset('images/star-sparkle.png') }}"
-         alt=""
-         class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-7 h-auto opacity-75"
-         style="top: 15%; left: 8%; animation-delay: 0.2s;">
-    <img src="{{ asset('images/star-sparkle.png') }}"
-         alt=""
-         class="comic-sparkle absolute pointer-events-none select-none z-10 w-4 sm:w-6 h-auto opacity-75"
-         style="top: 22%; right: 10%; animation-delay: 0.9s;">
-    <img src="{{ asset('images/star-sparkle.png') }}"
-         alt=""
-         class="comic-sparkle absolute pointer-events-none select-none z-10 w-6 sm:w-8 h-auto opacity-75"
-         style="bottom: 18%; left: 12%; animation-delay: 0.5s;">
-    <img src="{{ asset('images/star-sparkle.png') }}"
-         alt=""
-         class="comic-sparkle absolute pointer-events-none select-none z-10 w-5 sm:w-6 h-auto opacity-75"
-         style="bottom: 25%; right: 14%; animation-delay: 1.2s;">
+    <!-- Top Left Header Indicator matching reference -->
+    <div class="fixed top-6 left-6 z-40 text-gray-400 text-sm sm:text-base font-sans tracking-wide flex items-center gap-2">
+        <a href="{{ route('home') }}" class="text-white hover:text-gray-300 font-semibold tracking-wider uppercase transition">
+            Toon Burger
+        </a>
+        <span class="text-gray-600">•</span>
+        <span class="text-gray-400">404 Error</span>
+    </div>
 
-    <!-- Main 404 Cartoon Card -->
-    <div class="relative z-20 max-w-2xl w-full text-center">
+    <!-- Background Canvas Container for Scattered 404 Numbers -->
+    <div id="parallax-container" class="absolute inset-0 pointer-events-none overflow-hidden select-none transition-transform duration-100 ease-out">
+        
+        <!-- Scattered Large Numbers Across Canvas matching reference image -->
+        <!-- Top Left Cluster -->
+        <span class="serif-num absolute text-[160px] sm:text-[230px] text-white/20 -top-16 -left-16 rotate-[-18deg] anim-float-1">404</span>
+        <span class="serif-num absolute text-[120px] sm:text-[180px] text-white/35 top-20 -left-10 rotate-[28deg]">404</span>
+        <span class="serif-num absolute text-[140px] sm:text-[210px] text-white/15 top-64 -left-12 rotate-[-35deg] anim-float-2">404</span>
+        <span class="serif-num absolute text-[100px] sm:text-[150px] text-white/25 bottom-8 -left-8 rotate-[55deg]">404</span>
 
-        <!-- Card Container with Cartoon Shadow -->
-        <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#27443E] p-6 sm:p-10 lg:p-12 relative overflow-hidden toon-reveal revealed">
+        <!-- Bottom Left / Floor -->
+        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 -bottom-16 left-1/4 rotate-[-15deg] anim-float-1">404</span>
+        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 bottom-12 left-1/3 rotate-[45deg]">404</span>
 
-            <!-- Top Pill Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E03A3A] text-white text-xs sm:text-[13px] font-black uppercase tracking-wider border-2 border-black shadow-[2px_2px_0px_#000] mb-4">
-                <span>ERROR 404 • BURGER NYASAR!</span>
-            </div>
+        <!-- Top Right Cluster -->
+        <span class="serif-num absolute text-[180px] sm:text-[260px] text-white/25 -top-20 -right-16 rotate-[24deg] anim-float-2">404</span>
+        <span class="serif-num absolute text-[130px] sm:text-[190px] text-white/35 top-28 right-4 rotate-[-22deg]">404</span>
+        <span class="serif-num absolute text-[140px] sm:text-[200px] text-white/15 top-72 right-[-20px] rotate-[48deg] anim-float-1">404</span>
 
-            <!-- Big Comic 404 Display with Animated Burger in the Middle -->
-            <div class="relative flex items-center justify-center gap-2 sm:gap-4 my-2 sm:my-4">
-                <!-- First '4' -->
-                <span class="text-7xl sm:text-8xl md:text-9xl font-black text-[#27443E] tracking-tighter"
-                      style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive; text-shadow: 4px 4px 0px #000, 7px 7px 0px #8F9693;">
-                    4
-                </span>
+        <!-- Bottom Right Cluster -->
+        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 bottom-16 -right-10 rotate-[-38deg]">404</span>
+        <span class="serif-num absolute text-[170px] sm:text-[240px] text-white/20 -bottom-16 right-1/4 rotate-[12deg] anim-float-2">404</span>
 
-                <!-- Center '0': Cute Bobbing Burger with Comic Mascot Hat / Expression -->
-                <div class="relative w-28 sm:w-36 md:w-44 aspect-square flex items-center justify-center shrink-0 toon-bob">
-                    <!-- Spinning / Pulsing Glow Ring behind burger -->
-                    <div class="absolute inset-0 rounded-full bg-[#FFC72C]/35 blur-xl -z-10 animate-pulse"></div>
+        <!-- Top Center Scatter -->
+        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 -top-8 left-1/2 -translate-x-1/2 rotate-[-8deg]">404</span>
+        <span class="serif-num absolute text-[90px] sm:text-[130px] text-white/10 top-12 left-[38%] rotate-[18deg]">404</span>
 
-                    <!-- Burger Image -->
-                    <img src="{{ asset('images/hero-burger-real.png') }}"
-                         alt="Burger Nyasar"
-                         class="w-full h-auto object-contain drop-shadow-[0_10px_15px_rgba(0,0,0,0.25)] select-none">
-
-                    <!-- Little floating mascot above burger -->
-                    <div class="absolute -top-3 -right-2 bg-[#FAF5E9] border-2 border-black rounded-full p-1.5 shadow-[2px_2px_0px_#000] transform rotate-12">
-                        <img src="{{ asset('images/toon-head.png') }}" alt="Toon Mascot" class="w-7 h-7 sm:w-9 sm:h-9 object-contain">
-                    </div>
-                </div>
-
-                <!-- Last '4' -->
-                <span class="text-7xl sm:text-8xl md:text-9xl font-black text-[#27443E] tracking-tighter"
-                      style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive; text-shadow: 4px 4px 0px #000, 7px 7px 0px #8F9693;">
-                    4
-                </span>
-            </div>
-
-            <!-- Punchy Comic Title -->
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl text-[#243F3B] uppercase tracking-wide mt-2"
-                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-                Waduh! Burgernya Hilang Jejak
-            </h1>
-
-            <!-- Humorous & Friendly Subtitle -->
-            <p class="text-xs sm:text-sm md:text-base text-gray-600 max-w-lg mx-auto mt-3 leading-relaxed">
-                Halaman yang kamu tuju sepertinya sudah ludes dilahap pelanggan lain atau salah kirim ke dapur rahasia. Jangan biarkan perut keroncongan, yuk balik ke menu lezat kami!
-            </p>
-
-            <!-- Decorative Divider -->
-            <div class="w-24 h-1.5 bg-[#F5B027] border border-black rounded-full mx-auto my-6"></div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 pt-1">
-                <!-- Home Button -->
-                <a href="{{ route('home') }}"
-                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#27443E] hover:bg-[#1E3631] text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition duration-150 active:scale-95">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                    <span>Kembali ke Beranda</span>
-                </a>
-
-                <!-- Explore Menu Button -->
-                <a href="{{ route('menu') }}"
-                   class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FFC72C] hover:bg-[#E8A400] text-gray-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] hover:shadow-[2px_2px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] transition duration-150 active:scale-95">
-
-                    <span>Lihat Menu Lezat</span>
-                    <span>&rarr;</span>
-                </a>
-            </div>
-
-            <!-- Quick Hint Footer -->
-            <div class="mt-8 pt-6 border-t border-gray-200/80 text-[11px] sm:text-xs text-gray-500 flex items-center justify-center gap-1.5">
-                <span>Butuh bantuan cepat?</span>
-                <a href="{{ route('contact') }}" class="font-bold text-[#27443E] hover:text-[#E03A3A] underline underline-offset-2 transition">
-                    Hubungi Outlet Kami
-                </a>
-            </div>
-
+        <!-- THE CENTRAL RABBIT HOLE / TUNNEL OF 404s -->
+        <div class="absolute inset-0 flex items-center justify-center anim-tunnel">
+            <span class="serif-num absolute text-[180px] sm:text-[280px] md:text-[340px] text-white/80 transform -translate-x-12 -translate-y-16 rotate-[-12deg]">404</span>
+            <span class="serif-num absolute text-[160px] sm:text-[250px] md:text-[300px] text-white/75 transform -translate-x-6 -translate-y-12 rotate-[-8deg]">404</span>
+            <span class="serif-num absolute text-[140px] sm:text-[220px] md:text-[260px] text-white/70 transform translate-x-0 -translate-y-8 rotate-[-4deg]">404</span>
+            <span class="serif-num absolute text-[120px] sm:text-[190px] md:text-[225px] text-white/60 transform translate-x-5 -translate-y-4 rotate-[0deg]">404</span>
+            <span class="serif-num absolute text-[100px] sm:text-[160px] md:text-[190px] text-white/50 transform translate-x-9 -translate-y-1 rotate-[4deg]">404</span>
+            <span class="serif-num absolute text-[85px] sm:text-[135px] md:text-[160px] text-white/40 transform translate-x-12 translate-y-2 rotate-[8deg]">404</span>
+            <span class="serif-num absolute text-[70px] sm:text-[110px] md:text-[130px] text-white/35 transform translate-x-14 translate-y-5 rotate-[12deg]">404</span>
+            <span class="serif-num absolute text-[55px] sm:text-[90px] md:text-[105px] text-white/30 transform translate-x-16 translate-y-7 rotate-[16deg]">404</span>
+            <span class="serif-num absolute text-[42px] sm:text-[70px] md:text-[82px] text-white/25 transform translate-x-17 translate-y-9 rotate-[20deg]">404</span>
+            <span class="serif-num absolute text-[30px] sm:text-[50px] md:text-[60px] text-white/20 transform translate-x-18 translate-y-11 rotate-[24deg]">404</span>
+            <span class="serif-num absolute text-[20px] sm:text-[35px] md:text-[42px] text-white/15 transform translate-x-19 translate-y-12 rotate-[28deg]">404</span>
+            <span class="serif-num absolute text-[14px] sm:text-[22px] md:text-[28px] text-white/10 transform translate-x-20 translate-y-13 rotate-[32deg]">404</span>
         </div>
 
     </div>
 
-</div>
-@endsection
+    <!-- Crisp Minimalist White Card matching reference photo -->
+    <div class="relative z-30 max-w-[420px] sm:max-w-[450px] w-full mx-4 bg-white text-black p-7 sm:p-9 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-none sm:rounded-xs border border-gray-100">
+        
+        <!-- Exact Typography & Phrasing matching the uploaded image -->
+        <p class="text-[14px] sm:text-[15px] leading-relaxed font-serif text-gray-900 m-0">
+            Oops. Looks like this page fell down the rabbit hole. While we search for it, please go outside and enjoy the sunshine.
+        </p>
 
+        <p class="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed font-serif mt-3 italic">
+            (Halaman yang Anda cari tidak ditemukan atau telah berpindah alamat. Silakan kembali ke menu utama.)
+        </p>
+
+        <p class="text-[13px] sm:text-[14px] leading-relaxed font-serif text-gray-800 mt-5 pt-3 border-t border-gray-200">
+            If you need assistance finding a menu, please contact 
+            <a href="mailto:Toonburger@gmail.com" class="underline underline-offset-2 hover:text-[#DE3B28] transition font-sans font-medium text-xs sm:text-sm">
+                Toonburger@gmail.com
+            </a>
+        </p>
+
+        <!-- Action Links: Home, Menu, WhatsApp -->
+        <div class="mt-6 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
+            <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-black text-white hover:bg-[#27443E] transition font-semibold">
+                &larr; Beranda
+            </a>
+            
+            <a href="{{ route('menu') }}" class="px-4 py-2 border border-gray-300 hover:border-black text-gray-800 hover:text-black transition font-medium">
+                Lihat Menu
+            </a>
+
+            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-[#25D366] transition inline-flex items-center gap-1 font-medium">
+                WhatsApp &rarr;
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Mouse Parallax Script -->
+    <script>
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 22;
+            const y = (e.clientY / window.innerHeight - 0.5) * 22;
+            const container = document.getElementById('parallax-container');
+            if (container) {
+                container.style.transform = `translate3d(${x * 0.8}px, ${y * 0.8}px, 0)`;
+            }
+        }, { passive: true });
+    </script>
+
+</body>
+</html>
