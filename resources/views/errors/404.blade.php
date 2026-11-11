@@ -3,147 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found - Toon Burger</title>
+    <title>404 Page Not Found - Toon Burger</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: 'Times New Roman', Times, Georgia, serif;
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
+            background-color: #8687ab;
+            color: #2d294a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .serif-num {
-            font-family: 'Times New Roman', Times, Georgia, serif;
-            font-weight: 700;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
+        .font-comic-num {
+            font-family: 'Fredoka', 'Plus Jakarta Sans', sans-serif;
         }
 
-        @keyframes floatSlow1 {
-            0%, 100% { transform: translate(0, 0) rotate(-15deg); }
-            50% { transform: translate(-12px, -16px) rotate(-18deg); }
-        }
-        @keyframes floatSlow2 {
-            0%, 100% { transform: translate(0, 0) rotate(25deg); }
-            50% { transform: translate(14px, -12px) rotate(22deg); }
-        }
-        @keyframes tunnelPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-1deg); }
         }
 
-        .anim-float-1 { animation: floatSlow1 8s ease-in-out infinite; }
-        .anim-float-2 { animation: floatSlow2 9.5s ease-in-out infinite; }
-        .anim-tunnel { animation: tunnelPulse 6s ease-in-out infinite; }
+        @keyframes bubbleBob {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.03) translateY(-4px); }
+        }
+
+        .anim-ghost {
+            animation: gentleFloat 5s ease-in-out infinite;
+        }
+
+        .anim-bubble {
+            animation: bubbleBob 3.5s ease-in-out infinite;
+        }
     </style>
 </head>
-<body class="relative min-h-screen w-full bg-black flex items-center justify-center overflow-hidden m-0 p-0">
+<body class="min-h-screen w-full bg-[#8687ab] relative flex flex-col justify-between overflow-x-hidden selection:bg-[#aed581] selection:text-[#2d294a]">
 
-    <!-- Top Left Header Indicator matching reference -->
-    <div class="fixed top-6 left-6 z-40 text-gray-400 text-sm sm:text-base font-sans tracking-wide flex items-center gap-2">
-        <a href="{{ route('home') }}" class="text-white hover:text-gray-300 font-semibold tracking-wider uppercase transition">
-            Toon Burger
+    <!-- Decorative Subtle Background Swirls (matching watermarks in reference image) -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden select-none opacity-20">
+        <!-- Top Left Swirl -->
+        <svg class="absolute -top-12 -left-12 w-96 h-96 text-white/30" viewBox="0 0 200 200" fill="currentColor">
+            <path d="M100,20 C120,20 140,30 150,50 C160,70 155,95 140,110 C125,125 100,130 80,120 C60,110 50,85 60,65 C70,45 95,45 105,60 C115,75 105,95 90,95 C75,95 70,80 80,70 C90,60 100,70 100,80" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <!-- Top Right Swirl -->
+        <svg class="absolute top-24 right-12 w-80 h-80 text-white/20" viewBox="0 0 200 200" fill="currentColor">
+            <path d="M100,20 C140,20 170,50 170,90 C170,130 140,160 100,160 C60,160 30,130 30,90 C30,60 55,35 85,35 C115,35 140,60 140,90 C140,115 120,135 95,135 C70,135 55,115 55,95 C55,80 70,65 85,65" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+        <!-- Center Right Swirl -->
+        <svg class="absolute top-1/2 -right-16 w-96 h-96 text-white/25" viewBox="0 0 200 200" fill="currentColor">
+            <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" stroke-width="6" stroke-dasharray="12 12"/>
+            <circle cx="100" cy="100" r="45" fill="none" stroke="currentColor" stroke-width="6" stroke-dasharray="8 8"/>
+            <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
+        </svg>
+        <!-- Bottom Left Swirl -->
+        <svg class="absolute bottom-6 left-1/3 w-72 h-72 text-white/15" viewBox="0 0 200 200" fill="currentColor">
+            <path d="M100,30 C135,30 160,55 160,90 C160,125 135,150 100,150 C65,150 40,125 40,90 C40,65 60,45 85,45 C110,45 130,65 130,90" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+    </div>
+
+    <!-- Top Header Bar matching reference image (Logo on Left, Web URL on Right) -->
+    <header class="relative z-20 w-full px-6 sm:px-12 pt-6 sm:pt-8 flex items-center justify-between">
+        <!-- Logo Area with border box matching "YOUR LOGO" aesthetic in photo -->
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-lg border-2 border-[#b2d56d] bg-[#8687ab]/40 hover:bg-[#8687ab]/80 transition group shadow-sm">
+            <img src="{{ asset('images/logo.png') }}" alt="Toon Burger" class="w-8 h-8 sm:w-9 sm:h-9 object-contain group-hover:rotate-6 transition-transform">
+            <div class="leading-none text-left">
+                <span class="block text-[10px] sm:text-[11px] font-black tracking-widest text-[#b2d56d] uppercase">TOON</span>
+                <span class="block text-[10px] sm:text-[11px] font-black tracking-widest text-[#b2d56d] uppercase">BURGER</span>
+            </div>
         </a>
-        <span class="text-gray-600">•</span>
-        <span class="text-gray-400">404 Page Not Found</span>
-    </div>
 
-    <!-- Background Canvas Container for Scattered 404 Numbers -->
-    <div id="parallax-container" class="absolute inset-0 pointer-events-none overflow-hidden select-none transition-transform duration-100 ease-out">
-        
-        <!-- Scattered Large Numbers Across Canvas matching reference image -->
-        <!-- Top Left Cluster -->
-        <span class="serif-num absolute text-[160px] sm:text-[230px] text-white/20 -top-16 -left-16 rotate-[-18deg] anim-float-1">404</span>
-        <span class="serif-num absolute text-[120px] sm:text-[180px] text-white/35 top-20 -left-10 rotate-[28deg]">404</span>
-        <span class="serif-num absolute text-[140px] sm:text-[210px] text-white/15 top-64 -left-12 rotate-[-35deg] anim-float-2">404</span>
-        <span class="serif-num absolute text-[100px] sm:text-[150px] text-white/25 bottom-8 -left-8 rotate-[55deg]">404</span>
-
-        <!-- Bottom Left / Floor -->
-        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 -bottom-16 left-1/4 rotate-[-15deg] anim-float-1">404</span>
-        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 bottom-12 left-1/3 rotate-[45deg]">404</span>
-
-        <!-- Top Right Cluster -->
-        <span class="serif-num absolute text-[180px] sm:text-[260px] text-white/25 -top-20 -right-16 rotate-[24deg] anim-float-2">404</span>
-        <span class="serif-num absolute text-[130px] sm:text-[190px] text-white/35 top-28 right-4 rotate-[-22deg]">404</span>
-        <span class="serif-num absolute text-[140px] sm:text-[200px] text-white/15 top-72 right-[-20px] rotate-[48deg] anim-float-1">404</span>
-
-        <!-- Bottom Right Cluster -->
-        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 bottom-16 -right-10 rotate-[-38deg]">404</span>
-        <span class="serif-num absolute text-[170px] sm:text-[240px] text-white/20 -bottom-16 right-1/4 rotate-[12deg] anim-float-2">404</span>
-
-        <!-- Top Center Scatter -->
-        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 -top-8 left-1/2 -translate-x-1/2 rotate-[-8deg]">404</span>
-        <span class="serif-num absolute text-[90px] sm:text-[130px] text-white/10 top-12 left-[38%] rotate-[18deg]">404</span>
-
-        <!-- THE CENTRAL RABBIT HOLE / TUNNEL OF 404s -->
-        <div class="absolute inset-0 flex items-center justify-center anim-tunnel">
-            <span class="serif-num absolute text-[180px] sm:text-[280px] md:text-[340px] text-white/80 transform -translate-x-12 -translate-y-16 rotate-[-12deg]">404</span>
-            <span class="serif-num absolute text-[160px] sm:text-[250px] md:text-[300px] text-white/75 transform -translate-x-6 -translate-y-12 rotate-[-8deg]">404</span>
-            <span class="serif-num absolute text-[140px] sm:text-[220px] md:text-[260px] text-white/70 transform translate-x-0 -translate-y-8 rotate-[-4deg]">404</span>
-            <span class="serif-num absolute text-[120px] sm:text-[190px] md:text-[225px] text-white/60 transform translate-x-5 -translate-y-4 rotate-[0deg]">404</span>
-            <span class="serif-num absolute text-[100px] sm:text-[160px] md:text-[190px] text-white/50 transform translate-x-9 -translate-y-1 rotate-[4deg]">404</span>
-            <span class="serif-num absolute text-[85px] sm:text-[135px] md:text-[160px] text-white/40 transform translate-x-12 translate-y-2 rotate-[8deg]">404</span>
-            <span class="serif-num absolute text-[70px] sm:text-[110px] md:text-[130px] text-white/35 transform translate-x-14 translate-y-5 rotate-[12deg]">404</span>
-            <span class="serif-num absolute text-[55px] sm:text-[90px] md:text-[105px] text-white/30 transform translate-x-16 translate-y-7 rotate-[16deg]">404</span>
-            <span class="serif-num absolute text-[42px] sm:text-[70px] md:text-[82px] text-white/25 transform translate-x-17 translate-y-9 rotate-[20deg]">404</span>
-            <span class="serif-num absolute text-[30px] sm:text-[50px] md:text-[60px] text-white/20 transform translate-x-18 translate-y-11 rotate-[24deg]">404</span>
-            <span class="serif-num absolute text-[20px] sm:text-[35px] md:text-[42px] text-white/15 transform translate-x-19 translate-y-12 rotate-[28deg]">404</span>
-            <span class="serif-num absolute text-[14px] sm:text-[22px] md:text-[28px] text-white/10 transform translate-x-20 translate-y-13 rotate-[32deg]">404</span>
+        <!-- Top Right Web Address matching "www.yourwebhere.com" in photo -->
+        <div class="text-[#b2d56d] text-xs sm:text-sm md:text-base font-bold tracking-wider hover:text-white transition">
+            <a href="{{ route('home') }}">www.toonburger.com</a>
         </div>
+    </header>
 
-    </div>
-
-    <!-- Crisp Minimalist White Card matching reference photo -->
-    <div class="relative z-30 max-w-[420px] sm:max-w-[450px] w-full mx-4 bg-white text-black p-7 sm:p-9 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-none sm:rounded-xs border border-gray-100">
+    <!-- Main Content Stage -->
+    <main class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 py-4 sm:py-8 flex-1 flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8 lg:gap-4">
         
-        <!-- Exact Typography & Phrasing matching the uploaded image -->
-        <p class="text-[14px] sm:text-[15px] leading-relaxed font-serif text-gray-900 m-0">
-            Oops. Looks like this page cannot be found. While we go down this rabbit hole, please go outside and enjoy the sunshine.
-        </p>
-
-        <p class="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed font-serif mt-3 italic">
-            (Halaman yang Anda tuju tidak ditemukan atau sudah dipindahkan. Silakan kembali ke menu utama.)
-        </p>
-
-        <p class="text-[13px] sm:text-[14px] leading-relaxed font-serif text-gray-800 mt-5 pt-3 border-t border-gray-200">
-            If you continue to see this error, please contact 
-            <a href="mailto:Toonburger@gmail.com" class="underline underline-offset-2 hover:text-[#DE3B28] transition font-sans font-medium text-xs sm:text-sm">
-                Toonburger@gmail.com
-            </a>
-        </p>
-
-        <!-- Action Links: Home, Menu, WhatsApp -->
-        <div class="mt-6 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
-            <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 px-4 py-2 bg-black text-white hover:bg-[#27443E] transition font-semibold">
-                &larr; Beranda
-            </a>
+        <!-- Left: Ghost Dog Character with Interactive "GO TO HOME" Speech Bubble -->
+        <div class="relative w-full max-w-md lg:max-w-[500px] flex flex-col items-center lg:items-start anim-ghost pt-4 lg:pt-0">
             
-            <a href="{{ route('menu') }}" class="px-4 py-2 border border-gray-300 hover:border-black text-gray-800 hover:text-black transition font-medium">
-                Lihat Menu
-            </a>
+            <div class="relative inline-block">
+                
+                <!-- The Ghost Dog Illustration -->
+                <img src="{{ asset('images/ghost-dog-transparent.png') }}" 
+                     alt="Ghost Dog 404" 
+                     class="w-[280px] sm:w-[350px] md:w-[410px] lg:w-[460px] h-auto object-contain select-none drop-shadow-[0_12px_24px_rgba(45,41,74,0.3)]">
 
-            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-[#25D366] transition inline-flex items-center gap-1 font-medium">
-                WhatsApp &rarr;
-            </a>
+                <!-- Interactive "GO TO HOME" Speech Bubble emerging from dog snout -->
+                <!-- Desktop & Tablet Position -->
+                <div class="absolute -right-6 sm:-right-12 md:-right-16 top-[28%] sm:top-[30%] z-30 anim-bubble">
+                    <a href="{{ route('home') }}" 
+                       class="group relative inline-flex items-center justify-center px-5 sm:px-7 py-2.5 sm:py-3.5 bg-white text-[#2d294a] font-black text-xs sm:text-sm md:text-base tracking-wider rounded-[30px] border-[3px] border-[#363152] shadow-[4px_4px_0px_#363152] hover:bg-[#b2d56d] hover:text-[#2d294a] hover:shadow-[6px_6px_0px_#363152] hover:-translate-y-1 active:translate-y-0 transition-all duration-200 uppercase cursor-pointer select-none">
+                        
+                        <span>GO TO HOME</span>
+
+                        <!-- Speech bubble pointer pointing left towards dog's snout -->
+                        <span class="absolute -left-3.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[10px] border-y-transparent border-r-[14px] border-r-[#363152]"></span>
+                        <span class="absolute -left-2.5 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[8px] border-y-transparent border-r-[11px] border-r-white group-hover:border-r-[#b2d56d] transition-colors"></span>
+                    </a>
+                </div>
+
+            </div>
+
         </div>
 
-    </div>
+        <!-- Right: Bold 404 Title & Organic Green Card -->
+        <div class="w-full max-w-xl lg:max-w-2xl flex flex-col items-center lg:items-start text-center lg:text-left mb-6 lg:mb-12">
+            
+            <!-- Giant 404 Numbers with Solid Drop Shadow matching photo -->
+            <div class="select-none mb-2 sm:mb-4">
+                <h1 class="font-comic-num text-[110px] sm:text-[160px] md:text-[200px] lg:text-[230px] font-black text-[#aed581] leading-[0.85] tracking-tight"
+                    style="text-shadow: 6px 6px 0px #45405e, 10px 10px 0px rgba(0,0,0,0.18);">
+                    404
+                </h1>
+            </div>
 
-    <!-- Mouse Parallax Script -->
-    <script>
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 22;
-            const y = (e.clientY / window.innerHeight - 0.5) * 22;
-            const container = document.getElementById('parallax-container');
-            if (container) {
-                container.style.transform = `translate3d(${x * 0.8}px, ${y * 0.8}px, 0)`;
-            }
-        }, { passive: true });
-    </script>
+            <!-- Green Organic Blob Card matching photo -->
+            <div class="w-full bg-[#aed581] text-[#2d294a] rounded-[36px] sm:rounded-[44px] p-6 sm:p-9 md:p-10 shadow-[8px_8px_0px_#45405e] border-2 border-[#96bf68] relative">
+                
+                <!-- Heading matching photo -->
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-[#2d294a] tracking-tight uppercase m-0 leading-tight">
+                    PAGE NOT FOUND
+                </h2>
+
+                <!-- Description matching photo text -->
+                <p class="text-sm sm:text-base md:text-[17px] text-[#343050] font-semibold leading-relaxed mt-3 mb-1">
+                    We're sorry, the page you're looking for doesn't exist.
+                </p>
+                <p class="text-xs sm:text-sm text-[#48436c] font-medium leading-relaxed">
+                    If you think something's not working, 
+                    <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 font-bold text-[#2d294a] hover:text-black transition">
+                        report an issue
+                    </a>.
+                </p>
+
+                <!-- Indonesian Friendly Helper -->
+                <p class="text-xs sm:text-xs text-[#524d77] italic mt-3 pt-3 border-t border-[#9ec772]">
+                    (Halaman yang Anda tuju tidak ditemukan atau tautan telah berpindah alamat. Silakan kembali ke menu utama.)
+                </p>
+
+                <!-- Navigation Quick Actions -->
+                <div class="mt-5 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                    <a href="{{ route('home') }}" 
+                       class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#2d294a] text-white hover:bg-black font-bold text-xs sm:text-sm transition shadow-sm">
+                        &larr; Beranda
+                    </a>
+                    <a href="{{ route('menu') }}" 
+                       class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white text-[#2d294a] hover:bg-gray-100 font-bold text-xs sm:text-sm transition shadow-sm border border-[#2d294a]/20">
+                        Lihat Menu
+                    </a>
+                    <a href="{{ route('whatsapp') }}" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-transparent hover:bg-black/5 text-[#2d294a] font-bold text-xs sm:text-sm transition">
+                        Bantuan WhatsApp &rarr;
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Bottom Margin / Footer Accent -->
+    <footer class="relative z-10 w-full py-3 px-6 text-center text-xs text-white/50 select-none">
+        &copy; {{ date('Y') }} Toon Burger. All Rights Reserved.
+    </footer>
 
 </body>
 </html>
