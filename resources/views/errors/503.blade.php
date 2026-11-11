@@ -3,147 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>503 Service Unavailable - Toon Burger</title>
+    <title>503 - Matrix Maintenance | Toon Burger</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #000000;
+            background-color: #070707;
             color: #ffffff;
-            font-family: 'Times New Roman', Times, Georgia, serif;
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .serif-num {
-            font-family: 'Times New Roman', Times, Georgia, serif;
-            font-weight: 700;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
+        .font-matrix-title {
+            font-family: 'Oswald', 'Impact', sans-serif;
+            letter-spacing: 0.04em;
         }
 
-        @keyframes floatSlow1 {
-            0%, 100% { transform: translate(0, 0) rotate(-15deg); }
-            50% { transform: translate(-12px, -16px) rotate(-18deg); }
-        }
-        @keyframes floatSlow2 {
-            0%, 100% { transform: translate(0, 0) rotate(25deg); }
-            50% { transform: translate(14px, -12px) rotate(22deg); }
-        }
-        @keyframes tunnelPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        @keyframes pillPulseRed {
+            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(239, 68, 68, 1), inset 0 2px 6px rgba(255, 255, 255, 0.6); }
         }
 
-        .anim-float-1 { animation: floatSlow1 8s ease-in-out infinite; }
-        .anim-float-2 { animation: floatSlow2 9.5s ease-in-out infinite; }
-        .anim-tunnel { animation: tunnelPulse 6s ease-in-out infinite; }
+        @keyframes pillPulseBlue {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(59, 130, 246, 1), inset 0 2px 6px rgba(255, 255, 255, 0.6); }
+        }
+
+        .anim-glow-red {
+            animation: pillPulseRed 2.5s infinite ease-in-out;
+        }
+
+        .anim-glow-blue {
+            animation: pillPulseBlue 2.5s infinite ease-in-out;
+        }
     </style>
 </head>
-<body class="relative min-h-screen w-full bg-black flex items-center justify-center overflow-hidden m-0 p-0">
+<body class="min-h-screen w-full bg-[#070707] flex flex-col justify-between selection:bg-[#ED5B2D] selection:text-white">
 
-    <!-- Top Left Header Indicator matching reference -->
-    <div class="fixed top-6 left-6 z-40 text-gray-400 text-sm sm:text-base font-sans tracking-wide flex items-center gap-2">
-        <a href="{{ route('home') }}" class="text-white hover:text-gray-300 font-semibold tracking-wider uppercase transition">
-            Toon Burger
+    <!-- Top White Header Nav (matching reference image) -->
+    <nav class="w-full bg-white text-black py-2.5 px-6 sm:px-12 flex items-center justify-between border-b border-gray-200 z-50">
+        <a href="{{ route('home') }}" class="flex items-center gap-2 group">
+            <img src="{{ asset('images/logo.png') }}" alt="Toon Burger" class="w-7 h-7 sm:w-8 sm:h-8 object-contain group-hover:rotate-6 transition-transform">
+            <span class="font-matrix-title font-bold text-sm sm:text-base tracking-widest text-[#27443E] uppercase">TOON BURGER</span>
         </a>
-        <span class="text-gray-600">•</span>
-        <span class="text-gray-400">503 Service Unavailable</span>
-    </div>
-
-    <!-- Background Canvas Container for Scattered 503 Numbers -->
-    <div id="parallax-container" class="absolute inset-0 pointer-events-none overflow-hidden select-none transition-transform duration-100 ease-out">
-        
-        <!-- Scattered Large Numbers Across Canvas matching reference image -->
-        <!-- Top Left Cluster -->
-        <span class="serif-num absolute text-[160px] sm:text-[230px] text-white/20 -top-16 -left-16 rotate-[-18deg] anim-float-1">503</span>
-        <span class="serif-num absolute text-[120px] sm:text-[180px] text-white/35 top-20 -left-10 rotate-[28deg]">503</span>
-        <span class="serif-num absolute text-[140px] sm:text-[210px] text-white/15 top-64 -left-12 rotate-[-35deg] anim-float-2">503</span>
-        <span class="serif-num absolute text-[100px] sm:text-[150px] text-white/25 bottom-8 -left-8 rotate-[55deg]">503</span>
-
-        <!-- Bottom Left / Floor -->
-        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 -bottom-16 left-1/4 rotate-[-15deg] anim-float-1">503</span>
-        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 bottom-12 left-1/3 rotate-[45deg]">503</span>
-
-        <!-- Top Right Cluster -->
-        <span class="serif-num absolute text-[180px] sm:text-[260px] text-white/25 -top-20 -right-16 rotate-[24deg] anim-float-2">503</span>
-        <span class="serif-num absolute text-[130px] sm:text-[190px] text-white/35 top-28 right-4 rotate-[-22deg]">503</span>
-        <span class="serif-num absolute text-[140px] sm:text-[200px] text-white/15 top-72 right-[-20px] rotate-[48deg] anim-float-1">503</span>
-
-        <!-- Bottom Right Cluster -->
-        <span class="serif-num absolute text-[150px] sm:text-[220px] text-white/30 bottom-16 -right-10 rotate-[-38deg]">503</span>
-        <span class="serif-num absolute text-[170px] sm:text-[240px] text-white/20 -bottom-16 right-1/4 rotate-[12deg] anim-float-2">503</span>
-
-        <!-- Top Center Scatter -->
-        <span class="serif-num absolute text-[110px] sm:text-[160px] text-white/20 -top-8 left-1/2 -translate-x-1/2 rotate-[-8deg]">503</span>
-        <span class="serif-num absolute text-[90px] sm:text-[130px] text-white/10 top-12 left-[38%] rotate-[18deg]">503</span>
-
-        <!-- THE CENTRAL RABBIT HOLE / TUNNEL OF 503s -->
-        <div class="absolute inset-0 flex items-center justify-center anim-tunnel">
-            <span class="serif-num absolute text-[180px] sm:text-[280px] md:text-[340px] text-white/80 transform -translate-x-12 -translate-y-16 rotate-[-12deg]">503</span>
-            <span class="serif-num absolute text-[160px] sm:text-[250px] md:text-[300px] text-white/75 transform -translate-x-6 -translate-y-12 rotate-[-8deg]">503</span>
-            <span class="serif-num absolute text-[140px] sm:text-[220px] md:text-[260px] text-white/70 transform translate-x-0 -translate-y-8 rotate-[-4deg]">503</span>
-            <span class="serif-num absolute text-[120px] sm:text-[190px] md:text-[225px] text-white/60 transform translate-x-5 -translate-y-4 rotate-[0deg]">503</span>
-            <span class="serif-num absolute text-[100px] sm:text-[160px] md:text-[190px] text-white/50 transform translate-x-9 -translate-y-1 rotate-[4deg]">503</span>
-            <span class="serif-num absolute text-[85px] sm:text-[135px] md:text-[160px] text-white/40 transform translate-x-12 translate-y-2 rotate-[8deg]">503</span>
-            <span class="serif-num absolute text-[70px] sm:text-[110px] md:text-[130px] text-white/35 transform translate-x-14 translate-y-5 rotate-[12deg]">503</span>
-            <span class="serif-num absolute text-[55px] sm:text-[90px] md:text-[105px] text-white/30 transform translate-x-16 translate-y-7 rotate-[16deg]">503</span>
-            <span class="serif-num absolute text-[42px] sm:text-[70px] md:text-[82px] text-white/25 transform translate-x-17 translate-y-9 rotate-[20deg]">503</span>
-            <span class="serif-num absolute text-[30px] sm:text-[50px] md:text-[60px] text-white/20 transform translate-x-18 translate-y-11 rotate-[24deg]">503</span>
-            <span class="serif-num absolute text-[20px] sm:text-[35px] md:text-[42px] text-white/15 transform translate-x-19 translate-y-12 rotate-[28deg]">503</span>
-            <span class="serif-num absolute text-[14px] sm:text-[22px] md:text-[28px] text-white/10 transform translate-x-20 translate-y-13 rotate-[32deg]">503</span>
+        <div class="flex items-center gap-5 sm:gap-8 text-[11px] sm:text-xs font-bold tracking-widest text-gray-800 uppercase">
+            <a href="{{ route('home') }}" class="hover:text-[#DE3B28] transition">BERANDA</a>
+            <a href="{{ route('menu') }}" class="hover:text-[#DE3B28] transition">MENU</a>
+            <a href="{{ route('about') }}" class="hidden sm:inline-block hover:text-[#DE3B28] transition">TENTANG</a>
+            <a href="{{ route('contact') }}" class="hidden sm:inline-block hover:text-[#DE3B28] transition">KONTAK</a>
+            <a href="{{ route('whatsapp') }}" target="_blank" class="text-[#25D366] hover:text-[#1eb355] transition">WHATSAPP</a>
         </div>
+    </nav>
 
-    </div>
-
-    <!-- Crisp Minimalist White Card matching reference photo -->
-    <div class="relative z-30 max-w-[420px] sm:max-w-[450px] w-full mx-4 bg-white text-black p-7 sm:p-9 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-none sm:rounded-xs border border-gray-100">
+    <!-- Main Matrix Presentation -->
+    <main class="w-full flex-1 flex flex-col items-center justify-center pt-8 sm:pt-10 pb-6 px-4">
         
-        <!-- Exact Typography & Phrasing matching the uploaded image -->
-        <p class="text-[14px] sm:text-[15px] leading-relaxed font-serif text-gray-900 m-0">
-            Oops. Looks like we're temporarily down for maintenance. While we go down this rabbit hole, please go outside and enjoy the sunshine.
-        </p>
-
-        <p class="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed font-serif mt-3 italic">
-            (Dapur dan sistem Toon Burger sedang dalam pemeliharaan berkala. Kami akan segera kembali melayani Anda.)
-        </p>
-
-        <p class="text-[13px] sm:text-[14px] leading-relaxed font-serif text-gray-800 mt-5 pt-3 border-t border-gray-200">
-            If you continue to see this error, please contact 
-            <a href="mailto:Toonburger@gmail.com" class="underline underline-offset-2 hover:text-[#DE3B28] transition font-sans font-medium text-xs sm:text-sm">
-                Toonburger@gmail.com
-            </a>
-        </p>
-
-        <!-- Action Links: Home, Reload, WhatsApp -->
-        <div class="mt-6 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs font-sans">
-            <button type="button" onclick="window.location.reload()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-black text-white hover:bg-[#27443E] transition font-semibold cursor-pointer">
-                &#x21bb; Muat Ulang
-            </button>
+        <!-- Header Text Section -->
+        <div class="max-w-4xl w-full text-center mb-4 sm:mb-6">
+            <h1 class="font-matrix-title text-3xl sm:text-5xl md:text-6xl font-black text-[#ED5B2D] uppercase tracking-wide leading-tight drop-shadow-[0_2px_10px_rgba(237,91,45,0.3)]">
+                THE MATRIX IS CURRENTLY UNDER SYSTEM MAINTENANCE.
+            </h1>
             
-            <a href="{{ route('home') }}" class="px-4 py-2 border border-gray-300 hover:border-black text-gray-800 hover:text-black transition font-medium">
-                Beranda
-            </a>
+            <div class="mt-3 sm:mt-4 space-y-1 text-xs sm:text-sm md:text-[15px] font-bold text-gray-300 uppercase tracking-wider font-mono leading-relaxed px-2">
+                <p>YOU TAKE THE BLUE PILL, YOU RETURN TO OUR HOMEPAGE AND WAIT WHILE THE GRILL REBOOTS.</p>
+                <p class="text-gray-400">YOU TAKE THE RED PILL, YOU CONTACT OUR KITCHEN CREW DIRECTLY VIA WHATSAPP TO SECURE YOUR ORDER.</p>
+            </div>
 
-            <a href="{{ route('whatsapp') }}" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-[#25D366] transition inline-flex items-center gap-1 font-medium">
-                WhatsApp &rarr;
-            </a>
+            <p class="text-[11px] sm:text-xs text-gray-500 italic mt-2">
+                (Dapur dan sistem sedang dalam pemeliharaan rutin. Pilih pil merah untuk pesan via WhatsApp atau pil biru untuk kembali ke beranda.)
+            </p>
         </div>
 
-    </div>
+        <!-- Center Morpheus Stage with Clickable Glowing Pills -->
+        <div class="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
+            
+            <!-- Morpheus 503 Image Base -->
+            <div class="relative w-full overflow-hidden rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
+                <img src="{{ asset('images/morpheus-503.png') }}" 
+                     alt="Morpheus 503 - Choose The Red Pill or The Blue Pill" 
+                     class="w-full h-auto object-contain select-none pointer-events-none block">
 
-    <!-- Mouse Parallax Script -->
-    <script>
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 22;
-            const y = (e.clientY / window.innerHeight - 0.5) * 22;
-            const container = document.getElementById('parallax-container');
-            if (container) {
-                container.style.transform = `translate3d(${x * 0.8}px, ${y * 0.8}px, 0)`;
-            }
-        }, { passive: true });
-    </script>
+                <!-- Interactive Overlays on Morpheus Hands -->
+                <!-- Left Hand: RED PILL (WHATSAPP ORDER) -->
+                <a href="{{ route('whatsapp') }}" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   title="Pilih Pil Merah: Pesan Manual via WhatsApp"
+                   class="absolute left-[27%] sm:left-[28%] md:left-[29%] top-[65%] sm:top-[67%] -translate-x-1/2 -translate-y-1/2 w-[34%] sm:w-[26%] md:w-[22%] h-[18%] sm:h-[16%] rounded-full cursor-pointer z-20 group flex items-center justify-center">
+                    <span class="sr-only">Ambil Pil Merah - WhatsApp</span>
+                    <!-- Glowing Indicator Ring on hover -->
+                    <span class="absolute inset-0 rounded-full border-2 border-red-400/80 group-hover:border-white anim-glow-red transition-all duration-300"></span>
+                    <span class="relative text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] opacity-95 group-hover:scale-110 transition-transform">
+                        WHATSAPP
+                    </span>
+                </a>
+
+                <!-- Right Hand: BLUE PILL (HOMEPAGE) -->
+                <a href="{{ route('home') }}" 
+                   title="Pilih Pil Biru: Kembali ke Beranda"
+                   class="absolute left-[64%] sm:left-[64%] md:left-[64%] top-[65%] sm:top-[67%] -translate-x-1/2 -translate-y-1/2 w-[34%] sm:w-[26%] md:w-[22%] h-[18%] sm:h-[16%] rounded-full cursor-pointer z-20 group flex items-center justify-center">
+                    <span class="sr-only">Ambil Pil Biru - Beranda</span>
+                    <!-- Glowing Indicator Ring on hover -->
+                    <span class="absolute inset-0 rounded-full border-2 border-blue-400/80 group-hover:border-white anim-glow-blue transition-all duration-300"></span>
+                    <span class="relative text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] opacity-95 group-hover:scale-110 transition-transform">
+                        HOMEPAGE
+                    </span>
+                </a>
+            </div>
+
+            <!-- Mobile & Tablet Accessible Action Buttons directly under Morpheus -->
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 z-30">
+                <!-- Red Pill Button -->
+                <a href="{{ route('whatsapp') }}" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-[#b71c1c] via-[#f44336] to-[#d32f2f] text-white font-black text-xs sm:text-sm tracking-wider uppercase border border-red-400 shadow-[0_0_20px_rgba(244,67,54,0.6)] hover:shadow-[0_0_35px_rgba(244,67,54,1)] hover:scale-105 active:scale-95 transition-all">
+                    <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
+                    <span>Ambil Pil Merah (WhatsApp)</span>
+                </a>
+
+                <!-- Blue Pill Button -->
+                <a href="{{ route('home') }}" 
+                   class="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-[#0d47a1] via-[#2196f3] to-[#1976d2] text-white font-black text-xs sm:text-sm tracking-wider uppercase border border-blue-400 shadow-[0_0_20px_rgba(33,150,243,0.6)] hover:shadow-[0_0_35px_rgba(33,150,243,1)] hover:scale-105 active:scale-95 transition-all">
+                    <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
+                    <span>Ambil Pil Biru (Beranda)</span>
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Bottom Footer Note -->
+    <footer class="w-full py-4 text-center text-xs text-gray-500 font-mono tracking-wider border-t border-gray-900 bg-[#050505]">
+        &copy; {{ date('Y') }} TOON BURGER • MATRIX ERROR PROTOCOL 503
+    </footer>
 
 </body>
 </html>
