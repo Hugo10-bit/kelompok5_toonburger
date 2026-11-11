@@ -260,16 +260,53 @@ body {
     will-change: transform, opacity;
 }
 
-.toon-reveal {
+/* 4. Scroll Reveal & Interactive Scroll Effects */
+.toon-reveal,
+.toon-reveal-up {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.45s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(26px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
 }
 
-.toon-reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
+.toon-reveal-pop {
+    opacity: 0;
+    transform: scale(0.92) translateY(22px);
+    transition: opacity 0.6s cubic-bezier(0.34, 1.35, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.35, 0.64, 1);
+    will-change: opacity, transform;
 }
+
+.toon-reveal-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.toon-reveal-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.toon-reveal.revealed,
+.toon-reveal-up.revealed,
+.toon-reveal-pop.revealed,
+.toon-reveal-left.revealed,
+.toon-reveal-right.revealed {
+    opacity: 1;
+    transform: none;
+}
+
+/* Stagger delay utilities */
+.reveal-delay-75  { transition-delay: 75ms; }
+.reveal-delay-100 { transition-delay: 100ms; }
+.reveal-delay-150 { transition-delay: 150ms; }
+.reveal-delay-200 { transition-delay: 200ms; }
+.reveal-delay-225 { transition-delay: 225ms; }
+.reveal-delay-300 { transition-delay: 300ms; }
+.reveal-delay-400 { transition-delay: 400ms; }
 
 /* 5. Slideshow & About Page Components */
 .about-slide-photo {
@@ -416,7 +453,7 @@ input[type="password"]::-ms-clear {
         animation: none !important;
         transition: none !important;
     }
-    .toon-tilt-card, .toon-btn-bounce, .toon-reveal {
+    .toon-tilt-card, .toon-btn-bounce, .toon-reveal, .toon-reveal-up, .toon-reveal-pop, .toon-reveal-left, .toon-reveal-right {
         transform: none !important;
         transition: none !important;
         opacity: 1 !important;

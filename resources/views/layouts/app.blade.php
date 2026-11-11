@@ -52,6 +52,9 @@
     <!-- Top Progress Bar for Smooth Navigation -->
     <div id="page-loader-bar"></div>
 
+    <!-- Scroll Reading Progress Indicator (Dynamic Brand Gradient) -->
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[3.5px] bg-gradient-to-r from-[#F5A623] via-[#DE3B28] to-[#F5A623] z-[9999] pointer-events-none transition-all duration-75" style="width: 0%;"></div>
+
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
          class="fixed inset-0 z-[99999] hidden items-center justify-center p-4"
@@ -384,6 +387,17 @@
 
     <!-- FOOTER (PERSIS FOTO media_1790644528320.png) -->
     @include('partials.footer')
+
+    <!-- Floating Back To Top Button -->
+    <button type="button"
+            id="scroll-to-top-btn"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            aria-label="Kembali ke atas"
+            class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#27443E] hover:bg-[#DE3B28] text-white border-2 border-white/80 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center opacity-0 pointer-events-none translate-y-3 transition-all duration-300 ease-out cursor-pointer active:scale-90">
+        <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
 
     <!-- CART FLOATING CARD -->
     @php
@@ -1381,10 +1395,13 @@
             }, { passive: true });
         }
 
-        // 3. Scroll Reveal Interaction
+        // 3. Scroll Reveal Interaction & Effects
         function initScrollReveal() {
+            const targets = document.querySelectorAll('.toon-reveal, .toon-reveal-up, .toon-reveal-pop, .toon-reveal-left, .toon-reveal-right');
+            if (!targets.length) return;
+
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelectorAll('.toon-reveal').forEach(el => el.classList.add('revealed'));
+                targets.forEach(el => el.classList.add('revealed'));
                 return;
             }
 
@@ -1395,15 +1412,53 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-            document.querySelectorAll('.toon-reveal').forEach(el => observer.observe(el));
+            targets.forEach(el => observer.observe(el));
+        }
+
+        // 4. Scroll Reading Progress Bar & Back to Top Button
+        function initScrollEffects() {
+            const progressBar = document.getElementById('scroll-progress-bar');
+            const toTopBtn = document.getElementById('scroll-to-top-btn');
+            if (!progressBar && !toTopBtn) return;
+
+            let ticking = false;
+            const onScroll = () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+                        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        const scrolled = docHeight > 0 ? (winScroll / docHeight) * 100 : 0;
+
+                        if (progressBar) {
+                            progressBar.style.width = Math.min(100, Math.max(0, scrolled)) + '%';
+                        }
+
+                        if (toTopBtn) {
+                            if (winScroll > 320) {
+                                toTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+                                toTopBtn.classList.add('opacity-100', 'translate-y-0');
+                            } else {
+                                toTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+                                toTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                            }
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             initTiltCards();
             initHeroParallax();
             initScrollReveal();
+            initScrollEffects();
         });
 
         // Instant Single-Click Public Navigation Engine (PJAX + Hover/Background Prefetch)
@@ -1647,6 +1702,7 @@
                 initTiltCards();
                 initHeroParallax();
                 initScrollReveal();
+                initScrollEffects();
                 if (typeof window.initAutoDismissAlerts === 'function') {
                     window.initAutoDismissAlerts();
                 }

@@ -56,7 +56,7 @@
                 <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-8">
 
                     <!-- Left: Headline + Subtitle + Buttons -->
-                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal">
+                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal-left">
                         <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
@@ -80,7 +80,7 @@
                     </div>
 
                     <!-- Right: Burger + Speech Bubble Cluster (Burger kecil, posisi agak ke kanan, kalimat agak ke kanan atas sesuai foto) -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16">
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16 toon-reveal-right reveal-delay-150">
                         <div class="relative select-none">
 
                             <!-- Hero Double/Triple Cheeseburger (Kecil proporsional sesuai foto referensi) -->
@@ -138,7 +138,7 @@
     <section class="relative w-full pt-12 pb-14 sm:pt-16 sm:pb-18 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
              style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover; content-visibility: auto; contain-intrinsic-size: 1px 520px;">
 
-        <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2.5 mb-10 sm:mb-12">
+        <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2.5 mb-10 sm:mb-12 toon-reveal-up">
             <div class="inline-flex items-center px-4 py-1 rounded-full bg-[#4C6B65] text-white text-xs font-semibold border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
                 Keunggulan Kami
             </div>
@@ -156,7 +156,7 @@
         <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 relative z-20">
 
             <!-- Card 1: 100% Daging -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E]">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-75">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#F5C2C2] bg-[#FDF2F2] flex items-center justify-center text-[#E03A3A] mb-4 shrink-0 shadow-[2px_2px_0px_#F5C2C2]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
@@ -174,7 +174,7 @@
             </div>
 
             <!-- Card 2: Bahan Segar Setiap Hari -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E]">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-150">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#BDE0D8] bg-[#F0F7F5] flex items-center justify-center text-[#2E7A6B] mb-4 shrink-0 shadow-[2px_2px_0px_#BDE0D8]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
@@ -195,7 +195,7 @@
             </div>
 
             <!-- Card 3: Pesanan Cepat -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E]">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-225">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-4 shrink-0 shadow-[2px_2px_0px_#FDE68A]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
@@ -213,7 +213,7 @@
             </div>
 
             <!-- Card 4: Porsi Bikin Kenyang -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E]">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-300">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#BFDBFE] bg-[#EFF6FF] flex items-center justify-center text-[#2563EB] mb-4 shrink-0 shadow-[2px_2px_0px_#BFDBFE]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
@@ -235,7 +235,7 @@
     </section>
 
     <!-- Bottom Yellow Ribbon with TOONBURGER ★ matching Figma exactly (Static, Marquee Disabled) -->
-    <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none">
+    <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none toon-reveal">
         <div class="whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center justify-center overflow-x-hidden"
              style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
             @for($i = 0; $i < 12; $i++)
@@ -252,7 +252,7 @@
         <div class="max-w-7xl mx-auto space-y-8">
 
             <!-- Section Header -->
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 toon-reveal-up">
                 <div>
                     <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
                         style="font-family: 'BBH Hegarty', cursive, sans-serif;">
@@ -274,7 +274,7 @@
             <div class="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
 
                 <!-- 1. Very Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-75">
                     <div onclick="openProductModal(1)" class="cursor-pointer">
                         <!-- Top Image Box: Yellow Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -313,7 +313,7 @@
                 </div>
 
                 <!-- 2. Cheese Chicken Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-150">
                     <div onclick="openProductModal(6)" class="cursor-pointer">
                         <!-- Top Image Box: Beige/Tan Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -352,7 +352,7 @@
                 </div>
 
                 <!-- 3. BBQ Beef Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-225">
                     <div onclick="openProductModal(3)" class="cursor-pointer">
                         <!-- Top Image Box: Vibrant Red Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -391,7 +391,7 @@
                 </div>
 
                 <!-- 4. Double Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-300">
                     <div onclick="openProductModal(4)" class="cursor-pointer">
                         <!-- Top Image Box: Soft Green Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -434,7 +434,7 @@
             <!-- ═══════════════════════════════════════════════
                  5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
                  ═══════════════════════════════════════════════ -->
-            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#a83232] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5">
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#a83232] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
                         🍴
@@ -467,11 +467,11 @@
     <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none"
              style="background-color: #385850; content-visibility: auto; contain-intrinsic-size: 1px 480px;">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12">
+            <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12 toon-reveal-up">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
 
                     <!-- Left: Text -->
-                    <div class="md:col-span-7 space-y-4">
+                    <div class="md:col-span-7 space-y-4 toon-reveal-left">
                         <h2 class="font-brand text-3xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase leading-[1.05]"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             MENGENAL TOON<br>BURGER
@@ -496,7 +496,7 @@
                     </div>
 
                     <!-- Right: Outdoor Sign Photo with cartoon cat -->
-                    <div class="md:col-span-5 flex justify-center md:justify-end">
+                    <div class="md:col-span-5 flex justify-center md:justify-end toon-reveal-right reveal-delay-150">
                         <div class="w-full max-w-md rounded-2xl overflow-hidden border-2 border-black shadow-[4px_4px_0px_#000] mx-auto md:ml-auto">
                             <img src="{{ asset('images/toonburger-outdoor-sign-hq.png') }}"
                                  alt="Toon Burger Sign"
@@ -519,7 +519,7 @@
     <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none"
              style="content-visibility: auto; contain-intrinsic-size: 1px 180px;">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
 
                 <div class="flex items-center gap-4">
                     <!-- Speech bubble question mark icon matching Photo 1 -->
