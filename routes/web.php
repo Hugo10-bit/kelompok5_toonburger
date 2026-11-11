@@ -49,9 +49,6 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::middleware('admin')->group(function () {
-        Route::get('/pos', fn () => redirect()->route('admin.dashboard'))->name('admin.pos');
-        Route::post('/pos/checkout', fn () => redirect()->route('admin.dashboard'))->name('admin.pos.checkout');
-
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
             Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
