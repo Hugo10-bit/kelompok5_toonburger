@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>503 Maintenance - Toon Burger</title>
+    <title>503 Service Unavailable - Toon Burger</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -49,7 +49,7 @@
             Toon Burger
         </a>
         <span class="text-gray-600">•</span>
-        <span class="text-gray-400">503 Maintenance</span>
+        <span class="text-gray-400">503 Service Unavailable</span>
     </div>
 
     <!-- Background Canvas Container for Scattered 503 Numbers -->
@@ -102,15 +102,15 @@
         
         <!-- Exact Typography & Phrasing matching the uploaded image -->
         <p class="text-[14px] sm:text-[15px] leading-relaxed font-serif text-gray-900 m-0">
-            Dapur kami sedang dalam perawatan rutin. While we polish the grill, please go outside and enjoy the sunshine.
+            Oops. Looks like we're temporarily down for maintenance. While we go down this rabbit hole, please go outside and enjoy the sunshine.
         </p>
 
         <p class="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed font-serif mt-3 italic">
-            (Sistem Toon Burger sedang diperbarui untuk pelayanan yang lebih prima. Kami akan segera kembali melayani pesanan Anda.)
+            (Dapur dan sistem Toon Burger sedang dalam pemeliharaan berkala. Kami akan segera kembali melayani Anda.)
         </p>
 
         <p class="text-[13px] sm:text-[14px] leading-relaxed font-serif text-gray-800 mt-5 pt-3 border-t border-gray-200">
-            Butuh pesanan mendesak atau pertanyaan? Hubungi kami di 
+            If you continue to see this error, please contact 
             <a href="mailto:Toonburger@gmail.com" class="underline underline-offset-2 hover:text-[#DE3B28] transition font-sans font-medium text-xs sm:text-sm">
                 Toonburger@gmail.com
             </a>

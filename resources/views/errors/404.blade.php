@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Error - Halaman Tidak Ditemukan | Toon Burger</title>
+    <title>404 Not Found - Toon Burger</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -49,7 +49,7 @@
             Toon Burger
         </a>
         <span class="text-gray-600">•</span>
-        <span class="text-gray-400">404 Error</span>
+        <span class="text-gray-400">404 Page Not Found</span>
     </div>
 
     <!-- Background Canvas Container for Scattered 404 Numbers -->
@@ -102,15 +102,15 @@
         
         <!-- Exact Typography & Phrasing matching the uploaded image -->
         <p class="text-[14px] sm:text-[15px] leading-relaxed font-serif text-gray-900 m-0">
-            Oops. Looks like this page fell down the rabbit hole. While we search for it, please go outside and enjoy the sunshine.
+            Oops. Looks like this page cannot be found. While we go down this rabbit hole, please go outside and enjoy the sunshine.
         </p>
 
         <p class="text-[12px] sm:text-[13px] text-gray-500 leading-relaxed font-serif mt-3 italic">
-            (Halaman yang Anda cari tidak ditemukan atau telah berpindah alamat. Silakan kembali ke menu utama.)
+            (Halaman yang Anda tuju tidak ditemukan atau sudah dipindahkan. Silakan kembali ke menu utama.)
         </p>
 
         <p class="text-[13px] sm:text-[14px] leading-relaxed font-serif text-gray-800 mt-5 pt-3 border-t border-gray-200">
-            If you need assistance finding a menu, please contact 
+            If you continue to see this error, please contact 
             <a href="mailto:Toonburger@gmail.com" class="underline underline-offset-2 hover:text-[#DE3B28] transition font-sans font-medium text-xs sm:text-sm">
                 Toonburger@gmail.com
             </a>
