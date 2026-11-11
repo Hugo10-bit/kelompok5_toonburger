@@ -438,7 +438,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
                         🍴
-                    </div>
+                    </div>1
                     <div>
                         <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
                             NGGAK SEMPAT  KE TOKO? GOFOOD AJA!
