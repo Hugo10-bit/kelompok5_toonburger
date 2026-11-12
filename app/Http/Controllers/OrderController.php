@@ -20,6 +20,10 @@ class OrderController extends Controller
      */
     public function checkout(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('warning', 'Wajib login terlebih dahulu untuk checkout pesanan.');
+        }
+
         $cartController = new CartController();
         $cart = $cartController->getCart();
 
@@ -38,6 +42,10 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('warning', 'Wajib login terlebih dahulu.');
+        }
+
         $cartController = new CartController();
         $cart = $cartController->getCart();
 

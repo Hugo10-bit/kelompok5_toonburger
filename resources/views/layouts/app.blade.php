@@ -356,6 +356,20 @@
 
 
     <!-- FLASH MESSAGES -->
+    @if(session('warning'))
+        <div class="alert-auto-dismiss max-w-7xl mx-auto px-4 mt-4 w-full" role="alert">
+            <div class="bg-amber-50 border border-amber-300 text-amber-900 text-xs sm:text-sm font-semibold px-4 py-3 rounded-xl flex items-center justify-between shadow-xs">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <span>{{ session('warning') }}</span>
+                </div>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer">&times;</button>
+            </div>
+        </div>
+    @endif
+
     @if(session('success'))
         <div class="alert-auto-dismiss max-w-7xl mx-auto px-4 mt-4 w-full" role="alert">
             <div class="bg-green-50 border border-green-200 text-green-800 text-xs sm:text-sm font-medium px-4 py-3 rounded-xl flex items-center justify-between shadow-xs">
@@ -459,6 +473,7 @@
             <div id="cart-action-section">
                 <a href="{{ route('orders.checkout') }}"
                    id="checkout-btn"
+                   @guest onclick="event.preventDefault(); promptRequireLogin('Wajib login terlebih dahulu untuk checkout pesanan.');" @endguest
                    class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
                     Lanjutkan Ke pembayaran
                 </a>
@@ -570,6 +585,40 @@
     <!-- GLOBAL JAVASCRIPT FOR CART & MODALS -->
     <script>
         const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const IS_AUTHENTICATED = {{ auth()->check() ? 'true' : 'false' }};
+        const LOGIN_URL = "{{ route('login') }}";
+
+        function promptRequireLogin(message = 'Wajib login terlebih dahulu untuk memasukkan menu ke keranjang.') {
+            if (typeof closeProductModal === 'function') {
+                closeProductModal();
+            }
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Wajib Login Terlebih Dahulu',
+                    text: message,
+                    showCancelButton: true,
+                    confirmButtonText: 'Login Sekarang',
+                    cancelButtonText: 'Nanti Saja',
+                    confirmButtonColor: '#27443E',
+                    cancelButtonColor: '#8F9693',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'rounded-2xl',
+                        confirmButton: 'font-bold px-6 py-2.5 rounded-xl cursor-pointer',
+                        cancelButton: 'font-semibold px-5 py-2.5 rounded-xl cursor-pointer'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = LOGIN_URL;
+                    }
+                });
+            } else {
+                alert(message);
+                window.location.href = LOGIN_URL;
+            }
+        }
+
         let currentModalProduct = null;
 
         function formatRupiah(num) {
@@ -866,6 +915,11 @@
         async function submitAddToCart() {
             if (!currentModalProduct) return;
 
+            if (!IS_AUTHENTICATED) {
+                promptRequireLogin('Silakan login ke akun Anda terlebih dahulu untuk menambahkan menu ke keranjang belanja.');
+                return;
+            }
+
             const selectedOptions = [];
             document.querySelectorAll('#modal-options-container input:checked').forEach(inp => {
                 selectedOptions.push(inp.value);
@@ -895,6 +949,13 @@
                 });
 
                 const data = await res.json();
+
+                if (res.status === 401 || data.require_login) {
+                    closeProductModal();
+                    promptRequireLogin(data.message || 'Wajib login terlebih dahulu untuk menambahkan menu ke keranjang.');
+                    return;
+                }
+
                 if (data.success) {
                     closeProductModal();
                     renderCart(data.cart);
@@ -973,6 +1034,11 @@
         }
 
         async function quickAddToCart(productId) {
+            if (!IS_AUTHENTICATED) {
+                promptRequireLogin('Silakan login ke akun Anda terlebih dahulu untuk menambahkan menu ke keranjang belanja.');
+                return;
+            }
+
             try {
                 const clickedEl = (window.event && window.event.target) ? window.event.target.closest('button, .group, div') : null;
                 if (clickedEl) {
@@ -985,6 +1051,12 @@
                     body: JSON.stringify({ product_id: productId, quantity: 1 })
                 });
                 const data = await res.json();
+
+                if (res.status === 401 || data.require_login) {
+                    promptRequireLogin(data.message || 'Wajib login terlebih dahulu untuk menambahkan menu ke keranjang.');
+                    return;
+                }
+
                 if (data.success) {
                     renderCart(data.cart);
                     window.scrollTo({ top: 0, behavior: 'smooth' });

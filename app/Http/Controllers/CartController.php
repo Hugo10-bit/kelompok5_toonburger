@@ -13,6 +13,18 @@ class CartController extends Controller
      */
     public function getCart()
     {
+        if (!auth()->check()) {
+            return [
+                'items' => [],
+                'item_count' => 0,
+                'subtotal' => 0,
+                'discount' => 0,
+                'coupon' => null,
+                'tax' => 0,
+                'total' => 0,
+            ];
+        }
+
         $cart = session()->get('cart', []);
 
         $subtotal = 0;
@@ -48,6 +60,15 @@ class CartController extends Controller
      */
     public function add(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'require_login' => true,
+                'message' => 'Wajib login terlebih dahulu untuk menambahkan menu ke keranjang.',
+                'redirect' => route('login'),
+            ], 401);
+        }
+
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'nullable|integer|min:1',
@@ -119,6 +140,15 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'require_login' => true,
+                'message' => 'Wajib login terlebih dahulu.',
+                'redirect' => route('login'),
+            ], 401);
+        }
+
         $request->validate([
             'cart_key' => 'required|string',
             'quantity' => 'required|integer|min:0',
@@ -148,6 +178,15 @@ class CartController extends Controller
      */
     public function remove(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'require_login' => true,
+                'message' => 'Wajib login terlebih dahulu.',
+                'redirect' => route('login'),
+            ], 401);
+        }
+
         $request->validate(['cart_key' => 'required|string']);
 
         $cart = session()->get('cart', []);
@@ -168,6 +207,15 @@ class CartController extends Controller
      */
     public function clear()
     {
+        if (!auth()->check()) {
+            return response()->json([
+                'success' => false,
+                'require_login' => true,
+                'message' => 'Wajib login terlebih dahulu.',
+                'redirect' => route('login'),
+            ], 401);
+        }
+
         session()->forget('cart');
         return response()->json([
             'success' => true,
