@@ -503,6 +503,11 @@
             const bottomNav = document.getElementById('admin-bottom-nav');
             if (!sidebar || !backdrop) return;
 
+            // Close any open profile/header dropdowns so they never overlap with the sidebar!
+            if (typeof closeAllHeaderDropdowns === 'function') {
+                closeAllHeaderDropdowns();
+            }
+
             const isClosed = sidebar.classList.contains('-translate-x-full');
             if (isClosed) {
                 sidebar.classList.remove('-translate-x-full');
@@ -1365,6 +1370,21 @@
             if (langDropdown) langDropdown.classList.add('hidden');
             if (langChevron) langChevron.style.transform = 'rotate(0deg)';
             if (searchResults) searchResults.classList.add('hidden');
+
+            // Close mobile sidebar if open so they never overlap
+            if (typeof closeMobileAdminSidebarIfOpen === 'function') {
+                closeMobileAdminSidebarIfOpen();
+            } else {
+                const sidebar = document.getElementById('admin-sidebar');
+                const backdrop = document.getElementById('admin-sidebar-backdrop');
+                const bottomNav = document.getElementById('admin-bottom-nav');
+                if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.add('-translate-x-full');
+                    if (backdrop) backdrop.classList.add('hidden');
+                    if (bottomNav) bottomNav.classList.remove('translate-y-full');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            }
 
             if (dropdown) {
                 const isHidden = dropdown.classList.toggle('hidden');

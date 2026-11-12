@@ -291,8 +291,34 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-              <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-50 mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800">
+            <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-[60] mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800">
                 <div class="space-y-1 text-sm font-semibold">
+                    @auth
+                        <!-- Compact Profile Info inside Mobile Menu -->
+                        <div class="px-3.5 py-3 mb-2 rounded-xl bg-gray-50 border border-gray-100 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden shadow-xs">
+                                @if(!empty(Auth::user()->avatar))
+                                    <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
+                                         alt="Avatar"
+                                         class="w-full h-full object-cover">
+                                @else
+                                    {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                @endif
+                            </div>
+                            <div class="min-w-0 flex-1 leading-tight">
+                                <div class="font-bold text-xs sm:text-sm text-gray-900 truncate">
+                                    {{ Auth::user()->name }}
+                                </div>
+                                <div class="text-[11px] text-gray-500 truncate">
+                                    {{ Auth::user()->email }}
+                                </div>
+                                <span class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
+                                    {{ Auth::user()->role }}
+                                </span>
+                            </div>
+                        </div>
+                    @endauth
+
                     <!-- Mobile Search -->
                     <div class="mb-2 pt-1">
                         <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] rounded-full px-4 py-2 flex items-center gap-2.5 shadow-2xs">
@@ -328,11 +354,17 @@
                     </a>
                     @auth
                         <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
-                                    class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
+                           class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
                             Pesanan Saya
                         </a>
+                        @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                            <a href="{{ route('admin.dashboard') }}" onclick="toggleMobileNav()"
+                               class="block px-4 py-2 rounded-xl text-[#3b6e64] hover:bg-[#3b6e64]/10 transition font-semibold">
+                                Dashboard Admin
+                            </a>
+                        @endif
                         <button type="button" onclick="confirmLogout(event)"
-                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
+                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold cursor-pointer">
                             Logout
                         </button>
                     @else
@@ -1147,6 +1179,16 @@
 
         function toggleMobileNav() {
             const menu = document.getElementById('mobile-nav-menu');
+            const userMenu = document.getElementById('user-dropdown-menu');
+            const userArrow = document.getElementById('user-menu-arrow');
+            const searchDropdown = document.getElementById('home-search-dropdown');
+
+            // Close user profile dropdown so it never overlaps the mobile menu!
+            if (userMenu) userMenu.classList.add('hidden');
+            if (userArrow) userArrow.classList.remove('rotate-180');
+            if (searchDropdown) searchDropdown.classList.add('hidden');
+            if (typeof closeCartDrawer === 'function') closeCartDrawer();
+
             if (menu) {
                 menu.classList.toggle('hidden');
             }
@@ -1166,6 +1208,14 @@
             if (event) event.stopPropagation();
             const menu = document.getElementById('user-dropdown-menu');
             const arrow = document.getElementById('user-menu-arrow');
+            const mobileMenu = document.getElementById('mobile-nav-menu');
+            const searchDropdown = document.getElementById('home-search-dropdown');
+
+            // Close mobile hamburger menu so they never overlap!
+            if (mobileMenu) mobileMenu.classList.add('hidden');
+            if (searchDropdown) searchDropdown.classList.add('hidden');
+            if (typeof closeCartDrawer === 'function') closeCartDrawer();
+
             if (!menu) return;
 
             const isHidden = menu.classList.contains('hidden');
