@@ -1,7 +1,11 @@
 // Toon Burger Offline Fallback Service Worker
-const CACHE_NAME = 'toonburger-offline-v3';
+const CACHE_NAME = 'toonburger-offline-v4';
 const PRECACHE_ASSETS = [
+    '/manifest.json',
     '/offline.html',
+    '/images/icon-192.png',
+    '/images/icon-512.png',
+    '/images/icon-512-maskable.png',
     '/images/toon-head.png',
     '/images/hero-burger-real.png',
     '/images/star-sparkle.png'
