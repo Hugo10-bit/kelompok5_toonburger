@@ -1,4 +1,4 @@
-<footer class="relative w-full pt-12 sm:pt-16 md:pt-20 -mt-12 sm:-mt-16 md:-mt-20 pointer-events-none select-none">
+<footer class="relative w-full pt-12 sm:pt-16 md:pt-20 select-none @yield('footer_bg', 'retro-grid-bg')">
     <!-- Main Dark Forest Green Card with Rounded Top matching design reference -->
     <div class="relative bg-[#253B36] rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] text-white pt-14 sm:pt-16 lg:pt-20 pb-10 sm:pb-12 shadow-[0_-10px_35px_rgba(0,0,0,0.06)] pointer-events-auto">
 
@@ -84,7 +84,7 @@
                             <a href="https://www.instagram.com/toonburger.id?rpxt=ZDNlZDc0MzIxNw=="
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
                                 <span>Instagram</span>
                                 <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -97,7 +97,7 @@
                             <a href="{{ route('whatsapp') }}"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
                                 <span>Whatsapp</span>
                                 <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -110,7 +110,7 @@
                             <a href="https://www.tiktok.com/@toonburger.id?is_from_webapp=1&sender_device=pc"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
                                 <span>Tiktok</span>
                                 <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -123,7 +123,7 @@
                             <a href="{{ route('gofood') }}"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-32 sm:w-36 hover:text-[#EBD8A4] transition duration-150">
+                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
                                 <span>Gojek</span>
                                 <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>

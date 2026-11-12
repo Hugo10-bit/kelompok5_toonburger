@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Detail Pesanan #' . $order->order_number . ' - Toon Burger')
+@section('footer_bg', 'bg-bites-bg')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 sm:pb-32 lg:pb-36">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pb-16">
 
     <!-- Top Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">

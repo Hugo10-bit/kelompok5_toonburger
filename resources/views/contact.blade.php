@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Kontak - Toon Burger')
+@section('footer_bg', 'contact-fine-grid-bg')
 
 @section('content')
 <!-- Leaflet CSS & JS for Interactive Map -->

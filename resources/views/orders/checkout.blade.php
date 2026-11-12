@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('title', 'Checkout Pesanan - Toon Burger')
+@section('footer_bg', 'bg-bites-bg')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 sm:pb-32 lg:pb-36">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pb-16">
     
     <div class="mb-6">
         <a href="{{ route('menu') }}" class="text-xs text-gray-500 hover:text-bites-red font-semibold inline-flex items-center gap-1">

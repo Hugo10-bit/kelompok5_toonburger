@@ -294,7 +294,7 @@
         ];
     @endphp
 
-    <section class="retro-grid-bg pt-12 pb-24 sm:pt-16 sm:pb-28 lg:pt-20 lg:pb-32 px-4 sm:px-6 lg:px-8">
+    <section class="retro-grid-bg py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
 
             <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12 lg:mb-14 toon-reveal">
