@@ -3,3 +3,4 @@
     <!-- Ganti URL ini dengan URL domain hosting Anda atau IP Wi-Fi komputer untuk pengujian lokal -->
     <string name="default_web_url">http://10.215.6.109:8000</string>
 </resources>
+

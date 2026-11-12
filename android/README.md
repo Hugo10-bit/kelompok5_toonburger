@@ -48,3 +48,4 @@ Karena website Toon Burger kini sudah dilengkapi `manifest.json` dan `sw.js` (PW
 1. Buka [https://www.pwabuilder.com](https://www.pwabuilder.com)
 2. Masukkan URL publik website Toon Burger.
 3. Klik **Build My PWA** > pilih **Android** > unduh package APK / AAB.
+
