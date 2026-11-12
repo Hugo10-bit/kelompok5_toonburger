@@ -157,7 +157,7 @@ php artisan serve
 npm run dev
 ```
 
-## Akun Bawaan (Seeder)
+## Akun Dummy (Seeder)
 
 Setelah menjalankan `php artisan migrate --seed`, akun berikut tersedia untuk pengujian:
 
@@ -187,10 +187,6 @@ Setelah menjalankan `php artisan migrate --seed`, akun berikut tersedia untuk pe
 - `/admin/tables` : manajemen meja restoran
 - `/admin/messages` : pesan pelanggan
 - `/admin/profile` : profil admin
-
-## Deployment (Docker & Railway)
-
-Repository ini sudah dilengkapi `Dockerfile`, `docker-entrypoint.sh`, dan `railway.json` menggunakan multi-stage build (Node 20 untuk build aset Vite dan PHP 8.4+ Apache untuk menjalankan aplikasi Laravel).
 
 ## Catatan Pengembangan
 
