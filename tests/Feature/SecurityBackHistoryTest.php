@@ -35,16 +35,6 @@ class SecurityBackHistoryTest extends TestCase
     }
 
     /**
-     * Test that guest accessing pos is redirected to login.
-     */
-    public function test_guest_accessing_pos_is_redirected_to_login(): void
-    {
-        $response = $this->get('/pos');
-
-        $response->assertRedirect('/login');
-    }
-
-    /**
      * Test that guest accessing my-orders is redirected to login.
      */
     public function test_guest_accessing_my_orders_is_redirected_to_login(): void

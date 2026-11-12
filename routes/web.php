@@ -30,6 +30,11 @@ Route::prefix('cart')->name('cart.')->group(function () {
     Route::post('/clear', [CartController::class, 'clear'])->name('clear');
 });
 
+// Preview error pages
+Route::get('/error/500', fn () => response()->view('errors.500', [], 500))->name('preview.error.500');
+Route::get('/error/404', fn () => response()->view('errors.404', [], 404))->name('preview.error.404');
+Route::get('/error/503', fn () => response()->view('errors.503', [], 503))->name('preview.error.503');
+
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
 Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
 
@@ -49,9 +54,6 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::middleware('admin')->group(function () {
-        Route::get('/pos', fn () => redirect()->route('admin.dashboard'))->name('admin.pos');
-        Route::post('/pos/checkout', fn () => redirect()->route('admin.dashboard'))->name('admin.pos.checkout');
-
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
             Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
