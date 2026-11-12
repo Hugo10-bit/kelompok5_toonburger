@@ -1048,13 +1048,15 @@
             if (!toast) {
                 toast = document.createElement('div');
                 toast.id = 'cart-toast-notification';
-                toast.className = 'fixed bottom-6 right-6 z-50 bg-gray-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-auto border border-gray-800';
+                toast.className = 'fixed bottom-6 right-6 z-50 bg-white text-gray-900 px-4 py-3 rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.12)] border border-gray-200/90 flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-auto';
                 toast.innerHTML = `
-                    <div class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center flex-shrink-0 font-black text-xs shadow-xs">
-                        ✓
+                    <div class="w-6 h-6 rounded-full bg-[#10B981] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"/>
+                        </svg>
                     </div>
-                    <div class="text-xs font-semibold" id="cart-toast-text"></div>
-                    <button onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-black px-2.5 py-1 rounded-xl transition">
+                    <div class="text-xs font-semibold text-gray-800" id="cart-toast-text"></div>
+                    <button type="button" onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-black px-2.5 py-1 rounded-xl transition cursor-pointer">
                         Buka
                     </button>
                 `;
