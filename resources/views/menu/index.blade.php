@@ -68,7 +68,7 @@
                     </div>
 
                     <!-- Right: Burger + Speech Bubble Cluster (Burger kecil, posisi agak ke kanan, kalimat agak ke kanan atas sesuai foto) -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16">
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16 toon-reveal-right reveal-delay-150">
                         <div class="relative select-none">
 
                             <!-- Hero Double/Triple Cheeseburger (Kecil proporsional sesuai foto referensi) -->

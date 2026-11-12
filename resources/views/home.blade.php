@@ -136,7 +136,7 @@
 
     <!-- Section: Kenapa Toon Burger (Matching Figma exactly with enlarged spacious cards) -->
     <section class="relative w-full pt-12 pb-14 sm:pt-16 sm:pb-18 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
-             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover; content-visibility: auto; contain-intrinsic-size: 1px 520px;">
+             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover;">
 
         <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2.5 mb-10 sm:mb-12 toon-reveal-up">
             <div class="inline-flex items-center px-4 py-1 rounded-full bg-[#4C6B65] text-white text-xs font-semibold border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
@@ -247,8 +247,7 @@
     <!-- ═══════════════════════════════════════════════
          4. BEST SELLER SECTION (Sesuai Foto 4)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none"
-             style="content-visibility: auto; contain-intrinsic-size: 1px 680px;">
+    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto space-y-8">
 
             <!-- Section Header -->
@@ -465,7 +464,7 @@
          6. MENGENAL TOON BURGER SECTION (Sesuai Foto 3)
          ═══════════════════════════════════════════════ -->
     <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none"
-             style="background-color: #385850; content-visibility: auto; contain-intrinsic-size: 1px 480px;">
+             style="background-color: #385850;">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12 toon-reveal-up">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -516,8 +515,7 @@
     <!-- ═══════════════════════════════════════════════
          7. ADA YANG MAU DITANYAIN? BANNER (Sesuai Foto 1)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none"
-             style="content-visibility: auto; contain-intrinsic-size: 1px 180px;">
+    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
 

@@ -1,0 +1,80 @@
+/* =========================================================
+   TOON BURGER - ERROR PAGES STYLESHEET (404, 500, 503)
+   ========================================================= */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FAF5E8;
+    color: #121212;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+}
+
+.retro-grid-bg {
+    background-color: #FAF5E8;
+    background-image:
+        linear-gradient(to right, rgba(59, 92, 86, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(59, 92, 86, 0.08) 1px, transparent 1px);
+    background-size: 36px 36px;
+}
+
+.font-toon-display {
+    font-family: 'Luckiest Guy', 'Bebas Neue', cursive, sans-serif;
+    letter-spacing: 0.03em;
+}
+
+.font-toon-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.06em;
+}
+
+.checkerboard-strip {
+    background-image:
+        linear-gradient(45deg, #385850 25%, transparent 25%),
+        linear-gradient(-45deg, #385850 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #385850 75%),
+        linear-gradient(-45deg, transparent 75%, #385850 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+    background-color: #FAF5E8;
+}
+
+:where(a:any-link, button):focus-visible {
+    outline: 3px solid #D92625;
+    outline-offset: 3px;
+}
+
+@keyframes burgerFloat {
+    0%, 100% { transform: translateY(0) rotate(-2.5deg); }
+    50% { transform: translateY(-14px) rotate(2.5deg); }
+}
+
+@keyframes steamRise {
+    0% { transform: translateY(4px) scale(0.95); opacity: 0.35; }
+    50% { transform: translateY(-6px) scale(1.05); opacity: 0.85; }
+    100% { transform: translateY(-14px) scale(1.1); opacity: 0.2; }
+}
+
+@keyframes sparkleRotate {
+    0% { transform: scale(0.85) rotate(0deg); opacity: 0.4; }
+    50% { transform: scale(1.15) rotate(180deg); opacity: 0.9; }
+    100% { transform: scale(0.85) rotate(360deg); opacity: 0.4; }
+}
+
+.anim-burger-float {
+    animation: burgerFloat 2.8s ease-in-out infinite;
+    will-change: transform;
+}
+
+.anim-steam {
+    animation: steamRise 2.4s ease-in-out infinite;
+}
+
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    animation: sparkleRotate 4s ease-in-out infinite;
+}

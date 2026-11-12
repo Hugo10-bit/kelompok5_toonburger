@@ -12,3 +12,6 @@ storage/logs/*
 .idea
 Dockerfile
 .dockerignore
+.agents
+AGENTS.md
+.opencode

@@ -3,7 +3,7 @@
 @section('title', 'Riwayat Pesanan Saya - Toon Burger')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 sm:pb-32 lg:pb-36">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Riwayat Pesanan</h1>

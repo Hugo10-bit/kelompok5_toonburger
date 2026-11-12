@@ -3,7 +3,7 @@
 @section('title', 'Checkout Pesanan - Toon Burger')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 sm:pb-32 lg:pb-36">
     
     <div class="mb-6">
         <a href="{{ route('menu') }}" class="text-xs text-gray-500 hover:text-bites-red font-semibold inline-flex items-center gap-1">
@@ -151,7 +151,7 @@
 
             <!-- RIGHT COLUMN: ORDER SUMMARY -->
             <div class="lg:col-span-5">
-                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-lg sticky top-24 space-y-5">
+                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-lg space-y-5">
                     <h3 class="font-black text-base text-gray-900 pb-3 border-b border-gray-100 flex items-center justify-between">
                         <span>Ringkasan Pesanan</span>
                         <span class="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full font-bold">
@@ -197,7 +197,7 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg transition active:scale-98 text-sm">
+                    <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg transition active:scale-98 text-sm cursor-pointer">
                         <span>Buat Pesanan Sekarang</span>
                         <span>&rarr;</span>
                     </button>
@@ -212,40 +212,5 @@
     </form>
 </div>
 
-<script>
-    function handleOrderTypeChange(type) {
-        document.querySelectorAll('[id^="type-card-"]').forEach(el => {
-            el.classList.remove('border-bites-orange', 'bg-amber-50/40');
-            el.classList.add('border-gray-200');
-        });
-        const activeCard = document.getElementById('type-card-' + type);
-        if (activeCard) {
-            activeCard.classList.add('border-bites-orange', 'bg-amber-50/40');
-            activeCard.classList.remove('border-gray-200');
-        }
-
-        const deliverySec = document.getElementById('delivery-address-section');
-        if (deliverySec) {
-            if (type === 'delivery') {
-                deliverySec.classList.remove('hidden');
-            } else {
-                deliverySec.classList.add('hidden');
-            }
-        }
-    }
-
-    function handlePaymentChange(method) {
-        document.querySelectorAll('[id^="pay-card-"]').forEach(el => {
-            el.classList.remove('border-bites-orange', 'bg-amber-50/40');
-            el.classList.add('border-gray-200');
-        });
-        const activePay = document.getElementById('pay-card-' + method);
-        if (activePay) {
-            activePay.classList.add('border-bites-orange', 'bg-amber-50/40');
-            activePay.classList.remove('border-gray-200');
-        }
-    }
-
-    handleOrderTypeChange('takeaway');
-</script>
+<script src="{{ asset('js/pages/checkout.js') }}"></script>
 @endsection

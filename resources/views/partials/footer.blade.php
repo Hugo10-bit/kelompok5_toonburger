@@ -1,6 +1,6 @@
-<footer class="relative w-full pt-12 sm:pt-16 md:pt-20 bg-transparent select-none" style="content-visibility: auto; contain-intrinsic-size: 1px 360px;">
+<footer class="relative w-full pt-12 sm:pt-16 md:pt-20 -mt-12 sm:-mt-16 md:-mt-20 pointer-events-none select-none">
     <!-- Main Dark Forest Green Card with Rounded Top matching design reference -->
-    <div class="relative bg-[#253B36] rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] text-white pt-14 sm:pt-16 lg:pt-20 pb-10 sm:pb-12 shadow-[0_-10px_35px_rgba(0,0,0,0.06)]">
+    <div class="relative bg-[#253B36] rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] text-white pt-14 sm:pt-16 lg:pt-20 pb-10 sm:pb-12 shadow-[0_-10px_35px_rgba(0,0,0,0.06)] pointer-events-auto">
 
         <!-- Topographic Contour Lines Background -->
         <div class="absolute inset-0 rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] overflow-hidden pointer-events-none">

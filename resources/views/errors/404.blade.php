@@ -1,143 +1,127 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Lost in The Matrix | Toon Burger</title>
+    <title>404 - Halaman Tidak Ditemukan | Toon Burger</title>
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Bebas Neue, Luckiest Guy, Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #070707;
-            color: #ffffff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .font-matrix-title {
-            font-family: 'Oswald', 'Impact', sans-serif;
-            letter-spacing: 0.04em;
-        }
-
-        @keyframes pillPulseRed {
-            0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(239, 68, 68, 1), inset 0 2px 6px rgba(255, 255, 255, 0.6); }
-        }
-
-        @keyframes pillPulseBlue {
-            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(59, 130, 246, 1), inset 0 2px 6px rgba(255, 255, 255, 0.6); }
-        }
-
-        .anim-glow-red {
-            animation: pillPulseRed 2.5s infinite ease-in-out;
-        }
-
-        .anim-glow-blue {
-            animation: pillPulseBlue 2.5s infinite ease-in-out;
-        }
-    </style>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/errors.css') }}?v={{ filemtime(public_path('css/errors.css')) }}">
 </head>
-<body class="min-h-screen w-full bg-[#070707] flex flex-col justify-between selection:bg-[#E65100] selection:text-white">
+<body class="relative min-h-screen flex flex-col justify-between retro-grid-bg">
 
-    <!-- Top White Header Nav (matching reference image) -->
-    <nav class="w-full bg-white text-black py-2.5 px-6 sm:px-12 flex items-center justify-between border-b border-gray-200 z-50">
-        <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-            <img src="{{ asset('images/logo.png') }}" alt="Toon Burger" class="w-7 h-7 sm:w-8 sm:h-8 object-contain group-hover:rotate-6 transition-transform">
-            <span class="font-matrix-title font-bold text-sm sm:text-base tracking-widest text-[#27443E] uppercase">TOON BURGER</span>
-        </a>
-        <div class="flex items-center gap-5 sm:gap-8 text-[11px] sm:text-xs font-bold tracking-widest text-gray-800 uppercase">
-            <a href="{{ route('home') }}" class="hover:text-[#DE3B28] transition">BERANDA</a>
-            <a href="{{ route('menu') }}" class="hover:text-[#DE3B28] transition">MENU</a>
-            <a href="{{ route('about') }}" class="hidden sm:inline-block hover:text-[#DE3B28] transition">TENTANG</a>
-            <a href="{{ route('contact') }}" class="hidden sm:inline-block hover:text-[#DE3B28] transition">KONTAK</a>
-            <a href="{{ route('whatsapp') }}" target="_blank" class="text-[#25D366] hover:text-[#1eb355] transition">WHATSAPP</a>
-        </div>
-    </nav>
+    <!-- Floating Comic Sparkles -->
+    <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="sparkle" style="top: 12%; left: 8%; width: 28px;">
+    <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="sparkle" style="top: 20%; right: 10%; width: 24px; animation-delay: 1s;">
+    <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="sparkle" style="bottom: 15%; left: 12%; width: 30px; animation-delay: 0.5s;">
+    <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="sparkle" style="bottom: 22%; right: 12%; width: 22px; animation-delay: 1.5s;">
 
-    <!-- Main Matrix Presentation -->
-    <main class="w-full flex-1 flex flex-col items-center justify-center pt-8 sm:pt-10 pb-6 px-4">
-        
-        <!-- Header Text Section (matching exact orange font & phrasing in reference image) -->
-        <div class="max-w-4xl w-full text-center mb-4 sm:mb-6">
-            <h1 class="font-matrix-title text-3xl sm:text-5xl md:text-6xl font-black text-[#ED5B2D] uppercase tracking-wide leading-tight drop-shadow-[0_2px_10px_rgba(237,91,45,0.3)]">
-                LOOKS LIKE THIS PAGE GOT LOST IN THE MATRIX.
-            </h1>
-            
-            <div class="mt-3 sm:mt-4 space-y-1 text-xs sm:text-sm md:text-[15px] font-bold text-gray-300 uppercase tracking-wider font-mono leading-relaxed px-2">
-                <p>YOU TAKE THE BLUE PILL, THE STORY ENDS, YOU END UP ON OUR HOMEPAGE, AND BELIEVE WHATEVER YOU WANT TO BELIEVE.</p>
-                <p class="text-gray-400">YOU TAKE THE RED PILL, YOU STAY IN WONDERLAND, AND WE SHOW YOU HOW DELICIOUS OUR BURGERS CAN GO.</p>
+    <!-- Main 404 Error Content -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div class="w-full max-w-5xl">
+
+            <!-- Comic Card Container -->
+            <div class="bg-white rounded-[28px] sm:rounded-[34px] border-2 border-[#121212] shadow-[6px_6px_0px_#253B36] sm:shadow-[8px_8px_0px_#253B36] overflow-hidden">
+
+                <!-- Top Checkerboard Diner Accent -->
+                <div class="h-3 w-full checkerboard-strip border-b-2 border-[#121212]" aria-hidden="true"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+
+                    <!-- Left Visual Stage: Toon Burger Lost Page -->
+                    <div class="lg:col-span-5 h-full bg-[#385850] text-white px-6 py-8 sm:px-8 sm:py-10 flex flex-col items-center justify-center relative overflow-hidden border-b-2 lg:border-b-0 lg:border-r-2 border-[#121212]">
+
+                        <!-- Subtle Wavy Background Lines -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 400 400" aria-hidden="true">
+                            <path d="M-40,70 C80,30 180,120 320,60 C380,35 420,80 450,70" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <path d="M-40,160 C80,120 180,210 320,150 C380,125 420,170 450,160" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <path d="M-40,250 C80,210 180,300 320,240 C380,215 420,260 450,250" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                            <path d="M-40,340 C80,300 180,390 320,330 C380,305 420,350 450,340" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+                        </svg>
+
+                        <!-- Decorative Sparkles -->
+                        <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="absolute top-6 left-6 w-5 h-5 select-none pointer-events-none">
+                        <img src="{{ asset('images/star-sparkle.png') }}" alt="" aria-hidden="true" class="absolute bottom-8 right-6 w-6 h-6 select-none pointer-events-none">
+
+                        <!-- Error 404 Comic Pill -->
+                        <div class="relative z-10 inline-flex items-center gap-2 bg-[#D92625] text-white font-extrabold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full border-2 border-[#121212] shadow-[3px_3px_0px_#121212] mb-5">
+                            <span class="w-2 h-2 rounded-full bg-[#FFC72C]" aria-hidden="true"></span>
+                            <span>Error 404 &bull; Halaman Hilang</span>
+                        </div>
+
+                        <!-- Floating Mascot -->
+                        <div class="relative z-10 flex flex-col items-center pt-2">
+                            <img src="{{ asset('images/toon-head.png') }}"
+                                 alt="Maskot Toon Burger saat halaman tidak ditemukan"
+                                 width="180"
+                                 height="180"
+                                 class="w-32 sm:w-40 h-auto object-contain anim-burger-float drop-shadow-[0_12px_18px_rgba(0,0,0,0.35)]">
+                        </div>
+
+                        <!-- Giant 404 Number -->
+                        <div class="relative z-10 mt-3 text-center">
+                            <p class="font-toon-display text-6xl sm:text-7xl text-[#FFC72C] leading-none drop-shadow-[3px_3px_0px_#121212]"
+                               aria-hidden="true">
+                                404
+                            </p>
+                            <p class="text-xs font-semibold text-white/85 uppercase tracking-widest mt-1">
+                                Page Not Found
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Content Side: Copy & Action Buttons -->
+                    <div class="lg:col-span-7 p-6 sm:p-9 lg:p-11 flex flex-col justify-center text-center lg:text-left">
+                        <div>
+                            <span class="inline-block bg-[#FAF5E8] text-[#253B36] border border-[#253B36]/25 rounded-full px-3.5 py-1 text-xs font-bold uppercase tracking-wider mb-4">
+                                Halaman Tidak Ditemukan
+                            </span>
+                        </div>
+
+                        <h1 class="font-toon-display text-3xl sm:text-4xl lg:text-[42px] text-[#121212] uppercase leading-[1.08]">
+                            Waduh! Burger Yang Kamu Cari Nyasar!
+                        </h1>
+
+                        <p class="mt-4 text-sm sm:text-[15px] text-gray-700 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                            Halaman atau alamat yang kamu tuju di <strong class="text-[#253B36]">Toon Burger</strong> tidak tersedia atau sudah dipindahkan. Yuk balik ke beranda atau langsung cek menu favorit kami!
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3">
+                            <a href="{{ route('home') }}"
+                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#FFC72C] hover:bg-[#E8A400] text-[#121212] font-bold text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                </svg>
+                                <span>Kembali ke Beranda</span>
+                            </a>
+
+                            <a href="{{ route('menu') }}"
+                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#385850] hover:bg-[#253B36] text-white font-bold text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
+                                <span>Jelajahi Menu</span>
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <p class="text-[11px] sm:text-xs text-gray-500 italic mt-2">
-                (Halaman tidak ditemukan. Pilih pil merah untuk menjelajahi Menu, atau pil biru untuk kembali ke Beranda.)
-            </p>
         </div>
-
-        <!-- Center Morpheus Stage with Clickable Glowing Pills -->
-        <div class="relative w-full max-w-4xl mx-auto flex flex-col items-center justify-center">
-            
-            <!-- Morpheus 404 Image Base -->
-            <div class="relative w-full overflow-hidden rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
-                <img src="{{ asset('images/morpheus-404.png') }}" 
-                     alt="Morpheus 404 - Choose The Red Pill or The Blue Pill" 
-                     class="w-full h-auto object-contain select-none pointer-events-none block">
-
-                <!-- Interactive Overlays on Morpheus Hands -->
-                <!-- Left Hand: RED PILL (EXPLORE MENU) -->
-                <a href="{{ route('menu') }}" 
-                   title="Pilih Pil Merah: Jelajahi Menu Toon Burger"
-                   class="absolute left-[27%] sm:left-[28%] md:left-[29%] top-[65%] sm:top-[67%] -translate-x-1/2 -translate-y-1/2 w-[34%] sm:w-[26%] md:w-[22%] h-[18%] sm:h-[16%] rounded-full cursor-pointer z-20 group flex items-center justify-center">
-                    <span class="sr-only">Ambil Pil Merah - Menu</span>
-                    <!-- Glowing Indicator Ring on hover -->
-                    <span class="absolute inset-0 rounded-full border-2 border-red-400/80 group-hover:border-white anim-glow-red transition-all duration-300"></span>
-                    <span class="relative text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] opacity-95 group-hover:scale-110 transition-transform">
-                        EXPLORE MENU
-                    </span>
-                </a>
-
-                <!-- Right Hand: BLUE PILL (HOMEPAGE) -->
-                <a href="{{ route('home') }}" 
-                   title="Pilih Pil Biru: Kembali ke Beranda"
-                   class="absolute left-[64%] sm:left-[64%] md:left-[64%] top-[65%] sm:top-[67%] -translate-x-1/2 -translate-y-1/2 w-[34%] sm:w-[26%] md:w-[22%] h-[18%] sm:h-[16%] rounded-full cursor-pointer z-20 group flex items-center justify-center">
-                    <span class="sr-only">Ambil Pil Biru - Beranda</span>
-                    <!-- Glowing Indicator Ring on hover -->
-                    <span class="absolute inset-0 rounded-full border-2 border-blue-400/80 group-hover:border-white anim-glow-blue transition-all duration-300"></span>
-                    <span class="relative text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-wider text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] opacity-95 group-hover:scale-110 transition-transform">
-                        HOMEPAGE
-                    </span>
-                </a>
-            </div>
-
-            <!-- Mobile & Tablet Accessible Action Buttons directly under Morpheus -->
-            <div class="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6 z-30">
-                <!-- Red Pill Button -->
-                <a href="{{ route('menu') }}" 
-                   class="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-[#b71c1c] via-[#f44336] to-[#d32f2f] text-white font-black text-xs sm:text-sm tracking-wider uppercase border border-red-400 shadow-[0_0_20px_rgba(244,67,54,0.6)] hover:shadow-[0_0_35px_rgba(244,67,54,1)] hover:scale-105 active:scale-95 transition-all">
-                    <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-                    <span>Ambil Pil Merah (Menu)</span>
-                </a>
-
-                <!-- Blue Pill Button -->
-                <a href="{{ route('home') }}" 
-                   class="group inline-flex items-center gap-2 px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-[#0d47a1] via-[#2196f3] to-[#1976d2] text-white font-black text-xs sm:text-sm tracking-wider uppercase border border-blue-400 shadow-[0_0_20px_rgba(33,150,243,0.6)] hover:shadow-[0_0_35px_rgba(33,150,243,1)] hover:scale-105 active:scale-95 transition-all">
-                    <span class="w-2.5 h-2.5 rounded-full bg-white animate-ping"></span>
-                    <span>Ambil Pil Biru (Beranda)</span>
-                </a>
-            </div>
-
-        </div>
-
     </main>
 
-    <!-- Bottom Footer Note -->
-    <footer class="w-full py-4 text-center text-xs text-gray-500 font-mono tracking-wider border-t border-gray-900 bg-[#050505]">
-        &copy; {{ date('Y') }} TOON BURGER • MATRIX ERROR PROTOCOL 404
+    <!-- Compact Toon Burger Footer -->
+    <footer class="relative z-10 bg-[#253B36] text-white/85 py-4 px-4 text-center text-xs border-t-2 border-[#121212]">
+        <p>&copy; {{ date('Y') }} <strong class="text-[#FFC72C]">TOON BURGER</strong> &bull; Setiap Gigitan Punya Cerita!</p>
     </footer>
 
 </body>

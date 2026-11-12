@@ -1,47 +1,48 @@
 # Toon Burger
 
-Toon Burger adalah aplikasi website pemesanan burger berbasis Laravel yang dirancang untuk mempermudah proses pemesanan, checkout, dan manajemen operasional restoran. Project ini mencakup sisi pelanggan untuk browsing menu, menambahkan produk ke keranjang, menggunakan kupon promo, hingga melihat riwayat order, serta sisi admin untuk mengelola produk, kategori, pesanan, meja, dan promo.
+Toon Burger adalah aplikasi web pemesanan burger berbasis Laravel yang dirancang untuk mempermudah proses pemesanan pelanggan serta manajemen operasional restoran. Project ini mencakup sisi pelanggan untuk menjelajahi menu, menambahkan produk ke keranjang, melakukan checkout, hingga melihat riwayat dan memberikan review pesanan, serta panel admin untuk mengelola produk, kategori, meja, pesanan, dan pesan pelanggan.
 
 ## Tentang Project
 
-Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan operasional Toon Burger yang fokus pada:
+Project ini dikembangkan untuk mendukung operasional Toon Burger dengan fokus pada:
 
-- Pemesanan online
-- Pesanan takeaway dan delivery
-- Manajemen menu dan kategori
-- Panel admin untuk operasional kasir dan kitchen
+- Pemesanan online yang cepat dan responsif
+- Dukungan pemesanan takeaway, delivery, dan dine-in
+- Manajemen menu, kategori, dan ketersediaan produk
+- Panel admin untuk pemrosesan pesanan dan manajemen meja
 - Sistem review pelanggan
-- Integrasi redirect ke GoFood dan link outlet
+- Integrasi redirect ke GoFood dan WhatsApp resmi Toon Burger
+- Dukungan pengalihan bahasa (Indonesia / English) pada antarmuka pengguna
 
 ## Fitur Utama
 
 ### Untuk Pelanggan
 
-- Halaman utama dan katalog menu
-- Pencarian produk berdasarkan nama
-- Keranjang belanja dinamis
-- Penerapan kupon promo
+- Halaman utama, tentang kami (`/about`), dan kontak (`/contact`)
+- Katalog menu, detail produk, dan pencarian menu secara langsung (*live search*)
+- Keranjang belanja dinamis (memerlukan autentikasi untuk menambah item dan checkout)
 - Proses checkout dan pembuatan pesanan
-- Detail pesanan dan status order
-- Riwayat pesanan pelanggan
+- Detail pesanan, pembayaran, dan pemantauan status pesanan
+- Riwayat pesanan pelanggan (`/my-orders`)
 - Fitur review produk setelah pemesanan
+- Pengalihan bahasa antarmuka (ID / EN)
+- Pintasan redirect ke GoFood dan WhatsApp
 
 ### Untuk Admin / Staff
 
-- Dashboard admin
-- Manajemen produk
-- Manajemen kategori
-- Manajemen kupon dan promo
-- Manajemen meja restoran
-- Proses status pesanan
-- Panel POS untuk transaksi langsung
+- Dashboard admin dengan ringkasan operasional dan pencarian *live*
+- Manajemen pesanan dan pembaruan status pesanan
+- Manajemen produk (tambah, edit, hapus, dan toggle ketersediaan)
+- Manajemen kategori menu
+- Manajemen meja restoran dan status meja
+- Daftar pesan pelanggan
 - Manajemen profil admin
 
 ## Teknologi yang Digunakan
 
 - PHP 8.4+
-- Laravel 12
-- JavaScript
+- Laravel 12 (dengan Laravel Breeze & Socialite)
+- JavaScript & Alpine.js
 - Vite
 - Tailwind CSS
 - Composer
@@ -49,7 +50,7 @@ Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan oper
 
 ## Struktur Project
 
-```bash
+```text
 .
 ├── app/
 │   ├── Http/
@@ -60,6 +61,9 @@ Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan oper
 │   ├── migrations/
 │   └── seeders/
 ├── public/
+│   ├── css/
+│   ├── images/
+│   ├── js/
 ├── resources/
 │   ├── css/
 │   ├── js/
@@ -70,10 +74,7 @@ Project ini dikembangkan dengan konsep delivery dan takeaway, sesuai dengan oper
 ├── .env.example
 ├── composer.json
 ├── package.json
-├── vite.config.js
-├── artisan
-├── phpunit.xml
-└── README.md
+├── README.md
 ```
 
 ## Persyaratan Sistem
@@ -109,7 +110,11 @@ npm install
 4. Salin file environment
 
 ```bash
+# Windows (CMD / PowerShell)
 copy .env.example .env
+
+# Linux / macOS
+cp .env.example .env
 ```
 
 5. Generate application key
@@ -124,12 +129,12 @@ php artisan key:generate
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=toon_burger
+DB_DATABASE=kelompok5_toonburger
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-Atau jika menggunakan SQLite, sesuaikan konfigurasi database sesuai kebutuhan.
+Atau jika menggunakan SQLite, ubah `DB_CONNECTION=sqlite` dan sesuaikan konfigurasi database sesuai kebutuhan.
 
 7. Jalankan migrasi dan seeder
 
@@ -139,28 +144,37 @@ php artisan migrate --seed
 
 8. Jalankan aplikasi
 
-```bash
-php artisan serve
-```
-
-9. Jalankan frontend vite
-
-```bash
-npm run dev
-```
-
-Untuk mode development yang sudah terintegrasi, project juga menyediakan script:
+Untuk mode development terintegrasi (menjalankan server Laravel pada port `8008`, queue listener, log Pail, dan Vite secara bersamaan):
 
 ```bash
 composer run dev
 ```
 
+Atau jalankan secara terpisah:
+
+```bash
+php artisan serve
+npm run dev
+```
+
+## Akun Bawaan (Seeder)
+
+Setelah menjalankan `php artisan migrate --seed`, akun berikut tersedia untuk pengujian:
+
+| Role | Username | Email | Password |
+| --- | --- | --- | --- |
+| Admin | `admin` | `Toonburger@gmail.com` | `Password123` |
+| Customer | `customer` | `customer@toonburger.com` | `Password123` |
+
 ## Route Utama
 
 - `/` : halaman utama
 - `/menu` : katalog menu
+- `/product/{id}` : detail produk
 - `/about` : tentang Toon Burger
 - `/contact` : kontak dan lokasi
+- `/gofood` : redirect ke halaman GoFood Toon Burger
+- `/whatsapp` : redirect ke WhatsApp Toon Burger
 - `/cart` : keranjang belanja
 - `/checkout` : halaman checkout
 - `/my-orders` : daftar pesanan pelanggan
@@ -170,8 +184,14 @@ composer run dev
 - `/admin/orders` : manajemen pesanan
 - `/admin/products` : manajemen produk
 - `/admin/categories` : manajemen kategori
-- `/pos` : POS kasir
+- `/admin/tables` : manajemen meja restoran
+- `/admin/messages` : pesan pelanggan
+- `/admin/profile` : profil admin
+
+## Deployment (Docker & Railway)
+
+Repository ini sudah dilengkapi `Dockerfile`, `docker-entrypoint.sh`, dan `railway.json` menggunakan multi-stage build (Node 20 untuk build aset Vite dan PHP 8.4+ Apache untuk menjalankan aplikasi Laravel).
 
 ## Catatan Pengembangan
 
-Project ini masih dikembangkan untuk kebutuhan operasional bisnis Toon Burger, dengan fokus pada pengalaman pelanggan dan kemudahan proses admin. Fitur dapat terus dikembangkan sesuai kebutuhan seperti pembayaran digital, notifikasi WhatsApp, dashboard analitik, dan integrasi logistik.
+Project ini dikembangkan untuk kebutuhan operasional bisnis Toon Burger dengan fokus pada pengalaman pelanggan dan kemudahan pengelolaan oleh admin. Fitur dapat terus dikembangkan sesuai kebutuhan seperti integrasi pembayaran digital otomatis, notifikasi WhatsApp, dan dashboard analitik lanjutan.
