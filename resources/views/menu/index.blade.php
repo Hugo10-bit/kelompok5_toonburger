@@ -46,7 +46,7 @@
                     <!-- Left: Headline + Subtitle + Buttons -->
                     <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal">
                         <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
-                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
+                            style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                             MAU MAKAN<br>APA HARI INI?
                         </h1>
 
