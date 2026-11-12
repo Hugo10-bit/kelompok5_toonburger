@@ -25,15 +25,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/tailwind-login-config.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        /* Light mode login page background: #F1D9B3 */
+        html:not(.dark) body,
+        html:not(.dark) body.retro-grid-bg,
+        html:not(.dark) .retro-grid-bg {
+            background-color: #F1D9B3 !important;
+        }
+    </style>
 </head>
-<body class="h-full w-full retro-grid-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
+<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
       data-register-url="{{ route('register') }}"
       data-login-url="{{ route('login') }}"
       data-dashboard-url="{{ route('dashboard') }}"
       data-flash-success="{{ session('success') }}">
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
-    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full retro-grid-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
         <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
