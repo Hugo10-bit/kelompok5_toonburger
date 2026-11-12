@@ -47,28 +47,28 @@
 
                 <!-- Left Group: Navigasi -->
                 <div class="col-span-1 sm:col-span-3 lg:col-span-3">
-                    <h3 class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
+                    <h3 data-i18n-app="footer_nav" class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
                         NAVIGASI
                     </h3>
                     <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">
                         <li>
                             <a href="{{ route('home') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
-                                Beranda
+                                <span data-i18n-app="nav_home">Beranda</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('menu') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
-                                Menu
+                                <span data-i18n-app="nav_menu">Menu</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('about') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
-                                Tentang
+                                <span data-i18n-app="nav_about">Tentang</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('contact') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
-                                Kontak
+                                <span data-i18n-app="nav_contact">Kontak</span>
                             </a>
                         </li>
                     </ul>
@@ -137,7 +137,7 @@
 
                 <!-- Right Group: Jam Buka -->
                 <div class="col-span-2 sm:col-span-5 lg:col-span-5">
-                    <h3 class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
+                    <h3 data-i18n-app="footer_hours" class="text-base sm:text-[17px] font-bold text-[#EBD8A4] uppercase tracking-wider mb-4 sm:mb-5">
                         JAM BUKA
                     </h3>
                     <div class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">

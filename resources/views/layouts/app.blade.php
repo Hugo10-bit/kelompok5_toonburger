@@ -70,11 +70,11 @@
                 </svg>
             </div>
 
-            <h3 class="text-2xl sm:text-[27px] font-bold text-[#2D3139] tracking-tight mb-2.5">
+            <h3 data-i18n-app="logout_title" class="text-2xl sm:text-[27px] font-bold text-[#2D3139] tracking-tight mb-2.5">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-[#555C68] text-sm sm:text-[14px] leading-relaxed max-w-xs mx-auto mb-7 font-normal">
+            <p data-i18n-app="logout_desc" class="text-[#555C68] text-sm sm:text-[14px] leading-relaxed max-w-xs mx-auto mb-7 font-normal">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
@@ -82,13 +82,13 @@
                 <button type="button"
                         onclick="closeLogoutModal()"
                         class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] focus:outline-none cursor-pointer">
-                    Batalkan
+                    <span data-i18n-app="logout_cancel">Batalkan</span>
                 </button>
                 <button type="button"
                         id="modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
                         class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
-                    Ya, Logout
+                    <span data-i18n-app="logout_confirm">Ya, Logout</span>
                 </button>
             </div>
         </div>
@@ -120,22 +120,22 @@
                     <a href="{{ route('home') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('home', 'welcome') || request()->is('/') || request()->is('home') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        Beranda
+                        <span data-i18n-app="nav_home">Beranda</span>
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('menu*') || request()->is('menu*') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        Menu
+                        <span data-i18n-app="nav_menu">Menu</span>
                     </a>
                     <a href="{{ route('about') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('about') || request()->is('about') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        Tentang
+                        <span data-i18n-app="nav_about">Tentang</span>
                     </a>
                     <a href="{{ route('contact') }}" data-page-transition
                        class="px-4 py-1.5 rounded-full transition text-sm font-bold
                               {{ request()->routeIs('contact') || request()->is('contact') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
-                        Kontak
+                        <span data-i18n-app="nav_contact">Kontak</span>
                     </a>
                 </nav>
 
@@ -149,6 +149,7 @@
                                name="q"
                                id="home-navbar-search"
                                placeholder="Cheese Burger..."
+                               data-i18n-app-attr="placeholder:nav_search_placeholder"
                                autocomplete="off"
                                class="bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
                         <button type="button"
@@ -169,7 +170,7 @@
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            Mencari menu...
+                            <span data-i18n-app="nav_search_searching">Mencari menu...</span>
                         </div>
                         <div id="home-search-content"></div>
                     </div>
@@ -249,18 +250,33 @@
                                 <div class="space-y-1 text-xs font-medium text-gray-700">
                                     <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
                                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                                        <span>Pesanan Saya</span>
+                                        <span data-i18n-app="nav_orders">Pesanan Saya</span>
                                     </a>
+
+                                    <!-- Switch Language Button in Account Menu -->
+                                    <button type="button" onclick="toggleAppLanguage()" class="w-full flex items-center justify-between px-3 py-2 rounded-xl hover:bg-gray-100 transition text-left cursor-pointer">
+                                        <div class="flex items-center gap-2.5">
+                                            <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                                            </svg>
+                                            <span id="app-user-lang-text" class="text-gray-700 font-medium">Bahasa: Indonesia</span>
+                                        </div>
+                                        <span id="app-user-lang-badge" class="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-[#E8F8F0] text-[#10B981] flex items-center gap-1">
+                                            <span id="app-user-lang-flag">🇮🇩</span>
+                                            <span id="app-user-lang-code">ID</span>
+                                        </span>
+                                    </button>
+
                                     @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
                                         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-semibold">
                                             <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                                            <span>Dashboard Admin</span>
+                                            <span data-i18n-app="nav_admin">Dashboard Admin</span>
                                         </a>
                                     @endif
                                     <div class="border-t border-gray-100 mt-2 pt-2">
                                         <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
                                             <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                            <span>Logout</span>
+                                            <span data-i18n-app="nav_logout">Logout</span>
                                         </button>
                                     </div>
                                 </div>
@@ -269,10 +285,10 @@
                     @else
                         <div class="hidden sm:flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
                             <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
-                                Login
+                                <span data-i18n-app="nav_login">Login</span>
                             </a>
                             <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-bold px-4 py-1.5 rounded-xl transition shadow-xs">
-                                Sign In
+                                <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
                         </div>
                     @endauth
@@ -302,6 +318,7 @@
                             <input type="text"
                                    name="q"
                                    placeholder="Cheese Burger..."
+                                   data-i18n-app-attr="placeholder:nav_search_placeholder"
                                    class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
                         </form>
                     </div>
@@ -309,41 +326,55 @@
                     <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
                                         {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        Beranda
+                        <span data-i18n-app="nav_home">Beranda</span>
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
                                         {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        Menu
+                        <span data-i18n-app="nav_menu">Menu</span>
                     </a>
                     <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
                                         {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        Tentang
+                        <span data-i18n-app="nav_about">Tentang</span>
                     </a>
                     <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
                        class="block px-4 py-2 rounded-xl transition
                                         {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        Kontak
+                        <span data-i18n-app="nav_contact">Kontak</span>
                     </a>
                     @auth
                         <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
                                     class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
-                            Pesanan Saya
+                            <span data-i18n-app="nav_orders">Pesanan Saya</span>
                         </a>
+                        <!-- Switch Language Button in Mobile Menu -->
+                        <button type="button" onclick="toggleAppLanguage()"
+                                class="w-full flex items-center justify-between px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition text-left cursor-pointer">
+                            <div class="flex items-center gap-2.5">
+                                <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                                </svg>
+                                <span id="app-mobile-user-lang-text" class="text-xs font-semibold">Bahasa: Indonesia</span>
+                            </div>
+                            <span id="app-mobile-user-lang-badge" class="px-2 py-0.5 rounded-md text-[10.5px] font-bold bg-[#E8F8F0] text-[#10B981] flex items-center gap-1">
+                                <span id="app-mobile-user-lang-flag">🇮🇩</span>
+                                <span id="app-mobile-user-lang-code">ID</span>
+                            </span>
+                        </button>
                         <button type="button" onclick="confirmLogout(event)"
                             class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold">
-                            Logout
+                            <span data-i18n-app="nav_logout">Logout</span>
                         </button>
                     @else
                         <div class="pt-2.5 mt-2 border-t border-gray-100 flex items-center gap-2">
                             <a href="{{ route('login') }}" onclick="toggleMobileNav()"
                                class="flex-1 text-center py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-bold transition">
-                                Login
+                                <span data-i18n-app="nav_login">Login</span>
                             </a>
                             <a href="{{ route('register') }}" onclick="toggleMobileNav()"
                                class="flex-1 text-center py-2.5 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-bold transition shadow-xs">
-                                Sign In
+                                <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
                         </div>
                     @endauth
@@ -422,7 +453,7 @@
 
         <!-- Cart Header (Fixed Top) -->
         <div class="px-6 py-5 bg-white border-b border-[#E5E7EB] flex-shrink-0">
-            <h3 class="font-semibold text-[#2E3137] text-[18px] leading-snug">Keranjang Pesanan</h3>
+            <h3 data-i18n-app="cart_title" class="font-semibold text-[#2E3137] text-[18px] leading-snug">Keranjang Pesanan</h3>
             <p class="text-[13px] text-[#737373] mt-1 font-normal" id="cart-items-count-text">{{ $initialCartCount }} Menu Dipilih</p>
         </div>
 
@@ -432,17 +463,17 @@
                 <img src="{{ asset('images/empty-cart.png') }}"
                      alt="Keranjang Kosong"
                      class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
-                <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
+                <h4 data-i18n-app="cart_empty_title" class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
                     Keranjangmu masih kosong nih
                 </h4>
                 <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
-                    <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
-                    <span class="block">perut kosongmu hari ini</span>
+                    <span data-i18n-app="cart_empty_sub1" class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
+                    <span data-i18n-app="cart_empty_sub2" class="block">perut kosongmu hari ini</span>
                 </p>
                 <button type="button"
                         onclick="startOrderFromCart()"
                         class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
-                    Mulai Pesan Sekarang
+                    <span data-i18n-app="cart_empty_btn">Mulai Pesan Sekarang</span>
                 </button>
             </div>
         </div>
@@ -452,19 +483,19 @@
             <!-- Price Breakdown (Fixed) -->
             <div id="cart-summary-section" class="bg-[#F4F5F7] rounded-[14px] px-4 py-3.5 space-y-2 text-[12px] text-[#6A6F77]">
                 <div class="flex items-center justify-between">
-                    <span>Subtotal Menu:</span>
+                    <span data-i18n-app="cart_subtotal">Subtotal Menu:</span>
                     <span id="cart-subtotal" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
                 <div id="cart-discount-row" class="hidden items-center justify-between text-[#13653F]">
-                    <span>Diskon Promo:</span>
+                    <span data-i18n-app="cart_discount">Diskon Promo:</span>
                     <span id="cart-discount" class="font-medium">- Rp 0</span>
                 </div>
                 <div class="flex items-center justify-between">
-                    <span>Pajak PPN (11%)</span>
+                    <span data-i18n-app="cart_tax">Pajak PPN (11%)</span>
                     <span id="cart-tax" class="font-medium text-[#52565E]">Rp 0</span>
                 </div>
                 <div class="flex items-center justify-between text-[12.5px] font-semibold text-[#2E3137] pt-2.5 mt-1 border-t border-[#E5E7EB]">
-                    <span>Total Tagihan:</span>
+                    <span data-i18n-app="cart_total">Total Tagihan:</span>
                     <span id="cart-total" class="font-semibold text-[#2E3137]">Rp 0</span>
                 </div>
             </div>
@@ -475,7 +506,7 @@
                    id="checkout-btn"
                    @guest onclick="event.preventDefault(); promptRequireLogin('Wajib login terlebih dahulu untuk checkout pesanan.');" @endguest
                    class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
-                    Lanjutkan Ke pembayaran
+                    <span data-i18n-app="cart_checkout">Lanjutkan Ke pembayaran</span>
                 </a>
             </div>
         </div>
@@ -538,12 +569,13 @@
 
                         <!-- Order Notes Field -->
                         <div class="mt-4">
-                            <label for="modal-notes" class="block text-xs font-bold text-[#2D3B36] mb-1.5">
+                            <label for="modal-notes" data-i18n-app="modal_notes_label" class="block text-xs font-bold text-[#2D3B36] mb-1.5">
                                 Catatan Pesanan
                             </label>
                             <textarea id="modal-notes"
                                       rows="2"
                                       placeholder="Contoh: saus dipisah, tanpa selada..."
+                                      data-i18n-app-attr="placeholder:modal_notes_placeholder"
                                       class="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-[13px] text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-[#385850] focus:ring-1 focus:ring-[#385850] resize-none transition leading-relaxed"></textarea>
                         </div>
                     </div>
@@ -568,7 +600,7 @@
                                 id="modal-submit-btn"
                                 onclick="submitAddToCart()"
                                 class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-bold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
-                            <span>Tambahkan ke keranjang</span>
+                            <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
                             <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
                                 <path d="M3 6h18"/>
@@ -622,7 +654,8 @@
         let currentModalProduct = null;
 
         function formatRupiah(num) {
-            return 'Rp ' + Number(num).toLocaleString('id-ID');
+            const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
+            return (isEn ? 'IDR ' : 'Rp ') + Number(num).toLocaleString(isEn ? 'en-US' : 'id-ID');
         }
 
         function openCartDrawer() {
@@ -703,7 +736,9 @@
 
             if (badge) badge.innerText = cart.item_count || 0;
             if (mobileDockBadge) mobileDockBadge.innerText = cart.item_count || 0;
-            countText.innerText = `${cart.item_count || 0} Menu Dipilih`;
+            const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
+            const suffix = isEn ? 'Items Selected' : 'Menu Dipilih';
+            countText.innerText = `${cart.item_count || 0} ${suffix}`;
 
             document.getElementById('cart-subtotal').innerText = formatRupiah(cart.subtotal);
             document.getElementById('cart-discount').innerText = '- ' + formatRupiah(cart.discount);
@@ -725,22 +760,27 @@
 
             if (!cart.items || cart.items.length === 0) {
                 container.classList.remove('max-h-[348px]');
+                const emptyTitle = isEn ? 'Your cart is still empty' : 'Keranjangmu masih kosong nih';
+                const emptySub1 = isEn ? 'Go ahead, pick your favorite burger and satisfy' : 'Yuk, pilih burger favoritmu dan mulai ngisi';
+                const emptySub2 = isEn ? 'your cravings today' : 'perut kosongmu hari ini';
+                const emptyBtn = isEn ? 'Start Ordering Now' : 'Mulai Pesan Sekarang';
+
                 container.innerHTML = `
                     <div class="py-7 px-4 flex flex-col items-center text-center">
                         <img src="{{ asset('images/empty-cart.png') }}"
-                             alt="Keranjang Kosong"
+                             alt="${emptyTitle}"
                              class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
                         <h4 class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
-                            Keranjangmu masih kosong nih
+                            ${emptyTitle}
                         </h4>
                         <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
-                            <span class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
-                            <span class="block">perut kosongmu hari ini</span>
+                            <span class="block sm:whitespace-nowrap">${emptySub1}</span>
+                            <span class="block">${emptySub2}</span>
                         </p>
                         <button type="button"
                                 onclick="startOrderFromCart()"
                                 class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
-                            Mulai Pesan Sekarang
+                            ${emptyBtn}
                         </button>
                     </div>`;
                 if (fixedFooter) fixedFooter.classList.add('hidden');
@@ -812,7 +852,11 @@
                 document.getElementById('modal-product-id').value = currentModalProduct.id;
                 document.getElementById('modal-product-name').innerText = (currentModalProduct.name || '').toUpperCase();
                 document.getElementById('modal-product-badge').innerText = (currentModalProduct.badge || 'BURGER').toUpperCase();
-                document.getElementById('modal-product-desc').innerText = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
+                let modalDesc = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
+                if ((window._tbAppLang === 'EN' || window._tbAppLang === 'US') && typeof _tbPhraseMap !== 'undefined' && _tbPhraseMap[modalDesc]) {
+                    modalDesc = _tbPhraseMap[modalDesc];
+                }
+                document.getElementById('modal-product-desc').innerText = modalDesc;
                 document.getElementById('modal-product-price').innerText = (currentModalProduct.formatted_price || formatRupiah(currentModalProduct.price)).toUpperCase();
                 document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
 
@@ -868,6 +912,9 @@
                 }
 
                 recalculateModalPrice();
+                if (typeof window.applyAppTranslations === 'function' && (window._tbAppLang === 'EN' || window._tbAppLang === 'US')) {
+                    window.applyAppTranslations('EN');
+                }
                 document.getElementById('product-modal').classList.remove('hidden');
                 document.getElementById('product-modal-backdrop').classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
@@ -1116,6 +1163,16 @@
         }
 
         function showCartToast(message) {
+            const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
+            let displayMessage = message;
+            if (isEn && typeof message === 'string') {
+                if (message.includes('berhasil ditambahkan ke keranjang!')) {
+                    displayMessage = message.replace('berhasil ditambahkan ke keranjang!', 'successfully added to cart!');
+                } else if (message.includes('Gagal menambahkan ke keranjang.')) {
+                    displayMessage = 'Failed to add item to cart.';
+                }
+            }
+
             let toast = document.getElementById('cart-toast-notification');
             if (!toast) {
                 toast = document.createElement('div');
@@ -1128,15 +1185,18 @@
                         </svg>
                     </div>
                     <div class="text-xs font-semibold text-gray-800" id="cart-toast-text"></div>
-                    <button type="button" onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-black px-2.5 py-1 rounded-xl transition cursor-pointer">
-                        Buka
+                    <button type="button" id="cart-toast-btn" onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-black px-2.5 py-1 rounded-xl transition cursor-pointer">
+                        ${isEn ? 'View' : 'Buka'}
                     </button>
                 `;
                 document.body.appendChild(toast);
+            } else {
+                const toastBtn = document.getElementById('cart-toast-btn');
+                if (toastBtn) toastBtn.textContent = isEn ? 'View' : 'Buka';
             }
 
             const textElem = document.getElementById('cart-toast-text');
-            if (textElem) textElem.innerText = message;
+            if (textElem) textElem.innerText = displayMessage;
             toast.classList.remove('translate-y-20', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
 
@@ -1229,12 +1289,13 @@
             } catch (e) {}
             closeLogoutModal();
 
+            const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
             const form = document.getElementById('global-logout-form');
             if (typeof Swal !== 'undefined') {
                 let timerInterval;
                 Swal.fire({
-                    title: 'Logout Berhasil',
-                    html: 'Sedang keluar dari akun dalam <b></b> detik... Sampai jumpa!',
+                    title: isEn ? 'Logout Successful' : 'Logout Berhasil',
+                    html: isEn ? 'Logging out in <b></b> seconds... See you soon!' : 'Sedang keluar dari akun dalam <b></b> detik... Sampai jumpa!',
                     icon: 'success',
                     timer: 1500,
                     timerProgressBar: true,
@@ -1780,6 +1841,12 @@
                 if (typeof window.initAutoDismissAlerts === 'function') {
                     window.initAutoDismissAlerts();
                 }
+                if (typeof window.applyAppTranslations === 'function') {
+                    const activeLang = window._tbAppLang || localStorage.getItem('tb_lang') || 'ID';
+                    if (activeLang === 'EN' || activeLang === 'US') {
+                        window.applyAppTranslations('EN');
+                    }
+                }
                 return true;
             }
 
@@ -1903,6 +1970,539 @@
             });
         })();
 
+        // ==========================================
+        // App Master Translation (i18n) Engine
+        // ==========================================
+        const _tbPhraseMap = {
+            // Brand & Hero
+            'SETIAP GIGITAN PUNYA CERITA!': 'EVERY BITE HAS A STORY!',
+            'SETIAP GIGITAN': 'EVERY BITE',
+            'PUNYA CERITA!': 'HAS A STORY!',
+            'MAU MAKAN APA HARI INI?': 'WHAT WOULD YOU LIKE TO EAT TODAY?',
+            'MAU MAKAN': 'WHAT WOULD YOU LIKE',
+            'APA HARI INI?': 'TO EAT TODAY?',
+            'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.': 'Enjoy the blend of flavors, textures, and premium ingredients in every dish.',
+            'Pickup Order': 'Pickup Order',
+            'Delivery Order': 'Delivery Order',
+            'VERY CHEESE BURGER': 'VERY CHEESE BURGER',
+
+            // Navigation
+            'Beranda': 'Home',
+            'Menu': 'Menu',
+            'Tentang': 'About',
+            'Kontak': 'Contact',
+            'Pesanan Saya': 'My Orders',
+            'Dashboard Admin': 'Admin Dashboard',
+            'Logout': 'Logout',
+            'Login': 'Login',
+            'Sign In': 'Sign Up',
+            'Cheese Burger...': 'Cheese Burger...',
+            'Mencari menu...': 'Searching menu...',
+            'Kembali ke atas': 'Back to top',
+
+            // Why Us Section
+            'Keunggulan Kami': 'Our Advantages',
+            'KENAPA TOON BURGER?': 'WHY TOON BURGER?',
+            'Nikmati sensasi kelezatan burger terbaik dengan daging pilihan dan bahan segar yang siap memuaskan rasa lapar Anda kapan saja.': 'Enjoy the finest burger sensation crafted with selected meats and fresh ingredients, ready to satisfy your hunger anytime.',
+            'Terbuat dari 100% Daging': 'Made from 100% Meat',
+            'Nikmati patty berkualitas yang dibuat dari 100% daging pilihan.': 'Enjoy quality patties made from 100% selected beef.',
+            'Bahan Segar Setiap Hari': 'Fresh Ingredients Daily',
+            'Selalu fresh setiap hari, karena rasa terbaik dimulai dari bahan berkualitas.': 'Always fresh every single day, because the best flavor begins with quality ingredients.',
+            'Pesanan Cepat': 'Fast Service',
+            'Disiapkan dengan cepat tanpa mengorbankan kualitas dan cita rasa.': 'Prepared quickly without ever compromising quality and flavor.',
+            'Porsi Bikin Kenyang': 'Satisfying Portions',
+            'Porsi pas dan mengenyangkan, cocok untuk menemani rasa lapar kapan saja.': 'Generous and filling portions, perfect for satisfying your hunger anytime.',
+
+            // Best Seller Section & Home Page
+            'BEST SELLER': 'BEST SELLERS',
+            'SEMUA MENU': 'ALL MENUS',
+            'Semua Menu': 'All Menus',
+            'Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.': 'A customer favorite, now it is time for you to try our most ordered burgers.',
+            'Lihat Semua': 'View All',
+            'Lihat Semua Menu': 'View All Menus',
+            'Menu Tidak Ditemukan': 'Menu Not Found',
+            'Menu yang Anda cari tidak tersedia. Silakan cek menu favorit lainnya.': 'The menu item you are looking for is not available. Please check our other favorites.',
+            'Pesan': 'Order',
+            'Semua': 'All',
+            'Minuman': 'Drinks',
+            'Pilihan terbaik dari Toon Burger.': 'The finest choice from Toon Burger.',
+            'Deskripsi menu lezat dari Toon Burger.': 'Delicious menu description from Toon Burger.',
+            'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...': 'Two layers of juicy beef patties, double melted cheddar, caramelized onions, and...',
+            'Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat...': 'Crispy juicy chicken breast paired with melted cheddar, fresh lettuce, and tomato...',
+            'Beef patty daging sapi asli gurih berselimut saus smokey BBQ karamel...': 'Savory real beef patty coated in rich caramelized smokey BBQ sauce...',
+            'Dua patty daging sapi panggang juicy dengan limpahan keju cheddar ganda...': 'Two juicy grilled beef patties with overflowing double cheddar cheese...',
+
+            // Home Banners
+            'NGGAK SEMPAT  KE TOKO? GOFOOD AJA!': 'NO TIME TO VISIT? ORDER ON GOFOOD!',
+            'NGGAK SEMPAT KE TOKO? GOFOOD AJA!': 'NO TIME TO VISIT? ORDER ON GOFOOD!',
+            'Burger favoritmu diantar langsung ke rumah, langsung dari aplikasi Gojek': 'Your favorite burger delivered straight to your home, directly from the Gojek app',
+            'Buka Gojek': 'Open Gojek',
+            'Buka GoFood': 'Open GoFood',
+            'MENGENAL TOON BURGER': 'ABOUT TOON BURGER',
+            'MENGENAL TOON': 'ABOUT TOON',
+            'Berawal dari kecintaan kami terhadap burger bergaya klasik Amerika dengan daging beraroma asap yang gurih dan roti brioche harum mentega, Toon Burger hadir membawa nuansa karakter kartun retro yang': 'Born from our love for classic American-style burgers with savory smoky meats and buttery brioche buns, Toon Burger brings a vibrant retro cartoon spirit that is',
+            'enerjik, ceria, dan bersahabat bagi siapa saja.': 'energetic, cheerful, and welcoming to everyone.',
+            'Setiap patty daging sapi digiling dari potongan daging segar berkualitas pilihan, saus diracik segar setiap pagi di dapur restoran, dan kebersihan adalah standar utama kami.': 'Every beef patty is ground from select quality cuts, sauces are prepared fresh every morning in our kitchen, and cleanliness is our highest standard.',
+            'Selengkapnya Tentang Kami': 'Learn More About Us',
+            'ADA YANG MAU DITANYAIN?': 'HAVE ANY QUESTIONS?',
+            'Ada pertanyaan soal menu, lokasi, atau jam buka? Kami siap membantu.': 'Have questions about our menu, location, or opening hours? We are ready to help.',
+            'Kontak Kami': 'Contact Us',
+
+            // About Page
+            'TENTANG TOON BURGER': 'ABOUT TOON BURGER',
+            'Toon Burger lahir dari mimpi sederhana: menciptakan burger yang tidak hanya mengenyangkan perut, tetapi juga menghadirkan kebahagiaan sejati seperti saat menonton kartun favorit di masa kecil.': 'Toon Burger was born from a simple dream: creating burgers that not only satisfy hunger, but also bring genuine joy just like watching your favorite childhood cartoons.',
+            'Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan': 'Many modern burgers have lost their soul, with dry patties, overly sweet buns, or mass-produced instant sauces. At Toon Burger, we take a different path: we use',
+            '100% daging sapi lokal pilihan': '100% selected local beef',
+            'tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus khas dapur kami dari nol.': 'with zero flour fillers, bake soft buttery brioche buns fresh every morning, and craft our signature sauces from scratch.',
+            'Burger Terjual & Ludes': 'Burgers Sold Out',
+            'Terbuat dari daging asli': 'Made from 100% Real Meat',
+            'Kepuasan Pelanggan': 'Customer Satisfaction',
+            'Rating pelanggan di Gofood': 'Customer Rating on GoFood',
+            'Visi dan Misi': 'Vision and Mission',
+            'Visi Kami': 'Our Vision',
+            'Misi Kami': 'Our Mission',
+            'VISI KAMI': 'OUR VISION',
+            'MISI KAMI': 'OUR MISSION',
+            'FILOSOFI KAMI': 'OUR PHILOSOPHY',
+            'Filosofi Kami': 'Our Philosophy',
+            'KENAPA HARUS TOON BURGER?': 'WHY CHOOSE TOON BURGER?',
+            'Komitmen Kualitas': 'Quality Commitment',
+            'Karakter & Cita Rasa Otentik': 'Authentic Character & Flavor',
+            'Pelayanan Penuh Senyuman': 'Service with a Smile',
+            'KATA MEREKA YANG UDAH NYOBA!': 'WHAT OUR CUSTOMERS SAY!',
+            'Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.': 'Because great taste never lies, see what our satisfied customers have to say about our signature burgers.',
+            'Menjadi destinasi burger lokal kebanggaan Banjarbaru yang menyajikan rasa daging sapi asli, roti brioche panggang segar, dan saus racikan dapur sendiri dalam setiap porsi yang jujur dan mengenyangkan.': "To become Banjarbaru's pride local burger destination, serving authentic beef flavors, freshly baked brioche buns, and house-made sauces in every honest, satisfying portion.",
+            'Menggiling 100% daging sapi pilihan tanpa campuran tepung setiap hari, memanggang burger saat pesanan masuk agar tiba tetap hangat, serta menjaga standar dapur halal dan bersih untuk setiap pelanggan.': 'Grinding 100% select beef with zero flour fillers every single day, grilling burgers freshly upon order to serve hot, and upholding strict halal and clean kitchen standards for every customer.',
+
+            // Contact Page
+            'TEMUKAN LOKASI OUTLET KAMI!': 'FIND OUR OUTLET LOCATION!',
+            'Kami hadir lebih dekat dengan Anda. Mampir dan nikmati pengalaman terbaik bersama kami!': 'We are closer to you. Drop by and enjoy the best dining experience with us!',
+            'Kami hadir lebih dekat dengan Anda. Mampir dan nikmati pengalaman': 'We are closer to you. Drop by and enjoy the best experience',
+            'terbaik bersama kami!': 'with us!',
+            'Peta Jalan': 'Road Map',
+            'Satelit Google': 'Google Satellite',
+            'PERTANYAAN YANG SERING DITANYAKAN': 'FREQUENTLY ASKED QUESTIONS',
+            'PERTANYAAN YANG': 'FREQUENTLY',
+            'SERING DITANYAKAN': 'ASKED QUESTIONS',
+            'Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.': 'Still have questions before ordering? Find all the answers right here.',
+            'Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?': 'Can I change or cancel an order that has already been paid?',
+            'Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.': 'Because our kitchen team starts grilling burgers immediately upon receiving an order, cancellations cannot be made once cooking starts. For urgent changes, please contact our admin immediately via WhatsApp.',
+            'Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?': 'Can I customize my order, e.g. no pickles/onions or extra cheese?',
+            'Tentu bisa! Saat memilih menu di halaman katalog, Anda dapat menyesuaikan tambahan topping seperti ekstra keju atau menuliskan catatan khusus untuk koki sebelum memasukkan menu ke keranjang.': 'Of course! When choosing a menu item in the catalog, you can customize extra toppings or write special notes for the chef before adding to your cart.',
+            'Apakah Toon Burger melayani pesan antar langsung lewat website ini?': 'Does Toon Burger offer direct delivery orders through this website?',
+            'Ya! Kami melayani pesan antar langsung melalui website ini untuk area Banjarbaru dan sekitarnya, maupun pemesanan untuk diambil sendiri di outlet (Takeaway).': 'Yes! We serve direct delivery through this website for Banjarbaru and surrounding areas, as well as takeaway pickup at our outlet.',
+            'Bagaimana jika saya terlambat mengambil pesanan di outlet?': 'What if I am late picking up my order at the outlet?',
+            'Pesanan Anda akan kami jaga tetap hangat menggunakan kemasan khusus. Apabila Anda mengalami kendala di perjalanan, silakan konfirmasi melalui WhatsApp agar tim outlet kami dapat membantu menyimpan pesanan Anda.': 'Your order will be kept warm in special insulated packaging. If you encounter travel delays, please notify us via WhatsApp so our team can hold your order safely.',
+            'LET\'S GET IN TOUCH WITH US!': 'LET\'S GET IN TOUCH WITH US!',
+            'LET\'S GET IN TOUCH': 'LET\'S GET IN TOUCH',
+            'WITH US!': 'WITH US!',
+            'Nama Lengkap': 'Full Name',
+            'Nama Lengkap Anda': 'Your Full Name',
+            'Nomor Telefon': 'Phone Number',
+            'Pesan': 'Message',
+            'Tulis Pesan Anda Disini....': 'Write your message here...',
+            'Kirim Pesan': 'Send Message',
+            'Pesan Terkirim!': 'Message Sent!',
+            'Terima kasih! Pesan Anda telah kami terima dan akan segera direspons oleh tim Toon Burger.': 'Thank you! Your message has been received and will be responded to shortly by the Toon Burger team.',
+
+            // Orders & Checkout
+            'Riwayat Pesanan': 'Order History',
+            'Riwayat Pesanan Saya': 'My Order History',
+            'Daftar semua transaksi dan pesanan yang pernah Anda buat di Toon Burger.': 'List of all transactions and orders you have made at Toon Burger.',
+            '+ Pesan Baru': '+ New Order',
+            '[Belum Ada Data]': '[No Data Yet]',
+            'Belum ada riwayat pesanan': 'No order history yet',
+            'Anda belum pernah melakukan pemesanan burger.': 'You have not placed any burger orders yet.',
+            'Mulai Pesan Sekarang': 'Start Ordering Now',
+            'Lihat Detail →': 'View Details →',
+            'Lihat Detail': 'View Details',
+            'Tipe:': 'Type:',
+            'Pembayaran:': 'Payment:',
+            'Menu:': 'Items:',
+            'Item': 'Items',
+            'Checkout Pesanan': 'Order Checkout',
+            'Kembali ke Katalog Menu': 'Back to Menu Catalog',
+            'Konfirmasi & Pembayaran': 'Confirmation & Payment',
+            'Lengkapi detail pemesanan dan pilih metode pembayaran favorit Anda.': 'Complete your order details and choose your preferred payment method.',
+            'Pilih Tipe Pesanan': 'Select Order Type',
+            'Takeaway (Bawa Pulang)': 'Takeaway (Pickup)',
+            'Ambil pesanan di outlet Banjarbaru': 'Pick up order at Banjarbaru outlet',
+            'Online Delivery': 'Online Delivery',
+            'Diantar kurir langsung ke alamat Anda': 'Delivered directly by courier to your address',
+            'Alamat Lengkap Pengiriman:': 'Complete Delivery Address:',
+            'Nama Jalan, No. Rumah, RT/RW, Patokan...': 'Street Name, House No., RT/RW, Landmarks...',
+            'Mau promo ongkir hemat? Anda juga bisa pesan antar via GoFood Toon Burger (Super Partner).': 'Looking for delivery discounts? You can also order delivery via GoFood Toon Burger (Super Partner).',
+            'Outlet Toon Burger berkonsep Cloud Kitchen & Takeaway Hub. Kami hanya melayani Takeaway dan Delivery (tidak tersedia makan di tempat).': 'Toon Burger operates on a Cloud Kitchen & Takeaway Hub concept. We only serve Takeaway and Delivery (dine-in not available).',
+            'Informasi Pemesan': 'Customer Information',
+            'Nama Pemesan:': 'Customer Name:',
+            'Nama Pemesan': 'Customer Name',
+            'No. WhatsApp / Telepon:': 'WhatsApp / Phone Number:',
+            'No. Telepon': 'Phone Number',
+            'Catatan Tambahan untuk Pesanan (Opsional):': 'Additional Order Notes (Optional):',
+            'Contoh: Budi Santoso': 'e.g. John Doe',
+            'Contoh: 0813-4595-6487': 'e.g. 0813-4595-6487',
+            'Contoh: Tolong bungkus terpisah, extra saus sambal...': 'e.g. Please wrap separately, extra chili sauce...',
+            'Metode Pembayaran': 'Payment Method',
+            'QRIS Instant': 'Instant QRIS',
+            'Otomatis': 'Automatic',
+            'Tunai di Kasir': 'Cash at Counter',
+            'Bayar langsung saat pesanan disiapkan': 'Pay in person while order is prepared',
+            'Transfer Bank': 'Bank Transfer',
+            'BCA / Mandiri Virtual Account': 'BCA / Mandiri Virtual Account',
+            'E-Wallet': 'E-Wallet',
+            'Direct wallet checkout': 'Direct wallet checkout',
+            'Ringkasan Pesanan': 'Order Summary',
+            'Subtotal Menu:': 'Menu Subtotal:',
+            'Pajak Restoran PB1 (10%):': 'Restaurant Tax PB1 (10%):',
+            'Total Tagihan:': 'Total Bill:',
+            'Bayar Sekarang': 'Pay Now',
+            'Buat Pesanan Sekarang': 'Place Order Now',
+            'Pesanan Anda langsung diteruskan ke sistem dapur Toon Burger.': 'Your order is directly forwarded to the Toon Burger kitchen system.',
+            'Status & Bukti Pesanan': 'Order Status & Receipt',
+            'Cetak Struk': 'Print Receipt',
+            '+ Pesan Lagi': '+ Order Again',
+            'Status Dapur': 'Kitchen Status',
+            'Menunggu Konfirmasi Dapur': 'Waiting for Kitchen Confirmation',
+            'Pesanan Telah Dikonfirmasi': 'Order Confirmed',
+            'Koki Sedang Memasak Pesanan Anda': 'Chef is Cooking Your Order',
+            'Pesanan Siap Diambil / Diantar': 'Order Ready for Pickup / Delivery',
+            'Pesanan Selesai': 'Order Completed',
+            'Pesanan Dibatalkan': 'Order Cancelled',
+            'Status Pembayaran': 'Payment Status',
+            'LUNAS': 'PAID',
+            'BELUM DIBAYAR': 'UNPAID',
+            'Menunggu': 'Pending',
+            'Dikonfirmasi': 'Confirmed',
+            'Dimasak': 'Cooking',
+            'Siap Saji': 'Ready',
+            'Selesai': 'Completed',
+            'Dibatalkan': 'Cancelled',
+            'Pembayaran Diperlukan': 'Payment Required',
+            'Tampilkan Kode QRIS': 'Show QRIS Code',
+            'Bayar Sekarang (Simulasi Lunas)': 'Pay Now (Simulate Paid)',
+            'Tipe Pesanan': 'Order Type',
+            'Alamat Pengiriman:': 'Delivery Address:',
+            'Rincian Menu yang Dipesan': 'Ordered Menu Details',
+            'Beri Ulasan Menu Ini': 'Review This Item',
+            'Beri Ulasan Menu': 'Review Menu Item',
+            'Nama Menu': 'Menu Name',
+            'Rating Penilaian (1 - 5):': 'Rating (1 - 5):',
+            'Bintang 5 (Sangat Enak & Puas)': '5 Stars (Delicious & Very Satisfied)',
+            'Bintang 4 (Enak & Sesuai)': '4 Stars (Tasty & Good)',
+            'Bintang 3 (Cukup Baik)': '3 Stars (Fair & Acceptable)',
+            'Bintang 2 (Kurang Sesuai)': '2 Stars (Needs Improvement)',
+            'Bintang 1 (Mengecewakan)': '1 Star (Disappointing)',
+            'Komentar & Saran:': 'Comments & Feedback:',
+            'Ceritakan rasa burger atau kemasan Toon Burger...': 'Tell us about the burger taste or Toon Burger packaging...',
+            'Kirim Ulasan': 'Submit Review',
+            'Pembayaran QRIS': 'QRIS Payment',
+            'Sisa Waktu Pembayaran:': 'Remaining Payment Time:',
+            'Waktu Pembayaran Habis': 'Payment Time Expired',
+            'Sesi pembayaran QRIS 5 menit telah berakhir.': 'The 5-minute QRIS payment session has expired.',
+            'Muat Ulang Timer': 'Restart Timer',
+            'Total yang harus dibayar:': 'Total amount to pay:',
+            'Buka aplikasi m-Banking (BCA, Mandiri, BRI, BNI) atau E-Wallet (GoPay, OVO, Dana, ShopeePay), lalu scan barcode QRIS di atas.': 'Open your m-Banking app (BCA, Mandiri, BRI, BNI) or E-Wallet (GoPay, OVO, Dana, ShopeePay), then scan the QRIS barcode above.',
+            'Saya Sudah Membayar': 'I Have Paid',
+            'Diskon Promo / Kupon:': 'Promo Discount / Coupon:',
+            'Total Pembayaran:': 'Total Payment:',
+
+            // Cart Drawer & Modals
+            'Keranjang Pesanan': 'Order Cart',
+            'Menu Dipilih': 'Items Selected',
+            'Keranjangmu masih kosong nih': 'Your cart is still empty',
+            'Yuk, pilih burger favoritmu dan mulai ngisi': 'Go ahead, pick your favorite burger and satisfy',
+            'perut kosongmu hari ini': 'your cravings today',
+            'Subtotal Menu:': 'Menu Subtotal:',
+            'Diskon Promo:': 'Promo Discount:',
+            'Pajak PPN (11%)': 'VAT Tax (11%)',
+            'Total Tagihan:': 'Total Bill:',
+            'Lanjutkan Ke pembayaran': 'Proceed to Checkout',
+            'Catatan Pesanan': 'Order Notes',
+            'Contoh: saus dipisah, tanpa selada...': 'e.g., sauce on the side, no lettuce...',
+            'Tambahkan ke keranjang': 'Add to cart',
+            'berhasil ditambahkan ke keranjang!': 'successfully added to cart!',
+            'Buka': 'View',
+            'Konfirmasi Logout': 'Confirm Logout',
+            'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.': 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
+            'Batalkan': 'Cancel',
+            'Ya, Logout': 'Yes, Log Out',
+            'Logout Berhasil': 'Logout Successful',
+            'Wajib Login Terlebih Dahulu': 'Login Required',
+            'Login Sekarang': 'Login Now',
+            'Nanti Saja': 'Not Now',
+
+            // Footer
+            'NAVIGASI': 'NAVIGATION',
+            'SOSIAL': 'SOCIAL',
+            'JAM BUKA': 'OPENING HOURS',
+            'Senin:': 'Monday:',
+            '(Tutup)': '(Closed)',
+            'Selasa-Jumat:': 'Tuesday-Friday:',
+            'Sabtu-Minggu:': 'Saturday-Sunday:',
+            'Semua Hak Cipta Dilindungi': 'All Rights Reserved',
+
+            // Extras
+            'Gratis': 'Free',
+            'Wajib': 'Required',
+            'Opsional': 'Optional',
+            'Tutup': 'Close'
+        };
+
+        const _tbSortedPhrases = Object.keys(_tbPhraseMap).sort((a, b) => b.length - a.length);
+
+        const _tbReversePhraseMap = {};
+        for (const [idKey, enVal] of Object.entries(_tbPhraseMap)) {
+            _tbReversePhraseMap[enVal] = idKey;
+        }
+        const _tbSortedReversePhrases = Object.keys(_tbReversePhraseMap).sort((a, b) => b.length - a.length);
+
+        const _tbAppTranslations = {
+            ID: {
+                nav_home: 'Beranda',
+                nav_menu: 'Menu',
+                nav_about: 'Tentang',
+                nav_contact: 'Kontak',
+                nav_orders: 'Pesanan Saya',
+                nav_admin: 'Dashboard Admin',
+                nav_logout: 'Logout',
+                nav_search_placeholder: 'Cheese Burger...',
+                nav_search_searching: 'Mencari menu...',
+                nav_login: 'Login',
+                nav_signin: 'Sign In',
+                cart_title: 'Keranjang Pesanan',
+                cart_empty_title: 'Keranjangmu masih kosong nih',
+                cart_empty_sub1: 'Yuk, pilih burger favoritmu dan mulai ngisi',
+                cart_empty_sub2: 'perut kosongmu hari ini',
+                cart_empty_btn: 'Mulai Pesan Sekarang',
+                cart_subtotal: 'Subtotal Menu:',
+                cart_discount: 'Diskon Promo:',
+                cart_tax: 'Pajak PPN (11%)',
+                cart_total: 'Total Tagihan:',
+                cart_checkout: 'Lanjutkan Ke pembayaran',
+                cart_toast_open: 'Buka',
+                modal_notes_label: 'Catatan Pesanan',
+                modal_notes_placeholder: 'Contoh: saus dipisah, tanpa selada...',
+                modal_add_btn: 'Tambahkan ke keranjang',
+                logout_title: 'Konfirmasi Logout',
+                logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
+                logout_cancel: 'Batalkan',
+                logout_confirm: 'Ya, Logout',
+                footer_nav: 'NAVIGASI',
+                footer_hours: 'JAM BUKA'
+            },
+            EN: {
+                nav_home: 'Home',
+                nav_menu: 'Menu',
+                nav_about: 'About',
+                nav_contact: 'Contact',
+                nav_orders: 'My Orders',
+                nav_admin: 'Admin Dashboard',
+                nav_logout: 'Logout',
+                nav_search_placeholder: 'Cheese Burger...',
+                nav_search_searching: 'Searching menu...',
+                nav_login: 'Login',
+                nav_signin: 'Sign Up',
+                cart_title: 'Order Cart',
+                cart_empty_title: 'Your cart is still empty',
+                cart_empty_sub1: 'Go ahead, pick your favorite burger and satisfy',
+                cart_empty_sub2: 'your cravings today',
+                cart_empty_btn: 'Start Ordering Now',
+                cart_subtotal: 'Menu Subtotal:',
+                cart_discount: 'Promo Discount:',
+                cart_tax: 'VAT Tax (11%)',
+                cart_total: 'Total Bill:',
+                cart_checkout: 'Proceed to Checkout',
+                cart_toast_open: 'View',
+                modal_notes_label: 'Order Notes',
+                modal_notes_placeholder: 'e.g., sauce on the side, no lettuce...',
+                modal_add_btn: 'Add to cart',
+                logout_title: 'Confirm Logout',
+                logout_desc: 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
+                logout_cancel: 'Cancel',
+                logout_confirm: 'Yes, Log Out',
+                footer_nav: 'NAVIGATION',
+                footer_hours: 'OPENING HOURS'
+            }
+        };
+
+        window._tbAppLang = 'ID';
+
+        function translateEntirePage(lang) {
+            const isEn = (lang === 'EN' || lang === 'US');
+            const code = isEn ? 'EN' : 'ID';
+            window._tbAppLang = code;
+
+            // 1. Process all text nodes across the entire page body
+            try {
+                const walker = document.createTreeWalker(
+                    document.body,
+                    NodeFilter.SHOW_TEXT,
+                    {
+                        acceptNode: function(node) {
+                            const parent = node.parentElement;
+                            if (!parent) return NodeFilter.FILTER_REJECT;
+                            const tag = parent.tagName.toUpperCase();
+                            if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'CODE' || tag === 'PRE') {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+                            if (parent.closest('svg') || parent.classList.contains('fa') || parent.classList.contains('material-icons')) {
+                                return NodeFilter.FILTER_REJECT;
+                            }
+                            const text = node.nodeValue.trim();
+                            if (!text) return NodeFilter.FILTER_REJECT;
+                            return NodeFilter.FILTER_ACCEPT;
+                        }
+                    }
+                );
+
+                const nodesToTranslate = [];
+                while (walker.nextNode()) {
+                    nodesToTranslate.push(walker.currentNode);
+                }
+
+                nodesToTranslate.forEach(node => {
+                    if (typeof node._tbOriginalText === 'undefined') {
+                        node._tbOriginalText = node.nodeValue;
+                    }
+
+                    if (isEn) {
+                        let currentVal = node.nodeValue;
+                        const trimmed = currentVal.trim();
+                        if (_tbPhraseMap[trimmed]) {
+                            const leadingSpace = currentVal.match(/^\s*/)[0];
+                            const trailingSpace = currentVal.match(/\s*$/)[0];
+                            node.nodeValue = leadingSpace + _tbPhraseMap[trimmed] + trailingSpace;
+                        } else {
+                            for (let i = 0; i < _tbSortedPhrases.length; i++) {
+                                const idPhrase = _tbSortedPhrases[i];
+                                if (currentVal.includes(idPhrase)) {
+                                    currentVal = currentVal.split(idPhrase).join(_tbPhraseMap[idPhrase]);
+                                }
+                            }
+                            node.nodeValue = currentVal;
+                        }
+                    } else {
+                        if (typeof node._tbOriginalText === 'string') {
+                            node.nodeValue = node._tbOriginalText;
+                        } else {
+                            let currentVal = node.nodeValue;
+                            const trimmed = currentVal.trim();
+                            if (_tbReversePhraseMap[trimmed]) {
+                                const leadingSpace = currentVal.match(/^\s*/)[0];
+                                const trailingSpace = currentVal.match(/\s*$/)[0];
+                                node.nodeValue = leadingSpace + _tbReversePhraseMap[trimmed] + trailingSpace;
+                            } else {
+                                for (let i = 0; i < _tbSortedReversePhrases.length; i++) {
+                                    const enPhrase = _tbSortedReversePhrases[i];
+                                    if (currentVal.includes(enPhrase)) {
+                                        currentVal = currentVal.split(enPhrase).join(_tbReversePhraseMap[enPhrase]);
+                                    }
+                                }
+                                node.nodeValue = currentVal;
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Translation walker error:', err);
+            }
+
+            // 2. Process input & textarea placeholders
+            try {
+                const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+                inputs.forEach(el => {
+                    if (typeof el.dataset.tbOriginalPlaceholder === 'undefined') {
+                        el.dataset.tbOriginalPlaceholder = el.getAttribute('placeholder') || '';
+                    }
+                    if (isEn) {
+                        const orig = el.dataset.tbOriginalPlaceholder.trim();
+                        if (_tbPhraseMap[orig]) {
+                            el.setAttribute('placeholder', _tbPhraseMap[orig]);
+                        }
+                    } else {
+                        el.setAttribute('placeholder', el.dataset.tbOriginalPlaceholder);
+                    }
+                });
+            } catch (err) {}
+
+            // 3. Process [data-i18n-app] elements
+            const dict = _tbAppTranslations[code] || _tbAppTranslations['ID'];
+            document.querySelectorAll('[data-i18n-app]').forEach(el => {
+                const key = el.getAttribute('data-i18n-app');
+                if (dict[key] !== undefined && el.textContent !== dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-app-attr]').forEach(el => {
+                el.getAttribute('data-i18n-app-attr').split(';').forEach(pair => {
+                    const [attr, key] = pair.split(':');
+                    if (attr && key && dict[key.trim()] !== undefined) {
+                        el.setAttribute(attr.trim(), dict[key.trim()]);
+                    }
+                });
+            });
+
+            const toastBtn = document.getElementById('cart-toast-btn');
+            if (toastBtn) {
+                toastBtn.textContent = dict['cart_toast_open'];
+            }
+
+            updateAppLangUI(code);
+        }
+
+        function applyAppTranslations(lang) {
+            translateEntirePage(lang);
+        }
+
+        function updateAppLangUI(code) {
+            const isEn = (code === 'EN' || code === 'US');
+            const labelText = isEn ? 'Language: English' : 'Bahasa: Indonesia';
+            const flag = isEn ? '🇺🇸' : '🇮🇩';
+            const badgeText = isEn ? 'EN' : 'ID';
+
+            // Desktop dropdown
+            const textEl = document.getElementById('app-user-lang-text');
+            const flagEl = document.getElementById('app-user-lang-flag');
+            const codeEl = document.getElementById('app-user-lang-code');
+            if (textEl) textEl.textContent = labelText;
+            if (flagEl) flagEl.textContent = flag;
+            if (codeEl) codeEl.textContent = badgeText;
+
+            // Mobile nav
+            const mobileTextEl = document.getElementById('app-mobile-user-lang-text');
+            const mobileFlagEl = document.getElementById('app-mobile-user-lang-flag');
+            const mobileCodeEl = document.getElementById('app-mobile-user-lang-code');
+            if (mobileTextEl) mobileTextEl.textContent = labelText;
+            if (mobileFlagEl) mobileFlagEl.textContent = flag;
+            if (mobileCodeEl) mobileCodeEl.textContent = badgeText;
+        }
+
+        function setAppLanguage(lang) {
+            const isEn = (lang === 'EN' || lang === 'US');
+            const code = isEn ? 'EN' : 'ID';
+            window._tbAppLang = code;
+
+            try {
+                localStorage.setItem('tb_lang', code);
+                localStorage.setItem('tb_admin_lang', isEn ? 'US' : 'ID');
+                localStorage.setItem('toon_lang', isEn ? 'en' : 'id');
+            } catch (e) {}
+
+            translateEntirePage(code);
+            window.dispatchEvent(new CustomEvent('tb:applangchange', { detail: { lang: code } }));
+        }
+
+        function toggleAppLanguage() {
+            const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
+            const nextLang = isEn ? 'ID' : 'EN';
+            setAppLanguage(nextLang);
+        }
+        window.toggleAppLanguage = toggleAppLanguage;
+        window.setAppLanguage = setAppLanguage;
+        window.applyAppTranslations = applyAppTranslations;
+        window.translateEntirePage = translateEntirePage;
+
         // Auto-dismiss notification alerts
         window.dismissAlert = function(alertEl) {
             if (!alertEl || alertEl.dataset.dismissing === 'true') return;
@@ -1929,6 +2529,15 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             window.initAutoDismissAlerts();
+            try {
+                const savedLang = localStorage.getItem('tb_lang') || localStorage.getItem('tb_admin_lang') || 'ID';
+                const initialLang = (savedLang === 'EN' || savedLang === 'US') ? 'EN' : 'ID';
+                if (initialLang === 'EN') {
+                    applyAppTranslations('EN');
+                } else {
+                    updateAppLangUI('ID');
+                }
+            } catch (e) {}
         });
 
         // Reload page on Back / Forward navigation only if user logged out

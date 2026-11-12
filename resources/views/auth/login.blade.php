@@ -591,6 +591,10 @@
         function changeLanguage(lang) {
             if (!translations[lang]) return;
             localStorage.setItem('toon_lang', lang);
+            try {
+                localStorage.setItem('tb_lang', lang === 'en' ? 'EN' : 'ID');
+                localStorage.setItem('tb_admin_lang', lang === 'en' ? 'US' : 'ID');
+            } catch (e) {}
             applyLanguage(lang);
 
             const menu = document.getElementById('lang-dropdown-menu');
@@ -731,7 +735,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const savedLang = localStorage.getItem('toon_lang') || 'id';
+            const savedLang = localStorage.getItem('toon_lang') || (localStorage.getItem('tb_lang') ? localStorage.getItem('tb_lang').toLowerCase() : 'id');
             applyLanguage(savedLang);
 
             const savedTheme = localStorage.getItem('toon_theme') || 'light';

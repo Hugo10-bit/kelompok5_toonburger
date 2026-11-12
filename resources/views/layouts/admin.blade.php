@@ -397,6 +397,20 @@
                             <span id="header-theme-label" data-i18n="dropdown_theme">Mode Gelap</span>
                         </button>
 
+                        <!-- 2b. Ganti Bahasa (English / Indonesia) Toggle -->
+                        <button type="button" onclick="toggleAdminLanguage()" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                                </svg>
+                                <span id="header-profile-lang-label">Bahasa: Indonesia</span>
+                            </div>
+                            <span id="header-profile-lang-badge" class="px-2 py-0.5 rounded-md text-xs font-bold bg-[#E8F8F0] text-[#10B981] flex items-center gap-1">
+                                <span id="header-profile-lang-flag">🇮🇩</span>
+                                <span id="header-profile-lang-code">ID</span>
+                            </span>
+                        </button>
+
                         <!-- 3. Beranda -->
                         <a href="{{ route('home') }}" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition">
                             <svg class="w-5 h-5 text-gray-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1342,16 +1356,42 @@
 
             applyTranslations(code === 'US' ? 'EN' : 'ID');
             updateAdminThemeUI(getAdminTheme());
+
+            // Sync Profile Dropdown Language Toggle
+            const isEnglish = (code === 'US' || code === 'EN');
+            const profileLangLabel = document.getElementById('header-profile-lang-label');
+            const profileLangFlag = document.getElementById('header-profile-lang-flag');
+            const profileLangCode = document.getElementById('header-profile-lang-code');
+            if (profileLangLabel) {
+                profileLangLabel.textContent = isEnglish ? 'Language: English' : 'Bahasa: Indonesia';
+            }
+            if (profileLangFlag) {
+                profileLangFlag.textContent = isEnglish ? '🇺🇸' : '🇮🇩';
+            }
+            if (profileLangCode) {
+                profileLangCode.textContent = isEnglish ? 'EN' : 'ID';
+            }
+
             window.dispatchEvent(new CustomEvent('tb:langchange', { detail: { lang: code === 'US' ? 'EN' : 'ID' } }));
 
             try {
                 localStorage.setItem('tb_admin_lang', code);
+                localStorage.setItem('tb_lang', isEnglish ? 'EN' : 'ID');
             } catch (err) {}
 
             const dropdown = document.getElementById('header-lang-dropdown');
             const chevron = document.getElementById('header-lang-chevron');
             if (dropdown) dropdown.classList.add('hidden');
             if (chevron) chevron.style.transform = 'rotate(0deg)';
+        }
+
+        function toggleAdminLanguage() {
+            const isEnglish = (window._tbLang === 'US' || window._tbLang === 'EN');
+            if (isEnglish) {
+                selectLanguage('Indonesia', 'ID');
+            } else {
+                selectLanguage('English', 'US');
+            }
         }
 
         function toggleProfileDropdown(e) {
@@ -1654,11 +1694,12 @@
 
         // Restore theme and language preferences with zero redundant DOM mutations on default state
         try {
-            const savedLang = localStorage.getItem('tb_admin_lang') || 'ID';
-            window._tbLang = savedLang;
-            if (savedLang === 'US') {
+            const savedLang = localStorage.getItem('tb_admin_lang') || localStorage.getItem('tb_lang') || 'ID';
+            window._tbLang = (savedLang === 'US' || savedLang === 'EN') ? 'US' : 'ID';
+            if (window._tbLang === 'US') {
                 selectLanguage('English', 'US');
             } else {
+                selectLanguage('Indonesia', 'ID');
                 const savedTheme = getAdminTheme();
                 if (savedTheme === 'dark') {
                     updateAdminThemeUI('dark');
