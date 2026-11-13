@@ -1680,6 +1680,18 @@ const _tbPhraseMap = {
     'Terima kasih! Pesan Anda telah kami terima dan akan segera direspons oleh tim Toon Burger.': 'Thank you! Your message has been received and will be responded to shortly by the Toon Burger team.',
 
     // Orders & Checkout
+    'Kembali Ke Beranda': 'Back to Home',
+    'KONFIRMASI PEMBAYARAN': 'PAYMENT CONFIRMATION',
+    'Lengkapi detail pemesanan dan pilih metode pembayaran Anda': 'Complete your order details and choose your payment method',
+    'Nomor Telfon': 'Phone Number',
+    'Nomor Telfon Anda': 'Your Phone Number',
+    'Catatan Pesanan': 'Order Notes',
+    'Pilih Metode Pembayaran': 'Select Payment Method',
+    'Tunai': 'Cash',
+    'Bayar langsung dikasir': 'Pay directly at counter',
+    'BCA/ Mandiri Virtual Account': 'BCA / Mandiri Virtual Account',
+    'Keranjang kosong': 'Cart is empty',
+    'Pajak PPN (11%)': 'VAT Tax (11%)',
     'Riwayat Pesanan': 'Order History',
     'Riwayat Pesanan Saya': 'My Order History',
     'Daftar semua transaksi dan pesanan yang pernah Anda buat di Toon Burger.': 'List of all transactions and orders you have made at Toon Burger.',

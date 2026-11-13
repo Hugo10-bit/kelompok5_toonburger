@@ -1,148 +1,169 @@
+@php
+    $errors = $errors ?? new \Illuminate\Support\ViewErrorBag;
+@endphp
 @extends('layouts.app')
 
-@section('title', 'Checkout Pesanan - Toon Burger')
-@section('footer_bg', 'bg-bites-bg')
+@section('title', 'Konfirmasi Pembayaran - Toon Burger')
+@section('footer_bg', 'bg-transparent')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pb-16">
-    
-    <div class="mb-6">
-        <a href="{{ route('menu') }}" class="text-xs text-gray-500 hover:text-bites-red font-semibold inline-flex items-center gap-1">
-            &larr; Kembali ke Katalog Menu
+<style>
+    body {
+        background-color: #FEF8E6 !important;
+        background-image: radial-gradient(circle, rgba(56, 88, 80, 0.18) 1.25px, transparent 1.25px) !important;
+        background-size: 16px 16px !important;
+        background-repeat: repeat !important;
+    }
+</style>
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-14 sm:pb-20">
+
+    <!-- Top Breadcrumb -->
+    <div class="mb-2">
+        <a href="{{ route('home') }}" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-800 transition font-medium">
+            <span>&lsaquo;</span>
+            <span>Kembali Ke Beranda</span>
         </a>
-        <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Konfirmasi &amp; Pembayaran</h1>
-        <p class="text-xs text-gray-500">Lengkapi detail pemesanan dan pilih metode pembayaran favorit Anda.</p>
     </div>
+
+    <!-- Page Header -->
+    <div class="mb-7 sm:mb-8">
+        <h1 class="text-2xl sm:text-3xl lg:text-[34px] font-brand uppercase text-[#27443E] tracking-wide leading-tight"
+            style="font-family: 'Luckiest Guy', cursive, sans-serif;">
+            KONFIRMASI PEMBAYARAN
+        </h1>
+        <p class="text-xs sm:text-sm text-gray-500 mt-1">
+            Lengkapi detail pemesanan dan pilih metode pembayaran Anda
+        </p>
+    </div>
+
+    @if($errors->any())
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-2xl flex items-center justify-between shadow-2xs">
+            <span>{{ $errors->first() }}</span>
+        </div>
+    @endif
 
     <form action="{{ route('orders.store') }}" method="POST" id="checkout-form">
         @csrf
+        <input type="hidden" name="order_type" value="takeaway">
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- LEFT FORM: CUSTOMER & ORDER DETAILS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+
+            <!-- LEFT COLUMN: INFORMASI PEMESAN & PILIH METODE PEMBAYARAN -->
             <div class="lg:col-span-7 space-y-6">
 
-                <!-- 1. ORDER TYPE SELECTOR (TAKEAWAY & DELIVERY ONLY) -->
-                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="font-black text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                            <span class="w-6 h-6 rounded-full bg-bites-yellow text-bites-dark text-xs flex items-center justify-center font-bold">1</span>
-                            Pilih Tipe Pesanan
-                        </h3>
-                        <span class="bg-amber-100 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-full uppercase">
-                            No Dine-In
+                <!-- 1. INFORMASI PEMESAN CARD -->
+                <div class="bg-white rounded-[24px] border border-gray-200/90 shadow-2xs p-6 sm:p-7">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full bg-[#E5A93C] text-black text-xs font-black flex items-center justify-center shrink-0 select-none">
+                            1
                         </span>
+                        <h2 class="font-bold text-sm sm:text-base text-gray-900">
+                            Informasi Pemesan
+                        </h2>
                     </div>
 
-                    <div class="bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs px-3.5 py-2.5 rounded-2xl flex items-center gap-2.5 font-medium">
-                        <svg class="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Outlet Toon Burger berkonsep <strong>Cloud Kitchen &amp; Takeaway Hub</strong>. Kami hanya melayani <strong>Takeaway</strong> dan <strong>Delivery</strong> (tidak tersedia makan di tempat).</span>
-                    </div>
+                    <div class="border-b border-gray-200/90 my-4 sm:my-5"></div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <label class="border-2 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange border-bites-orange bg-amber-50/40" id="type-card-takeaway">
-                            <input type="radio" name="order_type" value="takeaway" checked onchange="handleOrderTypeChange('takeaway')" class="sr-only">
-                            <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-1.5 shadow-2xs">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                            </div>
-                            <span class="font-extrabold text-xs text-gray-900">Takeaway (Bawa Pulang)</span>
-                            <span class="text-[10px] text-gray-500 mt-0.5">Ambil pesanan di outlet Banjarbaru</span>
-                        </label>
-
-                        <label class="border-2 border-gray-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition select-none hover:border-bites-orange" id="type-card-delivery">
-                            <input type="radio" name="order_type" value="delivery" onchange="handleOrderTypeChange('delivery')" class="sr-only">
-                            <div class="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center mb-1.5 shadow-2xs">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-                            </div>
-                            <span class="font-extrabold text-xs text-gray-900">Online Delivery</span>
-                            <span class="text-[10px] text-gray-500 mt-0.5">Diantar kurir langsung ke alamat Anda</span>
-                        </label>
-                    </div>
-
-                    <!-- Dynamic Field: Delivery Address -->
-                    <div id="delivery-address-section" class="pt-3 border-t border-gray-100 hidden space-y-2.5">
+                    <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1.5">Alamat Lengkap Pengiriman:</label>
-                            <textarea name="delivery_address" rows="2" placeholder="Nama Jalan, No. Rumah, RT/RW, Patokan..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none focus:border-bites-orange">{{ Auth::user()->address ?? '' }}</textarea>
+                            <label for="customer_name" class="block text-xs font-bold text-gray-800 mb-1.5">
+                                Nama Lengkap
+                            </label>
+                            <input type="text"
+                                   id="customer_name"
+                                   name="customer_name"
+                                   required
+                                   value="{{ Auth::user()->name ?? Auth::user()->username ?? '' }}"
+                                   placeholder="Nama Lengkap Anda"
+                                   class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition">
                         </div>
-                        <div class="p-3 bg-red-50/80 border border-red-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-red-950">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-[#EE2737] animate-pulse shrink-0"></span>
-                                <span>Mau promo ongkir hemat? Anda juga bisa pesan antar via GoFood Toon Burger (Super Partner).</span>
-                            </div>
-                            <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer" class="bg-[#EE2737] hover:bg-[#D61B2B] text-white font-extrabold text-[11px] px-3.5 py-1.5 rounded-xl transition shadow-xs shrink-0 inline-flex items-center gap-1 self-start sm:self-auto">
-                                <span>Buka GoFood</span>
-                                <span>&rarr;</span>
-                            </a>
+
+                        <div>
+                            <label for="customer_phone" class="block text-xs font-bold text-gray-800 mb-1.5">
+                                Nomor Telfon
+                            </label>
+                            <input type="tel"
+                                   id="customer_phone"
+                                   name="customer_phone"
+                                   required
+                                   value="{{ Auth::user()->phone_number ?? '' }}"
+                                   placeholder="Nomor Telfon Anda"
+                                   class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition">
+                        </div>
+
+                        <div>
+                            <label for="notes" class="block text-xs font-bold text-gray-800 mb-1.5">
+                                Catatan Pesanan
+                            </label>
+                            <textarea id="notes"
+                                      name="notes"
+                                      rows="3"
+                                      placeholder="Contoh: saus dipisah, tanpa selada..."
+                                      class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition resize-none"></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. CUSTOMER CONTACT INFO -->
-                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-                    <h3 class="font-black text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-bites-yellow text-bites-dark text-xs flex items-center justify-center font-bold">2</span>
-                        Informasi Pemesan
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">Nama Pemesan:</label>
-                            <input type="text" name="customer_name" value="{{ Auth::user()->name ?? Auth::user()->username ?? '' }}" required placeholder="Contoh: Budi Santoso" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-bites-orange font-medium">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 mb-1">No. WhatsApp / Telepon:</label>
-                            <input type="tel" name="customer_phone" value="{{ Auth::user()->phone_number ?? '' }}" required placeholder="Contoh: 0813-4595-6487" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-bites-orange font-medium">
-                        </div>
+                <!-- 2. PILIH METODE PEMBAYARAN CARD -->
+                <div class="bg-white rounded-[24px] border border-gray-200/90 shadow-2xs p-6 sm:p-7">
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-full bg-[#E5A93C] text-black text-xs font-black flex items-center justify-center shrink-0 select-none">
+                            2
+                        </span>
+                        <h2 class="font-bold text-sm sm:text-base text-gray-900">
+                            Pilih Metode Pembayaran
+                        </h2>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 mb-1">Catatan Tambahan untuk Pesanan (Opsional):</label>
-                        <input type="text" name="notes" placeholder="Contoh: Tolong bungkus terpisah, extra saus sambal..." class="w-full bg-gray-50 border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-bites-orange">
-                    </div>
-                </div>
+                    <div class="border-b border-gray-200/90 my-4 sm:my-5"></div>
 
-                <!-- 3. PAYMENT METHOD SELECTION -->
-                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs space-y-4">
-                    <h3 class="font-black text-sm text-gray-900 uppercase tracking-wider flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-bites-yellow text-bites-dark text-xs flex items-center justify-center font-bold">3</span>
-                        Metode Pembayaran
-                    </h3>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <label class="border-2 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition select-none hover:border-bites-orange border-bites-orange bg-amber-50/40" id="pay-card-qris">
-                            <input type="radio" name="payment_method" value="qris" checked onchange="handlePaymentChange('qris')" class="text-bites-orange focus:ring-bites-orange">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <!-- QRIS -->
+                        <label class="relative flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer transition select-none hover:border-gray-300 has-[:checked]:border-[#27443E] has-[:checked]:ring-1 has-[:checked]:ring-[#27443E]">
+                            <input type="radio"
+                                   name="payment_method"
+                                   value="qris"
+                                   checked
+                                   class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
-                                <div class="font-bold text-xs text-gray-900 flex items-center gap-1.5">
-                                    <span>QRIS Instant</span>
-                                    <span class="bg-green-100 text-green-700 text-[10px] font-bold px-1.5 py-0.2 rounded">Otomatis</span>
-                                </div>
-                                <div class="text-[11px] text-gray-500">GoPay, OVO, Dana, BCA, ShopeePay</div>
+                                <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">QRIS</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">Gopay, OVO, Dana, Bca, Shopeepay</div>
                             </div>
                         </label>
 
-                        <label class="border-2 border-gray-200 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition select-none hover:border-bites-orange" id="pay-card-cash">
-                            <input type="radio" name="payment_method" value="cash" onchange="handlePaymentChange('cash')" class="text-bites-orange focus:ring-bites-orange">
+                        <!-- Tunai -->
+                        <label class="relative flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer transition select-none hover:border-gray-300 has-[:checked]:border-[#27443E] has-[:checked]:ring-1 has-[:checked]:ring-[#27443E]">
+                            <input type="radio"
+                                   name="payment_method"
+                                   value="cash"
+                                   class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
-                                <div class="font-bold text-xs text-gray-900">Tunai di Kasir</div>
-                                <div class="text-[11px] text-gray-500">Bayar langsung saat pesanan disiapkan</div>
+                                <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">Tunai</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">Bayar langsung dikasir</div>
                             </div>
                         </label>
 
-                        <label class="border-2 border-gray-200 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition select-none hover:border-bites-orange" id="pay-card-bank">
-                            <input type="radio" name="payment_method" value="bank_transfer" onchange="handlePaymentChange('bank_transfer')" class="text-bites-orange focus:ring-bites-orange">
+                        <!-- Transfer Bank -->
+                        <label class="relative flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer transition select-none hover:border-gray-300 has-[:checked]:border-[#27443E] has-[:checked]:ring-1 has-[:checked]:ring-[#27443E]">
+                            <input type="radio"
+                                   name="payment_method"
+                                   value="bank_transfer"
+                                   class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
-                                <div class="font-bold text-xs text-gray-900">Transfer Bank</div>
-                                <div class="text-[11px] text-gray-500">BCA / Mandiri Virtual Account</div>
+                                <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">Transfer Bank</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">BCA/ Mandiri Virtual Account</div>
                             </div>
                         </label>
 
-                        <label class="border-2 border-gray-200 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition select-none hover:border-bites-orange" id="pay-card-ewallet">
-                            <input type="radio" name="payment_method" value="ewallet" onchange="handlePaymentChange('ewallet')" class="text-bites-orange focus:ring-bites-orange">
+                        <!-- E-Wallet -->
+                        <label class="relative flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer transition select-none hover:border-gray-300 has-[:checked]:border-[#27443E] has-[:checked]:ring-1 has-[:checked]:ring-[#27443E]">
+                            <input type="radio"
+                                   name="payment_method"
+                                   value="ewallet"
+                                   class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
-                                <div class="font-bold text-xs text-gray-900">E-Wallet</div>
-                                <div class="text-[11px] text-gray-500">Direct wallet checkout</div>
+                                <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">E-Wallet</div>
+                                <div class="text-[11px] text-gray-400 mt-0.5 leading-tight">Gopay, OVO, Dana, Shopeepay</div>
                             </div>
                         </label>
                     </div>
@@ -150,62 +171,94 @@
 
             </div>
 
-            <!-- RIGHT COLUMN: ORDER SUMMARY -->
+            <!-- ═══ RIGHT COLUMN: RINGKASAN PESANAN ═══ -->
             <div class="lg:col-span-5">
-                <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-lg space-y-5">
-                    <h3 class="font-black text-base text-gray-900 pb-3 border-b border-gray-100 flex items-center justify-between">
-                        <span>Ringkasan Pesanan</span>
-                        <span class="text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full font-bold">
-                            {{ $cart['item_count'] }} Item
-                        </span>
-                    </h3>
+                <div class="bg-white rounded-[24px] border border-gray-200/90 shadow-2xs p-6 sm:p-7 sticky top-28">
+                    <h2 class="font-bold text-sm sm:text-base text-gray-900">
+                        Ringkasan Pesanan
+                    </h2>
 
-                    <!-- Item List -->
-                    <div class="max-h-60 overflow-y-auto space-y-3 pr-1">
-                        @foreach($cart['items'] as $item)
-                            <div class="flex items-center gap-3 text-xs">
-                                <img src="{{ asset($item['image'] ?: 'images/burger-bg.jpg') }}" alt="{{ $item['name'] }}" class="w-12 h-12 object-cover rounded-xl border border-gray-200 flex-shrink-0">
-                                <div class="flex-1 min-w-0">
-                                    <div class="font-bold text-gray-900 truncate">{{ $item['name'] }}</div>
-                                    <div class="text-[11px] text-gray-500 font-semibold">{{ $item['quantity'] }}x @ Rp {{ number_format($item['unit_price'], 0, ',', '.') }}</div>
-                                    @if(!empty($item['options']))
-                                        <div class="text-[10px] text-gray-400 truncate">
-                                            {{ implode(', ', array_column($item['options'], 'value_name')) }}
+                    <div class="border-b border-gray-200/90 my-4"></div>
+
+                    @php
+                        $palettes = ['#FFC83B', '#FED7AA', '#E51D1D', '#A4D477', '#BFE1FD', '#F67A24', '#D5C8F6', '#F5B8DC'];
+                    @endphp
+
+                    <!-- Items List -->
+                    <div class="space-y-4 max-h-[320px] overflow-y-auto pr-1">
+                        @forelse($cart['items'] as $index => $item)
+                            @php
+                                $bgColor = $palettes[$index % count($palettes)];
+                            @endphp
+                            <div class="flex items-center justify-between gap-3 text-xs">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden p-1.5"
+                                         style="background-color: {{ $bgColor }};">
+                                        <img src="{{ asset($item['image'] ?: 'images/burger-bg.jpg') }}"
+                                             alt="{{ $item['name'] }}"
+                                             class="w-full h-full object-contain">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="font-bold text-xs sm:text-[13px] text-gray-900 truncate leading-snug">
+                                            {{ $item['name'] }}
+                                        </h3>
+                                        <div class="text-[11px] text-gray-500 font-medium mt-0.5">
+                                            Rp {{ number_format($item['unit_price'], 0, ',', '.') }} (x{{ $item['quantity'] }})
                                         </div>
-                                    @endif
+                                        <div class="inline-flex items-center border border-gray-200 rounded-md bg-white px-2 py-0.5 gap-2.5 mt-1.5 shadow-2xs">
+                                            <button type="button"
+                                                    onclick="updateCheckoutQty('{{ $item['cart_key'] }}', {{ $item['quantity'] - 1 }})"
+                                                    class="text-gray-500 hover:text-gray-900 font-bold text-xs cursor-pointer select-none"
+                                                    aria-label="Kurangi jumlah">&minus;</button>
+                                            <span class="text-[11px] font-bold text-gray-900 select-none">{{ $item['quantity'] }}</span>
+                                            <button type="button"
+                                                    onclick="updateCheckoutQty('{{ $item['cart_key'] }}', {{ $item['quantity'] + 1 }})"
+                                                    class="text-gray-500 hover:text-gray-900 font-bold text-xs cursor-pointer select-none"
+                                                    aria-label="Tambah jumlah">&plus;</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="font-black text-gray-900">
+
+                                <div class="font-bold text-xs sm:text-[13px] text-gray-900 text-right whitespace-nowrap">
                                     Rp {{ number_format($item['total_price'], 0, ',', '.') }}
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="py-6 text-center text-xs text-gray-400">
+                                Keranjang kosong
+                            </div>
+                        @endforelse
                     </div>
 
-                    <!-- Price Calculations -->
-                    <div class="space-y-2 text-xs text-gray-600 pt-3 border-t border-gray-100">
-                        <div class="flex justify-between">
-                            <span>Subtotal Menu:</span>
-                            <span class="font-semibold text-gray-900">Rp {{ number_format($cart['subtotal'], 0, ',', '.') }}</span>
+                    <!-- Summary Box matching Mockup -->
+                    <div class="bg-[#F8F9FA] rounded-2xl p-4 sm:p-5 mt-5 space-y-2.5">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-500">Subtotal Menu:</span>
+                            <span class="font-semibold text-gray-900 text-xs sm:text-[13px]">
+                                Rp {{ number_format($cart['subtotal'], 0, ',', '.') }}
+                            </span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Pajak Restoran PB1 (10%):</span>
-                            <span class="font-semibold text-gray-900">Rp {{ number_format($cart['tax'], 0, ',', '.') }}</span>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-gray-500">Pajak PPN (11%)</span>
+                            <span class="font-semibold text-gray-900 text-xs sm:text-[13px]">
+                                Rp {{ number_format($cart['tax'], 0, ',', '.') }}
+                            </span>
                         </div>
-                        <div class="flex justify-between text-base font-black text-gray-900 pt-3 border-t border-gray-200">
+
+                        <div class="border-t border-gray-200/90 pt-2.5 mt-2 flex justify-between items-center text-xs sm:text-sm font-bold text-gray-900">
                             <span>Total Tagihan:</span>
-                            <span class="text-bites-red font-black text-lg">Rp {{ number_format($cart['total'], 0, ',', '.') }}</span>
+                            <span class="font-bold text-sm sm:text-base text-gray-900">
+                                Rp {{ number_format($cart['total'], 0, ',', '.') }}
+                            </span>
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg transition active:scale-98 text-sm cursor-pointer">
-                        <span>Buat Pesanan Sekarang</span>
-                        <span>&rarr;</span>
+                    <!-- Action Button -->
+                    <button type="submit"
+                            class="w-full mt-5 bg-[#385850] hover:bg-[#2C463F] active:scale-[0.99] text-white font-bold text-xs sm:text-sm py-3.5 rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center">
+                        Buat Pesanan Sekarang
                     </button>
-
-                    <p class="text-[11px] text-gray-400 text-center">
-                        Pesanan Anda langsung diteruskan ke sistem dapur Toon Burger.
-                    </p>
                 </div>
             </div>
 
@@ -213,5 +266,29 @@
     </form>
 </div>
 
-<script src="{{ asset('js/pages/checkout.js') }}"></script>
+<script>
+    async function updateCheckoutQty(cartKey, qty) {
+        try {
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            const res = await fetch('/cart/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token || ''
+                },
+                body: JSON.stringify({ cart_key: cartKey, quantity: qty })
+            });
+            const data = await res.json();
+            if (data.success) {
+                if (typeof window.tbAppNavigate === 'function') {
+                    window.tbAppNavigate(window.location.href, false, true);
+                } else {
+                    window.location.reload();
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+</script>
 @endsection
