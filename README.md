@@ -61,9 +61,6 @@ Project ini dikembangkan untuk mendukung operasional Toon Burger dengan fokus pa
 │   ├── migrations/
 │   └── seeders/
 ├── public/
-│   ├── css/
-│   ├── images/
-│   ├── js/
 ├── resources/
 │   ├── css/
 │   ├── js/
