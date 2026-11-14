@@ -50,8 +50,13 @@ function initOrderShowQris() {
     }
 }
 
+window.openReviewModal = openReviewModal;
+window.startQrisCountdown = startQrisCountdown;
+window.restartQrisTimer = restartQrisTimer;
+
 if (document.readyState === 'loading') {
     window.addEventListener('DOMContentLoaded', initOrderShowQris);
 } else {
     initOrderShowQris();
 }
+window.addEventListener('tb:pjax:loaded', initOrderShowQris);

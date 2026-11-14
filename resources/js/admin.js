@@ -1,3 +1,10 @@
+import './admin/categories';
+import './admin/dashboard';
+import './admin/order-detail';
+import './admin/orders';
+import './admin/products';
+import './admin/profile';
+
 const ADMIN_CONFIG = document.body.dataset;
 
 function toggleAdminSidebar() {
@@ -1320,9 +1327,10 @@ window.addEventListener('pageshow', function () {
             newScript.textContent = oldScript.textContent;
             oldScript.parentNode.replaceChild(newScript, oldScript);
         });
+        window.dispatchEvent(new CustomEvent('tb:admin:pjax:loaded'));
     }
 
-    function swapAdminMainFromHtml(html, targetUrl, pushHistory) {
+    function swapAdminMainFromHtml(html, targetUrl, pushHistory, preserveScroll = false) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const newMain = doc.querySelector('main');
@@ -1331,6 +1339,9 @@ window.addEventListener('pageshow', function () {
             window.location.href = targetUrl;
             return false;
         }
+
+        const prevScrollY = window.scrollY;
+        const prevMainScrollTop = curMain.scrollTop;
 
         if (doc.title) {
             document.title = doc.title;
@@ -1346,7 +1357,12 @@ window.addEventListener('pageshow', function () {
             history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
         }
 
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        if (preserveScroll) {
+            window.scrollTo({ top: prevScrollY, behavior: 'instant' });
+            curMain.scrollTop = prevMainScrollTop;
+        } else {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
         runScriptsInContainer(curMain);
         if (typeof window.initAutoDismissAlerts === 'function') {
             window.initAutoDismissAlerts();
@@ -1417,7 +1433,7 @@ window.addEventListener('pageshow', function () {
         return promise;
     }
 
-    function navigateAdminTo(rawUrl, pushHistory = true) {
+    function navigateAdminTo(rawUrl, pushHistory = true, preserveScroll = false) {
         const targetUrl = normalizeAdminUrl(rawUrl);
         if (!targetUrl || !isAdminInternalUrl(targetUrl)) {
             window.location.href = rawUrl;
@@ -1430,7 +1446,7 @@ window.addEventListener('pageshow', function () {
 
         const cached = _tbAdminPageCache.get(targetUrl);
         if (cached) {
-            swapAdminMainFromHtml(cached.html, targetUrl, pushHistory);
+            swapAdminMainFromHtml(cached.html, targetUrl, pushHistory, preserveScroll);
             if (Date.now() - cached.ts > 8000) {
                 _tbAdminPageCache.delete(targetUrl);
                 prefetchAdminUrl(targetUrl, false);
@@ -1440,7 +1456,7 @@ window.addEventListener('pageshow', function () {
 
         prefetchAdminUrl(targetUrl, true).then((html) => {
             if (html) {
-                swapAdminMainFromHtml(html, targetUrl, pushHistory);
+                swapAdminMainFromHtml(html, targetUrl, pushHistory, preserveScroll);
             } else {
                 window.location.href = targetUrl;
             }
@@ -1485,7 +1501,8 @@ window.addEventListener('pageshow', function () {
         if (!isAdminInternalUrl(link.href)) return;
 
         e.preventDefault();
-        navigateAdminTo(link.href, true);
+        const preserveScroll = Boolean(link.closest('nav[aria-label*="Pagination"], .pagination, [data-preserve-scroll]'));
+        navigateAdminTo(link.href, true, preserveScroll);
     });
 
     // Intercept GET forms (search & filters) for instant navigation; clear cache on POST/PUT/PATCH/DELETE
@@ -1511,8 +1528,9 @@ window.addEventListener('pageshow', function () {
         }
     });
 
-    // Sequential background warm-up of primary sidebar links (friendly to single-threaded dev server)
-    setTimeout(async function () {
+    // Sequential background warm-up of primary sidebar links when browser is idle
+    const runAdminWarmUp = async function () {
+        if (navigator.connection && navigator.connection.saveData) return;
         const primaryLinks = [
             ADMIN_CONFIG.adminDashboardUrl,
             ADMIN_CONFIG.adminProfileUrl,
@@ -1527,5 +1545,33 @@ window.addEventListener('pageshow', function () {
                 await prefetchAdminUrl(norm, false);
             }
         }
-    }, 120);
+    };
+    if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => { runAdminWarmUp(); }, { timeout: 2500 });
+    } else {
+        setTimeout(runAdminWarmUp, 800);
+    }
 })();
+
+Object.assign(window, {
+    toggleAdminSidebar,
+    confirmLogout,
+    closeLogoutModal,
+    submitLogoutForm,
+    handleGlobalDeleteSubmit,
+    openDeleteModal,
+    closeDeleteModal,
+    closeAllHeaderDropdowns,
+    toggleLanguageDropdown,
+    applyTranslations,
+    selectLanguage,
+    toggleAdminLanguage,
+    toggleProfileDropdown,
+    getAdminTheme,
+    updateAdminThemeUI,
+    setAdminTheme,
+    toggleAdminTheme,
+    clearHeaderSearch,
+    escapeHeaderHtml,
+    renderHeaderSearchResults,
+});

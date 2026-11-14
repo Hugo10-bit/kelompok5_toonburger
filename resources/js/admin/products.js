@@ -1,5 +1,6 @@
-(function () {
+function initAdminProducts() {
     const modal = document.getElementById('productModal');
+    if (!modal) return;
     const form = document.getElementById('productForm');
     const title = document.getElementById('modalTitle');
     const methodInput = document.getElementById('formMethod');
@@ -148,4 +149,7 @@
         }
     };
     document.addEventListener('click', window._tbProdFilterClickHandler);
-})();
+}
+
+initAdminProducts();
+window.addEventListener('tb:admin:pjax:loaded', initAdminProducts);

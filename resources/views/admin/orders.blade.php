@@ -167,7 +167,12 @@
             </div>
         @endforelse
     </div>
+
+    @if($orders->hasPages())
+        <div class="mt-6 pt-4 border-t border-gray-100 dark:border-[#3F3F3F]">
+            {{ $orders->links() }}
+        </div>
+    @endif
 </div>
 
-<script src="{{ asset('js/admin/orders.js') }}"></script>
 @endsection

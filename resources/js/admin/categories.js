@@ -1,5 +1,6 @@
-(function () {
+function initAdminCategories() {
     const catModal = document.getElementById('catModal');
+    if (!catModal) return;
     const catForm = document.getElementById('catForm');
     const catTitle = document.getElementById('catModalTitle');
     const catMethod = document.getElementById('catFormMethod');
@@ -93,4 +94,7 @@
             }
         });
     }
-})();
+}
+
+initAdminCategories();
+window.addEventListener('tb:admin:pjax:loaded', initAdminCategories);

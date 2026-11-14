@@ -61,12 +61,22 @@
             );
 
         // Ctrl + Scroll Up/Down zoom (centered on cursor) without hijacking normal page scroll
+        const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || '');
+        const modKey = isMac ? '⌘ Cmd' : 'Ctrl';
+        const getHintText = () => {
+            const lang = window._tbAppLang || localStorage.getItem('tb_lang') || 'ID';
+            return (lang === 'EN' || lang === 'US')
+                ? `Press ${modKey} + Scroll to zoom the map`
+                : `Tekan ${modKey} + Scroll untuk zoom peta`;
+        };
         let hintTimer = null;
         let hintEl = container.querySelector('.map-ctrl-scroll-hint');
         if (!hintEl) {
             hintEl = document.createElement('div');
-            hintEl.className = 'map-ctrl-scroll-hint pointer-events-none select-none opacity-0 transition-opacity duration-200 absolute inset-x-0 bottom-3 z-[400] flex justify-center px-3';
-            hintEl.innerHTML = '<span class="bg-[#121212]/80 text-white text-[11px] font-medium px-3 py-1.5 rounded-full shadow-sm">Tekan Ctrl + Scroll untuk zoom peta</span>';
+            hintEl.className = 'map-ctrl-scroll-hint pointer-events-none select-none opacity-0 transition-opacity duration-200 absolute inset-x-0 bottom-3 z-[1000] flex justify-center px-3';
+            hintEl.setAttribute('role', 'status');
+            hintEl.setAttribute('aria-live', 'polite');
+            hintEl.innerHTML = `<span class="bg-[#121212]/85 text-white text-[11px] font-medium px-3.5 py-1.5 rounded-full shadow-sm">${getHintText()}</span>`;
             container.appendChild(hintEl);
         }
 
@@ -90,13 +100,15 @@
                 return;
             }
 
+            const hintSpan = hintEl.querySelector('span');
+            if (hintSpan) hintSpan.textContent = getHintText();
             hintEl.classList.remove('opacity-0');
             hintEl.classList.add('opacity-100');
             if (hintTimer) clearTimeout(hintTimer);
             hintTimer = setTimeout(function () {
                 hintEl.classList.remove('opacity-100');
                 hintEl.classList.add('opacity-0');
-            }, 1400);
+            }, 1600);
         }, { passive: false });
     }
 

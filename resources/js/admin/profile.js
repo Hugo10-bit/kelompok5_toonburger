@@ -1,4 +1,5 @@
-(function () {
+function initAdminProfile() {
+    if (!document.getElementById('profile-confirm-modal')) return;
     let _onProfileConfirm = null;
     let _onProfileCancel = null;
 
@@ -196,4 +197,7 @@
             });
         });
     }
-})();
+}
+
+initAdminProfile();
+window.addEventListener('tb:admin:pjax:loaded', initAdminProfile);

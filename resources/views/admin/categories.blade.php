@@ -24,9 +24,9 @@
     </div>
 
     <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
-        <div class="overflow-x-auto">
+        <div class="overflow-auto max-h-[calc(100vh-240px)] min-h-[300px]">
             <table class="w-full text-center border-collapse">
-                <thead>
+                <thead class="sticky top-0 z-10">
                     <tr class="bg-[#EEEEEE] dark:bg-[#9E9E9E] text-gray-700 dark:text-[#222222] text-sm font-medium border-b border-gray-200 dark:border-[#757575]">
                         <th class="py-4 px-6 text-center w-1/4" data-i18n="col_no">No.</th>
                         <th class="py-4 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
@@ -92,7 +92,5 @@
             </form>
         </div>
     </div>
-
-    <script src="{{ asset('js/admin/categories.js') }}"></script>
 </div>
 @endsection

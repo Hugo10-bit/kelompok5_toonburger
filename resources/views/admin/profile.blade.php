@@ -188,8 +188,5 @@
             </div>
         </div>
     </div>
-
-    <script src="{{ asset('js/admin/profile.js') }}"></script>
-
 </div>
 @endsection

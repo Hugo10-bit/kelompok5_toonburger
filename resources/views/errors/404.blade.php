@@ -11,9 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/errors.css') }}?v={{ filemtime(public_path('css/errors.css')) }}">
+    @vite(['resources/css/errors.css'])
 </head>
 <body class="relative min-h-screen flex flex-col justify-between retro-grid-bg">
 

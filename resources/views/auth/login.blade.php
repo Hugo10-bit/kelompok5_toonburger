@@ -19,29 +19,18 @@
     <!-- Prevent theme flash (FOUC) -->
     <script src="{{ asset('js/auth-head.js') }}"></script>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/tailwind-login-config.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        /* Light mode login page background: #F1D9B3 */
-        html:not(.dark) body,
-        html:not(.dark) body.retro-grid-bg,
-        html:not(.dark) .retro-grid-bg {
-            background-color: #F1D9B3 !important;
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/auth/login.js'])
 </head>
-<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
+<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
       data-register-url="{{ route('register') }}"
       data-login-url="{{ route('login') }}"
       data-dashboard-url="{{ route('dashboard') }}"
       data-flash-success="{{ session('success') }}">
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
-    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
         <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
@@ -72,24 +61,28 @@
             <!-- 1. Top-Left Burger: Small (~52px) -->
             <img src="{{ asset('images/floating-burger.png') }}"
                  alt="Burger"
+                 decoding="async"
                  style="transform: rotate(-15deg);"
                  class="absolute top-[26%] left-6 sm:left-8 md:left-9 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 2. Top-Right Burger: BIG (~100px) -->
             <img src="{{ asset('images/floating-burger.png') }}"
                  alt="Burger"
+                 decoding="async"
                  style="transform: rotate(14deg);"
                  class="absolute top-[17%] right-6 sm:right-8 md:right-10 w-20 sm:w-24 lg:w-28 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 3. Bottom-Left Burger: BIGGEST (~130px) -->
             <img src="{{ asset('images/floating-burger.png') }}"
                  alt="Burger"
+                 decoding="async"
                  style="transform: rotate(-10deg);"
                  class="absolute bottom-[23%] left-6 sm:left-8 md:left-9 w-24 sm:w-28 md:w-32 lg:w-36 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 4. Bottom-Right Burger: Small (~52px) -->
             <img src="{{ asset('images/floating-burger.png') }}"
                  alt="Burger"
+                 decoding="async"
                  style="transform: rotate(18deg);"
                  class="absolute bottom-[27%] right-6 sm:right-8 md:right-10 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
 
@@ -442,8 +435,5 @@
         </div>
 
     </div>
-
-    <!-- SCRIPT FOR SWITCHING TABS, TOGGLING PASSWORD, AND LANGUAGE LOCALIZATION -->
-    <script src="{{ asset('js/auth/login.js') }}"></script>
 </body>
 </html>

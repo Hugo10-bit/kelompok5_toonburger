@@ -388,5 +388,4 @@
 
 </div>
 
-<script src="{{ asset('js/admin/order-detail.js') }}"></script>
 @endsection

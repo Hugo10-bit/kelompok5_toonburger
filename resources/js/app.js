@@ -1,7 +1,5 @@
-import './bootstrap';
-
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+import './app-main';
+import './pages/about';
+import './pages/contact';
+import './pages/checkout';
+import './pages/order-show';

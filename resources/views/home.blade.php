@@ -305,7 +305,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(1)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -344,7 +344,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(6)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -383,7 +383,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(3)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -422,7 +422,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(4)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -437,7 +437,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
                         🍴
-                    </div>1
+                    </div>
                     <div>
                         <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
                             NGGAK SEMPAT  KE TOKO? GOFOOD AJA!
@@ -522,9 +522,10 @@
                 <div class="flex items-center gap-4">
                     <!-- Speech bubble question mark icon matching Photo 1 -->
                     <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 relative flex items-center justify-center">
-                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor">
+                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                             <path d="M32 6C17.64 6 6 17.64 6 32c0 5.4 1.64 10.42 4.45 14.59L8 58l12.18-2.67C23.94 56.91 27.84 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"/>
-                            <text x="32" y="39" fill="white" font-size="28" font-family="'BBH Hegarty', sans-serif" font-weight="bold" text-anchor="middle">?</text>
+                            <path d="M26.5 25.5c0-3.2 2.5-5.5 5.8-5.5 3.4 0 5.7 2.1 5.7 4.9 0 2.3-1.4 3.6-3.4 4.8-1.6 1-2.6 1.8-2.6 3.5v1.3" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+                            <circle cx="32" cy="41.5" r="2.6" fill="white"/>
                         </svg>
                     </div>
                     <div>

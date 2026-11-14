@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dapur Sedang Istirahat | Toon Burger</title>
+    <title>Koneksi Terputus | Toon Burger</title>
     <link rel="icon" type="image/png" href="/images/toon-head.png">
 
     <!-- Google Fonts -->
@@ -279,8 +279,7 @@
     <div class="card">
         <!-- Top Pill Badge -->
         <div class="badge">
-            <span>🍔</span>
-            <span>DAPUR SEDANG ISTIRAHAT • TUNGGU SEBENTAR YA!</span>
+            <span>KONEKSI TERPUTUS</span>
         </div>
 
         <!-- Animated Center Burger -->
@@ -293,17 +292,17 @@
         </div>
 
         <!-- Heading -->
-        <h1>Waduh! Chef Lagi Ngaso Dulu</h1>
+        <h1>Koneksi ke Toon Burger Terputus</h1>
 
-        <!-- Friendly Cartoon Description -->
+        <!-- Friendly Clear Description -->
         <p class="desc">
-            Panggangan burger lagi didinginkan sejenak dan chef lagi nyiapin bumbu rahasia berikutnya. Tenang, aroma lezat Toon Burger bakal segera kembali!
+            Halaman ini tidak dapat dimuat karena perangkat Anda sedang offline atau server kami belum merespons. Periksa koneksi internet Anda, lalu coba lagi.
         </p>
 
         <!-- Comic Speech Bubble -->
         <div class="comic-quote">
-            <span class="quote-icon">💭</span>
-            <p>"Patty double cheese paling juicy butuh racikan pas. Halaman ini bakal otomatis kebuka begitu dapur siap!"</p>
+            <span class="quote-icon" aria-hidden="true">🍔</span>
+            <p>"Tenang, halaman ini akan terbuka otomatis begitu koneksi internet dan server Toon Burger kembali tersambung."</p>
         </div>
 
         <!-- Comic Divider -->
@@ -312,16 +311,15 @@
         <!-- Action Button -->
         <div class="actions">
             <button type="button" onclick="checkAndReload()" class="btn btn-primary" id="retry-btn">
-                <span>🔄</span>
-                <span>Cek Dapur Sekarang</span>
+                <span>Coba Muat Ulang</span>
             </button>
         </div>
 
-        <!-- Auto-reconnect Cartoon Status Pill -->
+        <!-- Auto-reconnect Status Pill -->
         <div>
             <div class="status-pill" id="status-pill">
                 <span class="status-dot" id="status-dot"></span>
-                <span id="status-text">Sedang mengintip wajan dapur Toon Burger...</span>
+                <span id="status-text">Mengecek koneksi secara otomatis...</span>
             </div>
         </div>
     </div>
@@ -348,15 +346,15 @@
                     const text = document.getElementById('status-text');
                     const btn = document.getElementById('retry-btn');
                     if (dot) dot.classList.add('connected');
-                    if (text) text.innerText = '✨ Dapur sudah siap! Membuka gerai Toon Burger...';
-                    if (btn) btn.innerHTML = '<span>✅</span><span>Dapur Buka! Membuka...</span>';
+                    if (text) text.innerText = 'Koneksi tersambung! Membuka Toon Burger...';
+                    if (btn) btn.innerHTML = '<span>Tersambung! Membuka...</span>';
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 500);
                     return true;
                 }
             } catch (err) {
-                // Server still resting, keep listening
+                // Server still unreachable, keep listening
             } finally {
                 isChecking = false;
             }
@@ -366,18 +364,18 @@
         async function checkAndReload() {
             const btn = document.getElementById('retry-btn');
             const text = document.getElementById('status-text');
-            if (btn) btn.innerHTML = '<span>⏳</span><span>Mengecek dapur...</span>';
-            if (text) text.innerText = 'Mencari aroma panggangan burger...';
+            if (btn) btn.innerHTML = '<span>Memeriksa koneksi...</span>';
+            if (text) text.innerText = 'Menghubungi server Toon Burger...';
 
             const online = await checkServer();
             if (!online) {
                 if (btn) {
-                    btn.innerHTML = '<span>💤</span><span>Dapur Masih Santai, Coba Lagi</span>';
+                    btn.innerHTML = '<span>Masih Offline, Coba Lagi</span>';
                     setTimeout(() => {
-                        btn.innerHTML = '<span>🔄</span><span>Cek Dapur Sekarang</span>';
+                        btn.innerHTML = '<span>Coba Muat Ulang</span>';
                     }, 2200);
                 }
-                if (text) text.innerText = 'Dapur masih istirahat. Mengecek lagi secara otomatis...';
+                if (text) text.innerText = 'Belum tersambung. Mengecek ulang secara otomatis...';
             }
         }
 

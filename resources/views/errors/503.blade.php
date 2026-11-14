@@ -11,9 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{{ asset('css/errors.css') }}?v={{ filemtime(public_path('css/errors.css')) }}">
+    @vite(['resources/css/errors.css', 'resources/js/errors.js'])
 </head>
 <body class="relative min-h-screen flex flex-col justify-between retro-grid-bg"
       data-probe-url="{{ route('home') }}"
@@ -139,7 +137,5 @@
     <footer class="relative z-10 bg-[#253B36] text-white/85 py-4 px-4 text-center text-xs border-t-2 border-[#121212]">
         <p>&copy; {{ date('Y') }} <strong class="text-[#FFC72C]">TOON BURGER</strong> &bull; Setiap Gigitan Punya Cerita!</p>
     </footer>
-
-    <script src="{{ asset('js/errors.js') }}?v={{ filemtime(public_path('js/errors.js')) }}"></script>
 </body>
 </html>

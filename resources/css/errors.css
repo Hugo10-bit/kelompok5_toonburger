@@ -1,3 +1,7 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* =========================================================
    TOON BURGER - ERROR PAGES STYLESHEET (404, 500, 503)
    ========================================================= */
@@ -78,3 +82,4 @@ body {
     z-index: 1;
     animation: sparkleRotate 4s ease-in-out infinite;
 }
+

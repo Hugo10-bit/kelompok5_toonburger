@@ -32,7 +32,7 @@
     </div>
 
     @if($messages instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator && $messages->count() > 0)
-        <div class="space-y-3.5 flex-1">
+        <div class="space-y-3.5 flex-1 overflow-y-auto max-h-[calc(100vh-260px)] min-h-[260px] pr-1">
             @foreach($messages as $msg)
                 @php
                     $senderName = $msg->order->customer_name ?? $msg->user->name ?? 'Pelanggan Toon Burger';

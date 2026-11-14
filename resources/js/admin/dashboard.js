@@ -1,7 +1,8 @@
-(function () {
+function initAdminDashboard() {
     const barsGridEl = document.getElementById('revenue-bars-grid');
+    if (!barsGridEl) return;
     let chartPeriods = {};
-    if (barsGridEl && barsGridEl.dataset.chartPeriods) {
+    if (barsGridEl.dataset.chartPeriods) {
         try {
             chartPeriods = JSON.parse(barsGridEl.dataset.chartPeriods);
         } catch (e) {
@@ -111,4 +112,7 @@
     if (isEnglishActive()) {
         renderRevenueChart();
     }
-})();
+}
+
+initAdminDashboard();
+window.addEventListener('tb:admin:pjax:loaded', initAdminDashboard);

@@ -1552,9 +1552,9 @@ const _tbPhraseMap = {
     'SETIAP GIGITAN PUNYA CERITA!': 'EVERY BITE HAS A STORY!',
     'SETIAP GIGITAN': 'EVERY BITE',
     'PUNYA CERITA!': 'HAS A STORY!',
-    'MAU MAKAN APA HARI INI?': 'WHAT WOULD YOU LIKE TO EAT TODAY?',
-    'MAU MAKAN': 'WHAT WOULD YOU LIKE',
-    'APA HARI INI?': 'TO EAT TODAY?',
+    'MAU MAKAN APA HARI INI?': 'WHAT DO YOU WANT TO EAT?',
+    'MAU MAKAN': 'WHAT DO YOU',
+    'APA HARI INI?': 'WANT TO EAT?',
     'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.': 'Enjoy the blend of flavors, textures, and premium ingredients in every dish.',
     'Pickup Order': 'Pickup Order',
     'Delivery Order': 'Delivery Order',
@@ -1672,6 +1672,7 @@ const _tbPhraseMap = {
     'WITH US!': 'WITH US!',
     'Nama Lengkap': 'Full Name',
     'Nama Lengkap Anda': 'Your Full Name',
+    'emailanda@gmail.com':'youremail@gmail.com',
     'Nomor Telefon': 'Phone Number',
     'Pesan': 'Message',
     'Tulis Pesan Anda Disini....': 'Write your message here...',
@@ -1829,7 +1830,9 @@ const _tbPhraseMap = {
     'Gratis': 'Free',
     'Wajib': 'Required',
     'Opsional': 'Optional',
-    'Tutup': 'Close'
+    'Tutup': 'Close',
+    'Tekan Ctrl + Scroll untuk zoom peta': 'Press Ctrl + Scroll to zoom the map',
+    'Tekan ⌘ Cmd + Scroll untuk zoom peta': 'Press ⌘ Cmd + Scroll to zoom the map'
 };
 
 const _tbSortedPhrases = Object.keys(_tbPhraseMap).sort((a, b) => b.length - a.length);
@@ -2140,3 +2143,47 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
     });
 }
+
+Object.assign(window, {
+    promptRequireLogin,
+    formatRupiah,
+    openCartDrawer,
+    closeCartDrawer,
+    toggleCartDrawer,
+    refreshCart,
+    startOrderFromCart,
+    renderCart,
+    updateCartQty,
+    removeCartItem,
+    openProductModal,
+    closeProductModal,
+    adjustModalQty,
+    recalculateModalPrice,
+    submitAddToCart,
+    flyToCart,
+    quickAddToCart,
+    animateCartBadge,
+    showCartToast,
+    toggleMobileNav,
+    toggleUserDropdown,
+    confirmLogout,
+    closeLogoutModal,
+    submitLogoutForm,
+    clearHomeNavbarSearch,
+    escapeHomeHtml,
+    renderHomeSearchResults,
+    initTiltCards,
+    initHeroParallax,
+    markRevealComplete,
+    revealElement,
+    initScrollReveal,
+    initScrollEffects,
+    initSmoothWheelScroll,
+    initAllAppEffects,
+    translateEntirePage,
+    applyAppTranslations,
+    updateAppLangUI,
+    setAppLanguage,
+    toggleAppLanguage,
+});
+

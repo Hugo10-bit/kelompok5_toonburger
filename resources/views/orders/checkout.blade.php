@@ -4,18 +4,11 @@
 @extends('layouts.app')
 
 @section('title', 'Konfirmasi Pembayaran - Toon Burger')
-@section('footer_bg', 'bg-transparent')
+@section('footer_bg', 'orders-dot-bg')
 
 @section('content')
-<style>
-    body {
-        background-color: #FEF8E6 !important;
-        background-image: radial-gradient(circle, rgba(56, 88, 80, 0.18) 1.25px, transparent 1.25px) !important;
-        background-size: 16px 16px !important;
-        background-repeat: repeat !important;
-    }
-</style>
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-14 sm:pb-20">
+<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-14 sm:pb-20">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Top Breadcrumb -->
     <div class="mb-2">
@@ -265,30 +258,5 @@
         </div>
     </form>
 </div>
-
-<script>
-    async function updateCheckoutQty(cartKey, qty) {
-        try {
-            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-            const res = await fetch('/cart/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': token || ''
-                },
-                body: JSON.stringify({ cart_key: cartKey, quantity: qty })
-            });
-            const data = await res.json();
-            if (data.success) {
-                if (typeof window.tbAppNavigate === 'function') {
-                    window.tbAppNavigate(window.location.href, false, true);
-                } else {
-                    window.location.reload();
-                }
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
-</script>
+</div>
 @endsection

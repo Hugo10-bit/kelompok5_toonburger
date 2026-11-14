@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Riwayat Pesanan Saya - Toon Burger')
-@section('footer_bg', 'bg-bites-bg')
+@section('footer_bg', 'orders-dot-bg')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pb-16">
+<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-12 sm:pb-16">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Riwayat Pesanan</h1>
@@ -71,5 +72,6 @@
             </div>
         </div>
     @endif
+</div>
 </div>
 @endsection

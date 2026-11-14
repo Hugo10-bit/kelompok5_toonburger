@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Detail Pesanan #' . $order->order_number . ' - Toon Burger')
-@section('footer_bg', 'bg-bites-bg')
+@section('footer_bg', 'orders-dot-bg')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 sm:pb-16">
+<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-12 sm:pb-16 print:mt-0 print:pt-4">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Top Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -316,6 +317,5 @@
         </form>
     </div>
 </div>
-
-<script src="{{ asset('js/pages/order-show.js') }}"></script>
+</div>
 @endsection

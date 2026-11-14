@@ -18,12 +18,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{ asset('js/tailwind-admin-config.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0"
       data-logout-url="{{ route('logout') }}"
@@ -476,7 +473,5 @@
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_logout_short">Keluar</span>
         </button>
     </nav>
-
-    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

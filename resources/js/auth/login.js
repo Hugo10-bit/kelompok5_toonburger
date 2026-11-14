@@ -451,3 +451,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+Object.assign(window, {
+    toggleTheme,
+    setTheme,
+    toggleLanguageDropdown,
+    changeLanguage,
+    applyLanguage,
+    dismissAlert,
+    initAutoDismissAlerts,
+    switchToRegister,
+    switchToLogin,
+    togglePasswordVisibility,
+});

@@ -45,7 +45,7 @@
 
                     <!-- Left: Headline + Subtitle + Buttons -->
                     <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal">
-                        <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
+                        <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[52px] xl:text-[60px]"
                             style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                             MAU MAKAN<br>APA HARI INI?
                         </h1>
@@ -220,7 +220,7 @@
                             </span>
                             <button type="button"
                                     onclick="openProductModal({{ $product->id }})"
-                                    class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                    class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                                 Pesan
                             </button>
                         </div>
