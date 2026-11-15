@@ -13,32 +13,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Luckiest+Guy&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
-        <!-- Tailwind CSS & Breeze Scripts -->
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            toon: {
-                                granite: '#466967',
-                                'granite-dark': '#344E4C',
-                                wheat: '#F1D9B3',
-                                rust: '#C1502D',
-                                cream: '#FAF1E1',
-                                dark: '#263A38',
-                            }
-                        },
-                        fontFamily: {
-                            poppins: ['Poppins', 'sans-serif'],
-                            luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive'],
-                            brand: ['"BBH Hegarty"', 'sans-serif'],
-                        }
-                    }
-                }
-            }
-        </script>
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <!-- Vite Assets -->
+        @vite(['resources/css/app.css'])
     </head>
     <body class="min-h-full bg-[#F1D9B3] text-gray-900 antialiased flex flex-col justify-center items-center py-10 px-4 sm:px-6">
         <div class="w-full sm:max-w-md flex flex-col items-center">

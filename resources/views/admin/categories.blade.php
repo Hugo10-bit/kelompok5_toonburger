@@ -24,9 +24,9 @@
     </div>
 
     <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
-        <div class="overflow-x-auto">
+        <div class="overflow-auto max-h-[calc(100vh-240px)] min-h-[300px]">
             <table class="w-full text-center border-collapse">
-                <thead>
+                <thead class="sticky top-0 z-10">
                     <tr class="bg-[#EEEEEE] dark:bg-[#9E9E9E] text-gray-700 dark:text-[#222222] text-sm font-medium border-b border-gray-200 dark:border-[#757575]">
                         <th class="py-4 px-6 text-center w-1/4" data-i18n="col_no">No.</th>
                         <th class="py-4 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
@@ -76,7 +76,7 @@
         <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-sm w-full p-6 shadow-xl relative border border-gray-100 dark:border-[#4A4A4A]">
             <h3 id="catModalTitle" class="text-lg font-bold text-gray-900 dark:text-white mb-4" data-i18n="mod_cat_add">Tambah Kategori</h3>
 
-            <form id="catForm" action="{{ route('admin.categories.store') }}" method="POST">
+            <form id="catForm" action="{{ route('admin.categories.store') }}" data-store-url="{{ route('admin.categories.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="_method" id="catFormMethod" value="POST">
 
@@ -92,104 +92,5 @@
             </form>
         </div>
     </div>
-
-    <script>
-        (function () {
-            const catModal = document.getElementById('catModal');
-            const catForm = document.getElementById('catForm');
-            const catTitle = document.getElementById('catModalTitle');
-            const catMethod = document.getElementById('catFormMethod');
-            let catSortAsc = null;
-
-            window.toggleCategorySort = function () {
-                const tbody = document.getElementById('category-table-body');
-                if (!tbody) return;
-                const rows = Array.from(tbody.querySelectorAll('.category-row'));
-                catSortAsc = catSortAsc === null ? true : !catSortAsc;
-                rows.sort((a, b) => {
-                    const nameA = a.getAttribute('data-name') || '';
-                    const nameB = b.getAttribute('data-name') || '';
-                    return catSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-                });
-                rows.forEach((r, idx) => {
-                    const numCell = r.querySelector('.category-num');
-                    if (numCell) numCell.textContent = (idx + 1) + '.';
-                    tbody.appendChild(r);
-                });
-            };
-
-            window.openAddCatModal = function () {
-                if (!catModal || !catForm || !catTitle || !catMethod) return;
-                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-                catTitle.innerText = isEn ? 'Add Category' : 'Tambah Kategori';
-                catForm.action = "{{ route('admin.categories.store') }}";
-                catMethod.value = 'POST';
-                catForm.reset();
-                catModal.classList.remove('hidden');
-            };
-
-            window.openEditCatModal = function (cat) {
-                if (!catModal || !catForm || !catTitle || !catMethod) return;
-                const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
-                catTitle.innerText = isEn ? 'Edit Category' : 'Edit Kategori';
-                catForm.action = `/admin/categories/${cat.id}`;
-                catMethod.value = 'PUT';
-                document.getElementById('cat_name').value = cat.name;
-                catModal.classList.remove('hidden');
-            };
-
-            window.closeCatModal = function () {
-                if (catModal) catModal.classList.add('hidden');
-            };
-
-            if (catForm) {
-                let isSubmitting = false;
-                catForm.addEventListener('submit', function (e) {
-                    if (isSubmitting) return;
-                    e.preventDefault();
-                    isSubmitting = true;
-                    if (catModal) catModal.classList.add('hidden');
-
-                    const isEdit = catMethod && catMethod.value === 'PUT';
-                    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                    const titleText = isEdit 
-                        ? (isEn ? 'Saving Category...' : 'Menyimpan Perubahan Kategori...') 
-                        : (isEn ? 'Adding Category...' : 'Menambahkan Kategori...');
-                    const descText = isEdit 
-                        ? (isEn ? 'Updating category details in <b></b> seconds...' : 'Sedang menyimpan perubahan kategori dalam <b></b> detik...') 
-                        : (isEn ? 'Adding new category in <b></b> seconds...' : 'Sedang memproses kategori baru dalam <b></b> detik...');
-
-                    if (typeof Swal !== 'undefined') {
-                        let timerInterval;
-                        Swal.fire({
-                            title: titleText,
-                            html: descText,
-                            timer: 1500,
-                            timerProgressBar: true,
-                            allowOutsideClick: false,
-                            showConfirmButton: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                                const b = Swal.getPopup().querySelector('b');
-                                timerInterval = setInterval(() => {
-                                    if (b) {
-                                        const left = Math.ceil(Swal.getTimerLeft() / 1000);
-                                        b.textContent = left > 0 ? left : 1;
-                                    }
-                                }, 100);
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval);
-                            }
-                        }).then(() => {
-                            catForm.submit();
-                        });
-                    } else {
-                        catForm.submit();
-                    }
-                });
-            }
-        })();
-    </script>
 </div>
 @endsection

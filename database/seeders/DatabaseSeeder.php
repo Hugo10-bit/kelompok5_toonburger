@@ -16,11 +16,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $defaultAdmin = User::updateOrCreate(
+        $admin = User::updateOrCreate(
             ['username' => 'admin'],
             [
                 'name' => 'Toon Burger',
-                'email' => 'Toonburger@gmail.com',
+                'email' => 'admin@gmail.com',
                 'phone_number' => '085780153872',
                 'role' => 'admin',
                 'address' => 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714',
@@ -28,35 +28,23 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $admin = User::updateOrCreate(
-            ['username' => 'hugo'],
+        $customerDemo = User::updateOrCreate(
+            ['username' => 'customer'],
             [
-                'name' => 'Hugo Putra',
-                'email' => 'hugo@toonburger.com',
-                'phone_number' => '081345956487',
-                'role' => 'admin',
-                'address' => 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714',
-                'password' => Hash::make('Password123'),
-            ]
-        );
-
-        $staff = User::updateOrCreate(
-            ['username' => 'kasir_utama'],
-            [
-                'name' => 'Kasir Toon Burger',
-                'email' => 'kasir@toonburger.com',
-                'phone_number' => '081298765432',
-                'role' => 'staff',
-                'address' => 'Outlet Toon Burger Banjarbaru',
+                'name' => 'Customer',
+                'email' => 'customer@toonburger.com',
+                'phone_number' => '081234567890',
+                'role' => 'customer',
+                'address' => 'Jl. A. Yani Km. 35, Banjarbaru',
                 'password' => Hash::make('Password123'),
             ]
         );
 
         $customer = User::updateOrCreate(
-            ['username' => 'budisantoso'],
+            ['username' => 'budi santoso'],
             [
                 'name' => 'Budi Santoso',
-                'email' => 'customer@gmail.com',
+                'email' => 'budisantoso@gmail.com',
                 'phone_number' => '081377889900',
                 'role' => 'customer',
                 'address' => 'Jl. Mawar Indah No. 12, Banjarmasin',

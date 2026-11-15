@@ -58,6 +58,7 @@
                                  width="351"
                                  height="429"
                                  fetchpriority="high"
+                                 decoding="async"
                                  class="w-full h-full object-cover">
                         </div>
                         <div class="rounded-2xl overflow-hidden bg-[#24120A] aspect-[351/429]">
@@ -66,6 +67,7 @@
                                  width="351"
                                  height="429"
                                  loading="eager"
+                                 decoding="async"
                                  class="w-full h-full object-cover">
                         </div>
                     </div>
@@ -94,7 +96,7 @@
              class="w-full border-b border-[#E2D9C5] py-7 sm:py-9 lg:py-10 px-4 sm:px-6 lg:px-8"
              style="background-color: #FAF3E3;">
         <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-6 sm:gap-x-8 toon-reveal">
-            <div class="flex flex-col items-start md:items-start">
+            <div class="flex flex-col items-center text-center">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     15.000+
                 </span>
@@ -103,7 +105,7 @@
                 </span>
             </div>
 
-            <div class="flex flex-col items-start md:items-start">
+            <div class="flex flex-col items-center text-center">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     100%
                 </span>
@@ -112,7 +114,7 @@
                 </span>
             </div>
 
-            <div class="flex flex-col items-start md:items-start">
+            <div class="flex flex-col items-center text-center">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     90%
                 </span>
@@ -121,7 +123,7 @@
                 </span>
             </div>
 
-            <div class="flex flex-col items-start md:items-start">
+            <div class="flex flex-col items-center text-center">
                 <span class="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     5.0/5.0
                 </span>
@@ -146,6 +148,8 @@
                          alt="Hidangan lengkap burger sapi, ayam goreng renyah, kentang goreng, dan saus racikan dapur Toon Burger"
                          width="1010"
                          height="350"
+                         loading="lazy"
+                         decoding="async"
                          class="about-slide-photo is-active absolute inset-0 w-full h-full object-cover object-[58%_center] sm:object-center">
 
                     <img data-slide-photo="1"
@@ -153,6 +157,8 @@
                          alt="Pelanggan menikmati double smash burger hangat dengan keju leleh dan bawang karamel"
                          width="1010"
                          height="350"
+                         loading="lazy"
+                         decoding="async"
                          class="about-slide-photo absolute inset-0 w-full h-full object-cover object-center">
                 </div>
 
@@ -294,16 +300,16 @@
         ];
     @endphp
 
-    <section class="retro-grid-bg pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 px-4 sm:px-6 lg:px-8">
+    <section class="retro-grid-bg py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
 
-            <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-12 lg:mb-14 toon-reveal">
+            <div class="text-center max-w-4xl mx-auto mb-10 sm:mb-12 lg:mb-14 toon-reveal">
                 <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase tracking-wide leading-tight"
                     style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                     KATA MEREKA YANG UDAH NYOBA!
                 </h2>
-                <p class="text-xs sm:text-[13px] text-[#57534E] leading-relaxed mt-2 flex items-center justify-center gap-2 flex-wrap">
-                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#57534E] shrink-0" aria-hidden="true"></span>
+                <p class="text-xs sm:text-[13px] text-[#57534E] leading-relaxed mt-2 inline-flex items-baseline sm:items-center justify-center gap-2">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#57534E] shrink-0 -translate-y-[1px] sm:translate-y-0" aria-hidden="true"></span>
                     <span>Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.</span>
                 </p>
             </div>
@@ -417,165 +423,4 @@
         </div>
     </section>
 </div>
-
-<script>
-    (function () {
-        let currentSlide = 0;
-        const totalSlides = 2;
-        const autoIntervalMs = 10000;
-        const carousel = document.getElementById('about-visi-misi-carousel');
-        if (!carousel) return;
-
-        const liveRegion = document.getElementById('about-carousel-live');
-        const progressBar = document.getElementById('about-carousel-progress');
-        const photos = carousel.querySelectorAll('[data-slide-photo]');
-        const captions = carousel.querySelectorAll('[data-slide-caption]');
-        let clearPrevTimer = null;
-        let rafId = null;
-        let cycleStartTime = performance.now();
-        let isPaused = false;
-
-        function setProgressRatio(ratio) {
-            if (!progressBar) return;
-            const clamped = Math.max(0, Math.min(1, ratio));
-            progressBar.style.transform = 'scaleX(' + clamped.toFixed(4) + ')';
-        }
-
-        window.goToAboutSlide = function (nextIndex, isManual) {
-            const target = ((nextIndex % totalSlides) + totalSlides) % totalSlides;
-            if (target === currentSlide) return;
-
-            if (liveRegion) {
-                liveRegion.setAttribute('aria-live', isManual ? 'polite' : 'off');
-            }
-
-            const previous = currentSlide;
-            currentSlide = target;
-
-            if (clearPrevTimer) {
-                clearTimeout(clearPrevTimer);
-            }
-
-            photos.forEach(function (img, idx) {
-                img.classList.remove('is-active', 'is-prev');
-                if (idx === previous) {
-                    img.classList.add('is-prev');
-                }
-                if (idx === currentSlide) {
-                    // Force reflow when re-activating so opacity transition always runs cleanly.
-                    void img.offsetWidth;
-                    img.classList.add('is-active');
-                }
-            });
-
-            clearPrevTimer = setTimeout(function () {
-                if (photos[previous]) {
-                    photos[previous].classList.remove('is-prev');
-                }
-            }, 680);
-
-            captions.forEach(function (cap, idx) {
-                const active = idx === currentSlide;
-                cap.classList.toggle('is-active', active);
-                if (active) {
-                    cap.removeAttribute('aria-hidden');
-                } else {
-                    cap.setAttribute('aria-hidden', 'true');
-                }
-            });
-        };
-
-        function tickProgress(now) {
-            if (isPaused || document.hidden || !document.body.contains(carousel)) {
-                rafId = null;
-                return;
-            }
-
-            const elapsed = now - cycleStartTime;
-            if (elapsed >= autoIntervalMs) {
-                window.goToAboutSlide(currentSlide + 1, false);
-                cycleStartTime = now;
-                setProgressRatio(0);
-            } else {
-                setProgressRatio(elapsed / autoIntervalMs);
-            }
-
-            rafId = requestAnimationFrame(tickProgress);
-        }
-
-        function stopAutoSlide() {
-            isPaused = true;
-            if (rafId !== null) {
-                cancelAnimationFrame(rafId);
-                rafId = null;
-            }
-        }
-
-        function startAutoSlide() {
-            if (!document.body.contains(carousel)) return;
-            isPaused = false;
-            cycleStartTime = performance.now();
-            setProgressRatio(0);
-            if (rafId !== null) {
-                cancelAnimationFrame(rafId);
-            }
-            if (!document.hidden) {
-                rafId = requestAnimationFrame(tickProgress);
-            }
-        }
-
-        window.stepAboutSlide = function (delta) {
-            window.goToAboutSlide(currentSlide + delta, true);
-            startAutoSlide();
-        };
-
-        carousel.addEventListener('focusin', stopAutoSlide);
-        carousel.addEventListener('focusout', function (event) {
-            if (!carousel.contains(event.relatedTarget)) {
-                startAutoSlide();
-            }
-        });
-
-        if (window._tbAboutVisibilityHandler) {
-            document.removeEventListener('visibilitychange', window._tbAboutVisibilityHandler);
-        }
-        window._tbAboutVisibilityHandler = function () {
-            if (!document.body.contains(carousel)) return;
-            if (document.hidden) {
-                stopAutoSlide();
-            } else {
-                startAutoSlide();
-            }
-        };
-        document.addEventListener('visibilitychange', window._tbAboutVisibilityHandler);
-
-        carousel.addEventListener('keydown', function (event) {
-            if (event.key === 'ArrowLeft') {
-                event.preventDefault();
-                window.stepAboutSlide(-1);
-            } else if (event.key === 'ArrowRight') {
-                event.preventDefault();
-                window.stepAboutSlide(1);
-            }
-        });
-
-        let touchStartX = null;
-        carousel.addEventListener('touchstart', function (event) {
-            if (event.changedTouches && event.changedTouches.length > 0) {
-                touchStartX = event.changedTouches[0].clientX;
-            }
-        }, { passive: true });
-
-        carousel.addEventListener('touchend', function (event) {
-            if (touchStartX === null || !event.changedTouches || event.changedTouches.length === 0) return;
-            const diffX = event.changedTouches[0].clientX - touchStartX;
-            touchStartX = null;
-            if (Math.abs(diffX) > 40) {
-                window.stepAboutSlide(diffX < 0 ? 1 : -1);
-            }
-        }, { passive: true });
-
-        startAutoSlide();
-    })();
-</script>
 @endsection

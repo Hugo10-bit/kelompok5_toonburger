@@ -58,7 +58,7 @@
                     <!-- Left: Headline + Subtitle + Buttons -->
                     <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal-left">
                         <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[56px] xl:text-[64px]"
-                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
+                            style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                             SETIAP GIGITAN<br>PUNYA CERITA!
                         </h1>
 
@@ -136,7 +136,7 @@
 
     <!-- Section: Kenapa Toon Burger (Matching Figma exactly with enlarged spacious cards) -->
     <section class="relative w-full pt-12 pb-14 sm:pt-16 sm:pb-18 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
-             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover; content-visibility: auto; contain-intrinsic-size: 1px 520px;">
+             style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover;">
 
         <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2.5 mb-10 sm:mb-12 toon-reveal-up">
             <div class="inline-flex items-center px-4 py-1 rounded-full bg-[#4C6B65] text-white text-xs font-semibold border border-black/80 shadow-[1px_2px_0px_#1E2E2B]">
@@ -247,8 +247,7 @@
     <!-- ═══════════════════════════════════════════════
          4. BEST SELLER SECTION (Sesuai Foto 4)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none"
-             style="content-visibility: auto; contain-intrinsic-size: 1px 680px;">
+    <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto space-y-8">
 
             <!-- Section Header -->
@@ -306,7 +305,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(1)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -345,7 +344,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(6)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -384,7 +383,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(3)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -423,7 +422,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(4)"
-                                class="w-[54px] h-[40px] bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -438,7 +437,7 @@
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
                         🍴
-                    </div>1
+                    </div>
                     <div>
                         <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
                             NGGAK SEMPAT  KE TOKO? GOFOOD AJA!
@@ -465,7 +464,7 @@
          6. MENGENAL TOON BURGER SECTION (Sesuai Foto 3)
          ═══════════════════════════════════════════════ -->
     <section class="w-full py-14 sm:py-16 px-4 sm:px-6 lg:px-8 select-none"
-             style="background-color: #385850; content-visibility: auto; contain-intrinsic-size: 1px 480px;">
+             style="background-color: #385850;">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[32px] border-2 border-black shadow-[8px_8px_0px_#1e2f2b] p-6 sm:p-10 lg:p-12 toon-reveal-up">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -516,17 +515,17 @@
     <!-- ═══════════════════════════════════════════════
          7. ADA YANG MAU DITANYAIN? BANNER (Sesuai Foto 1)
          ═══════════════════════════════════════════════ -->
-    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none"
-             style="content-visibility: auto; contain-intrinsic-size: 1px 180px;">
+    <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto">
             <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
 
                 <div class="flex items-center gap-4">
                     <!-- Speech bubble question mark icon matching Photo 1 -->
                     <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 relative flex items-center justify-center">
-                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor">
+                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                             <path d="M32 6C17.64 6 6 17.64 6 32c0 5.4 1.64 10.42 4.45 14.59L8 58l12.18-2.67C23.94 56.91 27.84 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"/>
-                            <text x="32" y="39" fill="white" font-size="28" font-family="'BBH Hegarty', sans-serif" font-weight="bold" text-anchor="middle">?</text>
+                            <path d="M26.5 25.5c0-3.2 2.5-5.5 5.8-5.5 3.4 0 5.7 2.1 5.7 4.9 0 2.3-1.4 3.6-3.4 4.8-1.6 1-2.6 1.8-2.6 3.5v1.3" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
+                            <circle cx="32" cy="41.5" r="2.6" fill="white"/>
                         </svg>
                     </div>
                     <div>

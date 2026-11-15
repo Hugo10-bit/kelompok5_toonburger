@@ -29,27 +29,54 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (\PDOException $e, $request) {
+        $isDbConnectionDown = static function (\Throwable $e): bool {
+            $needles = [
+                'Connection refused',
+                'No connection could be made',
+                'target machine actively refused it',
+                'Server gone away',
+                'MySQL server has gone away',
+                'Connection timed out',
+                'php_network_getaddresses',
+                'Unknown database',
+                'SQLSTATE[HY000] [2002]',
+                'SQLSTATE[HY000] [2003]',
+                'SQLSTATE[HY000] [2006]',
+                'SQLSTATE[HY000] [1049]',
+            ];
+
+            for ($current = $e; $current !== null; $current = $current->getPrevious()) {
+                if (! $current instanceof \PDOException) {
+                    continue;
+                }
+
+                $code = (string) $current->getCode();
+                if (in_array($code, ['2002', '2003', '2006', '1049'], true)) {
+                    return true;
+                }
+
+                $message = $current->getMessage();
+                foreach ($needles as $needle) {
+                    if (str_contains($message, $needle)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        };
+
+        $exceptions->render(function (\Throwable $e, $request) use ($isDbConnectionDown) {
+            if (! $isDbConnectionDown($e)) {
+                return null;
+            }
+
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'Dapur Toon Burger sedang beres-beres. Silakan coba beberapa saat lagi.',
+                    'message' => 'Dapur Toon Burger sedang gangguan teknis. Silakan coba beberapa saat lagi.',
                 ], 500);
             }
-            return response()->view('errors.500', [
-                'message' => 'Sepertinya ada saus keju yang tumpah di ruang mesin dapur kami. Tim chef Toon Burger sedang beres-beres, yuk coba beberapa saat lagi!',
-            ], 500);
-        });
 
-        $exceptions->render(function (\Illuminate\Database\QueryException $e, $request) {
-            if (str_contains($e->getMessage(), 'Connection refused') || str_contains($e->getMessage(), '2002') || str_contains($e->getMessage(), 'Server gone away') || str_contains($e->getMessage(), 'target machine actively refused it')) {
-                if ($request->expectsJson()) {
-                    return response()->json([
-                        'message' => 'Dapur Toon Burger sedang beres-beres. Silakan coba beberapa saat lagi.',
-                    ], 500);
-                }
-                return response()->view('errors.500', [
-                    'message' => 'Sepertinya ada saus keju yang tumpah di ruang mesin dapur kami. Tim chef Toon Burger sedang beres-beres, yuk coba beberapa saat lagi!',
-                ], 500);
-            }
+            return response()->view('errors.500', [], 500);
         });
     })->create();

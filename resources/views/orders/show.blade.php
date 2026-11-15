@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
 @section('title', 'Detail Pesanan #' . $order->order_number . ' - Toon Burger')
+@section('footer_bg', 'orders-dot-bg')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-12 sm:pb-16 print:mt-0 print:pt-4">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Top Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -97,27 +99,27 @@
 
     <!-- PAYMENT PROMPT IF UNPAID (QRIS / CASH) -->
     @if($order->payment_status !== 'paid')
-        <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="bg-[#253B36] border border-[#385850]/60 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div class="space-y-2">
-                <span class="bg-black/20 text-yellow-200 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">
+                <span class="inline-block bg-[#1B2C28] text-[#EBD8A4] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                     Pembayaran Diperlukan
                 </span>
-                <h3 class="text-xl font-black">Total Tagihan: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</h3>
+                <h3 class="text-xl font-black text-white">Total Tagihan: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</h3>
                 <p class="text-xs text-white/90">
-                    Metode: <strong class="uppercase text-yellow-200">{{ $order->payment_method }}</strong>. Selesaikan pembayaran untuk memproses pesanan Anda.
+                    Metode: <strong class="uppercase text-[#EBD8A4]">{{ $order->payment_method }}</strong>. Selesaikan pembayaran untuk memproses pesanan Anda.
                 </p>
             </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-3">
                 @if($order->payment_method === 'qris')
-                    <button onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-black text-white hover:bg-gray-900 font-bold text-xs px-5 py-3 rounded-xl transition shadow-md whitespace-nowrap">
+                    <button type="button" onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-bold text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap cursor-pointer">
                         Tampilkan Kode QRIS
                     </button>
                 @endif
 
                 <form action="{{ route('orders.pay', $order->order_number) }}" method="POST">
                     @csrf
-                    <button type="submit" class="bg-white text-gray-900 hover:bg-yellow-100 font-black text-xs px-6 py-3 rounded-xl transition shadow-md whitespace-nowrap">
+                    <button type="submit" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
                         Bayar Sekarang (Simulasi Lunas)
                     </button>
                 </form>
@@ -229,7 +231,7 @@
 </div>
 
 <!-- QRIS PAYMENT MODAL -->
-<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden">
+<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" data-auto-open-qris="{{ ($order->payment_method === 'qris' && $order->payment_status !== 'paid') ? 'true' : 'false' }}">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-2 border-b border-gray-100">
             <div class="text-left">
@@ -315,60 +317,5 @@
         </form>
     </div>
 </div>
-
-<script>
-    function openReviewModal(productId, productName) {
-        document.getElementById('review-product-id').value = productId;
-        document.getElementById('review-product-name').innerText = productName;
-        document.getElementById('review-modal').classList.remove('hidden');
-    }
-
-    let qrisTimerSeconds = 5 * 60; // 5 menit
-    let qrisTimerInterval = null;
-
-    function startQrisCountdown() {
-        if (qrisTimerInterval) clearInterval(qrisTimerInterval);
-        const overlay = document.getElementById('qris-expired-overlay');
-        if (overlay) {
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
-        }
-
-        function tick() {
-            const min = Math.floor(qrisTimerSeconds / 60);
-            const sec = qrisTimerSeconds % 60;
-            const display = String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
-            const el = document.getElementById('qris-timer-display');
-            if (el) el.innerText = display;
-
-            if (qrisTimerSeconds <= 0) {
-                clearInterval(qrisTimerInterval);
-                if (overlay) {
-                    overlay.classList.remove('hidden');
-                    overlay.classList.add('flex');
-                }
-            } else {
-                qrisTimerSeconds--;
-            }
-        }
-
-        tick();
-        qrisTimerInterval = setInterval(tick, 1000);
-    }
-
-    function restartQrisTimer() {
-        qrisTimerSeconds = 5 * 60;
-        startQrisCountdown();
-    }
-
-    @if($order->payment_method === 'qris' && $order->payment_status !== 'paid')
-        window.addEventListener('DOMContentLoaded', () => {
-            const qrisModal = document.getElementById('qris-modal');
-            if (qrisModal) {
-                qrisModal.classList.remove('hidden');
-                startQrisCountdown();
-            }
-        });
-    @endif
-</script>
+</div>
 @endsection
