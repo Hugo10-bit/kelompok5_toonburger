@@ -19,15 +19,40 @@
             color: #1E2E2B;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
+            flex-direction: column;
+            justify-content: space-between;
             position: relative;
             overflow-x: hidden;
             background-image: 
                 linear-gradient(to right, rgba(59, 92, 86, 0.08) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(59, 92, 86, 0.08) 1px, transparent 1px);
             background-size: 36px 36px;
+        }
+
+        .main-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .site-footer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            background-color: #253B36;
+            color: rgba(255, 255, 255, 0.85);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            border-top: 2px solid #121212;
+        }
+
+        .site-footer strong {
+            color: #FFC72C;
         }
 
         @keyframes toonBob {
@@ -276,6 +301,7 @@
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 15%; left: 14%; width: 30px; animation-delay: 0.5s;">
     <img src="/images/star-sparkle.png" alt="" class="sparkle" style="bottom: 22%; right: 15%; width: 22px; animation-delay: 1.5s;">
 
+    <main class="main-wrap">
     <div class="card">
         <!-- Top Pill Badge -->
         <div class="badge">
@@ -323,8 +349,16 @@
             </div>
         </div>
     </div>
+    </main>
+
+    <!-- Compact Toon Burger Footer -->
+    <footer class="site-footer">
+        <p>&copy; <span id="footer-year">2026</span> <strong>TOON BURGER</strong> &bull; Setiap Gigitan Punya Cerita!</p>
+    </footer>
 
     <script>
+        const yearEl = document.getElementById('footer-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
         let isChecking = false;
 
         async function checkServer() {
