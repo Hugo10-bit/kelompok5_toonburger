@@ -27,3 +27,5 @@ cloudflared.exe
 .agents
 AGENTS.md
 .opencode
+.vercel
+.env*
