@@ -429,10 +429,13 @@
             <!-- ═══════════════════════════════════════════════
                  5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
                  ═══════════════════════════════════════════════ -->
-            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#a83232] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_rgba(168,50,50,0.5)] px-6 py-7 sm:px-8 sm:py-9 min-h-[124px] sm:min-h-[136px] flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
                 <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center text-2xl font-bold shrink-0 shadow-xs">
-                        🍴
+                    <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center shrink-0 shadow-xs">
+                        <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
+                            <path d="M5.2 2.5a.6.6 0 0 1 1.2 0V8.5H5.2V2.5zm2.4 0a.6.6 0 0 1 1.2 0V8.5H7.6V2.5zm2.4 0a.6.6 0 0 1 1.2 0V8.5H10V2.5zM5.2 8h6v1.2c0 1.8-1.6 3-2.1 3.4V21a.9.9 0 0 1-1.8 0v-8.4c-.5-.4-2.1-1.6-2.1-3.4V8z"/>
+                            <path d="M15 2c2.8 0 4.5 2.2 4.5 6.5v5h-2V21a1 1 0 0 1-1 1h-.5a1 1 0 0 1-1-1V2z"/>
+                        </svg>
                     </div>
                     <div>
                         <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
