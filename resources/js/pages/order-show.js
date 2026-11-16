@@ -3,6 +3,186 @@ let qrisTimerInterval = null;
 let paymentPollingInterval = null;
 let snapScriptPromise = null;
 
+function openQrisModal() {
+    const modal = document.getElementById('qris-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        startQrisCountdown();
+    }
+}
+
+function openPaymentProofModal() {
+    const qrisModal = document.getElementById('qris-modal');
+    if (qrisModal) qrisModal.classList.add('hidden');
+    const modal = document.getElementById('payment-proof-modal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function openProofLightbox() {
+    const modal = document.getElementById('proof-lightbox-modal');
+    if (modal) modal.classList.remove('hidden');
+}
+
+function showProofError(prefix, message) {
+    const errEl = document.getElementById(`${prefix}-client-error`);
+    if (!errEl) return;
+    if (message) {
+        errEl.textContent = message;
+        errEl.classList.remove('hidden');
+    } else {
+        errEl.textContent = '';
+        errEl.classList.add('hidden');
+    }
+}
+
+function compressImageToDataUrl(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const rawDataUrl = typeof reader.result === 'string' ? reader.result : '';
+            if (!rawDataUrl) {
+                resolve('');
+                return;
+            }
+            const img = new Image();
+            img.onload = () => {
+                try {
+                    const maxDim = 1280;
+                    const scale = Math.min(1, maxDim / Math.max(img.width || 1, img.height || 1));
+                    const w = Math.max(1, Math.round((img.width || 1) * scale));
+                    const h = Math.max(1, Math.round((img.height || 1) * scale));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        resolve(rawDataUrl);
+                        return;
+                    }
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    const compressed = canvas.toDataURL('image/jpeg', 0.82);
+                    resolve(compressed && compressed.startsWith('data:image/') ? compressed : rawDataUrl);
+                } catch (e) {
+                    resolve(rawDataUrl);
+                }
+            };
+            img.onerror = () => resolve(rawDataUrl);
+            img.src = rawDataUrl;
+        };
+        reader.onerror = () => resolve('');
+        reader.readAsDataURL(file);
+    });
+}
+
+function bindPaymentProofForm(form) {
+    if (!form || form.dataset.proofBound === 'true') return;
+    form.dataset.proofBound = 'true';
+
+    const prefix = form.dataset.proofForm;
+    const fileInput = document.getElementById(`${prefix}-proof-input`);
+    const proofDataInput = document.getElementById(`${prefix}-proof-data`);
+    const emptyState = document.getElementById(`${prefix}-empty-state`);
+    const previewState = document.getElementById(`${prefix}-preview-state`);
+    const previewImg = document.getElementById(`${prefix}-preview-img`);
+    const fileNameEl = document.getElementById(`${prefix}-file-name`);
+    const clearBtn = form.querySelector(`[data-proof-clear="${prefix}"]`);
+    const submitBtn = form.querySelector('[data-proof-submit]');
+    const submitTextEl = submitBtn ? submitBtn.querySelector('[data-submit-text]') : null;
+
+    let pendingCompression = Promise.resolve('');
+
+    function resetSelection() {
+        if (fileInput) {
+            fileInput.disabled = false;
+            fileInput.value = '';
+        }
+        if (proofDataInput) proofDataInput.value = '';
+        if (previewState) previewState.classList.add('hidden');
+        if (emptyState) emptyState.classList.remove('hidden');
+        if (fileNameEl) fileNameEl.textContent = '';
+        showProofError(prefix, '');
+        pendingCompression = Promise.resolve('');
+    }
+
+    if (fileInput) {
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files && fileInput.files[0];
+            showProofError(prefix, '');
+            if (!file) {
+                resetSelection();
+                return;
+            }
+
+            if (!/^image\/(jpeg|png|webp)$/i.test(file.type)) {
+                resetSelection();
+                showProofError(prefix, 'Format file harus gambar JPG, PNG, atau WEBP.');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                resetSelection();
+                showProofError(prefix, 'Ukuran gambar maksimal 5 MB.');
+                return;
+            }
+
+            if (fileNameEl) fileNameEl.textContent = file.name;
+            if (emptyState) emptyState.classList.add('hidden');
+            if (previewState) previewState.classList.remove('hidden');
+
+            pendingCompression = compressImageToDataUrl(file).then((dataUrl) => {
+                if (dataUrl) {
+                    if (proofDataInput) proofDataInput.value = dataUrl;
+                    if (previewImg) previewImg.src = dataUrl;
+                }
+                return dataUrl;
+            });
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            resetSelection();
+        });
+    }
+
+    form.addEventListener('submit', async (e) => {
+        if (form.dataset.submitting === 'true') return;
+
+        const hasFile = Boolean(fileInput && fileInput.files && fileInput.files.length > 0);
+        const hasData = Boolean(proofDataInput && proofDataInput.value);
+
+        if (!hasFile && !hasData) {
+            e.preventDefault();
+            showProofError(prefix, 'Silakan pilih foto / screenshot bukti transfer terlebih dahulu.');
+            return;
+        }
+
+        e.preventDefault();
+        form.dataset.submitting = 'true';
+        showProofError(prefix, '');
+
+        if (submitBtn) submitBtn.disabled = true;
+        if (submitTextEl) submitTextEl.textContent = 'Mengirim Bukti...';
+
+        await pendingCompression;
+
+        if (proofDataInput && proofDataInput.value && fileInput) {
+            // Avoid hitting serverless body size limits with redundant uncompressed file bytes
+            fileInput.disabled = true;
+        }
+
+        form.submit();
+    });
+}
+
+function initPaymentProofForms() {
+    document.querySelectorAll('form[data-proof-form]').forEach(bindPaymentProofForm);
+}
+
 function openReviewModal(productId, productName) {
     document.getElementById('review-product-id').value = productId;
     document.getElementById('review-product-name').innerText = productName;
@@ -111,8 +291,8 @@ function handlePaidRedirect() {
     if (typeof Swal !== 'undefined') {
         Swal.fire({
             icon: 'success',
-            title: 'Pembayaran Berhasil!',
-            text: 'Pembayaran Anda telah terkonfirmasi otomatis. Memperbarui status pesanan...',
+            title: 'Pembayaran Dikonfirmasi!',
+            text: 'Pembayaran Anda telah dikonfirmasi lunas. Memperbarui status pesanan...',
             timer: 1800,
             showConfirmButton: false,
             allowOutsideClick: false,
@@ -242,12 +422,18 @@ function startPaymentPolling(config) {
             const data = await res.json();
             if (data.payment_status === 'paid') {
                 handlePaidRedirect();
+            } else if (currentCfg.proofState === 'uploaded' && data.proof_rejected) {
+                clearInterval(paymentPollingInterval);
+                paymentPollingInterval = null;
+                window.location.reload();
             }
         } catch (e) {}
     }, 4000);
 }
 
 function initOrderShowPage() {
+    initPaymentProofForms();
+
     const qrisModal = document.getElementById('qris-modal');
     if (qrisModal && qrisModal.dataset.autoOpenQris === 'true') {
         qrisModal.classList.remove('hidden');
@@ -262,6 +448,9 @@ function initOrderShowPage() {
 }
 
 window.openReviewModal = openReviewModal;
+window.openQrisModal = openQrisModal;
+window.openPaymentProofModal = openPaymentProofModal;
+window.openProofLightbox = openProofLightbox;
 window.startQrisCountdown = startQrisCountdown;
 window.restartQrisTimer = restartQrisTimer;
 window.payWithMidtrans = payWithMidtrans;

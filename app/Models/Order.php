@@ -25,6 +25,10 @@ class Order extends Model
         'snap_token',
         'snap_redirect_url',
         'paid_at',
+        'payment_proof',
+        'payment_proof_uploaded_at',
+        'payment_proof_note',
+        'payment_proof_rejected_reason',
         'subtotal',
         'tax_amount',
         'discount_amount',
@@ -43,7 +47,18 @@ class Order extends Model
             'discount_amount' => 'decimal:2',
             'total_amount' => 'decimal:2',
             'paid_at' => 'datetime',
+            'payment_proof_uploaded_at' => 'datetime',
         ];
+    }
+
+    public function hasPaymentProof(): bool
+    {
+        return ! empty($this->payment_proof);
+    }
+
+    public function isAwaitingPaymentVerification(): bool
+    {
+        return $this->payment_status !== 'paid' && $this->status !== 'cancelled' && $this->hasPaymentProof();
     }
 
     public function user(): BelongsTo

@@ -83,3 +83,33 @@ window.confirmOrderDetailCancel = function (btn, orderNumber) {
         }
     });
 };
+
+window.confirmRejectPaymentProof = function (btn, orderNumber) {
+    const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
+    const form = btn.closest('form');
+    if (!form) return;
+
+    Swal.fire({
+        title: isEn ? 'Reject Payment Proof?' : 'Tolak Bukti Pembayaran?',
+        html: isEn
+            ? `Request customer to re-upload proof for order <b>#${orderNumber}</b>.`
+            : `Minta pelanggan mengunggah ulang bukti transfer untuk pesanan <b>#${orderNumber}</b>.`,
+        input: 'text',
+        inputPlaceholder: isEn ? 'Reason (optional, e.g. blurred / wrong amount)' : 'Alasan (opsional, misal: nominal kurang / foto buram)',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DE3B28',
+        cancelButtonColor: '#6B7280',
+        confirmButtonText: isEn ? 'Reject Proof' : 'Ya, Tolak Bukti',
+        cancelButtonText: isEn ? 'Cancel' : 'Batal',
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const reasonInput = form.querySelector('input[name="reason"]');
+            if (reasonInput) {
+                reasonInput.value = (result.value || '').trim();
+            }
+            form.submit();
+        }
+    });
+};

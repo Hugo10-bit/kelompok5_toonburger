@@ -52,7 +52,14 @@
                             @if($order->table)
                                 ({{ $order->table->table_number }})
                             @endif
-                            • Pembayaran: <span class="uppercase {{ $order->payment_status === 'paid' ? 'text-green-600' : 'text-red-600' }}">{{ $order->payment_status }}</span>
+                            • Pembayaran:
+                            @if($order->payment_status === 'paid')
+                                <span class="uppercase text-green-600">Lunas</span>
+                            @elseif($order->isAwaitingPaymentVerification())
+                                <span class="uppercase text-amber-600">Menunggu Verifikasi</span>
+                            @else
+                                <span class="uppercase text-red-600">Belum Dibayar</span>
+                            @endif
                         </div>
                     </div>
 

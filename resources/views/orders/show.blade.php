@@ -29,6 +29,30 @@
         </div>
     </div>
 
+    @if($errors->any())
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-2xl flex items-center justify-between shadow-2xs" role="alert">
+            <span>{{ $errors->first() }}</span>
+        </div>
+    @endif
+
+    @if($order->payment_status !== 'paid' && $order->status !== 'cancelled' && !empty($order->payment_proof_rejected_reason) && !$order->hasPaymentProof())
+        <div class="mb-6 p-4 sm:p-5 bg-red-50 border border-red-200 text-red-900 rounded-2xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4" role="alert">
+            <div class="space-y-1">
+                <span class="inline-block bg-red-100 text-red-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                    Bukti Pembayaran Perlu Diunggah Ulang
+                </span>
+                <p class="text-xs text-red-800 font-medium">
+                    {{ $order->payment_proof_rejected_reason }}
+                </p>
+            </div>
+            <button type="button"
+                    onclick="window.openPaymentProofModal()"
+                    class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition shadow-xs whitespace-nowrap cursor-pointer">
+                Upload Ulang Bukti
+            </button>
+        </div>
+    @endif
+
     <!-- LIVE KITCHEN STATUS STEPPER -->
     @php
         $statuses = ['pending' => 'Menunggu', 'confirmed' => 'Dikonfirmasi', 'preparing' => 'Dimasak', 'ready' => 'Siap Saji', 'completed' => 'Selesai'];
@@ -65,6 +89,10 @@
                     <span class="inline-flex items-center gap-1 bg-green-100 text-green-800 font-extrabold text-xs px-3 py-1 rounded-full">
                         LUNAS ({{ strtoupper($order->payment_method) }})
                     </span>
+                @elseif($order->isAwaitingPaymentVerification())
+                    <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 font-extrabold text-xs px-3 py-1 rounded-full">
+                        MENUNGGU VERIFIKASI ADMIN
+                    </span>
                 @else
                     <span class="inline-flex items-center gap-1 bg-red-100 text-red-800 font-extrabold text-xs px-3 py-1 rounded-full">
                         BELUM DIBAYAR
@@ -97,12 +125,13 @@
         </div>
     </div>
 
-    <!-- PAYMENT PROMPT IF UNPAID (MIDTRANS GATEWAY OR MANUAL VERIFICATION) -->
-    @if($order->payment_status !== 'paid')
+    <!-- PAYMENT PROMPT IF UNPAID (MIDTRANS GATEWAY OR MANUAL IN-SYSTEM VERIFICATION) -->
+    @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
         <div id="midtrans-payment-config"
              data-order-number="{{ $order->order_number }}"
              data-payment-status="{{ $order->payment_status }}"
              data-payment-method="{{ $order->payment_method }}"
+             data-proof-state="{{ $order->hasPaymentProof() ? 'uploaded' : (!empty($order->payment_proof_rejected_reason) ? 'rejected' : 'none') }}"
              data-midtrans-configured="{{ !empty($midtransConfigured) ? 'true' : 'false' }}"
              data-snap-script-url="{{ $snapScriptUrl ?? '' }}"
              data-client-key="{{ $midtransClientKey ?? '' }}"
@@ -114,7 +143,13 @@
              class="bg-[#253B36] border border-[#385850]/60 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div class="space-y-2">
                 <span class="inline-block bg-[#1B2C28] text-[#EBD8A4] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {{ !empty($midtransConfigured) && $order->payment_method !== 'cash' ? 'Pembayaran Otomatis' : 'Menunggu Pembayaran' }}
+                    @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
+                        Pembayaran Otomatis
+                    @elseif($order->hasPaymentProof())
+                        Bukti Pembayaran Terkirim
+                    @else
+                        Menunggu Pembayaran
+                    @endif
                 </span>
                 <h3 class="text-xl font-black text-white">Total Tagihan: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</h3>
                 <p class="text-xs text-white/90">
@@ -123,8 +158,10 @@
                         Selesaikan pembayaran — status pesanan akan otomatis berubah menjadi <strong>LUNAS</strong> setelah transfer diterima.
                     @elseif($order->payment_method === 'cash')
                         Silakan lakukan pembayaran tunai langsung ke kasir Toon Burger saat mengambil pesanan.
+                    @elseif($order->hasPaymentProof())
+                        Bukti pembayaran Anda sudah diterima sistem{{ $order->payment_proof_uploaded_at ? ' pada ' . $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') . ' WITA' : '' }}. Menunggu konfirmasi dari Admin / Kasir.
                     @else
-                        Scan QRIS / transfer sesuai nominal di atas, lalu kirim bukti pembayaran ke Admin untuk verifikasi. Status akan diperbarui otomatis setelah diverifikasi.
+                        Scan QRIS / transfer sesuai nominal di atas, lalu unggah bukti pembayaran langsung ke sistem agar Admin dapat segera mengonfirmasi.
                     @endif
                 </p>
             </div>
@@ -140,17 +177,70 @@
                 @elseif($order->payment_method !== 'cash')
                     @if($order->payment_method === 'qris')
                         <button type="button"
-                                onclick="document.getElementById('qris-modal').classList.remove('hidden'); if(window.startQrisCountdown) window.startQrisCountdown();"
+                                onclick="window.openQrisModal()"
                                 class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
-                            Tampilkan Kode QRIS
+                            {{ $order->hasPaymentProof() ? 'Lihat Kode QRIS' : 'Tampilkan Kode QRIS' }}
                         </button>
                     @endif
-                    <a href="https://wa.me/6281345956487?text={{ urlencode('Halo Admin Toon Burger, saya sudah membayar pesanan ' . $order->order_number . ' sebesar Rp ' . number_format($order->total_amount, 0, ',', '.') . ' via ' . strtoupper($order->payment_method) . '. Mohon verifikasinya.') }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap inline-flex items-center justify-center">
-                        Kirim Bukti via WhatsApp
-                    </a>
+                    <button type="button"
+                            onclick="window.openPaymentProofModal()"
+                            class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap inline-flex items-center justify-center cursor-pointer">
+                        {{ $order->hasPaymentProof() ? 'Ganti / Upload Ulang Bukti' : 'Upload Bukti Pembayaran' }}
+                    </button>
+                @endif
+            </div>
+        </div>
+    @endif
+
+    @if($order->hasPaymentProof())
+        <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div class="flex items-start gap-4">
+                <button type="button"
+                        onclick="window.openProofLightbox()"
+                        class="w-20 h-20 rounded-2xl border border-gray-200 bg-gray-50 overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer shadow-2xs"
+                        title="Klik untuk memperbesar bukti pembayaran">
+                    <img src="{{ $order->payment_proof }}"
+                         alt="Bukti Pembayaran {{ $order->order_number }}"
+                         class="w-full h-full object-cover">
+                </button>
+                <div class="space-y-1.5">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-xs font-black text-gray-900">Bukti Pembayaran Terkirim</span>
+                        @if($order->payment_status === 'paid')
+                            <span class="bg-green-100 text-green-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
+                                Terverifikasi Lunas
+                            </span>
+                        @else
+                            <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
+                                Menunggu Konfirmasi Admin
+                            </span>
+                        @endif
+                    </div>
+                    @if($order->payment_proof_uploaded_at)
+                        <p class="text-[11px] text-gray-500">
+                            Dikirim pada {{ $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA
+                        </p>
+                    @endif
+                    @if($order->payment_proof_note)
+                        <p class="text-xs text-gray-700 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
+                            Catatan: {{ $order->payment_proof_note }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 self-end sm:self-center shrink-0">
+                <button type="button"
+                        onclick="window.openProofLightbox()"
+                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
+                    Lihat Foto
+                </button>
+                @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
+                    <button type="button"
+                            onclick="window.openPaymentProofModal()"
+                            class="bg-[#385850] hover:bg-[#2C463F] text-white font-semibold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
+                        Ganti Bukti
+                    </button>
                 @endif
             </div>
         </div>
@@ -260,14 +350,14 @@
 </div>
 
 <!-- QRIS PAYMENT MODAL (Static fallback when Midtrans gateway keys are not configured) -->
-<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" data-auto-open-qris="{{ (empty($midtransConfigured) && $order->payment_method === 'qris' && $order->payment_status !== 'paid') ? 'true' : 'false' }}">
+<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" data-auto-open-qris="{{ (empty($midtransConfigured) && $order->payment_method === 'qris' && $order->payment_status !== 'paid' && $order->status !== 'cancelled' && !$order->hasPaymentProof()) ? 'true' : 'false' }}">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-2 border-b border-gray-100">
             <div class="text-left">
                 <span class="font-black text-sm text-gray-900 block">Pembayaran QRIS</span>
                 <span class="text-[11px] text-gray-500 font-medium">Merchant: Hugo (NMID: ID1026551937497)</span>
             </div>
-            <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-medium text-lg transition">&times;</button>
+            <button type="button" onclick="document.getElementById('qris-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-medium text-lg transition cursor-pointer">&times;</button>
         </div>
         
         <!-- 5 MINUTE COUNTDOWN TIMER BADGE -->
@@ -279,13 +369,13 @@
         </div>
 
         <!-- QRIS IMAGE BOX -->
-        <div class="relative bg-white p-2 rounded-2xl border-2 border-gray-200 inline-block shadow-sm w-full max-w-xs mx-auto">
-            <img id="qris-barcode-img" src="{{ asset('images/qris.png') }}" alt="QRIS Hugo" class="w-full h-auto max-h-[380px] mx-auto object-contain rounded-xl">
+        <div class="relative bg-white p-2 rounded-2xl border-2 border-gray-200 inline-block shadow-sm w-full max-w-[270px] mx-auto">
+            <img id="qris-barcode-img" src="{{ asset('images/qris.png') }}" alt="QRIS Hugo" class="w-full h-auto max-h-[280px] mx-auto object-contain rounded-xl">
             <div id="qris-expired-overlay" class="absolute inset-0 bg-white/90 backdrop-blur-xs rounded-2xl flex-col items-center justify-center p-4 hidden">
                 <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xl mb-2">!</div>
                 <h4 class="font-bold text-sm text-gray-900 mb-1">Waktu Pembayaran Habis</h4>
                 <p class="text-xs text-gray-500 mb-3">Sesi pembayaran QRIS 5 menit telah berakhir.</p>
-                <button type="button" onclick="restartQrisTimer()" class="bg-gray-900 text-white font-medium text-xs px-4 py-2 rounded-xl">Muat Ulang Timer</button>
+                <button type="button" onclick="restartQrisTimer()" class="bg-gray-900 text-white font-medium text-xs px-4 py-2 rounded-xl cursor-pointer">Muat Ulang Timer</button>
             </div>
         </div>
 
@@ -295,23 +385,64 @@
                 <span class="text-bites-red font-black text-base">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
             </div>
             <p class="text-[11px] text-gray-500">
-                Buka aplikasi m-Banking (BCA, Mandiri, BRI, BNI) atau E-Wallet (GoPay, OVO, Dana, ShopeePay), lalu scan barcode QRIS di atas.
+                Buka aplikasi m-Banking (BCA, Mandiri, BRI, BNI) atau E-Wallet (GoPay, OVO, Dana, ShopeePay), scan QRIS di atas, lalu unggah bukti transfer di bawah ini.
             </p>
         </div>
 
         <div class="space-y-2.5">
-            <a href="https://wa.me/6281345956487?text={{ urlencode('Halo Admin Toon Burger, saya sudah transfer pembayaran QRIS untuk pesanan ' . $order->order_number . ' sebesar Rp ' . number_format($order->total_amount, 0, ',', '.') . '. Berikut bukti transfernya.') }}"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-xs py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                <span>Kirim Bukti Transfer ke WhatsApp Admin</span>
-            </a>
+            @include('orders.partials.payment-proof-form', [
+                'order' => $order,
+                'prefix' => 'qris',
+                'submitLabel' => 'Kirim Bukti Pembayaran',
+            ])
             <p class="text-[11px] text-gray-500">
                 Status pesanan akan otomatis berubah menjadi <strong>LUNAS</strong> setelah diverifikasi oleh Admin / Kasir.
             </p>
         </div>
     </div>
 </div>
+
+<!-- DIRECT PAYMENT PROOF UPLOAD MODAL (Non-QRIS methods & re-upload) -->
+<div id="payment-proof-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" onclick="if(event.target === this) this.classList.add('hidden')">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between pb-2 border-b border-gray-100">
+            <div class="text-left">
+                <span class="font-black text-sm text-gray-900 block">Upload Bukti Pembayaran</span>
+                <span class="text-[11px] text-gray-500 font-medium">Pesanan {{ $order->order_number }} • {{ strtoupper(str_replace('_', ' ', $order->payment_method)) }}</span>
+            </div>
+            <button type="button" onclick="document.getElementById('payment-proof-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-medium text-lg transition cursor-pointer">&times;</button>
+        </div>
+
+        <div class="bg-amber-50 rounded-2xl p-3 border border-amber-200/70 text-left space-y-1">
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-gray-600 font-medium">Total Pembayaran:</span>
+                <span class="text-bites-red font-black text-base">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+            </div>
+            <p class="text-[11px] text-gray-500">
+                Bukti transfer akan langsung masuk ke sistem Admin Toon Burger tanpa perlu mengirim lewat WhatsApp.
+            </p>
+        </div>
+
+        @include('orders.partials.payment-proof-form', [
+            'order' => $order,
+            'prefix' => 'modal',
+            'submitLabel' => 'Kirim Bukti Pembayaran',
+        ])
+    </div>
+</div>
+
+@if($order->hasPaymentProof())
+<!-- PROOF IMAGE LIGHTBOX -->
+<div id="proof-lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs hidden" onclick="if(event.target === this) this.classList.add('hidden')">
+    <div class="relative max-w-lg w-full bg-white rounded-3xl p-4 shadow-2xl space-y-3">
+        <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-900">Bukti Pembayaran #{{ $order->order_number }}</span>
+            <button type="button" onclick="document.getElementById('proof-lightbox-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center text-lg font-medium cursor-pointer">&times;</button>
+        </div>
+        <img src="{{ $order->payment_proof }}" alt="Bukti Pembayaran" class="w-full max-h-[75vh] object-contain rounded-2xl bg-gray-50 border border-gray-100">
+    </div>
+</div>
+@endif
 
 <!-- REVIEW MODAL -->
 <div id="review-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs hidden">

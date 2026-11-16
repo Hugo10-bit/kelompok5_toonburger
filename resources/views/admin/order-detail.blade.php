@@ -164,6 +164,11 @@
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-[#4A3A20] text-amber-800 dark:text-[#FBBF24] border border-amber-200 dark:border-amber-700/50">
                         <span data-i18n="order_detail_refunded">Refund</span>
                     </span>
+                @elseif($order->isAwaitingPaymentVerification())
+                    <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-amber-100/80 dark:bg-[#4A3A20] text-amber-900 dark:text-[#FBBF24] border border-amber-300/70 dark:border-amber-700/50">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                        <span data-i18n="order_detail_verifying">Menunggu Verifikasi</span>&nbsp;({{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : ucfirst($order->payment_method ?: 'Cash') }})
+                    </span>
                 @else
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-rose-50 dark:bg-[#4A2626] text-rose-700 dark:text-[#F87171] border border-rose-200 dark:border-red-900/50">
                         <span data-i18n="order_detail_unpaid">Belum Lunas</span>&nbsp;({{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : ucfirst($order->payment_method ?: 'Cash') }})
@@ -227,6 +232,93 @@
             </div>
         </div>
     </div>
+
+    <!-- 1b. Card Bukti Pembayaran Pelanggan -->
+    @if($order->hasPaymentProof() || ($order->payment_method !== 'cash' && $order->payment_status !== 'paid' && $order->status !== 'cancelled'))
+    <div id="payment-proof-section" class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-4">
+        <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+                <h3 class="text-sm font-extrabold text-gray-900 dark:text-white" data-i18n="order_detail_proof_title">Bukti Pembayaran Pelanggan</h3>
+                <p class="text-xs text-gray-500 dark:text-[#BDBDBD] mt-0.5" data-i18n="order_detail_proof_sub">Periksa bukti transfer dari pelanggan lalu konfirmasi pembayaran.</p>
+            </div>
+            @if($order->hasPaymentProof())
+                <span class="px-3 py-1 rounded-full text-xs font-bold {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800 dark:bg-[#1E453B] dark:text-[#34D399]' : 'bg-amber-100 text-amber-900 dark:bg-[#4A3A20] dark:text-[#FBBF24]' }}">
+                    {{ $order->payment_status === 'paid' ? 'Terverifikasi Lunas' : 'Perlu Konfirmasi Admin' }}
+                </span>
+            @endif
+        </div>
+
+        @if($order->hasPaymentProof())
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 bg-[#F8F9FA] dark:bg-[#252525] border border-gray-200/70 dark:border-[#404040] rounded-2xl p-4 sm:p-5">
+                <div class="flex items-start gap-4">
+                    <button type="button"
+                            onclick="document.getElementById('admin-proof-lightbox').classList.remove('hidden')"
+                            class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl border border-gray-200 dark:border-[#4F4F4F] bg-white dark:bg-[#1E1E1E] overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer shadow-xs"
+                            title="Klik untuk memperbesar foto bukti transfer">
+                        <img src="{{ $order->payment_proof }}"
+                             alt="Bukti Pembayaran {{ $order->order_number }}"
+                             class="w-full h-full object-cover">
+                    </button>
+                    <div class="space-y-1.5 text-xs">
+                        <div class="font-bold text-gray-900 dark:text-white">
+                            Metode: <span class="uppercase">{{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : str_replace('_', ' ', $order->payment_method) }}</span>
+                            • Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                        </div>
+                        @if($order->payment_proof_uploaded_at)
+                            <div class="text-gray-500 dark:text-[#BDBDBD]">
+                                Diunggah: {{ $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA
+                            </div>
+                        @endif
+                        @if($order->payment_proof_note)
+                            <div class="bg-white dark:bg-[#333333] border border-gray-200/80 dark:border-[#444444] rounded-lg px-3 py-1.5 text-gray-700 dark:text-[#E5E5E5]">
+                                Catatan Pengirim: {{ $order->payment_proof_note }}
+                            </div>
+                        @endif
+                        <button type="button"
+                                onclick="document.getElementById('admin-proof-lightbox').classList.remove('hidden')"
+                                class="text-[#385A56] dark:text-[#8CC0B9] hover:underline font-semibold inline-block pt-1 cursor-pointer">
+                            Perbesar Foto Bukti &rarr;
+                        </button>
+                    </div>
+                </div>
+
+                @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
+                    <div class="flex items-center gap-2.5 flex-wrap shrink-0 self-end sm:self-center">
+                        <form action="{{ route('admin.orders.payment.reject', $order->id) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="reason" value="">
+                            <button type="button"
+                                    onclick="confirmRejectPaymentProof(this, '{{ $order->order_number }}')"
+                                    class="border border-rose-300 dark:border-red-800 text-rose-700 dark:text-[#FCA5A5] hover:bg-rose-50 dark:hover:bg-red-950/40 font-medium py-2.5 px-4 rounded-full text-xs transition cursor-pointer"
+                                    data-i18n="order_detail_reject_proof">
+                                Tolak Bukti
+                            </button>
+                        </form>
+                        <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="status" value="{{ $order->status === 'pending' ? 'confirmed' : $order->status }}">
+                            <input type="hidden" name="payment_status" value="paid">
+                            <button type="button"
+                                    onclick="confirmOrderDetailProcess(this, 'confirm_payment', '{{ $order->order_number }}')"
+                                    class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-semibold py-2.5 px-5 rounded-full text-xs shadow-xs transition cursor-pointer"
+                                    data-i18n="order_detail_confirm_paid">
+                                Konfirmasi Lunas
+                            </button>
+                        </form>
+                    </div>
+                @endif
+            </div>
+        @else
+            <div class="bg-[#F8F9FA] dark:bg-[#252525] border border-dashed border-gray-300 dark:border-[#4A4A4A] rounded-xl p-4 text-xs text-gray-600 dark:text-[#D4D4D4]">
+                @if(!empty($order->payment_proof_rejected_reason))
+                    <span class="font-bold text-rose-600 dark:text-[#F87171]">Bukti sebelumnya ditolak:</span> {{ $order->payment_proof_rejected_reason }}. Menunggu pelanggan mengunggah ulang bukti transfer.
+                @else
+                    Pelanggan belum mengunggah bukti pembayaran. Anda tetap dapat menekan tombol <strong>Konfirmasi Lunas</strong> di bawah apabila pembayaran sudah masuk ke rekening/QRIS.
+                @endif
+            </div>
+        @endif
+    </div>
+    @endif
 
     <!-- 2. Card Informasi Pemesan (Persis Mockup Figma) -->
     <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs">
@@ -400,5 +492,23 @@
     </div>
 
 </div>
+
+@if($order->hasPaymentProof())
+<div id="admin-proof-lightbox"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs hidden"
+     onclick="if(event.target === this) this.classList.add('hidden')">
+    <div class="max-w-xl w-full bg-white dark:bg-[#2B2B2B] rounded-3xl p-4 shadow-2xl space-y-3">
+        <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-gray-900 dark:text-white">Bukti Pembayaran #{{ $order->order_number }}</span>
+            <button type="button"
+                    onclick="document.getElementById('admin-proof-lightbox').classList.add('hidden')"
+                    class="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#3F3F3F] text-gray-600 dark:text-gray-200 hover:bg-gray-200 flex items-center justify-center text-lg font-medium cursor-pointer">&times;</button>
+        </div>
+        <img src="{{ $order->payment_proof }}"
+             alt="Bukti Pembayaran {{ $order->order_number }}"
+             class="w-full max-h-[78vh] object-contain rounded-2xl bg-gray-50 dark:bg-[#1F1F1F] border border-gray-100 dark:border-[#3F3F3F]">
+    </div>
+</div>
+@endif
 
 @endsection

@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders/{order_number}/midtrans-token', [OrderController::class, 'createMidtransToken'])->name('orders.midtrans.token');
     Route::post('/orders/{order_number}/sync-payment', [OrderController::class, 'syncMidtransPayment'])->name('orders.payment.sync');
     Route::get('/orders/{order_number}/payment-status', [OrderController::class, 'paymentStatus'])->name('orders.payment.status');
+    Route::post('/orders/{order_number}/payment-proof', [OrderController::class, 'uploadPaymentProof'])->name('orders.payment.proof');
     Route::post('/orders/{order_number}/review', [OrderController::class, 'storeReview'])->name('orders.review');
 
     Route::get('/dashboard', function () {
@@ -66,6 +67,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
             Route::get('/orders/{order_number}', [AdminController::class, 'orderDetail'])->name('orders.show');
             Route::match(['post', 'patch'], '/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
+            Route::post('/orders/{id}/reject-payment-proof', [AdminController::class, 'rejectPaymentProof'])->name('orders.payment.reject');
 
             Route::get('/products', [AdminController::class, 'products'])->name('products');
             Route::post('/products/store', [AdminController::class, 'storeProduct'])->name('products.store');

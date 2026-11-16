@@ -12,6 +12,8 @@ use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -261,6 +263,161 @@ class OrderController extends Controller
     }
 
     /**
+     * Store customer-uploaded payment proof directly in the system for admin verification.
+     */
+    public function uploadPaymentProof(Request $request, $order_number)
+    {
+        $order = Order::where('order_number', $order_number)->firstOrFail();
+        $this->authorizeOrderOwner($order);
+
+        if ($order->payment_status === 'paid') {
+            return redirect()->route('orders.show', $order->order_number)
+                ->with('success', 'Pembayaran pesanan ini sudah berstatus LUNAS.');
+        }
+
+        if ($order->status === 'cancelled') {
+            return redirect()->route('orders.show', $order->order_number)
+                ->with('error', 'Pesanan yang dibatalkan tidak dapat mengunggah bukti pembayaran.');
+        }
+
+        if ($order->payment_method === 'cash') {
+            return redirect()->route('orders.show', $order->order_number)
+                ->with('error', 'Pembayaran tunai dilakukan langsung ke kasir tanpa perlu unggah bukti.');
+        }
+
+        $validator = Validator::make($request->all(), [
+            'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'proof_data' => 'nullable|string',
+            'payment_proof_note' => 'nullable|string|max:255',
+        ], [
+            'proof_image.image' => 'Bukti pembayaran wajib berupa gambar/screenshot (JPEG, PNG, atau WEBP).',
+            'proof_image.mimes' => 'Format gambar bukti harus JPEG, PNG, JPG, atau WEBP.',
+            'proof_image.max' => 'Ukuran gambar bukti maksimal 5 MB.',
+            'payment_proof_note.max' => 'Catatan pengiriman maksimal 255 karakter.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('orders.show', $order->order_number)
+                ->withErrors($validator)
+                ->withInput($request->except(['proof_data', 'proof_image']));
+        }
+
+        $dataUri = $this->resolvePaymentProofDataUri($request);
+        if (! $dataUri) {
+            return redirect()->route('orders.show', $order->order_number)
+                ->withErrors(['proof_image' => 'Pilih atau unggah foto screenshot bukti transfer yang valid terlebih dahulu.'])
+                ->withInput($request->except(['proof_data', 'proof_image']));
+        }
+
+        $note = $request->filled('payment_proof_note')
+            ? trim((string) $request->input('payment_proof_note'))
+            : null;
+
+        $order->update([
+            'payment_proof' => $dataUri,
+            'payment_proof_uploaded_at' => now(),
+            'payment_proof_note' => $note,
+            'payment_proof_rejected_reason' => null,
+            'payment_gateway' => $order->payment_gateway ?: 'manual_upload',
+        ]);
+
+        if (Schema::hasTable('payments')) {
+            Payment::updateOrCreate(
+                ['order_id' => $order->id],
+                [
+                    'transaction_code' => $order->payment?->transaction_code ?? ('PAY-' . strtoupper(Str::random(10))),
+                    'payment_method' => $order->payment_method,
+                    'amount' => $order->total_amount,
+                    'status' => 'pending',
+                    'payment_details' => [
+                        'uploaded_by' => Auth::user()?->name ?? $order->customer_name,
+                        'uploaded_at' => now()->toIso8601String(),
+                        'note' => $note,
+                    ],
+                ]
+            );
+        }
+
+        return redirect()->route('orders.show', $order->order_number)
+            ->with('success', 'Bukti pembayaran berhasil dikirim ke sistem! Admin / Kasir akan segera mengonfirmasi pesanan Anda.');
+    }
+
+    /**
+     * Extract, validate, and optionally optimize the uploaded proof image into a base64 data URI.
+     */
+    private function resolvePaymentProofDataUri(Request $request): ?string
+    {
+        $rawDataUrl = trim((string) $request->input('proof_data', ''));
+        if ($rawDataUrl !== '' && preg_match('/^data:image\/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+\/=]+)$/', $rawDataUrl, $matches)) {
+            $binary = base64_decode($matches[2], true);
+            if ($binary !== false && strlen($binary) > 0 && strlen($binary) <= 2097152 && @getimagesizefromstring($binary) !== false) {
+                $mime = $matches[1] === 'jpg' ? 'jpeg' : $matches[1];
+                return "data:image/{$mime};base64," . base64_encode($binary);
+            }
+        }
+
+        if (! $request->hasFile('proof_image')) {
+            return null;
+        }
+
+        $file = $request->file('proof_image');
+        if (! $file->isValid()) {
+            return null;
+        }
+
+        $binary = @file_get_contents($file->getRealPath());
+        if ($binary === false || @getimagesizefromstring($binary) === false) {
+            return null;
+        }
+
+        $mime = strtolower((string) $file->getMimeType());
+        if (! in_array($mime, ['image/jpeg', 'image/png', 'image/webp'], true)) {
+            $mime = 'image/jpeg';
+        }
+
+        return $this->optimizeProofImageBinary($binary, $mime);
+    }
+
+    /**
+     * Downscale oversized images with GD when available so DB storage remains compact.
+     */
+    private function optimizeProofImageBinary(string $binary, string $mime): string
+    {
+        if (function_exists('imagecreatefromstring') && function_exists('imagejpeg')) {
+            $img = @imagecreatefromstring($binary);
+            if ($img !== false) {
+                $width = imagesx($img);
+                $height = imagesy($img);
+                $maxDim = 1280;
+
+                if ($width > $maxDim || $height > $maxDim || strlen($binary) > 350000) {
+                    $scale = min(1, $maxDim / max($width, $height));
+                    $newW = max(1, (int) round($width * $scale));
+                    $newH = max(1, (int) round($height * $scale));
+                    $canvas = imagecreatetruecolor($newW, $newH);
+                    $white = imagecolorallocate($canvas, 255, 255, 255);
+                    imagefill($canvas, 0, 0, $white);
+                    imagecopyresampled($canvas, $img, 0, 0, 0, 0, $newW, $newH, $width, $height);
+
+                    ob_start();
+                    imagejpeg($canvas, null, 82);
+                    $jpegData = ob_get_clean();
+                    imagedestroy($canvas);
+                    imagedestroy($img);
+
+                    if ($jpegData !== false && $jpegData !== '') {
+                        return 'data:image/jpeg;base64,' . base64_encode($jpegData);
+                    }
+                } else {
+                    imagedestroy($img);
+                }
+            }
+        }
+
+        return "data:{$mime};base64," . base64_encode($binary);
+    }
+
+    /**
      * Lightweight endpoint for auto-polling live order payment status.
      */
     public function paymentStatus($order_number)
@@ -272,6 +429,8 @@ class OrderController extends Controller
             'payment_status' => $order->payment_status,
             'status' => $order->status,
             'paid_at' => optional($order->paid_at)->toIso8601String(),
+            'has_payment_proof' => $order->hasPaymentProof(),
+            'proof_rejected' => ! empty($order->payment_proof_rejected_reason),
         ]);
     }
 

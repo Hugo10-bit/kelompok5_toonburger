@@ -281,8 +281,12 @@ class AdminController extends Controller
 
         if ($request->filled('payment_status')) {
             $order->payment_status = $request->payment_status;
-            if ($request->payment_status === 'paid' && ! $order->paid_at) {
-                $order->paid_at = now();
+            if ($request->payment_status === 'paid') {
+                if (! $order->paid_at) {
+                    $order->paid_at = now();
+                }
+                $order->payment_proof_rejected_reason = null;
+                $order->payment_gateway = $order->payment_gateway ?: 'manual_verification';
             }
         }
 
@@ -293,7 +297,51 @@ class AdminController extends Controller
 
         $order->save();
 
+        if ($request->payment_status === 'paid' && Schema::hasTable('payments')) {
+            Payment::updateOrCreate(
+                ['order_id' => $order->id],
+                [
+                    'transaction_code' => $order->payment?->transaction_code ?? ('PAY-' . strtoupper(Str::random(10))),
+                    'payment_method' => $order->payment_method,
+                    'amount' => $order->total_amount,
+                    'status' => 'success',
+                    'paid_at' => $order->paid_at,
+                ]
+            );
+        }
+
+        if ($request->payment_status === 'paid') {
+            return back()->with('success', "Pembayaran pesanan {$order->order_number} berhasil dikonfirmasi LUNAS.");
+        }
+
         return back()->with('success', "Status pesanan {$order->order_number} diperbarui menjadi " . ucfirst($order->status) . ".");
+    }
+
+    /**
+     * Reject customer payment proof so customer can re-upload a valid screenshot.
+     */
+    public function rejectPaymentProof(Request $request, $id)
+    {
+        $order = Order::findOrFail($id);
+
+        if ($order->payment_status === 'paid') {
+            return back()->with('error', 'Pesanan ini sudah lunas.');
+        }
+
+        $request->validate([
+            'reason' => 'nullable|string|max:255',
+        ], [
+            'reason.max' => 'Alasan penolakan maksimal 255 karakter.',
+        ]);
+
+        $reason = trim((string) $request->input('reason', ''));
+        $order->update([
+            'payment_proof' => null,
+            'payment_proof_uploaded_at' => null,
+            'payment_proof_rejected_reason' => $reason !== '' ? $reason : 'Bukti transfer kurang jelas atau nominal belum sesuai. Silakan unggah ulang.',
+        ]);
+
+        return back()->with('success', "Bukti pembayaran {$order->order_number} ditolak. Pelanggan diminta mengunggah ulang bukti transfer.");
     }
 
     /**

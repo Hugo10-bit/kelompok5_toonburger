@@ -90,8 +90,19 @@
 
             <div class="bg-white dark:bg-[#3C3C3C] rounded-[26px] border border-gray-200/90 dark:border-[#525252] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.35)] p-6 flex flex-col justify-between">
                 <div>
-                    <div class="mb-3.5">
+                    <div class="mb-3.5 flex items-center justify-between gap-2 flex-wrap">
                         <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3.5 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
+                        @if($order->payment_status === 'paid')
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#D1FAE5]/70 dark:bg-[#1E453B] text-[#065F46] dark:text-[#34D399]" data-i18n="order_detail_paid">Lunas</span>
+                        @elseif($order->isAwaitingPaymentVerification())
+                            <a href="{{ route('admin.orders.show', $order->order_number) }}#payment-proof-section"
+                               class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-100 hover:bg-amber-200 dark:bg-[#4A3A20] text-amber-900 dark:text-[#FBBF24] border border-amber-300/80 dark:border-amber-700/60 transition inline-flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                                <span data-i18n="ord_proof_pending">Bukti Masuk • Konfirmasi</span>
+                            </a>
+                        @elseif($order->status !== 'cancelled')
+                            <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-rose-50 dark:bg-[#4A2626] text-rose-700 dark:text-[#F87171]" data-i18n="order_detail_unpaid">Belum Lunas</span>
+                        @endif
                     </div>
 
                     <div class="flex items-start justify-between gap-2 mb-3.5">
