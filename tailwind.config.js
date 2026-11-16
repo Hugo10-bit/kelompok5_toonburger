@@ -33,6 +33,7 @@ export default {
             },
             fontFamily: {
                 poppins: ['Poppins', 'sans-serif'],
+                roboto: ['Roboto', 'sans-serif'],
                 luckiest: ['"BBH Hegarty"', '"Luckiest Guy"', 'cursive', 'sans-serif'],
                 brand: ['"BBH Hegarty"', 'sans-serif'],
                 hegarty: ['"BBH Hegarty"', 'sans-serif'],

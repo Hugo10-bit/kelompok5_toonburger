@@ -17,10 +17,10 @@
     @endif
     <title>@yield('title', 'Toon Burger - Smash Burger & Takeaway Hub')</title>
 
-    <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Nunito + Luckiest Guy -->
+    <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Roboto + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Poppins:wght@300;400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Nunito:wght@900&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -87,7 +87,7 @@
     </form>
 
     <!-- Navbar -->
-    <header class="sticky top-0 z-50 px-2 sm:px-6 lg:px-8 pt-2.5 sm:pt-4 pb-2 select-none">
+    <header class="sticky top-0 z-50 px-2 sm:px-6 lg:px-8 pt-2.5 sm:pt-4 pb-2 select-none font-roboto">
         <div class="w-full max-w-[1440px] xl:max-w-[1520px] mx-auto relative">
             <div class="flex items-center justify-between px-3.5 sm:px-7 lg:px-8 py-2 sm:py-3 rounded-full border border-white/25 transition-all duration-300 relative shadow-[0_10px_30px_-5px_rgba(0,0,0,0.25)] backdrop-blur-xs"
                  style="background-color: rgba(45, 72, 67, 0.65); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);">
@@ -103,24 +103,24 @@
                 </a>
 
                 <!-- Nav links -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm">
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-sm font-roboto">
                     <a href="{{ route('home') }}" data-page-transition
-                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                       class="px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium
                               {{ request()->routeIs('home', 'welcome') || request()->is('/') || request()->is('home') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span data-i18n-app="nav_home">Beranda</span>
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition
-                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                       class="px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium
                               {{ request()->routeIs('menu*') || request()->is('menu*') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span data-i18n-app="nav_menu">Menu</span>
                     </a>
                     <a href="{{ route('about') }}" data-page-transition
-                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                       class="px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium
                               {{ request()->routeIs('about') || request()->is('about') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span data-i18n-app="nav_about">Tentang</span>
                     </a>
                     <a href="{{ route('contact') }}" data-page-transition
-                       class="px-4 py-1.5 rounded-full transition text-sm font-bold
+                       class="px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium
                               {{ request()->routeIs('contact') || request()->is('contact') ? 'bg-white/20 text-white shadow-xs' : 'text-white/80 hover:text-white hover:bg-white/10' }}">
                         <span data-i18n-app="nav_contact">Kontak</span>
                     </a>
@@ -234,7 +234,7 @@
                                     </div>
                                 </div>
 
-                                <div class="space-y-1 text-xs font-medium text-gray-700">
+                                <div class="space-y-1 text-xs font-roboto font-medium text-gray-700">
                                     <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
                                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                                         <span data-i18n-app="nav_orders">Pesanan Saya</span>
@@ -249,13 +249,13 @@
                                     </button>
 
                                     @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-semibold">
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-medium">
                                             <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                             <span data-i18n-app="nav_admin">Dashboard Admin</span>
                                         </a>
                                     @endif
                                     <div class="border-t border-gray-100 mt-2 pt-2">
-                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-semibold transition">
+                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-medium transition">
                                             <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                                             <span data-i18n-app="nav_logout">Logout</span>
                                         </button>
@@ -264,11 +264,11 @@
                             </div>
                         </div>
                     @else
-                        <div class="hidden sm:flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-bold shrink-0 select-none">
-                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-semibold">
+                        <div class="hidden sm:flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-roboto font-medium shrink-0 select-none">
+                            <a href="{{ route('login') }}" class="text-white hover:text-white/80 transition px-2 py-1 font-medium">
                                 <span data-i18n-app="nav_login">Login</span>
                             </a>
-                            <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-bold px-4 py-1.5 rounded-xl transition shadow-xs">
+                            <a href="{{ route('register') }}" class="bg-[#F5A623] hover:bg-[#E0961F] active:scale-95 text-slate-900 font-medium px-4 py-1.5 rounded-xl transition shadow-xs">
                                 <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
                         </div>
@@ -288,8 +288,8 @@
             </div>
 
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-[60] mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800">
-                <div class="space-y-1 text-sm font-semibold">
+            <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-[60] mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800 font-roboto">
+                <div class="space-y-1 text-sm font-roboto font-medium">
                     @auth
                         <!-- Compact Profile Info inside Mobile Menu -->
                         <div class="px-3.5 py-3 mb-2 rounded-xl bg-gray-50 border border-gray-100 flex items-center gap-3">
@@ -331,56 +331,56 @@
                     </div>
 
                     <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition
+                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                         {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         <span data-i18n-app="nav_home">Beranda</span>
                     </a>
                     <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition
+                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                         {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         <span data-i18n-app="nav_menu">Menu</span>
                     </a>
                     <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition
+                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                         {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         <span data-i18n-app="nav_about">Tentang</span>
                     </a>
                     <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition
+                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                         {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                         <span data-i18n-app="nav_contact">Kontak</span>
                     </a>
                     @auth
                         <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
-                           class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition">
+                           class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition font-roboto font-medium">
                             <span data-i18n-app="nav_orders">Pesanan Saya</span>
                         </a>
                         @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
                             <a href="{{ route('admin.dashboard') }}" onclick="toggleMobileNav()"
-                               class="block px-4 py-2 rounded-xl text-[#3b6e64] hover:bg-[#3b6e64]/10 transition font-semibold">
+                               class="block px-4 py-2 rounded-xl text-[#3b6e64] hover:bg-[#3b6e64]/10 transition font-roboto font-medium">
                                 <span data-i18n-app="nav_admin">Dashboard Admin</span>
                             </a>
                         @endif
                         <!-- Switch Language Button in Mobile Menu -->
                         <button type="button" onclick="toggleAppLanguage()"
-                                class="w-full flex items-center gap-2.5 px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition text-left cursor-pointer">
+                                class="w-full flex items-center gap-2.5 px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition text-left cursor-pointer font-roboto font-medium">
                             <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
                             </svg>
-                            <span id="app-mobile-user-lang-text" class="text-xs font-semibold">Bahasa: Indonesia</span>
+                            <span id="app-mobile-user-lang-text" class="text-xs font-roboto font-medium">Bahasa: Indonesia</span>
                         </button>
                         <button type="button" onclick="confirmLogout(event)"
-                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-semibold cursor-pointer">
+                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-roboto font-medium cursor-pointer">
                             <span data-i18n-app="nav_logout">Logout</span>
                         </button>
                     @else
-                        <div class="pt-2.5 mt-2 border-t border-gray-100 flex items-center gap-2">
+                        <div class="pt-2.5 mt-2 border-t border-gray-100 flex items-center gap-2 font-roboto font-medium">
                             <a href="{{ route('login') }}" onclick="toggleMobileNav()"
-                               class="flex-1 text-center py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-bold transition">
+                               class="flex-1 text-center py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-roboto font-medium transition">
                                 <span data-i18n-app="nav_login">Login</span>
                             </a>
                             <a href="{{ route('register') }}" onclick="toggleMobileNav()"
-                               class="flex-1 text-center py-2.5 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-bold transition shadow-xs">
+                               class="flex-1 text-center py-2.5 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-roboto font-medium transition shadow-xs">
                                 <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
                         </div>

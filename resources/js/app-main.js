@@ -1253,9 +1253,9 @@ if (document.readyState === 'loading') {
                 const aPath = new URL(a.href, window.location.origin).pathname;
                 const active = isNavPathActive(aPath, targetPath);
                 if (active) {
-                    a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold bg-white/20 text-white shadow-xs';
+                    a.className = 'px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium bg-white/20 text-white shadow-xs';
                 } else {
-                    a.className = 'px-4 py-1.5 rounded-full transition text-sm font-bold text-white/80 hover:text-white hover:bg-white/10';
+                    a.className = 'px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium text-white/80 hover:text-white hover:bg-white/10';
                 }
             } catch (e) {}
         });
@@ -1266,9 +1266,9 @@ if (document.readyState === 'loading') {
                 const aPath = new URL(a.href, window.location.origin).pathname;
                 const active = isNavPathActive(aPath, targetPath);
                 if (active) {
-                    a.className = 'block px-4 py-2 rounded-xl transition bg-[#3b6e64]/10 text-[#3b6e64]';
+                    a.className = 'block px-4 py-2 rounded-xl transition font-roboto font-medium bg-[#3b6e64]/10 text-[#3b6e64]';
                 } else {
-                    a.className = 'block px-4 py-2 rounded-xl transition text-gray-700 hover:text-gray-900 hover:bg-gray-100';
+                    a.className = 'block px-4 py-2 rounded-xl transition font-roboto font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100';
                 }
             } catch (e) {}
         });
