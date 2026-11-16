@@ -60,8 +60,8 @@ class MenuController extends Controller
 
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                $q->whereLike('name', "%{$search}%")
+                  ->orWhereLike('description', "%{$search}%");
             });
         }
 
@@ -154,8 +154,8 @@ class MenuController extends Controller
 
         $products = Product::where('is_available', true)
             ->where(function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")
-                      ->orWhere('description', 'like', "%{$q}%");
+                $query->whereLike('name', "%{$q}%")
+                      ->orWhereLike('description', "%{$q}%");
             })
             ->take(6)
             ->get()

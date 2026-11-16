@@ -122,8 +122,8 @@ class AdminController extends Controller
         }
 
         $products = Product::where(function ($query) use ($q) {
-                $query->where('name', 'like', "%{$q}%")
-                    ->orWhere('description', 'like', "%{$q}%");
+                $query->whereLike('name', "%{$q}%")
+                    ->orWhereLike('description', "%{$q}%");
             })
             ->select('id', 'name', 'price', 'image', 'is_available')
             ->take(5)
@@ -140,8 +140,8 @@ class AdminController extends Controller
             });
 
         $orders = Order::where(function ($query) use ($q) {
-                $query->where('order_number', 'like', "%{$q}%")
-                    ->orWhere('customer_name', 'like', "%{$q}%");
+                $query->whereLike('order_number', "%{$q}%")
+                    ->orWhereLike('customer_name', "%{$q}%");
             })
             ->select('id', 'order_number', 'customer_name', 'total_amount', 'status')
             ->take(5)
@@ -157,7 +157,7 @@ class AdminController extends Controller
                 ];
             });
 
-        $categories = Category::where('name', 'like', "%{$q}%")
+        $categories = Category::whereLike('name', "%{$q}%")
             ->select('id', 'name', 'slug')
             ->take(4)
             ->get()
@@ -193,8 +193,8 @@ class AdminController extends Controller
 
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                  ->orWhere('customer_name', 'like', "%{$search}%");
+                $q->whereLike('order_number', "%{$search}%")
+                  ->orWhereLike('customer_name', "%{$search}%");
             });
         }
 
@@ -301,8 +301,8 @@ class AdminController extends Controller
             ->orderBy('id', 'asc');
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                $q->whereLike('name', "%{$search}%")
+                  ->orWhereLike('description', "%{$search}%");
             });
         }
 
@@ -626,9 +626,9 @@ class AdminController extends Controller
 
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
-                $q->where('comment', 'like', "%{$search}%")
-                    ->orWhereHas('user', fn ($u) => $u->where('name', 'like', "%{$search}%"))
-                    ->orWhereHas('order', fn ($o) => $o->where('order_number', 'like', "%{$search}%")->orWhere('customer_name', 'like', "%{$search}%"));
+                $q->whereLike('comment', "%{$search}%")
+                    ->orWhereHas('user', fn ($u) => $u->whereLike('name', "%{$search}%"))
+                    ->orWhereHas('order', fn ($o) => $o->whereLike('order_number', "%{$search}%")->orWhereLike('customer_name', "%{$search}%"));
             });
             $hasFilter = true;
         }
