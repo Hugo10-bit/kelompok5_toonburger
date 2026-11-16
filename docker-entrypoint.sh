@@ -23,12 +23,23 @@ php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
 
-# Automatically run database migrations and seeder if database is connected
+# Automatically run database migrations and initial seed if database is connected
 if [ -n "$DB_HOST" ] || [ -n "$DB_URL" ]; then
-    echo "Checking database connection and running migrations..."
-    php artisan migrate --force || echo "Migration skipped or database not ready yet."
-    echo "Seeding initial admin and sample data if needed..."
-    php artisan db:seed --force || echo "Seeding completed or skipped."
+    echo "Waiting for database and running migrations..."
+    for i in $(seq 1 10); do
+        if php artisan migrate --force; then
+            USER_COUNT=$(php -r "require 'vendor/autoload.php'; \$app = require 'bootstrap/app.php'; \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); echo \App\Models\User::count();" 2>/dev/null || echo "error")
+            if [ "$USER_COUNT" = "0" ]; then
+                echo "Empty users table detected; running initial DatabaseSeeder..."
+                php artisan db:seed --force || echo "Initial seeding skipped."
+            else
+                echo "Database already has users ($USER_COUNT); skipping destructive re-seed."
+            fi
+            break
+        fi
+        echo "Database not ready yet (attempt $i/10), retrying in 3s..."
+        sleep 3
+    done
 fi
 
 # Ensure only mpm_prefork is enabled in mods-enabled

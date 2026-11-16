@@ -4,8 +4,8 @@
 FROM node:20-bookworm-slim AS node_builder
 WORKDIR /app
 
-COPY package*.json vite.config.js ./
-RUN npm install --include=optional
+COPY package*.json vite.config.js postcss.config.js tailwind.config.js tailwind.admin.config.js ./
+RUN npm ci --include=optional || npm install --include=optional
 
 COPY resources ./resources
 COPY public ./public
@@ -14,7 +14,7 @@ RUN npm run build
 # ==========================================
 # Stage 2: PHP Application & Apache Server
 # ==========================================
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Install required system packages & PHP extensions
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -32,10 +32,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Composer from official image
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
-# Configure Apache DocumentRoot to Laravel /public
+# Configure Apache DocumentRoot to Laravel /public and enable .htaccess overrides
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
+    && sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
+    && echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Fix MPM conflict (Debian trixie/bookworm multi-MPM bug) & Enable Apache mod_rewrite
 RUN a2dismod -f mpm_event mpm_worker 2>/dev/null || true \
