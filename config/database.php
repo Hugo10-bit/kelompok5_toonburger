@@ -95,6 +95,9 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            'options' => extension_loaded('pdo_pgsql') ? [
+                PDO::ATTR_EMULATE_PREPARES => filter_var(env('DB_PGSQL_EMULATE_PREPARES', true), FILTER_VALIDATE_BOOLEAN),
+            ] : [],
         ],
 
         'sqlsrv' => [
