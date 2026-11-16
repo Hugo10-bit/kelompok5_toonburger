@@ -386,5 +386,14 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        // Sync PostgreSQL serial sequences when explicit IDs are seeded
+        if (\Illuminate\Support\Facades\DB::getDriverName() === 'pgsql') {
+            foreach (['users', 'categories', 'products', 'restaurant_tables', 'orders', 'order_items', 'reviews'] as $table) {
+                \Illuminate\Support\Facades\DB::statement(
+                    "SELECT setval(pg_get_serial_sequence('{$table}', 'id'), COALESCE((SELECT MAX(id) FROM {$table}), 1), true)"
+                );
+            }
+        }
     }
 }
