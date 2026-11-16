@@ -201,6 +201,23 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     animation-play-state: paused;
 }
 
+.toonburger-ribbon-track {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    animation: none;
+    transform: none;
+}
+
+@media (max-width: 767.98px) {
+    .toonburger-ribbon-track {
+        width: max-content;
+        justify-content: flex-start;
+        animation: marquee 24s linear infinite;
+        will-change: transform;
+    }
+}
+
 @keyframes modalPop {
     0% {
         opacity: 0;
@@ -513,7 +530,7 @@ input[type="password"]::-ms-clear {
 
 /* 8. Accessibility & Print */
 @media (prefers-reduced-motion: reduce) {
-    .toon-bob, .comic-sparkle, .animate-cart-punch, .animate-marquee,
+    .toon-bob, .comic-sparkle, .animate-cart-punch, .animate-marquee, .toonburger-ribbon-track,
     .sticky-review-card {
         animation: none !important;
         transition: none !important;

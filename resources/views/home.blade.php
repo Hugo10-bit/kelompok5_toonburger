@@ -230,13 +230,20 @@
 
     </section>
 
-    <!-- Bottom Yellow Ribbon with TOONBURGER ★ matching Figma exactly (Static, Marquee Disabled) -->
+    <!-- Yellow Ribbon with TOONBURGER ★ (Animated marquee on mobile, static on tablet/laptop) -->
     <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none toon-reveal">
-        <div class="whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center justify-center overflow-x-hidden"
+        <div class="toonburger-ribbon-track whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center"
              style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-            @for($i = 0; $i < 12; $i++)
-                <span class="mx-3.5 flex items-center gap-3">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
-            @endfor
+            <div class="flex items-center shrink-0">
+                @for($i = 0; $i < 12; $i++)
+                    <span class="mx-3.5 flex items-center gap-3 shrink-0">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
+                @endfor
+            </div>
+            <div class="flex items-center shrink-0 md:hidden" aria-hidden="true">
+                @for($i = 0; $i < 12; $i++)
+                    <span class="mx-3.5 flex items-center gap-3 shrink-0">TOONBURGER <span class="text-[#D93829] text-xl leading-none">★</span></span>
+                @endfor
+            </div>
         </div>
     </div>
 

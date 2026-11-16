@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "Toon Burger",
   "short_name": "Toon Burger",
   "description": "Toon Burger - Kartun Rasa, Burger Juara! Pesan burger favoritmu langsung dari aplikasi.",
@@ -52,7 +53,7 @@
       "name": "Pesanan Saya",
       "short_name": "Pesanan",
       "description": "Cek status pesanan yang sedang diproses",
-      "url": "/orders",
+      "url": "/my-orders",
       "icons": [
         {
           "src": "/images/icon-192.png",

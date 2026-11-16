@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "id.toonburger.app",
+        "sha256_cert_fingerprints": ["BE:3A:BF:61:3D:7B:9E:6E:55:48:D5:71:58:F4:68:83:72:AF:6D:9B:41:C9:54:AD:63:33:C9:C5:8D:99:B7:28"]
+      }
+    }]
