@@ -28,6 +28,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse|JsonResponse
     {
+        if ($request->filled('email')) {
+            $request->merge(['email' => strtolower(trim((string) $request->input('email')))]);
+        }
+        if ($request->filled('username')) {
+            $request->merge(['username' => trim((string) $request->input('username'))]);
+        }
+
         // If username was not provided (e.g. standard Breeze client/test), derive a unique one
         if (! $request->filled('username')) {
             $base = Str::slug($request->input('name') ?? explode('@', (string) $request->input('email'))[0], '_') ?: 'user';
@@ -59,6 +66,7 @@ class RegisteredUserController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',
         ]);
 
         $user = User::create([

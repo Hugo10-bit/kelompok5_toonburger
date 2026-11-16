@@ -178,18 +178,24 @@
             @endif
 
             @if($errors->any())
-                <div class="alert-auto-dismiss mb-6 p-4 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 text-toon-rust dark:text-red-300 text-xs font-semibold rounded-2xl flex items-center justify-between gap-2.5 shadow-2xs" role="alert">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></span>
-                        <span class="font-bold">
-                            @if($errors->has('email') || $errors->has('username') || $errors->has('password'))
-                                Username, email, atau password yang dimasukkan salah.
+                <div class="mb-6 p-4 bg-[#FFF1F0] dark:bg-red-950/60 border border-red-200/80 dark:border-red-800/80 text-toon-rust dark:text-red-300 text-xs font-semibold rounded-2xl flex items-center justify-between gap-2.5 shadow-2xs" role="alert">
+                    <div class="flex items-start gap-2.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-1.5"></span>
+                        <div class="font-bold space-y-0.5">
+                            @if($currentMode === 'login' && ($errors->has('email') || $errors->has('username') || $errors->has('password')))
+                                @if(str_contains((string) $errors->first(), 'Too many') || str_contains((string) $errors->first(), 'Terlalu banyak'))
+                                    {{ $errors->first() }}
+                                @else
+                                    Username, email, atau password yang dimasukkan salah.
+                                @endif
                             @else
-                                {{ $errors->first() }}
+                                @foreach($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
                             @endif
-                        </span>
+                        </div>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-medium hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="this.closest('[role=alert]').remove()" class="text-red-600 font-medium hover:text-red-900 cursor-pointer p-1 shrink-0" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -214,7 +220,7 @@
                                autofocus
                                autocomplete="username"
                                placeholder="Masukkan Username"
-                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : old('email', old('username')) }}"
+                               value="{{ old('form_type') === 'login' ? old('email', old('username')) : '' }}"
                                class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-transparent dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
                     </div>
 
