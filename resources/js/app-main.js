@@ -1046,17 +1046,24 @@ function initScrollEffects() {
     window._tbScrollEffectsHandler();
 }
 
-// 5. Smooth Inertial Wheel Scroll Rendering (Zero-Layout-Thrash)
+// 5. Heavy Smooth Inertial Wheel Scroll Rendering (Zero-Layout-Thrash)
 function initSmoothWheelScroll() {
     if (window._tbSmoothWheelInit) return;
     window._tbSmoothWheelInit = true;
+
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const HEAVY_WHEEL_LERP = 0.058;
+    const HEAVY_TRACKPAD_LERP = 0.11;
+    const HEAVY_PROGRAMMATIC_LERP = 0.065;
+    const HEAVY_WHEEL_DAMPING = 0.88;
+    const HEAVY_TRACKPAD_DAMPING = 0.85;
 
     let currentY = window.scrollY || window.pageYOffset || 0;
     let targetY = currentY;
     let cachedMaxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     let rafId = null;
     let lastTime = 0;
-    let lerpFactor = 0.115;
+    let lerpFactor = HEAVY_WHEEL_LERP;
 
     function refreshMaxScroll() {
         cachedMaxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
@@ -1090,7 +1097,7 @@ function initSmoothWheelScroll() {
         targetY = Math.max(0, Math.min(cachedMaxScroll, targetY));
 
         const diff = targetY - currentY;
-        if (Math.abs(diff) < 0.6) {
+        if (Math.abs(diff) < 0.5) {
             currentY = targetY;
             window.scrollTo(0, Math.round(currentY));
             rafId = null;
@@ -1098,7 +1105,7 @@ function initSmoothWheelScroll() {
             return;
         }
 
-        // Frame-rate independent exponential smoothing
+        // Frame-rate independent exponential smoothing (heavy weighted damping)
         const alpha = 1 - Math.pow(1 - lerpFactor, dt / 16.667);
         currentY += diff * alpha;
         window.scrollTo(0, Math.round(currentY));
@@ -1107,10 +1114,14 @@ function initSmoothWheelScroll() {
 
     window.tbScrollTo = function (y) {
         refreshMaxScroll();
+        if (prefersReducedMotion) {
+            window.scrollTo(0, Math.max(0, Math.min(cachedMaxScroll, y)));
+            return;
+        }
         if (rafId === null) {
             currentY = window.scrollY || window.pageYOffset || 0;
         }
-        lerpFactor = 0.115;
+        lerpFactor = HEAVY_PROGRAMMATIC_LERP;
         targetY = Math.max(0, Math.min(cachedMaxScroll, y));
         if (rafId === null) {
             lastTime = 0;
@@ -1132,6 +1143,8 @@ function initSmoothWheelScroll() {
 
     window.addEventListener('resize', refreshMaxScroll, { passive: true });
 
+    if (prefersReducedMotion) return;
+
     document.addEventListener('wheel', function (e) {
         if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
         if (document.body.classList.contains('overflow-hidden') || document.body.style.overflow === 'hidden') return;
@@ -1143,13 +1156,13 @@ function initSmoothWheelScroll() {
         else if (e.deltaMode === 2) delta *= window.innerHeight;
 
         const isTrackpad = e.deltaMode === 0 && Math.abs(delta) < 40;
-        lerpFactor = isTrackpad ? 0.28 : 0.115;
-        if (!isTrackpad) delta *= 1.1;
+        lerpFactor = isTrackpad ? HEAVY_TRACKPAD_LERP : HEAVY_WHEEL_LERP;
+        delta *= isTrackpad ? HEAVY_TRACKPAD_DAMPING : HEAVY_WHEEL_DAMPING;
 
         e.preventDefault();
 
+        refreshMaxScroll();
         if (rafId === null) {
-            refreshMaxScroll();
             currentY = window.scrollY || window.pageYOffset || 0;
             targetY = currentY;
         }
