@@ -339,6 +339,19 @@
         </div>
 
         <div class="flex items-center gap-3 flex-wrap justify-end">
+            @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
+                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="status" value="{{ $order->status === 'pending' ? 'confirmed' : $order->status }}">
+                    <input type="hidden" name="payment_status" value="paid">
+                    <button type="button"
+                            onclick="confirmOrderDetailProcess(this, 'confirm_payment', '{{ $order->order_number }}')"
+                            class="bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-medium py-2.5 px-5 rounded-full text-xs shadow-xs transition cursor-pointer">
+                        <span>Konfirmasi Lunas</span>
+                    </button>
+                </form>
+            @endif
+
             @if($order->status === 'pending')
                 <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                     @csrf

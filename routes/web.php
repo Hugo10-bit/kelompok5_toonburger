@@ -35,16 +35,21 @@ Route::get('/error/500', fn () => response()->view('errors.500', [], 500))->name
 Route::get('/error/404', fn () => response()->view('errors.404', [], 404))->name('preview.error.404');
 Route::get('/error/503', fn () => response()->view('errors.503', [], 503))->name('preview.error.503');
 
-Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
-Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
+// Payment Gateway Webhook (CSRF exempted in bootstrap/app.php, verified via SHA-512 signature)
+Route::post('/payment/webhook', [OrderController::class, 'handleMidtransWebhook'])->name('payment.webhook');
 
-Route::get('/orders/{order_number}', [OrderController::class, 'show'])->name('orders.show');
-Route::post('/orders/{order_number}/pay', [OrderController::class, 'pay'])->name('orders.pay');
-Route::post('/orders/{order_number}/review', [OrderController::class, 'storeReview'])->name('orders.review');
 require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
+
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
+    Route::get('/orders/{order_number}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order_number}/midtrans-token', [OrderController::class, 'createMidtransToken'])->name('orders.midtrans.token');
+    Route::post('/orders/{order_number}/sync-payment', [OrderController::class, 'syncMidtransPayment'])->name('orders.payment.sync');
+    Route::get('/orders/{order_number}/payment-status', [OrderController::class, 'paymentStatus'])->name('orders.payment.status');
+    Route::post('/orders/{order_number}/review', [OrderController::class, 'storeReview'])->name('orders.review');
 
     Route::get('/dashboard', function () {
         if (auth()->user()->isAdmin() || auth()->user()->isStaff()) {

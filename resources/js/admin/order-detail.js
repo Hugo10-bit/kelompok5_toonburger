@@ -7,6 +7,7 @@ window.confirmOrderDetailProcess = function (btn, nextStatus, orderNumber) {
     if (nextStatus === 'preparing') statusText = isEn ? 'Accept & Cook' : 'Terima & Masak';
     else if (nextStatus === 'ready') statusText = isEn ? 'Mark as Ready to Serve' : 'Tandai Siap Saji';
     else if (nextStatus === 'completed') statusText = isEn ? 'Complete Order' : 'Selesaikan Pesanan';
+    else if (nextStatus === 'confirm_payment') statusText = isEn ? 'Confirm Payment as Paid' : 'Konfirmasi Pembayaran Lunas';
 
     Swal.fire({
         title: isEn ? 'Update Order Status?' : 'Perbarui Status Pesanan?',

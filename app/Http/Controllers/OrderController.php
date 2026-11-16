@@ -8,6 +8,7 @@ use App\Models\OrderItemOption;
 use App\Models\Payment;
 use App\Models\RestaurantTable;
 use App\Models\Review;
+use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -71,10 +72,14 @@ class OrderController extends Controller
             // Force order type to takeaway if dine_in was sent
             $orderType = in_array($request->order_type, ['takeaway', 'delivery']) ? $request->order_type : 'takeaway';
 
-            // Generate order number TB-YYYYMMDD-XXXX (Toon Burger)
+            // Generate unique order number TB-YYYYMMDD-XXXX (Toon Burger)
             $datePrefix = 'TB-' . date('Ymd');
             $countToday = Order::where('order_number', 'like', "{$datePrefix}-%")->count() + 1;
             $orderNumber = $datePrefix . '-' . str_pad($countToday, 4, '0', STR_PAD_LEFT);
+            while (Order::where('order_number', $orderNumber)->exists()) {
+                $countToday++;
+                $orderNumber = $datePrefix . '-' . str_pad($countToday, 4, '0', STR_PAD_LEFT);
+            }
 
             $order = Order::create([
                 'order_number' => $orderNumber,
@@ -148,7 +153,7 @@ class OrderController extends Controller
     /**
      * Show live order tracker & invoice page.
      */
-    public function show($order_number)
+    public function show($order_number, MidtransService $midtrans)
     {
         if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) {
             return redirect()->route('admin.orders.show', $order_number);
@@ -166,51 +171,133 @@ class OrderController extends Controller
             ->where('order_number', $order_number)
             ->firstOrFail();
 
-        return view('orders.show', compact('order'));
+        $this->authorizeOrderOwner($order);
+
+        $midtransConfigured = $midtrans->isConfigured();
+        if ($midtransConfigured && $order->payment_status !== 'paid' && $order->payment_method !== 'cash' && empty($order->snap_token)) {
+            $midtrans->createSnapTransaction($order);
+            $order->refresh();
+        }
+
+        $snapScriptUrl = $midtrans->snapScriptUrl();
+        $midtransClientKey = $midtrans->clientKey();
+
+        return view('orders.show', compact(
+            'order',
+            'midtransConfigured',
+            'snapScriptUrl',
+            'midtransClientKey'
+        ));
     }
 
     /**
-     * Simulate instant payment confirmation (QRIS / Cash / E-Wallet).
+     * Ensure the authenticated user owns the order (or is admin/staff).
      */
-    public function pay(Request $request, $order_number)
+    private function authorizeOrderOwner(Order $order): void
     {
-        $relations = [];
-        if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
-            $relations[] = 'payment';
+        if (! Auth::check()) {
+            abort(403);
         }
 
-        $order = Order::with($relations)->where('order_number', $order_number)->firstOrFail();
+        if (Auth::user()->isAdmin() || Auth::user()->isStaff()) {
+            return;
+        }
+
+        if ($order->user_id && (int) $order->user_id !== (int) Auth::id()) {
+            abort(403, 'Anda tidak memiliki akses ke pesanan ini.');
+        }
+    }
+
+    /**
+     * Create or regenerate a Midtrans Snap token for an unpaid order.
+     */
+    public function createMidtransToken(Request $request, $order_number, MidtransService $midtrans)
+    {
+        $order = Order::with('items')->where('order_number', $order_number)->firstOrFail();
+        $this->authorizeOrderOwner($order);
 
         if ($order->payment_status === 'paid') {
-            return back()->with('info', 'Pesanan ini sudah lunas.');
+            return response()->json([
+                'success' => false,
+                'already_paid' => true,
+                'message' => 'Pesanan ini sudah lunas.',
+            ]);
         }
 
-        DB::transaction(function () use ($order) {
-            $order->update([
+        $forceNew = $request->boolean('force_new', false);
+        $result = $midtrans->createSnapTransaction($order, $forceNew);
+
+        return response()->json($result, $result['success'] ? 200 : 422);
+    }
+
+    /**
+     * Query Midtrans directly to synchronize verified payment status.
+     */
+    public function syncMidtransPayment($order_number, MidtransService $midtrans)
+    {
+        $order = Order::where('order_number', $order_number)->firstOrFail();
+        $this->authorizeOrderOwner($order);
+
+        if ($order->payment_status === 'paid') {
+            return response()->json([
+                'success' => true,
                 'payment_status' => 'paid',
-                'status' => $order->status === 'pending' ? 'confirmed' : $order->status,
+                'status' => $order->status,
             ]);
+        }
 
-            if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
-                if ($order->payment) {
-                    $order->payment->update([
-                        'status' => 'success',
-                        'paid_at' => now(),
-                    ]);
-                } else {
-                    Payment::create([
-                        'order_id' => $order->id,
-                        'transaction_code' => 'PAY-' . strtoupper(Str::random(10)),
-                        'payment_method' => $order->payment_method,
-                        'amount' => $order->total_amount,
-                        'status' => 'success',
-                        'paid_at' => now(),
-                    ]);
-                }
-            }
-        });
+        $reference = $order->payment_reference ?: $order->order_number;
+        $statusPayload = $midtrans->fetchTransactionStatus($reference);
+        if ($statusPayload) {
+            $midtrans->applyGatewayStatus($order, $statusPayload);
+            $order->refresh();
+        }
 
-        return back()->with('success', 'Pembayaran berhasil dikonfirmasi! Pesanan Anda segera diproses.');
+        return response()->json([
+            'success' => true,
+            'payment_status' => $order->payment_status,
+            'status' => $order->status,
+        ]);
+    }
+
+    /**
+     * Lightweight endpoint for auto-polling live order payment status.
+     */
+    public function paymentStatus($order_number)
+    {
+        $order = Order::where('order_number', $order_number)->firstOrFail();
+        $this->authorizeOrderOwner($order);
+
+        return response()->json([
+            'payment_status' => $order->payment_status,
+            'status' => $order->status,
+            'paid_at' => optional($order->paid_at)->toIso8601String(),
+        ]);
+    }
+
+    /**
+     * Receive and verify automatic webhook notifications from Midtrans.
+     */
+    public function handleMidtransWebhook(Request $request, MidtransService $midtrans)
+    {
+        $payload = $request->all();
+
+        if (! $midtrans->verifySignature($payload)) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        $midtransOrderId = (string) ($payload['order_id'] ?? '');
+        $order = $midtrans->findOrderForReference($midtransOrderId);
+        if (! $order) {
+            return response()->json(['message' => 'Order not found'], 404);
+        }
+
+        $result = $midtrans->applyGatewayStatus($order, $payload);
+
+        return response()->json([
+            'message' => 'Webhook processed',
+            'result' => $result,
+        ]);
     }
 
     /**
@@ -238,6 +325,7 @@ class OrderController extends Controller
     public function storeReview(Request $request, $order_number)
     {
         $order = Order::where('order_number', $order_number)->firstOrFail();
+        $this->authorizeOrderOwner($order);
 
         $request->validate([
             'product_id' => 'required|exists:products,id',

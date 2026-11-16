@@ -97,32 +97,61 @@
         </div>
     </div>
 
-    <!-- PAYMENT PROMPT IF UNPAID (QRIS / CASH) -->
+    <!-- PAYMENT PROMPT IF UNPAID (MIDTRANS GATEWAY OR MANUAL VERIFICATION) -->
     @if($order->payment_status !== 'paid')
-        <div class="bg-[#253B36] border border-[#385850]/60 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div id="midtrans-payment-config"
+             data-order-number="{{ $order->order_number }}"
+             data-payment-status="{{ $order->payment_status }}"
+             data-payment-method="{{ $order->payment_method }}"
+             data-midtrans-configured="{{ !empty($midtransConfigured) ? 'true' : 'false' }}"
+             data-snap-script-url="{{ $snapScriptUrl ?? '' }}"
+             data-client-key="{{ $midtransClientKey ?? '' }}"
+             data-snap-token="{{ $order->snap_token ?? '' }}"
+             data-snap-redirect-url="{{ $order->snap_redirect_url ?? '' }}"
+             data-token-url="{{ route('orders.midtrans.token', $order->order_number) }}"
+             data-sync-url="{{ route('orders.payment.sync', $order->order_number) }}"
+             data-status-url="{{ route('orders.payment.status', $order->order_number) }}"
+             class="bg-[#253B36] border border-[#385850]/60 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div class="space-y-2">
                 <span class="inline-block bg-[#1B2C28] text-[#EBD8A4] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                    Pembayaran Diperlukan
+                    {{ !empty($midtransConfigured) && $order->payment_method !== 'cash' ? 'Pembayaran Otomatis' : 'Menunggu Pembayaran' }}
                 </span>
                 <h3 class="text-xl font-black text-white">Total Tagihan: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</h3>
                 <p class="text-xs text-white/90">
-                    Metode: <strong class="uppercase text-[#EBD8A4]">{{ $order->payment_method }}</strong>. Selesaikan pembayaran untuk memproses pesanan Anda.
+                    Metode: <strong class="uppercase text-[#EBD8A4]">{{ str_replace('_', ' ', $order->payment_method) }}</strong>.
+                    @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
+                        Selesaikan pembayaran — status pesanan akan otomatis berubah menjadi <strong>LUNAS</strong> setelah transfer diterima.
+                    @elseif($order->payment_method === 'cash')
+                        Silakan lakukan pembayaran tunai langsung ke kasir Toon Burger saat mengambil pesanan.
+                    @else
+                        Scan QRIS / transfer sesuai nominal di atas, lalu kirim bukti pembayaran ke Admin untuk verifikasi. Status akan diperbarui otomatis setelah diverifikasi.
+                    @endif
                 </p>
             </div>
 
             <div class="flex flex-col sm:flex-row items-center gap-3">
-                @if($order->payment_method === 'qris')
-                    <button type="button" onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap cursor-pointer">
-                        Tampilkan Kode QRIS
+                @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
+                    <button type="button"
+                            id="btn-midtrans-pay"
+                            onclick="window.payWithMidtrans(false)"
+                            class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
+                        Bayar Sekarang ({{ strtoupper($order->payment_method === 'qris' ? 'QRIS' : str_replace('_', ' ', $order->payment_method)) }})
                     </button>
+                @elseif($order->payment_method !== 'cash')
+                    @if($order->payment_method === 'qris')
+                        <button type="button"
+                                onclick="document.getElementById('qris-modal').classList.remove('hidden'); if(window.startQrisCountdown) window.startQrisCountdown();"
+                                class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
+                            Tampilkan Kode QRIS
+                        </button>
+                    @endif
+                    <a href="https://wa.me/6281345956487?text={{ urlencode('Halo Admin Toon Burger, saya sudah membayar pesanan ' . $order->order_number . ' sebesar Rp ' . number_format($order->total_amount, 0, ',', '.') . ' via ' . strtoupper($order->payment_method) . '. Mohon verifikasinya.') }}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap inline-flex items-center justify-center">
+                        Kirim Bukti via WhatsApp
+                    </a>
                 @endif
-
-                <form action="{{ route('orders.pay', $order->order_number) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
-                        Bayar Sekarang (Simulasi Lunas)
-                    </button>
-                </form>
             </div>
         </div>
     @endif
@@ -230,8 +259,8 @@
 
 </div>
 
-<!-- QRIS PAYMENT MODAL -->
-<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" data-auto-open-qris="{{ ($order->payment_method === 'qris' && $order->payment_status !== 'paid') ? 'true' : 'false' }}">
+<!-- QRIS PAYMENT MODAL (Static fallback when Midtrans gateway keys are not configured) -->
+<div id="qris-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs hidden" data-auto-open-qris="{{ (empty($midtransConfigured) && $order->payment_method === 'qris' && $order->payment_status !== 'paid') ? 'true' : 'false' }}">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-2 border-b border-gray-100">
             <div class="text-left">
@@ -270,15 +299,17 @@
             </p>
         </div>
 
-        <form action="{{ route('orders.pay', $order->order_number) }}" method="POST">
-            @csrf
-            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium text-xs py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>Saya Sudah Membayar</span>
-            </button>
-        </form>
+        <div class="space-y-2.5">
+            <a href="https://wa.me/6281345956487?text={{ urlencode('Halo Admin Toon Burger, saya sudah transfer pembayaran QRIS untuk pesanan ' . $order->order_number . ' sebesar Rp ' . number_format($order->total_amount, 0, ',', '.') . '. Berikut bukti transfernya.') }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold text-xs py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                <span>Kirim Bukti Transfer ke WhatsApp Admin</span>
+            </a>
+            <p class="text-[11px] text-gray-500">
+                Status pesanan akan otomatis berubah menjadi <strong>LUNAS</strong> setelah diverifikasi oleh Admin / Kasir.
+            </p>
+        </div>
     </div>
 </div>
 

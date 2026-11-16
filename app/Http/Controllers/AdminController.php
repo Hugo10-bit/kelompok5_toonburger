@@ -278,6 +278,9 @@ class AdminController extends Controller
 
         if ($request->filled('payment_status')) {
             $order->payment_status = $request->payment_status;
+            if ($request->payment_status === 'paid' && ! $order->paid_at) {
+                $order->paid_at = now();
+            }
         }
 
         // If completed or cancelled, free up table
