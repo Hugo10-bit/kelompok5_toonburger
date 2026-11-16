@@ -153,19 +153,19 @@
             </p>
         </div>
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 relative z-20">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 relative z-20">
 
             <!-- Card 1: 100% Daging -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-75">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[275px] sm:min-h-[300px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-75">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#F5C2C2] bg-[#FDF2F2] flex items-center justify-center text-[#E03A3A] mb-4 shrink-0 shadow-[2px_2px_0px_#F5C2C2]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-base sm:text-[17px] text-gray-900 leading-snug">
+                <h3 class="font-extrabold text-[20px] text-gray-900 leading-snug">
                     Terbuat dari 100% Daging
                 </h3>
-                <p class="text-xs sm:text-[13px] text-gray-500 leading-relaxed pt-2 relative z-10">
+                <p class="text-[16px] text-gray-500 leading-relaxed pt-2 relative z-10">
                     Nikmati patty berkualitas yang dibuat dari 100% daging pilihan.
                 </p>
                 <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -174,7 +174,7 @@
             </div>
 
             <!-- Card 2: Bahan Segar Setiap Hari -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-150">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[275px] sm:min-h-[300px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-150">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#BDE0D8] bg-[#F0F7F5] flex items-center justify-center text-[#2E7A6B] mb-4 shrink-0 shadow-[2px_2px_0px_#BDE0D8]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
@@ -182,10 +182,10 @@
                     </svg>
                     
                 </div>
-                <h3 class="font-extrabold text-base sm:text-[17px] text-gray-900 leading-snug">
+                <h3 class="font-extrabold text-[20px] text-gray-900 leading-snug">
                     Bahan Segar Setiap Hari
                 </h3>
-                <p class="text-xs sm:text-[13px] text-gray-500 leading-relaxed pt-2 relative z-10">
+                <p class="text-[16px] text-gray-500 leading-relaxed pt-2 relative z-10">
                     Selalu fresh setiap hari, karena rasa terbaik dimulai dari bahan berkualitas.
                 </p>
                 <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -195,16 +195,16 @@
             </div>
 
             <!-- Card 3: Pesanan Cepat -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-225">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[275px] sm:min-h-[300px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-225">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-4 shrink-0 shadow-[2px_2px_0px_#FDE68A]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-base sm:text-[17px] text-gray-900 leading-snug">
+                <h3 class="font-extrabold text-[20px] text-gray-900 leading-snug">
                     Pesanan Cepat
                 </h3>
-                <p class="text-xs sm:text-[13px] text-gray-500 leading-relaxed pt-2 relative z-10">
+                <p class="text-[16px] text-gray-500 leading-relaxed pt-2 relative z-10">
                     Disiapkan dengan cepat tanpa mengorbankan kualitas dan cita rasa.
                 </p>
                 <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -213,16 +213,16 @@
             </div>
 
             <!-- Card 4: Porsi Bikin Kenyang -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[230px] sm:min-h-[250px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-300">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-6 sm:p-7 min-h-[275px] sm:min-h-[300px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-300">
                 <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border-2 border-[#BFDBFE] bg-[#EFF6FF] flex items-center justify-center text-[#2563EB] mb-4 shrink-0 shadow-[2px_2px_0px_#BFDBFE]">
                     <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-base sm:text-[17px] text-gray-900 leading-snug">
+                <h3 class="font-extrabold text-[20px] text-gray-900 leading-snug">
                     Porsi Bikin Kenyang
                 </h3>
-                <p class="text-xs sm:text-[13px] text-gray-500 leading-relaxed pt-2 relative z-10">
+                <p class="text-[16px] text-gray-500 leading-relaxed pt-2 relative z-10">
                     Porsi pas dan mengenyangkan, cocok untuk menemani rasa lapar kapan saja.
                 </p>
                 <svg class="absolute -bottom-3 -right-3 w-24 h-24 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
