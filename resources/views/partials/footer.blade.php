@@ -35,7 +35,7 @@
             <!-- Title "TOON BURGER" centered under mascot -->
             <div class="text-center mb-10 sm:mb-12">
                 <a href="{{ route('home') }}" class="inline-block group">
-                    <h2 class="font-normal text-white text-3xl sm:text-4xl lg:text-[44px] uppercase tracking-[0.06em] leading-tight group-hover:text-[#EBD8A4] transition duration-150"
+                    <h2 class="font-normal text-white text-3xl sm:text-4xl lg:text-[44px] uppercase tracking-[0.06em] leading-tight group-hover:underline underline-offset-4 transition duration-150"
                         style="font-family: 'Bebas Neue', sans-serif;">
                         TOON BURGER
                     </h2>
@@ -52,22 +52,22 @@
                     </h3>
                     <ul class="space-y-2.5 sm:space-y-3 text-sm sm:text-[15px] font-normal text-white/95">
                         <li>
-                            <a href="{{ route('home') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                            <a href="{{ route('home') }}" class="hover:underline underline-offset-4 transition duration-150 inline-block">
                                 <span data-i18n-app="nav_home">Beranda</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('menu') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                            <a href="{{ route('menu') }}" class="hover:underline underline-offset-4 transition duration-150 inline-block">
                                 <span data-i18n-app="nav_menu">Menu</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('about') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                            <a href="{{ route('about') }}" class="hover:underline underline-offset-4 transition duration-150 inline-block">
                                 <span data-i18n-app="nav_about">Tentang</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('contact') }}" class="hover:text-[#EBD8A4] transition duration-150 inline-block">
+                            <a href="{{ route('contact') }}" class="hover:underline underline-offset-4 transition duration-150 inline-block">
                                 <span data-i18n-app="nav_contact">Kontak</span>
                             </a>
                         </li>
@@ -84,9 +84,9 @@
                             <a href="https://www.instagram.com/toonburger.id?rpxt=ZDNlZDc0MzIxNw=="
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
-                                <span>Instagram</span>
-                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                               class="group flex items-center justify-between w-full max-w-[144px] transition duration-150">
+                                <span class="group-hover:underline underline-offset-4">Instagram</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
                                     <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -97,9 +97,9 @@
                             <a href="{{ route('whatsapp') }}"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
-                                <span>Whatsapp</span>
-                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                               class="group flex items-center justify-between w-full max-w-[144px] transition duration-150">
+                                <span class="group-hover:underline underline-offset-4">Whatsapp</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
                                     <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -110,9 +110,9 @@
                             <a href="https://www.tiktok.com/@toonburger.id?is_from_webapp=1&sender_device=pc"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
-                                <span>Tiktok</span>
-                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                               class="group flex items-center justify-between w-full max-w-[144px] transition duration-150">
+                                <span class="group-hover:underline underline-offset-4">Tiktok</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
                                     <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -123,9 +123,9 @@
                             <a href="{{ route('gofood') }}"
                                target="_blank"
                                rel="noopener noreferrer"
-                               class="group flex items-center justify-between w-full max-w-[144px] hover:text-[#EBD8A4] transition duration-150">
-                                <span>Gojek</span>
-                                <svg class="w-3.5 h-3.5 text-white/70 group-hover:text-[#EBD8A4] transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                               class="group flex items-center justify-between w-full max-w-[144px] transition duration-150">
+                                <span class="group-hover:underline underline-offset-4">Gojek</span>
+                                <svg class="w-3.5 h-3.5 text-white/70 transition duration-150 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
                                     <line x1="10" y1="14" x2="21" y2="3"></line>
