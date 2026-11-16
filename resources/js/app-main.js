@@ -20,8 +20,8 @@ function promptRequireLogin(message = 'Wajib login terlebih dahulu untuk memasuk
             reverseButtons: true,
             customClass: {
                 popup: 'rounded-2xl',
-                confirmButton: 'font-bold px-6 py-2.5 rounded-xl cursor-pointer',
-                cancelButton: 'font-semibold px-5 py-2.5 rounded-xl cursor-pointer'
+                confirmButton: 'font-medium px-6 py-2.5 rounded-xl cursor-pointer',
+                cancelButton: 'font-medium px-5 py-2.5 rounded-xl cursor-pointer'
             }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -163,7 +163,7 @@ function renderCart(cart) {
                 </p>
                 <button type="button"
                         onclick="startOrderFromCart()"
-                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-medium text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
                     ${emptyBtn}
                 </button>
             </div>`;
@@ -461,7 +461,7 @@ function flyToCart(originElement) {
     setTimeout(() => {
         flyer.remove();
         animateCartBadge();
-    }, 620);
+    }, 820);
 }
 
 async function quickAddToCart(productId) {
@@ -518,7 +518,7 @@ function animateCartBadge() {
         cartBtn.classList.add('animate-cart-punch');
         setTimeout(() => {
             cartBtn.classList.remove('animate-cart-punch');
-        }, 500);
+        }, 650);
     }
     if (mobileDockBtn) {
         mobileDockBtn.classList.remove('animate-cart-punch');
@@ -526,7 +526,7 @@ function animateCartBadge() {
         mobileDockBtn.classList.add('animate-cart-punch');
         setTimeout(() => {
             mobileDockBtn.classList.remove('animate-cart-punch');
-        }, 500);
+        }, 650);
     }
     if (badge) {
         badge.classList.remove('scale-125');
@@ -561,7 +561,7 @@ function showCartToast(message) {
     if (!toast) {
         toast = document.createElement('div');
         toast.id = 'cart-toast-notification';
-        toast.className = 'fixed bottom-6 right-6 z-50 bg-white text-gray-900 px-4 py-3 rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.12)] border border-gray-200/90 flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-auto';
+        toast.className = 'fixed bottom-6 right-6 z-50 bg-white text-gray-900 px-4 py-3 rounded-2xl shadow-[0_12px_32px_rgba(0,0,0,0.12)] border border-gray-200/90 flex items-center gap-3 transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] transform translate-y-20 opacity-0 pointer-events-auto';
         toast.innerHTML = `
             <div class="w-6 h-6 rounded-full bg-[#10B981] text-white flex items-center justify-center flex-shrink-0 shadow-xs">
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -569,7 +569,7 @@ function showCartToast(message) {
                 </svg>
             </div>
             <div class="text-xs font-semibold text-gray-800" id="cart-toast-text"></div>
-            <button type="button" id="cart-toast-btn" onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-black px-2.5 py-1 rounded-xl transition cursor-pointer">
+            <button type="button" id="cart-toast-btn" onclick="toggleCartDrawer()" class="ml-2 bg-bites-yellow hover:bg-bites-yellow-dark text-gray-900 text-[11px] font-medium px-2.5 py-1 rounded-xl transition cursor-pointer">
                 ${isEn ? 'View' : 'Buka'}
             </button>
         `;
@@ -850,7 +850,7 @@ function renderHomeSearchResults(data, query) {
                         <div class="text-[11px] font-extrabold text-[#FFA000]">${p.price_formatted}</div>
                     </div>
                 </div>
-                <span class="text-[10px] font-bold text-white bg-[#3b6e64] hover:bg-[#2d554d] px-2.5 py-1 rounded-lg transition shrink-0">
+                <span class="text-[10px] font-medium text-white bg-[#3b6e64] hover:bg-[#2d554d] px-2.5 py-1 rounded-lg transition shrink-0">
                     Pesan
                 </span>
             </a>
@@ -951,7 +951,7 @@ function markRevealComplete(el) {
             finish();
         }
     }, { once: true });
-    setTimeout(finish, 1150);
+    setTimeout(finish, 1500);
 }
 
 function revealElement(el) {

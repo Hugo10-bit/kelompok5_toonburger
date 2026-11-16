@@ -201,12 +201,12 @@
                                         <div class="inline-flex items-center border border-gray-200 rounded-md bg-white px-2 py-0.5 gap-2.5 mt-1.5 shadow-2xs">
                                             <button type="button"
                                                     onclick="updateCheckoutQty('{{ $item['cart_key'] }}', {{ $item['quantity'] - 1 }})"
-                                                    class="text-gray-500 hover:text-gray-900 font-bold text-xs cursor-pointer select-none"
+                                                    class="text-gray-500 hover:text-gray-900 font-medium text-xs cursor-pointer select-none"
                                                     aria-label="Kurangi jumlah">&minus;</button>
                                             <span class="text-[11px] font-bold text-gray-900 select-none">{{ $item['quantity'] }}</span>
                                             <button type="button"
                                                     onclick="updateCheckoutQty('{{ $item['cart_key'] }}', {{ $item['quantity'] + 1 }})"
-                                                    class="text-gray-500 hover:text-gray-900 font-bold text-xs cursor-pointer select-none"
+                                                    class="text-gray-500 hover:text-gray-900 font-medium text-xs cursor-pointer select-none"
                                                     aria-label="Tambah jumlah">&plus;</button>
                                         </div>
                                     </div>
@@ -249,7 +249,7 @@
 
                     <!-- Action Button -->
                     <button type="submit"
-                            class="w-full mt-5 bg-[#385850] hover:bg-[#2C463F] active:scale-[0.99] text-white font-bold text-xs sm:text-sm py-3.5 rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center">
+                            class="w-full mt-5 bg-[#385850] hover:bg-[#2C463F] active:scale-[0.99] text-white font-medium text-xs sm:text-sm py-3.5 rounded-xl transition shadow-xs cursor-pointer flex items-center justify-center">
                         Buat Pesanan Sekarang
                     </button>
                 </div>

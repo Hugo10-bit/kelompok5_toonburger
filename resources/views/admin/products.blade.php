@@ -183,8 +183,8 @@
                 </div>
 
                 <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-[#4A4A4A]">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg text-xs font-bold text-gray-600 dark:text-white bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] transition-colors cursor-pointer" data-i18n="btn_cancel">Batal</button>
-                    <button type="submit" class="px-5 py-2 rounded-lg text-xs font-bold text-white bg-[#415C58] hover:bg-[#344B48] transition-colors cursor-pointer" data-i18n="btn_save_prod">Simpan Produk</button>
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg text-xs font-medium text-gray-600 dark:text-white bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] transition-colors cursor-pointer" data-i18n="btn_cancel">Batal</button>
+                    <button type="submit" class="px-5 py-2 rounded-lg text-xs font-medium text-white bg-[#415C58] hover:bg-[#344B48] transition-colors cursor-pointer" data-i18n="btn_save_prod">Simpan Produk</button>
                 </div>
             </form>
         </div>

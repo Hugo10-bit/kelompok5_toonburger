@@ -78,7 +78,7 @@
                 if (prevImg) {
                     prevImg.classList.remove('is-prev', 'is-leaving-left', 'is-leaving-right');
                 }
-            }, 720);
+            }, 900);
 
             captions.forEach(function (cap, idx) {
                 const active = idx === currentSlide;

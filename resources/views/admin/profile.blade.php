@@ -177,12 +177,12 @@
             <div class="flex items-center justify-center gap-4">
                 <button type="button"
                         onclick="closeProfileConfirmModal()"
-                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
+                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
                         id="profile-confirm-proceed-btn"
-                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-sm font-semibold shadow-md active:scale-95 transition cursor-pointer">
+                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-sm font-medium shadow-md active:scale-95 transition cursor-pointer">
                     Ya, Simpan
                 </button>
             </div>

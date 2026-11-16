@@ -69,7 +69,7 @@
                         <!-- CTA Buttons: Pickup Order & Delivery Order -->
                         <div class="flex flex-wrap items-center gap-3.5 pt-2">
                             <a href="{{ route('menu') }}"
-                               class="min-h-[44px] inline-flex items-center justify-center font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
+                               class="min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                                 Pickup Order
                             </a>
                             <a href="{{ route('menu') }}"
@@ -100,11 +100,11 @@
                                      decoding="async"
                                      width="200"
                                      height="175"
-                                     class="w-[155px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-100 hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
+                                     class="w-[155px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
                             </div>
 
                             <!-- Starburst Comic Speech Bubble ("VERY CHEESE BURGER") - Terpisah di Kanan Atas (Tidak Menempel/Nyambung Burger) -->
-                            <div class="absolute -top-12 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[58%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-150 hover:scale-105">
+                            <div class="absolute -top-12 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[58%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105">
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
@@ -152,7 +152,7 @@
         <div class="max-w-[1440px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 relative z-20">
 
             <!-- Card 1: 100% Daging -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-75">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-75">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border-2 border-[#F5C2C2] bg-[#FDF2F2] flex items-center justify-center text-[#E03A3A] mb-3 shrink-0 shadow-[2px_2px_0px_#F5C2C2]">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 4c-4.97 0-9 2.69-9 6h18c0-3.31-4.03-6-9-6zm-9 8v2h18v-2H3zm0 4c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4H3z"/>
@@ -170,7 +170,7 @@
             </div>
 
             <!-- Card 2: Bahan Segar Setiap Hari -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-150">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-150">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border-2 border-[#BDE0D8] bg-[#F0F7F5] flex items-center justify-center text-[#2E7A6B] mb-3 shrink-0 shadow-[2px_2px_0px_#BDE0D8]">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2a9 9 0 0 1 9 9c0 5-9 11-9 11S3 16 3 11a9 9 0 0 1 9-9z"/>
@@ -191,7 +191,7 @@
             </div>
 
             <!-- Card 3: Pesanan Cepat -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-225">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-225">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border-2 border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-3 shrink-0 shadow-[2px_2px_0px_#FDE68A]">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
@@ -209,7 +209,7 @@
             </div>
 
             <!-- Card 4: Porsi Bikin Kenyang -->
-            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_#27443E] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_#27443E] toon-reveal-pop reveal-delay-300">
+            <div class="bg-white rounded-[26px] sm:rounded-[30px] border-2 border-black shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-5 sm:p-6 min-h-[195px] sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-300">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl border-2 border-[#BFDBFE] bg-[#EFF6FF] flex items-center justify-center text-[#2563EB] mb-3 shrink-0 shadow-[2px_2px_0px_#BFDBFE]">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
@@ -244,7 +244,7 @@
          4. BEST SELLER SECTION (Sesuai Foto 4)
          ═══════════════════════════════════════════════ -->
     <section class="retro-grid-bg pt-12 pb-14 sm:pt-16 sm:pb-16 px-4 sm:px-6 lg:px-8 select-none">
-        <div class="max-w-7xl mx-auto space-y-8">
+        <div class="max-w-7xl mx-auto">
 
             <!-- Section Header -->
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 toon-reveal-up">
@@ -259,17 +259,17 @@
                 </div>
 
                 <a href="{{ route('menu') }}"
-                   class="min-h-[44px] self-start sm:self-auto border-2 border-black bg-white rounded-xl px-4 py-2 font-bold text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer inline-flex items-center gap-1.5 shrink-0">
+                   class="min-h-[44px] self-start sm:self-auto border-2 border-black bg-white rounded-xl px-4 py-2 font-medium text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer inline-flex items-center gap-1.5 shrink-0">
                     <span>Lihat Semua</span>
                     <span>&rarr;</span>
                 </a>
             </div>
 
             <!-- 4 Product Cards Grid -->
-            <div class="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <div class="mt-8 grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
 
                 <!-- 1. Very Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-75">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] toon-reveal-pop reveal-delay-75">
                     <div onclick="openProductModal(1)" class="cursor-pointer">
                         <!-- Top Image Box: Yellow Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -279,14 +279,14 @@
                                  decoding="async"
                                  width="600"
                                  height="414"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)]">
                         </div>
 
                         <div class="pt-3 pb-1">
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHEESE BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors duration-[420ms]">
                                 Very Cheese Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -301,14 +301,14 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(1)"
-                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-medium rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
                 </div>
 
                 <!-- 2. Cheese Chicken Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-150">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] toon-reveal-pop reveal-delay-150">
                     <div onclick="openProductModal(6)" class="cursor-pointer">
                         <!-- Top Image Box: Beige/Tan Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -318,14 +318,14 @@
                                  decoding="async"
                                  width="600"
                                  height="414"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)]">
                         </div>
 
                         <div class="pt-3 pb-1">
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHICKEN BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors duration-[420ms]">
                                 Cheese Chicken Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -340,14 +340,14 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(6)"
-                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-medium rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
                 </div>
 
                 <!-- 3. BBQ Beef Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-225">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] toon-reveal-pop reveal-delay-225">
                     <div onclick="openProductModal(3)" class="cursor-pointer">
                         <!-- Top Image Box: Vibrant Red Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -357,14 +357,14 @@
                                  decoding="async"
                                  width="600"
                                  height="414"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)]">
                         </div>
 
                         <div class="pt-3 pb-1">
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 BEEF BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors duration-[420ms]">
                                 BBQ Beef Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -379,14 +379,14 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(3)"
-                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-medium rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
                 </div>
 
                 <!-- 4. Double Cheese Burger -->
-                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-200 toon-reveal-pop reveal-delay-300">
+                <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] toon-reveal-pop reveal-delay-300">
                     <div onclick="openProductModal(4)" class="cursor-pointer">
                         <!-- Top Image Box: Soft Green Background (Full Bleed Seamless) -->
                         <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100">
@@ -396,14 +396,14 @@
                                  decoding="async"
                                  width="600"
                                  height="414"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)]">
                         </div>
 
                         <div class="pt-3 pb-1">
                             <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide">
                                 CHEESE BURGER
                             </span>
-                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors">
+                            <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors duration-[420ms]">
                                 Double Cheese Burger
                             </h3>
                             <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
@@ -418,7 +418,7 @@
                         </span>
                         <button type="button"
                                 onclick="openProductModal(4)"
-                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-bold rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
+                                class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-medium rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
                             Pesan
                         </button>
                     </div>
@@ -429,7 +429,7 @@
             <!-- ═══════════════════════════════════════════════
                  5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
                  ═══════════════════════════════════════════════ -->
-            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_rgba(168,50,50,0.5)] px-6 py-7 sm:px-8 sm:py-9 min-h-[124px] sm:min-h-[136px] flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
+            <div class="mt-14 sm:mt-16 bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_rgba(168,50,50,0.5)] px-6 py-9 sm:px-8 sm:py-11 min-h-[148px] sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center shrink-0 shadow-xs">
                         <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
@@ -438,7 +438,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-black text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-tight">
+                        <h3 class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-wide"
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             NGGAK SEMPAT  KE TOKO? GOFOOD AJA!
                         </h3>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
@@ -448,7 +449,7 @@
                 </div>
 
                 <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
-                   class="min-h-[44px] w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
+                   class="min-h-[44px] w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
                     <span>Buka Gojek</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -486,7 +487,7 @@
 
                         <div class="pt-4">
                             <a href="{{ route('about') }}"
-                               class="min-h-[44px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-bold px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
+                               class="min-h-[44px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-medium px-5 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
                                 <span>Selengkapnya Tentang Kami</span>
                                 <span>&rarr;</span>
                             </a>
@@ -516,19 +517,20 @@
          ═══════════════════════════════════════════════ -->
     <section class="retro-grid-bg py-10 sm:py-12 px-4 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-5 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
+            <div class="bg-white rounded-[28px] border-2 border-black shadow-[6px_6px_0px_rgba(61,93,86,0.5)] px-6 py-9 sm:px-8 sm:py-11 min-h-[148px] sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-5 toon-reveal-up">
 
                 <div class="flex items-center gap-4">
                     <!-- Speech bubble question mark icon matching Photo 1 -->
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 relative flex items-center justify-center">
-                        <svg class="w-14 h-14 sm:w-16 sm:h-16 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+                    <div class="w-14 h-14 shrink-0 relative flex items-center justify-center">
+                        <svg class="w-14 h-14 text-[#3b5a53]" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
                             <path d="M32 6C17.64 6 6 17.64 6 32c0 5.4 1.64 10.42 4.45 14.59L8 58l12.18-2.67C23.94 56.91 27.84 58 32 58c14.36 0 26-11.64 26-26S46.36 6 32 6z"/>
                             <path d="M26.5 25.5c0-3.2 2.5-5.5 5.8-5.5 3.4 0 5.7 2.1 5.7 4.9 0 2.3-1.4 3.6-3.4 4.8-1.6 1-2.6 1.8-2.6 3.5v1.3" fill="none" stroke="white" stroke-width="4.5" stroke-linecap="round"/>
                             <circle cx="32" cy="41.5" r="2.6" fill="white"/>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-black text-lg sm:text-xl lg:text-2xl text-gray-900 uppercase tracking-tight">
+                        <h3 class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-[#27443E] uppercase tracking-wide"
+                            style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             ADA YANG MAU DITANYAIN?
                         </h3>
                         <p class="text-xs sm:text-sm text-gray-500 mt-0.5">
@@ -538,8 +540,8 @@
                 </div>
 
                 <a href="{{ route('contact') }}"
-                   class="min-h-[44px] w-full sm:w-auto inline-flex items-center justify-center bg-[#3b5a53] hover:bg-[#2d4741] text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shrink-0 transition cursor-pointer shadow-xs">
-                    Kontak Kami
+                   class="min-h-[44px] w-full sm:w-auto justify-center bg-[#3b5a53] hover:bg-[#2d4741] text-white font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
+                    <span>Kontak Kami</span>
                 </a>
 
             </div>

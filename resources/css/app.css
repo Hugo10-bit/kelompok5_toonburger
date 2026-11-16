@@ -15,7 +15,7 @@ html {
 
 /* Auto-dismissing alerts */
 .alert-auto-dismiss {
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, margin 0.4s ease;
+    transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), max-height 0.55s cubic-bezier(0.22, 1, 0.36, 1), padding 0.55s ease, margin 0.55s ease;
     overflow: hidden;
 }
 .alert-auto-dismiss.alert-dismissing {
@@ -180,7 +180,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     transform-origin: left;
     background: linear-gradient(90deg, #FFC72C, #F9961F, #D92625);
     z-index: 99999;
-    transition: transform 0.35s ease, opacity 0.3s ease;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
     pointer-events: none;
     box-shadow: 0 0 10px rgba(249, 150, 31, 0.7);
 }
@@ -193,7 +193,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 .animate-marquee {
     display: flex;
     width: max-content;
-    animation: marquee 25s linear infinite;
+    animation: marquee 32s linear infinite;
     will-change: transform;
 }
 
@@ -213,7 +213,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 .animate-modal-pop {
-    animation: modalPop 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: modalPop 0.28s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes toonBobAnimation {
@@ -226,7 +226,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 .toon-bob {
-    animation: toonBobAnimation 4s ease-in-out infinite;
+    animation: toonBobAnimation 5.2s ease-in-out infinite;
 }
 
 .comic-sparkle {
@@ -234,7 +234,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 .comic-badge-interactive {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .comic-badge-interactive:hover {
@@ -242,7 +242,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 .toon-btn-bounce {
-    transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.16s ease, filter 0.16s ease;
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.26s ease, filter 0.26s ease;
 }
 
 .toon-btn-bounce:hover {
@@ -255,7 +255,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 
 .toon-tilt-card {
     transform-style: preserve-3d;
-    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease;
+    transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.38s ease;
 }
 
 @keyframes cartPunch {
@@ -267,7 +267,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 .animate-cart-punch {
-    animation: cartPunch 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+    animation: cartPunch 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
 
 .flying-cart-particle {
@@ -279,7 +279,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     border-radius: 50%;
     object-fit: contain;
     filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
-    transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.25, 1), opacity 0.65s ease;
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.85s ease;
     will-change: transform, opacity;
 }
 
@@ -317,11 +317,11 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 .toon-reveal-up:not(.reveal-complete),
 .toon-reveal-left:not(.reveal-complete),
 .toon-reveal-right:not(.reveal-complete) {
-    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .toon-reveal-pop:not(.reveal-complete) {
-    transition: opacity 0.65s cubic-bezier(0.34, 1.35, 0.64, 1), transform 0.65s cubic-bezier(0.34, 1.35, 0.64, 1) !important;
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .toon-reveal.revealed,
@@ -339,20 +339,20 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 /* Stagger delay utilities */
-.reveal-delay-75  { transition-delay: 75ms; }
-.reveal-delay-100 { transition-delay: 100ms; }
-.reveal-delay-150 { transition-delay: 150ms; }
-.reveal-delay-200 { transition-delay: 200ms; }
-.reveal-delay-225 { transition-delay: 225ms; }
-.reveal-delay-300 { transition-delay: 300ms; }
-.reveal-delay-400 { transition-delay: 400ms; }
+.reveal-delay-75  { transition-delay: 90ms; }
+.reveal-delay-100 { transition-delay: 120ms; }
+.reveal-delay-150 { transition-delay: 180ms; }
+.reveal-delay-200 { transition-delay: 240ms; }
+.reveal-delay-225 { transition-delay: 270ms; }
+.reveal-delay-300 { transition-delay: 360ms; }
+.reveal-delay-400 { transition-delay: 480ms; }
 
 /* 5. Slideshow & About Page Components */
 .about-slide-photo {
     opacity: 0;
     z-index: 0;
     transform: translateX(100%);
-    transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms ease;
+    transition: transform 850ms cubic-bezier(0.22, 1, 0.36, 1), opacity 650ms ease;
     will-change: transform, opacity;
 }
 
@@ -396,18 +396,18 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     opacity: 0;
     transform: translateY(8px);
     pointer-events: none;
-    transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1), transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .about-slide-caption.is-active {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-    transition-delay: 140ms;
+    transition-delay: 180ms;
 }
 
 .sticky-review-card {
-    transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 220ms ease;
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .sticky-review-card:hover {

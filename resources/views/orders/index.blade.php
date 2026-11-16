@@ -11,7 +11,7 @@
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Riwayat Pesanan</h1>
             <p class="text-xs text-gray-500">Daftar semua transaksi dan pesanan yang pernah Anda buat di Toon Burger.</p>
         </div>
-        <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-4 py-2.5 rounded-xl shadow-xs transition">
+        <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs px-4 py-2.5 rounded-xl shadow-xs transition">
             + Pesan Baru
         </a>
     </div>
@@ -21,7 +21,7 @@
             <div class="text-sm font-bold text-gray-400 mb-1">[Belum Ada Data]</div>
             <h3 class="text-base font-bold text-gray-900">Belum ada riwayat pesanan</h3>
             <p class="text-xs text-gray-500 mt-1">Anda belum pernah melakukan pemesanan burger.</p>
-            <a href="{{ route('menu') }}" class="inline-block mt-4 bg-bites-yellow text-bites-dark font-bold text-xs px-5 py-2.5 rounded-xl shadow-xs">
+            <a href="{{ route('menu') }}" class="inline-block mt-4 bg-bites-yellow text-bites-dark font-medium text-xs px-5 py-2.5 rounded-xl shadow-xs">
                 Mulai Pesan Sekarang
             </a>
         </div>
@@ -60,7 +60,7 @@
                         <div class="text-base font-black text-bites-red">
                             Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                         </div>
-                        <a href="{{ route('orders.show', $order->order_number) }}" class="bg-gray-900 hover:bg-black text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow-xs">
+                        <a href="{{ route('orders.show', $order->order_number) }}" class="bg-gray-900 hover:bg-black text-white font-medium text-xs px-4 py-2 rounded-xl transition shadow-xs">
                             Lihat Detail &rarr;
                         </a>
                     </div>

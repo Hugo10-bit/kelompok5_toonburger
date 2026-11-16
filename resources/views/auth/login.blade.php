@@ -131,7 +131,7 @@
                         </svg>
                         <span id="alert-warning-text">{{ session('warning') }}</span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-medium p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @else
                 <div id="alert-warning" class="hidden alert-auto-dismiss mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
@@ -141,7 +141,7 @@
                         </svg>
                         <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-bold p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-medium p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -153,7 +153,7 @@
                         </svg>
                         <span>{{ session('error') }}</span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-bold hover:text-red-900 dark:text-red-300 dark:hover:text-red-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-medium hover:text-red-900 dark:text-red-300 dark:hover:text-red-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -163,7 +163,7 @@
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-medium hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -173,7 +173,7 @@
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('success') }}</span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-bold hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-medium hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -189,7 +189,7 @@
                             @endif
                         </span>
                     </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-bold hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
+                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 font-medium hover:text-red-900 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
             @endif
 
@@ -255,7 +255,7 @@
 
                     <!-- Login Button -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="login-btn-text">Login</span>
                         </button>
                     </div>
@@ -351,7 +351,7 @@
 
                     <!-- Sign Up / Register Button -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-semibold py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>

@@ -48,7 +48,7 @@
                             <option value="occupied" {{ $table->status === 'occupied' ? 'selected' : '' }}>Occupied (Terisi)</option>
                             <option value="reserved" {{ $table->status === 'reserved' ? 'selected' : '' }}>Reserved (Dipesan)</option>
                         </select>
-                        <button type="submit" class="bg-toon-granite hover:bg-toon-granite-dark text-white font-bold px-3.5 py-2 rounded-full transition shadow-2xs" data-i18n="tables_change">
+                        <button type="submit" class="bg-toon-granite hover:bg-toon-granite-dark text-white font-medium px-3.5 py-2 rounded-full transition shadow-2xs" data-i18n="tables_change">
                             Ubah
                         </button>
                     </div>

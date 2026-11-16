@@ -38,6 +38,12 @@ export default {
                 brand: ['"BBH Hegarty"', 'sans-serif'],
                 hegarty: ['"BBH Hegarty"', 'sans-serif'],
             },
+            transitionDuration: {
+                DEFAULT: '280ms',
+            },
+            transitionTimingFunction: {
+                DEFAULT: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            },
         },
     },
 

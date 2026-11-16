@@ -64,14 +64,14 @@
             <div class="flex items-center justify-center gap-3.5">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] tb-focus-ring cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
                 <button type="button"
                         id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
+                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
                         data-i18n="logout_confirm_btn">
                     Ya, Logout
                 </button>
@@ -110,7 +110,7 @@
             <div class="flex items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] tb-focus-ring cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-medium transition min-w-[120px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
@@ -118,7 +118,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-bold transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer"
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-medium transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer"
                             data-i18n="delete_confirm_btn">
                         Ya, Hapus
                     </button>
@@ -313,11 +313,11 @@
                         </svg>
                     </button>
                     <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
-                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition">
+                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition">
                             <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
                             <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
-                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-gray-800 hover:bg-gray-100 transition mt-1">
+                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition mt-1">
                             <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Indonesia</span></span>
                             <svg id="lang-check-id" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
@@ -394,7 +394,7 @@
                         <hr class="my-1.5 border-gray-100">
 
                         <!-- 4. Logout -->
-                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-[#DE3B28] hover:bg-red-50/80 transition text-left cursor-pointer">
+                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-[#DE3B28] hover:bg-red-50/80 transition text-left cursor-pointer">
                             <svg class="w-5 h-5 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
@@ -414,7 +414,7 @@
                     </svg>
                     <span>{{ session('success') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 text-base font-bold p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
@@ -426,7 +426,7 @@
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] text-base font-bold p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 

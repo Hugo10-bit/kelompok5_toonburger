@@ -141,7 +141,7 @@
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -159,7 +159,7 @@
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -177,7 +177,7 @@
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -195,7 +195,7 @@
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Apakah Toon Burger melayani pesan antar langsung lewat website ini?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -213,7 +213,7 @@
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bagaimana jika saya terlambat mengambil pesanan di outlet?
                             </span>
-                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -291,7 +291,7 @@
 
                             <div class="pt-2">
                                 <button type="submit"
-                                        class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] text-white font-bold text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
+                                        class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] text-white font-medium text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
                                     <span>Kirim Pesan</span>
                                     <svg class="w-4 h-4 text-white -rotate-12 translate-y-[-1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="22" y1="2" x2="11" y2="13"></line>

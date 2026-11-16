@@ -20,10 +20,10 @@
         </div>
 
         <div class="flex items-center gap-2 no-print">
-            <button onclick="window.print()" class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5 cursor-pointer">
+            <button onclick="window.print()" class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-medium text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5 cursor-pointer">
                 Cetak Struk
             </button>
-            <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-extrabold text-xs px-4 py-2.5 rounded-xl transition shadow-xs">
+            <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs px-4 py-2.5 rounded-xl transition shadow-xs">
                 + Pesan Lagi
             </a>
         </div>
@@ -112,14 +112,14 @@
 
             <div class="flex flex-col sm:flex-row items-center gap-3">
                 @if($order->payment_method === 'qris')
-                    <button type="button" onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-bold text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap cursor-pointer">
+                    <button type="button" onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap cursor-pointer">
                         Tampilkan Kode QRIS
                     </button>
                 @endif
 
                 <form action="{{ route('orders.pay', $order->order_number) }}" method="POST">
                     @csrf
-                    <button type="submit" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
+                    <button type="submit" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
                         Bayar Sekarang (Simulasi Lunas)
                     </button>
                 </form>
@@ -189,7 +189,7 @@
                             <!-- Review Button if completed and user logged in -->
                             @if($order->status === 'completed' && $item->product_id)
                                 <div class="mt-2">
-                                    <button onclick="openReviewModal({{ $item->product_id }}, '{{ addslashes($item->product_name) }}')" class="text-[11px] font-bold text-bites-red hover:underline inline-flex items-center gap-1">
+                                    <button onclick="openReviewModal({{ $item->product_id }}, '{{ addslashes($item->product_name) }}')" class="text-[11px] font-medium text-bites-red hover:underline inline-flex items-center gap-1">
                                         Beri Ulasan Menu Ini
                                     </button>
                                 </div>
@@ -238,7 +238,7 @@
                 <span class="font-black text-sm text-gray-900 block">Pembayaran QRIS</span>
                 <span class="text-[11px] text-gray-500 font-medium">Merchant: Hugo (NMID: ID1026551937497)</span>
             </div>
-            <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-bold text-lg transition">&times;</button>
+            <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 flex items-center justify-center font-medium text-lg transition">&times;</button>
         </div>
         
         <!-- 5 MINUTE COUNTDOWN TIMER BADGE -->
@@ -256,7 +256,7 @@
                 <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold text-xl mb-2">!</div>
                 <h4 class="font-bold text-sm text-gray-900 mb-1">Waktu Pembayaran Habis</h4>
                 <p class="text-xs text-gray-500 mb-3">Sesi pembayaran QRIS 5 menit telah berakhir.</p>
-                <button type="button" onclick="restartQrisTimer()" class="bg-gray-900 text-white font-bold text-xs px-4 py-2 rounded-xl">Muat Ulang Timer</button>
+                <button type="button" onclick="restartQrisTimer()" class="bg-gray-900 text-white font-medium text-xs px-4 py-2 rounded-xl">Muat Ulang Timer</button>
             </div>
         </div>
 
@@ -272,7 +272,7 @@
 
         <form action="{{ route('orders.pay', $order->order_number) }}" method="POST">
             @csrf
-            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium text-xs py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
@@ -287,7 +287,7 @@
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
         <div class="flex items-center justify-between">
             <h3 class="font-black text-sm text-gray-900">Beri Ulasan Menu</h3>
-            <button onclick="document.getElementById('review-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 text-lg font-bold">&times;</button>
+            <button onclick="document.getElementById('review-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 text-lg font-medium">&times;</button>
         </div>
 
         <form action="{{ route('orders.review', $order->order_number) }}" method="POST" class="space-y-4">
@@ -311,7 +311,7 @@
                 <textarea name="comment" rows="3" placeholder="Ceritakan rasa burger atau kemasan Toon Burger..." class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 text-xs focus:outline-none"></textarea>
             </div>
 
-            <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-black text-xs py-3 rounded-xl transition">
+            <button type="submit" class="w-full bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs py-3 rounded-xl transition">
                 Kirim Ulasan
             </button>
         </form>

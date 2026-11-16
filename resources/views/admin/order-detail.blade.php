@@ -116,7 +116,7 @@
         </div>
 
         <div class="flex items-center gap-2.5">
-            <a href="{{ route('admin.orders') }}" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] text-xs font-bold px-4 py-2.5 rounded-full transition flex items-center gap-2 active:scale-95 shadow-2xs select-none">
+            <a href="{{ route('admin.orders') }}" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] text-xs font-medium px-4 py-2.5 rounded-full transition flex items-center gap-2 active:scale-95 shadow-2xs select-none">
                 <svg class="w-3.5 h-3.5 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
@@ -330,7 +330,7 @@
     <!-- 5. Card Aksi Pengelolaan Admin -->
     <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-            <button type="button" onclick="window.print()" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] font-bold text-xs px-4 py-2.5 rounded-full transition flex items-center gap-2 shadow-2xs cursor-pointer">
+            <button type="button" onclick="window.print()" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] font-medium text-xs px-4 py-2.5 rounded-full transition flex items-center gap-2 shadow-2xs cursor-pointer">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                 </svg>
@@ -345,7 +345,7 @@
                     <input type="hidden" name="status" value="preparing">
                     <button type="button"
                             onclick="confirmOrderDetailProcess(this, 'preparing', '{{ $order->order_number }}')"
-                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-medium py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_accept_cook">Terima & Masak Pesanan</span>
                     </button>
                 </form>
@@ -355,7 +355,7 @@
                     <input type="hidden" name="status" value="ready">
                     <button type="button"
                             onclick="confirmOrderDetailProcess(this, 'ready', '{{ $order->order_number }}')"
-                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-medium py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_mark_ready">Tandai Siap Saji</span>
                     </button>
                 </form>
@@ -366,7 +366,7 @@
                     <input type="hidden" name="payment_status" value="paid">
                     <button type="button"
                             onclick="confirmOrderDetailProcess(this, 'completed', '{{ $order->order_number }}')"
-                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
+                            class="bg-[#385A56] hover:bg-[#2D4B47] active:scale-95 text-white font-medium py-2.5 px-6 rounded-full text-xs shadow-xs transition cursor-pointer">
                         <span data-i18n="order_detail_complete">Selesaikan Pesanan</span>
                     </button>
                 </form>
@@ -378,7 +378,7 @@
                     <input type="hidden" name="status" value="cancelled">
                     <button type="button"
                             onclick="confirmOrderDetailCancel(this, '{{ $order->order_number }}')"
-                            class="text-[#DE3B28] dark:text-[#F87171] hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/60 font-bold py-2.5 px-5 rounded-full text-xs transition cursor-pointer">
+                            class="text-[#DE3B28] dark:text-[#F87171] hover:bg-red-50 dark:hover:bg-red-950/40 border border-red-200 dark:border-red-900/60 font-medium py-2.5 px-5 rounded-full text-xs transition cursor-pointer">
                         <span data-i18n="order_detail_cancel">Batalkan Pesanan</span>
                     </button>
                 </form>

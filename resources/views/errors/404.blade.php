@@ -94,7 +94,7 @@
                         <!-- Action Buttons -->
                         <div class="mt-7 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3">
                             <a href="{{ route('home') }}"
-                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#FFC72C] hover:bg-[#E8A400] text-[#121212] font-bold text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
+                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#FFC72C] hover:bg-[#E8A400] text-[#121212] font-medium text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                                 </svg>
@@ -102,7 +102,7 @@
                             </a>
 
                             <a href="{{ route('menu') }}"
-                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#385850] hover:bg-[#253B36] text-white font-bold text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
+                               class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#385850] hover:bg-[#253B36] text-white font-medium text-sm border-2 border-[#121212] shadow-[3px_3px_0px_#121212] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_#121212] transition whitespace-nowrap">
                                 <span>Jelajahi Menu</span>
                                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>

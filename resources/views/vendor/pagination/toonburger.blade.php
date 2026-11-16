@@ -4,7 +4,7 @@
         @if ($paginator->onFirstPage())
             {{-- Optional previous arrow or keep as in mockup where first button is page 1 --}}
         @else
-            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-semibold flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
+            <a href="{{ $paginator->previousPageUrl() }}" rel="prev" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-medium flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
                 &larr;
             </a>
         @endif
@@ -26,7 +26,7 @@
                             {{ $page }}
                         </span>
                     @else
-                        <a href="{{ $url }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-semibold flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
+                        <a href="{{ $url }}" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-medium flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
                             {{ $page }}
                         </a>
                     @endif
@@ -36,7 +36,7 @@
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-bold flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
+            <a href="{{ $paginator->nextPageUrl() }}" rel="next" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-[#374151] hover:text-[#111827] font-medium flex items-center justify-center text-sm border border-gray-200/90 shadow-2xs hover:border-gray-300 hover:shadow-xs transition cursor-pointer">
                 &rarr;
             </a>
         @endif

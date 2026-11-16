@@ -68,13 +68,13 @@
             <div class="flex items-center justify-center gap-3.5">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] focus:outline-none cursor-pointer">
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] focus:outline-none cursor-pointer">
                     <span data-i18n-app="logout_cancel">Batalkan</span>
                 </button>
                 <button type="button"
                         id="modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-semibold transition min-w-[124px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
+                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] shadow-xs focus:outline-none cursor-pointer flex items-center justify-center">
                     <span data-i18n-app="logout_confirm">Ya, Logout</span>
                 </button>
             </div>
@@ -403,7 +403,7 @@
                     </svg>
                     <span>{{ session('warning') }}</span>
                 </div>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 font-bold p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 font-medium p-1 cursor-pointer">&times;</button>
             </div>
         </div>
     @endif
@@ -415,7 +415,7 @@
                     <span class="font-bold">[Sukses]</span>
                     <span>{{ session('success') }}</span>
                 </div>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-green-600 hover:text-green-900 font-bold p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-green-600 hover:text-green-900 font-medium p-1 cursor-pointer">&times;</button>
             </div>
         </div>
     @endif
@@ -427,7 +427,7 @@
                     <span class="font-bold">[Perhatian]</span>
                     <span>{{ session('error') }}</span>
                 </div>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 hover:text-red-900 font-bold p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-red-600 hover:text-red-900 font-medium p-1 cursor-pointer">&times;</button>
             </div>
         </div>
     @endif
@@ -445,7 +445,7 @@
             id="scroll-to-top-btn"
             onclick="window.tbScrollTo ? window.tbScrollTo(0) : window.scrollTo({ top: 0, behavior: 'smooth' })"
             aria-label="Kembali ke atas"
-            class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#27443E] hover:bg-[#DE3B28] text-white border-2 border-white/80 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center opacity-0 pointer-events-none translate-y-3 transition-all duration-300 ease-out cursor-pointer active:scale-90">
+            class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-[#27443E] hover:bg-[#DE3B28] text-white border-2 border-white/80 shadow-[0_4px_16px_rgba(0,0,0,0.25)] flex items-center justify-center opacity-0 pointer-events-none translate-y-3 transition-all duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] cursor-pointer active:scale-90">
         <svg class="w-5 h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
         </svg>
@@ -456,7 +456,7 @@
         $initialCartCount = session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0;
     @endphp
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
-    <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[92vw] max-w-[385px] bg-white rounded-[20px] shadow-2xl border border-gray-200/80 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s ease;">
+    <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[92vw] max-w-[385px] bg-white rounded-[20px] shadow-2xl border border-gray-200/80 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.32s ease;">
 
         <!-- Cart Header (Fixed Top) -->
         <div class="px-6 py-5 bg-white border-b border-[#E5E7EB] flex-shrink-0">
@@ -479,7 +479,7 @@
                 </p>
                 <button type="button"
                         onclick="startOrderFromCart()"
-                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-semibold text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-medium text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
                     <span data-i18n-app="cart_empty_btn">Mulai Pesan Sekarang</span>
                 </button>
             </div>
@@ -512,7 +512,7 @@
                 <a href="{{ route('orders.checkout') }}"
                    id="checkout-btn"
                    @guest onclick="event.preventDefault(); promptRequireLogin('Wajib login terlebih dahulu untuk checkout pesanan.');" @endguest
-                   class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
+                   class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-medium py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
                     <span data-i18n-app="cart_checkout">Lanjutkan Ke pembayaran</span>
                 </a>
             </div>
@@ -527,7 +527,7 @@
             <!-- Close Button (Top Right) -->
             <button type="button"
                     onclick="closeProductModal()"
-                    class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition text-2xl font-light cursor-pointer z-20"
+                    class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition text-2xl font-medium cursor-pointer z-20"
                     aria-label="Tutup">
                 &times;
             </button>
@@ -593,12 +593,12 @@
                         <div class="inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 py-1 shadow-2xs gap-2 shrink-0">
                             <button type="button"
                                     onclick="adjustModalQty(-1)"
-                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold transition cursor-pointer select-none"
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-medium transition cursor-pointer select-none"
                                     aria-label="Kurang burger">&minus;</button>
                             <span id="modal-quantity" class="w-4 text-center font-bold text-xs text-gray-900 select-none">1</span>
                             <button type="button"
                                     onclick="adjustModalQty(1)"
-                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-bold transition cursor-pointer select-none"
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-medium transition cursor-pointer select-none"
                                     aria-label="Tambah burger">&plus;</button>
                         </div>
 
@@ -606,7 +606,7 @@
                         <button type="button"
                                 id="modal-submit-btn"
                                 onclick="submitAddToCart()"
-                                class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-bold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
+                                class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
                             <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
                             <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
