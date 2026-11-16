@@ -254,9 +254,12 @@ class AdminController extends Controller
         }
 
         $order = Order::with($relations)
-            ->where('order_number', $order_number)
-            ->orWhere('order_number', 'TB-20260917-00007')
-            ->orWhere('id', $order_number)
+            ->where(function ($q) use ($order_number) {
+                $q->where('order_number', $order_number);
+                if (ctype_digit((string) $order_number)) {
+                    $q->orWhere('id', (int) $order_number);
+                }
+            })
             ->firstOrFail();
 
         return view('admin.order-detail', compact('order'));
