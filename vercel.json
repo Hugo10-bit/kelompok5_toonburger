@@ -30,10 +30,19 @@
       "dest": "/.well-known/$1"
     },
     {
+      "src": "/downloads/toon-burger\\.apk",
+      "status": 302,
+      "headers": {
+        "Location": "/downloads/toon-burger-v1.0.2.apk",
+        "Cache-Control": "no-store"
+      }
+    },
+    {
       "src": "/downloads/(.*)",
       "headers": {
         "Content-Type": "application/vnd.android.package-archive",
-        "Content-Disposition": "attachment; filename=\"toon-burger.apk\""
+        "Content-Disposition": "attachment",
+        "Cache-Control": "no-store, must-revalidate"
       },
       "dest": "/downloads/$1"
     },
