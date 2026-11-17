@@ -3,7 +3,7 @@
     $currentMode = (isset($mode) && $mode === 'register') || request()->is('register') || old('form_type') === 'register' ? 'register' : 'login';
 @endphp
 <!DOCTYPE html>
-<html lang="id" class="h-full w-full">
+<html lang="id" class="min-h-full md:h-full w-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/app.css', 'resources/js/auth/login.js'])
 </head>
-<body class="h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg flex flex-col md:flex-row overflow-y-auto md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
+<body class="min-h-screen md:h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg flex flex-col md:flex-row overflow-x-clip md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
       data-register-url="{{ route('register') }}"
       data-login-url="{{ route('login') }}"
       data-dashboard-url="{{ route('dashboard') }}"
@@ -115,7 +115,7 @@
     </div>
 
     <!-- ═══ RIGHT PANEL: COMPACT FORM CARD ═══ -->
-    <div class="w-full md:w-[52%] lg:w-[52%] xl:w-[53%] min-h-screen md:h-screen bg-white dark:bg-[#313131] md:rounded-tl-[44px] md:rounded-bl-[44px] shadow-[-10px_0_30px_rgba(0,0,0,0.08)] md:shadow-[-12px_0_36px_rgba(0,0,0,0.10)] dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-y-auto relative z-30 transition-colors duration-200">
+    <div class="w-full md:w-[52%] lg:w-[52%] xl:w-[53%] md:h-screen bg-white dark:bg-[#313131] rounded-t-[32px] md:rounded-none md:rounded-tl-[44px] md:rounded-bl-[44px] -mt-6 md:mt-0 shadow-[0_-8px_28px_rgba(0,0,0,0.08)] md:shadow-[-12px_0_36px_rgba(0,0,0,0.10)] dark:shadow-none flex flex-col justify-between items-center px-6 sm:px-10 lg:px-14 xl:px-16 py-8 md:py-10 overflow-visible md:overflow-y-auto flex-1 relative z-30 transition-colors duration-200">
 
         <!-- Top anchor for optical balance -->
         <div class="hidden md:block w-full h-1"></div>
