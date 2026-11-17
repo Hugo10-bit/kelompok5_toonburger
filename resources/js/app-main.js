@@ -1050,11 +1050,11 @@ function initSmoothWheelScroll() {
     window._tbSmoothWheelInit = true;
 
     const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const HEAVY_WHEEL_LERP = 0.058;
-    const HEAVY_TRACKPAD_LERP = 0.11;
-    const HEAVY_PROGRAMMATIC_LERP = 0.065;
-    const HEAVY_WHEEL_DAMPING = 0.88;
-    const HEAVY_TRACKPAD_DAMPING = 0.85;
+    const HEAVY_WHEEL_LERP = 0.14;
+    const HEAVY_TRACKPAD_LERP = 0.24;
+    const HEAVY_PROGRAMMATIC_LERP = 0.14;
+    const HEAVY_WHEEL_DAMPING = 1.0;
+    const HEAVY_TRACKPAD_DAMPING = 0.95;
 
     let currentY = window.scrollY || window.pageYOffset || 0;
     let targetY = currentY;
@@ -1141,8 +1141,6 @@ function initSmoothWheelScroll() {
 
     window.addEventListener('resize', refreshMaxScroll, { passive: true });
 
-    if (prefersReducedMotion) return;
-
     document.addEventListener('wheel', function (e) {
         if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
         if (document.body.classList.contains('overflow-hidden') || document.body.style.overflow === 'hidden') return;
@@ -1172,6 +1170,24 @@ function initSmoothWheelScroll() {
             rafId = window.requestAnimationFrame(tick);
         }
     }, { passive: false });
+
+    // Smooth scroll for in-page #anchor links using tbScrollTo
+    document.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        const link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+        if (!link) return;
+        const hash = link.getAttribute('href');
+        if (!hash || hash === '#') return;
+        const target = document.getElementById(hash.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0) - 96;
+        if (typeof window.tbScrollTo === 'function') {
+            window.tbScrollTo(Math.max(0, top));
+        } else {
+            target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        }
+    });
 
     // Keep synced when user scrolls via scrollbar, keyboard, or native scrollTo
     window.addEventListener('scroll', function () {
