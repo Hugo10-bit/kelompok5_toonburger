@@ -3,36 +3,36 @@
 @section('title', 'Proses Pesanan - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1">
-    <div class="mb-7">
-        <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="ord_title">Proses pesanan</h1>
-        <p class="text-sm sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="ord_sub">Kelola dan konfirmasi pesanan yang masuk hari ini.</p>
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1">
+    <div class="mb-5 sm:mb-7">
+        <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="ord_title">Proses pesanan</h1>
+        <p class="text-xs sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="ord_sub">Kelola dan konfirmasi pesanan yang masuk hari ini.</p>
     </div>
 
-    <div class="flex flex-wrap items-center gap-3.5 mb-8">
-        <a href="{{ route('admin.orders') }}" class="px-4 py-2 min-h-[42px] rounded-lg text-sm font-medium transition-colors flex items-center gap-2.5 {{ !request('status') ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3.5 mb-6 sm:mb-8">
+        <a href="{{ route('admin.orders') }}" class="px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[42px] rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 sm:gap-2.5 {{ !request('status') ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
             <span data-i18n="tab_all">Semua</span>
-            <span class="w-6 h-6 rounded-full text-xs font-bold inline-flex items-center justify-center {{ !request('status') ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countAll }}</span>
+            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center justify-center {{ !request('status') ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countAll }}</span>
         </a>
-        <a href="{{ route('admin.orders', ['status' => 'pending']) }}" class="px-4 py-2 min-h-[42px] rounded-lg text-sm font-medium transition-colors flex items-center gap-2.5 {{ request('status') == 'pending' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
+        <a href="{{ route('admin.orders', ['status' => 'pending']) }}" class="px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[42px] rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 sm:gap-2.5 {{ request('status') == 'pending' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
             <span data-i18n="tab_pending">Menunggu</span>
-            <span class="w-6 h-6 rounded-full text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'pending' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countPending }}</span>
+            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'pending' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countPending }}</span>
         </a>
-        <a href="{{ route('admin.orders', ['status' => 'diproses']) }}" class="px-4 py-2 min-h-[42px] rounded-lg text-sm font-medium transition-colors flex items-center gap-2.5 {{ request('status') == 'diproses' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
+        <a href="{{ route('admin.orders', ['status' => 'diproses']) }}" class="px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[42px] rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 sm:gap-2.5 {{ request('status') == 'diproses' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
             <span data-i18n="tab_cooking">Dimasak</span>
-            <span class="w-6 h-6 rounded-full text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'diproses' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countCooking }}</span>
+            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'diproses' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countCooking }}</span>
         </a>
-        <a href="{{ route('admin.orders', ['status' => 'ready']) }}" class="px-4 py-2 min-h-[42px] rounded-lg text-sm font-medium transition-colors flex items-center gap-2.5 {{ request('status') == 'ready' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
+        <a href="{{ route('admin.orders', ['status' => 'ready']) }}" class="px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[42px] rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 sm:gap-2.5 {{ request('status') == 'ready' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
             <span data-i18n="tab_ready">Siap Saji</span>
-            <span class="w-6 h-6 rounded-full text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'ready' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countReady }}</span>
+            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'ready' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countReady }}</span>
         </a>
-        <a href="{{ route('admin.orders', ['status' => 'completed']) }}" class="px-4 py-2 min-h-[42px] rounded-lg text-sm font-medium transition-colors flex items-center gap-2.5 {{ request('status') == 'completed' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
+        <a href="{{ route('admin.orders', ['status' => 'completed']) }}" class="px-3 sm:px-4 py-1.5 sm:py-2 min-h-[38px] sm:min-h-[42px] rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center gap-2 sm:gap-2.5 {{ request('status') == 'completed' ? 'bg-[#415C58] text-white' : 'bg-white dark:bg-[#383838] border border-gray-400 dark:border-[#555555] text-gray-600 dark:text-[#E0E0E0] hover:bg-gray-50 dark:hover:bg-[#444444]' }}">
             <span data-i18n="tab_completed">Selesai</span>
-            <span class="w-6 h-6 rounded-full text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'completed' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countCompleted }}</span>
+            <span class="w-5 h-5 sm:w-6 sm:h-6 rounded-full text-[11px] sm:text-xs font-bold inline-flex items-center justify-center {{ request('status') == 'completed' ? 'bg-white/25 text-white' : 'bg-gray-300/80 dark:bg-[#4F4F4F] text-gray-700 dark:text-white' }}">{{ $countCompleted }}</span>
         </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-7">
         @forelse($orders as $order)
             @php
                 $badgeConfig = match($order->status) {
@@ -88,10 +88,10 @@
                     : ($minsAgo . ' Menit yang lalu');
             @endphp
 
-            <div class="bg-white dark:bg-[#3C3C3C] rounded-[26px] border border-gray-200/90 dark:border-[#525252] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.35)] p-6 flex flex-col justify-between">
+            <div class="bg-white dark:bg-[#3C3C3C] rounded-[22px] sm:rounded-[26px] border border-gray-200/90 dark:border-[#525252] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.35)] p-4 sm:p-6 flex flex-col justify-between">
                 <div>
                     <div class="mb-3.5 flex items-center justify-between gap-2 flex-wrap">
-                        <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3.5 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
+                        <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
                         @if($order->payment_status === 'paid')
                             <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#D1FAE5]/70 dark:bg-[#1E453B] text-[#065F46] dark:text-[#34D399]" data-i18n="order_detail_paid">Lunas</span>
                         @elseif($order->isAwaitingPaymentVerification())
@@ -106,11 +106,11 @@
                     </div>
 
                     <div class="flex items-start justify-between gap-2 mb-3.5">
-                        <div>
-                            <h3 class="text-xl font-extrabold text-gray-900 dark:text-white leading-tight">{{ $order->customer_name }}</h3>
+                        <div class="min-w-0 flex-1">
+                            <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white leading-tight break-words">{{ $order->customer_name }}</h3>
                             <p class="text-xs text-gray-400 dark:text-gray-300 mt-1" data-mins-ago="{{ $minsAgo }}">{{ $relativeLabel }}</p>
                         </div>
-                        <span class="px-3 py-1 rounded-md text-xs font-semibold inline-flex items-center gap-1.5 {{ $badgeConfig['bg'] }}">
+                        <span class="px-2.5 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-semibold inline-flex items-center gap-1.5 shrink-0 {{ $badgeConfig['bg'] }}">
                             {!! $badgeConfig['icon'] !!}
                             <span @if($badgeConfig['i18n']) data-i18n="{{ $badgeConfig['i18n'] }}" @endif>{{ $badgeConfig['label'] }}</span>
                         </span>
@@ -118,16 +118,16 @@
 
                     <div class="border-t border-gray-200 dark:border-[#555555] pt-3 pb-3">
                         <div class="grid grid-cols-12 text-xs text-gray-400 dark:text-gray-300 font-medium mb-2">
-                            <span class="col-span-6" data-i18n="ord_col_prod">Produk</span>
+                            <span class="col-span-5" data-i18n="ord_col_prod">Produk</span>
                             <span class="col-span-2 text-center" data-i18n="ord_col_qty">total</span>
-                            <span class="col-span-4 text-right" data-i18n="ord_col_price">Harga</span>
+                            <span class="col-span-5 text-right" data-i18n="ord_col_price">Harga</span>
                         </div>
                         <div class="space-y-1.5">
                             @foreach($order->items as $item)
-                            <div class="grid grid-cols-12 text-xs sm:text-[13px] text-gray-800 dark:text-[#E5E5E5] font-medium">
-                                <span class="col-span-6 truncate pr-1">{{ $item->product_name }}</span>
+                            <div class="grid grid-cols-12 items-start text-xs sm:text-[13px] text-gray-800 dark:text-[#E5E5E5] font-medium">
+                                <span class="col-span-5 break-words pr-1.5">{{ $item->product_name }}</span>
                                 <span class="col-span-2 text-center">{{ $item->quantity }}</span>
-                                <span class="col-span-4 text-right"><span data-i18n="currency">Rp</span> {{ number_format($item->price, 0, ',', '.') }}</span>
+                                <span class="col-span-5 text-right whitespace-nowrap"><span data-i18n="currency">Rp</span> {{ number_format($item->price, 0, ',', '.') }}</span>
                             </div>
                             @endforeach
                         </div>

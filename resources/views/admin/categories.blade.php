@@ -3,47 +3,47 @@
 @section('title', 'Data Kategori - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-7">
         <div>
-            <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
-            <p class="text-sm sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="cat_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
+            <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
+            <p class="text-xs sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="cat_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-        <div class="flex items-center gap-3">
-            <button type="button" onclick="toggleCategorySort()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
+        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+            <button type="button" onclick="toggleCategorySort()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[42px] rounded-xl transition-colors text-xs sm:text-sm inline-flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4 text-gray-500 dark:text-[#D4D4D4]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16m0 0l-3-3m3 3l3-3m7-9h4m-4 4h3m-3 4h2"></path>
                 </svg>
                 <span data-i18n="btn_sort">Sortir</span>
             </button>
 
-            <button type="button" onclick="openAddCatModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-5 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm cursor-pointer" data-i18n="btn_add_cat">
+            <button type="button" onclick="openAddCatModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-4 sm:px-5 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[42px] rounded-xl transition-colors text-xs sm:text-sm cursor-pointer" data-i18n="btn_add_cat">
                 Tambahkan
             </button>
         </div>
     </div>
 
-    <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
-        <div class="overflow-auto max-h-[calc(100vh-240px)] min-h-[300px]">
+    <div class="border border-gray-200 dark:border-[#555555] rounded-[20px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
+        <div class="overflow-x-auto md:overflow-auto md:max-h-[calc(100vh-240px)] md:min-h-[300px]">
             <table class="w-full text-center border-collapse">
                 <thead class="sticky top-0 z-10">
-                    <tr class="bg-[#EEEEEE] dark:bg-[#9E9E9E] text-gray-700 dark:text-[#222222] text-sm font-medium border-b border-gray-200 dark:border-[#757575]">
-                        <th class="py-4 px-6 text-center w-1/4" data-i18n="col_no">No.</th>
-                        <th class="py-4 px-6 text-center w-2/4" data-i18n="col_category">Kategori</th>
-                        <th class="py-4 px-6 text-center w-1/4" data-i18n="col_action">Aksi</th>
+                    <tr class="bg-[#EEEEEE] dark:bg-[#9E9E9E] text-gray-700 dark:text-[#222222] text-xs sm:text-sm font-medium border-b border-gray-200 dark:border-[#757575]">
+                        <th class="py-3.5 px-3 sm:py-4 sm:px-6 text-center w-16 sm:w-1/4" data-i18n="col_no">No.</th>
+                        <th class="py-3.5 px-3 sm:py-4 sm:px-6 text-center" data-i18n="col_category">Kategori</th>
+                        <th class="py-3.5 px-3 sm:py-4 sm:px-6 text-center w-24 sm:w-1/4" data-i18n="col_action">Aksi</th>
                     </tr>
                 </thead>
-                <tbody id="category-table-body" class="divide-y divide-gray-200/80 dark:divide-[#444444] text-sm">
+                <tbody id="category-table-body" class="divide-y divide-gray-200/80 dark:divide-[#444444] text-xs sm:text-sm">
                     @forelse($categories as $index => $cat)
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-[#353535] transition-colors category-row" data-name="{{ strtolower($cat->name) }}" data-index="{{ $index }}">
-                        <td class="py-5 px-6 font-bold text-gray-800 dark:text-white category-num">
+                        <td class="py-4 px-3 sm:py-5 sm:px-6 font-bold text-gray-800 dark:text-white category-num">
                             {{ $index + 1 }}.
                         </td>
-                        <td class="py-5 px-6 text-gray-700 dark:text-[#E5E5E5] font-normal">
+                        <td class="py-4 px-3 sm:py-5 sm:px-6 text-gray-700 dark:text-[#E5E5E5] font-normal break-words">
                             {{ $cat->name }}
                         </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center justify-center gap-5">
+                        <td class="py-4 px-3 sm:py-5 sm:px-6">
+                            <div class="flex items-center justify-center gap-2 sm:gap-5">
                                 <button type="button" onclick="openEditCatModal({{ json_encode($cat) }})" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>

@@ -12,12 +12,12 @@ function initAdminProducts() {
     };
 
     window.applyCategoryFilter = function (cat) {
-        const rows = document.querySelectorAll('#product-table-body .product-row');
-        rows.forEach(row => {
-            if (cat === 'all' || row.getAttribute('data-category') === cat) {
-                row.style.display = '';
+        const items = document.querySelectorAll('#product-table-body .product-row, #product-mobile-list .product-mobile-card');
+        items.forEach(item => {
+            if (cat === 'all' || item.getAttribute('data-category') === cat) {
+                item.style.display = '';
             } else {
-                row.style.display = 'none';
+                item.style.display = 'none';
             }
         });
         const menu = document.getElementById('prod-filter-menu');
@@ -25,16 +25,20 @@ function initAdminProducts() {
     };
 
     window.toggleProductSort = function () {
-        const tbody = document.getElementById('product-table-body');
-        if (!tbody) return;
-        const rows = Array.from(tbody.querySelectorAll('.product-row'));
         prodSortAsc = prodSortAsc === null ? true : !prodSortAsc;
-        rows.sort((a, b) => {
-            const nameA = a.getAttribute('data-name') || '';
-            const nameB = b.getAttribute('data-name') || '';
-            return prodSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        [
+            { container: document.getElementById('product-table-body'), selector: '.product-row' },
+            { container: document.getElementById('product-mobile-list'), selector: '.product-mobile-card' },
+        ].forEach(({ container, selector }) => {
+            if (!container) return;
+            const items = Array.from(container.querySelectorAll(selector));
+            items.sort((a, b) => {
+                const nameA = a.getAttribute('data-name') || '';
+                const nameB = b.getAttribute('data-name') || '';
+                return prodSortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+            });
+            items.forEach(el => container.appendChild(el));
         });
-        rows.forEach(r => tbody.appendChild(r));
     };
 
     window.openAddModal = function () {

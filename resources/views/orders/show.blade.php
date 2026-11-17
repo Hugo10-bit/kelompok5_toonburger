@@ -449,7 +449,7 @@
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
         <div class="flex items-center justify-between">
             <h3 class="font-black text-sm text-gray-900">Beri Ulasan Menu</h3>
-            <button onclick="document.getElementById('review-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 text-lg font-medium">&times;</button>
+            <button type="button" onclick="document.getElementById('review-modal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center text-lg font-semibold cursor-pointer transition" aria-label="Tutup">&times;</button>
         </div>
 
         <form action="{{ route('orders.review', $order->order_number) }}" method="POST" class="space-y-4">

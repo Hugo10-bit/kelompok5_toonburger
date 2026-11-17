@@ -3,15 +3,15 @@
 @section('title', 'Data Produk - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-7">
         <div>
-            <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prod_title">Halaman Data Produk</h1>
-            <p class="text-sm sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
+            <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prod_title">Halaman Data Produk</h1>
+            <p class="text-xs sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
-        <div class="flex items-center gap-2.5 sm:gap-3 relative flex-wrap sm:flex-nowrap">
+        <div class="flex items-center gap-2 sm:gap-3 relative flex-wrap sm:flex-nowrap">
             <div class="relative">
-                <button type="button" onclick="toggleProdFilterMenu()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
+                <button type="button" onclick="toggleProdFilterMenu()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[42px] rounded-xl transition-colors text-xs sm:text-sm inline-flex items-center gap-2 cursor-pointer">
                     <svg class="w-4 h-4 text-gray-500 dark:text-[#D4D4D4]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M6 12h12m-9 6h6"></path>
                     </svg>
@@ -25,20 +25,109 @@
                 </div>
             </div>
 
-            <button type="button" onclick="toggleProductSort()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-4 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm inline-flex items-center gap-2 cursor-pointer">
+            <button type="button" onclick="toggleProductSort()" class="bg-white dark:bg-[#383838] hover:bg-gray-50 dark:hover:bg-[#444444] border border-gray-200 dark:border-[#555555] text-gray-600 dark:text-white font-medium px-3.5 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[42px] rounded-xl transition-colors text-xs sm:text-sm inline-flex items-center gap-2 cursor-pointer">
                 <svg class="w-4 h-4 text-gray-500 dark:text-[#D4D4D4]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16m0 0l-3-3m3 3l3-3m7-9h4m-4 4h3m-3 4h2"></path>
                 </svg>
                 <span data-i18n="btn_sort">Sortir</span>
             </button>
 
-            <button type="button" onclick="openAddModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-5 py-2.5 min-h-[42px] rounded-xl transition-colors text-sm cursor-pointer" data-i18n="btn_add_prod">
+            <button type="button" onclick="openAddModal()" class="bg-[#415C58] hover:bg-[#344B48] text-white font-medium px-4 sm:px-5 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[42px] rounded-xl transition-colors text-xs sm:text-sm cursor-pointer" data-i18n="btn_add_prod">
                 Tambahkan
             </button>
         </div>
     </div>
 
-    <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
+    @php
+        $thumbBgColors = [
+            'bg-[#F9D649]',
+            'bg-[#F28B30]',
+            'bg-[#E53935]',
+            'bg-[#AED581]',
+            'bg-[#F48FB1]',
+            'bg-[#FFD54F]',
+            'bg-[#FFE082]',
+            'bg-[#FBC02D]',
+            'bg-[#FBC02D]',
+        ];
+    @endphp
+
+    <!-- Mobile Product Cards (Readable image + text on narrow phone viewports) -->
+    <div id="product-mobile-list" class="md:hidden space-y-3">
+        @forelse($products as $idx => $prod)
+            @php
+                $catName = $prod->category->name ?? 'Lainnya';
+                $bgClass = $thumbBgColors[$idx % count($thumbBgColors)];
+            @endphp
+            <div class="product-mobile-card rounded-2xl border border-gray-200/90 dark:border-[#4A4A4A] bg-[#FAFAFB] dark:bg-[#383838] p-3.5 shadow-2xs space-y-3"
+                 data-name="{{ strtolower($prod->name) }}"
+                 data-category="{{ strtolower($catName) }}"
+                 data-index="{{ $idx }}">
+                <div class="flex items-start gap-3.5">
+                    <div class="w-16 h-16 rounded-xl {{ $bgClass }} flex items-center justify-center overflow-hidden shrink-0 p-1.5">
+                        @if($prod->image)
+                            <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}"
+                                 width="64"
+                                 height="64"
+                                 loading="lazy"
+                                 decoding="async"
+                                 class="w-full h-full object-contain"
+                                 alt="{{ $prod->name }}">
+                        @else
+                            <svg class="w-7 h-7 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
+                        @endif
+                    </div>
+                    <div class="min-w-0 flex-1 space-y-1">
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="font-bold text-gray-900 dark:text-white text-sm leading-snug break-words">{{ $prod->name }}</h3>
+                            <span class="shrink-0 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#4A4A4A] text-gray-700 dark:text-[#E5E5E5]">
+                                {{ $catName }}
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500 dark:text-[#BDBDBD] leading-relaxed line-clamp-2 break-words">
+                            {{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}
+                        </p>
+                        <div class="font-extrabold text-sm text-gray-900 dark:text-white pt-0.5">
+                            <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-2 pt-2.5 border-t border-gray-100 dark:border-[#4A4A4A]">
+                    <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
+                        @csrf @method('PATCH')
+                        <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] px-3 py-1.5 min-h-[36px] rounded-xl cursor-pointer">
+                            <span class="w-2.5 h-2.5 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }} dark:ring-1 dark:ring-white"></span>
+                            <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
+                        </button>
+                    </form>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="openEditModal({{ json_encode($prod) }})" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Edit">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                <path d="M15 5l4 4"></path>
+                            </svg>
+                        </button>
+                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M3 6h18"></path>
+                                <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="py-10 text-center text-sm text-gray-400 border border-dashed border-gray-200 dark:border-[#4A4A4A] rounded-2xl" data-i18n="prod_empty">
+                Belum ada produk.
+            </div>
+        @endforelse
+    </div>
+
+    <div class="hidden md:block border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
         <div class="overflow-auto max-h-[calc(100vh-240px)] min-h-[300px]">
             <table class="w-full text-center border-collapse">
                 <thead class="sticky top-0 z-10">
@@ -51,19 +140,6 @@
                     </tr>
                 </thead>
                 <tbody id="product-table-body" class="divide-y divide-gray-200/80 dark:divide-[#444444] text-sm">
-                    @php
-                        $thumbBgColors = [
-                            'bg-[#F9D649]',
-                            'bg-[#F28B30]',
-                            'bg-[#E53935]',
-                            'bg-[#AED581]',
-                            'bg-[#F48FB1]',
-                            'bg-[#FFD54F]',
-                            'bg-[#FFE082]',
-                            'bg-[#FBC02D]',
-                            'bg-[#FBC02D]',
-                        ];
-                    @endphp
                     @forelse($products as $idx => $prod)
                     @php
                         $catName = $prod->category->name ?? 'Lainnya';
@@ -130,9 +206,12 @@
         </div>
     </div>
 
-    <div id="productModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
-        <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-lg w-full p-6 shadow-xl relative max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A]">
-            <h3 id="modalTitle" class="text-lg font-bold text-gray-900 dark:text-white mb-4" data-i18n="mod_prod_add">Tambah Produk Baru</h3>
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-xl relative max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A]">
+            <div class="flex items-center justify-between gap-2 mb-4">
+                <h3 id="modalTitle" class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="mod_prod_add">Tambah Produk Baru</h3>
+                <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] text-gray-700 dark:text-gray-200 flex items-center justify-center font-semibold text-lg cursor-pointer shrink-0 transition" aria-label="Tutup">&times;</button>
+            </div>
 
             <form id="productForm" action="{{ route('admin.products.store') }}" data-store-url="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -144,7 +223,7 @@
                         <input type="text" name="name" id="prod_name" required class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Cth: Very Cheese Burger">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="col_category">Kategori</label>
                             <select name="category_id" id="prod_cat" required class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]">
@@ -170,7 +249,7 @@
                         <textarea name="description" id="prod_desc" rows="2" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Burger dengan patty daging yang juicy,"></textarea>
                     </div>
 
-                    <div class="flex items-center gap-6 pt-1">
+                    <div class="flex flex-wrap items-center gap-3 sm:gap-6 pt-1">
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_available" id="prod_avail" value="1" checked class="rounded border-gray-300 text-[#415C58] focus:ring-[#415C58]">
                             <span class="ml-2 text-xs font-bold text-gray-700 dark:text-[#E0E0E0]" data-i18n="lbl_prod_avail">Tersedia (Stok Ada)</span>

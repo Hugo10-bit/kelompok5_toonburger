@@ -29,7 +29,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
-<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased p-3 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-5 lg:gap-6 pb-20 md:pb-0"
+<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased px-2.5 pt-2.5 pb-24 sm:p-5 lg:p-6 md:pb-6 flex flex-col md:flex-row gap-3.5 sm:gap-5 lg:gap-6"
       data-logout-url="{{ route('logout') }}"
       data-login-url="{{ route('login') }}"
       data-admin-search-url="{{ route('admin.search.live') }}"
@@ -46,32 +46,32 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeLogoutModal()"></div>
 
-        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
-            <div class="w-28 h-28 sm:w-[124px] sm:h-[124px] rounded-full border-[6.5px] sm:border-[7.5px] border-[#D46161] flex items-center justify-center mx-auto mb-6 bg-white dark:bg-[#303030] shrink-0">
-                <svg class="w-11 h-11 sm:w-12 sm:h-12 text-[#D46161]" viewBox="0 0 32 32" fill="currentColor">
+        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-6 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="w-20 h-20 sm:w-[124px] sm:h-[124px] rounded-full border-[5.5px] sm:border-[7.5px] border-[#D46161] flex items-center justify-center mx-auto mb-5 sm:mb-6 bg-white dark:bg-[#303030] shrink-0">
+                <svg class="w-9 h-9 sm:w-12 sm:h-12 text-[#D46161]" viewBox="0 0 32 32" fill="currentColor">
                     <path d="M16 5.5c-1.38 0-2.5 1.05-2.4 2.43l.8 12.14c.08 1.15 1.03 2.05 2.18 2.05s2.1-.9 2.18-2.05l.8-12.14c.1-1.38-1.02-2.43-2.4-2.43zm0 19.38a2.56 2.56 0 100 5.12 2.56 2.56 0 000-5.12z"/>
                 </svg>
             </div>
 
-            <h3 class="text-2xl sm:text-[27px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5" data-i18n="logout_title">
+            <h3 class="text-xl sm:text-[27px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5" data-i18n="logout_title">
                 Konfirmasi Logout
             </h3>
 
-            <p class="text-gray-500 dark:text-gray-300 text-sm leading-relaxed max-w-xs mx-auto mb-7 font-normal" data-i18n="logout_desc">
+            <p class="text-gray-500 dark:text-gray-300 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-6 sm:mb-7 font-normal" data-i18n="logout_desc">
                 Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
             </p>
 
-            <div class="flex items-center justify-center gap-3.5">
+            <div class="flex flex-wrap items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeLogoutModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] tb-focus-ring cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-[#2D3139] border border-[#6B7280] rounded-xl px-5 sm:px-7 py-2.5 text-xs sm:text-sm font-medium transition min-w-[110px] sm:min-w-[124px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
                 <button type="button"
                         id="admin-modal-logout-submit-btn"
                         onclick="submitLogoutForm()"
-                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-7 py-2.5 text-sm font-medium transition min-w-[124px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
+                        class="bg-[#B73535] hover:bg-[#9E2A2A] active:scale-95 text-white rounded-xl px-5 sm:px-7 py-2.5 text-xs sm:text-sm font-medium transition min-w-[110px] sm:min-w-[124px] shadow-xs tb-focus-ring cursor-pointer flex items-center justify-center"
                         data-i18n="logout_confirm_btn">
                     Ya, Logout
                 </button>
@@ -90,27 +90,27 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeDeleteModal()"></div>
 
-        <div class="relative bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
-            <div class="w-20 h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-5 text-[#DE3B28]">
-                <svg class="w-10 h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <div class="relative bg-white rounded-3xl shadow-2xl p-6 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 mx-auto my-auto">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-red-100 bg-red-50/40 flex items-center justify-center mx-auto mb-4 sm:mb-5 text-[#DE3B28]">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-[#DE3B28]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                     <line x1="10" y1="11" x2="10" y2="17"></line>
                     <line x1="14" y1="11" x2="14" y2="17"></line>
                 </svg>
             </div>
 
-            <h3 id="delete-modal-title" class="text-2xl font-bold text-gray-900 tracking-tight mb-2.5" data-i18n="delete_title">
+            <h3 id="delete-modal-title" class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight mb-2" data-i18n="delete_title">
                 Konfirmasi Hapus
             </h3>
 
-            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-7" data-i18n="delete_desc">
+            <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-6 sm:mb-7" data-i18n="delete_desc">
                 Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
             </p>
 
-            <div class="flex items-center justify-center gap-3">
+            <div class="flex flex-wrap items-center justify-center gap-3">
                 <button type="button"
                         onclick="closeDeleteModal()"
-                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-7 py-2.5 text-xs font-medium transition min-w-[120px] tb-focus-ring cursor-pointer"
+                        class="bg-white hover:bg-gray-50 active:scale-95 text-gray-700 border border-gray-300 rounded-lg px-5 sm:px-7 py-2.5 text-xs font-medium transition min-w-[110px] sm:min-w-[120px] tb-focus-ring cursor-pointer"
                         data-i18n="cancel">
                     Batalkan
                 </button>
@@ -118,7 +118,7 @@
                     @csrf
                     @method('DELETE')
                     <button type="submit"
-                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-7 py-2.5 text-xs font-medium transition min-w-[120px] shadow-xs tb-focus-ring cursor-pointer"
+                            class="bg-[#DE3B28] hover:bg-[#C9301F] active:scale-95 text-white rounded-lg px-5 sm:px-7 py-2.5 text-xs font-medium transition min-w-[110px] sm:min-w-[120px] shadow-xs tb-focus-ring cursor-pointer"
                             data-i18n="delete_confirm_btn">
                         Ya, Hapus
                     </button>
@@ -131,17 +131,17 @@
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 md:w-[244px] lg:w-[258px] xl:w-[270px] bg-white text-gray-800 rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 sm:w-72 md:w-[244px] lg:w-[258px] xl:w-[270px] bg-white text-gray-800 rounded-r-[28px] md:rounded-[36px] border border-gray-200/80 shadow-xs flex flex-col justify-between p-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:flex md:self-start md:sticky md:top-6 md:min-h-[calc(100vh-3rem)] overflow-y-auto">
         <div>
             <!-- Logo Section with Mascot (Sesuai Referensi Gambar) -->
-            <div class="-mx-6 px-6 pt-2 pb-5 mb-5 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
+            <div class="-mx-6 px-6 pt-4 md:pt-2 pb-5 mb-5 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
                     <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" width="90" height="90" decoding="async" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition-transform group-hover:scale-105 dark:hidden">
                     <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" width="90" height="90" loading="lazy" decoding="async" class="h-20 sm:h-22 lg:h-[90px] w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block">
                 </a>
                 <!-- Mobile Close Button -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-4 top-0 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl hover:bg-gray-100 dark:hover:bg-[#383838] transition" aria-label="Tutup Menu">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-3 top-1 text-gray-600 dark:text-gray-200 bg-gray-100/90 dark:bg-[#383838] hover:text-gray-900 p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border border-gray-200/80 dark:border-[#525252] transition cursor-pointer" aria-label="Tutup Menu">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
@@ -235,21 +235,21 @@
     </aside>
 
     <!-- Main content -->
-    <div class="flex-1 flex flex-col gap-5 lg:gap-6 min-w-0">
+    <div class="flex-1 flex flex-col gap-3.5 sm:gap-5 lg:gap-6 min-w-0">
 
         <!-- Top Header -->
-        <header class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-4 sm:px-8 py-3 sm:py-3.5 flex items-center justify-between gap-3 select-none relative z-30">
+        <header class="bg-white rounded-[22px] sm:rounded-[32px] border border-gray-200/80 shadow-xs px-3.5 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-3 select-none relative z-30">
 
-            <div class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
                 <!-- Hamburger (mobile only) -->
-                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-[#374151] dark:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-[#3D3D3D] rounded-xl transition active:scale-95 tb-focus-ring shrink-0" aria-label="Buka Menu Admin">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="toggleAdminSidebar()" class="md:hidden p-2 min-w-[40px] min-h-[40px] flex items-center justify-center text-[#374151] dark:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-[#3D3D3D] rounded-xl transition active:scale-95 tb-focus-ring shrink-0" aria-label="Buka Menu Admin">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
 
                 <!-- Brand name (mobile only) -->
-                <span class="md:hidden font-extrabold text-sm text-gray-900 tracking-tight">Toon Burger Admin</span>
+                <span class="md:hidden font-extrabold text-sm text-gray-900 dark:text-white tracking-tight truncate">Toon Burger Admin</span>
 
                 <!-- Search bar (desktop only) -->
                 <div class="relative w-full max-w-[560px] hidden md:block">

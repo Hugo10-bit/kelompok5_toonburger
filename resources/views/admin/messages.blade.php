@@ -3,10 +3,10 @@
 @section('title', 'Pesan Terbaru - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-5 sm:p-8 lg:p-9 flex-1 flex flex-col">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+<div class="bg-white dark:bg-[#303030] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-8 lg:p-9 flex-1 flex flex-col">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-6">
         <div>
-            <h1 class="text-2xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight" data-i18n="messages_title">Pesan Terbaru</h1>
+            <h1 class="text-xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight" data-i18n="messages_title">Pesan Terbaru</h1>
             <p class="text-xs sm:text-sm text-[#6B7280] dark:text-[#C4C9D0] mt-1" data-i18n="messages_subtitle">Ulasan dan catatan masukan pelanggan dari pesanan yang telah selesai.</p>
         </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     @if($messages instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator && $messages->count() > 0)
-        <div class="space-y-3.5 flex-1 overflow-y-auto max-h-[calc(100vh-260px)] min-h-[260px] pr-1">
+        <div class="space-y-3.5 flex-1 md:overflow-y-auto md:max-h-[calc(100vh-260px)] md:min-h-[260px] md:pr-1">
             @foreach($messages as $msg)
                 @php
                     $senderName = $msg->order->customer_name ?? $msg->user->name ?? 'Pelanggan Toon Burger';

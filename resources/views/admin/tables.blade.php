@@ -3,17 +3,17 @@
 @section('title', 'Manajemen Meja Restoran - Toon Burger Admin')
 
 @section('admin_content')
-<div class="max-w-7xl mx-auto space-y-6">
+<div class="max-w-7xl mx-auto space-y-4 sm:space-y-6">
 
-    <div class="flex items-center justify-between bg-white p-6 rounded-3xl border border-[#E6DEC8] shadow-xs">
+    <div class="flex items-center justify-between bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900" data-i18n="tables_title">Manajemen Meja Restoran</h1>
+            <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900" data-i18n="tables_title">Manajemen Meja Restoran</h1>
             <p class="text-xs text-gray-500 mt-1" data-i18n="tables_subtitle">Pantau ketersediaan meja, status terisi (occupied), dan tautan QR pemesanan pelanggan Toon Burger.</p>
         </div>
     </div>
 
     <!-- Tables Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5">
         @foreach($tables as $table)
             <div class="bg-white rounded-3xl p-5 border-2 {{ $table->status === 'occupied' ? 'border-toon-rust bg-red-50/20' : ($table->status === 'reserved' ? 'border-amber-400 bg-amber-50/20' : 'border-toon-granite/40 bg-emerald-50/10') }} shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition">
                 

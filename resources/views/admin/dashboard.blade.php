@@ -3,14 +3,14 @@
 @section('title', 'Dashboard - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-[28px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-5 sm:p-7 lg:p-8 space-y-6 h-full flex flex-col justify-between">
+<div class="bg-white rounded-[24px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-4 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 h-full flex flex-col justify-between">
 
-    <div class="space-y-5 sm:space-y-6">
+    <div class="space-y-4 sm:space-y-6">
         <div>
-            <h1 class="text-2xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
+            <h1 class="text-xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
                 <span data-i18n="dash_greeting">Halo, Admin Toon Burger</span><span aria-hidden="true">👋</span>
             </h1>
-            <p class="text-xs sm:text-[13.5px] text-[#6B7280] dark:text-[#C4C9D0] mt-1 font-normal" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
+            <p class="text-xs sm:text-[13.5px] text-[#6B7280] dark:text-[#C4C9D0] mt-1 font-normal leading-relaxed" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
         </div>
 
         @php
@@ -60,21 +60,21 @@
             ];
         @endphp
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 min-[1140px]:grid-cols-4 gap-4 sm:gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 min-[1140px]:grid-cols-4 gap-3 sm:gap-5">
             @foreach($metricCards as $m)
                 <a href="{{ $m['route'] }}" class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
-                    <div class="p-4 pb-3.5">
+                    <div class="p-3.5 sm:p-4 pb-3 sm:pb-3.5">
                         <div class="flex items-center gap-3">
                             <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" aria-hidden="true">
                                 {!! $m['icon'] !!}
                             </div>
-                            <div class="min-w-0">
-                                <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-tight truncate" data-i18n="{{ $m['title_i18n'] }}">{{ $m['title'] }}</div>
-                                <div class="text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-tight mt-0.5 truncate" data-i18n="{{ $m['sub_i18n'] }}">Lorem ipsum dolor</div>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-snug break-words" data-i18n="{{ $m['title_i18n'] }}">{{ $m['title'] }}</div>
+                                <div class="text-[11px] sm:text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-snug mt-0.5 break-words" data-i18n="{{ $m['sub_i18n'] }}">Lorem ipsum dolor</div>
                             </div>
                         </div>
 
-                        <div class="mt-3.5 flex items-center gap-2 flex-wrap">
+                        <div class="mt-3 sm:mt-3.5 flex items-center gap-2 flex-wrap">
                             <span class="text-[18px] xl:text-[20px] font-semibold text-[#262626] dark:text-white tracking-tight leading-none whitespace-nowrap">
                                 {!! $m['val'] !!}
                             </span>
@@ -99,13 +99,13 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 min-[1140px]:grid-cols-[minmax(0,2.22fr)_minmax(275px,1fr)] gap-5 lg:gap-6 items-stretch flex-1">
+    <div class="grid grid-cols-1 min-[1140px]:grid-cols-[minmax(0,2.22fr)_minmax(275px,1fr)] gap-4 sm:gap-5 lg:gap-6 items-stretch flex-1">
 
-        <section class="tb-panel-card rounded-[22px] p-5 sm:p-6 lg:p-7 flex flex-col justify-between" aria-labelledby="chart-heading">
+        <section class="tb-panel-card rounded-[20px] sm:rounded-[22px] p-4 sm:p-6 lg:p-7 flex flex-col justify-between" aria-labelledby="chart-heading">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <h2 id="chart-heading" class="text-xs sm:text-[13.5px] font-normal text-[#6B7280] dark:text-[#C4C9D0]" data-i18n="dash_rev_12m">Pendapatan 12 Bulan Terakhir</h2>
-                    <div class="text-xl sm:text-[22px] font-bold text-[#262626] dark:text-white tracking-tight mt-1">
+                    <div class="text-lg sm:text-[22px] font-bold text-[#262626] dark:text-white tracking-tight mt-1">
                         <span data-i18n="currency_dot">Rp.</span> {{ number_format($yearlyRevenue, 2, '.', ',') }}
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             id="period-btn-jan-jun"
                             onclick="switchRevenuePeriod('jan_jun')"
                             aria-pressed="true"
-                            class="tb-period-btn tb-focus-ring is-active rounded-full px-4 py-1.5 max-sm:min-h-[44px] text-[11px] font-medium cursor-pointer"
+                            class="tb-period-btn tb-focus-ring is-active rounded-full px-3.5 sm:px-4 py-1.5 min-h-[36px] sm:min-h-0 text-[11px] font-medium cursor-pointer"
                             data-i18n="dash_period_h1">
                         Jan - Jun
                     </button>
@@ -123,16 +123,16 @@
                             id="period-btn-jul-des"
                             onclick="switchRevenuePeriod('jul_des')"
                             aria-pressed="false"
-                            class="tb-period-btn tb-focus-ring rounded-full px-4 py-1.5 max-sm:min-h-[44px] text-[11px] font-medium cursor-pointer"
+                            class="tb-period-btn tb-focus-ring rounded-full px-3.5 sm:px-4 py-1.5 min-h-[36px] sm:min-h-0 text-[11px] font-medium cursor-pointer"
                             data-i18n="dash_period_h2">
                         Jul - Des
                     </button>
                 </div>
             </div>
 
-            <div class="mt-8 sm:mt-10 pt-5 flex-1 flex flex-col justify-end">
-                <div class="flex items-stretch gap-3 sm:gap-5">
-                    <div class="w-8 shrink-0 relative h-[215px] sm:h-[245px] select-none text-[11px] text-[#6B7280] dark:text-[#C4C9D0]" aria-hidden="true">
+            <div class="mt-4 sm:mt-8 pt-10 sm:pt-8 flex-1 flex flex-col justify-end">
+                <div class="flex items-stretch gap-2 sm:gap-5">
+                    <div class="w-7 sm:w-8 shrink-0 relative h-[190px] sm:h-[245px] select-none text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]" aria-hidden="true">
                         <span class="absolute left-0 bottom-[100%] translate-y-1/2" data-yaxis="10">10jt</span>
                         <span class="absolute left-0 bottom-[80%] translate-y-1/2" data-yaxis="8">8jt</span>
                         <span class="absolute left-0 bottom-[60%] translate-y-1/2" data-yaxis="6">6jt</span>
@@ -140,20 +140,20 @@
                         <span class="absolute left-0 bottom-[20%] translate-y-1/2" data-yaxis="2">2jt</span>
                     </div>
 
-                    <div class="flex-1 relative h-[215px] sm:h-[245px]">
+                    <div class="flex-1 relative h-[190px] sm:h-[245px] min-w-0">
                         <div class="pointer-events-none absolute inset-x-0 bottom-[100%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
                         <div class="pointer-events-none absolute inset-x-0 bottom-[80%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
                         <div class="pointer-events-none absolute inset-x-0 bottom-[60%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
                         <div class="pointer-events-none absolute inset-x-0 bottom-[40%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
                         <div class="pointer-events-none absolute inset-x-0 bottom-[20%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
 
-                        <div id="revenue-bars-grid" class="relative z-10 h-full grid grid-cols-6 gap-2 sm:gap-4 items-end px-1 sm:px-3" data-chart-periods="{{ json_encode($chartPeriods) }}">
+                        <div id="revenue-bars-grid" class="relative z-10 h-full grid grid-cols-6 gap-1.5 sm:gap-4 items-end px-0.5 sm:px-3" data-chart-periods="{{ json_encode($chartPeriods) }}">
                             @foreach($chartPeriods['jan_jun'] as $idx => $bar)
                                 @php
                                     $isDefaultActive = ($idx === 2);
-                                    $tooltipAlign = $idx === 0
+                                    $tooltipAlign = $idx <= 1
                                         ? 'left-0 sm:left-1/2 sm:-translate-x-1/2'
-                                        : ($idx === 5 ? 'right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2' : 'left-1/2 -translate-x-1/2');
+                                        : ($idx >= 4 ? 'right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2' : 'left-1/2 -translate-x-1/2');
                                 @endphp
                                 <div class="h-full flex flex-col justify-end items-center relative">
                                     <button type="button"
@@ -161,10 +161,10 @@
                                             aria-pressed="{{ $isDefaultActive ? 'true' : 'false' }}"
                                             aria-label="{{ $bar['id_month'] }}: {{ $bar['val_id'] }}"
                                             style="height: {{ $bar['pct'] }}%;"
-                                            class="tb-chart-bar tb-focus-ring {{ $isDefaultActive ? 'is-active' : '' }} w-full max-w-[50px] sm:max-w-[66px] xl:max-w-[74px] rounded-t-[14px] sm:rounded-t-[18px] relative cursor-pointer">
-                                        <span class="tb-bar-tooltip {{ $isDefaultActive ? 'block' : 'hidden' }} absolute bottom-[calc(100%+7px)] {{ $tooltipAlign }} bg-[#333333] text-white rounded-[10px] px-2.5 sm:px-3 py-1.5 shadow-md text-left whitespace-nowrap z-20 pointer-events-none">
+                                            class="tb-chart-bar tb-focus-ring {{ $isDefaultActive ? 'is-active' : '' }} w-full max-w-[44px] sm:max-w-[66px] xl:max-w-[74px] rounded-t-[10px] sm:rounded-t-[18px] relative cursor-pointer">
+                                        <span class="tb-bar-tooltip {{ $isDefaultActive ? 'block' : 'hidden' }} absolute bottom-[calc(100%+7px)] {{ $tooltipAlign }} bg-[#333333] text-white rounded-[10px] px-2 sm:px-3 py-1.5 shadow-md text-left whitespace-nowrap z-20 pointer-events-none">
                                             <span class="tb-tooltip-date block text-[9px] text-[#D1D5DB] font-normal leading-tight">{{ $bar['date_id'] }}</span>
-                                            <span class="tb-tooltip-val block text-[11px] font-semibold text-white leading-snug">{{ $bar['val_id'] }}</span>
+                                            <span class="tb-tooltip-val block text-[10.5px] sm:text-[11px] font-semibold text-white leading-snug">{{ $bar['val_id'] }}</span>
                                             <span class="hidden sm:block absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333333]"></span>
                                         </span>
                                     </button>
@@ -174,9 +174,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 sm:gap-5 mt-2">
-                    <div class="w-8 shrink-0 text-[11px] text-[#6B7280] dark:text-[#C4C9D0] select-none">0k</div>
-                    <div id="revenue-months-grid" class="flex-1 grid grid-cols-6 gap-2 sm:gap-4 px-1 sm:px-3 text-center text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
+                <div class="flex items-center gap-2 sm:gap-5 mt-2">
+                    <div class="w-7 sm:w-8 shrink-0 text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0] select-none">0k</div>
+                    <div id="revenue-months-grid" class="flex-1 grid grid-cols-6 gap-1.5 sm:gap-4 px-0.5 sm:px-3 text-center text-[10.5px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
                         @foreach($chartPeriods['jan_jun'] as $idx => $bar)
                             <button type="button"
                                     onclick="selectRevenueBar({{ $idx }})"
@@ -189,32 +189,32 @@
             </div>
         </section>
 
-        <section class="tb-panel-card rounded-[22px] overflow-hidden flex flex-col justify-between" aria-labelledby="bestseller-heading">
-            <div class="px-5 py-4 border-b border-gray-100 dark:border-[#4A4A4A]">
+        <section class="tb-panel-card rounded-[20px] sm:rounded-[22px] overflow-hidden flex flex-col justify-between" aria-labelledby="bestseller-heading">
+            <div class="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-gray-100 dark:border-[#4A4A4A]">
                 <h2 id="bestseller-heading" class="font-semibold text-[15px] sm:text-base text-[#262626] dark:text-white tracking-tight" data-i18n="dash_best_selling">Produk Terlaris</h2>
             </div>
 
-            <div class="p-4 space-y-2.5 flex-1 flex flex-col justify-center">
+            <div class="p-3 sm:p-4 space-y-2.5 flex-1 flex flex-col justify-center">
                 @forelse($topProducts as $item)
                     <a href="{{ route('admin.products', ['search' => $item->search_term]) }}"
-                       class="tb-bestseller-item tb-focus-ring rounded-xl px-3 py-2.5 min-h-[56px] flex items-center justify-between gap-3 group">
-                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-lg overflow-hidden flex items-center justify-center shrink-0"
+                       class="tb-bestseller-item tb-focus-ring rounded-xl px-3 py-2.5 min-h-[60px] flex items-center justify-between gap-3 group">
+                        <div class="w-12 h-12 sm:w-11 sm:h-11 rounded-xl overflow-hidden flex items-center justify-center shrink-0"
                              style="background-color: {{ $item->bg_hex }};">
                             <img src="{{ asset($item->image) }}"
                                  alt="{{ $item->product_name }}"
-                                 width="44"
-                                 height="44"
+                                 width="48"
+                                 height="48"
                                  loading="lazy"
                                  decoding="async"
-                                 class="w-full h-full object-contain p-0.5 transition-transform duration-200 group-hover:scale-105">
+                                 class="w-full h-full object-contain p-1 transition-transform duration-200 group-hover:scale-105">
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h3 class="font-semibold text-xs text-current truncate leading-snug">{{ $item->product_name }}</h3>
-                            <span class="tb-bestseller-sub text-[10.5px] font-normal block mt-0.5 leading-tight">
+                            <h3 class="font-semibold text-xs sm:text-[13px] text-current leading-snug break-words">{{ $item->product_name }}</h3>
+                            <span class="tb-bestseller-sub text-[11px] font-normal block mt-0.5 leading-tight">
                                 {{ $item->total_qty }} <span data-i18n="dash_products_sold">Produk Terjual</span>
                             </span>
                         </div>
-                        <svg class="w-3.5 h-3.5 text-[#4B5563] dark:text-[#D1D5DB] shrink-0 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg class="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#4B5563] dark:text-[#D1D5DB] shrink-0 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M9 18l6-6-6-6"></path>
                         </svg>
                     </a>
@@ -226,7 +226,7 @@
             </div>
 
             <a href="{{ route('admin.products') }}"
-               class="tb-bestseller-footer tb-focus-ring px-5 py-3.5 min-h-[44px] flex items-center justify-between text-xs font-normal group">
+               class="tb-bestseller-footer tb-focus-ring px-4 sm:px-5 py-3.5 min-h-[44px] flex items-center justify-between text-xs font-medium sm:font-normal group">
                 <span data-i18n="dash_see_all_products">Lihat Semua Produk</span>
                 <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M5 12h14"></path>

@@ -4,19 +4,19 @@
 @section('title', 'Profil Admin - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-[28px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-9 lg:p-10 flex-1 flex flex-col justify-between space-y-7">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col justify-between space-y-5 sm:space-y-7">
 
     <div>
-        <h1 class="text-2xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prof_title">Profil Admin</h1>
-        <p class="text-sm sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
+        <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prof_title">Profil Admin</h1>
+        <p class="text-xs sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
     </div>
 
-    <div class="flex items-center gap-5 pt-1 pb-2">
+    <div class="flex items-center gap-4 sm:gap-5 pt-1 pb-2 min-w-0">
         <div class="relative shrink-0 select-none">
             <button type="button"
                     onclick="document.getElementById('profile-avatar-input').click()"
                     title="Ubah Foto Profil"
-                    class="w-20 h-20 rounded-full bg-[#F79E1B] text-white font-bold text-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group focus:outline-none">
+                    class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#F79E1B] text-white font-bold text-xl sm:text-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group focus:outline-none">
                 @if(!empty($user?->avatar))
                     <img id="profile-avatar-preview"
                          src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar) }}"
@@ -44,9 +44,9 @@
                 </svg>
             </button>
         </div>
-        <div>
-            <h2 class="text-2xl font-normal text-gray-800 dark:text-white leading-tight">{{ $user?->name ?: 'Toon Burger' }}</h2>
-            <p class="text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
+        <div class="min-w-0 flex-1">
+            <h2 class="text-lg sm:text-2xl font-normal text-gray-800 dark:text-white leading-tight break-words">{{ $user?->name ?: 'Toon Burger' }}</h2>
+            <p class="text-xs sm:text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5 break-all">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
             @error('avatar') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
     </div>
@@ -152,37 +152,37 @@
         <div class="fixed inset-0 bg-black/40 backdrop-blur-[2px] transition-opacity duration-200"
              onclick="closeProfileConfirmModal()"></div>
 
-        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-8 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
-            <div class="w-24 h-24 sm:w-[104px] sm:h-[104px] rounded-full border-[6.5px] sm:border-[7.5px] border-[#415C58] flex items-center justify-center mx-auto mb-6 bg-white dark:bg-[#303030] shrink-0 text-[#415C58]">
-                <svg id="profile-modal-icon-profile" class="w-10 h-10 sm:w-11 sm:h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-6 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="w-20 h-20 sm:w-[104px] sm:h-[104px] rounded-full border-[5.5px] sm:border-[7.5px] border-[#415C58] flex items-center justify-center mx-auto mb-5 sm:mb-6 bg-white dark:bg-[#303030] shrink-0 text-[#415C58]">
+                <svg id="profile-modal-icon-profile" class="w-8 h-8 sm:w-11 sm:h-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
-                <svg id="profile-modal-icon-password" class="w-10 h-10 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg id="profile-modal-icon-password" class="w-8 h-8 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
-                <svg id="profile-modal-icon-avatar" class="w-10 h-10 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg id="profile-modal-icon-avatar" class="w-8 h-8 sm:w-11 sm:h-11 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
             </div>
 
-            <h3 id="profile-confirm-title" class="text-2xl sm:text-[26px] font-bold text-gray-900 dark:text-white tracking-tight mb-3">
+            <h3 id="profile-confirm-title" class="text-xl sm:text-[26px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5 sm:mb-3">
                 Konfirmasi Simpan Profil
             </h3>
 
-            <p id="profile-confirm-message" class="text-sm text-gray-500 dark:text-[#A3A3A3] leading-relaxed mb-8 max-w-[340px] mx-auto">
+            <p id="profile-confirm-message" class="text-xs sm:text-sm text-gray-500 dark:text-[#A3A3A3] leading-relaxed mb-6 sm:mb-8 max-w-[340px] mx-auto">
                 Apakah Anda yakin ingin menyimpan perubahan pada profil admin ini?
             </p>
 
-            <div class="flex items-center justify-center gap-4">
+            <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
                 <button type="button"
                         onclick="closeProfileConfirmModal()"
-                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
+                        class="min-w-[115px] sm:min-w-[140px] px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-xs sm:text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
                         id="profile-confirm-proceed-btn"
-                        class="min-w-[130px] sm:min-w-[140px] px-6 py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-sm font-medium shadow-md active:scale-95 transition cursor-pointer">
+                        class="min-w-[115px] sm:min-w-[140px] px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-xs sm:text-sm font-medium shadow-md active:scale-95 transition cursor-pointer">
                     Ya, Simpan
                 </button>
             </div>

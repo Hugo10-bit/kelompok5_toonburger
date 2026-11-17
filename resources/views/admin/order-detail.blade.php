@@ -98,12 +98,12 @@
     </div>
 </div>
 
-<div class="screen-view bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-6 sm:p-8 space-y-6">
+<div class="screen-view bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-8 space-y-4 sm:space-y-6">
 
     <!-- Header Section (Sesuai Mockup Figma) -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight" data-i18n="order_detail_title">Detail Pesanan</h1>
+            <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight" data-i18n="order_detail_title">Detail Pesanan</h1>
             <p class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-1" data-i18n="order_detail_subtitle">Konfirmasi dan kelola status pesanan ini.</p>
             <div class="flex items-center gap-2.5 mt-3 flex-wrap">
                 <span class="bg-[#F3F4F6] dark:bg-[#3D3D3D] text-gray-800 dark:text-white font-mono text-xs font-extrabold px-3 py-1 rounded-md border border-gray-200/60 dark:border-[#525252] tracking-wider">
@@ -116,7 +116,7 @@
         </div>
 
         <div class="flex items-center gap-2.5">
-            <a href="{{ route('admin.orders') }}" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] text-xs font-medium px-4 py-2.5 rounded-full transition flex items-center gap-2 active:scale-95 shadow-2xs select-none">
+            <a href="{{ route('admin.orders') }}" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] text-xs font-medium px-4 py-2.5 rounded-full transition inline-flex items-center gap-2 active:scale-95 shadow-2xs select-none">
                 <svg class="w-3.5 h-3.5 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
@@ -126,9 +126,9 @@
     </div>
 
     <!-- 1. Card Status Dapur & Stepper (Persis Mockup Figma) -->
-    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-6">
+    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-5 sm:space-y-6">
         <!-- Top Row Status & Payment -->
-        <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div class="flex items-start justify-between gap-3 sm:gap-4 flex-wrap">
             <div>
                 <span class="text-[11px] font-medium text-gray-400 dark:text-[#BDBDBD] block mb-1" data-i18n="order_detail_kitchen_status">Status Dapur</span>
                 <div class="flex items-center gap-2 font-extrabold text-sm sm:text-base text-gray-900 dark:text-white">
@@ -154,7 +154,7 @@
                 </div>
             </div>
 
-            <div class="text-right">
+            <div class="text-left sm:text-right">
                 <span class="text-[11px] font-medium text-gray-400 dark:text-[#BDBDBD] block mb-1" data-i18n="order_detail_payment_status">Status Pembayaran</span>
                 @if($order->payment_status === 'paid')
                     <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-[#D1FAE5]/60 dark:bg-[#1E453B] text-[#065F46] dark:text-[#34D399] border border-[#A7F3D0]/60 dark:border-emerald-700/50">
@@ -187,47 +187,47 @@
                 default => 0,
             };
         @endphp
-        <div class="pt-2 pb-4 px-2 sm:px-8">
+        <div class="pt-2 pb-2 sm:pb-4 px-1 sm:px-8">
             <div class="relative flex items-center justify-between">
                 <!-- Background Track Line -->
-                <div class="absolute left-[12.5%] right-[12.5%] top-[22px] -translate-y-1/2 h-[4px] bg-[#E5E7EB] dark:bg-[#4F4F4F] z-0"></div>
+                <div class="absolute left-[12.5%] right-[12.5%] top-[18px] sm:top-[22px] -translate-y-1/2 h-[4px] bg-[#E5E7EB] dark:bg-[#4F4F4F] z-0"></div>
 
                 <!-- Active Progress Line -->
                 @if($step > 1)
-                    <div class="absolute left-[12.5%] top-[22px] -translate-y-1/2 h-[4px] bg-[#F5B025] z-0 transition-all duration-300"
+                    <div class="absolute left-[12.5%] top-[18px] sm:top-[22px] -translate-y-1/2 h-[4px] bg-[#F5B025] z-0 transition-all duration-300"
                          style="width: {{ $step === 2 ? '25%' : ($step === 3 ? '50%' : '75%') }};"></div>
                 @endif
 
                 <!-- 1. Menunggu -->
                 <div class="relative z-10 flex flex-col items-center w-1/4">
-                    <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 1 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm {{ $step >= 1 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
                         1
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2.5 text-center" data-i18n="stepper_pending">Menunggu</span>
+                    <span class="text-[11px] sm:text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2 sm:mt-2.5 text-center leading-tight" data-i18n="stepper_pending">Menunggu</span>
                 </div>
 
                 <!-- 2. Dimasak -->
                 <div class="relative z-10 flex flex-col items-center w-1/4">
-                    <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 2 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm {{ $step >= 2 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
                         2
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2.5 text-center" data-i18n="stepper_cooking">Dimasak</span>
+                    <span class="text-[11px] sm:text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2 sm:mt-2.5 text-center leading-tight" data-i18n="stepper_cooking">Dimasak</span>
                 </div>
 
                 <!-- 3. Siap Saji -->
                 <div class="relative z-10 flex flex-col items-center w-1/4">
-                    <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 3 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm {{ $step >= 3 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
                         3
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2.5 text-center" data-i18n="stepper_ready">Siap Saji</span>
+                    <span class="text-[11px] sm:text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2 sm:mt-2.5 text-center leading-tight" data-i18n="stepper_ready">Siap Saji</span>
                 </div>
 
                 <!-- 4. Selesai -->
                 <div class="relative z-10 flex flex-col items-center w-1/4">
-                    <div class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-sm {{ $step >= 4 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm {{ $step >= 4 ? 'bg-[#F5B025] !text-[#1F2937] shadow-2xs font-extrabold' : 'bg-[#E5E7EB] dark:bg-[#4F4F4F] text-gray-500 dark:text-[#E0E0E0]' }}">
                         4
                     </div>
-                    <span class="text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2.5 text-center" data-i18n="stepper_completed">Selesai</span>
+                    <span class="text-[11px] sm:text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] mt-2 sm:mt-2.5 text-center leading-tight" data-i18n="stepper_completed">Selesai</span>
                 </div>
             </div>
         </div>
@@ -235,7 +235,7 @@
 
     <!-- 1b. Card Bukti Pembayaran Pelanggan -->
     @if($order->hasPaymentProof() || ($order->payment_method !== 'cash' && $order->payment_status !== 'paid' && $order->status !== 'cancelled'))
-    <div id="payment-proof-section" class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-4">
+    <div id="payment-proof-section" class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-4">
         <div class="flex items-center justify-between gap-3 flex-wrap">
             <div>
                 <h3 class="text-sm font-extrabold text-gray-900 dark:text-white" data-i18n="order_detail_proof_title">Bukti Pembayaran Pelanggan</h3>
@@ -249,18 +249,18 @@
         </div>
 
         @if($order->hasPaymentProof())
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 bg-[#F8F9FA] dark:bg-[#252525] border border-gray-200/70 dark:border-[#404040] rounded-2xl p-4 sm:p-5">
-                <div class="flex items-start gap-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-5 bg-[#F8F9FA] dark:bg-[#252525] border border-gray-200/70 dark:border-[#404040] rounded-2xl p-3.5 sm:p-5">
+                <div class="flex items-start gap-3.5 sm:gap-4 min-w-0 w-full sm:w-auto">
                     <button type="button"
                             onclick="document.getElementById('admin-proof-lightbox').classList.remove('hidden')"
-                            class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl border border-gray-200 dark:border-[#4F4F4F] bg-white dark:bg-[#1E1E1E] overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer shadow-xs"
+                            class="w-20 h-20 sm:w-28 sm:h-28 rounded-xl border border-gray-200 dark:border-[#4F4F4F] bg-white dark:bg-[#1E1E1E] overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer shadow-xs"
                             title="Klik untuk memperbesar foto bukti transfer">
                         <img src="{{ $order->payment_proof }}"
                              alt="Bukti Pembayaran {{ $order->order_number }}"
                              class="w-full h-full object-cover">
                     </button>
-                    <div class="space-y-1.5 text-xs">
-                        <div class="font-bold text-gray-900 dark:text-white">
+                    <div class="space-y-1.5 text-xs min-w-0 flex-1">
+                        <div class="font-bold text-gray-900 dark:text-white break-words">
                             Metode: <span class="uppercase">{{ strtolower($order->payment_method) === 'qris' ? 'QRIS' : str_replace('_', ' ', $order->payment_method) }}</span>
                             • Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                         </div>
@@ -270,7 +270,7 @@
                             </div>
                         @endif
                         @if($order->payment_proof_note)
-                            <div class="bg-white dark:bg-[#333333] border border-gray-200/80 dark:border-[#444444] rounded-lg px-3 py-1.5 text-gray-700 dark:text-[#E5E5E5]">
+                            <div class="bg-white dark:bg-[#333333] border border-gray-200/80 dark:border-[#444444] rounded-lg px-3 py-1.5 text-gray-700 dark:text-[#E5E5E5] break-words">
                                 Catatan Pengirim: {{ $order->payment_proof_note }}
                             </div>
                         @endif
@@ -283,7 +283,7 @@
                 </div>
 
                 @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
-                    <div class="flex items-center gap-2.5 flex-wrap shrink-0 self-end sm:self-center">
+                    <div class="flex items-center gap-2.5 flex-wrap shrink-0 self-start sm:self-center">
                         <form action="{{ route('admin.orders.payment.reject', $order->id) }}" method="POST">
                             @csrf
                             <input type="hidden" name="reason" value="">
@@ -321,8 +321,8 @@
     @endif
 
     <!-- 2. Card Informasi Pemesan (Persis Mockup Figma) -->
-    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-left">
+    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-left">
             <div>
                 <span class="text-xs font-medium text-gray-400 dark:text-[#BDBDBD] block mb-1" data-i18n="order_detail_order_type">Tipe Pesanan</span>
                 <span class="text-sm font-bold text-gray-900 dark:text-white block">
@@ -358,9 +358,9 @@
     </div>
 
     <!-- 3. Card Catatan Pesanan (Persis Mockup Figma) -->
-    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-2">
+    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-2">
         <span class="text-xs font-medium text-gray-400 dark:text-[#BDBDBD] block" data-i18n="order_detail_notes">Catatan Pesanan</span>
-        <div class="bg-[#F5F5F5] dark:bg-[#252525] border border-transparent dark:border-[#404040] rounded-xl p-4 text-xs sm:text-sm text-gray-600 dark:text-[#E5E5E5] font-medium">
+        <div class="bg-[#F5F5F5] dark:bg-[#252525] border border-transparent dark:border-[#404040] rounded-xl p-3.5 sm:p-4 text-xs sm:text-sm text-gray-600 dark:text-[#E5E5E5] font-medium break-words">
             @if($order->notes)
                 {{ str_ireplace('menityang', 'menit yang', $order->notes) }}
             @else
@@ -370,20 +370,20 @@
     </div>
 
     <!-- 4. Card Rincian Pesanan (Persis Mockup Figma) -->
-    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-4">
+    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs space-y-4">
         <h3 class="text-xs font-bold text-gray-700 dark:text-[#E5E5E5] tracking-wider" data-i18n="order_detail_items_title">Rincian Pesanan</h3>
 
         <div class="space-y-2.5">
             @foreach($order->items as $item)
-                <div class="bg-[#F5F5F5] dark:bg-[#252525] border border-transparent dark:border-[#404040] rounded-xl p-4 flex items-center justify-between">
-                    <div>
-                        <h4 class="font-bold text-xs sm:text-sm text-gray-900 dark:text-white">{{ $item->product_name }}</h4>
+                <div class="bg-[#F5F5F5] dark:bg-[#252525] border border-transparent dark:border-[#404040] rounded-xl p-3.5 sm:p-4 flex items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <h4 class="font-bold text-xs sm:text-sm text-gray-900 dark:text-white break-words">{{ $item->product_name }}</h4>
                         <p class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5">{{ $item->quantity }}x <span data-i18n="currency">Rp</span> {{ number_format($item->price, 0, ',', '.') }}</p>
                         @if(!empty($item->notes))
-                            <p class="text-[11px] text-gray-500 dark:text-[#A0A0A0] mt-0.5 italic"><span data-i18n="order_detail_item_note">Catatan:</span> {{ $item->notes }}</p>
+                            <p class="text-[11px] text-gray-500 dark:text-[#A0A0A0] mt-0.5 italic break-words"><span data-i18n="order_detail_item_note">Catatan:</span> {{ $item->notes }}</p>
                         @endif
                     </div>
-                    <div class="font-extrabold text-xs sm:text-sm text-gray-900 dark:text-white">
+                    <div class="font-extrabold text-xs sm:text-sm text-gray-900 dark:text-white shrink-0 whitespace-nowrap">
                         <span data-i18n="currency">Rp</span> {{ number_format($item->subtotal, 0, ',', '.') }}
                     </div>
                 </div>
@@ -420,7 +420,7 @@
     </div>
 
     <!-- 5. Card Aksi Pengelolaan Admin -->
-    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-6 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="border border-gray-200/80 dark:border-[#3F3F3F] rounded-2xl p-4 sm:p-7 bg-white dark:bg-[#333333] shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 sm:gap-4">
         <div>
             <button type="button" onclick="window.print()" class="bg-[#F4F5F7] dark:bg-[#383838] hover:bg-gray-200 dark:hover:bg-[#444444] text-gray-700 dark:text-[#E0E0E0] border border-transparent dark:border-[#525252] font-medium text-xs px-4 py-2.5 rounded-full transition flex items-center gap-2 shadow-2xs cursor-pointer">
                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -430,7 +430,7 @@
             </button>
         </div>
 
-        <div class="flex items-center gap-3 flex-wrap justify-end">
+        <div class="flex items-center gap-2.5 sm:gap-3 flex-wrap justify-start sm:justify-end">
             @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
                 <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
                     @csrf

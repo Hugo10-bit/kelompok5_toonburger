@@ -527,9 +527,11 @@
             <!-- Close Button (Top Right) -->
             <button type="button"
                     onclick="closeProductModal()"
-                    class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition text-2xl font-medium cursor-pointer z-20"
+                    class="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 rounded-full bg-white/95 hover:bg-white text-gray-800 border border-black/15 shadow-md flex items-center justify-center transition cursor-pointer z-30"
                     aria-label="Tutup">
-                &times;
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
             </button>
 
             <!-- 2-Column Grid -->
