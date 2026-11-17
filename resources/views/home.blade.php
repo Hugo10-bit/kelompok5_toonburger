@@ -12,6 +12,7 @@
         'headline' => 'SETIAP GIGITAN<br>PUNYA CERITA!',
         'headlineDesktopClass' => 'lg:text-[56px] xl:text-[64px]',
         'ctaHref' => route('menu'),
+        'deliveryHref' => route('gofood'),
         'revealClass' => 'toon-reveal-left',
     ])
 

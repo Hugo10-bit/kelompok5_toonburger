@@ -1005,7 +1005,9 @@ function initScrollReveal() {
 
     if (immediateTargets.length > 0) {
         window.requestAnimationFrame(() => {
-            immediateTargets.forEach(el => revealElement(el));
+            window.requestAnimationFrame(() => {
+                immediateTargets.forEach(el => revealElement(el));
+            });
         });
     }
 }

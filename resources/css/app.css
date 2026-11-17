@@ -304,22 +304,22 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 .toon-reveal,
 .toon-reveal-up {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(26px);
 }
 
 .toon-reveal-pop {
     opacity: 0;
-    transform: scale(0.96) translateY(12px);
+    transform: scale(0.92) translateY(22px);
 }
 
 .toon-reveal-left {
     opacity: 0;
-    transform: translateX(-16px);
+    transform: translateX(-30px);
 }
 
 .toon-reveal-right {
     opacity: 0;
-    transform: translateX(16px);
+    transform: translateX(30px);
 }
 
 .toon-reveal.revealed:not(.reveal-complete),
@@ -334,11 +334,11 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 .toon-reveal-up:not(.reveal-complete),
 .toon-reveal-left:not(.reveal-complete),
 .toon-reveal-right:not(.reveal-complete) {
-    transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .toon-reveal-pop:not(.reveal-complete) {
-    transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
 
 .toon-reveal.revealed,
@@ -356,13 +356,13 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
 }
 
 /* Stagger delay utilities */
-.reveal-delay-75  { transition-delay: 40ms; }
-.reveal-delay-100 { transition-delay: 60ms; }
-.reveal-delay-150 { transition-delay: 80ms; }
-.reveal-delay-200 { transition-delay: 100ms; }
-.reveal-delay-225 { transition-delay: 120ms; }
-.reveal-delay-300 { transition-delay: 140ms; }
-.reveal-delay-400 { transition-delay: 180ms; }
+.reveal-delay-75  { transition-delay: 90ms; }
+.reveal-delay-100 { transition-delay: 120ms; }
+.reveal-delay-150 { transition-delay: 180ms; }
+.reveal-delay-200 { transition-delay: 240ms; }
+.reveal-delay-225 { transition-delay: 270ms; }
+.reveal-delay-300 { transition-delay: 360ms; }
+.reveal-delay-400 { transition-delay: 480ms; }
 
 /* 5. Slideshow & About Page Components */
 .about-slide-photo {
