@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 
     <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
 <body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased px-2.5 pt-2.5 pb-24 sm:p-5 lg:p-6 md:pb-6 flex flex-col md:flex-row gap-3.5 sm:gap-5 lg:gap-6"
@@ -39,6 +39,7 @@
       data-admin-profile-url="{{ route('admin.profile') }}"
       data-admin-categories-url="{{ route('admin.categories') }}"
       data-admin-messages-url="{{ route('admin.messages') }}">
+    <div id="admin-loader-bar"></div>
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"

@@ -6,9 +6,37 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MenuController extends Controller
 {
+    public const CATALOG_CACHE_KEY = 'tb_catalog_v1';
+
+    /**
+     * Cache active categories and available products to eliminate repeated catalog DB roundtrips.
+     */
+    private function getCatalogData(): array
+    {
+        return Cache::remember(self::CATALOG_CACHE_KEY, 300, function () {
+            $categories = Category::where('is_active', true)
+                ->withCount(['products' => function ($q) {
+                    $q->where('is_available', true);
+                }])
+                ->orderBy('sort_order')
+                ->get();
+
+            $products = Product::with('category')
+                ->where('is_available', true)
+                ->orderBy('id')
+                ->get();
+
+            return [
+                'categories' => $categories,
+                'products' => $products,
+            ];
+        });
+    }
+
     /**
      * Display the Home landing page.
      */
@@ -22,16 +50,13 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::where('is_active', true)
-            ->withCount(['products' => function ($q) {
-                $q->where('is_available', true);
-            }])
-            ->orderBy('sort_order')
-            ->get();
+        $catalog = $this->getCatalogData();
+        $categories = $catalog['categories'];
+        $allProducts = $catalog['products'];
 
-        $totalAllProducts = Product::where('is_available', true)->count();
+        $totalAllProducts = $allProducts->count();
         $selectedCategory = $request->query('category', 'all');
-        $search = $request->query('q');
+        $search = trim((string) $request->query('q', ''));
         $tableNum = $request->query('table'); // If scanned QR: ?table=Meja 01
 
         $cardMetadata = [
@@ -49,24 +74,20 @@ class MenuController extends Controller
             12 => ['badge' => 'BEEF BURGER',    'bg' => '#FCE5D3'],
         ];
 
-        $query = Product::with('category')
-            ->where('is_available', true);
+        $products = $allProducts;
 
-        if ($selectedCategory !== 'all' && !empty($selectedCategory)) {
-            $query->whereHas('category', function ($q) use ($selectedCategory) {
-                $q->where('slug', $selectedCategory);
+        if ($selectedCategory !== 'all' && ! empty($selectedCategory)) {
+            $products = $products->filter(fn ($p) => ($p->category->slug ?? null) === $selectedCategory);
+        }
+
+        if ($search !== '') {
+            $products = $products->filter(function ($p) use ($search) {
+                return mb_stripos((string) $p->name, $search) !== false
+                    || mb_stripos((string) $p->description, $search) !== false;
             });
         }
 
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->whereLike('name', "%{$search}%")
-                  ->orWhereLike('description', "%{$search}%");
-            });
-        }
-
-        $products = $query->orderBy('id')->get();
-
+        $products = $products->values();
         $tables = collect();
 
         return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata', 'totalAllProducts'));
@@ -152,13 +173,13 @@ class MenuController extends Controller
             return response()->json(['products' => []]);
         }
 
-        $products = Product::where('is_available', true)
-            ->where(function ($query) use ($q) {
-                $query->whereLike('name', "%{$q}%")
-                      ->orWhereLike('description', "%{$q}%");
+        $products = $this->getCatalogData()['products']
+            ->filter(function ($p) use ($q) {
+                return mb_stripos((string) $p->name, $q) !== false
+                    || mb_stripos((string) $p->description, $q) !== false;
             })
             ->take(6)
-            ->get()
+            ->values()
             ->map(function ($p) {
                 return [
                     'id' => $p->id,

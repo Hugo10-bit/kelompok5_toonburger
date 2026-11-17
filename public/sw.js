@@ -1,5 +1,5 @@
-// Toon Burger Offline Fallback Service Worker
-const CACHE_NAME = 'toonburger-offline-v4';
+// Toon Burger Offline & Asset Cache Service Worker
+const CACHE_NAME = 'toonburger-offline-v5';
 const PRECACHE_ASSETS = [
     '/manifest.json',
     '/offline.html',
@@ -54,12 +54,43 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // For cached static assets (images, fonts, offline assets)
+    // Cache-First for immutable versioned Vite build assets and fast stale-while-revalidate for static images
+    if (url.pathname.startsWith('/build/assets/') || url.pathname.startsWith('/images/')) {
+        event.respondWith(
+            caches.open(CACHE_NAME).then(async (cache) => {
+                const cached = await cache.match(event.request);
+                const networkFetch = fetch(event.request)
+                    .then((res) => {
+                        if (res && res.ok) {
+                            cache.put(event.request, res.clone());
+                        }
+                        return res;
+                    })
+                    .catch(() => null);
+
+                if (cached) {
+                    if (url.pathname.startsWith('/images/')) {
+                        event.waitUntil(networkFetch);
+                    }
+                    return cached;
+                }
+
+                const fresh = await networkFetch;
+                if (fresh) return fresh;
+                if (event.request.destination === 'image') {
+                    return cache.match('/images/toon-head.png');
+                }
+                return Response.error();
+            })
+        );
+        return;
+    }
+
+    // For cached static assets (fonts, js, offline assets)
     event.respondWith(
         fetch(event.request).catch(async () => {
             const cachedResponse = await caches.match(event.request);
             if (cachedResponse) return cachedResponse;
-            // If an image fails to load while offline, return the cached mascot head if available
             if (event.request.destination === 'image') {
                 const cache = await caches.open(CACHE_NAME);
                 return cache.match('/images/toon-head.png');

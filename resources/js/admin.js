@@ -1268,12 +1268,41 @@ window.addEventListener('pageshow', function () {
     }
 });
 
-// Instant Single-Click Admin Navigation (PJAX + Sequential Prefetch Cache)
+// Instant Single-Click Admin Navigation (PJAX + Concurrent Prefetch Cache)
 (function () {
     const _tbAdminPageCache = new Map();
     const _tbAdminInFlight = new Map();
     const ADMIN_CACHE_TTL_MS = 45000;
-    let _tbBgPrefetchAbort = null;
+    let _adminNavSeq = 0;
+    let _adminLoaderHideTimer = null;
+
+    function startAdminLoaderBar() {
+        const bar = document.getElementById('admin-loader-bar');
+        if (!bar) return;
+        if (_adminLoaderHideTimer) {
+            clearTimeout(_adminLoaderHideTimer);
+            _adminLoaderHideTimer = null;
+        }
+        bar.style.opacity = '1';
+        bar.style.transform = 'scaleX(0.35)';
+        window.requestAnimationFrame(() => {
+            bar.style.transform = 'scaleX(0.8)';
+        });
+    }
+
+    function finishAdminLoaderBar() {
+        const bar = document.getElementById('admin-loader-bar');
+        if (!bar) return;
+        bar.style.transform = 'scaleX(1)';
+        _adminLoaderHideTimer = setTimeout(() => {
+            bar.style.opacity = '0';
+            setTimeout(() => {
+                if (bar.style.opacity === '0') {
+                    bar.style.transform = 'scaleX(0)';
+                }
+            }, 220);
+        }, 120);
+    }
 
     function normalizeAdminUrl(rawUrl) {
         try {
@@ -1391,7 +1420,7 @@ window.addEventListener('pageshow', function () {
         return true;
     }
 
-    function prefetchAdminUrl(rawUrl, isPriority) {
+    function prefetchAdminUrl(rawUrl) {
         if (!isAdminInternalUrl(rawUrl)) return Promise.resolve(null);
         const key = normalizeAdminUrl(rawUrl);
         if (!key) return Promise.resolve(null);
@@ -1405,27 +1434,16 @@ window.addEventListener('pageshow', function () {
             return _tbAdminInFlight.get(key);
         }
 
-        if (isPriority && _tbBgPrefetchAbort) {
-            _tbBgPrefetchAbort.abort();
-            _tbBgPrefetchAbort = null;
-        }
-
-        const controller = new AbortController();
-        if (!isPriority) {
-            _tbBgPrefetchAbort = controller;
-        }
-
         const promise = fetch(key, {
             method: 'GET',
             credentials: 'same-origin',
-            signal: controller.signal,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Accept': 'text/html,application/xhtml+xml'
             }
         })
         .then((res) => {
-            if (!res.ok || res.redirected && !isAdminInternalUrl(res.url)) {
+            if (!res.ok || (res.redirected && !isAdminInternalUrl(res.url))) {
                 throw new Error('Non-cacheable response');
             }
             return res.text();
@@ -1454,6 +1472,7 @@ window.addEventListener('pageshow', function () {
             return;
         }
 
+        const seq = ++_adminNavSeq;
         updateAdminNavHighlight(targetUrl);
         closeAllHeaderDropdowns();
         closeMobileAdminSidebarIfOpen();
@@ -1461,14 +1480,19 @@ window.addEventListener('pageshow', function () {
         const cached = _tbAdminPageCache.get(targetUrl);
         if (cached) {
             swapAdminMainFromHtml(cached.html, targetUrl, pushHistory, preserveScroll);
+            finishAdminLoaderBar();
             if (Date.now() - cached.ts > 8000) {
                 _tbAdminPageCache.delete(targetUrl);
-                prefetchAdminUrl(targetUrl, false);
+                prefetchAdminUrl(targetUrl);
             }
             return;
         }
 
-        prefetchAdminUrl(targetUrl, true).then((html) => {
+        startAdminLoaderBar();
+
+        prefetchAdminUrl(targetUrl).then((html) => {
+            if (seq !== _adminNavSeq) return;
+            finishAdminLoaderBar();
             if (html) {
                 swapAdminMainFromHtml(html, targetUrl, pushHistory, preserveScroll);
             } else {
@@ -1496,7 +1520,7 @@ window.addEventListener('pageshow', function () {
         const href = link.getAttribute('href');
         if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
         if (isAdminInternalUrl(link.href)) {
-            prefetchAdminUrl(link.href, true);
+            prefetchAdminUrl(link.href);
         }
     }
 
@@ -1542,9 +1566,9 @@ window.addEventListener('pageshow', function () {
         }
     });
 
-    // Sequential background warm-up of primary sidebar links when browser is idle
-    const runAdminWarmUp = async function () {
-        if (navigator.connection && navigator.connection.saveData) return;
+    // Concurrent background warm-up of primary sidebar links when browser is idle
+    const runAdminWarmUp = function () {
+        if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''))) return;
         const primaryLinks = [
             ADMIN_CONFIG.adminDashboardUrl,
             ADMIN_CONFIG.adminProfileUrl,
@@ -1552,18 +1576,19 @@ window.addEventListener('pageshow', function () {
             ADMIN_CONFIG.adminProductsUrl,
             ADMIN_CONFIG.adminCategoriesUrl,
             ADMIN_CONFIG.adminMessagesUrl
-        ].filter(Boolean);
-        for (const url of primaryLinks) {
-            const norm = normalizeAdminUrl(url);
-            if (norm && !_tbAdminPageCache.has(norm)) {
-                await prefetchAdminUrl(norm, false);
-            }
+        ]
+            .filter(Boolean)
+            .map(normalizeAdminUrl)
+            .filter(norm => norm && !_tbAdminPageCache.has(norm));
+
+        if (primaryLinks.length > 0) {
+            Promise.allSettled(primaryLinks.map(norm => prefetchAdminUrl(norm)));
         }
     };
     if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => { runAdminWarmUp(); }, { timeout: 2500 });
+        window.requestIdleCallback(() => { runAdminWarmUp(); }, { timeout: 1500 });
     } else {
-        setTimeout(runAdminWarmUp, 800);
+        setTimeout(runAdminWarmUp, 350);
     }
 })();
 

@@ -1005,9 +1005,7 @@ function initScrollReveal() {
 
     if (immediateTargets.length > 0) {
         window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(() => {
-                immediateTargets.forEach(el => revealElement(el));
-            });
+            immediateTargets.forEach(el => revealElement(el));
         });
     }
 }
@@ -1204,8 +1202,36 @@ if (document.readyState === 'loading') {
     const _tbAppInFlight = new Map();
     const _tbLoadedScriptSrcs = new Set();
     const CACHE_TTL_MS = 90000;
-    let _activeNavController = null;
-    let _bgPrefetchController = null;
+    let _navSeq = 0;
+    let _loaderBarHideTimer = null;
+
+    function startAppLoaderBar() {
+        const bar = document.getElementById('page-loader-bar');
+        if (!bar) return;
+        if (_loaderBarHideTimer) {
+            clearTimeout(_loaderBarHideTimer);
+            _loaderBarHideTimer = null;
+        }
+        bar.style.opacity = '1';
+        bar.style.transform = 'scaleX(0.35)';
+        window.requestAnimationFrame(() => {
+            bar.style.transform = 'scaleX(0.78)';
+        });
+    }
+
+    function finishAppLoaderBar() {
+        const bar = document.getElementById('page-loader-bar');
+        if (!bar) return;
+        bar.style.transform = 'scaleX(1)';
+        _loaderBarHideTimer = setTimeout(() => {
+            bar.style.opacity = '0';
+            setTimeout(() => {
+                if (bar.style.opacity === '0') {
+                    bar.style.transform = 'scaleX(0)';
+                }
+            }, 220);
+        }, 120);
+    }
 
     function normalizeAppUrl(url) {
         try {
@@ -1314,7 +1340,7 @@ if (document.readyState === 'loading') {
         };
     }
 
-    function prefetchAppUrl(url, isPriority) {
+    function prefetchAppUrl(url) {
         const key = normalizeAppUrl(url);
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
@@ -1324,20 +1350,9 @@ if (document.readyState === 'loading') {
             return _tbAppInFlight.get(key);
         }
 
-        if (isPriority && _bgPrefetchController) {
-            try { _bgPrefetchController.abort(); } catch (e) {}
-            _bgPrefetchController = null;
-        }
-
-        const controller = new AbortController();
-        if (!isPriority) {
-            _bgPrefetchController = controller;
-        }
-
         const promise = fetch(key, {
             method: 'GET',
             credentials: 'same-origin',
-            signal: controller.signal,
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'X-TB-PJAX': '1',
@@ -1345,7 +1360,7 @@ if (document.readyState === 'loading') {
             }
         })
         .then(res => {
-            if (!res.ok || res.redirected && res.url.includes('/login')) return null;
+            if (!res.ok || (res.redirected && res.url.includes('/login'))) return null;
             return res.text();
         })
         .then(html => {
@@ -1457,20 +1472,21 @@ if (document.readyState === 'loading') {
 
     window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false) {
         const key = normalizeAppUrl(url);
+        const seq = ++_navSeq;
         updateAppNavHighlight(key);
 
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
             applyAppPayload(url, cached, pushHistory, preserveScroll);
+            finishAppLoaderBar();
             return;
         }
 
-        if (_activeNavController) {
-            try { _activeNavController.abort(); } catch (e) {}
-        }
-        _activeNavController = new AbortController();
+        startAppLoaderBar();
 
-        prefetchAppUrl(key, true).then(payload => {
+        prefetchAppUrl(key).then(payload => {
+            if (seq !== _navSeq) return;
+            finishAppLoaderBar();
             if (payload) {
                 applyAppPayload(url, payload, pushHistory, preserveScroll);
             } else {
@@ -1490,27 +1506,27 @@ if (document.readyState === 'loading') {
             });
         }
 
-        // Warm up primary public navigation pages sequentially during browser idle time after initial load
+        // Warm up primary public navigation pages concurrently during browser idle time after initial load
         const warmUpPublicNav = () => {
             if (navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''))) {
                 return;
             }
-            const runWarmUp = async () => {
-                const links = Array.from(document.querySelectorAll('header nav a[href]'))
-                    .map(a => a.href)
-                    .filter(href => isPjaxEligibleAppUrl(href));
+            const runWarmUp = () => {
+                const uniqueUrls = Array.from(new Set(
+                    Array.from(document.querySelectorAll('header nav a[href], nav[aria-label="Mobile Navigation"] a[href]'))
+                        .map(a => a.href)
+                        .filter(href => isPjaxEligibleAppUrl(href))
+                        .map(href => normalizeAppUrl(href))
+                )).filter(key => !_tbAppPageCache.has(key));
 
-                for (const href of links) {
-                    const key = normalizeAppUrl(href);
-                    if (!_tbAppPageCache.has(key)) {
-                        await prefetchAppUrl(key, false);
-                    }
+                if (uniqueUrls.length > 0) {
+                    Promise.allSettled(uniqueUrls.map(key => prefetchAppUrl(key)));
                 }
             };
             if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(() => { runWarmUp(); }, { timeout: 2000 });
+                window.requestIdleCallback(() => { runWarmUp(); }, { timeout: 1500 });
             } else {
-                setTimeout(runWarmUp, 600);
+                setTimeout(runWarmUp, 300);
             }
         };
 
@@ -1527,7 +1543,7 @@ if (document.readyState === 'loading') {
         if (!link) return;
         const rawHref = link.getAttribute('href');
         if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
-        prefetchAppUrl(link.href, true);
+        prefetchAppUrl(link.href);
     };
     document.addEventListener('pointerover', triggerAppPrefetch, { passive: true });
     document.addEventListener('mousedown', triggerAppPrefetch, { passive: true });
