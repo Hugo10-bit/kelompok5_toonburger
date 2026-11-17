@@ -11,8 +11,8 @@
     <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
         <div class="w-full">
             <!-- Hero Background: Dark Slate Green (#385850) -->
-            <div class="relative overflow-hidden w-full pt-36 sm:pt-36 lg:pt-40 flex flex-col justify-between"
-                 style="background-color: #385850; min-height: 520px;">
+            <div class="relative overflow-hidden w-full pt-28 sm:pt-36 lg:pt-40 min-h-[430px] sm:min-h-[520px] flex flex-col justify-between"
+                 style="background-color: #385850;">
 
                 <!-- Concentric / wavy retro background curves -->
                 <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 500">
@@ -44,8 +44,8 @@
                 <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 sm:px-10 lg:px-12 pt-4 sm:pt-6 pb-8">
 
                     <!-- Left: Headline + Subtitle + Buttons -->
-                    <div class="lg:col-span-6 space-y-4 pb-6 lg:pb-10 toon-reveal">
-                        <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-4xl sm:text-5xl lg:text-[52px] xl:text-[60px]"
+                    <div class="lg:col-span-6 space-y-3 sm:space-y-4 pb-4 sm:pb-6 lg:pb-10 toon-reveal">
+                        <h1 class="font-brand text-white uppercase leading-[0.95] drop-shadow-sm text-3xl sm:text-5xl lg:text-[52px] xl:text-[60px]"
                             style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                             MAU MAKAN<br>APA HARI INI?
                         </h1>
@@ -55,20 +55,20 @@
                         </p>
 
                         <!-- CTA Buttons: Pickup Order & Delivery Order -->
-                        <div class="flex flex-wrap items-center gap-3.5 pt-2">
+                        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-1 sm:pt-2">
                             <a href="#semua-menu"
-                               class="font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
+                               class="min-h-[40px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                                 Pickup Order
                             </a>
                             <a href="#semua-menu"
-                               class="font-medium text-xs sm:text-sm px-6 py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
+                               class="min-h-[40px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                                 Delivery Order
                             </a>
                         </div>
                     </div>
 
                     <!-- Right: Burger + Speech Bubble Cluster (Burger kecil, posisi agak ke kanan, kalimat agak ke kanan atas sesuai foto) -->
-                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-6 lg:pb-8 pt-8 lg:pt-10 lg:pl-12 xl:pl-16 toon-reveal-right reveal-delay-150">
+                    <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pb-5 sm:pb-6 lg:pb-8 pt-6 sm:pt-8 lg:pt-10 lg:pl-12 xl:pl-16 toon-reveal-right reveal-delay-150">
                         <div class="relative select-none">
 
                             <!-- Hero Double/Triple Cheeseburger (Kecil proporsional sesuai foto referensi) -->
@@ -89,17 +89,17 @@
                                      width="200"
                                      height="175"
                                      style="will-change: transform;"
-                                     class="w-[155px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
+                                     class="w-[132px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
                             </div>
 
                             <!-- Starburst Comic Speech Bubble ("VERY CHEESE BURGER") - Terpisah di Kanan Atas (Tidak Menempel/Nyambung Burger) -->
-                            <div class="absolute -top-14 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[75%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105">
+                            <div class="absolute -top-10 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[58%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105">
                                 <img id="hero-badge-img"
                                      src="{{ asset('images/very-cheese-badge.png') }}"
                                      alt="VERY CHEESE BURGER"
                                      fetchpriority="high"
                                      loading="eager"
-                                     class="w-[150px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-none h-auto object-contain drop-shadow-md select-none">
+                                     class="w-[112px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-full sm:max-w-none h-auto object-contain drop-shadow-md select-none">
                             </div>
 
                         </div>
@@ -122,18 +122,18 @@
     <!-- ═══════════════════════════════════════════════
          2. CATALOG / MENU SECTION
          ═══════════════════════════════════════════════ -->
-    <div id="semua-menu" class="retro-grid-bg pt-8 sm:pt-10 pb-10 sm:pb-14 select-none scroll-mt-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div id="semua-menu" class="retro-grid-bg pt-6 sm:pt-10 pb-8 sm:pb-14 select-none scroll-mt-24">
+        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-5 sm:space-y-8">
 
             <!-- ═══════════════════════════════════════════════
                  HEADER: SEMUA MENU
                  ═══════════════════════════════════════════════ -->
-            <div class="space-y-1.5 text-left pt-2 sm:pt-4 toon-reveal">
-                <h2 class="font-brand text-3xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
+            <div class="space-y-1 text-left pt-1 sm:pt-4 toon-reveal">
+                <h2 class="font-brand text-2xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
                     style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                     SEMUA MENU
                 </h2>
-                <p class="text-xs sm:text-sm text-[#47665e] max-w-md leading-relaxed font-medium">
+                <p class="text-[11.5px] sm:text-sm text-[#47665e] max-w-md leading-relaxed font-medium">
                     Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.
                 </p>
             </div>
@@ -141,14 +141,14 @@
         <!-- ═══════════════════════════════════════════════
              2. CATEGORY FILTER PILLS (Matching Figma Mockup)
              ═══════════════════════════════════════════════ -->
-        <div class="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2.5 pt-0.5 toon-reveal scroll-smooth snap-x snap-mandatory touch-pan-x" style="transition-delay: 80ms; -webkit-overflow-scrolling: touch;">
+        <div class="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5 toon-reveal scroll-smooth snap-x snap-mandatory touch-pan-x" style="transition-delay: 80ms; -webkit-overflow-scrolling: touch;">
             <!-- "Semua" Pill -->
             @php
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
             @endphp
             <a href="{{ route('menu', array_filter(['q' => $search, 'table' => $tableNum])) }}"
                data-preserve-scroll
-               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[40px] active:scale-95">
+               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[34px] sm:min-h-[40px] active:scale-95">
                 <span>Semua</span>
             </a>
 
@@ -159,16 +159,16 @@
                 @endphp
                 <a href="{{ route('menu', array_filter(['category' => $category->slug, 'q' => $search, 'table' => $tableNum])) }}"
                    data-preserve-scroll
-                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[40px] active:scale-95">
+                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[34px] sm:min-h-[40px] active:scale-95">
                     <span>{{ $category->name }}</span>
                 </a>
             @endforeach
         </div>
 
         @if($products->isEmpty())
-            <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_#3d5d56] p-12 text-center max-w-lg mx-auto space-y-4 toon-reveal">
-                <div class="text-4xl">🍔</div>
-                <h3 class="font-bold text-lg text-gray-900">Menu Tidak Ditemukan</h3>
+            <div class="bg-white rounded-[20px] sm:rounded-[24px] border-2 border-black shadow-[4px_4px_0px_#3d5d56] sm:shadow-[6px_6px_0px_#3d5d56] p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3 sm:space-y-4 toon-reveal">
+                <div class="text-3xl sm:text-4xl">🍔</div>
+                <h3 class="font-bold text-base sm:text-lg text-gray-900">Menu Tidak Ditemukan</h3>
                 <p class="text-xs text-gray-500 max-w-xs mx-auto">Menu yang Anda cari tidak tersedia. Silakan cek menu favorit lainnya.</p>
                 <a href="{{ route('menu') }}" class="inline-block bg-[#27443E] hover:bg-[#1E3631] text-white text-xs font-medium px-5 py-2.5 rounded-lg transition shadow-xs">
                     Lihat Semua Menu
@@ -178,7 +178,7 @@
             <!-- ═══════════════════════════════════════════════
                  3. PRODUCT CARDS GRID (Matching Figma Mockup)
                  ═══════════════════════════════════════════════ -->
-            <div class="grid grid-cols-1 min-[500px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 @foreach($products as $product)
                     @php
                         $categoryName = $product->category->name ?? ($cardMetadata[$product->id]['badge'] ?? 'BURGER');
@@ -186,45 +186,17 @@
                         $palettes = ['#FFC83B', '#FCE5D3', '#E51D1D', '#A4D477', '#BFE1FD', '#F67A24', '#D5C8F6', '#F5B8DC', '#FED7AA', '#F5C518', '#A7D79E', '#FCE5D3'];
                         $bgColor = $cardMetadata[$product->id]['bg'] ?? ($palettes[($loop->index) % count($palettes)] ?? '#FFC83B');
                     @endphp
-                    <div class="bg-white rounded-[24px] border-2 border-black shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] toon-reveal"
-                         style="transition-delay: {{ ($loop->index % 4) * 90 }}ms;">
-                        <div onclick="openProductModal({{ $product->id }})" class="cursor-pointer">
-                            <!-- Top Image Box: Full Bleed Seamless Matching Home Card -->
-                            <div class="w-full aspect-[1.45] rounded-2xl overflow-hidden bg-gray-100"
-                                 style="background-color: {{ $bgColor }};">
-                                <img src="{{ asset($product->image) }}"
-                                     alt="{{ $product->name }}"
-                                     loading="lazy"
-                                     decoding="async"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] select-none">
-                            </div>
-
-                            <!-- Content: Category, Title, Description -->
-                            <div class="pt-3 pb-1">
-                                <span class="text-[11px] font-bold text-[#D97706] uppercase tracking-wide block">
-                                    {{ $badge }}
-                                </span>
-                                <h3 class="font-bold text-base text-gray-900 mt-0.5 leading-snug group-hover:text-[#27443E] transition-colors duration-[420ms]">
-                                    {{ $product->name }}
-                                </h3>
-                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mt-1">
-                                    {{ $product->description }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Bottom Row: Price & Pesan Button (Matching Home Card & Figma) -->
-                        <div class="pt-3 flex items-center justify-between border-t border-gray-100 mt-3">
-                            <span class="font-black text-base text-gray-900">
-                                Rp {{ number_format($product->price, 0, ',', '.') }}
-                            </span>
-                            <button type="button"
-                                    onclick="openProductModal({{ $product->id }})"
-                                    class="min-w-[64px] min-h-[44px] px-3.5 py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[13px] font-medium rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
-                                Pesan
-                            </button>
-                        </div>
-                    </div>
+                    @include('partials.product-card', [
+                        'productId' => $product->id,
+                        'image' => $product->image,
+                        'badge' => $badge,
+                        'name' => $product->name,
+                        'description' => $product->description,
+                        'price' => $product->price,
+                        'bgColor' => $bgColor,
+                        'revealClass' => 'toon-reveal',
+                        'cardStyle' => 'transition-delay: ' . (($loop->index % 4) * 90) . 'ms;',
+                    ])
                 @endforeach
             </div>
         @endif

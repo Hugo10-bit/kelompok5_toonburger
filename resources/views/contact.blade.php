@@ -13,7 +13,7 @@
     <!-- ═══════════════════════════════════════════════
          1. TOP MAP SECTION ON 3D PERSPECTIVE GRID
          ═══════════════════════════════════════════════ -->
-    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[122px] sm:pt-[126px] pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
+    <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[98px] sm:pt-[126px] pb-8 sm:pb-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
              style="background-color: #FAF3E3;">
 
         <!-- 3D Perspective Grid Background SVG -->
@@ -60,12 +60,12 @@
 
         <!-- Map Card -->
         <div class="relative z-10 max-w-6xl mx-auto toon-reveal">
-            <div class="bg-white rounded-[26px] border-[1.5px] border-black shadow-[5px_6px_0px_#8F9693] p-5 sm:p-8">
+            <div class="bg-white rounded-[20px] sm:rounded-[26px] border-[1.5px] border-black shadow-[3px_4px_0px_#8F9693] sm:shadow-[5px_6px_0px_#8F9693] p-4 sm:p-8">
 
                 <!-- Header Row -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
                     <div>
-                        <h1 class="text-xl sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
+                        <h1 class="text-lg sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             TEMUKAN LOKASI OUTLET KAMI!
                         </h1>
@@ -107,7 +107,7 @@
                 </div>
 
                 <!-- Map Viewport (Interactive Leaflet Map with Coordinate-Locked Custom Pin) -->
-                <div class="mt-5 relative w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
+                <div class="mt-4 sm:mt-5 relative w-full h-[240px] sm:h-[380px] lg:h-[420px] rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
                     <div id="live-leaflet-map" class="w-full h-full z-10"></div>
                 </div>
 
@@ -118,23 +118,23 @@
     <!-- ═══════════════════════════════════════════════
          2. FAQ & "LET'S GET IN TOUCH WITH US!" CLIPBOARD FORM
          ═══════════════════════════════════════════════ -->
-    <section class="contact-fine-grid-bg py-14 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+    <section class="contact-fine-grid-bg py-8 sm:py-20 px-3.5 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-12 items-start">
 
             <!-- Left Column: FAQ Accordion -->
             <div class="lg:col-span-6">
                 <div class="toon-reveal">
-                    <h2 class="text-2xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
+                    <h2 class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
                         style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                         PERTANYAAN YANG<br>
                         SERING DITANYAKAN
                     </h2>
-                    <p class="text-xs sm:text-[13px] text-[#4A6B65]/85 mt-2.5 mb-7 leading-relaxed max-w-md">
+                    <p class="text-[11.5px] sm:text-[13px] text-[#4A6B65]/85 mt-2 mb-5 sm:mb-7 leading-relaxed max-w-md">
                         Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.
                     </p>
                 </div>
 
-                <div class="space-y-3.5" id="faq-accordion-list">
+                <div class="space-y-2.5 sm:space-y-3.5" id="faq-accordion-list">
                     <!-- FAQ 1 -->
                     <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 50ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
@@ -242,15 +242,15 @@
                     </div>
 
                     <!-- White Card Body -->
-                    <div class="bg-white rounded-t-[28px] sm:rounded-t-[34px] pt-10 sm:pt-12 px-6 sm:px-10 pb-7 border-x border-t border-gray-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
-                        <h2 class="text-3xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
+                    <div class="bg-white rounded-t-[24px] sm:rounded-t-[34px] pt-8 sm:pt-12 px-4 sm:px-10 pb-6 sm:pb-7 border-x border-t border-gray-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
+                        <h2 class="text-2xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             LET'S GET IN TOUCH<br>
                             WITH US!
                         </h2>
 
                         <!-- Dashed Divider -->
-                        <div class="border-b border-dashed border-gray-300 my-6"></div>
+                        <div class="border-b border-dashed border-gray-300 my-4 sm:my-6"></div>
 
                         <form onsubmit="handleContactSubmit(event)" class="space-y-4">
                             <div>
