@@ -3,6 +3,7 @@
     $headlineDesktopClass = $headlineDesktopClass ?? 'lg:text-[56px] xl:text-[64px]';
     $subtitle = $subtitle ?? 'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.';
     $ctaHref = $ctaHref ?? route('menu');
+    $deliveryHref = $deliveryHref ?? $ctaHref;
     $revealClass = $revealClass ?? 'toon-reveal-left';
 @endphp
 
@@ -86,7 +87,7 @@
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                             Pickup Order
                         </a>
-                        <a href="{{ $ctaHref }}"
+                        <a href="{{ $deliveryHref }}"
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                             Delivery Order
                         </a>
