@@ -281,7 +281,7 @@
                             </div>
 
                             <div>
-                                <label for="contact-message" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
+                                <label for="contact-message" data-i18n-app="contact_message_label" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
                                 <textarea id="contact-message"
                                           rows="3"
                                           required
