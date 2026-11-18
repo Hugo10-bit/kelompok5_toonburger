@@ -1,4 +1,4 @@
-<div class="bg-white rounded-[18px] sm:rounded-[24px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_0px_rgba(39,68,62,0.85)] sm:hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-2.5 sm:p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] {{ $revealClass ?? 'toon-reveal' }}"
+<div class="bg-white rounded-[18px] sm:rounded-[24px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.5)] sm:shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_0px_rgba(39,68,62,0.85)] sm:hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-2.5 sm:p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] {{ $revealClass ?? 'toon-reveal' }}"
      @if(!empty($cardStyle)) style="{{ $cardStyle }}" @endif>
     <div onclick="openProductModal({{ $productId }})" class="cursor-pointer">
         <div class="w-full aspect-[1.35] sm:aspect-[1.45] rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100"

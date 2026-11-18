@@ -1,5 +1,5 @@
 // Toon Burger Offline & Asset Cache Service Worker
-const CACHE_NAME = 'toonburger-offline-v5';
+const CACHE_NAME = 'toonburger-offline-v6';
 const PRECACHE_ASSETS = [
     '/manifest.json',
     '/offline.html',
