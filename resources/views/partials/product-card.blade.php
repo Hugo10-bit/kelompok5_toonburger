@@ -29,11 +29,19 @@
         <span class="font-black text-xs sm:text-base text-gray-900 whitespace-nowrap">
             Rp {{ number_format($price, 0, ',', '.') }}
         </span>
-        <button type="button"
-                onclick="openProductModal({{ $productId }})"
-                data-i18n-app="card_order_btn"
-                class="min-w-[50px] sm:min-w-[64px] min-h-[34px] sm:min-h-[44px] px-2.5 py-1.5 sm:px-3.5 sm:py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[11px] sm:text-[13px] font-medium rounded-lg sm:rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
-            Pesan
-        </button>
+        @if(isset($storeSetting) && $storeSetting->isClosed())
+            <button type="button"
+                    onclick="promptStoreClosed()"
+                    class="min-w-[50px] sm:min-w-[64px] min-h-[34px] sm:min-h-[44px] px-2.5 py-1.5 sm:px-3.5 sm:py-2 shrink-0 whitespace-nowrap bg-gray-200 text-gray-600 text-[11px] sm:text-[13px] font-semibold rounded-lg sm:rounded-[11px] flex items-center justify-center cursor-not-allowed">
+                Tutup
+            </button>
+        @else
+            <button type="button"
+                    onclick="openProductModal({{ $productId }})"
+                    data-i18n-app="card_order_btn"
+                    class="min-w-[50px] sm:min-w-[64px] min-h-[34px] sm:min-h-[44px] px-2.5 py-1.5 sm:px-3.5 sm:py-2 shrink-0 whitespace-nowrap bg-[#27443E] hover:bg-[#1E3631] text-white text-[11px] sm:text-[13px] font-medium rounded-lg sm:rounded-[11px] flex items-center justify-center transition active:scale-95 shadow-xs cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27443E]">
+                Pesan
+            </button>
+        @endif
     </div>
 </div>

@@ -3,6 +3,48 @@ const APP_CONFIG = document.body.dataset;
 const IS_AUTHENTICATED = APP_CONFIG.authenticated === 'true';
 const LOGIN_URL = APP_CONFIG.loginUrl || '/login';
 
+function isStoreClosedClient() {
+    return APP_CONFIG.storeOpen === 'false';
+}
+
+function promptStoreClosed(customReason = '') {
+    if (typeof closeProductModal === 'function') {
+        closeProductModal();
+    }
+    const reason = (customReason || APP_CONFIG.storeClosedReason || 'Sudah Jam Tutup').trim();
+    const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
+    const title = isEn ? 'Outlet Is Currently Closed' : 'Outlet Sedang Tutup';
+    const text = isEn
+        ? `Sorry, Toon Burger outlet is currently closed (${reason}). Online ordering is temporarily unavailable.`
+        : `Maaf, outlet Toon Burger sedang tutup (${reason}). Pemesanan sementara ditutup hingga toko buka kembali.`;
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'info',
+            title: title,
+            text: text,
+            confirmButtonText: isEn ? 'Understood' : 'Mengerti',
+            confirmButtonColor: '#27443E',
+            customClass: {
+                popup: 'rounded-2xl',
+                confirmButton: 'font-medium px-6 py-2.5 rounded-xl cursor-pointer',
+            }
+        });
+    } else {
+        alert(text);
+    }
+}
+
+function handleStoreClosedApiResponse(res, data) {
+    if (res.status === 423 || (data && data.store_closed)) {
+        APP_CONFIG.storeOpen = 'false';
+        if (data && data.closed_reason) APP_CONFIG.storeClosedReason = data.closed_reason;
+        promptStoreClosed(data && data.closed_reason ? data.closed_reason : '');
+        return true;
+    }
+    return false;
+}
+
 function promptRequireLogin(message = 'Wajib login terlebih dahulu untuk memasukkan menu ke keranjang.') {
     if (typeof closeProductModal === 'function') {
         closeProductModal();
@@ -213,6 +255,7 @@ async function updateCartQty(cartKey, qty) {
         body: JSON.stringify({ cart_key: cartKey, quantity: qty })
     });
     const data = await res.json();
+    if (handleStoreClosedApiResponse(res, data)) return;
     if (data.cart) renderCart(data.cart);
 }
 
@@ -346,6 +389,11 @@ function recalculateModalPrice() {
 async function submitAddToCart() {
     if (!currentModalProduct) return;
 
+    if (isStoreClosedClient()) {
+        promptStoreClosed();
+        return;
+    }
+
     if (!IS_AUTHENTICATED) {
         promptRequireLogin('Silakan login ke akun Anda terlebih dahulu untuk menambahkan menu ke keranjang belanja.');
         return;
@@ -380,6 +428,10 @@ async function submitAddToCart() {
         });
 
         const data = await res.json();
+
+        if (handleStoreClosedApiResponse(res, data)) {
+            return;
+        }
 
         if (res.status === 401 || data.require_login) {
             closeProductModal();
@@ -465,6 +517,11 @@ function flyToCart(originElement) {
 }
 
 async function quickAddToCart(productId) {
+    if (isStoreClosedClient()) {
+        promptStoreClosed();
+        return;
+    }
+
     if (!IS_AUTHENTICATED) {
         promptRequireLogin('Silakan login ke akun Anda terlebih dahulu untuk menambahkan menu ke keranjang belanja.');
         return;
@@ -482,6 +539,10 @@ async function quickAddToCart(productId) {
             body: JSON.stringify({ product_id: productId, quantity: 1 })
         });
         const data = await res.json();
+
+        if (handleStoreClosedApiResponse(res, data)) {
+            return;
+        }
 
         if (res.status === 401 || data.require_login) {
             promptRequireLogin(data.message || 'Wajib login terlebih dahulu untuk menambahkan menu ke keranjang.');
@@ -2215,6 +2276,8 @@ if ('serviceWorker' in navigator) {
 
 Object.assign(window, {
     promptRequireLogin,
+    promptStoreClosed,
+    isStoreClosedClient,
     formatRupiah,
     openCartDrawer,
     closeCartDrawer,

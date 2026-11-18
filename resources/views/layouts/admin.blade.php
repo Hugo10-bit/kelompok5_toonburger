@@ -128,6 +128,121 @@
         </div>
     </div>
 
+    <!-- Modal Tutup Toko Sekarang -->
+    <div id="store-close-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-200"
+             onclick="closeStoreModals()"></div>
+
+        <div class="relative bg-white dark:bg-[#303030] rounded-[24px] sm:rounded-[28px] shadow-2xl p-6 sm:p-7 max-w-[440px] w-full text-left z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-red-50 dark:bg-[#4A2626] border border-red-100 dark:border-red-900/50 text-[#DC2626] dark:text-[#F87171] flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+                <button type="button"
+                        onclick="closeStoreModals()"
+                        class="w-8 h-8 rounded-full bg-gray-100/90 dark:bg-[#3D3D3D] hover:bg-gray-200 dark:hover:bg-[#4D4D4D] text-gray-500 dark:text-gray-300 flex items-center justify-center transition cursor-pointer"
+                        aria-label="Tutup">&times;</button>
+            </div>
+
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Tutup Toko Sekarang?
+            </h3>
+
+            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5">
+                Pelanggan tidak akan bisa melakukan checkout saat toko berstatus tutup.
+            </p>
+
+            <form id="store-close-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-5">
+                @csrf
+                <input type="hidden" name="is_open" value="0">
+                <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Sudah Jam Tutup">
+
+                <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2.5">
+                    Pilih alasan cepat (opsional tampil di web):
+                </div>
+
+                @php
+                    $quickReasons = ['Stok Habis', 'Istirahat Sebentar', 'Sudah Jam Tutup', 'Tutup Mendadak'];
+                @endphp
+                <div class="flex flex-wrap gap-2" id="store-close-reasons-group">
+                    @foreach($quickReasons as $reasonOption)
+                        @php $isDefault = ($reasonOption === 'Sudah Jam Tutup'); @endphp
+                        <button type="button"
+                                onclick="selectStoreCloseReason(this, '{{ $reasonOption }}')"
+                                data-reason="{{ $reasonOption }}"
+                                class="store-reason-chip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition cursor-pointer {{ $isDefault ? 'is-selected bg-red-50/90 border-red-400 text-[#DC2626] dark:bg-[#4A2626] dark:border-red-500 dark:text-[#FCA5A5]' : 'bg-white dark:bg-[#3A3A3A] border-gray-200 dark:border-[#525252] text-gray-600 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-[#454545]' }}">
+                            <svg class="store-reason-check w-3.5 h-3.5 {{ $isDefault ? '' : 'hidden' }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>{{ $reasonOption }}</span>
+                        </button>
+                    @endforeach
+                </div>
+
+                <div class="flex items-center justify-end gap-2.5 mt-6 pt-4 border-t border-gray-100 dark:border-[#424242]">
+                    <button type="button"
+                            onclick="closeStoreModals()"
+                            class="px-5 py-2.5 rounded-xl bg-white dark:bg-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#454545] border border-gray-300 dark:border-[#555555] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer">
+                        Batal
+                    </button>
+                    <button type="submit"
+                            class="px-5 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] active:scale-95 text-white text-xs font-semibold shadow-xs transition cursor-pointer">
+                        Ya, Tutup Toko
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Buka Toko Sekarang -->
+    <div id="store-open-modal"
+         class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/45 backdrop-blur-[2px] transition-opacity duration-200"
+             onclick="closeStoreModals()"></div>
+
+        <div class="relative bg-white dark:bg-[#303030] rounded-[24px] sm:rounded-[28px] shadow-2xl p-6 sm:p-7 max-w-[420px] w-full text-left z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-emerald-50 dark:bg-[#1E453B] border border-emerald-100 dark:border-emerald-700/50 text-emerald-600 dark:text-[#6EE7B7] flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                </div>
+                <button type="button"
+                        onclick="closeStoreModals()"
+                        class="w-8 h-8 rounded-full bg-gray-100/90 dark:bg-[#3D3D3D] hover:bg-gray-200 dark:hover:bg-[#4D4D4D] text-gray-500 dark:text-gray-300 flex items-center justify-center transition cursor-pointer"
+                        aria-label="Tutup">&times;</button>
+            </div>
+
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Buka Toko Sekarang?
+            </h3>
+
+            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5">
+                Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.
+            </p>
+
+            <form action="{{ route('admin.store.status') }}" method="POST" class="mt-6 pt-4 border-t border-gray-100 dark:border-[#424242] flex items-center justify-end gap-2.5">
+                @csrf
+                <input type="hidden" name="is_open" value="1">
+                <button type="button"
+                        onclick="closeStoreModals()"
+                        class="px-5 py-2.5 rounded-xl bg-white dark:bg-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#454545] border border-gray-300 dark:border-[#555555] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer">
+                    Batal
+                </button>
+                <button type="submit"
+                        class="px-5 py-2.5 rounded-xl bg-[#40605D] hover:bg-[#344B48] active:scale-95 text-white text-xs font-semibold shadow-xs transition cursor-pointer">
+                    Ya, Buka Toko
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- Mobile sidebar backdrop -->
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
@@ -211,28 +326,54 @@
             </nav>
         </div>
 
-        <!-- Secondary Bottom Section (Halaman Utama & Logout dinonaktifkan/dihapus) -->
-        {{--
-        <div class="pt-8 space-y-2 text-sm font-medium">
-            <a href="{{ route('home') }}"
-               class="flex items-center gap-4 px-5 py-3.5 transition rounded-full text-[#374151] hover:bg-gray-100/80 hover:text-gray-900">
-                <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 10.5 L10.8 3.5 C11.5 2.8 12.5 2.8 13.2 3.5 L21 10.5 V19 C21 20.1 20.1 21 19 21 H5 C3.9 21 3 20.1 3 19 Z" />
-                    <path d="M9 21 V15.5 C9 14.7 9.7 14 10.5 14 H13.5 C14.3 14 15 14.7 15 15.5 V21" />
-                </svg>
-                <span data-i18n="nav_homepage">Home page</span>
-            </a>
+        <!-- Bottom Operational Status Widget -->
+        @php
+            $isStoreOpen = $storeSetting->is_open ?? true;
+            $storeHours = $storeSetting->operating_hours ?? '17:00–22:00 WITA';
+            $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Sudah Jam Tutup';
+        @endphp
+        <div class="pt-6 mt-4 border-t border-gray-200/75 dark:border-[#3F3F3F]">
+            <div class="rounded-2xl border p-3.5 space-y-2.5 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11.5px] font-bold text-gray-800 dark:text-white tracking-tight" data-i18n="store_status_label">Status Operasional</span>
+                    @if($isStoreOpen)
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide bg-emerald-100 text-emerald-700 dark:bg-[#1E453B] dark:text-[#6EE7B7] shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span data-i18n="store_open_badge">BUKA</span>
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide bg-red-100 text-red-700 dark:bg-[#5E2828] dark:text-[#FCA5A5] shrink-0">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                            <span data-i18n="store_closed_badge">TUTUP</span>
+                        </span>
+                    @endif
+                </div>
 
-            <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-4 px-5 py-3.5 text-[#DE3B28] hover:bg-red-50/80 rounded-full transition font-medium group text-left">
-                <svg class="w-5 h-5 flex-shrink-0 text-[#DE3B28] transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11" />
-                    <path d="M8 12 H19" />
-                    <path d="M15 8 L19 12 L15 16" />
-                </svg>
-                <span data-i18n="nav_logout">Logout</span>
-            </button>
+                @if($isStoreOpen)
+                    <p class="text-[11px] text-gray-500 dark:text-[#BDBDBD] leading-relaxed">
+                        <span class="block">Website aktif menerima pesanan</span>
+                        <span class="block font-medium text-gray-600 dark:text-gray-300 mt-0.5">&bull; {{ $storeHours }}</span>
+                    </p>
+                    <button type="button"
+                            onclick="openStoreToggleModal('close')"
+                            class="tb-store-toggle-btn w-full py-2 px-3 rounded-xl border border-gray-300 dark:border-[#525252] bg-white dark:bg-[#2E2E2E] hover:bg-red-50 hover:border-red-300 hover:text-red-700 dark:hover:bg-[#4A2626] dark:hover:text-[#FCA5A5] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer active:scale-98"
+                            data-i18n="store_close_btn">
+                        Tutup Toko
+                    </button>
+                @else
+                    <p class="text-[11px] text-red-700/90 dark:text-[#FCA5A5] leading-relaxed">
+                        <span class="block font-medium">Pemesanan pelanggan dinonaktifkan</span>
+                        <span class="block mt-0.5">&bull; {{ $closedReasonText }}</span>
+                    </p>
+                    <button type="button"
+                            onclick="openStoreToggleModal('open')"
+                            class="tb-store-toggle-btn tb-store-reopen-btn w-full py-2 px-3 rounded-xl bg-[#40605D] hover:bg-[#344B48] text-white text-xs font-semibold transition shadow-2xs cursor-pointer active:scale-98"
+                            data-i18n="store_open_btn">
+                        Buka Toko
+                    </button>
+                @endif
+            </div>
         </div>
-        --}}
     </aside>
 
     <!-- Main content -->
@@ -251,6 +392,15 @@
 
                 <!-- Brand name (mobile only) -->
                 <span class="md:hidden font-extrabold text-sm text-gray-900 dark:text-white tracking-tight truncate">Toon Burger Admin</span>
+
+                <!-- Mobile quick operational status pill -->
+                <button type="button"
+                        onclick="openStoreToggleModal('{{ $isStoreOpen ? 'close' : 'open' }}')"
+                        class="md:hidden inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 cursor-pointer transition {{ $isStoreOpen ? 'bg-emerald-100 text-emerald-700 dark:bg-[#1E453B] dark:text-[#6EE7B7]' : 'bg-red-100 text-red-700 dark:bg-[#5E2828] dark:text-[#FCA5A5]' }}"
+                        title="Ubah Status Operasional Toko">
+                    <span class="w-1.5 h-1.5 rounded-full {{ $isStoreOpen ? 'bg-emerald-500 animate-pulse' : 'bg-red-600' }}"></span>
+                    <span>{{ $isStoreOpen ? 'BUKA' : 'TUTUP' }}</span>
+                </button>
 
                 <!-- Search bar (desktop only) -->
                 <div class="relative w-full max-w-[560px] hidden md:block">

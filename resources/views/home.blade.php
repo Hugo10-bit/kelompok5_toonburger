@@ -20,6 +20,12 @@
     <section class="relative w-full pt-10 pb-12 sm:pt-24 sm:pb-28 lg:pt-28 lg:pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden select-none"
              style="background-color: #FAF5E9; background-image: url('{{ asset('images/why-us-bg-body.png') }}'); background-repeat: no-repeat; background-position: center bottom; background-size: cover;">
 
+        @if(isset($storeSetting) && $storeSetting->isClosed())
+            <div class="max-w-5xl mx-auto relative z-20 mb-6 sm:mb-10">
+                @include('partials.store-closed-banner')
+            </div>
+        @endif
+
         <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2 mb-7 sm:mb-14 toon-reveal-up">
             <h2 class="text-xl sm:text-3xl lg:text-[38px] text-[#243F3B] uppercase tracking-wide"
                 style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
