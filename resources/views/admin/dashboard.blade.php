@@ -20,6 +20,7 @@
                     'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="11" width="2.8" height="5.2" rx="0.7"></rect><rect x="8.6" y="7.8" width="2.8" height="8.4" rx="0.7"></rect><rect x="13.7" y="4.2" width="2.8" height="12" rx="0.7"></rect></svg>',
                     'title' => 'Pendapatan Hari Ini',
                     'title_i18n' => 'dash_metric_profit',
+                    'sub' => 'Pemasukan penjualan lunas',
                     'sub_i18n' => 'dash_sub_profit',
                     'val' => '<span data-i18n="currency_dot">Rp.</span> ' . number_format($todayRevenue, 0, ',', '.'),
                     'badge' => "+{$revenueGrowth}% &uarr;",
@@ -30,6 +31,7 @@
                     'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 2.75A1.75 1.75 0 0 0 3.75 4.5v11c0 .966.784 1.75 1.75 1.75h9a1.75 1.75 0 0 0 1.75-1.75v-11A1.75 1.75 0 0 0 14.5 2.75h-9ZM6.5 6a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5A.75.75 0 0 1 6.5 6Zm.75 2.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm-.75 4.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 0 1.5h-3.5a.75.75 0 0 1-.75-.75Z"></path></svg>',
                     'title' => 'Pesanan Hari Ini',
                     'title_i18n' => 'dash_metric_orders',
+                    'sub' => 'Total transaksi masuk',
                     'sub_i18n' => 'dash_sub_orders',
                     'val' => "{$totalOrdersToday} <span data-i18n=\"transaction\">Transaksi</span>",
                     'badge' => "+{$ordersGrowth}% &uarr;",
@@ -40,6 +42,7 @@
                     'icon' => '<svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><rect x="3.5" y="11" width="2.8" height="5.2" rx="0.7"></rect><rect x="8.6" y="7.8" width="2.8" height="8.4" rx="0.7"></rect><rect x="13.7" y="4.2" width="2.8" height="12" rx="0.7"></rect></svg>',
                     'title' => 'Pesanan Dalam Proses',
                     'title_i18n' => 'dash_metric_progress',
+                    'sub' => 'Sedang disiapkan dapur',
                     'sub_i18n' => 'dash_sub_progress',
                     'val' => "{$pendingOrders} <span data-i18n=\"queue\">Antrean</span>",
                     'badge' => 'Perlu segera diproses',
@@ -51,6 +54,7 @@
                     'icon' => '<svg class="w-4 h-4" viewBox="0 -960 960 960" fill="currentColor"><path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm0-280q-33 0-56.5-23.5T80-480q0-33 23.5-56.5T160-560h640q33 0 56.5 23.5T880-480q0 33-23.5 56.5T800-400H160Zm665-240H135q-26 0-40.5-21T86-708q34-66 123-109t271-43q182 0 271 43t123 109q15 26 .5 47T825-640Z"/></svg>',
                     'title' => 'Total Produk',
                     'title_i18n' => 'dash_metric_products',
+                    'sub' => 'Varian menu tersedia',
                     'sub_i18n' => 'dash_sub_products',
                     'val' => "{$totalProducts} <span data-i18n=\"nav_products_short\">Produk</span>",
                     'badge' => "{$activeProducts} <span class=\"ml-0.5\" data-i18n=\"dash_active\">Aktif</span>",
@@ -70,7 +74,7 @@
                             </div>
                             <div class="min-w-0 flex-1">
                                 <div class="text-xs sm:text-[13px] font-medium text-[#374151] dark:text-[#F3F4F6] leading-snug break-words" data-i18n="{{ $m['title_i18n'] }}">{{ $m['title'] }}</div>
-                                <div class="text-[11px] sm:text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-snug mt-0.5 break-words" data-i18n="{{ $m['sub_i18n'] }}">Lorem ipsum dolor</div>
+                                <div class="text-[11px] sm:text-[10px] text-[#6B7280] dark:text-[#D1D5DB] leading-snug mt-0.5 break-words" data-i18n="{{ $m['sub_i18n'] }}">{{ $m['sub'] }}</div>
                             </div>
                         </div>
 
