@@ -3,7 +3,7 @@
 @section('title', 'Dashboard - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white rounded-[24px] sm:rounded-[32px] border border-gray-200/80 shadow-xs p-4 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 h-full flex flex-col justify-between">
+<div class="bg-white rounded-3xl border border-gray-200/80 shadow-xs p-4 sm:p-7 lg:p-8 space-y-5 sm:space-y-6 h-full flex flex-col justify-between">
 
     <div class="space-y-4 sm:space-y-6">
         <div>
@@ -101,7 +101,7 @@
 
     <div class="grid grid-cols-1 min-[1140px]:grid-cols-[minmax(0,2.22fr)_minmax(275px,1fr)] gap-4 sm:gap-5 lg:gap-6 items-stretch flex-1">
 
-        <section class="tb-panel-card rounded-[20px] sm:rounded-[22px] p-4 sm:p-6 lg:p-7 flex flex-col justify-between" aria-labelledby="chart-heading">
+        <section class="tb-panel-card rounded-3xl p-4 sm:p-6 lg:p-7 flex flex-col justify-between" aria-labelledby="chart-heading">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <h2 id="chart-heading" class="text-xs sm:text-[13.5px] font-normal text-[#6B7280] dark:text-[#C4C9D0]" data-i18n="dash_rev_12m">Pendapatan 12 Bulan Terakhir</h2>
@@ -189,7 +189,7 @@
             </div>
         </section>
 
-        <section class="tb-panel-card rounded-[20px] sm:rounded-[22px] overflow-hidden flex flex-col justify-between" aria-labelledby="bestseller-heading">
+        <section class="tb-panel-card rounded-3xl overflow-hidden flex flex-col justify-between" aria-labelledby="bestseller-heading">
             <div class="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-gray-100 dark:border-[#4A4A4A]">
                 <h2 id="bestseller-heading" class="font-semibold text-[15px] sm:text-base text-[#262626] dark:text-white tracking-tight" data-i18n="dash_best_selling">Produk Terlaris</h2>
             </div>
