@@ -179,10 +179,64 @@ function closeDeleteModal() {
     }
 }
 
+function openStoreToggleModal(mode = 'close') {
+    closeAllHeaderDropdowns();
+    closeMobileAdminSidebarIfOpen();
+    const targetId = mode === 'open' ? 'store-open-modal' : 'store-close-modal';
+    const otherId = mode === 'open' ? 'store-close-modal' : 'store-open-modal';
+    const otherModal = document.getElementById(otherId);
+    if (otherModal) {
+        otherModal.classList.add('hidden');
+        otherModal.classList.remove('flex');
+        otherModal.style.display = 'none';
+    }
+    const modal = document.getElementById(targetId);
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeStoreModals() {
+    ['store-close-modal', 'store-open-modal'].forEach((id) => {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            modal.style.display = 'none';
+        }
+    });
+    document.body.style.overflow = '';
+}
+
+function selectStoreCloseReason(btn, reason) {
+    const hiddenInput = document.getElementById('store-close-reason-input');
+    if (hiddenInput) {
+        hiddenInput.value = reason;
+    }
+
+    document.querySelectorAll('#store-close-reasons-group .store-reason-chip').forEach((chip) => {
+        const isTarget = chip === btn;
+        const check = chip.querySelector('.store-reason-check');
+        if (isTarget) {
+            chip.classList.add('is-selected', 'bg-red-50/90', 'border-red-400', 'text-[#DC2626]', 'dark:bg-[#4A2626]', 'dark:border-red-500', 'dark:text-[#FCA5A5]');
+            chip.classList.remove('bg-white', 'dark:bg-[#3A3A3A]', 'border-gray-200', 'dark:border-[#525252]', 'text-gray-600', 'dark:text-gray-200', 'hover:bg-gray-50', 'dark:hover:bg-[#454545]');
+            if (check) check.classList.remove('hidden');
+        } else {
+            chip.classList.remove('is-selected', 'bg-red-50/90', 'border-red-400', 'text-[#DC2626]', 'dark:bg-[#4A2626]', 'dark:border-red-500', 'dark:text-[#FCA5A5]');
+            chip.classList.add('bg-white', 'dark:bg-[#3A3A3A]', 'border-gray-200', 'dark:border-[#525252]', 'text-gray-600', 'dark:text-gray-200', 'hover:bg-gray-50', 'dark:hover:bg-[#454545]');
+            if (check) check.classList.add('hidden');
+        }
+    });
+}
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeLogoutModal();
         closeDeleteModal();
+        closeStoreModals();
         closeAllHeaderDropdowns();
     }
 });
@@ -1613,4 +1667,7 @@ Object.assign(window, {
     clearHeaderSearch,
     escapeHeaderHtml,
     renderHeaderSearchResults,
+    openStoreToggleModal,
+    closeStoreModals,
+    selectStoreCloseReason,
 });

@@ -26,8 +26,14 @@
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+@php
+    $isStoreOpen = $storeSetting->is_open ?? true;
+    $closedReason = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Sudah Jam Tutup';
+@endphp
 <body class="min-h-full bg-bites-bg text-gray-900 flex flex-col antialiased"
       data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
+      data-store-open="{{ $isStoreOpen ? 'true' : 'false' }}"
+      data-store-closed-reason="{{ $closedReason }}"
       data-login-url="{{ route('login') }}"
       data-logout-url="{{ route('logout') }}"
       data-cart-index-url="{{ route('cart.index') }}"
@@ -508,13 +514,25 @@
             </div>
 
             <!-- Checkout Action Button (Fixed) -->
-            <div id="cart-action-section">
-                <a href="{{ route('orders.checkout') }}"
-                   id="checkout-btn"
-                   @guest onclick="event.preventDefault(); promptRequireLogin('Wajib login terlebih dahulu untuk checkout pesanan.');" @endguest
-                   class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-medium py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
-                    <span data-i18n-app="cart_checkout">Lanjutkan Ke pembayaran</span>
-                </a>
+            <div id="cart-action-section" class="space-y-2.5">
+                @if(!$isStoreOpen)
+                    <div class="rounded-xl bg-red-50 border border-red-200 px-3.5 py-2.5 text-[11.5px] text-red-800 leading-snug">
+                        <strong class="block font-bold">Outlet Sedang Tutup ({{ $closedReason }})</strong>
+                        <span>Checkout dinonaktifkan sementara hingga toko dibuka kembali.</span>
+                    </div>
+                    <button type="button"
+                            onclick="promptStoreClosed()"
+                            class="w-full bg-gray-300 text-gray-600 font-semibold py-3.5 px-4 rounded-[10px] flex items-center justify-center text-[13.5px] min-h-[44px] cursor-not-allowed">
+                        Outlet Sedang Tutup
+                    </button>
+                @else
+                    <a href="{{ route('orders.checkout') }}"
+                       id="checkout-btn"
+                       @guest onclick="event.preventDefault(); promptRequireLogin('Wajib login terlebih dahulu untuk checkout pesanan.');" @endguest
+                       class="w-full bg-[#3E5B56] hover:bg-[#324B47] active:scale-98 text-white font-medium py-3.5 px-4 rounded-[10px] flex items-center justify-center transition text-[13.5px] shadow-2xs min-h-[44px]">
+                        <span data-i18n-app="cart_checkout">Lanjutkan Ke pembayaran</span>
+                    </a>
+                @endif
             </div>
         </div>
     </div>
@@ -605,17 +623,26 @@
                         </div>
 
                         <!-- CTA Button (Dikecilkan, Ringkas & Proporsional) -->
-                        <button type="button"
-                                id="modal-submit-btn"
-                                onclick="submitAddToCart()"
-                                class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
-                            <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
-                            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-                                <path d="M3 6h18"/>
-                                <path d="M16 10a4 4 0 0 1-8 0"/>
-                            </svg>
-                        </button>
+                        @if(!$isStoreOpen)
+                            <button type="button"
+                                    id="modal-submit-btn"
+                                    onclick="submitAddToCart()"
+                                    class="bg-gray-300 text-gray-600 font-semibold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-2xs cursor-not-allowed whitespace-nowrap">
+                                <span>Outlet Sedang Tutup</span>
+                            </button>
+                        @else
+                            <button type="button"
+                                    id="modal-submit-btn"
+                                    onclick="submitAddToCart()"
+                                    class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
+                                <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
+                                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                                    <path d="M3 6h18"/>
+                                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                                </svg>
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>

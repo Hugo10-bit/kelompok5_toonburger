@@ -8,6 +8,7 @@ use App\Models\OrderItemOption;
 use App\Models\Payment;
 use App\Models\RestaurantTable;
 use App\Models\Review;
+use App\Models\StoreSetting;
 use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,12 +20,39 @@ use Illuminate\Support\Str;
 class OrderController extends Controller
 {
     /**
+     * Block checkout view and order creation while the outlet is closed.
+     */
+    private function guardStoreOpen(Request $request)
+    {
+        $store = StoreSetting::current();
+        if (! $store->isClosed()) {
+            return null;
+        }
+
+        $message = "Maaf, outlet Toon Burger sedang tutup ({$store->displayReason()}). Pemesanan tidak dapat diproses saat ini.";
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => false,
+                'store_closed' => true,
+                'closed_reason' => $store->displayReason(),
+                'message' => $message,
+            ], 423);
+        }
+
+        return redirect()->route('menu')->with('error', $message);
+    }
+
+    /**
      * Show checkout page.
      */
     public function checkout(Request $request)
     {
         if (!auth()->check()) {
             return redirect()->route('login')->with('warning', 'Wajib login terlebih dahulu untuk checkout pesanan.');
+        }
+
+        if ($blocked = $this->guardStoreOpen($request)) {
+            return $blocked;
         }
 
         $cartController = new CartController();
@@ -47,6 +75,10 @@ class OrderController extends Controller
     {
         if (!auth()->check()) {
             return redirect()->route('login')->with('warning', 'Wajib login terlebih dahulu.');
+        }
+
+        if ($blocked = $this->guardStoreOpen($request)) {
+            return $blocked;
         }
 
         $cartController = new CartController();

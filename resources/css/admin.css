@@ -297,8 +297,19 @@ html.dark #header-lang-dropdown button:hover {
     color: #FFFFFF !important;
 }
 
+html.dark #admin-sidebar button.tb-store-reopen-btn {
+    background-color: #40605D !important;
+    color: #FFFFFF !important;
+}
+
+html.dark #admin-sidebar button.tb-store-reopen-btn:hover {
+    background-color: #344B48 !important;
+}
+
 html.dark #logout-confirm-modal .bg-white,
 html.dark #delete-confirm-modal .bg-white,
+html.dark #store-close-modal .bg-white,
+html.dark #store-open-modal .bg-white,
 html.dark #productModal > .bg-white,
 html.dark #catModal > .bg-white {
     background-color: #303030 !important;

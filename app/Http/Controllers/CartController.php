@@ -4,10 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductOptionValue;
+use App\Models\StoreSetting;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    /**
+     * Return consistent JSON rejection when the outlet is closed.
+     */
+    private function storeClosedResponse(StoreSetting $store)
+    {
+        return response()->json([
+            'success' => false,
+            'store_closed' => true,
+            'closed_reason' => $store->displayReason(),
+            'message' => "Maaf, outlet Toon Burger sedang tutup ({$store->displayReason()}). Silakan pesan kembali saat outlet buka.",
+        ], 423);
+    }
     /**
      * Get current cart items from session.
      */
@@ -67,6 +80,11 @@ class CartController extends Controller
                 'message' => 'Wajib login terlebih dahulu untuk menambahkan menu ke keranjang.',
                 'redirect' => route('login'),
             ], 401);
+        }
+
+        $store = StoreSetting::current();
+        if ($store->isClosed()) {
+            return $this->storeClosedResponse($store);
         }
 
         $request->validate([
@@ -158,6 +176,10 @@ class CartController extends Controller
         $cartKey = $request->cart_key;
 
         if (isset($cart[$cartKey])) {
+            $store = StoreSetting::current();
+            if ($store->isClosed() && $request->quantity > ($cart[$cartKey]['quantity'] ?? 0)) {
+                return $this->storeClosedResponse($store);
+            }
             if ($request->quantity <= 0) {
                 unset($cart[$cartKey]);
             } else {

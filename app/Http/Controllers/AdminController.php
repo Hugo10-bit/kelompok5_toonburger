@@ -9,6 +9,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\RestaurantTable;
 use App\Models\Review;
+use App\Models\StoreSetting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,6 +106,36 @@ class AdminController extends Controller
             'chartPeriods',
             'topProducts'
         ));
+    }
+
+    /**
+     * Toggle operational status (open / closed) for the Toon Burger outlet.
+     */
+    public function toggleStoreStatus(Request $request)
+    {
+        $request->validate([
+            'is_open' => 'required|boolean',
+            'closed_reason' => 'nullable|string|max:120',
+        ]);
+
+        $setting = StoreSetting::first() ?? new StoreSetting([
+            'operating_hours' => StoreSetting::DEFAULT_HOURS,
+        ]);
+
+        $isOpen = $request->boolean('is_open');
+        $reason = trim((string) $request->input('closed_reason', ''));
+
+        $setting->is_open = $isOpen;
+        $setting->closed_reason = $isOpen ? null : ($reason !== '' ? $reason : StoreSetting::DEFAULT_CLOSED_REASON);
+        $setting->closed_at = $isOpen ? null : now();
+        $setting->updated_by = Auth::id();
+        $setting->save();
+
+        if ($isOpen) {
+            return back()->with('success', 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout.');
+        }
+
+        return back()->with('success', "Toko berhasil DITUTUP sementara ({$setting->displayReason()}). Pemesanan pelanggan dinonaktifkan.");
     }
 
     /**

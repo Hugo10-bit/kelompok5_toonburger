@@ -21,6 +21,8 @@
     <div id="semua-menu" class="retro-grid-bg pt-6 sm:pt-10 pb-8 sm:pb-14 select-none scroll-mt-24">
         <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-5 sm:space-y-8">
 
+            @include('partials.store-closed-banner')
+
             <!-- ═══════════════════════════════════════════════
                  HEADER: SEMUA MENU
                  ═══════════════════════════════════════════════ -->

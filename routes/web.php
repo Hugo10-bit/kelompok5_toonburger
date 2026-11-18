@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+            Route::post('/store-status', [AdminController::class, 'toggleStoreStatus'])->name('store.status');
             Route::get('/search-live', [AdminController::class, 'liveSearch'])->name('search.live');
 
             Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
