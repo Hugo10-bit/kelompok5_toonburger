@@ -102,6 +102,15 @@ body {
     appearance: none !important;
 }
 
+#prod_price::-webkit-inner-spin-button,
+#prod_price::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#prod_price {
+    -moz-appearance: textfield;
+}
+
 /* 3. Subtle Bottom-Only Card Shadows (Light Mode) */
 aside#admin-sidebar,
 header,

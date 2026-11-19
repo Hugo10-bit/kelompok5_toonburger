@@ -452,7 +452,9 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
-        ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
+        $isFeatured = $request->boolean('is_featured') || $request->boolean('is_popular');
+
+        $createdProduct = ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
             'name' => $request->name,
             'slug' => Str::limit(Str::slug($request->name), 75, '') . '-' . rand(100, 999),
             'category_id' => $request->category_id,
@@ -462,9 +464,13 @@ class AdminController extends Controller
             'calories' => $request->calories ?? 300,
             'prep_time_minutes' => $request->prep_time_minutes ?? 10,
             'image' => $imagePath,
-            'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
+            'is_featured' => $isFeatured,
             'is_available' => $request->has('is_available') ? $request->boolean('is_available') : true,
         ]));
+
+        if ($isFeatured && $createdProduct instanceof Product) {
+            $this->enforceMaxBestSellers($createdProduct->id);
+        }
 
         return back()->with('success', "Menu '{$request->name}' berhasil ditambahkan!");
     }
@@ -523,6 +529,8 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
+        $isFeatured = $request->boolean('is_featured') || $request->boolean('is_popular');
+
         ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => $product->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -532,11 +540,43 @@ class AdminController extends Controller
             'calories' => $request->calories,
             'prep_time_minutes' => $request->prep_time_minutes,
             'image' => $imagePath,
-            'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
+            'is_featured' => $isFeatured,
             'is_available' => $request->boolean('is_available'),
         ]));
 
+        if ($isFeatured && ! $product->wasChanged()) {
+            $product->touch();
+        }
+
+        if ($isFeatured) {
+            $this->enforceMaxBestSellers($product->id);
+        }
+
         return back()->with('success', "Menu '{$product->name}' berhasil diperbarui!");
+    }
+
+    /**
+     * Keep at most $limit Best Seller products, automatically unmarking the oldest ones.
+     */
+    private function enforceMaxBestSellers(int $keepId, int $limit = 4): void
+    {
+        $otherKeepIds = Product::where('is_featured', true)
+            ->where('id', '!=', $keepId)
+            ->orderByDesc('updated_at')
+            ->orderByDesc('id')
+            ->limit(max(0, $limit - 1))
+            ->pluck('id')
+            ->all();
+
+        $keepIds = array_merge([$keepId], $otherKeepIds);
+
+        $removed = Product::where('is_featured', true)
+            ->whereNotIn('id', $keepIds)
+            ->update(['is_featured' => false]);
+
+        if ($removed > 0) {
+            \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
+        }
     }
 
     /**
