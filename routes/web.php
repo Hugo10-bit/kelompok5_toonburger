@@ -13,6 +13,7 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');
 Route::get('/about', [MenuController::class, 'about'])->name('about');
 Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
+Route::post('/contact', [MenuController::class, 'storeContact'])->name('contact.store');
 Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
 
 Route::get('/gofood', function () {
@@ -92,6 +93,8 @@ Route::middleware('auth')->group(function () {
             Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
 
             Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+            Route::match(['post', 'patch'], '/messages/{id}/status', [AdminController::class, 'updateMessageStatus'])->name('messages.status');
+            Route::delete('/messages/{id}', [AdminController::class, 'deleteMessage'])->name('messages.delete');
 
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::match(['post', 'put'], '/profile', [AdminController::class, 'updateProfile'])->name('profile.update');

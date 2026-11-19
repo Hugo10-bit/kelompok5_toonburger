@@ -174,10 +174,8 @@
                             id="cart-btn"
                             class="relative w-10 h-10 rounded-full bg-[#E2E8F0]/90 hover:bg-white flex items-center justify-center text-gray-800 shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
                             aria-label="Keranjang Belanja">
-                        <svg class="w-5 h-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                            <line x1="3" y1="6" x2="21" y2="6"/>
-                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        <svg class="w-5 h-5 text-gray-800" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="currentColor"/>
                         </svg>
                         <span id="cart-badge"
                               class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
@@ -755,10 +753,8 @@
                                     onclick="submitAddToCart()"
                                     class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
                                 <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
-                                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
-                                    <path d="M3 6h18"/>
-                                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                                <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="currentColor"/>
                                 </svg>
                             </button>
                         @endif

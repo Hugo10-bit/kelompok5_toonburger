@@ -47,7 +47,6 @@
         <div class="min-w-0 flex-1">
             <h2 class="text-lg sm:text-2xl font-normal text-gray-800 dark:text-white leading-tight break-words">{{ $user?->name ?: 'Toon Burger' }}</h2>
             <p class="text-xs sm:text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5 break-all">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
-            <p class="text-[11px] text-gray-400 dark:text-[#9E9E9E] mt-1" data-i18n="prof_photo_hint">Format foto: JPG atau PNG (maks. 4 MB)</p>
             @error('avatar') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
     </div>
