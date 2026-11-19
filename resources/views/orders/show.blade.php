@@ -29,6 +29,8 @@
         </div>
     </div>
 
+        <!-- Top Bar -->
+
     @if($errors->any())
         <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-2xl flex items-center justify-between shadow-2xs" role="alert">
             <span>{{ $errors->first() }}</span>

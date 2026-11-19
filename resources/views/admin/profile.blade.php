@@ -61,6 +61,8 @@
                class="hidden"
                onchange="handleAdminAvatarChange(this)">
 
+               
+
         <div>
             <label for="profile-username" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_username">Username</label>
             <input type="text"
