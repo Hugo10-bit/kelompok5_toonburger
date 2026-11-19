@@ -11,6 +11,7 @@ Route::get('/', [MenuController::class, 'home'])->name('welcome');
 Route::get('/home', [MenuController::class, 'home'])->name('home');
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/search-menu', [MenuController::class, 'liveSearch'])->name('menu.search.live');
+Route::post('/translate-texts', [MenuController::class, 'translateTexts'])->middleware('throttle:60,1')->name('translate.texts');
 Route::get('/about', [MenuController::class, 'about'])->name('about');
 Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
 Route::post('/contact', [MenuController::class, 'storeContact'])->name('contact.store');

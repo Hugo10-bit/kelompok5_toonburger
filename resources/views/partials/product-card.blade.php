@@ -16,10 +16,10 @@
             <span class="text-[9.5px] sm:text-[11px] font-bold text-[#D97706] uppercase tracking-wide block truncate">
                 {{ $badge }}
             </span>
-            <h3 class="font-bold text-xs sm:text-base text-gray-900 mt-0.5 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-[#27443E] transition-colors duration-[420ms]">
+            <h3 data-auto-translate="true" class="font-bold text-xs sm:text-base text-gray-900 mt-0.5 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-[#27443E] transition-colors duration-[420ms]">
                 {{ $name }}
             </h3>
-            <p class="text-[10.5px] sm:text-xs text-gray-500 line-clamp-2 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">
+            <p data-auto-translate="true" class="text-[10.5px] sm:text-xs text-gray-500 line-clamp-2 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">
                 {{ $description }}
             </p>
         </div>

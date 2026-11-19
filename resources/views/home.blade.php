@@ -206,28 +206,47 @@
                 </a>
             </div>
 
-            <!-- 4 Product Cards Grid -->
+            <!-- Dynamic Best Seller Product Cards Grid -->
             @php
-                $bestSellers = [
-                    ['id' => 1, 'image' => 'images/products/very-cheese-burger.png', 'badge' => 'CHEESE BURGER', 'name' => 'Very Cheese Burger', 'description' => 'Dua lapis beef patty juicy, double keju cheddar leleh, caramelized onion, dan...', 'price' => 35000, 'revealClass' => 'toon-reveal-pop reveal-delay-75'],
-                    ['id' => 6, 'image' => 'images/products/cheese-chicken-burger.png', 'badge' => 'CHICKEN BURGER', 'name' => 'Cheese Chicken Burger', 'description' => 'Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat...', 'price' => 35000, 'revealClass' => 'toon-reveal-pop reveal-delay-150'],
-                    ['id' => 3, 'image' => 'images/products/bbq-beef-burger.png', 'badge' => 'BEEF BURGER', 'name' => 'BBQ Beef Burger', 'description' => 'Beef patty daging sapi asli gurih berselimut saus smokey BBQ karamel...', 'price' => 37000, 'revealClass' => 'toon-reveal-pop reveal-delay-225'],
-                    ['id' => 4, 'image' => 'images/products/double-cheese-burger.png', 'badge' => 'CHEESE BURGER', 'name' => 'Double Cheese Burger', 'description' => 'Dua patty daging sapi panggang juicy dengan limpahan keju cheddar ganda...', 'price' => 33000, 'revealClass' => 'toon-reveal-pop reveal-delay-300'],
+                $revealDelays = [
+                    'toon-reveal-pop reveal-delay-75',
+                    'toon-reveal-pop reveal-delay-150',
+                    'toon-reveal-pop reveal-delay-225',
+                    'toon-reveal-pop reveal-delay-300',
                 ];
+                $bestSellerCards = (isset($bestSellers) && $bestSellers->isNotEmpty())
+                    ? $bestSellers->take(4)->values()->map(function ($prod, $idx) use ($revealDelays) {
+                        return [
+                            'id' => $prod->id,
+                            'image' => $prod->image ?: 'images/burger-bg.jpg',
+                            'badge' => strtoupper($prod->category?->name ?? 'MENU'),
+                            'name' => $prod->name,
+                            'description' => $prod->description ?: 'Pilihan favorit terbaik dari dapur Toon Burger.',
+                            'price' => $prod->price,
+                            'revealClass' => $revealDelays[$idx % count($revealDelays)],
+                        ];
+                    })->all()
+                    : [];
             @endphp
-            <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-                @foreach($bestSellers as $bs)
-                    @include('partials.product-card', [
-                        'productId' => $bs['id'],
-                        'image' => $bs['image'],
-                        'badge' => $bs['badge'],
-                        'name' => $bs['name'],
-                        'description' => $bs['description'],
-                        'price' => $bs['price'],
-                        'revealClass' => $bs['revealClass'],
-                    ])
-                @endforeach
-            </div>
+            @if(!empty($bestSellerCards))
+                <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                    @foreach($bestSellerCards as $bs)
+                        @include('partials.product-card', [
+                            'productId' => $bs['id'],
+                            'image' => $bs['image'],
+                            'badge' => $bs['badge'],
+                            'name' => $bs['name'],
+                            'description' => $bs['description'],
+                            'price' => $bs['price'],
+                            'revealClass' => $bs['revealClass'],
+                        ])
+                    @endforeach
+                </div>
+            @else
+                <div class="mt-5 sm:mt-8 rounded-2xl border-2 border-dashed border-gray-300 bg-white/80 py-10 px-6 text-center">
+                    <p class="text-sm font-semibold text-gray-600">Belum ada menu Best Seller yang dipilih.</p>
+                </div>
+            @endif
 
             <!-- ═══════════════════════════════════════════════
                  5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
