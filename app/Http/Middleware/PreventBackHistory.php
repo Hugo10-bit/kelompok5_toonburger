@@ -21,10 +21,13 @@ class PreventBackHistory
     {
         $response = $next($request);
 
-        // Set strict anti-cache headers to prevent browser history caching
         $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate, post-check=0, pre-check=0');
         $response->headers->set('Pragma', 'no-cache');
         $response->headers->set('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
+        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'");
 
         return $response;
     }

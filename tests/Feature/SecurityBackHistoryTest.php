@@ -22,6 +22,10 @@ class SecurityBackHistoryTest extends TestCase
         $this->assertStringContainsString('no-store', $response->headers->get('Cache-Control'));
         $this->assertStringContainsString('must-revalidate', $response->headers->get('Cache-Control'));
         $this->assertEquals('no-cache', $response->headers->get('Pragma'));
+        $this->assertEquals('SAMEORIGIN', $response->headers->get('X-Frame-Options'));
+        $this->assertEquals('nosniff', $response->headers->get('X-Content-Type-Options'));
+        $this->assertEquals('strict-origin-when-cross-origin', $response->headers->get('Referrer-Policy'));
+        $this->assertEquals("frame-ancestors 'self'", $response->headers->get('Content-Security-Policy'));
     }
 
     /**
@@ -71,5 +75,85 @@ class SecurityBackHistoryTest extends TestCase
         // Subsequent access to protected admin route as unauthenticated guest must redirect to login
         $followResponse = $this->get('/admin');
         $followResponse->assertRedirect('/login');
+    }
+
+    public function test_public_product_endpoint_redacts_reviewer_pii_and_hides_unavailable_products(): void
+    {
+        $reviewer = User::factory()->create([
+            'name' => 'Budi Reviewer',
+            'email' => 'budi-secret@example.com',
+            'phone_number' => '081299998888',
+            'address' => 'Jl. Rahasia No. 1',
+            'role' => 'customer',
+        ]);
+        $category = \App\Models\Category::create([
+            'name' => 'Beef Burger',
+            'slug' => 'beef-burger',
+            'sort_order' => 1,
+            'is_active' => true,
+        ]);
+        $product = \App\Models\Product::create([
+            'category_id' => $category->id,
+            'name' => 'Classic Beef',
+            'slug' => 'classic-beef',
+            'price' => 35000,
+            'is_available' => true,
+        ]);
+        $order = \App\Models\Order::create([
+            'order_number' => 'TB-20261119-0001',
+            'user_id' => $reviewer->id,
+            'order_type' => 'takeaway',
+            'status' => 'completed',
+            'payment_status' => 'paid',
+            'payment_method' => 'qris',
+            'subtotal' => 35000,
+            'tax_amount' => 3850,
+            'discount_amount' => 0,
+            'total_amount' => 38850,
+            'customer_name' => 'Budi Reviewer',
+            'customer_phone' => '081299998888',
+        ]);
+        \App\Models\Review::create([
+            'user_id' => $reviewer->id,
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'rating' => 5,
+            'comment' => 'Mantap!',
+        ]);
+
+        $res = $this->getJson(route('product.show', $product->id));
+        $res->assertOk();
+        $reviewUser = $res->json('product.reviews.0.user');
+        $this->assertSame('Budi Reviewer', $reviewUser['name'] ?? null);
+        $this->assertArrayNotHasKey('email', $reviewUser);
+        $this->assertArrayNotHasKey('phone_number', $reviewUser);
+        $this->assertArrayNotHasKey('address', $reviewUser);
+        $this->assertArrayNotHasKey('role', $reviewUser);
+
+        $product->update(['is_available' => false]);
+        $this->getJson(route('product.show', $product->id))->assertNotFound();
+    }
+
+    public function test_orphaned_null_user_order_cannot_be_accessed_by_unrelated_customer(): void
+    {
+        $stranger = User::factory()->create(['role' => 'customer']);
+        $orphanedOrder = \App\Models\Order::create([
+            'order_number' => 'TB-20261119-9999',
+            'user_id' => null,
+            'order_type' => 'takeaway',
+            'status' => 'pending',
+            'payment_status' => 'unpaid',
+            'payment_method' => 'qris',
+            'subtotal' => 30000,
+            'tax_amount' => 3300,
+            'discount_amount' => 0,
+            'total_amount' => 33300,
+            'customer_name' => 'Deleted Customer',
+            'customer_phone' => '0811111111',
+        ]);
+
+        $this->actingAs($stranger)
+            ->get(route('orders.show', $orphanedOrder->order_number))
+            ->assertForbidden();
     }
 }

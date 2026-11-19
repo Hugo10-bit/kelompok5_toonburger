@@ -349,20 +349,6 @@ window.addEventListener('pageshow', function (event) {
 
 // Login form submission with SweetAlert2 cooldown delay & feedback
 document.addEventListener('DOMContentLoaded', function () {
-    const flashSuccess = document.body.dataset.flashSuccess;
-    if (flashSuccess && typeof Swal !== 'undefined') {
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil',
-            text: flashSuccess,
-            timer: 2500,
-            showConfirmButton: false,
-            toast: true,
-            position: 'top-end',
-            timerProgressBar: true
-        });
-    }
-
     const loginForm = document.querySelector('#login-form-panel form');
     if (loginForm) {
         let isLoggingIn = false;
@@ -399,11 +385,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     isLoggingIn = true;
                     try { localStorage.removeItem('tb_logged_out'); } catch (e) {}
 
+                    const isEnLogin = (localStorage.getItem('toon_lang') === 'en');
                     let timerInterval;
                     Swal.fire({
                         icon: 'success',
-                        title: 'Login Berhasil!',
-                        html: 'Selamat datang kembali! Mengalihkan ke dashboard dalam <b></b> detik...',
+                        title: isEnLogin ? 'Login Successful!' : 'Login Berhasil!',
+                        html: isEnLogin
+                            ? 'Welcome back! Redirecting to dashboard in <b></b> seconds...'
+                            : 'Selamat datang kembali! Mengalihkan ke dashboard dalam <b></b> detik...',
                         timer: 1500,
                         timerProgressBar: true,
                         allowOutsideClick: false,
@@ -425,22 +414,25 @@ document.addEventListener('DOMContentLoaded', function () {
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
                     }
-                    let errorMsg = 'Username atau password yang Anda masukkan salah!';
-                    if (data.errors) {
+                    const isEnLogin = (localStorage.getItem('toon_lang') === 'en');
+                    let errorMsg = isEnLogin
+                        ? 'The username or password you entered is incorrect!'
+                        : 'Username atau password yang Anda masukkan salah!';
+                    if (!isEnLogin && data.errors) {
                         const firstKey = Object.keys(data.errors)[0];
                         if (firstKey && data.errors[firstKey][0]) {
                             errorMsg = data.errors[firstKey][0];
                         }
-                    } else if (data.message) {
+                    } else if (!isEnLogin && data.message) {
                         errorMsg = data.message;
                     }
 
                     Swal.fire({
                         icon: 'error',
-                        title: 'Login Gagal',
+                        title: isEnLogin ? 'Login Failed' : 'Login Gagal',
                         text: errorMsg,
                         confirmButtonColor: '#466967',
-                        confirmButtonText: 'Coba Lagi'
+                        confirmButtonText: isEnLogin ? 'Try Again' : 'Coba Lagi'
                     });
                 }
             })
