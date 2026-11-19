@@ -2368,7 +2368,8 @@ function setAppLanguage(lang) {
     window.dispatchEvent(new CustomEvent('tb:applangchange', { detail: { lang: code } }));
 }
 
-function toggleAppLanguage() {
+function toggleAppLanguage(event) {
+    if (event) event.stopPropagation();
     const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
     const nextLang = isEn ? 'ID' : 'EN';
     setAppLanguage(nextLang);

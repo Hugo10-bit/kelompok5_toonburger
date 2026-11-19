@@ -1034,7 +1034,8 @@ function selectLanguage(lang, code) {
     if (chevron) chevron.style.transform = 'rotate(0deg)';
 }
 
-function toggleAdminMobileLanguage() {
+function toggleAdminMobileLanguage(event) {
+    if (event) event.stopPropagation();
     const isEn = (window._tbLang === 'US' || window._tbLang === 'EN');
     selectLanguage(isEn ? 'Indonesia' : 'English', isEn ? 'ID' : 'US');
 }

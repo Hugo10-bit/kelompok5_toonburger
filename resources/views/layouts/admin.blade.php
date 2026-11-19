@@ -559,10 +559,10 @@
                         <!-- Mobile-only language switch item (above Mode Terang / Mode Gelap) -->
                         <button type="button"
                                 id="mobile-admin-lang-toggle"
-                                onclick="toggleAdminMobileLanguage()"
+                                onclick="toggleAdminMobileLanguage(event)"
                                 aria-label="Ganti Bahasa"
                                 class="sm:hidden w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
-                            <span id="mobile-admin-lang-flag" class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200/80 dark:border-white/20 shrink-0" aria-hidden="true">
+                            <span id="mobile-admin-lang-flag" class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200/80 dark:border-white/20 shrink-0 pointer-events-none" aria-hidden="true">
                                 <svg class="w-full h-full" viewBox="0 0 64 64">
                                     <clipPath id="circle-flag-mobile-admin-init"><circle cx="32" cy="32" r="32"/></clipPath>
                                     <g clip-path="url(#circle-flag-mobile-admin-init)">

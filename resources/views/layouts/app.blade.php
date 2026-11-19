@@ -346,10 +346,10 @@
 
                                     <button type="button"
                                             id="profile-lang-toggle-btn"
-                                            onclick="toggleAppLanguage()"
+                                            onclick="toggleAppLanguage(event)"
                                             aria-label="Ganti Bahasa"
                                             class="lg:hidden w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-left cursor-pointer">
-                                        <span id="profile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                        <span id="profile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0 pointer-events-none" aria-hidden="true">
                                             <svg class="w-full h-full" viewBox="0 0 64 64">
                                                 <clipPath id="circle-flag-profile-dd-init"><circle cx="32" cy="32" r="32"/></clipPath>
                                                 <g clip-path="url(#circle-flag-profile-dd-init)">
@@ -481,10 +481,10 @@
                             <!-- Guest mobile language switch item -->
                             <button type="button"
                                     id="mobile-lang-toggle-btn"
-                                    onclick="toggleAppLanguage()"
+                                    onclick="toggleAppLanguage(event)"
                                     aria-label="Ganti Bahasa"
                                     class="w-full flex items-center gap-2.5 px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition font-roboto font-medium text-left cursor-pointer">
-                                <span id="mobile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                <span id="mobile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0 pointer-events-none" aria-hidden="true">
                                     <svg class="w-full h-full" viewBox="0 0 64 64">
                                         <clipPath id="circle-flag-mobile-dd-init"><circle cx="32" cy="32" r="32"/></clipPath>
                                         <g clip-path="url(#circle-flag-mobile-dd-init)">
