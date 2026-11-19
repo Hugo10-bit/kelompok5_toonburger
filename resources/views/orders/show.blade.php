@@ -305,10 +305,9 @@
                                 <div class="text-[11px] text-amber-700 italic mt-1">Catatan: "{{ $item->notes }}"</div>
                             @endif
 
-                            <!-- Review Button if completed and user logged in -->
                             @if($order->status === 'completed' && $item->product_id)
                                 <div class="mt-2">
-                                    <button onclick="openReviewModal({{ $item->product_id }}, '{{ addslashes($item->product_name) }}')" class="text-[11px] font-medium text-bites-red hover:underline inline-flex items-center gap-1">
+                                    <button type="button" data-product-name="{{ $item->product_name }}" onclick="openReviewModal({{ (int) $item->product_id }}, this.dataset.productName)" class="text-[11px] font-medium text-bites-red hover:underline inline-flex items-center gap-1 cursor-pointer">
                                         Beri Ulasan Menu Ini
                                     </button>
                                 </div>

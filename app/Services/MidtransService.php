@@ -258,8 +258,15 @@ class MidtransService
         }
 
         $baseOrderNumber = preg_replace('/-[A-Z0-9]{5}$/', '', $midtransOrderId);
-        return Order::where('order_number', $midtransOrderId)
-            ->orWhere('order_number', $baseOrderNumber)
+        return Order::where(function ($q) use ($midtransOrderId, $baseOrderNumber) {
+                $q->where('order_number', $midtransOrderId)
+                  ->orWhere('order_number', $baseOrderNumber);
+            })
+            ->where(function ($q) use ($midtransOrderId) {
+                $q->whereNull('payment_reference')
+                  ->orWhere('payment_reference', '')
+                  ->orWhere('payment_reference', $midtransOrderId);
+            })
             ->first();
     }
 
@@ -270,8 +277,12 @@ class MidtransService
     {
         $expectedAmount = (int) round((float) $order->total_amount);
         $receivedAmount = (int) round((float) ($payload['gross_amount'] ?? 0));
-        if ($receivedAmount > 0 && $receivedAmount !== $expectedAmount) {
+        if ($receivedAmount <= 0 || $receivedAmount !== $expectedAmount) {
             return 'amount_mismatch';
+        }
+
+        if ($order->status === 'cancelled') {
+            return 'cancelled';
         }
 
         $txStatus = (string) ($payload['transaction_status'] ?? '');

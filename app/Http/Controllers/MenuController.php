@@ -27,6 +27,7 @@ class MenuController extends Controller
 
             $products = Product::with('category')
                 ->where('is_available', true)
+                ->whereHas('category', fn ($q) => $q->where('is_active', true))
                 ->orderBy('id')
                 ->get();
 
@@ -114,7 +115,11 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category', 'reviews.user'])->findOrFail($id);
+        $product = Product::with([
+            'category',
+            'reviews' => fn ($q) => $q->latest(),
+            'reviews.user:id,name,avatar',
+        ])->where('is_available', true)->findOrFail($id);
 
         $cardMetadata = [
             1  => ['badge' => 'CHEESE BURGER',  'bg' => '#FFC83B'],
@@ -152,9 +157,24 @@ class MenuController extends Controller
         $desc = $richDescriptions[$product->id] ?? ($product->description ?: 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
 
         $productData = $product->toArray();
+        $productData['reviews'] = $product->reviews->map(function ($review) {
+            return [
+                'id' => $review->id,
+                'product_id' => $review->product_id,
+                'rating' => (int) $review->rating,
+                'comment' => $review->comment,
+                'created_at' => optional($review->created_at)->toIso8601String(),
+                'user' => $review->user ? [
+                    'id' => $review->user->id,
+                    'name' => $review->user->name,
+                    'avatar_url' => $review->user->avatar_url,
+                ] : null,
+            ];
+        })->values()->all();
         $productData['badge'] = $meta['badge'];
         $productData['bg'] = $meta['bg'];
         $productData['description'] = $desc;
+        $productData['image_url'] = $product->image_url;
         $productData['formatted_price'] = 'Rp ' . number_format($product->price, 0, ',', '.');
 
         return response()->json([
@@ -186,7 +206,7 @@ class MenuController extends Controller
                     'name' => $p->name,
                     'price' => $p->price,
                     'price_formatted' => 'Rp ' . number_format($p->price, 0, ',', '.'),
-                    'image' => $p->image ? asset($p->image) : asset('images/burger-bg.jpg'),
+                    'image' => $p->image_url,
                     'url' => route('menu', ['q' => $p->name]),
                 ];
             });

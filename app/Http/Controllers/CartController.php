@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductOptionValue;
 use App\Models\StoreSetting;
+use App\Services\ImageDataUriService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -40,18 +41,47 @@ class CartController extends Controller
 
         $cart = session()->get('cart', []);
 
+        $productIds = array_values(array_unique(array_filter(array_column($cart, 'product_id'))));
+        $dbProducts = ! empty($productIds)
+            ? Product::whereIn('id', $productIds)->get(['id', 'name', 'price', 'image', 'is_available'])->keyBy('id')
+            : collect();
+
         $subtotal = 0;
+        $items = [];
         foreach ($cart as $item) {
+            $pid = $item['product_id'] ?? null;
+            $dbProd = $pid !== null ? $dbProducts->get($pid) : null;
+            $optExtra = 0.0;
+            if (! empty($item['options']) && is_array($item['options'])) {
+                foreach ($item['options'] as $opt) {
+                    $optExtra += (float) ($opt['additional_price'] ?? 0);
+                }
+            }
+            if ($dbProd) {
+                $item['name'] = $dbProd->name;
+                $item['base_price'] = (float) $dbProd->price;
+                $item['unit_price'] = (float) $dbProd->price + $optExtra;
+            }
+            $qty = max(1, min(100, (int) ($item['quantity'] ?? 1)));
+            $item['quantity'] = $qty;
+            $item['total_price'] = (float) $item['unit_price'] * $qty;
             $subtotal += $item['total_price'];
+
+            $rawImage = ($dbProd && ! empty($dbProd->image))
+                ? $dbProd->image
+                : ($item['image'] ?? null);
+            $item['image'] = $rawImage;
+            $item['image_url'] = ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg');
+            $items[] = $item;
         }
 
         $discount = 0;
-        $tax = round($subtotal * 0.11); // 11% PPN tax
+        $tax = round($subtotal * 0.11);
         $total = max(0, $subtotal + $tax);
 
         return [
-            'items' => array_values($cart),
-            'item_count' => array_sum(array_column($cart, 'quantity')),
+            'items' => $items,
+            'item_count' => array_sum(array_column($items, 'quantity')),
             'subtotal' => $subtotal,
             'discount' => 0,
             'coupon' => null,
@@ -89,22 +119,31 @@ class CartController extends Controller
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'nullable|integer|min:1',
+            'quantity' => 'nullable|integer|min:1|max:100',
             'options' => 'nullable|array',
             'notes' => 'nullable|string|max:255',
         ]);
 
-        $product = Product::findOrFail($request->product_id);
-        $quantity = $request->input('quantity', 1);
-        $selectedOptions = $request->input('options', []); // array of value IDs
+        $product = Product::with('category')->findOrFail($request->product_id);
+        if (! $product->is_available || ($product->category && ! $product->category->is_active)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Maaf, menu ini sedang habis atau tidak tersedia.',
+            ], 422);
+        }
+
+        $quantity = (int) $request->input('quantity', 1);
+        $selectedOptions = $request->input('options', []);
         $notes = $request->input('notes', '');
 
-        // Fetch selected option values to calculate extra cost
         $optionDetails = [];
         $additionalPrice = 0;
 
         if (!empty($selectedOptions) && \Illuminate\Support\Facades\Schema::hasTable('product_option_values')) {
-            $values = ProductOptionValue::with('option')->whereIn('id', $selectedOptions)->get();
+            $values = ProductOptionValue::with('option')
+                ->whereIn('id', $selectedOptions)
+                ->whereHas('option', fn ($q) => $q->where('product_id', $product->id))
+                ->get();
             foreach ($values as $val) {
                 $optionDetails[] = [
                     'option_id' => $val->product_option_id,
@@ -120,21 +159,20 @@ class CartController extends Controller
         $unitPrice = (float)$product->price + $additionalPrice;
         $totalPrice = $unitPrice * $quantity;
 
-        // Unique item key based on product and selected option IDs
         sort($selectedOptions);
         $cartKey = $product->id . '_' . md5(json_encode($selectedOptions) . $notes);
 
         $cart = session()->get('cart', []);
 
         if (isset($cart[$cartKey])) {
-            $cart[$cartKey]['quantity'] += $quantity;
+            $cart[$cartKey]['quantity'] = min(100, $cart[$cartKey]['quantity'] + $quantity);
             $cart[$cartKey]['total_price'] = $cart[$cartKey]['quantity'] * $cart[$cartKey]['unit_price'];
         } else {
             $cart[$cartKey] = [
                 'cart_key' => $cartKey,
                 'product_id' => $product->id,
                 'name' => $product->name,
-                'image' => $product->image,
+                'image' => ($product->image && ! str_starts_with($product->image, 'data:')) ? $product->image : null,
                 'base_price' => (float)$product->price,
                 'unit_price' => $unitPrice,
                 'quantity' => $quantity,
@@ -169,7 +207,7 @@ class CartController extends Controller
 
         $request->validate([
             'cart_key' => 'required|string',
-            'quantity' => 'required|integer|min:0',
+            'quantity' => 'required|integer|min:0|max:100',
         ]);
 
         $cart = session()->get('cart', []);

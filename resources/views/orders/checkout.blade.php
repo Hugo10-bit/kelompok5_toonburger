@@ -187,7 +187,7 @@
                                 <div class="flex items-center gap-3 min-w-0">
                                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden p-1.5"
                                          style="background-color: {{ $bgColor }};">
-                                        <img src="{{ asset($item['image'] ?: 'images/burger-bg.jpg') }}"
+                                        <img src="{{ \App\Services\ImageDataUriService::toAssetUrl($item['image_url'] ?? $item['image'] ?? null, 'images/burger-bg.jpg') }}"
                                              alt="{{ $item['name'] }}"
                                              class="w-full h-full object-contain">
                                     </div>
