@@ -250,7 +250,7 @@
                     <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between text-xs pt-1">
                         <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 font-medium">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
+                            <input type="checkbox" name="remember" value="1" checked class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
                         <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
