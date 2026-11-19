@@ -1,4 +1,5 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+import { isValidJpgOrPngFile } from './image-upload';
+import { openAvatarCropperModal } from './avatar-cropper';
 
 function initAdminProfile() {
     if (!document.getElementById('profile-confirm-modal')) return;
@@ -105,13 +106,14 @@ function initAdminProfile() {
             return;
         }
 
+        const isAdminEn = window._tbLang === 'US' || window._tbLang === 'EN';
         if (avatarDataInput) avatarDataInput.value = '';
-        pendingAvatarCompression = compressJpgOrPngToDataUrl(file, { maxDim: 512, quality: 0.82 }).then((dataUrl) => {
+        pendingAvatarCompression = openAvatarCropperModal(file, {
+            isEn: isAdminEn,
+            outputSize: 512,
+            maxDataUrlLength: 450000,
+        }).then((dataUrl) => {
             if (!dataUrl) {
-                showProfileWarning(
-                    'Gambar Tidak Dapat Dibaca',
-                    'File foto rusak atau bukan gambar JPG/PNG yang valid.'
-                );
                 input.value = '';
                 if (avatarDataInput) avatarDataInput.value = '';
                 return '';

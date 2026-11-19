@@ -1,4 +1,5 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from '../admin/image-upload';
+import { isValidJpgOrPngFile } from '../admin/image-upload';
+import { openAvatarCropperModal } from '../admin/avatar-cropper';
 
 let isUploadingNavbarAvatar = false;
 let avatarToastTimer = null;
@@ -139,19 +140,15 @@ export async function handleNavbarAvatarChange(input) {
 
     isUploadingNavbarAvatar = true;
     try {
-        const dataUrl = await compressJpgOrPngToDataUrl(file, {
-            maxDim: 480,
-            quality: 0.82,
+        const dataUrl = await openAvatarCropperModal(file, {
+            isEn: isProfileEn(),
+            outputSize: 480,
             maxDataUrlLength: 450000,
         });
 
         input.value = '';
 
         if (!dataUrl) {
-            notifyAvatarFeedback(
-                pText('Gagal memproses foto profil. Pastikan file JPG/PNG valid.', 'Failed to process profile photo. Please use a valid JPG/PNG.'),
-                'error'
-            );
             return;
         }
 
@@ -303,12 +300,12 @@ function initCustomerProfilePage() {
         }
 
         if (avatarDataInput) avatarDataInput.value = '';
-        pendingAvatarCompression = compressJpgOrPngToDataUrl(file, { maxDim: 512, quality: 0.82 }).then((dataUrl) => {
+        pendingAvatarCompression = openAvatarCropperModal(file, {
+            isEn: isProfileEn(),
+            outputSize: 512,
+            maxDataUrlLength: 450000,
+        }).then((dataUrl) => {
             if (!dataUrl) {
-                showProfileWarning(
-                    pText('Gambar Tidak Dapat Dibaca', 'Unreadable Image'),
-                    pText('File foto rusak atau bukan gambar JPG/PNG yang valid.', 'Image file is corrupted or not a valid JPG/PNG.')
-                );
                 input.value = '';
                 if (avatarDataInput) avatarDataInput.value = '';
                 return '';
