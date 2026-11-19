@@ -256,13 +256,13 @@
     <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 md:z-30 w-64 sm:w-72 md:w-[244px] lg:w-[258px] xl:w-[270px] bg-white text-gray-800 rounded-r-[28px] md:rounded-3xl border border-gray-200/80 shadow-xs flex flex-col justify-between p-5 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:fixed md:top-5 md:bottom-auto md:left-5 lg:top-6 lg:left-6 md:min-h-[calc(100vh-2.5rem)] lg:min-h-[calc(100vh-3rem)] md:flex overflow-y-auto md:overflow-visible">
+    <aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 md:z-30 w-68 sm:w-72 md:w-[244px] lg:w-[258px] xl:w-[268px] bg-white text-gray-800 rounded-r-[28px] md:rounded-3xl border border-gray-200/80 shadow-xs flex flex-col justify-between px-5 py-6 flex-shrink-0 -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out md:fixed md:top-5 md:bottom-auto md:left-5 lg:top-6 lg:left-6 md:min-h-[calc(100vh-2.5rem)] lg:min-h-[calc(100vh-3rem)] md:flex overflow-y-auto md:overflow-visible">
         <div>
             <!-- Logo Section with Mascot (Sesuai Referensi Gambar) -->
-            <div class="-mx-5 px-5 pt-4 md:pt-0 pb-3.5 mb-3.5 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
+            <div class="-mx-5 px-5 pt-4 md:pt-0 pb-4 mb-4 border-b border-gray-200/75 dark:border-[#3F3F3F] flex items-center justify-between md:justify-center relative">
                 <a href="{{ route('admin.dashboard') }}" class="flex flex-col items-center justify-center group text-center w-full">
-                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" width="88" height="88" decoding="async" class="h-[76px] sm:h-[84px] lg:h-[88px] w-auto object-contain transition-transform group-hover:scale-105 dark:hidden">
-                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" width="88" height="88" loading="lazy" decoding="async" class="h-[76px] sm:h-[84px] lg:h-[88px] w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block">
+                    <img src="{{ asset('images/toonburger-logo.png') }}" alt="Toon Burger" width="100" height="100" decoding="async" class="h-[88px] sm:h-[94px] lg:h-[100px] w-auto object-contain transition-transform group-hover:scale-105 dark:hidden">
+                    <img src="{{ asset('images/toonburger-logo-white.png') }}" alt="Toon Burger" width="100" height="100" loading="lazy" decoding="async" class="h-[88px] sm:h-[94px] lg:h-[100px] w-auto object-contain transition-transform group-hover:scale-105 hidden dark:block">
                 </a>
                 <!-- Mobile Close Button -->
                 <button type="button" onclick="toggleAdminSidebar()" class="md:hidden absolute right-3 top-1 text-gray-600 dark:text-gray-200 bg-gray-100/90 dark:bg-[#383838] hover:text-gray-900 p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border border-gray-200/80 dark:border-[#525252] transition cursor-pointer" aria-label="Tutup Menu">
@@ -273,12 +273,12 @@
             </div>
 
             <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
-            <nav class="space-y-1.5 text-[13px] font-medium">
+            <nav class="space-y-2 text-[14.5px] font-medium">
 
                 <!-- 1. Dashboard -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
                     <span data-i18n="nav_dashboard">Dashboard</span>
@@ -286,8 +286,8 @@
 
                 <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
                     <span data-i18n="nav_profile">Profil Admin</span>
@@ -295,8 +295,8 @@
 
                 <!-- 3. Order processing -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                         <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
                         <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
@@ -308,8 +308,8 @@
 
                 <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
                     <span data-i18n="nav_products">Data Produk</span>
@@ -317,8 +317,8 @@
 
                 <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
                     </svg>
                     <span data-i18n="nav_categories">Data Kategori</span>
@@ -326,8 +326,8 @@
 
                 <!-- 6. Pesan Terbaru -->
                 <a href="{{ route('admin.messages') }}"
-                   class="flex items-center gap-4 px-5 py-3.5 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-[18px] h-[18px] flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
                     </svg>
                     <span data-i18n="nav_messages">Pesan Terbaru</span>
@@ -341,17 +341,17 @@
             $storeHours = $storeSetting->operating_hours ?? '17:00–22:00 WITA';
             $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Sudah Jam Tutup';
         @endphp
-        <div class="pt-3.5 mt-3 border-t border-gray-200/75 dark:border-[#3F3F3F]">
-            <div class="rounded-2xl border p-3 space-y-2 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">
+        <div class="pt-4 mt-4 border-t border-gray-200/75 dark:border-[#3F3F3F]">
+            <div class="rounded-2xl border p-4 space-y-2.5 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">
                 <div class="flex items-center justify-between gap-2">
-                    <span class="text-[11.5px] font-bold text-gray-800 dark:text-white tracking-tight" data-i18n="store_status_label">Status Operasional</span>
+                    <span class="text-xs font-bold text-gray-800 dark:text-white tracking-tight" data-i18n="store_status_label">Status Operasional</span>
                     @if($isStoreOpen)
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide bg-emerald-100 text-emerald-700 dark:bg-[#1E453B] dark:text-[#6EE7B7] shrink-0">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wide bg-emerald-100 text-emerald-700 dark:bg-[#1E453B] dark:text-[#6EE7B7] shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                             <span data-i18n="store_open_badge">BUKA</span>
                         </span>
                     @else
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide bg-red-100 text-red-700 dark:bg-[#5E2828] dark:text-[#FCA5A5] shrink-0">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wide bg-red-100 text-red-700 dark:bg-[#5E2828] dark:text-[#FCA5A5] shrink-0">
                             <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
                             <span data-i18n="store_closed_badge">TUTUP</span>
                         </span>
@@ -359,24 +359,24 @@
                 </div>
 
                 @if($isStoreOpen)
-                    <p class="text-[11px] text-gray-500 dark:text-[#BDBDBD] leading-relaxed">
+                    <p class="text-xs text-gray-500 dark:text-[#BDBDBD] leading-relaxed">
                         <span class="block" data-i18n="store_active_desc">Website aktif menerima pesanan</span>
                         <span class="block font-medium text-gray-600 dark:text-gray-300 mt-0.5">&bull; {{ $storeHours }}</span>
                     </p>
                     <button type="button"
                             onclick="openStoreToggleModal('close')"
-                            class="tb-store-toggle-btn w-full py-2 px-3 rounded-xl border border-gray-300 dark:border-[#525252] bg-white dark:bg-[#2E2E2E] hover:bg-red-50 hover:border-red-300 hover:text-red-700 dark:hover:bg-[#4A2626] dark:hover:text-[#FCA5A5] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer active:scale-98"
+                            class="tb-store-toggle-btn w-full py-2.5 px-3.5 rounded-xl border border-gray-300 dark:border-[#525252] bg-white dark:bg-[#2E2E2E] hover:bg-red-50 hover:border-red-300 hover:text-red-700 dark:hover:bg-[#4A2626] dark:hover:text-[#FCA5A5] text-[13px] font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer active:scale-98"
                             data-i18n="store_close_btn">
                         Tutup Toko
                     </button>
                 @else
-                    <p class="text-[11px] text-red-700/90 dark:text-[#FCA5A5] leading-relaxed">
+                    <p class="text-xs text-red-700/90 dark:text-[#FCA5A5] leading-relaxed">
                         <span class="block font-medium" data-i18n="store_closed_desc">Pemesanan pelanggan dinonaktifkan</span>
                         <span class="block mt-0.5">&bull; {{ $closedReasonText }}</span>
                     </p>
                     <button type="button"
                             onclick="openStoreToggleModal('open')"
-                            class="tb-store-toggle-btn tb-store-reopen-btn w-full py-2 px-3 rounded-xl bg-[#40605D] hover:bg-[#344B48] text-white text-xs font-semibold transition shadow-2xs cursor-pointer active:scale-98"
+                            class="tb-store-toggle-btn tb-store-reopen-btn w-full py-2.5 px-3.5 rounded-xl bg-[#40605D] hover:bg-[#344B48] text-white text-[13px] font-semibold transition shadow-2xs cursor-pointer active:scale-98"
                             data-i18n="store_open_btn">
                         Buka Toko
                     </button>
@@ -386,7 +386,7 @@
     </aside>
 
     <!-- Main content -->
-    <div class="flex-1 flex flex-col gap-3.5 sm:gap-5 lg:gap-6 min-w-0 md:ml-[264px] lg:ml-[282px] xl:ml-[294px]">
+    <div class="flex-1 flex flex-col gap-3.5 sm:gap-5 lg:gap-6 min-w-0 md:ml-[264px] lg:ml-[282px] xl:ml-[292px]">
 
         <!-- Top Header -->
         <header class="bg-white rounded-3xl border border-gray-200/80 shadow-xs px-3.5 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-3 select-none relative z-30">
