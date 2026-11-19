@@ -123,6 +123,8 @@
             </div>
 
             <!-- Card 3: Pesanan Cepat -->
+
+            <!-- Card 3: Pesanan Cepat -->
             <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-225">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border-2 border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-2 sm:mb-3 shrink-0">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
