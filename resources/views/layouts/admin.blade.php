@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="login-url" content="{{ route('login') }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#2D4336">
     <meta name="mobile-web-app-capable" content="yes">
@@ -149,11 +149,11 @@
                         aria-label="Tutup">&times;</button>
             </div>
 
-            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight" data-i18n="store_close_modal_title">
                 Tutup Toko Sekarang?
             </h3>
 
-            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5">
+            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5" data-i18n="store_close_modal_desc">
                 Pelanggan tidak akan bisa melakukan checkout saat toko berstatus tutup.
             </p>
 
@@ -162,15 +162,20 @@
                 <input type="hidden" name="is_open" value="0">
                 <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Sudah Jam Tutup">
 
-                <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2.5">
+                <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2.5" data-i18n="store_close_reason_label">
                     Pilih alasan cepat (opsional tampil di web):
                 </div>
 
                 @php
-                    $quickReasons = ['Stok Habis', 'Istirahat Sebentar', 'Sudah Jam Tutup', 'Tutup Mendadak'];
+                    $quickReasons = [
+                        'Stok Habis' => 'store_reason_out_of_stock',
+                        'Istirahat Sebentar' => 'store_reason_short_break',
+                        'Sudah Jam Tutup' => 'store_reason_closing_hours',
+                        'Tutup Mendadak' => 'store_reason_sudden_close',
+                    ];
                 @endphp
                 <div class="flex flex-wrap gap-2" id="store-close-reasons-group">
-                    @foreach($quickReasons as $reasonOption)
+                    @foreach($quickReasons as $reasonOption => $reasonKey)
                         @php $isDefault = ($reasonOption === 'Sudah Jam Tutup'); @endphp
                         <button type="button"
                                 onclick="selectStoreCloseReason(this, '{{ $reasonOption }}')"
@@ -179,7 +184,7 @@
                             <svg class="store-reason-check w-3.5 h-3.5 {{ $isDefault ? '' : 'hidden' }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <polyline points="20 6 9 17 4 12"></polyline>
                             </svg>
-                            <span>{{ $reasonOption }}</span>
+                            <span data-i18n="{{ $reasonKey }}">{{ $reasonOption }}</span>
                         </button>
                     @endforeach
                 </div>
@@ -187,10 +192,12 @@
                 <div class="flex items-center justify-end gap-2.5 mt-6 pt-4 border-t border-gray-100 dark:border-[#424242]">
                     <button type="button"
                             onclick="closeStoreModals()"
+                            data-i18n="btn_cancel"
                             class="px-5 py-2.5 rounded-xl bg-white dark:bg-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#454545] border border-gray-300 dark:border-[#555555] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer">
                         Batal
                     </button>
                     <button type="submit"
+                            data-i18n="store_close_confirm"
                             class="px-5 py-2.5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] active:scale-95 text-white text-xs font-semibold shadow-xs transition cursor-pointer">
                         Ya, Tutup Toko
                     </button>
@@ -219,11 +226,11 @@
                         aria-label="Tutup">&times;</button>
             </div>
 
-            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight" data-i18n="store_open_modal_title">
                 Buka Toko Sekarang?
             </h3>
 
-            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5">
+            <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-300 leading-relaxed mt-1.5" data-i18n="store_open_modal_desc">
                 Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.
             </p>
 
@@ -232,10 +239,12 @@
                 <input type="hidden" name="is_open" value="1">
                 <button type="button"
                         onclick="closeStoreModals()"
+                        data-i18n="btn_cancel"
                         class="px-5 py-2.5 rounded-xl bg-white dark:bg-[#3A3A3A] hover:bg-gray-50 dark:hover:bg-[#454545] border border-gray-300 dark:border-[#555555] text-xs font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer">
                     Batal
                 </button>
                 <button type="submit"
+                        data-i18n="store_open_confirm"
                         class="px-5 py-2.5 rounded-xl bg-[#40605D] hover:bg-[#344B48] active:scale-95 text-white text-xs font-semibold shadow-xs transition cursor-pointer">
                     Ya, Buka Toko
                 </button>
@@ -351,7 +360,7 @@
 
                 @if($isStoreOpen)
                     <p class="text-[11px] text-gray-500 dark:text-[#BDBDBD] leading-relaxed">
-                        <span class="block">Website aktif menerima pesanan</span>
+                        <span class="block" data-i18n="store_active_desc">Website aktif menerima pesanan</span>
                         <span class="block font-medium text-gray-600 dark:text-gray-300 mt-0.5">&bull; {{ $storeHours }}</span>
                     </p>
                     <button type="button"
@@ -362,7 +371,7 @@
                     </button>
                 @else
                     <p class="text-[11px] text-red-700/90 dark:text-[#FCA5A5] leading-relaxed">
-                        <span class="block font-medium">Pemesanan pelanggan dinonaktifkan</span>
+                        <span class="block font-medium" data-i18n="store_closed_desc">Pemesanan pelanggan dinonaktifkan</span>
                         <span class="block mt-0.5">&bull; {{ $closedReasonText }}</span>
                     </p>
                     <button type="button"
@@ -464,13 +473,46 @@
                         </svg>
                     </button>
                     <div id="header-lang-dropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl border border-gray-200/90 shadow-xl p-2 z-50 hidden animate-modal-pop">
-                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition">
-                            <span class="flex items-center gap-2.5"><span class="text-base">🇺🇸</span><span>English</span></span>
-                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center border border-gray-200/80 dark:border-white/20 shrink-0" aria-hidden="true">
+                                    <svg class="w-full h-full" viewBox="0 0 64 64">
+                                        <clipPath id="circle-flag-dropdown-id"><circle cx="32" cy="32" r="32"/></clipPath>
+                                        <g clip-path="url(#circle-flag-dropdown-id)">
+                                            <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                            <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span>Indonesia</span>
+                            </span>
+                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58] dark:text-[#8CC0B9]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
-                        <button type="button" onclick="selectLanguage('Indonesia', 'ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition mt-1">
-                            <span class="flex items-center gap-2.5"><span class="text-base">🇮🇩</span><span>Indonesia</span></span>
-                            <svg id="lang-check-id" class="w-4 h-4 text-[#415C58]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                        <button type="button" onclick="selectLanguage('English', 'US')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition mt-1 cursor-pointer">
+                            <span class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full overflow-hidden flex items-center justify-center border border-gray-200/80 dark:border-white/20 shrink-0" aria-hidden="true">
+                                    <svg class="w-full h-full" viewBox="0 0 64 64">
+                                        <clipPath id="circle-flag-dropdown-us"><circle cx="32" cy="32" r="32"/></clipPath>
+                                        <g clip-path="url(#circle-flag-dropdown-us)">
+                                            <path fill="#B22234" d="M0 0h64v64H0z"/>
+                                            <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                                            <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                                            <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                                            <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                                            <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                                            <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                                            <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                                            <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                                            <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                                            <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                                            <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                                            <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span>English</span>
+                            </span>
+                            <svg id="lang-check-en" class="w-4 h-4 text-[#415C58] dark:text-[#8CC0B9] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         </button>
                     </div>
                 </div>
@@ -488,7 +530,7 @@
                         <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm sm:text-base shrink-0 shadow-xs group-hover:scale-105 transition overflow-hidden">
                             @if(!empty($adminAvatar))
                                 <img id="header-profile-avatar-img"
-                                     src="{{ str_starts_with($adminAvatar, 'http') ? $adminAvatar : asset($adminAvatar) }}"
+                                     src="{{ $adminUser->avatar_url }}"
                                      alt="Avatar"
                                      class="w-full h-full object-cover">
                                 <span id="header-profile-avatar-initials" class="hidden">{{ $adminInitials }}</span>
@@ -514,6 +556,24 @@
                             <span data-i18n="dropdown_profile">Profile</span>
                         </a>
 
+                        <!-- Mobile-only language switch item (above Mode Terang / Mode Gelap) -->
+                        <button type="button"
+                                id="mobile-admin-lang-toggle"
+                                onclick="toggleAdminMobileLanguage()"
+                                aria-label="Ganti Bahasa"
+                                class="sm:hidden w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
+                            <span id="mobile-admin-lang-flag" class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200/80 dark:border-white/20 shrink-0" aria-hidden="true">
+                                <svg class="w-full h-full" viewBox="0 0 64 64">
+                                    <clipPath id="circle-flag-mobile-admin-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                    <g clip-path="url(#circle-flag-mobile-admin-init)">
+                                        <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                        <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span id="mobile-admin-lang-label">Indonesia</span>
+                        </button>
+
                         <!-- 2. Mode Gelap / Mode Terang Toggle -->
                         <button type="button" onclick="toggleAdminTheme()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
                             <svg id="header-theme-moon-icon" class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -523,14 +583,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
                             </svg>
                             <span id="header-theme-label" data-i18n="dropdown_theme">Mode Gelap</span>
-                        </button>
-
-                        <!-- 2b. Ganti Bahasa (English / Indonesia) Toggle -->
-                        <button type="button" onclick="toggleAdminLanguage()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100/80 hover:text-gray-900 transition text-left cursor-pointer">
-                            <svg class="w-5 h-5 text-gray-700 dark:text-gray-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-                            </svg>
-                            <span id="header-profile-lang-label">Bahasa: Indonesia</span>
                         </button>
 
                         <!-- 3. Beranda -->

@@ -19,7 +19,7 @@
                     class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#F79E1B] text-white font-bold text-xl sm:text-2xl flex items-center justify-center relative overflow-hidden cursor-pointer group focus:outline-none">
                 @if(!empty($user?->avatar))
                     <img id="profile-avatar-preview"
-                         src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset($user->avatar) }}"
+                         src="{{ $user->avatar_url }}"
                          alt="Avatar"
                          class="w-full h-full object-cover">
                     <span id="profile-avatar-initials" class="hidden">Tb</span>
@@ -47,16 +47,18 @@
         <div class="min-w-0 flex-1">
             <h2 class="text-lg sm:text-2xl font-normal text-gray-800 dark:text-white leading-tight break-words">{{ $user?->name ?: 'Toon Burger' }}</h2>
             <p class="text-xs sm:text-sm text-gray-400 dark:text-[#BDBDBD] mt-0.5 break-all">{{ $user?->email ?: 'Toonburger@gmail.com' }}</p>
+            <p class="text-[11px] text-gray-400 dark:text-[#9E9E9E] mt-1" data-i18n="prof_photo_hint">Format foto: JPG atau PNG (maks. 4 MB)</p>
             @error('avatar') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
     </div>
 
     <form id="admin-profile-form" action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-5 text-sm">
         @csrf
+        <input type="hidden" name="avatar_data" id="profile-avatar-data" value="">
         <input type="file"
                id="profile-avatar-input"
                name="avatar"
-               accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+               accept=".jpg,.jpeg,.png,image/jpeg,image/png"
                class="hidden"
                onchange="handleAdminAvatarChange(this)">
 
@@ -166,22 +168,24 @@
                 </svg>
             </div>
 
-            <h3 id="profile-confirm-title" class="text-xl sm:text-[26px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5 sm:mb-3">
+            <h3 id="profile-confirm-title" data-i18n="prof_confirm_title" class="text-xl sm:text-[26px] font-bold text-gray-900 dark:text-white tracking-tight mb-2.5 sm:mb-3">
                 Konfirmasi Simpan Profil
             </h3>
 
-            <p id="profile-confirm-message" class="text-xs sm:text-sm text-gray-500 dark:text-[#A3A3A3] leading-relaxed mb-6 sm:mb-8 max-w-[340px] mx-auto">
+            <p id="profile-confirm-message" data-i18n="prof_confirm_msg" class="text-xs sm:text-sm text-gray-500 dark:text-[#A3A3A3] leading-relaxed mb-6 sm:mb-8 max-w-[340px] mx-auto">
                 Apakah Anda yakin ingin menyimpan perubahan pada profil admin ini?
             </p>
 
             <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
                 <button type="button"
                         onclick="closeProfileConfirmModal()"
+                        data-i18n="cancel"
                         class="min-w-[115px] sm:min-w-[140px] px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-gray-400 dark:border-gray-500 text-gray-800 dark:text-gray-100 text-xs sm:text-sm font-medium hover:bg-gray-50 dark:hover:bg-[#3E3E3E] active:scale-95 transition cursor-pointer">
                     Batalkan
                 </button>
                 <button type="button"
                         id="profile-confirm-proceed-btn"
+                        data-i18n="prof_confirm_btn"
                         class="min-w-[115px] sm:min-w-[140px] px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#415C58] hover:bg-[#344B48] text-white text-xs sm:text-sm font-medium shadow-md active:scale-95 transition cursor-pointer">
                     Ya, Simpan
                 </button>

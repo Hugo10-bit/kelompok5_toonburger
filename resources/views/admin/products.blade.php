@@ -1,3 +1,4 @@
+@php $errors = $errors ?? new \Illuminate\Support\ViewErrorBag; @endphp
 @extends('layouts.admin')
 
 @section('title', 'Data Produk - Toon Burger Admin')
@@ -20,7 +21,7 @@
                 <div id="prod-filter-menu" class="hidden absolute left-0 mt-2 w-52 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-40 animate-modal-pop">
                     <button type="button" onclick="applyCategoryFilter('all')" class="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-[#3A3A3A] font-medium transition cursor-pointer" data-i18n="filter_all_cat">Semua Kategori</button>
                     @foreach($categories as $cat)
-                        <button type="button" onclick="applyCategoryFilter('{{ strtolower($cat->name) }}')" class="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition cursor-pointer">{{ $cat->name }}</button>
+                        <button type="button" data-category="{{ strtolower($cat->name) }}" onclick="applyCategoryFilter(this.dataset.category)" class="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition cursor-pointer">{{ $cat->name }}</button>
                     @endforeach
                 </div>
             </div>
@@ -37,6 +38,18 @@
             </button>
         </div>
     </div>
+
+    @if($errors->any())
+        <div class="alert-auto-dismiss mb-5 p-4 bg-red-50 dark:bg-[#4A2626] border border-red-200 dark:border-red-900/60 text-[#DE3B28] dark:text-[#FCA5A5] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>{{ $errors->first() }}</span>
+            </span>
+            <button type="button" onclick="this.closest('.alert-auto-dismiss')?.remove()" class="text-base font-medium p-1 cursor-pointer" aria-label="Tutup">&times;</button>
+        </div>
+    @endif
 
     @php
         $thumbBgColors = [
@@ -58,6 +71,15 @@
             @php
                 $catName = $prod->category->name ?? 'Lainnya';
                 $bgClass = $thumbBgColors[$idx % count($thumbBgColors)];
+                $prodEditPayload = [
+                    'id' => $prod->id,
+                    'name' => $prod->name,
+                    'category_id' => $prod->category_id,
+                    'price' => $prod->price,
+                    'description' => $prod->description,
+                    'is_available' => (bool) $prod->is_available,
+                    'is_popular' => (bool) $prod->is_featured,
+                ];
             @endphp
             <div class="product-mobile-card rounded-2xl border border-gray-200/90 dark:border-[#4A4A4A] bg-[#FAFAFB] dark:bg-[#383838] p-3.5 shadow-2xs space-y-3"
                  data-name="{{ strtolower($prod->name) }}"
@@ -66,12 +88,12 @@
                 <div class="flex items-start gap-3.5">
                     <div class="w-16 h-16 rounded-xl {{ $bgClass }} flex items-center justify-center overflow-hidden shrink-0 p-1.5">
                         @if($prod->image)
-                            <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}"
+                            <img src="{{ $prod->image_url }}"
                                  width="64"
                                  height="64"
                                  loading="lazy"
                                  decoding="async"
-                                 class="w-full h-full object-contain"
+                                 class="product-thumb-img w-full h-full object-contain"
                                  alt="{{ $prod->name }}">
                         @else
                             <svg class="w-7 h-7 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
@@ -102,7 +124,7 @@
                         </button>
                     </form>
                     <div class="flex items-center gap-2">
-                        <button type="button" onclick="openEditModal({{ json_encode($prod) }})" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Edit">
+                        <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                                 <path d="M15 5l4 4"></path>
@@ -144,13 +166,22 @@
                     @php
                         $catName = $prod->category->name ?? 'Lainnya';
                         $bgClass = $thumbBgColors[$idx % count($thumbBgColors)];
+                        $prodEditPayload = [
+                            'id' => $prod->id,
+                            'name' => $prod->name,
+                            'category_id' => $prod->category_id,
+                            'price' => $prod->price,
+                            'description' => $prod->description,
+                            'is_available' => (bool) $prod->is_available,
+                            'is_popular' => (bool) $prod->is_featured,
+                        ];
                     @endphp
                     <tr class="hover:bg-gray-50/60 dark:hover:bg-[#353535] transition-colors product-row" data-name="{{ strtolower($prod->name) }}" data-category="{{ strtolower($catName) }}" data-index="{{ $idx }}">
                         <td class="py-4 px-6 text-left">
                             <div class="flex items-center gap-4 pl-2 sm:pl-4">
                                 <div class="w-12 h-12 rounded-xl {{ $bgClass }} flex items-center justify-center overflow-hidden shrink-0 p-1">
                                     @if($prod->image)
-                                        <img src="{{ str_starts_with($prod->image, 'http') ? $prod->image : asset($prod->image) }}" width="48" height="48" loading="lazy" decoding="async" class="w-full h-full object-contain" alt="{{ $prod->name }}">
+                                        <img src="{{ $prod->image_url }}" width="48" height="48" loading="lazy" decoding="async" class="product-thumb-img w-full h-full object-contain" alt="{{ $prod->name }}">
                                     @else
                                         <svg class="w-6 h-6 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
                                     @endif
@@ -178,7 +209,7 @@
                         </td>
                         <td class="py-4 px-5">
                             <div class="flex items-center justify-center gap-5">
-                                <button type="button" onclick="openEditModal({{ json_encode($prod) }})" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
+                                <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                                         <path d="M15 5l4 4"></path>
@@ -216,6 +247,7 @@
             <form id="productForm" action="{{ route('admin.products.store') }}" data-store-url="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" id="formMethod" value="POST">
+                <input type="hidden" name="image_data" id="prod_image_data" value="">
 
                 <div class="space-y-4">
                     <div>
@@ -234,14 +266,19 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_price">Harga (Rp)</label>
-                            <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="500" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                            <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="1" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
                             <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block">Min. Rp 1.000 &mdash; Maks. Rp 1.000.000</span>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
-                        <input type="file" name="image" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200">
+                        <label for="prod_image_input" class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_img">Gambar Produk</label>
+                        <div id="prod_image_preview_wrap" class="hidden mb-2.5 flex items-center gap-3">
+                            <img id="prod_image_preview" src="" alt="Preview produk" class="w-16 h-16 rounded-xl object-contain bg-gray-100 dark:bg-[#383838] border border-gray-200 dark:border-[#525252] p-1 shrink-0">
+                            <span class="text-[11px] text-gray-500 dark:text-[#BDBDBD]">Preview foto saat ini / foto yang dipilih</span>
+                        </div>
+                        <input type="file" id="prod_image_input" name="image" accept=".jpg,.jpeg,.png,image/jpeg,image/png" class="w-full text-xs text-gray-500 dark:text-[#D4D4D4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-gray-100 dark:file:bg-[#3C3C3C] file:text-gray-700 dark:file:text-white hover:file:bg-gray-200 cursor-pointer">
+                        <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block" data-i18n="prod_img_hint">Format: JPG atau PNG (maks. 5 MB)</span>
                     </div>
 
                     <div>

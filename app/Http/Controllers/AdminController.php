@@ -11,10 +11,12 @@ use App\Models\RestaurantTable;
 use App\Models\Review;
 use App\Models\StoreSetting;
 use App\Models\User;
+use App\Services\ImageDataUriService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -164,7 +166,7 @@ class AdminController extends Controller
                     'id' => $p->id,
                     'name' => $p->name,
                     'price_formatted' => 'Rp ' . number_format($p->price, 0, ',', '.'),
-                    'image' => $p->image ? asset($p->image) : null,
+                    'image' => $p->image ? $p->image_url : null,
                     'is_available' => (bool)$p->is_available,
                     'url' => route('admin.products', ['search' => $p->name]),
                 ];
@@ -400,23 +402,26 @@ class AdminController extends Controller
     /**
      * Store new product.
      */
-    public function storeProduct(Request $request)
+    public function storeProduct(Request $request, ImageDataUriService $imageService)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:1000|max:1000000',
             'original_price' => 'nullable|numeric|min:1000|max:1000000',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+            'image' => $request->hasFile('image') ? 'image|mimes:jpeg,jpg,png|max:5120' : ['nullable', 'string', 'max:255', 'regex:/^\/?images\/[A-Za-z0-9_.\-\/]+\.(webp|png|jpe?g)$/i'],
+            'image_file' => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'image_data' => 'nullable|string|max:4194304',
         ], [
-            'image.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
-            'image.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
-            'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
-            'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'image.image' => 'Gambar produk wajib berupa foto JPG atau PNG.',
+            'image.mimes' => 'Format gambar produk hanya diperbolehkan JPG atau PNG.',
+            'image.max' => 'Ukuran gambar produk maksimal 5 MB.',
+            'image_file.image' => 'Gambar produk wajib berupa foto JPG atau PNG.',
+            'image_file.mimes' => 'Format gambar produk hanya diperbolehkan JPG atau PNG.',
+            'image_file.max' => 'Ukuran gambar produk maksimal 5 MB.',
             'price.required' => 'Harga produk/pesanan wajib diisi.',
             'price.numeric' => 'Harga produk/pesanan harus berupa angka nominal valid.',
             'price.min' => 'Harga produk/pesanan minimal Rp 1.000.',
@@ -426,20 +431,29 @@ class AdminController extends Controller
             'original_price.max' => 'Harga asli/coret terlalu berlebihan (maksimal Rp 1.000.000).',
         ]);
 
-        $imagePath = 'images/burger-bg.jpg';
-
-        if ($request->hasFile('image') || $request->hasFile('image_file')) {
-            $file = $request->file('image') ?? $request->file('image_file');
-            $filename = time() . '_' . Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/products'), $filename);
-            $imagePath = 'images/products/' . $filename;
-        } elseif (is_string($request->image) && !empty($request->image)) {
-            $imagePath = $request->image;
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->except(['image_data', 'image', 'image_file']));
         }
 
-        Product::create([
+        $resolved = $imageService->resolveJpgOrPngDataUri($request, ['image', 'image_file'], 'image_data', 900);
+        if ($resolved['error'] !== null) {
+            return back()
+                ->withErrors(['image' => $resolved['error']])
+                ->withInput($request->except(['image_data', 'image', 'image_file']));
+        }
+
+        $imagePath = 'images/burger-bg.jpg';
+        if ($resolved['provided']) {
+            $imagePath = $resolved['data_uri'];
+        } elseif (is_string($request->image) && ! empty($request->image) && ! str_contains($request->image, '..')) {
+            $imagePath = ltrim($request->image, '/');
+        }
+
+        ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name) . '-' . rand(100, 999),
+            'slug' => Str::limit(Str::slug($request->name), 75, '') . '-' . rand(100, 999),
             'category_id' => $request->category_id,
             'price' => $request->price,
             'original_price' => $request->original_price,
@@ -449,7 +463,7 @@ class AdminController extends Controller
             'image' => $imagePath,
             'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
             'is_available' => $request->has('is_available') ? $request->boolean('is_available') : true,
-        ]);
+        ]));
 
         return back()->with('success', "Menu '{$request->name}' berhasil ditambahkan!");
     }
@@ -457,23 +471,28 @@ class AdminController extends Controller
     /**
      * Update existing product.
      */
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request, $id, ImageDataUriService $imageService)
     {
         $product = Product::findOrFail($id);
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:1000|max:1000000',
             'original_price' => 'nullable|numeric|min:1000|max:1000000',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
             'calories' => 'nullable|integer',
             'prep_time_minutes' => 'nullable|integer',
-            'image' => 'nullable',
-            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+            'image' => $request->hasFile('image') ? 'image|mimes:jpeg,jpg,png|max:5120' : ['nullable', 'string', 'max:255', 'regex:/^\/?images\/[A-Za-z0-9_.\-\/]+\.(webp|png|jpe?g)$/i'],
+            'image_file' => 'nullable|image|mimes:jpeg,jpg,png|max:5120',
+            'image_data' => 'nullable|string|max:4194304',
         ], [
-            'image_file.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
-            'image_file.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'image.image' => 'Gambar produk wajib berupa foto JPG atau PNG.',
+            'image.mimes' => 'Format gambar produk hanya diperbolehkan JPG atau PNG.',
+            'image.max' => 'Ukuran gambar produk maksimal 5 MB.',
+            'image_file.image' => 'Gambar produk wajib berupa foto JPG atau PNG.',
+            'image_file.mimes' => 'Format gambar produk hanya diperbolehkan JPG atau PNG.',
+            'image_file.max' => 'Ukuran gambar produk maksimal 5 MB.',
             'price.required' => 'Harga produk/pesanan wajib diisi.',
             'price.numeric' => 'Harga produk/pesanan harus berupa angka nominal valid.',
             'price.min' => 'Harga produk/pesanan minimal Rp 1.000.',
@@ -483,27 +502,27 @@ class AdminController extends Controller
             'original_price.max' => 'Harga asli/coret terlalu berlebihan (maksimal Rp 1.000.000).',
         ]);
 
-        if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'image|mimes:jpeg,png,jpg,webp,gif|max:5120',
-            ], [
-                'image.image' => 'File gambar wajib berupa foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
-                'image.mimes' => 'Format gambar harus berupa foto: JPEG, PNG, JPG, WEBP, atau GIF.',
-            ]);
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->except(['image_data', 'image', 'image_file']));
+        }
+
+        $resolved = $imageService->resolveJpgOrPngDataUri($request, ['image', 'image_file'], 'image_data', 900);
+        if ($resolved['error'] !== null) {
+            return back()
+                ->withErrors(['image' => $resolved['error']])
+                ->withInput($request->except(['image_data', 'image', 'image_file']));
         }
 
         $imagePath = $product->image;
-
-        if ($request->hasFile('image') || $request->hasFile('image_file')) {
-            $file = $request->file('image') ?? $request->file('image_file');
-            $filename = time() . '_' . Str::slug($request->name) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/products'), $filename);
-            $imagePath = 'images/products/' . $filename;
-        } elseif (is_string($request->image) && !empty($request->image)) {
-            $imagePath = $request->image;
+        if ($resolved['provided']) {
+            $imagePath = $resolved['data_uri'];
+        } elseif (is_string($request->image) && ! empty($request->image) && ! str_contains($request->image, '..')) {
+            $imagePath = ltrim($request->image, '/');
         }
 
-        $product->update([
+        ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => $product->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
             'price' => $request->price,
@@ -514,7 +533,7 @@ class AdminController extends Controller
             'image' => $imagePath,
             'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
             'is_available' => $request->boolean('is_available'),
-        ]);
+        ]));
 
         return back()->with('success', "Menu '{$product->name}' berhasil diperbarui!");
     }
@@ -584,7 +603,7 @@ class AdminController extends Controller
     public function storeCategory(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => 'required|string|max:36',
             'sort_order' => 'nullable|integer',
         ]);
 
@@ -592,7 +611,7 @@ class AdminController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name) . '-' . rand(10, 99),
+            'slug' => Str::limit(Str::slug($request->name), 36, '') . '-' . rand(10, 99),
             'sort_order' => $request->sort_order ?? ($maxSort + 1),
             'is_active' => true,
         ]);
@@ -607,7 +626,7 @@ class AdminController extends Controller
     {
         $category = Category::findOrFail($id);
         $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => 'required|string|max:36',
             'sort_order' => 'nullable|integer',
             'is_active' => 'nullable|boolean',
         ]);
@@ -647,25 +666,48 @@ class AdminController extends Controller
     /**
      * Update Admin Profile.
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request, ImageDataUriService $imageService)
     {
         $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'phone_number' => 'nullable|string|max:30',
+        if ($request->filled('email')) {
+            $request->merge(['email' => strtolower(trim((string) $request->input('email')))]);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:60',
+            'email' => 'required|email|max:60|unique:users,email,' . $user->id,
+            'phone_number' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:500',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
+            'avatar_data' => 'nullable|string|max:4194304',
+            'current_password' => 'nullable|current_password',
             'password' => 'nullable|string|min:6|confirmed',
         ], [
-            'avatar.image' => 'Foto profil wajib berupa file gambar/foto (JPEG, PNG, JPG, WEBP, atau GIF). Tidak boleh dokumen Excel, Word, atau PDF.',
-            'avatar.mimes' => 'Format foto profil harus berupa file gambar/foto: JPEG, PNG, JPG, WEBP, atau GIF.',
+            'avatar.image' => 'Foto profil wajib berupa file gambar JPG atau PNG.',
+            'avatar.mimes' => 'Format foto profil hanya diperbolehkan JPG atau PNG.',
             'avatar.max' => 'Ukuran foto profil maksimal 4 MB.',
         ]);
 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
+        }
+
+        $resolved = $imageService->resolveJpgOrPngDataUri($request, ['avatar'], 'avatar_data', 512);
+        if ($resolved['error'] !== null) {
+            return back()
+                ->withErrors(['avatar' => $resolved['error']])
+                ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
+        }
+
+        $emailChanged = $user->email !== $request->email;
         $user->name = $request->name;
         $user->email = $request->email;
+        if ($emailChanged) {
+            $user->email_verified_at = null;
+        }
         if ($request->filled('phone_number')) {
             $user->phone_number = $request->phone_number;
         }
@@ -673,22 +715,16 @@ class AdminController extends Controller
             $user->address = $request->address;
         }
 
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-            $dir = public_path('images/avatars');
-            if (!is_dir($dir)) {
-                mkdir($dir, 0755, true);
-            }
-            $filename = 'avatar_' . $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move($dir, $filename);
-            $user->avatar = 'images/avatars/' . $filename;
+        if ($resolved['provided']) {
+            $user->avatar = $resolved['data_uri'];
         }
 
         if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
+            $user->setRememberToken(Str::random(60));
         }
 
-        $user->save();
+        ImageDataUriService::saveWithLongTextFallback('users', 'avatar', fn () => $user->save());
 
         return back()->with('success', 'Profil admin berhasil diperbarui!');
     }

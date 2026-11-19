@@ -204,7 +204,7 @@
                        class="tb-bestseller-item tb-focus-ring rounded-xl px-3 py-2.5 min-h-[60px] flex items-center justify-between gap-3 group">
                         <div class="w-12 h-12 sm:w-11 sm:h-11 rounded-xl overflow-hidden flex items-center justify-center shrink-0"
                              style="background-color: {{ $item->bg_hex }};">
-                            <img src="{{ asset($item->image) }}"
+                            <img src="{{ \App\Services\ImageDataUriService::toAssetUrl($item->image, 'images/burger-bg.jpg') }}"
                                  alt="{{ $item->product_name }}"
                                  width="48"
                                  height="48"
