@@ -2,12 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================================================
-   TOON BURGER - FRONTEND & CLIENT APP STYLESHEET
-   Location: public/css/app.css
-   ========================================================= */
-
-/* 1. Global & Base Reset */
 html {
     overflow-x: clip;
     -webkit-overflow-scrolling: touch;
@@ -34,7 +28,7 @@ body {
     font-family: 'Poppins', sans-serif;
     overflow-x: clip;
     max-width: 100vw;
-    caret-color: #D92625;
+    caret-color: #3B82F6;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
@@ -47,8 +41,17 @@ body {
 }
 
 *:focus-visible {
-    outline: 2px solid #D92625;
+    outline: 2px solid #3B82F6;
     outline-offset: 2px;
+}
+
+#home-navbar-search:focus,
+#home-navbar-search:focus-visible,
+.nav-search-input:focus,
+.nav-search-input:focus-visible {
+    outline: none;
+    border: 0;
+    box-shadow: none;
 }
 
 .font-brand {
@@ -169,22 +172,7 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     transform: rotate(var(--rot, 0deg));
 }
 
-/* 4. Loader Bar & Animations */
-#page-loader-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3.5px;
-    width: 100%;
-    transform: scaleX(0);
-    transform-origin: left;
-    background: linear-gradient(90deg, #FFC72C, #F9961F, #D92625);
-    z-index: 99999;
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
-    pointer-events: none;
-    box-shadow: 0 0 10px rgba(249, 150, 31, 0.7);
-}
-
+/* 4. Animations */
 @keyframes marquee {
     0% { transform: translate3d(0%, 0, 0); }
     100% { transform: translate3d(-50%, 0, 0); }

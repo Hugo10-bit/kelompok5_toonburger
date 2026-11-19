@@ -1,10 +1,6 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* =========================================================
-   TOON BURGER - ERROR PAGES STYLESHEET (404, 500, 503)
-   ========================================================= */
 
 body {
     font-family: 'Poppins', sans-serif;
@@ -45,7 +41,7 @@ body {
 }
 
 :where(a:any-link, button):focus-visible {
-    outline: 3px solid #D92625;
+    outline: 3px solid #3B82F6;
     outline-offset: 3px;
 }
 
@@ -82,4 +78,13 @@ body {
     z-index: 1;
     animation: sparkleRotate 4s ease-in-out infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .anim-burger-float,
+    .anim-steam,
+    .sparkle {
+        animation: none !important;
+    }
+}
+
 
