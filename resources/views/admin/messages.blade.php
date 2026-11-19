@@ -41,8 +41,8 @@
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-7">
         <div>
-            <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="messages_title">Pesan Terbaru</h1>
-            <p class="text-xs sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="messages_subtitle">Pantau semua pesan masuk dan pertanyaan terbaru dari pelanggan di sini.</p>
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="messages_title">Pesan Terbaru</h1>
+            <p class="text-xs sm:text-[16px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="messages_subtitle">Pantau semua pesan masuk dan pertanyaan terbaru dari pelanggan di sini.</p>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3 relative flex-wrap sm:flex-nowrap">

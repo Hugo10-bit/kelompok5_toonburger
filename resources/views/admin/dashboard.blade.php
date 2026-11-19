@@ -7,10 +7,10 @@
 
     <div class="space-y-4 sm:space-y-6">
         <div>
-            <h1 class="text-xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
                 <span data-i18n="dash_greeting">Halo, Admin Toon Burger</span><span aria-hidden="true">👋</span>
             </h1>
-            <p class="text-xs sm:text-[13.5px] text-[#6B7280] dark:text-[#C4C9D0] mt-1 font-normal leading-relaxed" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
+            <p class="text-xs sm:text-[16px] text-[#6B7280] dark:text-[#C4C9D0] mt-1.5 font-normal leading-relaxed" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
         </div>
 
         @php

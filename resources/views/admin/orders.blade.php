@@ -5,8 +5,8 @@
 @section('admin_content')
 <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1">
     <div class="mb-5 sm:mb-7">
-        <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="ord_title">Proses pesanan</h1>
-        <p class="text-xs sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="ord_sub">Kelola dan konfirmasi pesanan yang masuk hari ini.</p>
+        <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="ord_title">Proses pesanan</h1>
+        <p class="text-xs sm:text-[16px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="ord_sub">Kelola dan konfirmasi pesanan yang masuk hari ini.</p>
     </div>
 
     <div class="flex flex-wrap items-center gap-2 sm:gap-3.5 mb-6 sm:mb-8">
