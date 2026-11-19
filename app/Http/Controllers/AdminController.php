@@ -452,7 +452,8 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
-        $isFeatured = $request->boolean('is_featured') || $request->boolean('is_popular');
+        $isAvailable = $request->has('is_available') ? $request->boolean('is_available') : true;
+        $isFeatured = $isAvailable && ($request->boolean('is_featured') || $request->boolean('is_popular'));
 
         $createdProduct = ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
             'name' => $request->name,
@@ -465,11 +466,11 @@ class AdminController extends Controller
             'prep_time_minutes' => $request->prep_time_minutes ?? 10,
             'image' => $imagePath,
             'is_featured' => $isFeatured,
-            'is_available' => $request->has('is_available') ? $request->boolean('is_available') : true,
+            'is_available' => $isAvailable,
         ]));
 
         if ($isFeatured && $createdProduct instanceof Product) {
-            $this->enforceMaxBestSellers($createdProduct->id);
+            $this->enforceMaxBestSellers($createdProduct->id, 4);
         }
 
         return back()->with('success', "Menu '{$request->name}' berhasil ditambahkan!");
@@ -529,7 +530,8 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
-        $isFeatured = $request->boolean('is_featured') || $request->boolean('is_popular');
+        $isAvailable = $request->boolean('is_available');
+        $isFeatured = $isAvailable && ($request->boolean('is_featured') || $request->boolean('is_popular'));
 
         ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => $product->update([
             'name' => $request->name,
@@ -541,7 +543,7 @@ class AdminController extends Controller
             'prep_time_minutes' => $request->prep_time_minutes,
             'image' => $imagePath,
             'is_featured' => $isFeatured,
-            'is_available' => $request->boolean('is_available'),
+            'is_available' => $isAvailable,
         ]));
 
         if ($isFeatured && ! $product->wasChanged()) {
@@ -549,18 +551,20 @@ class AdminController extends Controller
         }
 
         if ($isFeatured) {
-            $this->enforceMaxBestSellers($product->id);
+            $this->enforceMaxBestSellers($product->id, 4);
         }
 
         return back()->with('success', "Menu '{$product->name}' berhasil diperbarui!");
     }
 
     /**
-     * Keep at most $limit Best Seller products, automatically unmarking the oldest ones.
+     * Keep at most $limit active & available Best Seller products, automatically unmarking the oldest ones.
      */
     private function enforceMaxBestSellers(int $keepId, int $limit = 4): void
     {
         $otherKeepIds = Product::where('is_featured', true)
+            ->where('is_available', true)
+            ->whereHas('category', fn ($q) => $q->where('is_active', true))
             ->where('id', '!=', $keepId)
             ->orderByDesc('updated_at')
             ->orderByDesc('id')
@@ -570,13 +574,11 @@ class AdminController extends Controller
 
         $keepIds = array_merge([$keepId], $otherKeepIds);
 
-        $removed = Product::where('is_featured', true)
+        Product::where('is_featured', true)
             ->whereNotIn('id', $keepIds)
             ->update(['is_featured' => false]);
 
-        if ($removed > 0) {
-            \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
-        }
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
     }
 
     /**
@@ -586,6 +588,9 @@ class AdminController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->is_available = !$product->is_available;
+        if (! $product->is_available) {
+            $product->is_featured = false;
+        }
         $product->save();
 
         $statusText = $product->is_available ? 'Tersedia' : 'Habis / Nonaktif';
