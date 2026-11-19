@@ -83,7 +83,22 @@ function formatRupiah(num) {
     return (isEn ? 'IDR ' : 'Rp ') + Number(num).toLocaleString(isEn ? 'en-US' : 'id-ID');
 }
 
+function resolveMediaUrl(src, fallback = '/images/burger-bg.jpg') {
+    const trimmed = typeof src === 'string' ? src.trim() : '';
+    if (!trimmed) return fallback;
+    if (
+        trimmed.startsWith('data:image/')
+        || trimmed.startsWith('http://')
+        || trimmed.startsWith('https://')
+        || trimmed.startsWith('/')
+    ) {
+        return trimmed;
+    }
+    return '/' + trimmed.replace(/^\/+/, '');
+}
+
 function openCartDrawer() {
+    closeNavLangDropdown();
     const drawer = document.getElementById('cart-drawer');
     const backdrop = document.getElementById('cart-backdrop');
     if (!drawer) return;
@@ -220,24 +235,31 @@ function renderCart(cart) {
     if (summarySection) summarySection.classList.remove('hidden');
     if (actionSection) actionSection.classList.remove('hidden');
 
-    container.innerHTML = cart.items.map(item => `
+    container.innerHTML = cart.items.map(item => {
+        const safeName = escapeHomeHtml(item.name || '');
+        const safeImg = escapeHomeHtml(resolveMediaUrl(item.image_url || item.image));
+        const safeKey = escapeHomeHtml(item.cart_key || '');
+        const qty = Number(item.quantity) || 1;
+        return `
         <div class="bg-[#F4F5F7] rounded-[14px] p-3.5 flex gap-3.5 items-center">
-            <img src="${item.image ? '/' + item.image : '/images/burger-bg.jpg'}"
-                 alt="${item.name}"
+            <img src="${safeImg}"
+                 alt="${safeName}"
                  class="w-[74px] h-[74px] object-cover rounded-[10px] flex-shrink-0">
             <div class="flex-1 min-w-0">
-                <h4 class="font-semibold text-[14.5px] text-[#33373D] truncate leading-snug">${item.name}</h4>
+                <h4 class="font-semibold text-[14.5px] text-[#33373D] truncate leading-snug">${safeName}</h4>
                 <div class="text-[13.5px] text-[#6A6F77] font-normal mt-0.5">${formatRupiah(item.unit_price)}</div>
 
                 <div class="flex items-center justify-between mt-2.5 pt-2.5 border-t border-[#E5E7EB]">
                     <div class="inline-flex items-center bg-white border border-[#E5E7EB] rounded-[6px] px-1 py-0.5 shadow-2xs">
                         <button type="button"
-                                onclick="updateCartQty('${item.cart_key}', ${item.quantity - 1})"
+                                data-cart-key="${safeKey}"
+                                onclick="updateCartQty(this.dataset.cartKey, ${qty - 1})"
                                 class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
                                 aria-label="Kurangi jumlah">-</button>
-                        <span class="px-2 text-[11.5px] font-medium text-[#2E3137] select-none">${item.quantity}</span>
+                        <span class="px-2 text-[11.5px] font-medium text-[#2E3137] select-none">${qty}</span>
                         <button type="button"
-                                onclick="updateCartQty('${item.cart_key}', ${item.quantity + 1})"
+                                data-cart-key="${safeKey}"
+                                onclick="updateCartQty(this.dataset.cartKey, ${qty + 1})"
                                 class="w-5 h-5 flex items-center justify-center text-[#6A6F77] hover:text-[#2E3137] text-xs font-medium cursor-pointer transition"
                                 aria-label="Tambah jumlah">+</button>
                     </div>
@@ -245,7 +267,8 @@ function renderCart(cart) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
 async function updateCartQty(cartKey, qty) {
@@ -285,7 +308,7 @@ async function openProductModal(productId) {
         }
         document.getElementById('modal-product-desc').innerText = modalDesc;
         document.getElementById('modal-product-price').innerText = (currentModalProduct.formatted_price || formatRupiah(currentModalProduct.price)).toUpperCase();
-        document.getElementById('modal-product-image').src = currentModalProduct.image ? '/' + currentModalProduct.image : '/images/burger-bg.jpg';
+        document.getElementById('modal-product-image').src = resolveMediaUrl(currentModalProduct.image_url || currentModalProduct.image);
 
         const cardBg = document.getElementById('modal-product-card-bg');
         if (cardBg) {
@@ -308,7 +331,7 @@ async function openProductModal(productId) {
                 optContainer.innerHTML = currentModalProduct.options.map(opt => `
                     <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200/70">
                         <div class="flex items-center justify-between mb-1.5">
-                            <span class="text-[11px] font-bold text-gray-800">${opt.name}</span>
+                            <span class="text-[11px] font-bold text-gray-800">${escapeHomeHtml(opt.name)}</span>
                             ${opt.is_required ? `<span class="text-[9px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded">Wajib</span>` : `<span class="text-[9px] text-gray-400">Opsional</span>`}
                         </div>
                         <div class="space-y-1">
@@ -316,13 +339,13 @@ async function openProductModal(productId) {
                                 <label class="flex items-center justify-between p-1.5 rounded-lg bg-white border border-gray-200 cursor-pointer hover:border-[#385850] transition text-xs">
                                     <div class="flex items-center gap-1.5">
                                         <input type="${opt.type === 'single' ? 'radio' : 'checkbox'}"
-                                               name="option_${opt.id}${opt.type === 'single' ? '' : '[]'}"
-                                               value="${val.id}"
-                                               data-price="${val.additional_price}"
+                                               name="option_${escapeHomeHtml(opt.id)}${opt.type === 'single' ? '' : '[]'}"
+                                               value="${escapeHomeHtml(val.id)}"
+                                               data-price="${Number(val.additional_price) || 0}"
                                                ${val.is_default ? 'checked' : ''}
                                                onchange="recalculateModalPrice()"
                                                class="text-[#385850] focus:ring-[#385850]">
-                                        <span class="text-[11px] font-medium text-gray-700">${val.name}</span>
+                                        <span class="text-[11px] font-medium text-gray-700">${escapeHomeHtml(val.name)}</span>
                                     </div>
                                     <span class="font-bold text-gray-500 text-[10px]">
                                         ${Number(val.additional_price) > 0 ? '+ ' + formatRupiah(val.additional_price) : 'Gratis'}
@@ -662,6 +685,7 @@ function toggleMobileNav() {
     if (userMenu) userMenu.classList.add('hidden');
     if (userArrow) userArrow.classList.remove('rotate-180');
     if (searchDropdown) searchDropdown.classList.add('hidden');
+    closeNavLangDropdown();
     if (typeof closeCartDrawer === 'function') closeCartDrawer();
 
     if (menu) {
@@ -686,9 +710,10 @@ function toggleUserDropdown(event) {
     const mobileMenu = document.getElementById('mobile-nav-menu');
     const searchDropdown = document.getElementById('home-search-dropdown');
 
-    // Close mobile hamburger menu so they never overlap
+    // Close mobile hamburger menu and language dropdown so they never overlap
     if (mobileMenu) mobileMenu.classList.add('hidden');
     if (searchDropdown) searchDropdown.classList.add('hidden');
+    closeNavLangDropdown();
     if (typeof closeCartDrawer === 'function') closeCartDrawer();
 
     if (!menu) return;
@@ -703,7 +728,48 @@ function toggleUserDropdown(event) {
     }
 }
 
-// Close user dropdown when clicking outside
+function closeNavLangDropdown() {
+    const dropdown = document.getElementById('nav-lang-dropdown');
+    const chevron = document.getElementById('nav-lang-chevron');
+    const btn = document.getElementById('nav-lang-btn');
+    if (dropdown) dropdown.classList.add('hidden');
+    if (chevron) chevron.classList.remove('rotate-180');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+function toggleNavLangDropdown(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('nav-lang-dropdown');
+    const chevron = document.getElementById('nav-lang-chevron');
+    const btn = document.getElementById('nav-lang-btn');
+    const userMenu = document.getElementById('user-dropdown-menu');
+    const userArrow = document.getElementById('user-menu-arrow');
+    const mobileMenu = document.getElementById('mobile-nav-menu');
+    const searchDropdown = document.getElementById('home-search-dropdown');
+
+    if (userMenu) userMenu.classList.add('hidden');
+    if (userArrow) userArrow.classList.remove('rotate-180');
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (searchDropdown) searchDropdown.classList.add('hidden');
+    if (typeof closeCartDrawer === 'function') closeCartDrawer();
+
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+        dropdown.classList.remove('hidden');
+        if (chevron) chevron.classList.add('rotate-180');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    } else {
+        closeNavLangDropdown();
+    }
+}
+
+function selectNavLanguage(lang) {
+    setAppLanguage(lang);
+    closeNavLangDropdown();
+}
+
+// Close user dropdown and navbar language dropdown when clicking outside
 document.addEventListener('click', (event) => {
     const container = document.getElementById('user-dropdown-container');
     const menu = document.getElementById('user-dropdown-menu');
@@ -711,6 +777,11 @@ document.addEventListener('click', (event) => {
     if (container && menu && !container.contains(event.target)) {
         menu.classList.add('hidden');
         if (arrow) arrow.classList.remove('rotate-180');
+    }
+
+    const navLangContainer = document.getElementById('nav-lang-container');
+    if (navLangContainer && !navLangContainer.contains(event.target)) {
+        closeNavLangDropdown();
     }
 });
 
@@ -798,6 +869,7 @@ document.addEventListener('keydown', (e) => {
         if (userArrow) userArrow.classList.remove('rotate-180');
         const homeSearchDropdown = document.getElementById('home-search-dropdown');
         if (homeSearchDropdown) homeSearchDropdown.classList.add('hidden');
+        closeNavLangDropdown();
     }
 });
 
@@ -876,15 +948,22 @@ function escapeHomeHtml(str) {
 
 function renderHomeSearchResults(data, query) {
     if (!homeSearchContent) return;
+    const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
 
     if (!data.products || data.products.length === 0) {
+        const emptyTitle = isEn
+            ? `No menu found for "<span class="text-gray-900">${escapeHomeHtml(query)}</span>"`
+            : `Tidak ada menu untuk "<span class="text-gray-900">${escapeHomeHtml(query)}</span>"`;
+        const emptyHint = isEn
+            ? 'Try searching for Cheese Burger, Beef, or Chicken.'
+            : 'Coba cari Cheese Burger, Beef, atau Chicken.';
         homeSearchContent.innerHTML = `
             <div class="text-center py-5 text-gray-400">
                 <svg class="w-6 h-6 mx-auto text-gray-300 mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                <p class="text-xs font-semibold text-gray-600">Tidak ada menu untuk "<span class="text-gray-900">${escapeHomeHtml(query)}</span>"</p>
-                <p class="text-[11px] text-gray-400 mt-0.5">Coba cari Cheese Burger, Beef, atau Chicken.</p>
+                <p class="text-xs font-semibold text-gray-600">${emptyTitle}</p>
+                <p class="text-[11px] text-gray-400 mt-0.5">${emptyHint}</p>
             </div>
         `;
         return;
@@ -892,27 +971,34 @@ function renderHomeSearchResults(data, query) {
 
     const menuUrl = APP_CONFIG.menuUrl || '/menu';
     const logoImg = APP_CONFIG.logoImg || '/images/logo.png';
+    const relatedLabel = isEn ? `Related Menu (${data.products.length})` : `Menu Terkait (${data.products.length})`;
+    const viewAllLabel = isEn ? 'View All Menus &rarr;' : 'Lihat Semua Menu &rarr;';
+    const orderBtnLabel = isEn ? 'Order' : 'Pesan';
 
     let html = `
         <div class="space-y-1">
             <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 uppercase tracking-wider px-2 py-1 border-b border-gray-100">
-                <span>Menu Terkait (${data.products.length})</span>
-                <a href="${menuUrl}?q=${encodeURIComponent(query)}" class="text-[#3b6e64] hover:underline normal-case font-bold">Lihat Semua Menu &rarr;</a>
+                <span>${relatedLabel}</span>
+                <a href="${menuUrl}?q=${encodeURIComponent(query)}" class="text-[#3b6e64] hover:underline normal-case font-bold">${viewAllLabel}</a>
             </div>
     `;
 
     data.products.forEach(p => {
+        const safeUrl = escapeHomeHtml(p.url || menuUrl);
+        const safeImg = escapeHomeHtml(p.image || logoImg);
+        const safeName = escapeHomeHtml(p.name || '');
+        const safePrice = escapeHomeHtml(p.price_formatted || '');
         html += `
-            <a href="${p.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+            <a href="${safeUrl}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
                 <div class="flex items-center gap-2.5 min-w-0">
-                    <img src="${p.image}" alt="${escapeHomeHtml(p.name)}" class="w-9 h-9 rounded-lg object-cover shrink-0 bg-gray-100 border border-gray-100" onerror="this.onerror=null; this.src='${logoImg}';">
+                    <img src="${safeImg}" alt="${safeName}" class="w-9 h-9 rounded-lg object-cover shrink-0 bg-gray-100 border border-gray-100" onerror="this.onerror=null; this.src='${escapeHomeHtml(logoImg)}';">
                     <div class="min-w-0">
-                        <div class="text-xs font-bold text-gray-800 group-hover:text-[#3b6e64] transition truncate">${escapeHomeHtml(p.name)}</div>
-                        <div class="text-[11px] font-extrabold text-[#FFA000]">${p.price_formatted}</div>
+                        <div class="text-xs font-bold text-gray-800 group-hover:text-[#3b6e64] transition truncate">${safeName}</div>
+                        <div class="text-[11px] font-extrabold text-[#FFA000]">${safePrice}</div>
                     </div>
                 </div>
                 <span class="text-[10px] font-medium text-white bg-[#3b6e64] hover:bg-[#2d554d] px-2.5 py-1 rounded-lg transition shrink-0">
-                    Pesan
+                    ${orderBtnLabel}
                 </span>
             </a>
         `;
@@ -931,10 +1017,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// ═══════════════════════════════════════════════
-// INTERACTIVE MICRO-ANIMATION INITIALIZERS
-// ═══════════════════════════════════════════════
-// 1. 3D Tilt Card Interaction
+// 3D tilt card interaction
 function initTiltCards() {
     if (!window.matchMedia('(hover: hover)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     document.querySelectorAll('.toon-tilt-card').forEach(card => {
@@ -1282,35 +1365,6 @@ if (document.readyState === 'loading') {
     const _tbLoadedScriptSrcs = new Set();
     const CACHE_TTL_MS = 90000;
     let _navSeq = 0;
-    let _loaderBarHideTimer = null;
-
-    function startAppLoaderBar() {
-        const bar = document.getElementById('page-loader-bar');
-        if (!bar) return;
-        if (_loaderBarHideTimer) {
-            clearTimeout(_loaderBarHideTimer);
-            _loaderBarHideTimer = null;
-        }
-        bar.style.opacity = '1';
-        bar.style.transform = 'scaleX(0.35)';
-        window.requestAnimationFrame(() => {
-            bar.style.transform = 'scaleX(0.78)';
-        });
-    }
-
-    function finishAppLoaderBar() {
-        const bar = document.getElementById('page-loader-bar');
-        if (!bar) return;
-        bar.style.transform = 'scaleX(1)';
-        _loaderBarHideTimer = setTimeout(() => {
-            bar.style.opacity = '0';
-            setTimeout(() => {
-                if (bar.style.opacity === '0') {
-                    bar.style.transform = 'scaleX(0)';
-                }
-            }, 220);
-        }, 120);
-    }
 
     function normalizeAppUrl(url) {
         try {
@@ -1340,7 +1394,10 @@ if (document.readyState === 'loading') {
                 p.startsWith('/logout') ||
                 p.startsWith('/gofood') ||
                 p.startsWith('/checkout') ||
-                p.startsWith('/payment')
+                p.startsWith('/payment') ||
+                p.startsWith('/my-orders') ||
+                p.startsWith('/orders') ||
+                p.startsWith('/profile')
             ) {
                 return false;
             }
@@ -1412,9 +1469,11 @@ if (document.readyState === 'loading') {
         const doc = parser.parseFromString(htmlText, 'text/html');
         const mainEl = doc.querySelector('main');
         if (!mainEl) return null;
+        const footerEl = doc.querySelector('footer');
         return {
             title: doc.title || document.title,
             mainHtml: mainEl.innerHTML,
+            footerClass: footerEl ? footerEl.className : null,
             ts: Date.now()
         };
     }
@@ -1513,6 +1572,10 @@ if (document.readyState === 'loading') {
 
         document.title = payload.title;
         mainEl.innerHTML = payload.mainHtml;
+        const currentFooter = document.querySelector('footer');
+        if (currentFooter && payload.footerClass) {
+            currentFooter.className = payload.footerClass;
+        }
 
         const mobileMenu = document.getElementById('mobile-nav-menu');
         if (mobileMenu) mobileMenu.classList.add('hidden');
@@ -1557,15 +1620,11 @@ if (document.readyState === 'loading') {
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
             applyAppPayload(url, cached, pushHistory, preserveScroll);
-            finishAppLoaderBar();
             return;
         }
 
-        startAppLoaderBar();
-
         prefetchAppUrl(key).then(payload => {
             if (seq !== _navSeq) return;
-            finishAppLoaderBar();
             if (payload) {
                 applyAppPayload(url, payload, pushHistory, preserveScroll);
             } else {
@@ -1578,9 +1637,11 @@ if (document.readyState === 'loading') {
         try { updateAppNavHighlight(window.location.href); } catch (e) {}
         const mainEl = document.querySelector('main');
         if (mainEl) {
+            const footerEl = document.querySelector('footer');
             _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
                 title: document.title,
                 mainHtml: mainEl.innerHTML,
+                footerClass: footerEl ? footerEl.className : null,
                 ts: Date.now()
             });
         }
@@ -1670,9 +1731,7 @@ if (document.readyState === 'loading') {
     });
 })();
 
-// ==========================================
-// App Master Translation (i18n) Engine
-// ==========================================
+// App translation (i18n) lookup table
 const _tbPhraseMap = {
     // Brand & Hero
     'SETIAP GIGITAN PUNYA CERITA!': 'EVERY BITE HAS A STORY!',
@@ -1958,7 +2017,70 @@ const _tbPhraseMap = {
     'Opsional': 'Optional',
     'Tutup': 'Close',
     'Tekan Ctrl + Scroll untuk zoom peta': 'Press Ctrl + Scroll to zoom the map',
-    'Tekan ⌘ Cmd + Scroll untuk zoom peta': 'Press ⌘ Cmd + Scroll to zoom the map'
+    'Tekan ⌘ Cmd + Scroll untuk zoom peta': 'Press ⌘ Cmd + Scroll to zoom the map',
+
+    // Customer Profile Page
+    'Profil Saya': 'My Profile',
+    'Profil': 'Profile',
+    'Kelola informasi akun dan profil Anda': 'Manage your account and profile information',
+    'Format foto: JPG atau PNG (maks. 4 MB)': 'Photo format: JPG or PNG (max. 4 MB)',
+    'Nomor telfon': 'Phone Number',
+    'Masukkan nomor telepon': 'Enter phone number',
+    'Alamat': 'Address',
+    'Masukkan alamat lengkap': 'Enter full address',
+    'Simpan': 'Save',
+    'Password baru': 'New Password',
+    'Masukkan Password': 'Enter Password',
+    'Konfirmasi Password': 'Confirm Password',
+    'Konfirmasi Simpan Profil': 'Confirm Save Profile',
+    'Apakah Anda yakin ingin menyimpan perubahan pada profil ini?': 'Are you sure you want to save changes to this profile?',
+    'Ya, Simpan': 'Yes, Save',
+
+    // Store Operational Status & Banners
+    'Outlet Sedang Tutup': 'Outlet Is Currently Closed',
+    'Maaf, pemesanan dan checkout sementara dinonaktifkan. Jam operasional outlet:': 'Sorry, ordering and checkout are temporarily disabled. Outlet operating hours:',
+    'Checkout dinonaktifkan sementara hingga toko dibuka kembali.': 'Checkout is temporarily disabled until the store reopens.',
+    'Sudah Jam Tutup': 'Closed for the Day',
+    'Stok Habis': 'Out of Stock',
+    'Istirahat Sebentar': 'Short Break',
+    'Tutup Mendadak': 'Temporarily Closed',
+
+    // Order Payment Verification & Proof Upload
+    'Menunggu Verifikasi': 'Awaiting Verification',
+    'MENUNGGU VERIFIKASI ADMIN': 'AWAITING ADMIN VERIFICATION',
+    'Belum Dibayar': 'Unpaid',
+    'Lunas': 'Paid',
+    'Bukti Pembayaran Perlu Diunggah Ulang': 'Payment Proof Needs Re-upload',
+    'Upload Ulang Bukti': 'Re-upload Proof',
+    'Pembayaran Otomatis': 'Automatic Payment',
+    'Bukti Pembayaran Terkirim': 'Payment Proof Submitted',
+    'Menunggu Pembayaran': 'Awaiting Payment',
+    'Metode:': 'Method:',
+    'Selesaikan pembayaran — status pesanan akan otomatis berubah menjadi': 'Complete payment — your order status will automatically change to',
+    'setelah transfer diterima.': 'once the transfer is received.',
+    'Silakan lakukan pembayaran tunai langsung ke kasir Toon Burger saat mengambil pesanan.': 'Please pay cash directly to the Toon Burger cashier when picking up your order.',
+    'Bukti pembayaran Anda sudah diterima sistem': 'Your payment proof has been received by the system',
+    'Menunggu konfirmasi dari Admin / Kasir.': 'Awaiting confirmation from Admin / Cashier.',
+    'Scan QRIS / transfer sesuai nominal di atas, lalu unggah bukti pembayaran langsung ke sistem agar Admin dapat segera mengonfirmasi.': 'Scan QRIS or transfer the exact amount above, then upload your payment proof directly so our Admin can confirm promptly.',
+    'Lihat Kode QRIS': 'View QRIS Code',
+    'Ganti / Upload Ulang Bukti': 'Replace / Re-upload Proof',
+    'Upload Bukti Pembayaran': 'Upload Payment Proof',
+    'Terverifikasi Lunas': 'Verified Paid',
+    'Menunggu Konfirmasi Admin': 'Awaiting Admin Confirmation',
+    'Dikirim pada': 'Submitted on',
+    'Lihat Foto': 'View Photo',
+    'Ganti Bukti': 'Replace Proof',
+    'Catatan:': 'Note:',
+    'Buka aplikasi m-Banking (BCA, Mandiri, BRI, BNI) atau E-Wallet (GoPay, OVO, Dana, ShopeePay), scan QRIS di atas, lalu unggah bukti transfer di bawah ini.': 'Open your m-Banking app (BCA, Mandiri, BRI, BNI) or E-Wallet (GoPay, OVO, Dana, ShopeePay), scan the QRIS above, then upload your transfer proof below.',
+    'Status pesanan akan otomatis berubah menjadi': 'Order status will automatically change to',
+    'setelah diverifikasi oleh Admin / Kasir.': 'once verified by Admin / Cashier.',
+    'Bukti transfer akan langsung masuk ke sistem Admin Toon Burger tanpa perlu mengirim lewat WhatsApp.': 'Your transfer proof will be sent directly to the Toon Burger Admin system without needing WhatsApp.',
+    'Bukti Pembayaran #': 'Payment Proof #',
+    'Pilih / Upload Bukti Transfer': 'Select / Upload Transfer Proof',
+    'Screenshot m-Banking / E-Wallet (JPG, PNG, WEBP)': 'm-Banking / E-Wallet Screenshot (JPG, PNG, WEBP)',
+    'Ganti / Hapus': 'Change / Remove',
+    'Nama pengirim / catatan transfer (opsional)': 'Sender name / transfer note (optional)',
+    'Kirim Bukti Pembayaran': 'Submit Payment Proof'
 };
 
 const _tbSortedPhrases = Object.keys(_tbPhraseMap).sort((a, b) => b.length - a.length);
@@ -1976,6 +2098,7 @@ const _tbAppTranslations = {
         nav_about: 'Tentang',
         nav_contact: 'Kontak',
         nav_orders: 'Pesanan Saya',
+        nav_profile: 'Profil',
         nav_admin: 'Dashboard Admin',
         nav_logout: 'Logout',
         nav_search_placeholder: 'Cheese Burger...',
@@ -2011,6 +2134,7 @@ const _tbAppTranslations = {
         nav_about: 'About',
         nav_contact: 'Contact',
         nav_orders: 'My Orders',
+        nav_profile: 'Profile',
         nav_admin: 'Admin Dashboard',
         nav_logout: 'Logout',
         nav_search_placeholder: 'Cheese Burger...',
@@ -2172,27 +2296,61 @@ function applyAppTranslations(lang) {
     translateEntirePage(lang);
 }
 
+function getAppFlagSvg(isEn, clipId) {
+    if (isEn) {
+        return `<svg class="w-full h-full" viewBox="0 0 64 64">
+            <clipPath id="${clipId}"><circle cx="32" cy="32" r="32"/></clipPath>
+            <g clip-path="url(#${clipId})">
+                <path fill="#B22234" d="M0 0h64v64H0z"/>
+                <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+            </g>
+        </svg>`;
+    }
+    return `<svg class="w-full h-full" viewBox="0 0 64 64">
+        <clipPath id="${clipId}"><circle cx="32" cy="32" r="32"/></clipPath>
+        <g clip-path="url(#${clipId})">
+            <path fill="#E11B22" d="M0 0h64v32H0z"/>
+            <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+        </g>
+    </svg>`;
+}
+
 function updateAppLangUI(code) {
     const isEn = (code === 'EN' || code === 'US');
-    const labelText = isEn ? 'Language: English' : 'Bahasa: Indonesia';
-    const flag = isEn ? '🇺🇸' : '🇮🇩';
     const badgeText = isEn ? 'EN' : 'ID';
 
-    // Desktop dropdown
-    const textEl = document.getElementById('app-user-lang-text');
-    const flagEl = document.getElementById('app-user-lang-flag');
-    const codeEl = document.getElementById('app-user-lang-code');
-    if (textEl) textEl.textContent = labelText;
-    if (flagEl) flagEl.textContent = flag;
-    if (codeEl) codeEl.textContent = badgeText;
+    // Desktop navbar language selector (between Cart and Profile/Login)
+    const navFlagEl = document.getElementById('nav-lang-flag');
+    const navCodeEl = document.getElementById('nav-lang-code');
+    const navCheckId = document.getElementById('nav-lang-check-id');
+    const navCheckEn = document.getElementById('nav-lang-check-en');
+    if (navFlagEl) navFlagEl.innerHTML = getAppFlagSvg(isEn, 'circle-flag-nav-btn');
+    if (navCodeEl) navCodeEl.textContent = badgeText;
+    if (navCheckId) navCheckId.classList.toggle('hidden', isEn);
+    if (navCheckEn) navCheckEn.classList.toggle('hidden', !isEn);
 
-    // Mobile nav
-    const mobileTextEl = document.getElementById('app-mobile-user-lang-text');
-    const mobileFlagEl = document.getElementById('app-mobile-user-lang-flag');
-    const mobileCodeEl = document.getElementById('app-mobile-user-lang-code');
-    if (mobileTextEl) mobileTextEl.textContent = labelText;
-    if (mobileFlagEl) mobileFlagEl.textContent = flag;
-    if (mobileCodeEl) mobileCodeEl.textContent = badgeText;
+    // Profile dropdown single language switch button (desktop & mobile for authenticated users)
+    const profileFlagEl = document.getElementById('profile-lang-flag');
+    const profileLabelEl = document.getElementById('profile-lang-label');
+    if (profileFlagEl) profileFlagEl.innerHTML = getAppFlagSvg(isEn, 'circle-flag-profile-dd');
+    if (profileLabelEl) profileLabelEl.textContent = isEn ? 'English' : 'Indonesia';
+
+    // Mobile dropdown single language switch button (guests)
+    const mobileFlagEl = document.getElementById('mobile-lang-flag');
+    const mobileLabelEl = document.getElementById('mobile-lang-label');
+    if (mobileFlagEl) mobileFlagEl.innerHTML = getAppFlagSvg(isEn, 'circle-flag-mobile-dd');
+    if (mobileLabelEl) mobileLabelEl.textContent = isEn ? 'English' : 'Indonesia';
 }
 
 function setAppLanguage(lang) {
@@ -2298,6 +2456,9 @@ Object.assign(window, {
     showCartToast,
     toggleMobileNav,
     toggleUserDropdown,
+    toggleNavLangDropdown,
+    selectNavLanguage,
+    closeNavLangDropdown,
     confirmLogout,
     closeLogoutModal,
     submitLogoutForm,
