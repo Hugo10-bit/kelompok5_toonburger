@@ -1,8 +1,18 @@
+function escapeOrderDetailHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 window.confirmOrderDetailProcess = function (btn, nextStatus, orderNumber) {
     const isEn = (window._tbLang === 'EN' || window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
     const form = btn.closest('form');
     if (!form) return;
 
+    const safeOrderNumber = escapeOrderDetailHtml(orderNumber);
     let statusText = 'Lanjutkan Proses';
     if (nextStatus === 'preparing') statusText = isEn ? 'Accept & Cook' : 'Terima & Masak';
     else if (nextStatus === 'ready') statusText = isEn ? 'Mark as Ready to Serve' : 'Tandai Siap Saji';
@@ -12,8 +22,8 @@ window.confirmOrderDetailProcess = function (btn, nextStatus, orderNumber) {
     Swal.fire({
         title: isEn ? 'Update Order Status?' : 'Perbarui Status Pesanan?',
         html: isEn
-            ? `Proceed order <b>#${orderNumber}</b> to <b>${statusText}</b>?`
-            : `Apakah pesanan <b>#${orderNumber}</b> siap untuk <b>${statusText}</b>?`,
+            ? `Proceed order <b>#${safeOrderNumber}</b> to <b>${statusText}</b>?`
+            : `Apakah pesanan <b>#${safeOrderNumber}</b> siap untuk <b>${statusText}</b>?`,
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#385A56',
@@ -57,11 +67,13 @@ window.confirmOrderDetailCancel = function (btn, orderNumber) {
     const form = btn.closest('form');
     if (!form) return;
 
+    const safeOrderNumber = escapeOrderDetailHtml(orderNumber);
+
     Swal.fire({
         title: isEn ? 'Cancel Order?' : 'Batalkan Pesanan Ini?',
         html: isEn
-            ? `Are you sure you want to cancel order <b>#${orderNumber}</b>? This action cannot be undone.`
-            : `Apakah Anda yakin ingin membatalkan pesanan <b>#${orderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
+            ? `Are you sure you want to cancel order <b>#${safeOrderNumber}</b>? This action cannot be undone.`
+            : `Apakah Anda yakin ingin membatalkan pesanan <b>#${safeOrderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DE3B28',
@@ -89,11 +101,13 @@ window.confirmRejectPaymentProof = function (btn, orderNumber) {
     const form = btn.closest('form');
     if (!form) return;
 
+    const safeOrderNumber = escapeOrderDetailHtml(orderNumber);
+
     Swal.fire({
         title: isEn ? 'Reject Payment Proof?' : 'Tolak Bukti Pembayaran?',
         html: isEn
-            ? `Request customer to re-upload proof for order <b>#${orderNumber}</b>.`
-            : `Minta pelanggan mengunggah ulang bukti transfer untuk pesanan <b>#${orderNumber}</b>.`,
+            ? `Request customer to re-upload proof for order <b>#${safeOrderNumber}</b>.`
+            : `Minta pelanggan mengunggah ulang bukti transfer untuk pesanan <b>#${safeOrderNumber}</b>.`,
         input: 'text',
         inputPlaceholder: isEn ? 'Reason (optional, e.g. blurred / wrong amount)' : 'Alasan (opsional, misal: nominal kurang / foto buram)',
         icon: 'warning',

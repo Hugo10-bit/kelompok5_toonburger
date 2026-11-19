@@ -237,7 +237,7 @@ class OrderController extends Controller
             return;
         }
 
-        if ($order->user_id && (int) $order->user_id !== (int) Auth::id()) {
+        if ($order->user_id === null || (int) $order->user_id !== (int) Auth::id()) {
             abort(403, 'Anda tidak memiliki akses ke pesanan ini.');
         }
     }
@@ -319,7 +319,7 @@ class OrderController extends Controller
 
         $validator = Validator::make($request->all(), [
             'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-            'proof_data' => 'nullable|string',
+            'proof_data' => 'nullable|string|max:4194304',
             'payment_proof_note' => 'nullable|string|max:255',
         ], [
             'proof_image.image' => 'Bukti pembayaran wajib berupa gambar/screenshot (JPEG, PNG, atau WEBP).',
@@ -379,12 +379,30 @@ class OrderController extends Controller
      */
     private function resolvePaymentProofDataUri(Request $request): ?string
     {
+        $allowedImageTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG];
+        if (defined('IMAGETYPE_WEBP')) {
+            $allowedImageTypes[] = IMAGETYPE_WEBP;
+        }
+
         $rawDataUrl = trim((string) $request->input('proof_data', ''));
-        if ($rawDataUrl !== '' && preg_match('/^data:image\/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+\/=]+)$/', $rawDataUrl, $matches)) {
+        if ($rawDataUrl !== '' && strlen($rawDataUrl) <= 4194304 && preg_match('/^data:image\/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+\/=]+)$/', $rawDataUrl, $matches)) {
             $binary = base64_decode($matches[2], true);
-            if ($binary !== false && strlen($binary) > 0 && strlen($binary) <= 2097152 && @getimagesizefromstring($binary) !== false) {
-                $mime = $matches[1] === 'jpg' ? 'jpeg' : $matches[1];
-                return "data:image/{$mime};base64," . base64_encode($binary);
+            if ($binary !== false && strlen($binary) > 0 && strlen($binary) <= 2097152) {
+                $info = @getimagesizefromstring($binary);
+                $w = (int) ($info[0] ?? 0);
+                $h = (int) ($info[1] ?? 0);
+                if (
+                    $info !== false
+                    && in_array($info[2] ?? null, $allowedImageTypes, true)
+                    && $w > 0 && $h > 0 && $w <= 4096 && $h <= 4096 && ($w * $h) <= 12000000
+                ) {
+                    $mime = match ($info[2]) {
+                        IMAGETYPE_PNG => 'image/png',
+                        defined('IMAGETYPE_WEBP') ? IMAGETYPE_WEBP : -1 => 'image/webp',
+                        default => 'image/jpeg',
+                    };
+                    return $this->optimizeProofImageBinary($binary, $mime);
+                }
             }
         }
 
@@ -398,14 +416,26 @@ class OrderController extends Controller
         }
 
         $binary = @file_get_contents($file->getRealPath());
-        if ($binary === false || @getimagesizefromstring($binary) === false) {
+        if ($binary === false) {
             return null;
         }
 
-        $mime = strtolower((string) $file->getMimeType());
-        if (! in_array($mime, ['image/jpeg', 'image/png', 'image/webp'], true)) {
-            $mime = 'image/jpeg';
+        $info = @getimagesizefromstring($binary);
+        $w = (int) ($info[0] ?? 0);
+        $h = (int) ($info[1] ?? 0);
+        if (
+            $info === false
+            || ! in_array($info[2] ?? null, $allowedImageTypes, true)
+            || $w < 1 || $h < 1 || $w > 4096 || $h > 4096 || ($w * $h) > 12000000
+        ) {
+            return null;
         }
+
+        $mime = match ($info[2]) {
+            IMAGETYPE_PNG => 'image/png',
+            defined('IMAGETYPE_WEBP') ? IMAGETYPE_WEBP : -1 => 'image/webp',
+            default => 'image/jpeg',
+        };
 
         return $this->optimizeProofImageBinary($binary, $mime);
     }
@@ -515,8 +545,12 @@ class OrderController extends Controller
      */
     public function storeReview(Request $request, $order_number)
     {
-        $order = Order::where('order_number', $order_number)->firstOrFail();
+        $order = Order::with('items')->where('order_number', $order_number)->firstOrFail();
         $this->authorizeOrderOwner($order);
+
+        if ($order->status !== 'completed' && $order->payment_status !== 'paid') {
+            abort(422, 'Ulasan hanya dapat dikirim untuk pesanan yang sudah selesai atau lunas.');
+        }
 
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -524,9 +558,13 @@ class OrderController extends Controller
             'comment' => 'nullable|string|max:500',
         ]);
 
+        if (! $order->items->contains(fn ($item) => (int) $item->product_id === (int) $request->product_id)) {
+            abort(422, 'Produk tersebut tidak termasuk dalam pesanan ini.');
+        }
+
         Review::updateOrCreate(
             [
-                'user_id' => Auth::id() ?? 1,
+                'user_id' => Auth::id(),
                 'order_id' => $order->id,
                 'product_id' => $request->product_id,
             ],

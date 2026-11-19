@@ -3,12 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =========================================================
-   TOON BURGER - ADMIN PANEL STYLESHEET
-   Location: public/css/admin.css
-   ========================================================= */
-
-/* 1. Base Admin & Reset */
 html {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;

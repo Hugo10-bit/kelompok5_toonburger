@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#3B6E64">
     <meta name="mobile-web-app-capable" content="yes">
@@ -45,8 +45,6 @@
       data-empty-cart-img="{{ asset('images/empty-cart.png') }}"
       data-toon-head-img="{{ asset('images/toon-head.png') }}"
       data-logo-img="{{ asset('images/logo.png') }}">
-    <!-- Top Progress Bar for Smooth Navigation -->
-    <div id="page-loader-bar"></div>
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -144,7 +142,7 @@
                                placeholder="Cheese Burger..."
                                data-i18n-app-attr="placeholder:nav_search_placeholder"
                                autocomplete="off"
-                               class="bg-transparent text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                               class="nav-search-input bg-transparent border-0 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:outline-none focus:ring-0 w-full font-normal">
                         <button type="button"
                                 id="home-search-clear"
                                 onclick="clearHomeNavbarSearch()"
@@ -187,27 +185,105 @@
                         </span>
                     </button>
 
+                    <!-- Desktop language selector (between Cart and Profile/Login) -->
+                    <div class="relative select-none hidden lg:block" id="nav-lang-container">
+                        <button type="button"
+                                id="nav-lang-btn"
+                                onclick="toggleNavLangDropdown(event)"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-label="Pilih Bahasa"
+                                class="h-10 px-2.5 sm:px-3 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer shrink-0">
+                            <span id="nav-lang-flag" class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-white/30 shrink-0" aria-hidden="true">
+                                <svg class="w-full h-full" viewBox="0 0 64 64">
+                                    <clipPath id="circle-flag-nav-btn-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                    <g clip-path="url(#circle-flag-nav-btn-init)">
+                                        <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                        <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span id="nav-lang-code" class="tracking-wide">ID</span>
+                            <svg id="nav-lang-chevron" class="w-3.5 h-3.5 text-white/80 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <div id="nav-lang-dropdown" class="hidden absolute right-0 top-full mt-2.5 w-44 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-2 z-50 animate-modal-pop">
+                            <button type="button" onclick="selectNavLanguage('ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                        <svg class="w-full h-full" viewBox="0 0 64 64">
+                                            <clipPath id="circle-flag-nav-dd-id"><circle cx="32" cy="32" r="32"/></clipPath>
+                                            <g clip-path="url(#circle-flag-nav-dd-id)">
+                                                <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                                <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span>Indonesia</span>
+                                </span>
+                                <svg id="nav-lang-check-id" class="w-4 h-4 text-[#27443E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </button>
+                            <button type="button" onclick="selectNavLanguage('EN')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition mt-1 cursor-pointer">
+                                <span class="flex items-center gap-2.5">
+                                    <span class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                        <svg class="w-full h-full" viewBox="0 0 64 64">
+                                            <clipPath id="circle-flag-nav-dd-us"><circle cx="32" cy="32" r="32"/></clipPath>
+                                            <g clip-path="url(#circle-flag-nav-dd-us)">
+                                                <path fill="#B22234" d="M0 0h64v64H0z"/>
+                                                <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                                                <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                                                <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                                                <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                                                <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                                                <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                                                <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                                                <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                                                <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                                                <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                                                <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                                                <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span>English</span>
+                                </span>
+                                <svg id="nav-lang-check-en" class="w-4 h-4 text-[#27443E] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
                     @auth
+                        @php $navUserInitials = strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)); @endphp
+                        <input type="file"
+                               id="navbar-avatar-input"
+                               accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                               data-upload-url="{{ route('profile.avatar.update') }}"
+                               class="hidden"
+                               onchange="handleNavbarAvatarChange(this)">
                         <!-- User profile dropdown -->
                         <div class="relative" id="user-dropdown-container">
                             <button type="button"
                                     onclick="toggleUserDropdown(event)"
                                     id="user-menu-button"
                                     class="flex items-center gap-2.5 cursor-pointer group focus:outline-none text-left select-none">
-                                <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0 overflow-hidden">
+                                <div data-user-avatar-slot
+                                     data-user-initials="{{ $navUserInitials }}"
+                                     class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shadow-xs group-hover:scale-105 transition shrink-0 overflow-hidden">
                                     @if(!empty(Auth::user()->avatar))
-                                        <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
+                                        <img src="{{ Auth::user()->avatar_url }}"
                                              alt="Avatar"
                                              class="w-full h-full object-cover">
                                     @else
-                                        {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
+                                        {{ $navUserInitials }}
                                     @endif
                                 </div>
                                 <div class="text-left leading-tight hidden xl:block">
-                                    <div class="font-bold text-sm text-white leading-tight">
+                                    <div data-user-name-slot class="font-bold text-sm text-white leading-tight">
                                         {{ Auth::user()->name }}
                                     </div>
-                                    <div class="text-xs text-white/70 font-normal leading-tight mt-0.5 truncate max-w-[140px]">
+                                    <div data-user-email-slot class="text-xs text-white/70 font-normal leading-tight mt-0.5 truncate max-w-[140px]">
                                         {{ Auth::user()->email }}
                                     </div>
                                 </div>
@@ -218,20 +294,33 @@
 
                             <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
                                 <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden">
-                                        @if(!empty(Auth::user()->avatar))
-                                            <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
-                                                 alt="Avatar"
-                                                 class="w-full h-full object-cover">
-                                        @else
-                                            {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
-                                        @endif
-                                    </div>
+                                    <button type="button"
+                                            onclick="triggerNavbarAvatarPicker(event)"
+                                            title="Ubah Foto Profil"
+                                            aria-label="Ubah Foto Profil"
+                                            class="relative shrink-0 group cursor-pointer focus:outline-none">
+                                        <div data-user-avatar-slot
+                                             data-user-initials="{{ $navUserInitials }}"
+                                             class="w-11 h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm overflow-hidden shadow-xs">
+                                            @if(!empty(Auth::user()->avatar))
+                                                <img src="{{ Auth::user()->avatar_url }}"
+                                                     alt="Avatar"
+                                                     class="w-full h-full object-cover">
+                                            @else
+                                                {{ $navUserInitials }}
+                                            @endif
+                                        </div>
+                                        <span class="w-5 h-5 rounded-full bg-[#D1D5DB] group-hover:bg-[#BFC5CE] border-2 border-white flex items-center justify-center text-gray-700 absolute -bottom-0.5 -right-0.5 shadow-2xs transition group-active:scale-95">
+                                            <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                            </svg>
+                                        </span>
+                                    </button>
                                     <div class="min-w-0 flex-1">
-                                        <div class="font-bold text-xs text-gray-900 truncate">
+                                        <div data-user-name-slot class="font-bold text-xs text-gray-900 truncate">
                                             {{ Auth::user()->name }}
                                         </div>
-                                        <div class="text-[11px] text-gray-400 truncate">
+                                        <div data-user-email-slot class="text-[11px] text-gray-400 truncate">
                                             {{ Auth::user()->email }}
                                         </div>
                                         <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
@@ -246,12 +335,30 @@
                                         <span data-i18n-app="nav_orders">Pesanan Saya</span>
                                     </a>
 
-                                    <!-- Switch Language Button in Account Menu -->
-                                    <button type="button" onclick="toggleAppLanguage()" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-left cursor-pointer">
-                                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-                                        </svg>
-                                        <span id="app-user-lang-text" class="text-gray-700 font-medium">Bahasa: Indonesia</span>
+                                    @if(!Auth::user()->isAdmin() && !Auth::user()->isStaff())
+                                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
+                                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                            </svg>
+                                            <span data-i18n-app="nav_profile">Profil</span>
+                                        </a>
+                                    @endif
+
+                                    <button type="button"
+                                            id="profile-lang-toggle-btn"
+                                            onclick="toggleAppLanguage()"
+                                            aria-label="Ganti Bahasa"
+                                            class="lg:hidden w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-left cursor-pointer">
+                                        <span id="profile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                            <svg class="w-full h-full" viewBox="0 0 64 64">
+                                                <clipPath id="circle-flag-profile-dd-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                                <g clip-path="url(#circle-flag-profile-dd-init)">
+                                                    <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                                    <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                        <span id="profile-lang-label">Indonesia</span>
                                     </button>
 
                                     @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
@@ -295,24 +402,37 @@
 
             <!-- Mobile Navigation Menu -->
             <div id="mobile-nav-menu" class="hidden lg:hidden absolute top-full left-0 right-0 z-[60] mt-2.5 rounded-2xl overflow-hidden shadow-2xl p-3 border border-gray-200 bg-white text-gray-800 font-roboto">
-                <div class="space-y-1 text-sm font-roboto font-medium">
+                <div class="flex flex-col text-sm font-roboto font-medium">
                     @auth
                         <!-- Compact Profile Info inside Mobile Menu -->
-                        <div class="px-3.5 py-3 mb-2 rounded-xl bg-gray-50 border border-gray-100 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm shrink-0 overflow-hidden shadow-xs">
-                                @if(!empty(Auth::user()->avatar))
-                                    <img src="{{ str_starts_with(Auth::user()->avatar, 'http') ? Auth::user()->avatar : asset(Auth::user()->avatar) }}"
-                                         alt="Avatar"
-                                         class="w-full h-full object-cover">
-                                @else
-                                    {{ strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)) }}
-                                @endif
-                            </div>
+                        <div class="px-3.5 py-3 mb-2.5 rounded-xl bg-gray-50 border border-gray-100 flex items-center gap-3">
+                            <button type="button"
+                                    onclick="triggerNavbarAvatarPicker(event)"
+                                    title="Ubah Foto Profil"
+                                    aria-label="Ubah Foto Profil"
+                                    class="relative shrink-0 group cursor-pointer focus:outline-none">
+                                <div data-user-avatar-slot
+                                     data-user-initials="{{ $navUserInitials }}"
+                                     class="w-11 h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm overflow-hidden shadow-xs">
+                                    @if(!empty(Auth::user()->avatar))
+                                        <img src="{{ Auth::user()->avatar_url }}"
+                                             alt="Avatar"
+                                             class="w-full h-full object-cover">
+                                    @else
+                                        {{ $navUserInitials }}
+                                    @endif
+                                </div>
+                                <span class="w-5 h-5 rounded-full bg-[#D1D5DB] group-hover:bg-[#BFC5CE] border-2 border-gray-50 flex items-center justify-center text-gray-700 absolute -bottom-0.5 -right-0.5 shadow-2xs transition group-active:scale-95">
+                                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                    </svg>
+                                </span>
+                            </button>
                             <div class="min-w-0 flex-1 leading-tight">
-                                <div class="font-bold text-xs sm:text-sm text-gray-900 truncate">
+                                <div data-user-name-slot class="font-bold text-xs sm:text-sm text-gray-900 truncate">
                                     {{ Auth::user()->name }}
                                 </div>
-                                <div class="text-[11px] text-gray-500 truncate">
+                                <div data-user-email-slot class="text-[11px] text-gray-500 truncate">
                                     {{ Auth::user()->email }}
                                 </div>
                                 <span class="inline-block mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
@@ -323,7 +443,7 @@
                     @endauth
 
                     <!-- Mobile Search -->
-                    <div class="mb-2 pt-1">
+                    <div class="mb-2.5">
                         <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] rounded-full px-4 py-2 flex items-center gap-2.5 shadow-2xs">
                             <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -332,67 +452,66 @@
                                    name="q"
                                    placeholder="Cheese Burger..."
                                    data-i18n-app-attr="placeholder:nav_search_placeholder"
-                                   class="bg-transparent text-xs text-gray-800 placeholder-gray-400 outline-none w-full font-normal">
+                                   class="nav-search-input bg-transparent border-0 text-xs text-gray-800 placeholder-gray-400 outline-none focus:outline-none focus:ring-0 w-full font-normal">
                         </form>
                     </div>
 
-                    <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
-                                        {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        <span data-i18n-app="nav_home">Beranda</span>
-                    </a>
-                    <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
-                                        {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        <span data-i18n-app="nav_menu">Menu</span>
-                    </a>
-                    <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
-                                        {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        <span data-i18n-app="nav_about">Tentang</span>
-                    </a>
-                    <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
-                       class="block px-4 py-2 rounded-xl transition font-roboto font-medium
-                                        {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
-                        <span data-i18n-app="nav_contact">Kontak</span>
-                    </a>
-                    @auth
-                        <a href="{{ route('orders.index') }}" onclick="toggleMobileNav()"
-                           class="block px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition font-roboto font-medium">
-                            <span data-i18n-app="nav_orders">Pesanan Saya</span>
+                    <div class="space-y-1">
+                        <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
+                           class="block px-4 py-2 rounded-xl transition font-roboto font-medium
+                                            {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
+                            <span data-i18n-app="nav_home">Beranda</span>
                         </a>
-                        @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                            <a href="{{ route('admin.dashboard') }}" onclick="toggleMobileNav()"
-                               class="block px-4 py-2 rounded-xl text-[#3b6e64] hover:bg-[#3b6e64]/10 transition font-roboto font-medium">
-                                <span data-i18n-app="nav_admin">Dashboard Admin</span>
-                            </a>
-                        @endif
-                        <!-- Switch Language Button in Mobile Menu -->
-                        <button type="button" onclick="toggleAppLanguage()"
-                                class="w-full flex items-center gap-2.5 px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition text-left cursor-pointer font-roboto font-medium">
-                            <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-                            </svg>
-                            <span id="app-mobile-user-lang-text" class="text-xs font-roboto font-medium">Bahasa: Indonesia</span>
-                        </button>
-                        <button type="button" onclick="confirmLogout(event)"
-                            class="w-full text-left block px-4 py-2 rounded-xl text-red-700 hover:text-red-800 hover:bg-red-50 transition font-roboto font-medium cursor-pointer">
-                            <span data-i18n-app="nav_logout">Logout</span>
-                        </button>
-                    @else
-                        <div class="pt-2.5 mt-2 border-t border-gray-100 flex items-center gap-2 font-roboto font-medium">
+                        <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
+                           class="block px-4 py-2 rounded-xl transition font-roboto font-medium
+                                            {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
+                            <span data-i18n-app="nav_menu">Menu</span>
+                        </a>
+                        <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
+                           class="block px-4 py-2 rounded-xl transition font-roboto font-medium
+                                            {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
+                            <span data-i18n-app="nav_about">Tentang</span>
+                        </a>
+                        <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
+                           class="block px-4 py-2 rounded-xl transition font-roboto font-medium
+                                            {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
+                            <span data-i18n-app="nav_contact">Kontak</span>
+                        </a>
+                        @guest
+                            <!-- Guest mobile language switch item -->
+                            <button type="button"
+                                    id="mobile-lang-toggle-btn"
+                                    onclick="toggleAppLanguage()"
+                                    aria-label="Ganti Bahasa"
+                                    class="w-full flex items-center gap-2.5 px-4 py-2 rounded-xl text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition font-roboto font-medium text-left cursor-pointer">
+                                <span id="mobile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
+                                    <svg class="w-full h-full" viewBox="0 0 64 64">
+                                        <clipPath id="circle-flag-mobile-dd-init"><circle cx="32" cy="32" r="32"/></clipPath>
+                                        <g clip-path="url(#circle-flag-mobile-dd-init)">
+                                            <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                                            <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <span id="mobile-lang-label">Indonesia</span>
+                            </button>
+                        @endguest
+                    </div>
+
+                    @guest
+                        <div class="mt-2.5 pt-2.5 border-t border-gray-100 flex items-center gap-2 font-roboto font-medium">
                             <a href="{{ route('login') }}" onclick="toggleMobileNav()"
-                               class="flex-1 text-center py-2.5 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-roboto font-medium transition">
+                               class="flex-1 text-center min-h-[40px] inline-flex items-center justify-center px-3 py-2 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-roboto font-medium transition">
                                 <span data-i18n-app="nav_login">Login</span>
                             </a>
                             <a href="{{ route('register') }}" onclick="toggleMobileNav()"
-                               class="flex-1 text-center py-2.5 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-roboto font-medium transition shadow-xs">
+                               class="flex-1 text-center min-h-[40px] inline-flex items-center justify-center px-3 py-2 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-roboto font-medium transition shadow-xs">
                                 <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
                         </div>
-                    @endauth
+                    @endguest
+                </div>
             </div>
-        </div>
     </div>
 </header>
 

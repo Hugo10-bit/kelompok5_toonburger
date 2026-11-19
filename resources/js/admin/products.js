@@ -1,10 +1,141 @@
+import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+
 function initAdminProducts() {
     const modal = document.getElementById('productModal');
     if (!modal) return;
     const form = document.getElementById('productForm');
     const title = document.getElementById('modalTitle');
     const methodInput = document.getElementById('formMethod');
+    const imageInput = document.getElementById('prod_image_input');
+    const imageDataInput = document.getElementById('prod_image_data');
+    const previewWrap = document.getElementById('prod_image_preview_wrap');
+    const previewImg = document.getElementById('prod_image_preview');
+    const priceInputEl = document.getElementById('prod_price');
     let prodSortAsc = null;
+    let pendingProductImageCompression = Promise.resolve('');
+
+    if (priceInputEl && priceInputEl.dataset.stepBound !== 'true') {
+        priceInputEl.dataset.stepBound = 'true';
+
+        const stepPriceBy = (delta) => {
+            const min = parseInt(priceInputEl.min, 10) || 1000;
+            const max = parseInt(priceInputEl.max, 10) || 1000000;
+            const current = parseInt(priceInputEl.value, 10);
+            let next;
+            if (isNaN(current)) {
+                next = delta > 0 ? min : max;
+            } else {
+                next = Math.min(max, Math.max(min, current + delta));
+            }
+            priceInputEl.value = String(next);
+            priceInputEl.dispatchEvent(new Event('input', { bubbles: true }));
+            priceInputEl.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        priceInputEl.addEventListener('keydown', function (e) {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                stepPriceBy(500);
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                stepPriceBy(-500);
+            }
+        });
+
+        priceInputEl.addEventListener('mousedown', function (e) {
+            const rect = priceInputEl.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            // Native number spinner sits on the right edge (~30px wide)
+            if (clickX >= rect.width - 32) {
+                e.preventDefault();
+                priceInputEl.focus();
+                const isUp = clickY < rect.height / 2;
+                stepPriceBy(isUp ? 500 : -500);
+            }
+        });
+    }
+
+    function showProductPreview(src) {
+        if (previewImg && previewWrap && src) {
+            previewImg.src = src;
+            previewWrap.classList.remove('hidden');
+        }
+    }
+
+    function hideProductPreview() {
+        if (previewImg) previewImg.src = '';
+        if (previewWrap) previewWrap.classList.add('hidden');
+    }
+
+    function showProductImageWarning(titleText, bodyText) {
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'warning',
+                title: titleText,
+                text: bodyText,
+                confirmButtonColor: '#415C58'
+            });
+        } else {
+            alert(bodyText);
+        }
+    }
+
+    if (imageInput && imageInput.dataset.bound !== 'true') {
+        imageInput.dataset.bound = 'true';
+        imageInput.addEventListener('change', function () {
+            imageInput.disabled = false;
+            if (!imageInput.files || !imageInput.files[0]) {
+                if (imageDataInput) imageDataInput.value = '';
+                pendingProductImageCompression = Promise.resolve('');
+                if (methodInput && methodInput.value === 'POST') {
+                    hideProductPreview();
+                }
+                return;
+            }
+
+            const file = imageInput.files[0];
+
+            if (!isValidJpgOrPngFile(file)) {
+                showProductImageWarning(
+                    'Format File Tidak Sesuai',
+                    'Gambar produk hanya diperbolehkan berformat JPG atau PNG.'
+                );
+                imageInput.value = '';
+                if (imageDataInput) imageDataInput.value = '';
+                pendingProductImageCompression = Promise.resolve('');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showProductImageWarning(
+                    'Ukuran File Terlalu Besar',
+                    'Ukuran gambar produk maksimal 5 MB.'
+                );
+                imageInput.value = '';
+                if (imageDataInput) imageDataInput.value = '';
+                pendingProductImageCompression = Promise.resolve('');
+                return;
+            }
+
+            if (imageDataInput) imageDataInput.value = '';
+            pendingProductImageCompression = compressJpgOrPngToDataUrl(file, { maxDim: 900, quality: 0.82 }).then((dataUrl) => {
+                if (!dataUrl) {
+                    showProductImageWarning(
+                        'Gambar Tidak Dapat Dibaca',
+                        'File foto rusak atau bukan gambar JPG/PNG yang valid.'
+                    );
+                    imageInput.value = '';
+                    if (imageDataInput) imageDataInput.value = '';
+                    return '';
+                }
+
+                if (imageDataInput) imageDataInput.value = dataUrl;
+                showProductPreview(dataUrl);
+                return dataUrl;
+            });
+        });
+    }
 
     window.toggleProdFilterMenu = function () {
         const menu = document.getElementById('prod-filter-menu');
@@ -48,17 +179,37 @@ function initAdminProducts() {
         form.action = form.dataset.storeUrl || '/admin/products';
         methodInput.value = 'POST';
         form.reset();
+        if (imageInput) {
+            imageInput.disabled = false;
+            imageInput.value = '';
+        }
+        if (imageDataInput) imageDataInput.value = '';
+        pendingProductImageCompression = Promise.resolve('');
+        hideProductPreview();
         const availEl = document.getElementById('prod_avail');
         if (availEl) availEl.checked = true;
         modal.classList.remove('hidden');
     };
 
-    window.openEditModal = function (product) {
+    window.openEditModal = function (product, triggerBtn = null) {
         if (!modal || !form || !title || !methodInput) return;
         const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
         title.innerText = (isEn ? 'Edit Product: ' : 'Edit Produk: ') + product.name;
         form.action = `/admin/products/${product.id}`;
         methodInput.value = 'PUT';
+        if (imageInput) {
+            imageInput.disabled = false;
+            imageInput.value = '';
+        }
+        if (imageDataInput) imageDataInput.value = '';
+        pendingProductImageCompression = Promise.resolve('');
+        const cardOrRow = triggerBtn && triggerBtn.closest ? triggerBtn.closest('.product-row, .product-mobile-card') : null;
+        const thumbImg = cardOrRow ? cardOrRow.querySelector('.product-thumb-img') : null;
+        if (thumbImg && thumbImg.getAttribute('src')) {
+            showProductPreview(thumbImg.getAttribute('src'));
+        } else {
+            hideProductPreview();
+        }
         document.getElementById('prod_name').value = product.name;
         document.getElementById('prod_cat').value = product.category_id;
         document.getElementById('prod_price').value = product.price;
@@ -72,7 +223,8 @@ function initAdminProducts() {
         if (modal) modal.classList.add('hidden');
     };
 
-    if (form) {
+    if (form && form.dataset.productBound !== 'true') {
+        form.dataset.productBound = 'true';
         let isSubmitting = false;
         form.addEventListener('submit', function (e) {
             if (isSubmitting) return;
@@ -102,6 +254,14 @@ function initAdminProducts() {
             e.preventDefault();
             isSubmitting = true;
             if (modal) modal.classList.add('hidden');
+
+            const finalizeProductSubmit = async () => {
+                await pendingProductImageCompression;
+                if (imageDataInput && imageDataInput.value.startsWith('data:image/') && imageInput) {
+                    imageInput.disabled = true;
+                }
+                form.submit();
+            };
 
             const isEdit = methodInput && methodInput.value === 'PUT';
             const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
@@ -135,10 +295,10 @@ function initAdminProducts() {
                         clearInterval(timerInterval);
                     }
                 }).then(() => {
-                    form.submit();
+                    finalizeProductSubmit();
                 });
             } else {
-                form.submit();
+                finalizeProductSubmit();
             }
         });
     }

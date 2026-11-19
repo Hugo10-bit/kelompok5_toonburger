@@ -5,9 +5,6 @@
 @section('content')
 <div class="space-y-0 pb-0">
 
-    <!-- ═══════════════════════════════════════════════
-         1. HERO BANNER (MENU PAGE - Sesuai Foto)
-         ═══════════════════════════════════════════════ -->
     @include('partials.hero-banner', [
         'headline' => 'MAU MAKAN<br>APA HARI INI?',
         'headlineDesktopClass' => 'lg:text-[52px] xl:text-[60px]',
@@ -15,17 +12,11 @@
         'revealClass' => 'toon-reveal',
     ])
 
-    <!-- ═══════════════════════════════════════════════
-         2. CATALOG / MENU SECTION
-         ═══════════════════════════════════════════════ -->
     <div id="semua-menu" class="retro-grid-bg pt-6 sm:pt-10 pb-8 sm:pb-14 select-none scroll-mt-24">
         <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-5 sm:space-y-8">
 
             @include('partials.store-closed-banner')
 
-            <!-- ═══════════════════════════════════════════════
-                 HEADER: SEMUA MENU
-                 ═══════════════════════════════════════════════ -->
             <div class="space-y-1 text-left pt-1 sm:pt-4 toon-reveal">
                 <h2 class="font-brand text-2xl sm:text-4xl lg:text-[44px] text-[#224038] tracking-wide uppercase leading-tight"
                     style="font-family: 'BBH Hegarty', cursive, sans-serif;">
@@ -36,11 +27,7 @@
                 </p>
             </div>
 
-        <!-- ═══════════════════════════════════════════════
-             2. CATEGORY FILTER PILLS (Matching Figma Mockup)
-             ═══════════════════════════════════════════════ -->
         <div class="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5 toon-reveal scroll-smooth snap-x snap-mandatory touch-pan-x" style="transition-delay: 80ms; -webkit-overflow-scrolling: touch;">
-            <!-- "Semua" Pill -->
             @php
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
             @endphp
@@ -50,7 +37,6 @@
                 <span>Semua</span>
             </a>
 
-            <!-- Individual Category Pills -->
             @foreach($categories as $category)
                 @php
                     $isActive = ($selectedCategory === $category->slug);
@@ -73,9 +59,6 @@
                 </a>
             </div>
         @else
-            <!-- ═══════════════════════════════════════════════
-                 3. PRODUCT CARDS GRID (Matching Figma Mockup)
-                 ═══════════════════════════════════════════════ -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 @foreach($products as $product)
                     @php

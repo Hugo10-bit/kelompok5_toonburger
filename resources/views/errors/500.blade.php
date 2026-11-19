@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 - Dapur Sedang Gangguan | Toon Burger</title>
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Google Fonts: Bebas Neue, Luckiest Guy, Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

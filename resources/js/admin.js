@@ -309,13 +309,13 @@ const _tbTranslations = {
         dash_greeting: 'Halo, Admin Toon Burger',
         dash_subtitle: 'Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.',
         dash_metric_profit: 'Pendapatan Hari Ini',
-        dash_sub_profit: 'Lorem ipsum dolor',
+        dash_sub_profit: 'Pemasukan penjualan lunas',
         dash_metric_orders: 'Pesanan Hari Ini',
-        dash_sub_orders: 'Lorem ipsum dolor',
+        dash_sub_orders: 'Total transaksi masuk',
         dash_metric_progress: 'Pesanan Dalam Proses',
-        dash_sub_progress: 'Lorem ipsum dolor',
+        dash_sub_progress: 'Sedang disiapkan dapur',
         dash_metric_products: 'Total Produk',
-        dash_sub_products: 'Lorem ipsum dolor',
+        dash_sub_products: 'Varian menu tersedia',
         dash_up5: 'Naik 5% dari kemarin',
         dash_up2: 'Naik 2% dari kemarin',
         dash_needs_processing: 'Perlu segera diproses',
@@ -549,6 +549,30 @@ const _tbTranslations = {
         mod_cat_add: 'Tambah Kategori',
         lbl_cat_name: 'Nama Kategori',
         btn_save: 'Simpan',
+        // Store Operational Status & Modals
+        store_status_label: 'Status Operasional',
+        store_open_badge: 'BUKA',
+        store_closed_badge: 'TUTUP',
+        store_active_desc: 'Website aktif menerima pesanan',
+        store_closed_desc: 'Pemesanan pelanggan dinonaktifkan',
+        store_close_btn: 'Tutup Toko',
+        store_open_btn: 'Buka Toko',
+        store_close_modal_title: 'Tutup Toko Sekarang?',
+        store_close_modal_desc: 'Pelanggan tidak akan bisa melakukan checkout saat toko berstatus tutup.',
+        store_close_reason_label: 'Pilih alasan cepat (opsional tampil di web):',
+        store_reason_out_of_stock: 'Stok Habis',
+        store_reason_short_break: 'Istirahat Sebentar',
+        store_reason_closing_hours: 'Sudah Jam Tutup',
+        store_reason_sudden_close: 'Tutup Mendadak',
+        store_close_confirm: 'Ya, Tutup Toko',
+        store_open_modal_title: 'Buka Toko Sekarang?',
+        store_open_modal_desc: 'Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.',
+        store_open_confirm: 'Ya, Buka Toko',
+        prof_photo_hint: 'Format foto: JPG atau PNG (maks. 4 MB)',
+        prof_confirm_title: 'Konfirmasi Simpan Profil',
+        prof_confirm_msg: 'Apakah Anda yakin ingin menyimpan perubahan pada profil admin ini?',
+        prof_confirm_btn: 'Ya, Simpan',
+        prod_img_hint: 'Format: JPG atau PNG (maks. 5 MB)',
     },
     EN: {
         // Layout: Nav
@@ -580,13 +604,13 @@ const _tbTranslations = {
         dash_greeting: 'Hello, Toon Burger Admin',
         dash_subtitle: "Monitor Toon Burger's sales performance and active orders for today.",
         dash_metric_profit: "Today's Revenue",
-        dash_sub_profit: 'Lorem ipsum dolor',
+        dash_sub_profit: 'Settled daily revenue',
         dash_metric_orders: "Today's Orders",
-        dash_sub_orders: 'Lorem ipsum dolor',
+        dash_sub_orders: 'Total incoming orders',
         dash_metric_progress: 'Orders in Progress',
-        dash_sub_progress: 'Lorem ipsum dolor',
+        dash_sub_progress: 'Currently in kitchen',
         dash_metric_products: 'Total Products',
-        dash_sub_products: 'Lorem ipsum dolor',
+        dash_sub_products: 'Menu items catalog',
         dash_up5: 'Up 5% from yesterday.',
         dash_up2: 'Up 2% from yesterday.',
         dash_needs_processing: 'Process immediately',
@@ -820,6 +844,30 @@ const _tbTranslations = {
         mod_cat_add: 'Add Category',
         lbl_cat_name: 'Category Name',
         btn_save: 'Save',
+        // Store Operational Status & Modals
+        store_status_label: 'Store Status',
+        store_open_badge: 'OPEN',
+        store_closed_badge: 'CLOSED',
+        store_active_desc: 'Website is actively accepting orders',
+        store_closed_desc: 'Customer ordering is paused',
+        store_close_btn: 'Close Store',
+        store_open_btn: 'Open Store',
+        store_close_modal_title: 'Close Store Now?',
+        store_close_modal_desc: 'Customers will not be able to check out while the store is closed.',
+        store_close_reason_label: 'Choose a quick reason (shown on the website):',
+        store_reason_out_of_stock: 'Out of Stock',
+        store_reason_short_break: 'Short Break',
+        store_reason_closing_hours: 'Closed for the Day',
+        store_reason_sudden_close: 'Temporarily Closed',
+        store_close_confirm: 'Yes, Close Store',
+        store_open_modal_title: 'Open Store Now?',
+        store_open_modal_desc: 'Customers will be able to add items to their cart and check out again on Toon Burger.',
+        store_open_confirm: 'Yes, Open Store',
+        prof_photo_hint: 'Photo format: JPG or PNG (max. 4 MB)',
+        prof_confirm_title: 'Confirm Save Profile',
+        prof_confirm_msg: 'Are you sure you want to save changes to this admin profile?',
+        prof_confirm_btn: 'Yes, Save',
+        prod_img_hint: 'Format: JPG or PNG (max. 5 MB)',
     }
 };
 
@@ -932,19 +980,44 @@ function selectLanguage(lang, code) {
     applyTranslations(code === 'US' ? 'EN' : 'ID');
     updateAdminThemeUI(getAdminTheme());
 
-    // Sync Profile Dropdown Language Toggle
     const isEnglish = (code === 'US' || code === 'EN');
-    const profileLangLabel = document.getElementById('header-profile-lang-label');
-    const profileLangFlag = document.getElementById('header-profile-lang-flag');
-    const profileLangCode = document.getElementById('header-profile-lang-code');
-    if (profileLangLabel) {
-        profileLangLabel.textContent = isEnglish ? 'Language: English' : 'Bahasa: Indonesia';
+
+    const mobileFlagEl = document.getElementById('mobile-admin-lang-flag');
+    const mobileLabelEl = document.getElementById('mobile-admin-lang-label');
+    if (mobileLabelEl) {
+        mobileLabelEl.textContent = isEnglish ? 'English' : 'Indonesia';
     }
-    if (profileLangFlag) {
-        profileLangFlag.textContent = isEnglish ? '🇺🇸' : '🇮🇩';
-    }
-    if (profileLangCode) {
-        profileLangCode.textContent = isEnglish ? 'EN' : 'ID';
+    if (mobileFlagEl) {
+        if (isEnglish) {
+            mobileFlagEl.innerHTML = `
+                <svg class="w-full h-full" viewBox="0 0 64 64">
+                    <clipPath id="circle-flag-mobile-admin-us"><circle cx="32" cy="32" r="32"/></clipPath>
+                    <g clip-path="url(#circle-flag-mobile-admin-us)">
+                        <path fill="#B22234" d="M0 0h64v64H0z"/>
+                        <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
+                        <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
+                        <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
+                        <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
+                        <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
+                        <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
+                        <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
+                        <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
+                        <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
+                        <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
+                        <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
+                        <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
+                    </g>
+                </svg>`;
+        } else {
+            mobileFlagEl.innerHTML = `
+                <svg class="w-full h-full" viewBox="0 0 64 64">
+                    <clipPath id="circle-flag-mobile-admin-id"><circle cx="32" cy="32" r="32"/></clipPath>
+                    <g clip-path="url(#circle-flag-mobile-admin-id)">
+                        <path fill="#E11B22" d="M0 0h64v32H0z"/>
+                        <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
+                    </g>
+                </svg>`;
+        }
     }
 
     window.dispatchEvent(new CustomEvent('tb:langchange', { detail: { lang: code === 'US' ? 'EN' : 'ID' } }));
@@ -952,6 +1025,7 @@ function selectLanguage(lang, code) {
     try {
         localStorage.setItem('tb_admin_lang', code);
         localStorage.setItem('tb_lang', isEnglish ? 'EN' : 'ID');
+        localStorage.setItem('toon_lang', isEnglish ? 'en' : 'id');
     } catch (err) {}
 
     const dropdown = document.getElementById('header-lang-dropdown');
@@ -960,14 +1034,11 @@ function selectLanguage(lang, code) {
     if (chevron) chevron.style.transform = 'rotate(0deg)';
 }
 
-function toggleAdminLanguage() {
-    const isEnglish = (window._tbLang === 'US' || window._tbLang === 'EN');
-    if (isEnglish) {
-        selectLanguage('Indonesia', 'ID');
-    } else {
-        selectLanguage('English', 'US');
-    }
+function toggleAdminMobileLanguage() {
+    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN');
+    selectLanguage(isEn ? 'Indonesia' : 'English', isEn ? 'ID' : 'US');
 }
+window.toggleAdminMobileLanguage = toggleAdminMobileLanguage;
 
 function toggleProfileDropdown(e) {
     if (e) e.stopPropagation();
@@ -991,9 +1062,7 @@ function toggleProfileDropdown(e) {
     }
 }
 
-// ==========================================
-// Theme Management (Light / Dark Mode)
-// ==========================================
+// Theme management (light / dark mode)
 function getAdminTheme() {
     return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 }
@@ -1176,15 +1245,17 @@ function renderHeaderSearchResults(data, query) {
                 <div class="space-y-1 mt-1.5">
         `;
         data.products.forEach(p => {
+            const safeUrl = escapeHeaderHtml(p.url || adminProductsUrl);
+            const rawPrice = isEn && p.price_formatted ? p.price_formatted.replace(/^Rp\s*/i, 'IDR ') : (p.price_formatted || '');
             html += `
-                <a href="${p.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+                <a href="${safeUrl}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="w-8 h-8 rounded-lg bg-orange-50 border border-orange-100 flex items-center justify-center text-xs shrink-0 font-bold text-[#FFA000]">
                             🍔
                         </div>
                         <div class="min-w-0">
                             <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(p.name)}</div>
-                            <div class="text-[11px] text-gray-500 font-medium">${isEn && p.price_formatted ? p.price_formatted.replace(/^Rp\s*/i, 'IDR ') : p.price_formatted}</div>
+                            <div class="text-[11px] text-gray-500 font-medium">${escapeHeaderHtml(rawPrice)}</div>
                         </div>
                     </div>
                     <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${p.is_available ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
@@ -1206,15 +1277,17 @@ function renderHeaderSearchResults(data, query) {
                 <div class="space-y-1 mt-1.5">
         `;
         data.orders.forEach(o => {
+            const safeUrl = escapeHeaderHtml(o.url || adminOrdersUrl);
+            const rawTotal = isEn && o.total_formatted ? o.total_formatted.replace(/^Rp\s*/i, 'IDR ') : (o.total_formatted || '');
             html += `
-                <a href="${o.url}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
+                <a href="${safeUrl}" class="flex items-center justify-between p-2 rounded-xl hover:bg-gray-50 transition group">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-xs shrink-0 font-bold text-blue-600">
                             🧾
                         </div>
                         <div class="min-w-0">
                             <div class="text-xs font-bold text-gray-800 group-hover:text-[#415C58] transition truncate">${escapeHeaderHtml(o.order_number)} <span class="text-gray-400 font-normal">(${escapeHeaderHtml(o.customer_name)})</span></div>
-                            <div class="text-[11px] text-gray-500 font-medium">${isEn && o.total_formatted ? o.total_formatted.replace(/^Rp\s*/i, 'IDR ') : o.total_formatted}</div>
+                            <div class="text-[11px] text-gray-500 font-medium">${escapeHeaderHtml(rawTotal)}</div>
                         </div>
                     </div>
                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 capitalize">
@@ -1233,8 +1306,9 @@ function renderHeaderSearchResults(data, query) {
                 <div class="flex flex-wrap gap-1.5 mt-2 px-2">
         `;
         data.categories.forEach(c => {
+            const safeUrl = escapeHeaderHtml(c.url || '/admin/categories');
             html += `
-                <a href="${c.url}" class="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 hover:bg-[#415C58] hover:text-white text-gray-700 rounded-lg text-xs font-medium transition">
+                <a href="${safeUrl}" class="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 hover:bg-[#415C58] hover:text-white text-gray-700 rounded-lg text-xs font-medium transition">
                     <span>🏷️</span>
                     <span>${escapeHeaderHtml(c.name)}</span>
                 </a>
@@ -1658,7 +1732,6 @@ Object.assign(window, {
     toggleLanguageDropdown,
     applyTranslations,
     selectLanguage,
-    toggleAdminLanguage,
     toggleProfileDropdown,
     getAdminTheme,
     updateAdminThemeUI,

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\ClearsMenuCatalogCache;
+use App\Services\ImageDataUriService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,6 +37,11 @@ class Product extends Model
             'calories' => 'integer',
             'prep_time_minutes' => 'integer',
         ];
+    }
+
+    public function getImageUrlAttribute(): string
+    {
+        return ImageDataUriService::toAssetUrl($this->image, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
     }
 
     public function category(): BelongsTo

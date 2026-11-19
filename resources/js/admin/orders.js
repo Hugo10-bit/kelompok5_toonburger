@@ -1,8 +1,18 @@
+function escapeOrderHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 window.confirmProcessOrder = function (btn, nextStatus, orderNumber) {
     const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US' || localStorage.getItem('tb_admin_lang') === 'EN');
     const form = btn.closest('form');
     if (!form) return;
 
+    const safeOrderNumber = escapeOrderHtml(orderNumber);
     let statusLabel = 'tahap berikutnya';
     if (nextStatus === 'diproses' || nextStatus === 'preparing') statusLabel = isEn ? 'Cooking / Kitchen' : 'Dimasak';
     else if (nextStatus === 'ready') statusLabel = isEn ? 'Ready to Serve' : 'Siap Saji';
@@ -11,8 +21,8 @@ window.confirmProcessOrder = function (btn, nextStatus, orderNumber) {
     Swal.fire({
         title: isEn ? 'Process Order?' : 'Konfirmasi Pesanan?',
         html: isEn
-            ? `Move order <b>#${orderNumber}</b> to <b>${statusLabel}</b>?`
-            : `Lanjutkan proses pesanan <b>#${orderNumber}</b> ke status <b>${statusLabel}</b>?`,
+            ? `Move order <b>#${safeOrderNumber}</b> to <b>${statusLabel}</b>?`
+            : `Lanjutkan proses pesanan <b>#${safeOrderNumber}</b> ke status <b>${statusLabel}</b>?`,
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#415C58',
@@ -56,11 +66,13 @@ window.confirmCancelOrder = function (btn, orderNumber) {
     const form = btn.closest('form');
     if (!form) return;
 
+    const safeOrderNumber = escapeOrderHtml(orderNumber);
+
     Swal.fire({
         title: isEn ? 'Cancel Order?' : 'Batalkan Pesanan Ini?',
         html: isEn
-            ? `Are you sure you want to cancel order <b>#${orderNumber}</b>? This action cannot be undone.`
-            : `Apakah Anda yakin ingin membatalkan pesanan <b>#${orderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
+            ? `Are you sure you want to cancel order <b>#${safeOrderNumber}</b>? This action cannot be undone.`
+            : `Apakah Anda yakin ingin membatalkan pesanan <b>#${safeOrderNumber}</b>? Tindakan ini tidak dapat dibatalkan.`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DE3B28',

@@ -3,7 +3,7 @@
     <div onclick="openProductModal({{ $productId }})" class="cursor-pointer">
         <div class="w-full aspect-[1.35] sm:aspect-[1.45] rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100"
              @if(!empty($bgColor)) style="background-color: {{ $bgColor }};" @endif>
-            <img src="{{ asset($image) }}"
+            <img src="{{ \App\Services\ImageDataUriService::toAssetUrl($image, 'images/burger-bg.jpg') }}"
                  alt="{{ $name }}"
                  loading="lazy"
                  decoding="async"

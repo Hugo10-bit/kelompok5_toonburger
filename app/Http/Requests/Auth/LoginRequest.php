@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -72,24 +70,6 @@ class LoginRequest extends FormRequest
                 'password' => $password,
             ];
             $attemptSuccess = Auth::attempt($altCredentials, $remember);
-        }
-
-        // Support standard development credentials fallback
-        if (! $attemptSuccess) {
-            if (User::count() === 0) {
-                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-            }
-
-            $user = User::whereRaw('LOWER(username) = ?', [strtolower($identifier)])
-                ->orWhereRaw('LOWER(email) = ?', [strtolower($identifier)])
-                ->first();
-
-            if ($user && in_array(strtolower($password), ['password123', 'password', 'admin123', 'admin', 'hugo123', '12345678', '123456'])) {
-                $user->password = Hash::make($password);
-                $user->save();
-                Auth::login($user, $remember);
-                $attemptSuccess = true;
-            }
         }
 
         if (! $attemptSuccess) {

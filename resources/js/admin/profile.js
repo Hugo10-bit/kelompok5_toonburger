@@ -1,7 +1,10 @@
+import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+
 function initAdminProfile() {
     if (!document.getElementById('profile-confirm-modal')) return;
     let _onProfileConfirm = null;
     let _onProfileCancel = null;
+    let pendingAvatarCompression = Promise.resolve('');
 
     window.openProfileConfirmModal = function (options) {
         const modal = document.getElementById('profile-confirm-modal');
@@ -43,51 +46,97 @@ function initAdminProfile() {
         _onProfileCancel = null;
     };
 
-    document.getElementById('profile-confirm-proceed-btn')?.addEventListener('click', function () {
-        const action = _onProfileConfirm;
-        window.closeProfileConfirmModal(true);
-        if (typeof action === 'function') {
-            action();
-        }
-    });
+    const proceedBtn = document.getElementById('profile-confirm-proceed-btn');
+    if (proceedBtn && proceedBtn.dataset.bound !== 'true') {
+        proceedBtn.dataset.bound = 'true';
+        proceedBtn.addEventListener('click', function () {
+            const action = _onProfileConfirm;
+            window.closeProfileConfirmModal(true);
+            if (typeof action === 'function') {
+                action();
+            }
+        });
+    }
 
-    window.handleAdminAvatarChange = function (input) {
-        if (!input.files || !input.files[0]) return;
-        const file = input.files[0];
-
-        // Validate file type
-        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'image/gif'];
-        if (!validTypes.includes(file.type)) {
+    function showProfileWarning(title, text) {
+        if (typeof Swal !== 'undefined') {
             Swal.fire({
                 icon: 'warning',
-                title: 'Format File Tidak Sesuai',
-                text: 'Silakan pilih file gambar dengan format JPEG, PNG, JPG, WEBP, atau GIF.',
+                title,
+                text,
                 confirmButtonColor: '#415C58'
             });
-            input.value = '';
+        } else {
+            alert(text);
+        }
+    }
+
+    window.handleAdminAvatarChange = function (input) {
+        const avatarDataInput = document.getElementById('profile-avatar-data');
+        if (input) input.disabled = false;
+
+        if (!input || !input.files || !input.files[0]) {
+            if (avatarDataInput) avatarDataInput.value = '';
+            pendingAvatarCompression = Promise.resolve('');
             return;
         }
 
-        // Preview the selected image immediately
-        const reader = new FileReader();
-        reader.onload = function (e) {
+        const file = input.files[0];
+
+        if (!isValidJpgOrPngFile(file)) {
+            showProfileWarning(
+                'Format File Tidak Sesuai',
+                'Foto profil hanya diperbolehkan berformat JPG atau PNG.'
+            );
+            input.value = '';
+            if (avatarDataInput) avatarDataInput.value = '';
+            pendingAvatarCompression = Promise.resolve('');
+            return;
+        }
+
+        if (file.size > 4 * 1024 * 1024) {
+            showProfileWarning(
+                'Ukuran File Terlalu Besar',
+                'Ukuran foto profil maksimal 4 MB.'
+            );
+            input.value = '';
+            if (avatarDataInput) avatarDataInput.value = '';
+            pendingAvatarCompression = Promise.resolve('');
+            return;
+        }
+
+        if (avatarDataInput) avatarDataInput.value = '';
+        pendingAvatarCompression = compressJpgOrPngToDataUrl(file, { maxDim: 512, quality: 0.82 }).then((dataUrl) => {
+            if (!dataUrl) {
+                showProfileWarning(
+                    'Gambar Tidak Dapat Dibaca',
+                    'File foto rusak atau bukan gambar JPG/PNG yang valid.'
+                );
+                input.value = '';
+                if (avatarDataInput) avatarDataInput.value = '';
+                return '';
+            }
+
+            if (avatarDataInput) avatarDataInput.value = dataUrl;
             const preview = document.getElementById('profile-avatar-preview');
             const initials = document.getElementById('profile-avatar-initials');
 
             if (preview) {
-                preview.src = e.target.result;
+                preview.src = dataUrl;
                 preview.classList.remove('hidden');
             }
             if (initials) {
                 initials.classList.add('hidden');
             }
-        };
-        reader.readAsDataURL(file);
+
+            return dataUrl;
+        });
     };
 
     // Form 1: Admin Profile form submission
     const profileForm = document.getElementById('admin-profile-form');
-    if (profileForm) {
+    if (profileForm && profileForm.dataset.profileBound !== 'true') {
+        profileForm.dataset.profileBound = 'true';
         profileForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -97,7 +146,11 @@ function initAdminProfile() {
             }
 
             const avatarInput = document.getElementById('profile-avatar-input');
-            const hasNewAvatar = avatarInput && avatarInput.files && avatarInput.files.length > 0;
+            const avatarDataInput = document.getElementById('profile-avatar-data');
+            const hasNewAvatar = Boolean(
+                (avatarInput && avatarInput.files && avatarInput.files.length > 0)
+                || (avatarDataInput && avatarDataInput.value.startsWith('data:image/'))
+            );
 
             const message = hasNewAvatar
                 ? 'Apakah Anda yakin ingin menyimpan perubahan data dan foto profil admin ini?'
@@ -109,23 +162,37 @@ function initAdminProfile() {
                 message: message,
                 confirmText: 'Ya, Simpan',
                 onConfirm: function () {
-                    Swal.fire({
-                        title: 'Menyimpan Profil...',
-                        html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
-                        timer: 1500,
-                        timerProgressBar: true,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                            const b = Swal.getPopup().querySelector('b');
-                            setInterval(() => {
-                                if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                            }, 100);
+                    const finalizeProfileSubmit = async () => {
+                        await pendingAvatarCompression;
+                        const currentAvatarInput = document.getElementById('profile-avatar-input');
+                        const currentAvatarData = document.getElementById('profile-avatar-data');
+                        if (currentAvatarData && currentAvatarData.value.startsWith('data:image/') && currentAvatarInput) {
+                            currentAvatarInput.disabled = true;
                         }
-                    }).then(() => {
                         profileForm.submit();
-                    });
+                    };
+
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            title: 'Menyimpan Profil...',
+                            html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const b = Swal.getPopup().querySelector('b');
+                                setInterval(() => {
+                                    if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
+                                }, 100);
+                            }
+                        }).then(() => {
+                            finalizeProfileSubmit();
+                        });
+                    } else {
+                        finalizeProfileSubmit();
+                    }
                 }
             });
         });
@@ -133,7 +200,8 @@ function initAdminProfile() {
 
     // Form 2: Admin Password form submission
     const passwordForm = document.getElementById('admin-password-form');
-    if (passwordForm) {
+    if (passwordForm && passwordForm.dataset.passwordBound !== 'true') {
+        passwordForm.dataset.passwordBound = 'true';
         passwordForm.addEventListener('submit', function (e) {
             e.preventDefault();
 

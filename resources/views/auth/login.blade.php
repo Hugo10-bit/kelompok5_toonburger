@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/toon-head.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <title>{{ $currentMode === 'register' ? 'Create Account' : 'Welcome Back!' }} - Toon Burger</title>
 
     <!-- Google Fonts: Bebas Neue, Luckiest Guy & Poppins -->
@@ -26,8 +26,7 @@
 <body class="min-h-screen md:h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg flex flex-col md:flex-row overflow-x-clip md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
       data-register-url="{{ route('register') }}"
       data-login-url="{{ route('login') }}"
-      data-dashboard-url="{{ route('dashboard') }}"
-      data-flash-success="{{ session('success') }}">
+      data-dashboard-url="{{ route('dashboard') }}">
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
     <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
@@ -251,7 +250,7 @@
                     <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between text-xs pt-1">
                         <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 font-medium">
-                            <input type="checkbox" name="remember" class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
+                            <input type="checkbox" name="remember" value="1" checked class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
                         <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
