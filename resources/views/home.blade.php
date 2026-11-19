@@ -122,7 +122,7 @@
                 </svg>
             </div>
 
-            <!-- Card 3: Pesanan Cepat -->
+            
 
             <!-- Card 3: Pesanan Cepat -->
             <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-225">
