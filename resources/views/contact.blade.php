@@ -252,12 +252,16 @@
                         <!-- Dashed Divider -->
                         <div class="border-b border-dashed border-gray-300 my-4 sm:my-6"></div>
 
-                        <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <form id="contact-form" action="{{ route('contact.store') }}" method="POST" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                            @csrf
                             <div>
                                 <label for="contact-name" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
                                 <input type="text"
                                        id="contact-name"
+                                       name="name"
+                                       value="{{ old('name', Auth::user()->name ?? '') }}"
                                        required
+                                       maxlength="120"
                                        placeholder="Nama Lengkap Anda"
                                        class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
@@ -266,7 +270,10 @@
                                 <label for="contact-email" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Email</label>
                                 <input type="email"
                                        id="contact-email"
+                                       name="email"
+                                       value="{{ old('email', Auth::user()->email ?? '') }}"
                                        required
+                                       maxlength="120"
                                        placeholder="emailanda@gmail.com"
                                        class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
@@ -275,7 +282,10 @@
                                 <label for="contact-phone" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nomor Telefon</label>
                                 <input type="tel"
                                        id="contact-phone"
+                                       name="phone"
+                                       value="{{ old('phone', Auth::user()->phone_number ?? '') }}"
                                        required
+                                       maxlength="30"
                                        placeholder="08xxx-xxx-xxx"
                                        class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
@@ -283,15 +293,18 @@
                             <div>
                                 <label for="contact-message" data-i18n-app="contact_message_label" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
                                 <textarea id="contact-message"
+                                          name="message"
                                           rows="3"
                                           required
+                                          maxlength="2000"
                                           placeholder="Tulis Pesan Anda Disini...."
-                                          class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition resize-none"></textarea>
+                                          class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition resize-none">{{ old('message') }}</textarea>
                             </div>
 
                             <div class="pt-2">
                                 <button type="submit"
-                                        class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] text-white font-medium text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
+                                        id="contact-submit-btn"
+                                        class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] disabled:opacity-65 disabled:cursor-not-allowed text-white font-medium text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
                                     <span>Kirim Pesan</span>
                                     <svg class="w-4 h-4 text-white -rotate-12 translate-y-[-1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="22" y1="2" x2="11" y2="13"></line>

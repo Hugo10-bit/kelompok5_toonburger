@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ContactMessage;
 use App\Models\Product;
 use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 class MenuController extends Controller
@@ -108,6 +110,54 @@ class MenuController extends Controller
     public function contact()
     {
         return view('contact');
+    }
+
+    /**
+     * Store a new message submitted from the Contact page.
+     */
+    public function storeContact(Request $request)
+    {
+        $request->merge([
+            'name' => trim((string) $request->input('name', '')),
+            'email' => strtolower(trim((string) $request->input('email', ''))),
+            'phone' => trim((string) $request->input('phone', '')),
+            'message' => trim((string) $request->input('message', '')),
+        ]);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:120',
+            'email' => 'required|email|max:120',
+            'phone' => 'required|string|max:30',
+            'message' => 'required|string|max:2000',
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Format alamat email tidak valid.',
+            'phone.required' => 'Nomor telepon wajib diisi.',
+            'message.required' => 'Pesan wajib diisi.',
+        ]);
+
+        $contactMessage = ContactMessage::create([
+            'user_id' => Auth::id(),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'message' => $validated['message'],
+            'is_read' => false,
+        ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Terima kasih {$contactMessage->name}, pesan Anda telah diterima oleh tim Toon Burger. Kami akan segera menghubungi Anda.",
+                'data' => [
+                    'id' => $contactMessage->id,
+                    'name' => $contactMessage->name,
+                ],
+            ], 201);
+        }
+
+        return back()->with('success', "Terima kasih {$contactMessage->name}, pesan Anda telah diterima oleh tim Toon Burger.");
     }
 
     /**

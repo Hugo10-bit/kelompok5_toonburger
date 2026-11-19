@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ContactMessage;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -730,33 +731,115 @@ class AdminController extends Controller
     }
 
     /**
-     * Customer reviews and order feedback messages.
+     * Customer contact messages submitted from the Contact page.
      */
     public function messages(Request $request)
     {
-        $rating = $request->query('rating', 'all');
-        $search = trim($request->query('search', $request->query('q', '')));
+        $status = (string) $request->query('status', 'all');
+        if (! in_array($status, ['all', 'unread', 'read'], true)) {
+            $status = 'all';
+        }
 
-        $query = Review::with(['user', 'order', 'product'])->latest();
+        $sort = (string) $request->query('sort', 'latest');
+        if (! in_array($sort, ['latest', 'oldest', 'unread_first', 'name_asc', 'name_desc'], true)) {
+            $sort = 'latest';
+        }
 
-        $hasFilter = false;
-        if ($rating !== 'all' && in_array((int) $rating, [1, 2, 3, 4, 5], true)) {
-            $query->where('rating', (int) $rating);
-            $hasFilter = true;
+        $search = trim((string) $request->query('search', $request->query('q', '')));
+
+        $query = ContactMessage::with('user');
+
+        if ($status === 'unread') {
+            $query->where('is_read', false);
+        } elseif ($status === 'read') {
+            $query->where('is_read', true);
         }
 
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
-                $q->whereLike('comment', "%{$search}%")
-                    ->orWhereHas('user', fn ($u) => $u->whereLike('name', "%{$search}%"))
-                    ->orWhereHas('order', fn ($o) => $o->whereLike('order_number', "%{$search}%")->orWhereLike('customer_name', "%{$search}%"));
+                $q->whereLike('name', "%{$search}%")
+                    ->orWhereLike('phone', "%{$search}%")
+                    ->orWhereLike('email', "%{$search}%")
+                    ->orWhereLike('message', "%{$search}%");
             });
-            $hasFilter = true;
         }
 
-        $messages = $query->paginate(8)->withQueryString();
-        $totalCount = $hasFilter ? Review::count() : $messages->total();
+        match ($sort) {
+            'oldest' => $query->oldest('created_at')->orderBy('id', 'asc'),
+            'unread_first' => $query->orderBy('is_read', 'asc')->latest('created_at')->orderBy('id', 'desc'),
+            'name_asc' => $query->orderBy('name', 'asc')->latest('created_at'),
+            'name_desc' => $query->orderBy('name', 'desc')->latest('created_at'),
+            default => $query->latest('created_at')->orderBy('id', 'desc'),
+        };
 
-        return view('admin.messages', compact('messages', 'rating', 'search', 'totalCount'));
+        $messages = $query->paginate(10)->withQueryString();
+        $totalCount = ContactMessage::count();
+        $unreadCount = ContactMessage::where('is_read', false)->count();
+        $readCount = max(0, $totalCount - $unreadCount);
+
+        return view('admin.messages', compact(
+            'messages',
+            'status',
+            'sort',
+            'search',
+            'totalCount',
+            'unreadCount',
+            'readCount'
+        ));
+    }
+
+    /**
+     * Update read/unread status of a contact message.
+     */
+    public function updateMessageStatus(Request $request, $id)
+    {
+        $contactMessage = ContactMessage::findOrFail($id);
+
+        if ($request->has('is_read')) {
+            $isRead = $request->boolean('is_read');
+        } else {
+            $isRead = ! $contactMessage->is_read;
+        }
+
+        $contactMessage->is_read = $isRead;
+        $contactMessage->read_at = $isRead ? now() : null;
+        $contactMessage->save();
+
+        if ($request->expectsJson()) {
+            $unreadCount = ContactMessage::where('is_read', false)->count();
+            $totalCount = ContactMessage::count();
+
+            return response()->json([
+                'success' => true,
+                'id' => $contactMessage->id,
+                'is_read' => (bool) $contactMessage->is_read,
+                'unread_count' => $unreadCount,
+                'read_count' => max(0, $totalCount - $unreadCount),
+                'total_count' => $totalCount,
+            ]);
+        }
+
+        $statusLabel = $contactMessage->is_read ? 'Dibaca' : 'Belum Dibaca';
+
+        return back()->with('success', "Status pesan dari {$contactMessage->name} diperbarui menjadi {$statusLabel}.");
+    }
+
+    /**
+     * Delete a contact message.
+     */
+    public function deleteMessage(Request $request, $id)
+    {
+        $contactMessage = ContactMessage::findOrFail($id);
+        $senderName = $contactMessage->name;
+        $contactMessage->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Pesan dari {$senderName} berhasil dihapus.",
+            ]);
+        }
+
+        return back()->with('success', "Pesan dari {$senderName} berhasil dihapus.");
     }
 }

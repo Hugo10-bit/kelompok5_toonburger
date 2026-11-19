@@ -98,7 +98,7 @@
     </div>
 </div>
 
-<div class="screen-view bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-8 space-y-4 sm:space-y-6">
+<div class="screen-view bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-8 space-y-4 sm:space-y-6">
 
     <!-- Header Section (Sesuai Mockup Figma) -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">

@@ -173,19 +173,106 @@
         }
     };
 
-    window.handleContactSubmit = function handleContactSubmit(event) {
+    window.handleContactSubmit = async function handleContactSubmit(event) {
         event.preventDefault();
-        const name = document.getElementById('contact-name').value;
+        const form = event.target;
+        const submitBtn = document.getElementById('contact-submit-btn');
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        const phoneInput = document.getElementById('contact-phone');
+        const messageInput = document.getElementById('contact-message');
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Pesan Terkirim!',
-            text: `Terima kasih ${name}, pesan Anda telah diterima oleh tim Toon Burger. Kami akan segera menghubungi Anda.`,
-            confirmButtonColor: '#415C58',
-            confirmButtonText: 'Selesai',
-            customClass: { popup: 'rounded-3xl' }
-        });
+        const lang = window._tbAppLang || localStorage.getItem('tb_lang') || 'ID';
+        const isEn = (lang === 'EN' || lang === 'US');
 
-        event.target.reset();
+        const payload = {
+            name: (nameInput?.value || '').trim(),
+            email: (emailInput?.value || '').trim(),
+            phone: (phoneInput?.value || '').trim(),
+            message: (messageInput?.value || '').trim(),
+        };
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+            || form.querySelector('input[name="_token"]')?.value
+            || '';
+
+        const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span>${isEn ? 'Sending...' : 'Mengirim...'}</span>`;
+        }
+
+        try {
+            const response = await fetch(form.getAttribute('action') || '/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                const firstError = data?.errors
+                    ? Object.values(data.errors).flat()[0]
+                    : (data?.message || (isEn ? 'Failed to send your message. Please try again.' : 'Gagal mengirim pesan. Silakan coba lagi.'));
+
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: isEn ? 'Unable to Send Message' : 'Gagal Mengirim Pesan',
+                        text: firstError,
+                        confirmButtonColor: '#415C58',
+                        confirmButtonText: isEn ? 'OK' : 'Mengerti',
+                        customClass: { popup: 'rounded-3xl' }
+                    });
+                } else {
+                    alert(firstError);
+                }
+                return;
+            }
+
+            const successText = isEn
+                ? `Thank you ${payload.name}, your message has been received by the Toon Burger team. We will get back to you soon.`
+                : (data.message || `Terima kasih ${payload.name}, pesan Anda telah diterima oleh tim Toon Burger. Kami akan segera menghubungi Anda.`);
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: isEn ? 'Message Sent!' : 'Pesan Terkirim!',
+                    text: successText,
+                    confirmButtonColor: '#415C58',
+                    confirmButtonText: isEn ? 'Done' : 'Selesai',
+                    customClass: { popup: 'rounded-3xl' }
+                });
+            } else {
+                alert(successText);
+            }
+
+            if (messageInput) messageInput.value = '';
+            if (!document.body.dataset.authenticated || document.body.dataset.authenticated !== 'true') {
+                form.reset();
+            }
+        } catch (err) {
+            console.error(err);
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: isEn ? 'Connection Error' : 'Koneksi Bermasalah',
+                    text: isEn ? 'Please check your internet connection and try again.' : 'Periksa koneksi internet Anda lalu coba kirim kembali.',
+                    confirmButtonColor: '#415C58',
+                    confirmButtonText: 'OK',
+                    customClass: { popup: 'rounded-3xl' }
+                });
+            }
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnHtml;
+            }
+        }
     };
 })();

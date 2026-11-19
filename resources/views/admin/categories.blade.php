@@ -3,7 +3,7 @@
 @section('title', 'Data Kategori - Toon Burger Admin')
 
 @section('admin_content')
-<div class="bg-white dark:bg-[#2B2B2B] rounded-[24px] sm:rounded-[32px] border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col">
+<div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-7">
         <div>
             <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="cat_title">Halaman Kategori Produk</h1>
