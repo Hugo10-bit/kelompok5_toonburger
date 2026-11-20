@@ -102,7 +102,7 @@ class CustomerProfileTest extends TestCase
         $customer->refresh();
         $this->assertSame('Hugo Pratama', $customer->name);
         $this->assertSame('hugo@gmail.com', $customer->email);
-        $this->assertSame('081234567890', $customer->phone_number);
+        $this->assertSame('0812-3456-7890', $customer->phone_number);
         $this->assertSame('Banjarbaru Utara', $customer->address);
         $this->assertStringStartsWith('data:image/png;base64,', (string) $customer->avatar);
 
