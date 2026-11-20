@@ -755,7 +755,7 @@ class AdminController extends Controller
             $user->email_verified_at = null;
         }
         if ($request->filled('phone_number')) {
-            $user->phone_number = $request->phone_number;
+            $user->phone_number = \App\Support\PhoneFormatter::format((string) $request->phone_number);
         }
         if ($request->filled('address')) {
             $user->address = $request->address;

@@ -1,3 +1,11 @@
+import { initPhoneAutoFormat } from '../utils/phone-format';
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initPhoneAutoFormat());
+} else {
+    initPhoneAutoFormat();
+}
+
 const translations = {
     id: {
         currentLabel: 'Indonesia',

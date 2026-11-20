@@ -129,7 +129,7 @@ class OrderController extends Controller
                 'total_amount' => $cart['total'],
                 'notes' => $request->notes,
                 'customer_name' => $request->customer_name,
-                'customer_phone' => $request->customer_phone,
+                'customer_phone' => \App\Support\PhoneFormatter::format((string) $request->customer_phone) ?? $request->customer_phone,
                 'delivery_address' => $request->delivery_address,
             ]);
 

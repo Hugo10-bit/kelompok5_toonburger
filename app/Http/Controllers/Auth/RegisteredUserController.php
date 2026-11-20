@@ -73,7 +73,9 @@ class RegisteredUserController extends Controller
             'name' => $validated['name'] ?? $validated['username'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'phone_number' => $validated['phone_number'] ?? null,
+            'phone_number' => isset($validated['phone_number'])
+                ? \App\Support\PhoneFormatter::format((string) $validated['phone_number'])
+                : null,
             'role' => 'customer',
             'password' => Hash::make($validated['password']),
         ]);

@@ -130,7 +130,7 @@ class MenuController extends Controller
         $request->merge([
             'name' => trim((string) $request->input('name', '')),
             'email' => strtolower(trim((string) $request->input('email', ''))),
-            'phone' => trim((string) $request->input('phone', '')),
+            'phone' => \App\Support\PhoneFormatter::format((string) $request->input('phone', '')) ?? '',
             'message' => trim((string) $request->input('message', '')),
         ]);
 

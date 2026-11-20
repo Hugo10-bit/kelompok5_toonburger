@@ -5,6 +5,10 @@ import './admin/order-detail';
 import './admin/orders';
 import './admin/products';
 import './admin/profile';
+import { initPhoneAutoFormat, formatAllPhoneInputs } from './utils/phone-format';
+
+initPhoneAutoFormat();
+window.addEventListener('tb:admin-navigated', () => formatAllPhoneInputs(document));
 
 const ADMIN_CONFIG = document.body.dataset;
 

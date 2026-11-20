@@ -1,3 +1,5 @@
+import { initPhoneAutoFormat, formatAllPhoneInputs } from './utils/phone-format';
+
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const APP_CONFIG = document.body.dataset;
 const IS_AUTHENTICATED = APP_CONFIG.authenticated === 'true';
@@ -1363,6 +1365,7 @@ function initAllAppEffects() {
     initScrollReveal();
     initScrollEffects();
     initSmoothWheelScroll();
+    formatAllPhoneInputs(document);
 }
 
 if (document.readyState === 'loading') {
@@ -2516,6 +2519,7 @@ window.initAutoDismissAlerts = function (delay = 3500) {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    initPhoneAutoFormat();
     window.initAutoDismissAlerts();
     try {
         const savedLang = localStorage.getItem('tb_lang') || localStorage.getItem('tb_admin_lang') || 'ID';

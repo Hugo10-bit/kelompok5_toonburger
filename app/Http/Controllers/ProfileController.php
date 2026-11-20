@@ -77,7 +77,9 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
         if ($request->has('phone_number')) {
-            $user->phone_number = $request->filled('phone_number') ? trim((string) $request->phone_number) : null;
+            $user->phone_number = $request->filled('phone_number')
+                ? \App\Support\PhoneFormatter::format((string) $request->phone_number)
+                : null;
         }
         if ($request->has('address')) {
             $user->address = $request->filled('address') ? trim((string) $request->address) : null;
