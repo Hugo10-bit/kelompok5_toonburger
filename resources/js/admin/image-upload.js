@@ -82,3 +82,38 @@ export function compressJpgOrPngToDataUrl(file, { maxDim = 800, quality = 0.82, 
         reader.readAsDataURL(file);
     });
 }
+
+export function dataUrlToFile(dataUrl, filename = 'upload.jpg') {
+    if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) return null;
+    try {
+        const parts = dataUrl.split(',');
+        if (parts.length < 2) return null;
+        const mimeMatch = parts[0].match(/:(.*?);/);
+        const isPng = filename.toLowerCase().endsWith('.png');
+        const mime = mimeMatch ? mimeMatch[1] : (isPng ? 'image/png' : 'image/jpeg');
+        const bstr = atob(parts[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    } catch (e) {
+        return null;
+    }
+}
+
+export function attachFileToInput(fileInput, file) {
+    if (!fileInput || !file) return false;
+    try {
+        if (typeof DataTransfer !== 'undefined') {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            fileInput.files = dt.files;
+            fileInput.disabled = false;
+            return true;
+        }
+    } catch (e) {}
+    return false;
+}
+
