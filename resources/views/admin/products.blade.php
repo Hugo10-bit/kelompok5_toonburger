@@ -101,7 +101,15 @@
                     </div>
                     <div class="min-w-0 flex-1 space-y-1">
                         <div class="flex items-start justify-between gap-2">
-                            <h3 class="font-bold text-gray-900 dark:text-white text-sm leading-snug break-words">{{ $prod->name }}</h3>
+                            <div class="flex flex-wrap items-center gap-1.5 min-w-0">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-sm leading-snug break-words">{{ $prod->name }}</h3>
+                                @if($prod->is_featured)
+                                    <span class="shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 border border-amber-200/80 dark:border-amber-400/30 whitespace-nowrap">
+                                        <svg class="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+                                        <span>Best Seller</span>
+                                    </span>
+                                @endif
+                            </div>
                             <span class="shrink-0 text-[10.5px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 dark:bg-[#4A4A4A] text-gray-700 dark:text-[#E5E5E5]">
                                 {{ $catName }}
                             </span>
@@ -186,9 +194,17 @@
                                         <svg class="w-6 h-6 text-white/90" fill="currentColor" viewBox="0 0 24 24"><path d="M3 10h18a8 8 0 00-18 0zm0 3h18v2H3v-2zm1 4h16a2 2 0 01-2 2H6a2 2 0 01-2-2z"/></svg>
                                     @endif
                                 </div>
-                                <div>
-                                    <div class="font-bold text-gray-900 dark:text-white text-sm leading-snug">{{ $prod->name }}</div>
-                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 max-w-[260px] truncate">{{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}</div>
+                                <div class="min-w-0 max-w-[280px] lg:max-w-[340px]">
+                                    <div class="flex items-center gap-2 min-w-0">
+                                        <span class="font-bold text-gray-900 dark:text-white text-sm leading-snug truncate" title="{{ $prod->name }}">{{ $prod->name }}</span>
+                                        @if($prod->is_featured)
+                                            <span class="shrink-0 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 border border-amber-200/80 dark:border-amber-400/30 whitespace-nowrap">
+                                                <svg class="w-2.5 h-2.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+                                                <span>Best Seller</span>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 truncate">{{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}</div>
                                 </div>
                             </div>
                         </td>
@@ -266,7 +282,17 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_price">Harga (Rp)</label>
-                            <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="1" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                            <div class="relative">
+                                <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="1" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg pl-3 pr-10 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                                <div class="absolute inset-y-1 right-1 flex flex-col w-6 rounded-md overflow-hidden border border-gray-200 dark:border-[#555555] bg-gray-100/90 dark:bg-[#3A3A3A]">
+                                    <button type="button" id="prod_price_up" tabindex="-1" aria-label="Tambah harga 500" class="flex-1 flex items-center justify-center text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#4A4A4A] active:bg-gray-300 dark:active:bg-[#555555] transition cursor-pointer border-b border-gray-200 dark:border-[#555555]">
+                                        <svg class="w-2.5 h-2.5" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 3L10 8H2L6 3Z"/></svg>
+                                    </button>
+                                    <button type="button" id="prod_price_down" tabindex="-1" aria-label="Kurangi harga 500" class="flex-1 flex items-center justify-center text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#4A4A4A] active:bg-gray-300 dark:active:bg-[#555555] transition cursor-pointer">
+                                        <svg class="w-2.5 h-2.5" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 9L2 4H10L6 9Z"/></svg>
+                                    </button>
+                                </div>
+                            </div>
                             <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block">Min. Rp 1.000 &mdash; Maks. Rp 1.000.000</span>
                         </div>
                     </div>
@@ -293,7 +319,7 @@
                         </label>
                         <label class="inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_popular" id="prod_pop" value="1" class="rounded border-gray-300 text-orange-500 focus:ring-orange-500">
-                            <span class="ml-2 text-xs font-bold text-gray-700 dark:text-[#E0E0E0]" data-i18n="lbl_prod_pop">Menu Terpopuler</span>
+                            <span class="ml-2 text-xs font-bold text-gray-700 dark:text-[#E0E0E0]" data-i18n="lbl_prod_pop">Best Seller</span>
                         </label>
                     </div>
                 </div>

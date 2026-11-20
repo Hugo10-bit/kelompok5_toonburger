@@ -1,4 +1,5 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from '../admin/image-upload';
+import { isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from '../admin/image-upload';
+import { openAvatarCropperModal } from '../admin/avatar-cropper';
 
 let isUploadingNavbarAvatar = false;
 let avatarToastTimer = null;
@@ -139,26 +140,28 @@ export async function handleNavbarAvatarChange(input) {
 
     isUploadingNavbarAvatar = true;
     try {
-        const dataUrl = await compressJpgOrPngToDataUrl(file, {
-            maxDim: 480,
-            quality: 0.82,
+        const dataUrl = await openAvatarCropperModal(file, {
+            isEn: isProfileEn(),
+            outputSize: 480,
             maxDataUrlLength: 450000,
         });
 
         input.value = '';
 
         if (!dataUrl) {
-            notifyAvatarFeedback(
-                pText('Gagal memproses foto profil. Pastikan file JPG/PNG valid.', 'Failed to process profile photo. Please use a valid JPG/PNG.'),
-                'error'
-            );
             return;
         }
 
         renderAvatarSlots(dataUrl);
 
+        const isPng = dataUrl.startsWith('data:image/png');
+        const fileObj = dataUrlToFile(dataUrl, isPng ? 'avatar.png' : 'avatar.jpg');
         const formData = new FormData();
-        formData.append('avatar_data', dataUrl);
+        if (fileObj) {
+            formData.append('avatar', fileObj);
+        } else {
+            formData.append('avatar_data', dataUrl);
+        }
 
         const response = await fetch(uploadUrl, {
             method: 'POST',
@@ -303,12 +306,12 @@ function initCustomerProfilePage() {
         }
 
         if (avatarDataInput) avatarDataInput.value = '';
-        pendingAvatarCompression = compressJpgOrPngToDataUrl(file, { maxDim: 512, quality: 0.82 }).then((dataUrl) => {
+        pendingAvatarCompression = openAvatarCropperModal(file, {
+            isEn: isProfileEn(),
+            outputSize: 512,
+            maxDataUrlLength: 450000,
+        }).then((dataUrl) => {
             if (!dataUrl) {
-                showProfileWarning(
-                    pText('Gambar Tidak Dapat Dibaca', 'Unreadable Image'),
-                    pText('File foto rusak atau bukan gambar JPG/PNG yang valid.', 'Image file is corrupted or not a valid JPG/PNG.')
-                );
                 input.value = '';
                 if (avatarDataInput) avatarDataInput.value = '';
                 return '';
@@ -369,7 +372,14 @@ function initCustomerProfilePage() {
                         const currentAvatarInput = document.getElementById('customer-profile-avatar-input');
                         const currentAvatarData = document.getElementById('customer-profile-avatar-data');
                         if (currentAvatarData && currentAvatarData.value.startsWith('data:image/') && currentAvatarInput) {
-                            currentAvatarInput.disabled = true;
+                            const isPng = currentAvatarData.value.startsWith('data:image/png');
+                            const file = dataUrlToFile(currentAvatarData.value, isPng ? 'avatar.png' : 'avatar.jpg');
+                            if (file && attachFileToInput(currentAvatarInput, file)) {
+                                currentAvatarInput.disabled = false;
+                                currentAvatarData.value = '';
+                            } else {
+                                currentAvatarInput.disabled = true;
+                            }
                         }
                         profileForm.submit();
                     };

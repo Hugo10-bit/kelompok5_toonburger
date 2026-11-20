@@ -9,6 +9,7 @@ use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
@@ -45,7 +46,16 @@ class MenuController extends Controller
      */
     public function home()
     {
-        return view('home');
+        $catalog = $this->getCatalogData();
+        $products = $catalog['products'];
+
+        $bestSellers = $products
+            ->where('is_featured', true)
+            ->sortByDesc(fn ($p) => [$p->updated_at?->timestamp ?? 0, $p->id])
+            ->take(4)
+            ->values();
+
+        return view('home', compact('bestSellers'));
     }
 
     /**
@@ -120,7 +130,7 @@ class MenuController extends Controller
         $request->merge([
             'name' => trim((string) $request->input('name', '')),
             'email' => strtolower(trim((string) $request->input('email', ''))),
-            'phone' => trim((string) $request->input('phone', '')),
+            'phone' => \App\Support\PhoneFormatter::format((string) $request->input('phone', '')) ?? '',
             'message' => trim((string) $request->input('message', '')),
         ]);
 
@@ -262,5 +272,94 @@ class MenuController extends Controller
             });
 
         return response()->json(['products' => $products]);
+    }
+
+    /**
+     * Auto-translate dynamic Indonesian product names/descriptions to English (cached 30 days).
+     */
+    public function translateTexts(Request $request)
+    {
+        $validated = $request->validate([
+            'texts' => ['required', 'array', 'max:40'],
+            'texts.*' => ['required', 'string', 'max:500'],
+        ]);
+
+        $uniqueTexts = collect($validated['texts'])
+            ->map(fn ($t) => trim((string) $t))
+            ->filter(fn ($t) => $t !== '')
+            ->unique()
+            ->values();
+
+        $translations = [];
+
+        foreach ($uniqueTexts as $text) {
+            $cacheKey = 'tb_auto_en_' . sha1($text);
+            $cached = Cache::get($cacheKey);
+            if (is_string($cached) && $cached !== '') {
+                $translations[$text] = $cached;
+                continue;
+            }
+
+            $translated = $this->fetchEnglishTranslation($text);
+            if ($translated !== null && $translated !== '') {
+                Cache::put($cacheKey, $translated, now()->addDays(30));
+                $translations[$text] = $translated;
+            } else {
+                $translations[$text] = $text;
+            }
+        }
+
+        return response()->json([
+            'translations' => $translations,
+        ]);
+    }
+
+    private function fetchEnglishTranslation(string $text): ?string
+    {
+        try {
+            $res = Http::timeout(4)->get('https://translate.googleapis.com/translate_a/single', [
+                'client' => 'gtx',
+                'sl' => 'id',
+                'tl' => 'en',
+                'dt' => 't',
+                'q' => $text,
+            ]);
+
+            if ($res->successful()) {
+                $payload = $res->json();
+                if (is_array($payload) && isset($payload[0]) && is_array($payload[0])) {
+                    $combined = '';
+                    foreach ($payload[0] as $segment) {
+                        if (is_array($segment) && isset($segment[0]) && is_string($segment[0])) {
+                            $combined .= $segment[0];
+                        }
+                    }
+                    $combined = trim($combined);
+                    if ($combined !== '') {
+                        return $combined;
+                    }
+                }
+            }
+        } catch (\Throwable $e) {
+            // Fall through to secondary provider
+        }
+
+        try {
+            $res = Http::timeout(4)->get('https://api.mymemory.translated.net/get', [
+                'q' => $text,
+                'langpair' => 'id|en',
+            ]);
+
+            if ($res->successful()) {
+                $translated = trim((string) ($res->json('responseData.translatedText') ?? ''));
+                if ($translated !== '' && stripos($translated, 'MYMEMORY WARNING') === false) {
+                    return $translated;
+                }
+            }
+        } catch (\Throwable $e) {
+            // Ignore offline/network failures gracefully
+        }
+
+        return null;
     }
 }

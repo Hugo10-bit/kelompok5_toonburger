@@ -1,4 +1,4 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from './image-upload';
 
 function initAdminProducts() {
     const modal = document.getElementById('productModal');
@@ -23,7 +23,7 @@ function initAdminProducts() {
             const current = parseInt(priceInputEl.value, 10);
             let next;
             if (isNaN(current)) {
-                next = delta > 0 ? min : max;
+                next = min;
             } else {
                 next = Math.min(max, Math.max(min, current + delta));
             }
@@ -42,18 +42,30 @@ function initAdminProducts() {
             }
         });
 
-        priceInputEl.addEventListener('mousedown', function (e) {
-            const rect = priceInputEl.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
-            // Native number spinner sits on the right edge (~30px wide)
-            if (clickX >= rect.width - 32) {
+        const priceUpBtn = document.getElementById('prod_price_up');
+        const priceDownBtn = document.getElementById('prod_price_down');
+        if (priceUpBtn) {
+            priceUpBtn.addEventListener('mousedown', function (e) {
                 e.preventDefault();
-                priceInputEl.focus();
-                const isUp = clickY < rect.height / 2;
-                stepPriceBy(isUp ? 500 : -500);
-            }
-        });
+            });
+            priceUpBtn.addEventListener('click', function () {
+                if (document.activeElement !== priceInputEl) {
+                    priceInputEl.focus();
+                }
+                stepPriceBy(500);
+            });
+        }
+        if (priceDownBtn) {
+            priceDownBtn.addEventListener('mousedown', function (e) {
+                e.preventDefault();
+            });
+            priceDownBtn.addEventListener('click', function () {
+                if (document.activeElement !== priceInputEl) {
+                    priceInputEl.focus();
+                }
+                stepPriceBy(-500);
+            });
+        }
     }
 
     function showProductPreview(src) {
@@ -258,7 +270,14 @@ function initAdminProducts() {
             const finalizeProductSubmit = async () => {
                 await pendingProductImageCompression;
                 if (imageDataInput && imageDataInput.value.startsWith('data:image/') && imageInput) {
-                    imageInput.disabled = true;
+                    const isPng = imageDataInput.value.startsWith('data:image/png');
+                    const file = dataUrlToFile(imageDataInput.value, isPng ? 'product.png' : 'product.jpg');
+                    if (file && attachFileToInput(imageInput, file)) {
+                        imageInput.disabled = false;
+                        imageDataInput.value = '';
+                    } else {
+                        imageInput.disabled = true;
+                    }
                 }
                 form.submit();
             };

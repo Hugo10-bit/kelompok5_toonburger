@@ -1,3 +1,5 @@
+import { initPhoneAutoFormat, formatAllPhoneInputs } from './utils/phone-format';
+
 const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const APP_CONFIG = document.body.dataset;
 const IS_AUTHENTICATED = APP_CONFIG.authenticated === 'true';
@@ -300,13 +302,26 @@ async function openProductModal(productId) {
 
         currentModalProduct = data.product;
         document.getElementById('modal-product-id').value = currentModalProduct.id;
-        document.getElementById('modal-product-name').innerText = (currentModalProduct.name || '').toUpperCase();
-        document.getElementById('modal-product-badge').innerText = (currentModalProduct.badge || 'BURGER').toUpperCase();
+        let modalName = currentModalProduct.name || '';
         let modalDesc = currentModalProduct.description || 'Pilihan terbaik dari Toon Burger.';
-        if ((window._tbAppLang === 'EN' || window._tbAppLang === 'US') && typeof _tbPhraseMap !== 'undefined' && _tbPhraseMap[modalDesc]) {
-            modalDesc = _tbPhraseMap[modalDesc];
+        const modalNameEl = document.getElementById('modal-product-name');
+        const modalDescEl = document.getElementById('modal-product-desc');
+        if (modalNameEl) {
+            modalNameEl.dataset.tbOrigAutoText = modalName;
+            modalNameEl.innerText = modalName.toUpperCase();
         }
-        document.getElementById('modal-product-desc').innerText = modalDesc;
+        document.getElementById('modal-product-badge').innerText = (currentModalProduct.badge || 'BURGER').toUpperCase();
+        if (modalDescEl) {
+            modalDescEl.dataset.tbOrigAutoText = modalDesc;
+            if ((window._tbAppLang === 'EN' || window._tbAppLang === 'US') && typeof _tbPhraseMap !== 'undefined' && _tbPhraseMap[modalDesc]) {
+                modalDescEl.innerText = _tbPhraseMap[modalDesc];
+            } else {
+                modalDescEl.innerText = modalDesc;
+            }
+        }
+        if (window._tbAppLang === 'EN' || window._tbAppLang === 'US') {
+            autoTranslateDynamicElements([modalNameEl, modalDescEl].filter(Boolean), true);
+        }
         document.getElementById('modal-product-price').innerText = (currentModalProduct.formatted_price || formatRupiah(currentModalProduct.price)).toUpperCase();
         document.getElementById('modal-product-image').src = resolveMediaUrl(currentModalProduct.image_url || currentModalProduct.image);
 
@@ -1350,6 +1365,7 @@ function initAllAppEffects() {
     initScrollReveal();
     initScrollEffects();
     initSmoothWheelScroll();
+    formatAllPhoneInputs(document);
 }
 
 if (document.readyState === 'loading') {
@@ -2290,6 +2306,105 @@ function translateEntirePage(lang) {
     }
 
     updateAppLangUI(code);
+    autoTranslateDynamicElements(Array.from(document.querySelectorAll('[data-auto-translate="true"]')), isEn);
+}
+
+const TB_AUTO_EN_CACHE_KEY = 'tb_auto_en_cache_v1';
+
+function getAutoEnCache() {
+    try {
+        const raw = localStorage.getItem(TB_AUTO_EN_CACHE_KEY);
+        return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function saveAutoEnCache(cacheObj) {
+    try {
+        localStorage.setItem(TB_AUTO_EN_CACHE_KEY, JSON.stringify(cacheObj));
+    } catch (e) {}
+}
+
+async function autoTranslateDynamicElements(elements, isEn) {
+    if (!elements || !elements.length) return;
+
+    const cache = getAutoEnCache();
+    const pendingByText = new Map();
+
+    elements.forEach(el => {
+        if (!el) return;
+        if (typeof el.dataset.tbOrigAutoText === 'undefined') {
+            el.dataset.tbOrigAutoText = (el.textContent || '').trim();
+        }
+        const orig = (el.dataset.tbOrigAutoText || '').trim();
+        if (!orig) return;
+
+        const isUppercaseModalTitle = el.id === 'modal-product-name';
+
+        if (!isEn) {
+            el.textContent = isUppercaseModalTitle ? orig.toUpperCase() : orig;
+            return;
+        }
+
+        if (typeof _tbPhraseMap !== 'undefined' && _tbPhraseMap[orig]) {
+            el.textContent = isUppercaseModalTitle ? _tbPhraseMap[orig].toUpperCase() : _tbPhraseMap[orig];
+            return;
+        }
+
+        if (cache[orig]) {
+            el.textContent = isUppercaseModalTitle ? cache[orig].toUpperCase() : cache[orig];
+            return;
+        }
+
+        if (!pendingByText.has(orig)) {
+            pendingByText.set(orig, []);
+        }
+        pendingByText.get(orig).push(el);
+    });
+
+    if (!isEn || pendingByText.size === 0) return;
+
+    const textsToFetch = Array.from(pendingByText.keys()).slice(0, 40);
+    try {
+        const res = await fetch('/translate-texts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN,
+            },
+            body: JSON.stringify({ texts: textsToFetch }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const translatedMap = data && data.translations ? data.translations : {};
+
+        let updatedCache = false;
+        Object.keys(translatedMap).forEach(orig => {
+            const tr = String(translatedMap[orig] || '').trim();
+            if (tr) {
+                cache[orig] = tr;
+                updatedCache = true;
+            }
+        });
+        if (updatedCache) {
+            saveAutoEnCache(cache);
+        }
+
+        if (window._tbAppLang !== 'EN' && window._tbAppLang !== 'US') return;
+
+        pendingByText.forEach((els, orig) => {
+            const tr = cache[orig];
+            if (!tr) return;
+            els.forEach(el => {
+                const isUppercaseModalTitle = el.id === 'modal-product-name';
+                el.textContent = isUppercaseModalTitle ? tr.toUpperCase() : tr;
+            });
+        });
+    } catch (err) {
+        // Silently keep original text when offline
+    }
 }
 
 function applyAppTranslations(lang) {
@@ -2404,6 +2519,7 @@ window.initAutoDismissAlerts = function (delay = 3500) {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    initPhoneAutoFormat();
     window.initAutoDismissAlerts();
     try {
         const savedLang = localStorage.getItem('tb_lang') || localStorage.getItem('tb_admin_lang') || 'ID';

@@ -134,11 +134,30 @@ class AdminController extends Controller
         $setting->updated_by = Auth::id();
         $setting->save();
 
-        if ($isOpen) {
-            return back()->with('success', 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout.');
+        $title = $isOpen ? 'Outlet Berhasil Dibuka!' : 'Outlet Berhasil Ditutup!';
+        $reason = $setting->displayReason();
+        $message = $isOpen
+            ? 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.'
+            : "Toko berhasil DITUTUP sementara ({$reason}). Pemesanan pelanggan dinonaktifkan.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
         }
 
-        return back()->with('success', "Toko berhasil DITUTUP sementara ({$setting->displayReason()}). Pemesanan pelanggan dinonaktifkan.");
+        return back()
+            ->with('success', $message)
+            ->with('store_status_toast', [
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
     }
 
     /**
@@ -452,7 +471,10 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
-        ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
+        $isAvailable = $request->has('is_available') ? $request->boolean('is_available') : true;
+        $isFeatured = $isAvailable && ($request->boolean('is_featured') || $request->boolean('is_popular'));
+
+        $createdProduct = ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
             'name' => $request->name,
             'slug' => Str::limit(Str::slug($request->name), 75, '') . '-' . rand(100, 999),
             'category_id' => $request->category_id,
@@ -462,9 +484,13 @@ class AdminController extends Controller
             'calories' => $request->calories ?? 300,
             'prep_time_minutes' => $request->prep_time_minutes ?? 10,
             'image' => $imagePath,
-            'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
-            'is_available' => $request->has('is_available') ? $request->boolean('is_available') : true,
+            'is_featured' => $isFeatured,
+            'is_available' => $isAvailable,
         ]));
+
+        if ($isFeatured && $createdProduct instanceof Product) {
+            $this->enforceMaxBestSellers($createdProduct->id, 4);
+        }
 
         return back()->with('success', "Menu '{$request->name}' berhasil ditambahkan!");
     }
@@ -523,6 +549,9 @@ class AdminController extends Controller
             $imagePath = ltrim($request->image, '/');
         }
 
+        $isAvailable = $request->boolean('is_available');
+        $isFeatured = $isAvailable && ($request->boolean('is_featured') || $request->boolean('is_popular'));
+
         ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => $product->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -532,11 +561,43 @@ class AdminController extends Controller
             'calories' => $request->calories,
             'prep_time_minutes' => $request->prep_time_minutes,
             'image' => $imagePath,
-            'is_featured' => $request->boolean('is_featured') || $request->boolean('is_popular'),
-            'is_available' => $request->boolean('is_available'),
+            'is_featured' => $isFeatured,
+            'is_available' => $isAvailable,
         ]));
 
+        if ($isFeatured && ! $product->wasChanged()) {
+            $product->touch();
+        }
+
+        if ($isFeatured) {
+            $this->enforceMaxBestSellers($product->id, 4);
+        }
+
         return back()->with('success', "Menu '{$product->name}' berhasil diperbarui!");
+    }
+
+    /**
+     * Keep at most $limit active & available Best Seller products, automatically unmarking the oldest ones.
+     */
+    private function enforceMaxBestSellers(int $keepId, int $limit = 4): void
+    {
+        $otherKeepIds = Product::where('is_featured', true)
+            ->where('is_available', true)
+            ->whereHas('category', fn ($q) => $q->where('is_active', true))
+            ->where('id', '!=', $keepId)
+            ->orderByDesc('updated_at')
+            ->orderByDesc('id')
+            ->limit(max(0, $limit - 1))
+            ->pluck('id')
+            ->all();
+
+        $keepIds = array_merge([$keepId], $otherKeepIds);
+
+        Product::where('is_featured', true)
+            ->whereNotIn('id', $keepIds)
+            ->update(['is_featured' => false]);
+
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
     }
 
     /**
@@ -546,6 +607,9 @@ class AdminController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->is_available = !$product->is_available;
+        if (! $product->is_available) {
+            $product->is_featured = false;
+        }
         $product->save();
 
         $statusText = $product->is_available ? 'Tersedia' : 'Habis / Nonaktif';
@@ -710,7 +774,7 @@ class AdminController extends Controller
             $user->email_verified_at = null;
         }
         if ($request->filled('phone_number')) {
-            $user->phone_number = $request->phone_number;
+            $user->phone_number = \App\Support\PhoneFormatter::format((string) $request->phone_number);
         }
         if ($request->filled('address')) {
             $user->address = $request->address;

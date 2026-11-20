@@ -1,4 +1,5 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+import { isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from './image-upload';
+import { openAvatarCropperModal } from './avatar-cropper';
 
 function initAdminProfile() {
     if (!document.getElementById('profile-confirm-modal')) return;
@@ -105,13 +106,14 @@ function initAdminProfile() {
             return;
         }
 
+        const isAdminEn = window._tbLang === 'US' || window._tbLang === 'EN';
         if (avatarDataInput) avatarDataInput.value = '';
-        pendingAvatarCompression = compressJpgOrPngToDataUrl(file, { maxDim: 512, quality: 0.82 }).then((dataUrl) => {
+        pendingAvatarCompression = openAvatarCropperModal(file, {
+            isEn: isAdminEn,
+            outputSize: 512,
+            maxDataUrlLength: 450000,
+        }).then((dataUrl) => {
             if (!dataUrl) {
-                showProfileWarning(
-                    'Gambar Tidak Dapat Dibaca',
-                    'File foto rusak atau bukan gambar JPG/PNG yang valid.'
-                );
                 input.value = '';
                 if (avatarDataInput) avatarDataInput.value = '';
                 return '';
@@ -167,7 +169,14 @@ function initAdminProfile() {
                         const currentAvatarInput = document.getElementById('profile-avatar-input');
                         const currentAvatarData = document.getElementById('profile-avatar-data');
                         if (currentAvatarData && currentAvatarData.value.startsWith('data:image/') && currentAvatarInput) {
-                            currentAvatarInput.disabled = true;
+                            const isPng = currentAvatarData.value.startsWith('data:image/png');
+                            const file = dataUrlToFile(currentAvatarData.value, isPng ? 'avatar.png' : 'avatar.jpg');
+                            if (file && attachFileToInput(currentAvatarInput, file)) {
+                                currentAvatarInput.disabled = false;
+                                currentAvatarData.value = '';
+                            } else {
+                                currentAvatarInput.disabled = true;
+                            }
                         }
                         profileForm.submit();
                     };

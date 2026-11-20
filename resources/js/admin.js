@@ -5,6 +5,10 @@ import './admin/order-detail';
 import './admin/orders';
 import './admin/products';
 import './admin/profile';
+import { initPhoneAutoFormat, formatAllPhoneInputs } from './utils/phone-format';
+
+initPhoneAutoFormat();
+window.addEventListener('tb:admin-navigated', () => formatAllPhoneInputs(document));
 
 const ADMIN_CONFIG = document.body.dataset;
 
@@ -231,6 +235,72 @@ function selectStoreCloseReason(btn, reason) {
             if (check) check.classList.add('hidden');
         }
     });
+}
+
+function showStoreStatusToast(data = {}) {
+    if (typeof Swal === 'undefined') return;
+    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+    const isOpen = Boolean(data.is_open);
+    const reason = data.reason || '';
+
+    const title = isOpen
+        ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
+        : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!');
+
+    const text = isOpen
+        ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
+        : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`);
+
+    Swal.fire({
+        icon: isOpen ? 'success' : 'warning',
+        title: title,
+        text: text,
+        confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
+        confirmButtonText: isEn ? 'Got it' : 'Mengerti',
+        timer: 3500,
+        timerProgressBar: true
+    });
+}
+
+function handleStoreStatusSubmit(e, form) {
+    if (e) e.preventDefault();
+    closeStoreModals();
+
+    const isOpen = form.querySelector('input[name="is_open"]')?.value === '1';
+    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+
+    if (typeof Swal !== 'undefined') {
+        let timerInterval;
+        Swal.fire({
+            title: isOpen
+                ? (isEn ? 'Opening Outlet...' : 'Membuka Outlet...')
+                : (isEn ? 'Closing Outlet...' : 'Menutup Outlet...'),
+            html: isOpen
+                ? (isEn ? 'Activating online orders in <b></b> seconds...' : 'Mengaktifkan kembali pesanan online dalam <b></b> detik...')
+                : (isEn ? 'Pausing customer orders in <b></b> seconds...' : 'Menonaktifkan sementara pesanan pelanggan dalam <b></b> detik...'),
+            timer: 1200,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+                const b = Swal.getPopup()?.querySelector('b');
+                timerInterval = setInterval(() => {
+                    if (b) {
+                        const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                        b.textContent = left > 0 ? left : 1;
+                    }
+                }, 100);
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+        }).then(() => {
+            form.submit();
+        });
+    } else {
+        form.submit();
+    }
 }
 
 document.addEventListener('keydown', (e) => {
@@ -555,7 +625,7 @@ const _tbTranslations = {
         lbl_prod_img: 'Gambar Produk',
         lbl_prod_desc: 'Deskripsi',
         lbl_prod_avail: 'Tersedia (Stok Ada)',
-        lbl_prod_pop: 'Menu Terpopuler',
+        lbl_prod_pop: 'Best Seller',
         btn_save_prod: 'Simpan Produk',
         cat_title: 'Halaman Kategori Produk',
         cat_sub: 'Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok',
@@ -865,7 +935,7 @@ const _tbTranslations = {
         lbl_prod_img: 'Product Image',
         lbl_prod_desc: 'Description',
         lbl_prod_avail: 'Available (In Stock)',
-        lbl_prod_pop: 'Popular Menu',
+        lbl_prod_pop: 'Best Seller',
         btn_save_prod: 'Save Product',
         cat_title: 'Product Categories Page',
         cat_sub: 'Add new categories and organize Toon Burger menu items',
@@ -1504,7 +1574,7 @@ window.addEventListener('pageshow', function () {
         const sidebarLinks = document.querySelectorAll('#admin-sidebar nav a[href]');
         sidebarLinks.forEach((a) => {
             const active = matchesNavPath(a.getAttribute('href'));
-            a.className = 'flex items-center gap-4 px-5 py-3.5 transition rounded-full ' +
+            a.className = 'flex items-center gap-4 px-5 py-4 transition rounded-full ' +
                 (active
                     ? 'bg-[#40605D] text-white font-medium shadow-xs'
                     : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900');
@@ -1775,4 +1845,12 @@ Object.assign(window, {
     openStoreToggleModal,
     closeStoreModals,
     selectStoreCloseReason,
+    handleStoreStatusSubmit,
+    showStoreStatusToast,
 });
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+}

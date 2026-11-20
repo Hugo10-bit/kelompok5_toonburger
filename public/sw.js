@@ -1,5 +1,5 @@
 // Toon Burger Offline & Asset Cache Service Worker
-const CACHE_NAME = 'toonburger-offline-v6';
+const CACHE_NAME = 'toonburger-offline-v8';
 const PRECACHE_ASSETS = [
     '/manifest.json',
     '/offline.html',
@@ -39,9 +39,8 @@ self.addEventListener('fetch', (event) => {
 
     const url = new URL(event.request.url);
     if (url.origin !== self.location.origin) return;
-    if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/pos')) return;
 
-    // For HTML navigation requests (page loads)
+    // For HTML navigation requests (page loads, including /admin and /pos)
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request).catch(async () => {
@@ -53,6 +52,8 @@ self.addEventListener('fetch', (event) => {
         );
         return;
     }
+
+    if (url.pathname.startsWith('/admin') || url.pathname.startsWith('/pos')) return;
 
     // Cache-First for immutable versioned Vite build assets and fast stale-while-revalidate for static images
     if (url.pathname.startsWith('/build/assets/') || url.pathname.startsWith('/images/')) {
