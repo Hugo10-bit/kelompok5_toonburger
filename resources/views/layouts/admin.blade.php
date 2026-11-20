@@ -157,7 +157,7 @@
                 Pelanggan tidak akan bisa melakukan checkout saat toko berstatus tutup.
             </p>
 
-            <form id="store-close-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-5">
+            <form id="store-close-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-5" onsubmit="return handleStoreStatusSubmit(event, this)">
                 @csrf
                 <input type="hidden" name="is_open" value="0">
                 <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Sudah Jam Tutup">
@@ -234,7 +234,7 @@
                 Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.
             </p>
 
-            <form action="{{ route('admin.store.status') }}" method="POST" class="mt-6 pt-4 border-t border-gray-100 dark:border-[#424242] flex items-center justify-end gap-2.5">
+            <form id="store-open-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-6 pt-4 border-t border-gray-100 dark:border-[#424242] flex items-center justify-end gap-2.5" onsubmit="return handleStoreStatusSubmit(event, this)">
                 @csrf
                 <input type="hidden" name="is_open" value="1">
                 <button type="button"
@@ -683,5 +683,33 @@
             <span class="text-[10px] font-semibold leading-none" data-i18n="nav_logout_short">Keluar</span>
         </button>
     </nav>
+
+    @if(session('store_status_toast'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const toastData = @json(session('store_status_toast'));
+                if (typeof window.showStoreStatusToast === 'function') {
+                    window.showStoreStatusToast(toastData);
+                } else if (typeof Swal !== 'undefined') {
+                    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+                    const isOpen = Boolean(toastData.is_open);
+                    const reason = toastData.reason || '';
+                    Swal.fire({
+                        icon: isOpen ? 'success' : 'warning',
+                        title: isOpen
+                            ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
+                            : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!'),
+                        text: isOpen
+                            ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
+                            : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`),
+                        confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
+                        confirmButtonText: isEn ? 'Got it' : 'Mengerti',
+                        timer: 3500,
+                        timerProgressBar: true
+                    });
+                }
+            });
+        </script>
+    @endif
 </body>
 </html>

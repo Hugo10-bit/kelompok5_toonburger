@@ -237,6 +237,72 @@ function selectStoreCloseReason(btn, reason) {
     });
 }
 
+function showStoreStatusToast(data = {}) {
+    if (typeof Swal === 'undefined') return;
+    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+    const isOpen = Boolean(data.is_open);
+    const reason = data.reason || '';
+
+    const title = isOpen
+        ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
+        : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!');
+
+    const text = isOpen
+        ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
+        : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`);
+
+    Swal.fire({
+        icon: isOpen ? 'success' : 'warning',
+        title: title,
+        text: text,
+        confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
+        confirmButtonText: isEn ? 'Got it' : 'Mengerti',
+        timer: 3500,
+        timerProgressBar: true
+    });
+}
+
+function handleStoreStatusSubmit(e, form) {
+    if (e) e.preventDefault();
+    closeStoreModals();
+
+    const isOpen = form.querySelector('input[name="is_open"]')?.value === '1';
+    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+
+    if (typeof Swal !== 'undefined') {
+        let timerInterval;
+        Swal.fire({
+            title: isOpen
+                ? (isEn ? 'Opening Outlet...' : 'Membuka Outlet...')
+                : (isEn ? 'Closing Outlet...' : 'Menutup Outlet...'),
+            html: isOpen
+                ? (isEn ? 'Activating online orders in <b></b> seconds...' : 'Mengaktifkan kembali pesanan online dalam <b></b> detik...')
+                : (isEn ? 'Pausing customer orders in <b></b> seconds...' : 'Menonaktifkan sementara pesanan pelanggan dalam <b></b> detik...'),
+            timer: 1200,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+                const b = Swal.getPopup()?.querySelector('b');
+                timerInterval = setInterval(() => {
+                    if (b) {
+                        const left = Math.ceil(Swal.getTimerLeft() / 1000);
+                        b.textContent = left > 0 ? left : 1;
+                    }
+                }, 100);
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+        }).then(() => {
+            form.submit();
+        });
+    } else {
+        form.submit();
+    }
+}
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeLogoutModal();
@@ -1779,6 +1845,8 @@ Object.assign(window, {
     openStoreToggleModal,
     closeStoreModals,
     selectStoreCloseReason,
+    handleStoreStatusSubmit,
+    showStoreStatusToast,
 });
 
 if ('serviceWorker' in navigator) {

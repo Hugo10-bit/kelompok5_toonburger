@@ -134,11 +134,30 @@ class AdminController extends Controller
         $setting->updated_by = Auth::id();
         $setting->save();
 
-        if ($isOpen) {
-            return back()->with('success', 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout.');
+        $title = $isOpen ? 'Outlet Berhasil Dibuka!' : 'Outlet Berhasil Ditutup!';
+        $reason = $setting->displayReason();
+        $message = $isOpen
+            ? 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.'
+            : "Toko berhasil DITUTUP sementara ({$reason}). Pemesanan pelanggan dinonaktifkan.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
         }
 
-        return back()->with('success', "Toko berhasil DITUTUP sementara ({$setting->displayReason()}). Pemesanan pelanggan dinonaktifkan.");
+        return back()
+            ->with('success', $message)
+            ->with('store_status_toast', [
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
     }
 
     /**
