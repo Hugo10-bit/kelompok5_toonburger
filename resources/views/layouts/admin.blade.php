@@ -160,7 +160,7 @@
             <form id="store-close-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-5" onsubmit="return handleStoreStatusSubmit(event, this)">
                 @csrf
                 <input type="hidden" name="is_open" value="0">
-                <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Sudah Jam Tutup">
+                <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Jam Tutup">
 
                 <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2.5" data-i18n="store_close_reason_label">
                     Pilih alasan cepat (opsional tampil di web):
@@ -170,13 +170,13 @@
                     $quickReasons = [
                         'Stok Habis' => 'store_reason_out_of_stock',
                         'Istirahat Sebentar' => 'store_reason_short_break',
-                        'Sudah Jam Tutup' => 'store_reason_closing_hours',
-                        'Tutup Mendadak' => 'store_reason_sudden_close',
+                        'Jam Tutup' => 'store_reason_closing_hours',
+                        'Tutup Sementara' => 'store_reason_sudden_close',
                     ];
                 @endphp
                 <div class="flex flex-wrap gap-2" id="store-close-reasons-group">
                     @foreach($quickReasons as $reasonOption => $reasonKey)
-                        @php $isDefault = ($reasonOption === 'Sudah Jam Tutup'); @endphp
+                        @php $isDefault = ($reasonOption === 'Jam Tutup'); @endphp
                         <button type="button"
                                 onclick="selectStoreCloseReason(this, '{{ $reasonOption }}')"
                                 data-reason="{{ $reasonOption }}"
@@ -339,7 +339,7 @@
         @php
             $isStoreOpen = $storeSetting->is_open ?? true;
             $storeHours = $storeSetting->operating_hours ?? '17:00–22:00 WITA';
-            $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Sudah Jam Tutup';
+            $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Jam Tutup';
         @endphp
         <div class="pt-4 mt-4 border-t border-gray-200/75 dark:border-[#3F3F3F]">
             <div class="rounded-2xl border p-4 space-y-2.5 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">

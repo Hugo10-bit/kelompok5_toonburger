@@ -12,7 +12,29 @@ window.addEventListener('tb:admin-navigated', () => formatAllPhoneInputs(documen
 
 const ADMIN_CONFIG = document.body.dataset;
 
-function closeMobileAdminSidebarIfOpen() {
+const _tbAdminOverlayStack = [];
+let _tbAdminIgnoreNextPopstate = false;
+
+function pushAdminOverlayHistory(id, closeFn) {
+    if (!id || typeof closeFn !== 'function') return;
+    if (_tbAdminOverlayStack.some(item => item.id === id)) return;
+    _tbAdminOverlayStack.push({ id, closeFn });
+    try {
+        window.history.pushState({ ...(window.history.state || {}), tbAdminOverlay: id }, '', window.location.href);
+    } catch (_) {}
+}
+
+function releaseAdminOverlayHistory(id, fromPopstate = false) {
+    const idx = _tbAdminOverlayStack.findIndex(item => item.id === id);
+    if (idx === -1) return;
+    _tbAdminOverlayStack.splice(idx, 1);
+    if (!fromPopstate && window.history.state && window.history.state.tbAdminOverlay === id) {
+        _tbAdminIgnoreNextPopstate = true;
+        window.history.back();
+    }
+}
+
+function closeMobileAdminSidebarIfOpen(fromPopstate = false) {
     const sidebar = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-sidebar-backdrop');
     if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
@@ -20,6 +42,7 @@ function closeMobileAdminSidebarIfOpen() {
         if (backdrop) backdrop.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
     }
+    releaseAdminOverlayHistory('admin-sidebar', fromPopstate);
 }
 
 function toggleAdminSidebar() {
@@ -35,8 +58,9 @@ function toggleAdminSidebar() {
         sidebar.classList.remove('-translate-x-full');
         backdrop.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
+        pushAdminOverlayHistory('admin-sidebar', closeMobileAdminSidebarIfOpen);
     } else {
-        closeMobileAdminSidebarIfOpen();
+        closeMobileAdminSidebarIfOpen(false);
     }
 }
 
@@ -644,8 +668,8 @@ const _tbTranslations = {
         store_close_reason_label: 'Pilih alasan cepat (opsional tampil di web):',
         store_reason_out_of_stock: 'Stok Habis',
         store_reason_short_break: 'Istirahat Sebentar',
-        store_reason_closing_hours: 'Sudah Jam Tutup',
-        store_reason_sudden_close: 'Tutup Mendadak',
+        store_reason_closing_hours: 'Jam Tutup',
+        store_reason_sudden_close: 'Tutup Sementara',
         store_close_confirm: 'Ya, Tutup Toko',
         store_open_modal_title: 'Buka Toko Sekarang?',
         store_open_modal_desc: 'Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.',
@@ -1790,8 +1814,19 @@ window.addEventListener('pageshow', function () {
         }
     });
 
-    // Instant Back/Forward button support
+    // Instant Back/Forward button support (close open mobile overlay first)
     window.addEventListener('popstate', function () {
+        if (_tbAdminIgnoreNextPopstate) {
+            _tbAdminIgnoreNextPopstate = false;
+            return;
+        }
+        if (_tbAdminOverlayStack.length > 0) {
+            const top = _tbAdminOverlayStack.pop();
+            if (top && typeof top.closeFn === 'function') {
+                top.closeFn(true);
+            }
+            return;
+        }
         if (isAdminInternalUrl(window.location.href)) {
             navigateAdminTo(window.location.href, false);
         }
@@ -1820,6 +1855,64 @@ window.addEventListener('pageshow', function () {
         window.requestIdleCallback(() => { runAdminWarmUp(); }, { timeout: 1500 });
     } else {
         setTimeout(runAdminWarmUp, 350);
+    }
+})();
+
+(function initAdminMobileSwipeClose() {
+    const bind = () => {
+        const sidebar = document.getElementById('admin-sidebar');
+        if (!sidebar || sidebar.dataset.swipeBound) return;
+        sidebar.dataset.swipeBound = '1';
+
+        let startX = 0;
+        let startY = 0;
+        let lastDx = 0;
+        let tracking = false;
+
+        sidebar.addEventListener('touchstart', (e) => {
+            if (window.innerWidth >= 768 || e.touches.length !== 1) return;
+            if (sidebar.classList.contains('-translate-x-full')) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            lastDx = 0;
+            tracking = true;
+        }, { passive: true });
+
+        sidebar.addEventListener('touchmove', (e) => {
+            if (!tracking || e.touches.length !== 1) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+            if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) {
+                tracking = false;
+                sidebar.style.transform = '';
+                return;
+            }
+            if (dx < 0) {
+                lastDx = dx;
+                sidebar.style.transition = 'none';
+                sidebar.style.transform = `translateX(${Math.max(-220, dx)}px)`;
+            }
+        }, { passive: true });
+
+        const finish = () => {
+            if (!tracking) return;
+            tracking = false;
+            sidebar.style.transition = '';
+            sidebar.style.transform = '';
+            if (lastDx <= -55) {
+                closeMobileAdminSidebarIfOpen();
+            }
+            lastDx = 0;
+        };
+
+        sidebar.addEventListener('touchend', finish, { passive: true });
+        sidebar.addEventListener('touchcancel', finish, { passive: true });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+    } else {
+        bind();
     }
 })();
 
