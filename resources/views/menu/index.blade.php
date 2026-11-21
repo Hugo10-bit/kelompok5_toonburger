@@ -9,6 +9,7 @@
         'headline' => 'MAU MAKAN<br>APA HARI INI?',
         'headlineDesktopClass' => 'lg:text-[52px] xl:text-[60px]',
         'ctaHref' => '#semua-menu',
+        'deliveryHref' => route('gofood'),
         'revealClass' => 'toon-reveal',
     ])
 
