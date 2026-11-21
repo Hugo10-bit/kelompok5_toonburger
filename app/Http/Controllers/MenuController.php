@@ -55,6 +55,30 @@ class MenuController extends Controller
             ->take(4)
             ->values();
 
+        // Pastikan menu Best Seller selalu menampilkan 4 produk lengkap
+        if ($bestSellers->count() < 4) {
+            $needed = 4 - $bestSellers->count();
+            $existingIds = $bestSellers->pluck('id')->all();
+
+            $fillers = $products
+                ->whereNotIn('id', $existingIds)
+                ->sortBy(function ($p) {
+                    return match ($p->id) {
+                        1 => 1,
+                        4 => 2,
+                        5 => 3,
+                        8 => 4,
+                        2 => 5,
+                        3 => 6,
+                        default => 10 + $p->id,
+                    };
+                })
+                ->take($needed)
+                ->values();
+
+            $bestSellers = $bestSellers->concat($fillers);
+        }
+
         return view('home', compact('bestSellers'));
     }
 
