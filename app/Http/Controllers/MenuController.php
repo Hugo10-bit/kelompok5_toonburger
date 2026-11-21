@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
-    public const CATALOG_CACHE_KEY = 'tb_catalog_v2';
+    public const CATALOG_CACHE_KEY = 'tb_catalog_v3';
 
     /**
      * Cache active categories and available products to eliminate repeated catalog DB roundtrips.
