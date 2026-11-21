@@ -257,7 +257,7 @@ class AdminController extends Controller
             $query->where('status', $status);
         }
 
-        $orders = $query->paginate(6)->withQueryString();
+        $orders = $query->get();
 
         $statusCounts = Order::selectRaw('status, COUNT(*) as aggregate')
             ->groupBy('status')
@@ -839,7 +839,7 @@ class AdminController extends Controller
             default => $query->latest('created_at')->orderBy('id', 'desc'),
         };
 
-        $messages = $query->paginate(10)->withQueryString();
+        $messages = $query->get();
         $totalCount = ContactMessage::count();
         $unreadCount = ContactMessage::where('is_read', false)->count();
         $readCount = max(0, $totalCount - $unreadCount);

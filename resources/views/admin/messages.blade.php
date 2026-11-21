@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    @if($messages instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator && $messages->count() > 0)
+    @if($messages->count() > 0)
         <!-- Mobile Message Cards -->
         <div class="md:hidden space-y-3">
             @foreach($messages as $idx => $msg)
@@ -292,12 +292,6 @@
                 </table>
             </div>
         </div>
-
-        @if($messages->hasPages())
-            <div class="mt-5 pt-4 border-t border-gray-100 dark:border-[#3F3F3F]">
-                {{ $messages->links() }}
-            </div>
-        @endif
     @else
         <!-- Empty State -->
         <div class="flex-1 flex flex-col items-center justify-center text-center py-14 px-4 rounded-2xl border border-dashed border-gray-200 dark:border-[#4A4A4A] bg-[#FAFAFB] dark:bg-[#383838]/50">
