@@ -29,7 +29,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/admin.css', 'resources/js/admin.js'])
 </head>
-<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased px-2.5 pt-2.5 pb-24 sm:p-5 lg:p-6 md:pb-6 flex flex-col md:flex-row gap-3.5 sm:gap-5 lg:gap-6"
+<body class="min-h-screen bg-[#EEF0F2] dark:bg-[#404040] text-[#1F2937] dark:text-[#E5E7EB] antialiased p-2.5 sm:p-5 lg:p-6 flex flex-col md:flex-row gap-3.5 sm:gap-5 lg:gap-6"
       data-logout-url="{{ route('logout') }}"
       data-login-url="{{ route('login') }}"
       data-admin-search-url="{{ route('admin.search.live') }}"
@@ -160,7 +160,7 @@
             <form id="store-close-form" action="{{ route('admin.store.status') }}" method="POST" class="mt-5" onsubmit="return handleStoreStatusSubmit(event, this)">
                 @csrf
                 <input type="hidden" name="is_open" value="0">
-                <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Sudah Jam Tutup">
+                <input type="hidden" name="closed_reason" id="store-close-reason-input" value="Jam Tutup">
 
                 <div class="text-xs font-semibold text-gray-700 dark:text-gray-200 mb-2.5" data-i18n="store_close_reason_label">
                     Pilih alasan cepat (opsional tampil di web):
@@ -170,13 +170,13 @@
                     $quickReasons = [
                         'Stok Habis' => 'store_reason_out_of_stock',
                         'Istirahat Sebentar' => 'store_reason_short_break',
-                        'Sudah Jam Tutup' => 'store_reason_closing_hours',
-                        'Tutup Mendadak' => 'store_reason_sudden_close',
+                        'Jam Tutup' => 'store_reason_closing_hours',
+                        'Tutup Sementara' => 'store_reason_sudden_close',
                     ];
                 @endphp
                 <div class="flex flex-wrap gap-2" id="store-close-reasons-group">
                     @foreach($quickReasons as $reasonOption => $reasonKey)
-                        @php $isDefault = ($reasonOption === 'Sudah Jam Tutup'); @endphp
+                        @php $isDefault = ($reasonOption === 'Jam Tutup'); @endphp
                         <button type="button"
                                 onclick="selectStoreCloseReason(this, '{{ $reasonOption }}')"
                                 data-reason="{{ $reasonOption }}"
@@ -339,7 +339,7 @@
         @php
             $isStoreOpen = $storeSetting->is_open ?? true;
             $storeHours = $storeSetting->operating_hours ?? '17:00–22:00 WITA';
-            $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Sudah Jam Tutup';
+            $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Jam Tutup';
         @endphp
         <div class="pt-4 mt-4 border-t border-gray-200/75 dark:border-[#3F3F3F]">
             <div class="rounded-2xl border p-4 space-y-2.5 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">
@@ -610,26 +610,26 @@
 
         <!-- Flash alerts -->
         @if(session('success'))
-            <div class="alert-auto-dismiss p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <div class="alert-auto-dismiss p-4 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 text-base font-medium p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 dark:text-emerald-400 text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert-auto-dismiss p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <div class="alert-auto-dismiss p-4 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-[#DE3B28] dark:text-red-300 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-[#DE3B28] dark:text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] text-base font-medium p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] dark:text-red-400 text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
@@ -639,77 +639,14 @@
         </main>
     </div>
 
-    <!-- Mobile bottom navigation bar -->
-    <nav id="admin-bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200/80 flex items-stretch transition-transform duration-300 ease-in-out" style="padding-bottom: env(safe-area-inset-bottom);">
-        <a href="{{ route('admin.dashboard') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.dashboard') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
-                <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
-            </svg>
-            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_dashboard">Dashboard</span>
-        </a>
-        <a href="{{ route('admin.orders') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.orders*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
-                <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
-                <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
-                <path d="M15.5 16.5H4.8A1.75 1.75 0 0 0 3.05 18.25A1.75 1.75 0 0 0 4.8 20H19.5" />
-                <line x1="15.5" y1="16.5" x2="15.5" y2="20" />
-            </svg>
-            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_orders_short">Pesanan</span>
-        </a>
-        <a href="{{ route('admin.products') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.products*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 -960 960 960" fill="currentColor">
-                <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
-            </svg>
-            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_products_short">Produk</span>
-        </a>
-        <a href="{{ route('admin.categories') }}"
-           class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring {{ request()->routeIs('admin.categories*') ? 'text-[#385A56] dark:text-[#8CC0B9]' : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]' }}">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
-            </svg>
-            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_categories_short">Kategori</span>
-        </a>
-        <button type="button" onclick="confirmLogout(event)"
-                class="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] text-[#C9301F] dark:text-[#F87171] transition active:opacity-70 tb-focus-ring">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4 H6 C4.9 4 4 4.9 4 6 V18 C4 19.1 4.9 20 6 20 H11"/>
-                <path d="M8 12 H19"/>
-                <path d="M15 8 L19 12 L15 16"/>
-            </svg>
-            <span class="text-[10px] font-semibold leading-none" data-i18n="nav_logout_short">Keluar</span>
-        </button>
-    </nav>
-
-    @if(session('store_status_toast'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const toastData = @json(session('store_status_toast'));
-                if (typeof window.showStoreStatusToast === 'function') {
-                    window.showStoreStatusToast(toastData);
-                } else if (typeof Swal !== 'undefined') {
-                    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                    const isOpen = Boolean(toastData.is_open);
-                    const reason = toastData.reason || '';
-                    Swal.fire({
-                        icon: isOpen ? 'success' : 'warning',
-                        title: isOpen
-                            ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
-                            : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!'),
-                        text: isOpen
-                            ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
-                            : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`),
-                        confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
-                        confirmButtonText: isEn ? 'Got it' : 'Mengerti',
-                        timer: 3500,
-                        timerProgressBar: true
-                    });
-                }
-            });
-        </script>
+    @if(session('store_status_toast') || session('success') || session('error'))
+        <div id="admin-flash-data"
+             class="hidden"
+             aria-hidden="true"
+             @if(session('store_status_toast')) data-store-status-toast="{{ json_encode(session('store_status_toast')) }}" @endif
+             @if(!session('store_status_toast') && session('success')) data-flash-success="{{ session('success') }}" @endif
+             @if(session('error')) data-flash-error="{{ session('error') }}" @endif>
+        </div>
     @endif
 </body>
 </html>

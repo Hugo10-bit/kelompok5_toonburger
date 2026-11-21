@@ -43,7 +43,7 @@ class StoreOperationalStatusTest extends TestCase
             ->assertSee('Status Operasional')
             ->assertSee('BUKA')
             ->assertSee('Tutup Toko Sekarang?')
-            ->assertSee('Sudah Jam Tutup');
+            ->assertSee('Jam Tutup');
 
         // Non-admin customer cannot toggle store status
         $this->actingAs($customer)
@@ -68,13 +68,13 @@ class StoreOperationalStatusTest extends TestCase
         $this->actingAs($admin)
             ->post(route('admin.store.status'), [
                 'is_open' => 0,
-                'closed_reason' => 'Sudah Jam Tutup',
+                'closed_reason' => 'Jam Tutup',
             ])
             ->assertRedirect();
 
         $setting = StoreSetting::current();
         $this->assertFalse($setting->is_open);
-        $this->assertSame('Sudah Jam Tutup', $setting->displayReason());
+        $this->assertSame('Jam Tutup', $setting->displayReason());
 
         // Admin UI reflects TUTUP state
         $this->actingAs($admin)
@@ -87,7 +87,7 @@ class StoreOperationalStatusTest extends TestCase
         $this->actingAs($customer)
             ->get(route('menu'))
             ->assertOk()
-            ->assertSee('Outlet Sedang Tutup (Sudah Jam Tutup)')
+            ->assertSee('Outlet Sedang Tutup (Jam Tutup)')
             ->assertSee('Outlet Sedang Tutup');
 
         // Cart add blocked with 423 while closed
@@ -98,7 +98,7 @@ class StoreOperationalStatusTest extends TestCase
             ])
             ->assertStatus(423)
             ->assertJsonPath('store_closed', true)
-            ->assertJsonPath('closed_reason', 'Sudah Jam Tutup');
+            ->assertJsonPath('closed_reason', 'Jam Tutup');
 
         // Increasing cart quantity blocked with 423 while closed
         $cart = session('cart');

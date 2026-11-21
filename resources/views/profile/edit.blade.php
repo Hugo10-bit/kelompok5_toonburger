@@ -93,9 +93,12 @@
 
                     <div>
                         <label for="customer-profile-phone" class="block font-semibold text-[#35524B] mb-2 text-xs sm:text-[13px]">Nomor telfon</label>
-                        <input type="text"
+                        <input type="tel"
                                id="customer-profile-phone"
                                name="phone_number"
+                               inputmode="numeric"
+                               pattern="[0-9]+(-[0-9]+)*"
+                               maxlength="15"
                                value="{{ old('phone_number', $user?->phone_number) }}"
                                placeholder="Masukkan nomor telepon"
                                class="w-full bg-[#FAF7EE] focus:bg-[#FFFDF8] border border-[#E2DAC4] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal placeholder-[#9AA7A2] focus:outline-none focus:border-[#3B6E64] transition text-[#27443E]">

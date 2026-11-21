@@ -1,5 +1,6 @@
 import './admin/categories';
 import './admin/dashboard';
+import './admin/flash-alerts';
 import './admin/messages';
 import './admin/order-detail';
 import './admin/orders';
@@ -12,22 +13,42 @@ window.addEventListener('tb:admin-navigated', () => formatAllPhoneInputs(documen
 
 const ADMIN_CONFIG = document.body.dataset;
 
-function closeMobileAdminSidebarIfOpen() {
+const _tbAdminOverlayStack = [];
+let _tbAdminIgnoreNextPopstate = false;
+
+function pushAdminOverlayHistory(id, closeFn) {
+    if (!id || typeof closeFn !== 'function') return;
+    if (_tbAdminOverlayStack.some(item => item.id === id)) return;
+    _tbAdminOverlayStack.push({ id, closeFn });
+    try {
+        window.history.pushState({ ...(window.history.state || {}), tbAdminOverlay: id }, '', window.location.href);
+    } catch (_) {}
+}
+
+function releaseAdminOverlayHistory(id, fromPopstate = false) {
+    const idx = _tbAdminOverlayStack.findIndex(item => item.id === id);
+    if (idx === -1) return;
+    _tbAdminOverlayStack.splice(idx, 1);
+    if (!fromPopstate && window.history.state && window.history.state.tbAdminOverlay === id) {
+        _tbAdminIgnoreNextPopstate = true;
+        window.history.back();
+    }
+}
+
+function closeMobileAdminSidebarIfOpen(fromPopstate = false) {
     const sidebar = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-sidebar-backdrop');
-    const bottomNav = document.getElementById('admin-bottom-nav');
     if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
         sidebar.classList.add('-translate-x-full');
         if (backdrop) backdrop.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
-        if (bottomNav) bottomNav.classList.remove('translate-y-full');
     }
+    releaseAdminOverlayHistory('admin-sidebar', fromPopstate);
 }
 
 function toggleAdminSidebar() {
     const sidebar = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-sidebar-backdrop');
-    const bottomNav = document.getElementById('admin-bottom-nav');
     if (!sidebar || !backdrop) return;
 
     // Close open header/profile dropdowns so they never overlap the mobile sidebar
@@ -38,9 +59,9 @@ function toggleAdminSidebar() {
         sidebar.classList.remove('-translate-x-full');
         backdrop.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
-        if (bottomNav) bottomNav.classList.add('translate-y-full');
+        pushAdminOverlayHistory('admin-sidebar', closeMobileAdminSidebarIfOpen);
     } else {
-        closeMobileAdminSidebarIfOpen();
+        closeMobileAdminSidebarIfOpen(false);
     }
 }
 
@@ -648,8 +669,8 @@ const _tbTranslations = {
         store_close_reason_label: 'Pilih alasan cepat (opsional tampil di web):',
         store_reason_out_of_stock: 'Stok Habis',
         store_reason_short_break: 'Istirahat Sebentar',
-        store_reason_closing_hours: 'Sudah Jam Tutup',
-        store_reason_sudden_close: 'Tutup Mendadak',
+        store_reason_closing_hours: 'Jam Tutup',
+        store_reason_sudden_close: 'Tutup Sementara',
         store_close_confirm: 'Ya, Tutup Toko',
         store_open_modal_title: 'Buka Toko Sekarang?',
         store_open_modal_desc: 'Pelanggan akan kembali dapat menambahkan menu ke keranjang dan melakukan checkout di website Toon Burger.',
@@ -1579,15 +1600,6 @@ window.addEventListener('pageshow', function () {
                     ? 'bg-[#40605D] text-white font-medium shadow-xs'
                     : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900');
         });
-
-        const bottomLinks = document.querySelectorAll('nav.md\\:hidden a[href]');
-        bottomLinks.forEach((a) => {
-            const active = matchesNavPath(a.getAttribute('href'));
-            a.className = 'flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring ' +
-                (active
-                    ? 'text-[#385A56] dark:text-[#8CC0B9]'
-                    : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]');
-        });
     }
 
     function runScriptsInContainer(container) {
@@ -1616,37 +1628,51 @@ window.addEventListener('pageshow', function () {
         const prevScrollY = window.scrollY;
         const prevMainScrollTop = curMain.scrollTop;
 
-        if (doc.title) {
-            document.title = doc.title;
-        }
+        // Smooth fade-out before replacing content
+        curMain.classList.add('tb-main-fade-out');
 
-        curMain.innerHTML = newMain.innerHTML;
-        updateAdminNavHighlight(targetUrl);
-        closeAllHeaderDropdowns();
-        closeMobileAdminSidebarIfOpen();
-        document.body.style.overflow = '';
+        setTimeout(() => {
+            if (doc.title) {
+                document.title = doc.title;
+            }
 
-        if (pushHistory && normalizeAdminUrl(window.location.href) !== targetUrl) {
-            history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
-        }
+            curMain.innerHTML = newMain.innerHTML;
+            updateAdminNavHighlight(targetUrl);
+            closeAllHeaderDropdowns();
+            closeMobileAdminSidebarIfOpen();
+            document.body.style.overflow = '';
 
-        if (preserveScroll) {
-            window.scrollTo({ top: prevScrollY, behavior: 'instant' });
-            curMain.scrollTop = prevMainScrollTop;
-        } else {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-        runScriptsInContainer(curMain);
-        if (typeof window.initAutoDismissAlerts === 'function') {
-            window.initAutoDismissAlerts();
-        }
+            if (pushHistory && normalizeAdminUrl(window.location.href) !== targetUrl) {
+                history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
+            }
 
-        _cachedI18nNodes = null;
-        _cachedCurrencyNodes = null;
-        _cachedAttrNodes = null;
-        if (window._tbLang === 'US' || window._tbLang === 'EN') {
-            applyTranslations('EN');
-        }
+            if (preserveScroll) {
+                window.scrollTo({ top: prevScrollY, behavior: 'instant' });
+                curMain.scrollTop = prevMainScrollTop;
+            } else {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+            runScriptsInContainer(curMain);
+            if (typeof window.initAutoDismissAlerts === 'function') {
+                window.initAutoDismissAlerts();
+            }
+
+            _cachedI18nNodes = null;
+            _cachedCurrencyNodes = null;
+            _cachedAttrNodes = null;
+            if (window._tbLang === 'US' || window._tbLang === 'EN') {
+                applyTranslations('EN');
+            }
+
+            // Smooth fade-in
+            curMain.classList.remove('tb-main-fade-out');
+            curMain.classList.add('tb-main-fade-in');
+
+            setTimeout(() => {
+                curMain.classList.remove('tb-main-fade-in');
+            }, 240);
+        }, 100);
+
         return true;
     }
 
@@ -1789,8 +1815,19 @@ window.addEventListener('pageshow', function () {
         }
     });
 
-    // Instant Back/Forward button support
+    // Instant Back/Forward button support (close open mobile overlay first)
     window.addEventListener('popstate', function () {
+        if (_tbAdminIgnoreNextPopstate) {
+            _tbAdminIgnoreNextPopstate = false;
+            return;
+        }
+        if (_tbAdminOverlayStack.length > 0) {
+            const top = _tbAdminOverlayStack.pop();
+            if (top && typeof top.closeFn === 'function') {
+                top.closeFn(true);
+            }
+            return;
+        }
         if (isAdminInternalUrl(window.location.href)) {
             navigateAdminTo(window.location.href, false);
         }
@@ -1822,7 +1859,67 @@ window.addEventListener('pageshow', function () {
     }
 })();
 
+(function initAdminMobileSwipeClose() {
+    const bind = () => {
+        const sidebar = document.getElementById('admin-sidebar');
+        if (!sidebar || sidebar.dataset.swipeBound) return;
+        sidebar.dataset.swipeBound = '1';
+
+        let startX = 0;
+        let startY = 0;
+        let lastDx = 0;
+        let tracking = false;
+
+        sidebar.addEventListener('touchstart', (e) => {
+            if (window.innerWidth >= 768 || e.touches.length !== 1) return;
+            if (sidebar.classList.contains('-translate-x-full')) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            lastDx = 0;
+            tracking = true;
+        }, { passive: true });
+
+        sidebar.addEventListener('touchmove', (e) => {
+            if (!tracking || e.touches.length !== 1) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+            if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) {
+                tracking = false;
+                sidebar.style.transform = '';
+                return;
+            }
+            if (dx < 0) {
+                lastDx = dx;
+                sidebar.style.transition = 'none';
+                sidebar.style.transform = `translateX(${Math.max(-220, dx)}px)`;
+            }
+        }, { passive: true });
+
+        const finish = () => {
+            if (!tracking) return;
+            tracking = false;
+            sidebar.style.transition = '';
+            sidebar.style.transform = '';
+            if (lastDx <= -55) {
+                closeMobileAdminSidebarIfOpen();
+            }
+            lastDx = 0;
+        };
+
+        sidebar.addEventListener('touchend', finish, { passive: true });
+        sidebar.addEventListener('touchcancel', finish, { passive: true });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+    } else {
+        bind();
+    }
+})();
+
 Object.assign(window, {
+    pushAdminOverlayHistory,
+    releaseAdminOverlayHistory,
     toggleAdminSidebar,
     confirmLogout,
     closeLogoutModal,

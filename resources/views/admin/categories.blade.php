@@ -50,7 +50,7 @@
                                         <path d="M15 5l4 4"></path>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', 'kategori {{ addslashes($cat->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M3 6h18"></path>
                                         <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>

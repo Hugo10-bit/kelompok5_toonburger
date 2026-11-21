@@ -380,4 +380,34 @@ class AdminPhotoUploadTest extends TestCase
         $this->assertSame('images/products/beef-burger.png', $product->image);
         $this->assertStringEndsWith('/images/products/beef-burger.png', $product->image_url);
     }
+
+    public function test_admin_can_delete_product_with_success_notification(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $category = Category::create([
+            'name' => 'Burger',
+            'slug' => 'burger',
+            'sort_order' => 1,
+            'is_active' => true,
+        ]);
+
+        $product = Product::create([
+            'category_id' => $category->id,
+            'name' => 'Deluxe Toon Burger',
+            'slug' => 'deluxe-toon-burger',
+            'price' => 55000,
+            'is_available' => true,
+        ]);
+
+        $this->assertDatabaseHas('products', ['id' => $product->id]);
+
+        $res = $this->actingAs($admin)
+            ->from(route('admin.products'))
+            ->delete(route('admin.products.delete', $product->id));
+
+        $res->assertRedirect(route('admin.products'));
+        $res->assertSessionHas('success', "Menu 'Deluxe Toon Burger' berhasil dihapus.");
+
+        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+    }
 }

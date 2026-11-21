@@ -88,9 +88,12 @@
 
             <div>
                 <label for="profile-phone" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_phone">Nomor telfon</label>
-                <input type="text"
+                <input type="tel"
                        id="profile-phone"
                        name="phone_number"
+                       inputmode="numeric"
+                       pattern="[0-9]+(-[0-9]+)*"
+                       maxlength="15"
                        value="{{ old('phone_number', $user?->phone_number ?: '085780153872') }}"
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
                 @error('phone_number') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror

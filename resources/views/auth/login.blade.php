@@ -297,10 +297,10 @@
                                    autocomplete="username"
                                    placeholder="Masukkan username anda"
                                    value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
-                            <span class="absolute inset-y-0 right-0 pr-1 flex items-center pointer-events-none text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                            <span class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center pointer-events-none text-gray-400" aria-hidden="true">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
                             </span>
                         </div>
@@ -325,6 +325,9 @@
                         <input type="tel"
                                name="phone_number"
                                id="register-phone"
+                               inputmode="numeric"
+                               pattern="[0-9]+(-[0-9]+)*"
+                               maxlength="15"
                                autocomplete="tel"
                                placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
