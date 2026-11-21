@@ -7,8 +7,8 @@
 
     <div class="flex items-center justify-between bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-[#E6DEC8] shadow-xs">
         <div>
-            <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900" data-i18n="tables_title">Manajemen Meja Restoran</h1>
-            <p class="text-xs text-gray-500 mt-1" data-i18n="tables_subtitle">Pantau ketersediaan meja, status terisi (occupied), dan tautan QR pemesanan pelanggan Toon Burger.</p>
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-gray-900 tracking-tight leading-tight" data-i18n="tables_title">Manajemen Meja Restoran</h1>
+            <p class="text-xs sm:text-[16px] text-gray-500 mt-1.5" data-i18n="tables_subtitle">Pantau ketersediaan meja, status terisi (occupied), dan tautan QR pemesanan pelanggan Toon Burger.</p>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-import { isValidJpgOrPngFile } from '../admin/image-upload';
+import { isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from '../admin/image-upload';
 import { openAvatarCropperModal } from '../admin/avatar-cropper';
 
 let isUploadingNavbarAvatar = false;
@@ -154,8 +154,14 @@ export async function handleNavbarAvatarChange(input) {
 
         renderAvatarSlots(dataUrl);
 
+        const isPng = dataUrl.startsWith('data:image/png');
+        const fileObj = dataUrlToFile(dataUrl, isPng ? 'avatar.png' : 'avatar.jpg');
         const formData = new FormData();
-        formData.append('avatar_data', dataUrl);
+        if (fileObj) {
+            formData.append('avatar', fileObj);
+        } else {
+            formData.append('avatar_data', dataUrl);
+        }
 
         const response = await fetch(uploadUrl, {
             method: 'POST',
@@ -366,7 +372,14 @@ function initCustomerProfilePage() {
                         const currentAvatarInput = document.getElementById('customer-profile-avatar-input');
                         const currentAvatarData = document.getElementById('customer-profile-avatar-data');
                         if (currentAvatarData && currentAvatarData.value.startsWith('data:image/') && currentAvatarInput) {
-                            currentAvatarInput.disabled = true;
+                            const isPng = currentAvatarData.value.startsWith('data:image/png');
+                            const file = dataUrlToFile(currentAvatarData.value, isPng ? 'avatar.png' : 'avatar.jpg');
+                            if (file && attachFileToInput(currentAvatarInput, file)) {
+                                currentAvatarInput.disabled = false;
+                                currentAvatarData.value = '';
+                            } else {
+                                currentAvatarInput.disabled = true;
+                            }
                         }
                         profileForm.submit();
                     };

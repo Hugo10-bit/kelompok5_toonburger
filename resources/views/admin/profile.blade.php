@@ -7,8 +7,8 @@
 <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col justify-between space-y-5 sm:space-y-7">
 
     <div>
-        <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prof_title">Profil Admin</h1>
-        <p class="text-xs sm:text-[15px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
+        <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prof_title">Profil Admin</h1>
+        <p class="text-xs sm:text-[16px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
     </div>
 
     <div class="flex items-center gap-4 sm:gap-5 pt-1 pb-2 min-w-0">
@@ -61,6 +61,8 @@
                class="hidden"
                onchange="handleAdminAvatarChange(this)">
 
+               
+
         <div>
             <label for="profile-username" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_username">Username</label>
             <input type="text"
@@ -86,9 +88,12 @@
 
             <div>
                 <label for="profile-phone" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_phone">Nomor telfon</label>
-                <input type="text"
+                <input type="tel"
                        id="profile-phone"
                        name="phone_number"
+                       inputmode="numeric"
+                       pattern="[0-9]+(-[0-9]+)*"
+                       maxlength="15"
                        value="{{ old('phone_number', $user?->phone_number ?: '085780153872') }}"
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
                 @error('phone_number') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror

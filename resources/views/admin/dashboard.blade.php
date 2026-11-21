@@ -7,10 +7,10 @@
 
     <div class="space-y-4 sm:space-y-6">
         <div>
-            <h1 class="text-xl sm:text-[28px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#262626] dark:text-white tracking-tight leading-tight">
                 <span data-i18n="dash_greeting">Halo, Admin Toon Burger</span><span aria-hidden="true">👋</span>
             </h1>
-            <p class="text-xs sm:text-[13.5px] text-[#6B7280] dark:text-[#C4C9D0] mt-1 font-normal leading-relaxed" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
+            <p class="text-xs sm:text-[16px] text-[#6B7280] dark:text-[#C4C9D0] mt-1.5 font-normal leading-relaxed" data-i18n="dash_subtitle">Pantau performa penjualan, dan pesanan aktif Toon Burger hari ini.</p>
         </div>
 
         @php
@@ -66,10 +66,10 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 min-[1140px]:grid-cols-4 gap-3 sm:gap-5">
             @foreach($metricCards as $m)
-                <a href="{{ $m['route'] }}" class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group">
+                <a href="{{ $m['route'] }}" class="tb-metric-card tb-focus-ring rounded-[18px] overflow-hidden flex flex-col justify-between group cursor-pointer active:scale-[0.98] transition-all duration-200">
                     <div class="p-3.5 sm:p-4 pb-3 sm:pb-3.5">
                         <div class="flex items-center gap-3">
-                            <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0" aria-hidden="true">
+                            <div class="tb-metric-icon w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
                                 {!! $m['icon'] !!}
                             </div>
                             <div class="min-w-0 flex-1">
@@ -91,9 +91,9 @@
                         </div>
                     </div>
 
-                    <div class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal">
+                    <div class="tb-metric-footer px-4 py-2 flex items-center justify-between text-[11px] font-normal transition-colors duration-200">
                         <span data-i18n="dash_view_detail">Lihat Detail</span>
-                        <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <svg class="w-3.5 h-3.5 transition-transform duration-200 ease-out group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <path d="M5 12h14"></path>
                             <path d="M13 6l6 6-6 6"></path>
                         </svg>

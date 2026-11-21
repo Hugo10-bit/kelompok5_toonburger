@@ -1,4 +1,4 @@
-import { isValidJpgOrPngFile } from './image-upload';
+import { isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from './image-upload';
 import { openAvatarCropperModal } from './avatar-cropper';
 
 function initAdminProfile() {
@@ -169,7 +169,14 @@ function initAdminProfile() {
                         const currentAvatarInput = document.getElementById('profile-avatar-input');
                         const currentAvatarData = document.getElementById('profile-avatar-data');
                         if (currentAvatarData && currentAvatarData.value.startsWith('data:image/') && currentAvatarInput) {
-                            currentAvatarInput.disabled = true;
+                            const isPng = currentAvatarData.value.startsWith('data:image/png');
+                            const file = dataUrlToFile(currentAvatarData.value, isPng ? 'avatar.png' : 'avatar.jpg');
+                            if (file && attachFileToInput(currentAvatarInput, file)) {
+                                currentAvatarInput.disabled = false;
+                                currentAvatarData.value = '';
+                            } else {
+                                currentAvatarInput.disabled = true;
+                            }
                         }
                         profileForm.submit();
                     };

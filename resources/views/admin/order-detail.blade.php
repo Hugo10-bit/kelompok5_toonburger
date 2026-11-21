@@ -103,8 +103,8 @@
     <!-- Header Section (Sesuai Mockup Figma) -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4">
         <div>
-            <h1 class="text-xl sm:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight" data-i18n="order_detail_title">Detail Pesanan</h1>
-            <p class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-1" data-i18n="order_detail_subtitle">Konfirmasi dan kelola status pesanan ini.</p>
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight" data-i18n="order_detail_title">Detail Pesanan</h1>
+            <p class="text-xs sm:text-[16px] text-gray-400 dark:text-[#BDBDBD] mt-1.5" data-i18n="order_detail_subtitle">Konfirmasi dan kelola status pesanan ini.</p>
             <div class="flex items-center gap-2.5 mt-3 flex-wrap">
                 <span class="bg-[#F3F4F6] dark:bg-[#3D3D3D] text-gray-800 dark:text-white font-mono text-xs font-extrabold px-3 py-1 rounded-md border border-gray-200/60 dark:border-[#525252] tracking-wider">
                     {{ $order->order_number }}

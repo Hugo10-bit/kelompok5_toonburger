@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
-    public const CATALOG_CACHE_KEY = 'tb_catalog_v1';
+    public const CATALOG_CACHE_KEY = 'tb_catalog_v4';
 
     /**
      * Cache active categories and available products to eliminate repeated catalog DB roundtrips.
@@ -51,9 +51,43 @@ class MenuController extends Controller
 
         $bestSellers = $products
             ->where('is_featured', true)
-            ->sortByDesc(fn ($p) => [$p->updated_at?->timestamp ?? 0, $p->id])
+            ->sortBy(function ($p) {
+                return match ($p->id) {
+                    1 => 1,
+                    4 => 2,
+                    5 => 3,
+                    8 => 4,
+                    2 => 5,
+                    3 => 6,
+                    default => 10 + $p->id,
+                };
+            })
             ->take(4)
             ->values();
+
+        // Pastikan menu Best Seller selalu menampilkan 4 produk lengkap
+        if ($bestSellers->count() < 4) {
+            $needed = 4 - $bestSellers->count();
+            $existingIds = $bestSellers->pluck('id')->all();
+
+            $fillers = $products
+                ->whereNotIn('id', $existingIds)
+                ->sortBy(function ($p) {
+                    return match ($p->id) {
+                        1 => 1,
+                        4 => 2,
+                        5 => 3,
+                        8 => 4,
+                        2 => 5,
+                        3 => 6,
+                        default => 10 + $p->id,
+                    };
+                })
+                ->take($needed)
+                ->values();
+
+            $bestSellers = $bestSellers->concat($fillers);
+        }
 
         return view('home', compact('bestSellers'));
     }
@@ -130,20 +164,21 @@ class MenuController extends Controller
         $request->merge([
             'name' => trim((string) $request->input('name', '')),
             'email' => strtolower(trim((string) $request->input('email', ''))),
-            'phone' => \App\Support\PhoneFormatter::format((string) $request->input('phone', '')) ?? '',
+            'phone' => trim((string) $request->input('phone', '')),
             'message' => trim((string) $request->input('message', '')),
         ]);
 
         $validated = $request->validate([
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:120',
-            'phone' => 'required|string|max:30',
+            'phone' => ['required', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:30'],
             'message' => 'required|string|max:2000',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Alamat email wajib diisi.',
             'email.email' => 'Format alamat email tidak valid.',
             'phone.required' => 'Nomor telepon wajib diisi.',
+            'phone.regex' => 'Nomor telepon hanya boleh berisi angka.',
             'message.required' => 'Pesan wajib diisi.',
         ]);
 
@@ -151,7 +186,7 @@ class MenuController extends Controller
             'user_id' => Auth::id(),
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
+            'phone' => \App\Support\PhoneFormatter::format($validated['phone']) ?? $validated['phone'],
             'message' => $validated['message'],
             'is_read' => false,
         ]);
@@ -212,9 +247,10 @@ class MenuController extends Controller
             6 => 'Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat diapit dua bun wijen panggang yang empuk nan gurih.',
             7 => 'Sosis sapi premium panggang dengan mustard lembut, saus tomat pilihan, dan roti bun hotdog empuk beraroma mentega.',
             8 => 'Sosis daging sapi juicy diselimuti lelehan keju mozarella dan cheddar gurih serta taburan daging cincang panggang lezat.',
+            9 => 'Porsi jumbo hotdog istimewa dengan sosis sapi panggang tebal, siraman saus daging cincang melimpah, dan double keju mozarella meleleh yang gurih nikmat.',
         ];
 
-        $desc = $richDescriptions[$product->id] ?? ($product->description ?: 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
+        $desc = $product->description ?: ($richDescriptions[$product->id] ?? 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
 
         $productData = $product->toArray();
         $productData['reviews'] = $product->reviews->map(function ($review) {

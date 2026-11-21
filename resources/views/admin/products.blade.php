@@ -7,8 +7,8 @@
 <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 flex-1 flex flex-col">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 sm:mb-7">
         <div>
-            <h1 class="text-xl sm:text-[32px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prod_title">Halaman Data Produk</h1>
-            <p class="text-xs sm:text-[15px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
+            <h1 class="text-xl sm:text-[36px] lg:text-[36px] font-bold text-[#333333] dark:text-white tracking-tight leading-tight" data-i18n="prod_title">Halaman Data Produk</h1>
+            <p class="text-xs sm:text-[16px] text-gray-400 dark:text-[#D4D4D4] mt-1.5" data-i18n="prod_sub">Tambah menu baru, edit rincian/harga, dan pantau ketersediaan stok</p>
         </div>
         <div class="flex items-center gap-2 sm:gap-3 relative flex-wrap sm:flex-nowrap">
             <div class="relative">
@@ -115,7 +115,7 @@
                             </span>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-[#BDBDBD] leading-relaxed line-clamp-2 break-words">
-                            {{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}
+                            {{ $prod->description }}
                         </p>
                         <div class="font-extrabold text-sm text-gray-900 dark:text-white pt-0.5">
                             <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
@@ -138,7 +138,7 @@
                                 <path d="M15 5l4 4"></path>
                             </svg>
                         </button>
-                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
+                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M3 6h18"></path>
                                 <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
@@ -204,7 +204,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 truncate">{{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}</div>
+                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 truncate">{{ $prod->description }}</div>
                                 </div>
                             </div>
                         </td>
@@ -231,7 +231,7 @@
                                         <path d="M15 5l4 4"></path>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M3 6h18"></path>
                                         <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
@@ -309,7 +309,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_desc">Deskripsi</label>
-                        <textarea name="description" id="prod_desc" rows="2" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Burger dengan patty daging yang juicy,"></textarea>
+                        <textarea name="description" id="prod_desc" rows="2" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Tulis deskripsi lezat menu Toon Burger..."></textarea>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3 sm:gap-6 pt-1">

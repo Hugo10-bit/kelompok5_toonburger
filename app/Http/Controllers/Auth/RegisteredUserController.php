@@ -56,7 +56,7 @@ class RegisteredUserController extends Controller
             'name' => ['nullable', 'string', 'max:60'],
             'email' => ['required', 'string', 'email', 'max:60', 'unique:users,email'],
             'password' => $passwordRules,
-            'phone_number' => ['nullable', 'string', 'max:15'],
+            'phone_number' => ['nullable', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:15'],
         ], [
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan, silakan pilih yang lain.',
@@ -66,6 +66,7 @@ class RegisteredUserController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'phone_number.regex' => 'Nomor telepon hanya boleh berisi angka.',
             'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',
         ]);
 

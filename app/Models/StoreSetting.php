@@ -12,7 +12,7 @@ class StoreSetting extends Model
 
     public const DEFAULT_HOURS = '17:00–22:00 WITA';
 
-    public const DEFAULT_CLOSED_REASON = 'Sudah Jam Tutup';
+    public const DEFAULT_CLOSED_REASON = 'Jam Tutup';
 
     protected $fillable = [
         'is_open',
@@ -76,6 +76,14 @@ class StoreSetting extends Model
     {
         $reason = trim((string) ($this->closed_reason ?? ''));
 
-        return $reason !== '' ? $reason : self::DEFAULT_CLOSED_REASON;
+        if ($reason === '' || strcasecmp($reason, 'Sudah Jam Tutup') === 0) {
+            return self::DEFAULT_CLOSED_REASON;
+        }
+
+        if (strcasecmp($reason, 'Tutup Mendadak') === 0) {
+            return 'Tutup Sementara';
+        }
+
+        return $reason;
     }
 }

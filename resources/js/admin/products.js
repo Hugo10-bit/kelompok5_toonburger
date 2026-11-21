@@ -1,4 +1,4 @@
-import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile } from './image-upload';
+import { compressJpgOrPngToDataUrl, isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from './image-upload';
 
 function initAdminProducts() {
     const modal = document.getElementById('productModal');
@@ -270,7 +270,14 @@ function initAdminProducts() {
             const finalizeProductSubmit = async () => {
                 await pendingProductImageCompression;
                 if (imageDataInput && imageDataInput.value.startsWith('data:image/') && imageInput) {
-                    imageInput.disabled = true;
+                    const isPng = imageDataInput.value.startsWith('data:image/png');
+                    const file = dataUrlToFile(imageDataInput.value, isPng ? 'product.png' : 'product.jpg');
+                    if (file && attachFileToInput(imageInput, file)) {
+                        imageInput.disabled = false;
+                        imageDataInput.value = '';
+                    } else {
+                        imageInput.disabled = true;
+                    }
                 }
                 form.submit();
             };

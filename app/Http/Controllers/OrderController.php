@@ -91,15 +91,16 @@ class OrderController extends Controller
         $request->validate([
             'order_type' => 'required|in:takeaway,delivery,dine_in',
             'customer_name' => 'required|string|max:60',
-            'customer_phone' => 'required|string|max:15',
+            'customer_phone' => ['required', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:15'],
             'restaurant_table_id' => 'nullable',
             'delivery_address' => 'nullable|required_if:order_type,delivery|string|max:500',
-            'payment_method' => 'required|in:cash,qris,bank_transfer,ewallet',
+            'payment_method' => 'required|in:cash,qris',
             'notes' => 'nullable|string|max:500',
         ], [
             'delivery_address.required_if' => 'Alamat pengiriman wajib diisi untuk Pesan Antar (Delivery).',
             'customer_name.required' => 'Nama pemesan wajib diisi.',
             'customer_phone.required' => 'Nomor telepon wajib diisi.',
+            'customer_phone.regex' => 'Nomor telepon hanya boleh berisi angka.',
         ]);
 
         return DB::transaction(function () use ($request, $cart) {
@@ -189,10 +190,6 @@ class OrderController extends Controller
      */
     public function show($order_number, MidtransService $midtrans)
     {
-        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) {
-            return redirect()->route('admin.orders.show', $order_number);
-        }
-
         $relations = ['items', 'table', 'reviews'];
         if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
             $relations[] = 'payment';

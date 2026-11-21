@@ -3,7 +3,7 @@
     $headlineDesktopClass = $headlineDesktopClass ?? 'lg:text-[56px] xl:text-[64px]';
     $subtitle = $subtitle ?? 'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.';
     $ctaHref = $ctaHref ?? route('menu');
-    $deliveryHref = $deliveryHref ?? $ctaHref;
+    $deliveryHref = $deliveryHref ?? route('gofood');
     $revealClass = $revealClass ?? 'toon-reveal-left';
 @endphp
 

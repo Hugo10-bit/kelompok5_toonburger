@@ -134,11 +134,30 @@ class AdminController extends Controller
         $setting->updated_by = Auth::id();
         $setting->save();
 
-        if ($isOpen) {
-            return back()->with('success', 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout.');
+        $title = $isOpen ? 'Outlet Berhasil Dibuka!' : 'Outlet Berhasil Ditutup!';
+        $reason = $setting->displayReason();
+        $message = $isOpen
+            ? 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.'
+            : "Toko berhasil DITUTUP sementara ({$reason}). Pemesanan pelanggan dinonaktifkan.";
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
         }
 
-        return back()->with('success', "Toko berhasil DITUTUP sementara ({$setting->displayReason()}). Pemesanan pelanggan dinonaktifkan.");
+        return back()
+            ->with('success', $message)
+            ->with('store_status_toast', [
+                'is_open' => $isOpen,
+                'title' => $title,
+                'message' => $message,
+                'reason' => $reason,
+            ]);
     }
 
     /**
@@ -238,7 +257,7 @@ class AdminController extends Controller
             $query->where('status', $status);
         }
 
-        $orders = $query->paginate(6)->withQueryString();
+        $orders = $query->get();
 
         $statusCounts = Order::selectRaw('status, COUNT(*) as aggregate')
             ->groupBy('status')
@@ -461,7 +480,7 @@ class AdminController extends Controller
             'category_id' => $request->category_id,
             'price' => $request->price,
             'original_price' => $request->original_price,
-            'description' => $request->description ?: 'Burger dengan patty daging yang juicy,',
+            'description' => $request->description ?: Product::defaultDescriptionFor(null, null, $request->name, $imagePath),
             'calories' => $request->calories ?? 300,
             'prep_time_minutes' => $request->prep_time_minutes ?? 10,
             'image' => $imagePath,
@@ -603,9 +622,10 @@ class AdminController extends Controller
     public function deleteProduct($id)
     {
         $product = Product::findOrFail($id);
+        $name = $product->name;
         $product->delete();
 
-        return back()->with('success', 'Menu berhasil dihapus.');
+        return back()->with('success', "Menu '{$name}' berhasil dihapus.");
     }
 
     /**
@@ -723,13 +743,15 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:60',
             'email' => 'required|email|max:60|unique:users,email,' . $user->id,
-            'phone_number' => 'nullable|string|max:15',
+            'phone_number' => ['nullable', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:15'],
             'address' => 'nullable|string|max:500',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
             'avatar_data' => 'nullable|string|max:4194304',
             'current_password' => 'nullable|current_password',
             'password' => 'nullable|string|min:6|confirmed',
         ], [
+            'phone_number.regex' => 'Nomor telepon hanya boleh berisi angka.',
+            'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',
             'avatar.image' => 'Foto profil wajib berupa file gambar JPG atau PNG.',
             'avatar.mimes' => 'Format foto profil hanya diperbolehkan JPG atau PNG.',
             'avatar.max' => 'Ukuran foto profil maksimal 4 MB.',
@@ -817,7 +839,7 @@ class AdminController extends Controller
             default => $query->latest('created_at')->orderBy('id', 'desc'),
         };
 
-        $messages = $query->paginate(10)->withQueryString();
+        $messages = $query->get();
         $totalCount = ContactMessage::count();
         $unreadCount = ContactMessage::where('is_read', false)->count();
         $readCount = max(0, $totalCount - $unreadCount);

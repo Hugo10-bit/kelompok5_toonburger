@@ -118,8 +118,8 @@ body::-webkit-scrollbar,
 
 .orders-dot-bg {
     background-color: #FEF8E6 !important;
-    background-image: radial-gradient(circle, rgba(56, 88, 80, 0.18) 1.25px, transparent 1.25px) !important;
-    background-size: 16px 16px !important;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.035) 1.7px, transparent 2px) !important;
+    background-size: 8px 8px !important;
     background-repeat: repeat !important;
 }
 

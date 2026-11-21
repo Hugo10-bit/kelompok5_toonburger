@@ -13,7 +13,7 @@ function promptStoreClosed(customReason = '') {
     if (typeof closeProductModal === 'function') {
         closeProductModal();
     }
-    const reason = (customReason || APP_CONFIG.storeClosedReason || 'Sudah Jam Tutup').trim();
+    const reason = (customReason || APP_CONFIG.storeClosedReason || 'Jam Tutup').trim();
     const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
     const title = isEn ? 'Outlet Is Currently Closed' : 'Outlet Sedang Tutup';
     const text = isEn
@@ -99,6 +99,28 @@ function resolveMediaUrl(src, fallback = '/images/burger-bg.jpg') {
     return '/' + trimmed.replace(/^\/+/, '');
 }
 
+const _tbOverlayStack = [];
+let _tbIgnoreNextPopstate = false;
+
+function pushMobileOverlayHistory(id, closeFn) {
+    if (!id || typeof closeFn !== 'function') return;
+    if (_tbOverlayStack.some(item => item.id === id)) return;
+    _tbOverlayStack.push({ id, closeFn });
+    try {
+        window.history.pushState({ ...(window.history.state || {}), tbOverlay: id }, '', window.location.href);
+    } catch (_) {}
+}
+
+function releaseMobileOverlayHistory(id, fromPopstate = false) {
+    const idx = _tbOverlayStack.findIndex(item => item.id === id);
+    if (idx === -1) return;
+    _tbOverlayStack.splice(idx, 1);
+    if (!fromPopstate && window.history.state && window.history.state.tbOverlay === id) {
+        _tbIgnoreNextPopstate = true;
+        window.history.back();
+    }
+}
+
 function openCartDrawer() {
     closeNavLangDropdown();
     const drawer = document.getElementById('cart-drawer');
@@ -108,9 +130,10 @@ function openCartDrawer() {
     drawer.classList.add('opacity-100');
     drawer.style.transform = 'scale(1) translateY(0)';
     if (backdrop) backdrop.classList.remove('hidden');
+    pushMobileOverlayHistory('cart-drawer', closeCartDrawer);
 }
 
-function closeCartDrawer() {
+function closeCartDrawer(fromPopstate = false) {
     const drawer = document.getElementById('cart-drawer');
     const backdrop = document.getElementById('cart-backdrop');
     if (!drawer) return;
@@ -118,6 +141,7 @@ function closeCartDrawer() {
     drawer.classList.add('pointer-events-none', 'opacity-0');
     drawer.classList.remove('opacity-100');
     if (backdrop) backdrop.classList.add('hidden');
+    releaseMobileOverlayHistory('cart-drawer', fromPopstate);
     setTimeout(() => {
         if (drawer.classList.contains('opacity-0')) {
             drawer.classList.add('invisible');
@@ -281,7 +305,12 @@ async function updateCartQty(cartKey, qty) {
     });
     const data = await res.json();
     if (handleStoreClosedApiResponse(res, data)) return;
-    if (data.cart) renderCart(data.cart);
+    if (data.cart) {
+        renderCart(data.cart);
+        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+            window.renderCheckoutSummary(data.cart);
+        }
+    }
 }
 
 async function removeCartItem(cartKey) {
@@ -291,7 +320,12 @@ async function removeCartItem(cartKey) {
         body: JSON.stringify({ cart_key: cartKey })
     });
     const data = await res.json();
-    if (data.cart) renderCart(data.cart);
+    if (data.cart) {
+        renderCart(data.cart);
+        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+            window.renderCheckoutSummary(data.cart);
+        }
+    }
 }
 
 async function openProductModal(productId) {
@@ -383,17 +417,19 @@ async function openProductModal(productId) {
         document.getElementById('product-modal').classList.remove('hidden');
         document.getElementById('product-modal-backdrop').classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
+        pushMobileOverlayHistory('product-modal', closeProductModal);
     } catch (e) {
         console.error(e);
     }
 }
 
-function closeProductModal() {
+function closeProductModal(fromPopstate = false) {
     const modal = document.getElementById('product-modal');
     const backdrop = document.getElementById('product-modal-backdrop');
     if (modal) modal.classList.add('hidden');
     if (backdrop) backdrop.classList.add('hidden');
     document.body.classList.remove('overflow-hidden');
+    releaseMobileOverlayHistory('product-modal', fromPopstate);
 }
 
 function adjustModalQty(delta) {
@@ -690,6 +726,15 @@ function showCartToast(message) {
     }, 3000);
 }
 
+function closeMobileNav(fromPopstate = false) {
+    const menu = document.getElementById('mobile-nav-menu');
+    if (menu) {
+        menu.classList.add('hidden');
+        menu.style.transform = '';
+    }
+    releaseMobileOverlayHistory('mobile-nav', fromPopstate);
+}
+
 function toggleMobileNav() {
     const menu = document.getElementById('mobile-nav-menu');
     const userMenu = document.getElementById('user-dropdown-menu');
@@ -697,14 +742,20 @@ function toggleMobileNav() {
     const searchDropdown = document.getElementById('home-search-dropdown');
 
     // Close user profile dropdown so it never overlaps the mobile menu
-    if (userMenu) userMenu.classList.add('hidden');
+    if (userMenu && !userMenu.classList.contains('hidden')) closeUserDropdown(true);
     if (userArrow) userArrow.classList.remove('rotate-180');
     if (searchDropdown) searchDropdown.classList.add('hidden');
     closeNavLangDropdown();
-    if (typeof closeCartDrawer === 'function') closeCartDrawer();
+    if (typeof closeCartDrawer === 'function') closeCartDrawer(true);
 
     if (menu) {
+        const willOpen = menu.classList.contains('hidden');
         menu.classList.toggle('hidden');
+        if (willOpen) {
+            pushMobileOverlayHistory('mobile-nav', closeMobileNav);
+        } else {
+            releaseMobileOverlayHistory('mobile-nav', false);
+        }
     }
 }
 
@@ -714,7 +765,7 @@ document.addEventListener('click', (event) => {
     if (!menu || !toggle || menu.classList.contains('hidden')) return;
 
     if (!menu.contains(event.target) && !toggle.contains(event.target)) {
-        menu.classList.add('hidden');
+        closeMobileNav(false);
     }
 });
 
@@ -726,10 +777,10 @@ function toggleUserDropdown(event) {
     const searchDropdown = document.getElementById('home-search-dropdown');
 
     // Close mobile hamburger menu and language dropdown so they never overlap
-    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) closeMobileNav(true);
     if (searchDropdown) searchDropdown.classList.add('hidden');
     closeNavLangDropdown();
-    if (typeof closeCartDrawer === 'function') closeCartDrawer();
+    if (typeof closeCartDrawer === 'function') closeCartDrawer(true);
 
     if (!menu) return;
 
@@ -737,9 +788,9 @@ function toggleUserDropdown(event) {
     if (isHidden) {
         menu.classList.remove('hidden');
         if (arrow) arrow.classList.add('rotate-180');
+        pushMobileOverlayHistory('user-dropdown', closeUserDropdown);
     } else {
-        menu.classList.add('hidden');
-        if (arrow) arrow.classList.remove('rotate-180');
+        closeUserDropdown(false);
     }
 }
 
@@ -1652,7 +1703,7 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         try { updateAppNavHighlight(window.location.href); } catch (e) {}
         const mainEl = document.querySelector('main');
-        if (mainEl) {
+        if (mainEl && isPjaxEligibleAppUrl(window.location.href)) {
             const footerEl = document.querySelector('footer');
             _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
                 title: document.title,
@@ -1716,6 +1767,7 @@ if (document.readyState === 'loading') {
         const preserveScroll = link.hasAttribute('data-preserve-scroll');
 
         e.preventDefault();
+        _tbOverlayStack.length = 0;
         window.tbAppNavigate(link.href, true, preserveScroll);
     });
 
@@ -1732,6 +1784,7 @@ if (document.readyState === 'loading') {
             const fd = new FormData(form);
             u.search = new URLSearchParams(fd).toString();
             const preserveScroll = form.hasAttribute('data-preserve-scroll');
+            _tbOverlayStack.length = 0;
             window.tbAppNavigate(u.href, true, preserveScroll);
         } else {
             _tbAppPageCache.clear();
@@ -1739,6 +1792,17 @@ if (document.readyState === 'loading') {
     });
 
     window.addEventListener('popstate', (e) => {
+        if (_tbIgnoreNextPopstate) {
+            _tbIgnoreNextPopstate = false;
+            return;
+        }
+        if (_tbOverlayStack.length > 0) {
+            const top = _tbOverlayStack.pop();
+            if (top && typeof top.closeFn === 'function') {
+                top.closeFn(true);
+            }
+            return;
+        }
         if (isPjaxEligibleAppUrl(window.location.href)) {
             const state = e.state || {};
             const preserveScroll = typeof state.scrollY === 'number';
@@ -1868,6 +1932,8 @@ const _tbPhraseMap = {
     'Ya! Kami melayani pesan antar langsung melalui website ini untuk area Banjarbaru dan sekitarnya, maupun pemesanan untuk diambil sendiri di outlet (Takeaway).': 'Yes! We serve direct delivery through this website for Banjarbaru and surrounding areas, as well as takeaway pickup at our outlet.',
     'Bagaimana jika saya terlambat mengambil pesanan di outlet?': 'What if I am late picking up my order at the outlet?',
     'Pesanan Anda akan kami jaga tetap hangat menggunakan kemasan khusus. Apabila Anda mengalami kendala di perjalanan, silakan konfirmasi melalui WhatsApp agar tim outlet kami dapat membantu menyimpan pesanan Anda.': 'Your order will be kept warm in special insulated packaging. If you encounter travel delays, please notify us via WhatsApp so our team can hold your order safely.',
+    'YUK, NGOBROL BARENG TOON BURGER!': 'LET\'S GET IN TOUCH WITH US!',
+    'YUK, NGOBROL BARENG': 'LET\'S GET IN TOUCH',
     'LET\'S GET IN TOUCH WITH US!': 'LET\'S GET IN TOUCH WITH US!',
     'LET\'S GET IN TOUCH': 'LET\'S GET IN TOUCH',
     'WITH US!': 'WITH US!',
@@ -2056,9 +2122,11 @@ const _tbPhraseMap = {
     'Outlet Sedang Tutup': 'Outlet Is Currently Closed',
     'Maaf, pemesanan dan checkout sementara dinonaktifkan. Jam operasional outlet:': 'Sorry, ordering and checkout are temporarily disabled. Outlet operating hours:',
     'Checkout dinonaktifkan sementara hingga toko dibuka kembali.': 'Checkout is temporarily disabled until the store reopens.',
+    'Jam Tutup': 'Closed for the Day',
     'Sudah Jam Tutup': 'Closed for the Day',
     'Stok Habis': 'Out of Stock',
     'Istirahat Sebentar': 'Short Break',
+    'Tutup Sementara': 'Temporarily Closed',
     'Tutup Mendadak': 'Temporarily Closed',
 
     // Order Payment Verification & Proof Upload
@@ -2137,6 +2205,8 @@ const _tbAppTranslations = {
         modal_add_btn: 'Tambahkan ke keranjang',
         card_order_btn: 'Pesan',
         contact_message_label: 'Pesan',
+        contact_form_heading_1: 'YUK, NGOBROL BARENG',
+        contact_form_heading_2: 'TOON BURGER!',
         logout_title: 'Konfirmasi Logout',
         logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
         logout_cancel: 'Batalkan',
@@ -2173,6 +2243,8 @@ const _tbAppTranslations = {
         modal_add_btn: 'Add to cart',
         card_order_btn: 'Order',
         contact_message_label: 'Message',
+        contact_form_heading_1: 'LET\'S GET IN TOUCH',
+        contact_form_heading_2: 'WITH US!',
         logout_title: 'Confirm Logout',
         logout_desc: 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
         logout_cancel: 'Cancel',
@@ -2548,6 +2620,127 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
     });
 }
+
+function closeUserDropdown(fromPopstate = false) {
+    const menu = document.getElementById('user-dropdown-menu');
+    const arrow = document.getElementById('user-menu-arrow');
+    if (menu) {
+        menu.classList.add('hidden');
+        menu.style.transform = '';
+    }
+    if (arrow) arrow.classList.remove('rotate-180');
+    releaseMobileOverlayHistory('user-dropdown', fromPopstate);
+}
+
+function initMobileSwipeClose() {
+    if (window._tbMobileSwipeBound) return;
+    window._tbMobileSwipeBound = true;
+
+    const prefersReducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function bindVerticalSwipe(elementId, { direction = 'up', threshold = 55, scrollContainerSelector = null, onClose }) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+
+        let startX = 0;
+        let startY = 0;
+        let lastDeltaY = 0;
+        let tracking = false;
+
+        el.addEventListener('touchstart', (e) => {
+            if (window.innerWidth >= 1024 || e.touches.length !== 1) return;
+            const tag = e.target && e.target.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+            const scrollEl = scrollContainerSelector ? el.querySelector(scrollContainerSelector) : el;
+            if (direction === 'down' && scrollEl && scrollEl.scrollTop > 4) return;
+
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            lastDeltaY = 0;
+            tracking = true;
+        }, { passive: true });
+
+        el.addEventListener('touchmove', (e) => {
+            if (!tracking || e.touches.length !== 1) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12) {
+                tracking = false;
+                el.style.transform = '';
+                return;
+            }
+
+            const matchesDir = (direction === 'up' && dy < 0) || (direction === 'down' && dy > 0);
+            if (!matchesDir) {
+                el.style.transform = '';
+                lastDeltaY = 0;
+                return;
+            }
+
+            lastDeltaY = dy;
+            if (!prefersReducedMotion()) {
+                const damped = Math.max(-140, Math.min(140, dy * 0.65));
+                el.style.transition = 'none';
+                el.style.transform = `translateY(${damped}px)`;
+            }
+        }, { passive: true });
+
+        const finishSwipe = () => {
+            if (!tracking) return;
+            tracking = false;
+            el.style.transition = '';
+
+            const shouldClose = (direction === 'up' && lastDeltaY <= -threshold)
+                || (direction === 'down' && lastDeltaY >= threshold);
+
+            el.style.transform = '';
+            if (shouldClose && typeof onClose === 'function') {
+                onClose();
+            }
+            lastDeltaY = 0;
+        };
+
+        el.addEventListener('touchend', finishSwipe, { passive: true });
+        el.addEventListener('touchcancel', finishSwipe, { passive: true });
+    }
+
+    bindVerticalSwipe('mobile-nav-menu', {
+        direction: 'up',
+        threshold: 50,
+        onClose: () => {
+            const menu = document.getElementById('mobile-nav-menu');
+            if (menu && !menu.classList.contains('hidden')) toggleMobileNav();
+        },
+    });
+
+    bindVerticalSwipe('user-dropdown-menu', {
+        direction: 'up',
+        threshold: 50,
+        onClose: closeUserDropdown,
+    });
+
+    bindVerticalSwipe('cart-drawer', {
+        direction: 'up',
+        threshold: 55,
+        onClose: closeCartDrawer,
+    });
+
+    bindVerticalSwipe('product-modal-card', {
+        direction: 'down',
+        threshold: 65,
+        onClose: closeProductModal,
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileSwipeClose);
+} else {
+    initMobileSwipeClose();
+}
+
+window.closeUserDropdown = closeUserDropdown;
 
 Object.assign(window, {
     promptRequireLogin,
