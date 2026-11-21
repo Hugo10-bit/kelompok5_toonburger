@@ -14,6 +14,16 @@
         </div>
 
         @php
+            $previewEmpty = request()->has('empty');
+            $dispTodayRevenue = $previewEmpty ? 0 : $todayRevenue;
+            $dispTotalOrdersToday = $previewEmpty ? 0 : $totalOrdersToday;
+            $dispPendingOrders = $previewEmpty ? 0 : $pendingOrders;
+            $dispTotalProducts = $previewEmpty ? 0 : $totalProducts;
+            $dispActiveProducts = $previewEmpty ? 0 : $activeProducts;
+            $dispOutOfStockProducts = $previewEmpty ? 0 : $outOfStockProducts;
+            $dispYearlyRevenue = $previewEmpty ? 0 : $yearlyRevenue;
+            $dispTopProducts = $previewEmpty ? collect([]) : $topProducts;
+
             $metricCards = [
                 [
                     'route' => route('admin.orders', ['status' => 'completed']),
@@ -22,8 +32,8 @@
                     'title_i18n' => 'dash_metric_profit',
                     'sub' => 'Pemasukan penjualan lunas',
                     'sub_i18n' => 'dash_sub_profit',
-                    'val' => '<span data-i18n="currency_dot">Rp.</span> ' . number_format($todayRevenue, 0, ',', '.'),
-                    'badge' => "+{$revenueGrowth}% &uarr;",
+                    'val' => '<span data-i18n="currency_dot">Rp.</span> ' . number_format($dispTodayRevenue, 0, ',', '.'),
+                    'badge' => $previewEmpty ? "0% &rarr;" : "+{$revenueGrowth}% &uarr;",
                     'badge_class' => 'tb-badge-positive',
                 ],
                 [
@@ -33,8 +43,8 @@
                     'title_i18n' => 'dash_metric_orders',
                     'sub' => 'Total transaksi masuk',
                     'sub_i18n' => 'dash_sub_orders',
-                    'val' => "{$totalOrdersToday} <span data-i18n=\"transaction\">Transaksi</span>",
-                    'badge' => "+{$ordersGrowth}% &uarr;",
+                    'val' => "{$dispTotalOrdersToday} <span data-i18n=\"transaction\">Transaksi</span>",
+                    'badge' => $previewEmpty ? "0% &rarr;" : "+{$ordersGrowth}% &uarr;",
                     'badge_class' => 'tb-badge-positive',
                 ],
                 [
@@ -44,7 +54,7 @@
                     'title_i18n' => 'dash_metric_progress',
                     'sub' => 'Sedang disiapkan dapur',
                     'sub_i18n' => 'dash_sub_progress',
-                    'val' => "{$pendingOrders} <span data-i18n=\"queue\">Antrean</span>",
+                    'val' => "{$dispPendingOrders} <span data-i18n=\"queue\">Antrean</span>",
                     'badge' => 'Perlu segera diproses',
                     'badge_class' => 'tb-badge-positive',
                     'badge_i18n' => 'dash_needs_processing',
@@ -56,10 +66,10 @@
                     'title_i18n' => 'dash_metric_products',
                     'sub' => 'Varian menu tersedia',
                     'sub_i18n' => 'dash_sub_products',
-                    'val' => "{$totalProducts} <span data-i18n=\"nav_products_short\">Produk</span>",
-                    'badge' => "{$activeProducts} <span class=\"ml-0.5\" data-i18n=\"dash_active\">Aktif</span>",
+                    'val' => "{$dispTotalProducts} <span data-i18n=\"nav_products_short\">Produk</span>",
+                    'badge' => "{$dispActiveProducts} <span class=\"ml-0.5\" data-i18n=\"dash_active\">Aktif</span>",
                     'badge_class' => 'tb-badge-positive',
-                    'extra_badge' => "<span class=\"tb-badge-danger inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap\">{$outOfStockProducts} <span class=\"ml-0.5\" data-i18n=\"dash_out_of_stock\">Habis</span></span>",
+                    'extra_badge' => "<span class=\"tb-badge-danger inline-flex items-center text-[10px] font-medium px-2 py-0.5 rounded-full leading-tight whitespace-nowrap\">{$dispOutOfStockProducts} <span class=\"ml-0.5\" data-i18n=\"dash_out_of_stock\">Habis</span></span>",
                 ],
             ];
         @endphp
@@ -110,7 +120,7 @@
                 <div>
                     <h2 id="chart-heading" class="text-xs sm:text-[13.5px] font-normal text-[#6B7280] dark:text-[#C4C9D0]" data-i18n="dash_rev_12m">Pendapatan 12 Bulan Terakhir</h2>
                     <div class="text-lg sm:text-[22px] font-bold text-[#262626] dark:text-white tracking-tight mt-1">
-                        <span data-i18n="currency_dot">Rp.</span> {{ number_format($yearlyRevenue, 2, '.', ',') }}
+                        <span data-i18n="currency_dot">Rp.</span> {{ number_format($dispYearlyRevenue, 2, '.', ',') }}
                     </div>
                 </div>
 
@@ -134,63 +144,113 @@
                 </div>
             </div>
 
-            <div class="mt-4 sm:mt-8 pt-10 sm:pt-8 flex-1 flex flex-col justify-end">
-                <div class="flex items-stretch gap-2 sm:gap-5">
-                    <div class="w-7 sm:w-8 shrink-0 relative h-[190px] sm:h-[245px] select-none text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]" aria-hidden="true">
-                        <span class="absolute left-0 bottom-[100%] translate-y-1/2" data-yaxis="10">10jt</span>
-                        <span class="absolute left-0 bottom-[80%] translate-y-1/2" data-yaxis="8">8jt</span>
-                        <span class="absolute left-0 bottom-[60%] translate-y-1/2" data-yaxis="6">6jt</span>
-                        <span class="absolute left-0 bottom-[40%] translate-y-1/2" data-yaxis="4">4jt</span>
-                        <span class="absolute left-0 bottom-[20%] translate-y-1/2" data-yaxis="2">2jt</span>
+            @if($dispYearlyRevenue > 0)
+                <div class="mt-4 sm:mt-8 pt-10 sm:pt-8 flex-1 flex flex-col justify-end">
+                    <div class="flex items-stretch gap-2 sm:gap-5">
+                        <div class="w-7 sm:w-8 shrink-0 relative h-[190px] sm:h-[245px] select-none text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]" aria-hidden="true">
+                            <span class="absolute left-0 bottom-[100%] translate-y-1/2" data-yaxis="10">10jt</span>
+                            <span class="absolute left-0 bottom-[80%] translate-y-1/2" data-yaxis="8">8jt</span>
+                            <span class="absolute left-0 bottom-[60%] translate-y-1/2" data-yaxis="6">6jt</span>
+                            <span class="absolute left-0 bottom-[40%] translate-y-1/2" data-yaxis="4">4jt</span>
+                            <span class="absolute left-0 bottom-[20%] translate-y-1/2" data-yaxis="2">2jt</span>
+                        </div>
+
+                        <div class="flex-1 relative h-[190px] sm:h-[245px] min-w-0">
+                            <div class="pointer-events-none absolute inset-x-0 bottom-[100%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-[80%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-[60%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-[40%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-[20%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+
+                            <div id="revenue-bars-grid" class="relative z-10 h-full grid grid-cols-6 gap-1.5 sm:gap-4 items-end px-0.5 sm:px-3" data-chart-periods="{{ json_encode($chartPeriods) }}">
+                                @foreach($chartPeriods['jan_jun'] as $idx => $bar)
+                                    @php
+                                        $isDefaultActive = ($idx === 2);
+                                        $tooltipAlign = $idx <= 1
+                                            ? 'left-0 sm:left-1/2 sm:-translate-x-1/2'
+                                            : ($idx >= 4 ? 'right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2' : 'left-1/2 -translate-x-1/2');
+                                    @endphp
+                                    <div class="h-full flex flex-col justify-end items-center relative">
+                                        <button type="button"
+                                                onclick="selectRevenueBar({{ $idx }})"
+                                                aria-pressed="{{ $isDefaultActive ? 'true' : 'false' }}"
+                                                aria-label="{{ $bar['id_month'] }}: {{ $bar['val_id'] }}"
+                                                style="height: {{ $bar['pct'] }}%;"
+                                                class="tb-chart-bar tb-focus-ring {{ $isDefaultActive ? 'is-active' : '' }} w-full max-w-[44px] sm:max-w-[66px] xl:max-w-[74px] rounded-t-[10px] sm:rounded-t-[18px] relative cursor-pointer">
+                                            <span class="tb-bar-tooltip {{ $isDefaultActive ? 'block' : 'hidden' }} absolute bottom-[calc(100%+7px)] {{ $tooltipAlign }} bg-[#333333] text-white rounded-[10px] px-2 sm:px-3 py-1.5 shadow-md text-left whitespace-nowrap z-20 pointer-events-none">
+                                                <span class="tb-tooltip-date block text-[9px] text-[#D1D5DB] font-normal leading-tight">{{ $bar['date_id'] }}</span>
+                                                <span class="tb-tooltip-val block text-[10.5px] sm:text-[11px] font-semibold text-white leading-snug">{{ $bar['val_id'] }}</span>
+                                                <span class="hidden sm:block absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333333]"></span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex-1 relative h-[190px] sm:h-[245px] min-w-0">
-                        <div class="pointer-events-none absolute inset-x-0 bottom-[100%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
-                        <div class="pointer-events-none absolute inset-x-0 bottom-[80%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
-                        <div class="pointer-events-none absolute inset-x-0 bottom-[60%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
-                        <div class="pointer-events-none absolute inset-x-0 bottom-[40%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
-                        <div class="pointer-events-none absolute inset-x-0 bottom-[20%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
-
-                        <div id="revenue-bars-grid" class="relative z-10 h-full grid grid-cols-6 gap-1.5 sm:gap-4 items-end px-0.5 sm:px-3" data-chart-periods="{{ json_encode($chartPeriods) }}">
+                    <div class="flex items-center gap-2 sm:gap-5 mt-2">
+                        <div class="w-7 sm:w-8 shrink-0 text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0] select-none">0k</div>
+                        <div id="revenue-months-grid" class="flex-1 grid grid-cols-6 gap-1.5 sm:gap-4 px-0.5 sm:px-3 text-center text-[10.5px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
                             @foreach($chartPeriods['jan_jun'] as $idx => $bar)
-                                @php
-                                    $isDefaultActive = ($idx === 2);
-                                    $tooltipAlign = $idx <= 1
-                                        ? 'left-0 sm:left-1/2 sm:-translate-x-1/2'
-                                        : ($idx >= 4 ? 'right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2' : 'left-1/2 -translate-x-1/2');
-                                @endphp
-                                <div class="h-full flex flex-col justify-end items-center relative">
-                                    <button type="button"
-                                            onclick="selectRevenueBar({{ $idx }})"
-                                            aria-pressed="{{ $isDefaultActive ? 'true' : 'false' }}"
-                                            aria-label="{{ $bar['id_month'] }}: {{ $bar['val_id'] }}"
-                                            style="height: {{ $bar['pct'] }}%;"
-                                            class="tb-chart-bar tb-focus-ring {{ $isDefaultActive ? 'is-active' : '' }} w-full max-w-[44px] sm:max-w-[66px] xl:max-w-[74px] rounded-t-[10px] sm:rounded-t-[18px] relative cursor-pointer">
-                                        <span class="tb-bar-tooltip {{ $isDefaultActive ? 'block' : 'hidden' }} absolute bottom-[calc(100%+7px)] {{ $tooltipAlign }} bg-[#333333] text-white rounded-[10px] px-2 sm:px-3 py-1.5 shadow-md text-left whitespace-nowrap z-20 pointer-events-none">
-                                            <span class="tb-tooltip-date block text-[9px] text-[#D1D5DB] font-normal leading-tight">{{ $bar['date_id'] }}</span>
-                                            <span class="tb-tooltip-val block text-[10.5px] sm:text-[11px] font-semibold text-white leading-snug">{{ $bar['val_id'] }}</span>
-                                            <span class="hidden sm:block absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-[#333333]"></span>
-                                        </span>
-                                    </button>
-                                </div>
+                                <button type="button"
+                                        onclick="selectRevenueBar({{ $idx }})"
+                                        class="tb-month-label tb-focus-ring py-1 rounded cursor-pointer hover:text-[#262626] dark:hover:text-white transition {{ $idx === 2 ? 'font-medium text-[#374151] dark:text-white' : '' }}">
+                                    {{ $bar['id_month'] }}
+                                </button>
                             @endforeach
                         </div>
                     </div>
                 </div>
+            @else
+                <div class="mt-4 sm:mt-8 pt-6 sm:pt-6 flex-1 flex flex-col justify-end relative">
+                    <div class="flex items-stretch gap-2 sm:gap-5 opacity-45 pointer-events-none select-none" aria-hidden="true">
+                        <div class="w-7 sm:w-8 shrink-0 relative h-[190px] sm:h-[245px] text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
+                            <span class="absolute left-0 bottom-[100%] translate-y-1/2">10jt</span>
+                            <span class="absolute left-0 bottom-[80%] translate-y-1/2">8jt</span>
+                            <span class="absolute left-0 bottom-[60%] translate-y-1/2">6jt</span>
+                            <span class="absolute left-0 bottom-[40%] translate-y-1/2">4jt</span>
+                            <span class="absolute left-0 bottom-[20%] translate-y-1/2">2jt</span>
+                        </div>
 
-                <div class="flex items-center gap-2 sm:gap-5 mt-2">
-                    <div class="w-7 sm:w-8 shrink-0 text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0] select-none">0k</div>
-                    <div id="revenue-months-grid" class="flex-1 grid grid-cols-6 gap-1.5 sm:gap-4 px-0.5 sm:px-3 text-center text-[10.5px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
-                        @foreach($chartPeriods['jan_jun'] as $idx => $bar)
-                            <button type="button"
-                                    onclick="selectRevenueBar({{ $idx }})"
-                                    class="tb-month-label tb-focus-ring py-1 rounded cursor-pointer hover:text-[#262626] dark:hover:text-white transition {{ $idx === 2 ? 'font-medium text-[#374151] dark:text-white' : '' }}">
-                                {{ $bar['id_month'] }}
-                            </button>
-                        @endforeach
+                        <div class="flex-1 relative h-[190px] sm:h-[245px] min-w-0">
+                            <div class=" absolute inset-x-0 bottom-[100%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="absolute inset-x-0 bottom-[80%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="absolute inset-x-0 bottom-[60%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="absolute inset-x-0 bottom-[40%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+                            <div class="absolute inset-x-0 bottom-[20%] border-t border-[#EFEFEF] dark:border-[#4A4A4A]"></div>
+
+                            <div class="relative z-10 h-full grid grid-cols-6 gap-1.5 sm:gap-4 items-end px-0.5 sm:px-3">
+                                @foreach([50, 42, 65, 55, 45, 75] as $ghostPct)
+                                    <div class="h-full flex flex-col justify-end items-center">
+                                        <div style="height: {{ $ghostPct }}%;" class="w-full max-w-[44px] sm:max-w-[66px] xl:max-w-[74px] rounded-t-[10px] sm:rounded-t-[18px] bg-[#EEF2F1] dark:bg-[#3A3A3A]"></div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 sm:gap-5 mt-2 opacity-45 pointer-events-none select-none" aria-hidden="true">
+                        <div class="w-7 sm:w-8 shrink-0 text-[10px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">0k</div>
+                        <div class="flex-1 grid grid-cols-6 gap-1.5 sm:gap-4 px-0.5 sm:px-3 text-center text-[10.5px] sm:text-[11px] text-[#6B7280] dark:text-[#C4C9D0]">
+                            @foreach($chartPeriods['jan_jun'] as $bar)
+                                <span class="py-1">{{ $bar['id_month'] }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-20">
+                        <img src="{{ asset('images/empty-chart.png') }}"
+                             alt="Belum Ada Data"
+                             width="130"
+                             height="121"
+                             loading="lazy"
+                             class="w-28 sm:w-32 h-auto mx-auto mb-2.5 object-contain">
+                        <h3 class="text-sm sm:text-base font-bold text-[#262626] dark:text-white" data-i18n="dash_empty_chart_title">Belum Ada Data</h3>
+                        <p class="text-[11px] sm:text-xs text-[#6B7280] dark:text-[#C4C9D0] mt-1 max-w-[260px] leading-relaxed" data-i18n="dash_empty_chart_desc">Grafik akan muncul setelah ada pesanan selesai yang tercatat pada sistem.</p>
                     </div>
                 </div>
-            </div>
+            @endif
         </section>
 
         <section class="tb-panel-card rounded-3xl overflow-hidden flex flex-col justify-between" aria-labelledby="bestseller-heading">
@@ -199,7 +259,7 @@
             </div>
 
             <div class="p-3 sm:p-4 space-y-2.5 flex-1 flex flex-col justify-center">
-                @forelse($topProducts as $item)
+                @forelse($dispTopProducts as $item)
                     <a href="{{ route('admin.products', ['search' => $item->search_term]) }}"
                        class="tb-bestseller-item tb-focus-ring rounded-xl px-3 py-2.5 min-h-[60px] flex items-center justify-between gap-3 group">
                         <div class="w-12 h-12 sm:w-11 sm:h-11 rounded-xl overflow-hidden flex items-center justify-center shrink-0"
@@ -223,8 +283,18 @@
                         </svg>
                     </a>
                 @empty
-                    <div class="text-center py-8 px-4 text-xs text-[#5F6672] dark:text-[#D1D5DB]">
-                        Belum ada data penjualan menu. Tambahkan menu di halaman Data Produk untuk mulai mencatat penjualan.
+                    <div class="flex-1 flex flex-col items-center justify-center text-center py-6 px-4">
+                        <img src="{{ asset('images/empty-cart-sad.png') }}"
+                             alt="Belum ada Produk"
+                             width="120"
+                             height="110"
+                             loading="lazy"
+                             class="w-24 sm:w-28 h-auto mx-auto mb-3 object-contain">
+                        <h3 class="text-sm font-bold text-[#262626] dark:text-white" data-i18n="dash_empty_products_title">Belum ada Produk</h3>
+                        <p class="text-[11px] sm:text-xs text-[#6B7280] dark:text-[#C4C9D0] mt-1 max-w-[210px] leading-relaxed" data-i18n="dash_empty_products_desc">Produk terlaris akan muncul otomatis setelah ada transaksi penjualan.</p>
+                        <a href="{{ route('admin.products') }}" class="mt-3.5 inline-flex items-center px-4 py-1.5 bg-[#415C58] hover:bg-[#344B48] text-white text-xs font-medium rounded-lg transition cursor-pointer" data-i18n="dash_manage_products">
+                            Tambah Produk
+                        </a>
                     </div>
                 @endforelse
             </div>

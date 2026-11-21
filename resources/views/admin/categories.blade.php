@@ -23,6 +23,33 @@
         </div>
     </div>
 
+    @php
+        $previewEmpty = request()->has('empty');
+        $hasCategories = !$previewEmpty && ($categories->isNotEmpty());
+    @endphp
+
+    @if(!$hasCategories)
+        <div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4">
+            <img src="{{ asset('images/empty-product.png') }}"
+                 alt="Belum Ada Kategori"
+                 width="184"
+                 height="168"
+                 loading="lazy"
+                 class="w-36 sm:w-44 h-auto mx-auto mb-4 object-contain">
+            <h3 class="text-xl font-bold text-[#262626] dark:text-white" data-i18n="cat_empty_title">Belum Ada Kategori</h3>
+            <p class="text-xs sm:text-sm text-[#6B7280] dark:text-[#C4C9D0] mt-1.5 max-w-sm leading-relaxed" data-i18n="cat_empty_desc">
+                Yuk, kelompokkan menu usahamu dengan lebih gampang lewat fitur kategori.
+            </p>
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button type="button" onclick="window.location.reload()" class="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-[#555555] bg-white dark:bg-[#333333] hover:bg-gray-50 dark:hover:bg-[#3D3D3D] text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] transition shadow-xs cursor-pointer" data-i18n="btn_refresh">
+                    Refresh Halaman
+                </button>
+                <button type="button" onclick="openAddCatModal()" class="px-5 py-2.5 rounded-xl bg-[#415C58] hover:bg-[#344B48] text-white text-xs font-semibold transition shadow-xs cursor-pointer" data-i18n="btn_add_cat">
+                    Tambahkan Kategori
+                </button>
+            </div>
+        </div>
+    @else
     <div class="border border-gray-200 dark:border-[#555555] rounded-[20px] sm:rounded-[22px] overflow-hidden bg-white dark:bg-[#2B2B2B] flex-1">
         <div class="overflow-x-auto md:overflow-auto md:max-h-[calc(100vh-240px)] md:min-h-[300px]">
             <table class="w-full text-center border-collapse">
@@ -71,6 +98,7 @@
             </table>
         </div>
     </div>
+    @endif
 
     <div id="catModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-sm w-full p-6 shadow-xl relative border border-gray-100 dark:border-[#4A4A4A]">

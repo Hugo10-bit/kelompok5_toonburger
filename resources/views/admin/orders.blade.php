@@ -32,8 +32,8 @@
         </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-7">
-        @forelse($orders as $order)
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-7 flex-1">
+        @forelse((request()->has('empty') ? collect([]) : $orders) as $order)
             @php
                 $badgeConfig = match($order->status) {
                     'pending' => [
@@ -173,8 +173,22 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-full py-12 text-center bg-gray-50 dark:bg-[#353535] rounded-2xl border border-dashed border-gray-200 dark:border-[#555555]">
-                <p class="text-gray-500 dark:text-[#D4D4D4] text-sm font-medium" data-i18n="ord_empty">Belum ada pesanan pada kategori status ini.</p>
+            <div class="col-span-full flex flex-col items-center justify-center text-center py-16 px-4">
+                <img src="{{ asset('images/empty-order.png') }}"
+                     alt="Belum Ada Pesanan"
+                     width="180"
+                     height="168"
+                     loading="lazy"
+                     class="w-36 sm:w-44 h-auto mx-auto mb-4 object-contain">
+                <h3 class="text-xl font-bold text-[#262626] dark:text-white" data-i18n="ord_empty_title">Belum Ada Pesanan</h3>
+                <p class="text-xs sm:text-sm text-[#6B7280] dark:text-[#C4C9D0] mt-1.5 max-w-sm leading-relaxed" data-i18n="ord_empty_desc">
+                    Belum ada pesanan aktif saat ini. Pesanan yang masuk dari pelanggan akan langsung muncul di sini.
+                </p>
+                <div class="mt-6">
+                    <button type="button" onclick="window.location.reload()" class="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-[#555555] bg-white dark:bg-[#333333] hover:bg-gray-50 dark:hover:bg-[#3D3D3D] text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] transition shadow-xs cursor-pointer" data-i18n="btn_refresh">
+                        Refresh Halaman
+                    </button>
+                </div>
             </div>
         @endforelse
     </div>

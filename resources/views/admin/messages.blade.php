@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    @if($messages->count() > 0)
+    @if($messages->count() > 0 && !request()->has('empty'))
         <!-- Mobile Message Cards -->
         <div class="md:hidden space-y-3">
             @foreach($messages as $idx => $msg)
@@ -294,13 +294,13 @@
         </div>
     @else
         <!-- Empty State -->
-        <div class="flex-1 flex flex-col items-center justify-center text-center py-14 px-4 rounded-2xl border border-dashed border-gray-200 dark:border-[#4A4A4A] bg-[#FAFAFB] dark:bg-[#383838]/50">
-            <div class="w-12 h-12 rounded-2xl bg-[#E8EFEE] dark:bg-[#3F4E4C] text-[#40605D] dark:text-[#8CC0B9] flex items-center justify-center mb-3.5">
-                <svg class="w-6 h-6" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
-                    <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
-                </svg>
-            </div>
+        <div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4">
             @if($status !== 'all' || $search !== '')
+                <div class="w-12 h-12 rounded-2xl bg-[#E8EFEE] dark:bg-[#3F4E4C] text-[#40605D] dark:text-[#8CC0B9] flex items-center justify-center mb-3.5">
+                    <svg class="w-6 h-6" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true">
+                        <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
+                    </svg>
+                </div>
                 <h2 class="text-base font-bold text-[#262626] dark:text-white" data-i18n="messages_empty_filtered_title">Tidak ada pesan yang sesuai dengan filter</h2>
                 <p class="text-xs sm:text-sm text-[#5F6672] dark:text-[#C4C9D0] mt-1 max-w-md" data-i18n="messages_empty_filtered_desc">Ubah pilihan filter status atau hapus kata kunci pencarian untuk melihat seluruh pesan pelanggan.</p>
                 <a href="{{ route('admin.messages') }}"
@@ -309,16 +309,19 @@
                     Tampilkan Semua Pesan
                 </a>
             @else
-                <h2 class="text-base font-bold text-[#262626] dark:text-white" data-i18n="messages_empty_title">Belum ada pesan pelanggan yang masuk</h2>
-                <p class="text-xs sm:text-sm text-[#5F6672] dark:text-[#C4C9D0] mt-1 max-w-md" data-i18n="messages_empty_desc">Pesan dan pertanyaan yang dikirim pelanggan melalui halaman Kontak akan otomatis muncul di sini.</p>
-                <a href="{{ route('admin.dashboard') }}"
-                   class="mt-5 inline-flex items-center gap-2 bg-[#40605D] hover:bg-[#344B48] text-white text-xs font-medium px-5 py-2.5 min-h-[44px] rounded-xl transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#40605D]">
-                    <span data-i18n="messages_go_orders">Kembali ke Dashboard</span>
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14"></path>
-                        <path d="M12 5l7 7-7 7"></path>
-                    </svg>
-                </a>
+                <img src="{{ asset('images/empty-message.png') }}"
+                     alt="Belum Ada Pesan Masuk"
+                     width="180"
+                     height="165"
+                     loading="lazy"
+                     class="w-36 sm:w-44 h-auto mx-auto mb-4 object-contain">
+                <h2 class="text-xl font-bold text-[#262626] dark:text-white" data-i18n="messages_empty_title">Belum Ada Pesan Masuk</h2>
+                <p class="text-xs sm:text-sm text-[#5F6672] dark:text-[#C4C9D0] mt-1.5 max-w-sm leading-relaxed" data-i18n="messages_empty_desc">Pesan yang dikirim oleh pengunjung melalui formulir kontak di website Toon Burger akan muncul di sini.</p>
+                <div class="mt-6">
+                    <button type="button" onclick="window.location.reload()" class="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-[#555555] bg-white dark:bg-[#333333] hover:bg-gray-50 dark:hover:bg-[#3D3D3D] text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] transition shadow-xs cursor-pointer" data-i18n="btn_refresh">
+                        Refresh Halaman
+                    </button>
+                </div>
             @endif
         </div>
     @endif

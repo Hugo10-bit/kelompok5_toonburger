@@ -52,6 +52,8 @@
     @endif
 
     @php
+        $previewEmpty = request()->has('empty');
+        $hasProducts = !$previewEmpty && ($products->isNotEmpty());
         $thumbBgColors = [
             'bg-[#F9D649]',
             'bg-[#F28B30]',
@@ -65,6 +67,28 @@
         ];
     @endphp
 
+    @if(!$hasProducts)
+        <div class="flex-1 flex flex-col items-center justify-center text-center py-16 px-4">
+            <img src="{{ asset('images/empty-product.png') }}"
+                 alt="Belum ada Produk"
+                 width="184"
+                 height="168"
+                 loading="lazy"
+                 class="w-36 sm:w-44 h-auto mx-auto mb-4 object-contain">
+            <h3 class="text-xl font-bold text-[#262626] dark:text-white" data-i18n="prod_empty_title">Belum ada Produk</h3>
+            <p class="text-xs sm:text-sm text-[#6B7280] dark:text-[#C4C9D0] mt-1.5 max-w-sm leading-relaxed" data-i18n="prod_empty_desc">
+                Saat ini belum ada produk yang terdaftar. Tambahkan produk pertama Anda sekarang untuk mulai berjualan.
+            </p>
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <button type="button" onclick="window.location.reload()" class="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-[#555555] bg-white dark:bg-[#333333] hover:bg-gray-50 dark:hover:bg-[#3D3D3D] text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] transition shadow-xs cursor-pointer" data-i18n="btn_refresh">
+                    Refresh Halaman
+                </button>
+                <button type="button" onclick="openAddModal()" class="px-5 py-2.5 rounded-xl bg-[#415C58] hover:bg-[#344B48] text-white text-xs font-semibold transition shadow-xs cursor-pointer" data-i18n="btn_add_product">
+                    Tambahkan Produk
+                </button>
+            </div>
+        </div>
+    @else
     <!-- Mobile Product Cards (Readable image + text on narrow phone viewports) -->
     <div id="product-mobile-list" class="md:hidden space-y-3">
         @forelse($products as $idx => $prod)
@@ -252,6 +276,7 @@
             </table>
         </div>
     </div>
+    @endif
 
     <div id="productModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-xl relative max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A]">

@@ -228,7 +228,7 @@
                     })->all()
                     : [];
             @endphp
-            @if(!empty($bestSellerCards))
+            @if(!empty($bestSellerCards) && !request()->has('empty'))
                 <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     @foreach($bestSellerCards as $bs)
                         @include('partials.product-card', [
@@ -243,8 +243,18 @@
                     @endforeach
                 </div>
             @else
-                <div class="mt-5 sm:mt-8 rounded-2xl border-2 border-dashed border-gray-300 bg-white/80 py-10 px-6 text-center">
-                    <p class="text-sm font-semibold text-gray-600">Belum ada menu Best Seller yang dipilih.</p>
+                <div class="mt-5 sm:mt-8 py-10 sm:py-16 text-center max-w-md mx-auto flex flex-col items-center justify-center toon-reveal">
+                    <img src="{{ asset('images/empty-menu.png') }}"
+                         alt="Menu Tidak Ditemukan"
+                         width="210"
+                         height="190"
+                         loading="lazy"
+                         class="w-44 sm:w-52 h-auto mx-auto mb-5 object-contain">
+                    <h3 class="font-bold text-xl sm:text-2xl text-[#333333] dark:text-white tracking-tight">Menu Tidak Ditemukan.</h3>
+                    <p class="text-xs sm:text-sm text-[#7A7A7A] dark:text-gray-300 max-w-sm mx-auto mt-2 leading-relaxed">Tidak ada menu yang cocok dengan kata kunci tersebut. Periksa kembali ejaan atau cari menu lainnya.</p>
+                    <a href="{{ route('menu') }}" class="mt-5 inline-flex items-center justify-center bg-[#3F5E5A] hover:bg-[#324C48] text-white text-xs sm:text-[13px] font-semibold px-6 py-2.5 rounded-lg transition shadow-xs">
+                        Lihat Semua Menu
+                    </a>
                 </div>
             @endif
 
