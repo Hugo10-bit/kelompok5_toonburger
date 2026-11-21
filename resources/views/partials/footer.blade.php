@@ -2,18 +2,13 @@
     <!-- Main Dark Forest Green Card with Rounded Top matching design reference -->
     <div class="relative bg-[#253B36] rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] text-white pt-14 sm:pt-16 lg:pt-20 pb-10 sm:pb-12 shadow-[0_-10px_35px_rgba(0,0,0,0.06)] pointer-events-auto">
 
-        <!-- Topographic Contour Lines Background -->
+        <!-- SVG Pattern Background -->
         <div class="absolute inset-0 rounded-t-[36px] sm:rounded-t-[48px] lg:rounded-t-[56px] overflow-hidden pointer-events-none">
-            <svg class="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1200 400" fill="none">
-                <!-- Concentric circular & wavy contours radiating around center & mascot -->
-                <ellipse cx="600" cy="80" rx="260" ry="120" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
-                <ellipse cx="600" cy="80" rx="380" ry="170" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
-                <ellipse cx="600" cy="80" rx="520" ry="230" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-                <path d="M-100 140 C 200 180, 420 90, 600 120 C 780 150, 1000 80, 1300 140" stroke="rgba(255,255,255,0.22)" stroke-width="1.2"/>
-                <path d="M-100 230 C 180 270, 420 180, 600 220 C 780 260, 1020 170, 1300 230" stroke="rgba(255,255,255,0.20)" stroke-width="1.2"/>
-                <path d="M-100 320 C 220 370, 450 280, 600 310 C 750 340, 980 270, 1300 330" stroke="rgba(255,255,255,0.16)" stroke-width="1.2"/>
-                <path d="M120 420 C 320 320, 500 300, 700 330 C 900 360, 1080 430, 1280 440" stroke="rgba(255,255,255,0.14)" stroke-width="1.2"/>
-            </svg>
+            <img src="{{ asset('images/footer-pattern.svg') }}"
+                 alt=""
+                 aria-hidden="true"
+                 class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none select-none"
+                 loading="lazy">
         </div>
 
         <!-- Mascot Head: overlaps the top rounded border, centered -->
