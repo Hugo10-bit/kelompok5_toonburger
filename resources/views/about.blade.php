@@ -134,7 +134,7 @@
         </div>
     </section>
 
-    <section class="about-fine-grid-bg py-7 sm:py-13 lg:py-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E2D9C5]">
+    <section class="orders-dot-bg py-7 sm:py-13 lg:py-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E2D9C5]">
         <div class="max-w-6xl mx-auto toon-reveal">
             <div id="about-visi-misi-carousel"
                  role="region"
@@ -217,7 +217,9 @@
                 </div>
 
                 {{-- Bottom 10-second progress bar synchronized with the automatic Visi/Misi slide transition. --}}
-                <div class="absolute inset-x-0 bottom-0 z-30 h-1.5 sm:h-[6px] bg-white/15 overflow-hidden pointer-events-none" aria-hidden="true">
+                <div class="absolute inset-x-0 bottom-0 z-30 h-1 bg-white/15 opacity-90 overflow-hidden pointer-events-none"
+                     style="height: 4px; opacity: 0.9;"
+                     aria-hidden="true">
                     <div id="about-carousel-progress"
                          class="h-full w-full bg-white origin-left"
                          style="transform: scaleX(0); will-change: transform;"></div>
