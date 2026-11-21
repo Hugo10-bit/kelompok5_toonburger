@@ -213,9 +213,10 @@ class MenuController extends Controller
             6 => 'Dada ayam krispi juicy berpadu lelehan keju cheddar, selada segar, dan tomat diapit dua bun wijen panggang yang empuk nan gurih.',
             7 => 'Sosis sapi premium panggang dengan mustard lembut, saus tomat pilihan, dan roti bun hotdog empuk beraroma mentega.',
             8 => 'Sosis daging sapi juicy diselimuti lelehan keju mozarella dan cheddar gurih serta taburan daging cincang panggang lezat.',
+            9 => 'Porsi jumbo hotdog istimewa dengan sosis sapi panggang tebal, siraman saus daging cincang melimpah, dan double keju mozarella meleleh yang gurih nikmat.',
         ];
 
-        $desc = $richDescriptions[$product->id] ?? ($product->description ?: 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
+        $desc = $product->description ?: ($richDescriptions[$product->id] ?? 'Pilihan menu istimewa dari Toon Burger dengan bahan berkualitas segar setiap hari.');
 
         $productData = $product->toArray();
         $productData['reviews'] = $product->reviews->map(function ($review) {

@@ -480,7 +480,7 @@ class AdminController extends Controller
             'category_id' => $request->category_id,
             'price' => $request->price,
             'original_price' => $request->original_price,
-            'description' => $request->description ?: 'Burger dengan patty daging yang juicy,',
+            'description' => $request->description ?: Product::defaultDescriptionFor(null, null, $request->name, $imagePath),
             'calories' => $request->calories ?? 300,
             'prep_time_minutes' => $request->prep_time_minutes ?? 10,
             'image' => $imagePath,

@@ -115,7 +115,7 @@
                             </span>
                         </div>
                         <p class="text-xs text-gray-500 dark:text-[#BDBDBD] leading-relaxed line-clamp-2 break-words">
-                            {{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}
+                            {{ $prod->description }}
                         </p>
                         <div class="font-extrabold text-sm text-gray-900 dark:text-white pt-0.5">
                             <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
@@ -204,7 +204,7 @@
                                             </span>
                                         @endif
                                     </div>
-                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 truncate">{{ $prod->description ?: 'Burger dengan patty daging yang juicy,' }}</div>
+                                    <div class="text-xs text-gray-400 dark:text-[#BDBDBD] mt-0.5 truncate">{{ $prod->description }}</div>
                                 </div>
                             </div>
                         </td>
@@ -309,7 +309,7 @@
 
                     <div>
                         <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_desc">Deskripsi</label>
-                        <textarea name="description" id="prod_desc" rows="2" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Burger dengan patty daging yang juicy,"></textarea>
+                        <textarea name="description" id="prod_desc" rows="2" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg px-3 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="Tulis deskripsi lezat menu Toon Burger..."></textarea>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3 sm:gap-6 pt-1">
