@@ -60,7 +60,7 @@
                     @endif
                 </button>
 
-                <div id="msg-filter-menu" class="hidden absolute right-0 sm:left-auto mt-2 w-56 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-40 animate-modal-pop">
+                <div id="msg-filter-menu" class="hidden absolute right-0 sm:left-auto mt-2 w-56 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
                     <a href="{{ $buildMessageUrl(['status' => 'all']) }}"
                        class="flex items-center justify-between px-4 py-2.5 text-sm {{ $status === 'all' ? 'bg-gray-100/90 dark:bg-[#3A3A3A] text-[#27443E] dark:text-white font-semibold' : 'text-gray-700 dark:text-[#E5E5E5] hover:bg-gray-100 dark:hover:bg-[#3A3A3A]' }} transition">
                         <span data-i18n="messages_filter_all">Semua Status</span>
@@ -96,7 +96,7 @@
                     <span data-i18n="btn_sort">Sortir</span>
                 </button>
 
-                <div id="msg-sort-menu" class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-40 animate-modal-pop">
+                <div id="msg-sort-menu" class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
                     <a href="{{ $buildMessageUrl(['sort' => 'latest']) }}"
                        class="block px-4 py-2.5 text-sm {{ $sort === 'latest' ? 'bg-gray-100/90 dark:bg-[#3A3A3A] text-[#27443E] dark:text-white font-semibold' : 'text-gray-700 dark:text-[#E5E5E5] hover:bg-gray-100 dark:hover:bg-[#3A3A3A]' }} transition"
                        data-i18n="msg_sort_latest">Terbaru</a>
@@ -149,6 +149,7 @@
                 <article onclick="openMessageDetailModal(this)"
                          data-msg-id="{{ $msg->id }}"
                          data-message="{{ json_encode($payload) }}"
+                         title="Klik untuk melihat detail pesan"
                          class="rounded-2xl border border-gray-200/90 dark:border-[#4A4A4A] bg-[#FAFAFB] dark:bg-[#383838] p-4 shadow-2xs space-y-2.5 cursor-pointer active:scale-[0.99] transition">
                     <div class="flex items-center justify-between gap-2.5">
                         <div class="flex items-center gap-3 min-w-0">
@@ -165,15 +166,22 @@
                             </div>
                         </div>
 
-                        <button type="button"
-                                onclick="event.stopPropagation(); toggleMessageStatus({{ $msg->id }}, this)"
-                                data-msg-status-btn="{{ $msg->id }}"
-                                data-status-url="{{ route('admin.messages.status', $msg->id) }}"
-                                data-is-read="{{ $msg->is_read ? '1' : '0' }}"
-                                class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 dark:text-[#E5E5E5] shrink-0 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-[#444444] transition cursor-pointer">
-                            <span data-msg-dot class="w-2 h-2 rounded-full {{ $msg->is_read ? 'bg-[#4ADE80]' : 'bg-[#EF4444]' }}"></span>
-                            <span data-msg-label data-i18n="{{ $msg->is_read ? 'msg_status_read' : 'msg_status_unread' }}">{{ $msg->is_read ? 'Dibaca' : 'Belum Dibaca' }}</span>
-                        </button>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button type="button"
+                                    onclick="event.stopPropagation(); toggleMessageStatus({{ $msg->id }}, this)"
+                                    data-msg-status-btn="{{ $msg->id }}"
+                                    data-status-url="{{ route('admin.messages.status', $msg->id) }}"
+                                    data-is-read="{{ $msg->is_read ? '1' : '0' }}"
+                                    class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 dark:text-[#E5E5E5] shrink-0 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-[#444444] transition cursor-pointer">
+                                <span data-msg-dot class="w-2 h-2 rounded-full {{ $msg->is_read ? 'bg-[#4ADE80]' : 'bg-[#EF4444]' }}"></span>
+                                <span data-msg-label data-i18n="{{ $msg->is_read ? 'msg_status_read' : 'msg_status_unread' }}">{{ $msg->is_read ? 'Dibaca' : 'Belum Dibaca' }}</span>
+                            </button>
+                            <span class="text-[#40605D] dark:text-[#8CC0B9] p-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="text-xs font-medium text-gray-700 dark:text-gray-200 truncate">
@@ -222,6 +230,7 @@
                             <tr onclick="openMessageDetailModal(this)"
                                 data-msg-id="{{ $msg->id }}"
                                 data-message="{{ json_encode($payload) }}"
+                                title="Klik untuk melihat detail pesan"
                                 class="hover:bg-gray-50/70 dark:hover:bg-[#353535] transition-colors cursor-pointer">
                                 <td class="py-4 px-6 text-left">
                                     <div class="flex items-center gap-3.5 pl-1 lg:pl-3">
@@ -254,17 +263,28 @@
                                         {{ $msg->message }}
                                     </p>
                                 </td>
-                                <td class="py-4 px-5 text-center whitespace-nowrap" onclick="event.stopPropagation()">
-                                    <button type="button"
-                                            onclick="toggleMessageStatus({{ $msg->id }}, this)"
-                                            data-msg-status-btn="{{ $msg->id }}"
-                                            data-status-url="{{ route('admin.messages.status', $msg->id) }}"
-                                            data-is-read="{{ $msg->is_read ? '1' : '0' }}"
-                                            title="Klik untuk ubah status"
-                                            class="inline-flex items-center justify-center gap-2 text-[13px] font-medium text-gray-700 dark:text-[#E5E5E5] hover:opacity-80 transition cursor-pointer px-2 py-1 rounded-lg">
-                                        <span data-msg-dot class="w-2 h-2 rounded-full shrink-0 {{ $msg->is_read ? 'bg-[#4ADE80]' : 'bg-[#EF4444]' }}"></span>
-                                        <span data-msg-label data-i18n="{{ $msg->is_read ? 'msg_status_read' : 'msg_status_unread' }}">{{ $msg->is_read ? 'Dibaca' : 'Belum Dibaca' }}</span>
-                                    </button>
+                                <td class="py-4 px-5 text-center whitespace-nowrap">
+                                    <div class="inline-flex items-center justify-center gap-1.5 sm:gap-2">
+                                        <button type="button"
+                                                onclick="event.stopPropagation(); toggleMessageStatus({{ $msg->id }}, this)"
+                                                data-msg-status-btn="{{ $msg->id }}"
+                                                data-status-url="{{ route('admin.messages.status', $msg->id) }}"
+                                                data-is-read="{{ $msg->is_read ? '1' : '0' }}"
+                                                title="Klik untuk ubah status cepat"
+                                                class="inline-flex items-center justify-center gap-2 text-[13px] font-medium text-gray-700 dark:text-[#E5E5E5] hover:bg-gray-100 dark:hover:bg-[#444444] transition cursor-pointer px-2.5 py-1 rounded-lg">
+                                            <span data-msg-dot class="w-2 h-2 rounded-full shrink-0 {{ $msg->is_read ? 'bg-[#4ADE80]' : 'bg-[#EF4444]' }}"></span>
+                                            <span data-msg-label data-i18n="{{ $msg->is_read ? 'msg_status_read' : 'msg_status_unread' }}">{{ $msg->is_read ? 'Dibaca' : 'Belum Dibaca' }}</span>
+                                        </button>
+                                        <button type="button"
+                                                onclick="event.stopPropagation(); openMessageDetailModal(this.closest('tr'))"
+                                                class="text-[#40605D] dark:text-[#8CC0B9] hover:bg-gray-100 dark:hover:bg-[#444444] p-1.5 rounded-lg transition cursor-pointer inline-flex items-center justify-center"
+                                                title="Lihat Rincian Pesan">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
