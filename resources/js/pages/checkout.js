@@ -37,33 +37,113 @@ function initCheckoutPage() {
     }
 }
 
+const _checkoutQtyPending = new Set();
+
+function formatCheckoutPrice(amount) {
+    if (typeof window.formatRupiah === 'function') {
+        return window.formatRupiah(amount);
+    }
+    return 'Rp ' + Math.round(Number(amount) || 0).toLocaleString('id-ID');
+}
+
+function renderCheckoutSummary(cart) {
+    const listEl = document.getElementById('checkout-items-list');
+    if (!listEl || !cart) return;
+
+    const items = Array.isArray(cart.items) ? cart.items : [];
+    if (items.length === 0) {
+        const menuUrl = document.body?.dataset?.menuUrl || '/menu';
+        window.location.href = menuUrl;
+        return;
+    }
+
+    const itemMap = new Map(items.map(item => [String(item.cart_key), item]));
+
+    listEl.querySelectorAll('[data-checkout-item]').forEach(rowEl => {
+        const key = rowEl.dataset.checkoutItem;
+        const item = itemMap.get(key);
+        if (!item) {
+            rowEl.remove();
+            return;
+        }
+
+        const qty = Number(item.quantity) || 1;
+        rowEl.dataset.qty = String(qty);
+
+        const qtyEl = rowEl.querySelector('[data-checkout-qty]');
+        if (qtyEl) qtyEl.textContent = String(qty);
+
+        const unitQtyEl = rowEl.querySelector('[data-checkout-unit-qty]');
+        if (unitQtyEl) {
+            unitQtyEl.textContent = `${formatCheckoutPrice(item.unit_price)} (x${qty})`;
+        }
+
+        const totalEl = rowEl.querySelector('[data-checkout-item-total]');
+        if (totalEl) {
+            totalEl.textContent = formatCheckoutPrice(item.total_price);
+        }
+    });
+
+    const subtotalEl = document.getElementById('checkout-subtotal');
+    if (subtotalEl) subtotalEl.textContent = formatCheckoutPrice(cart.subtotal);
+
+    const taxEl = document.getElementById('checkout-tax');
+    if (taxEl) taxEl.textContent = formatCheckoutPrice(cart.tax);
+
+    const totalEl = document.getElementById('checkout-total');
+    if (totalEl) totalEl.textContent = formatCheckoutPrice(cart.total);
+}
+
 async function updateCheckoutQty(cartKey, qty) {
+    const key = String(cartKey || '');
+    if (!key || _checkoutQtyPending.has(key)) return;
+
+    const clampedQty = Math.max(0, Math.min(100, parseInt(qty, 10) || 0));
+    _checkoutQtyPending.add(key);
+
     try {
         const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-        const res = await fetch('/cart/update', {
+        const updateUrl = document.body?.dataset?.cartUpdateUrl || '/cart/update';
+        const res = await fetch(updateUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 'X-CSRF-TOKEN': token || ''
             },
-            body: JSON.stringify({ cart_key: cartKey, quantity: qty })
+            body: JSON.stringify({ cart_key: key, quantity: clampedQty })
         });
         const data = await res.json();
-        if (data.success) {
-            if (typeof window.tbAppNavigate === 'function') {
-                window.tbAppNavigate(window.location.href, false, true);
-            } else {
-                window.location.reload();
+        if (res.status === 423 && data?.store_closed && typeof window.promptStoreClosed === 'function') {
+            window.promptStoreClosed(data.closed_reason);
+            return;
+        }
+        if (data.success && data.cart) {
+            renderCheckoutSummary(data.cart);
+            if (typeof window.renderCart === 'function') {
+                window.renderCart(data.cart);
             }
         }
     } catch (e) {
         console.error(e);
+    } finally {
+        _checkoutQtyPending.delete(key);
     }
+}
+
+function adjustCheckoutQty(cartKey, delta) {
+    const key = String(cartKey || '');
+    const rowEl = Array.from(document.querySelectorAll('#checkout-items-list [data-checkout-item]'))
+        .find(el => el.dataset.checkoutItem === key);
+    const currentQty = rowEl ? (parseInt(rowEl.dataset.qty, 10) || 1) : 1;
+    updateCheckoutQty(key, currentQty + (parseInt(delta, 10) || 0));
 }
 
 window.handleOrderTypeChange = handleOrderTypeChange;
 window.handlePaymentChange = handlePaymentChange;
+window.renderCheckoutSummary = renderCheckoutSummary;
 window.updateCheckoutQty = updateCheckoutQty;
+window.adjustCheckoutQty = adjustCheckoutQty;
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCheckoutPage);

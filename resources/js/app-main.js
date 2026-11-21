@@ -305,7 +305,12 @@ async function updateCartQty(cartKey, qty) {
     });
     const data = await res.json();
     if (handleStoreClosedApiResponse(res, data)) return;
-    if (data.cart) renderCart(data.cart);
+    if (data.cart) {
+        renderCart(data.cart);
+        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+            window.renderCheckoutSummary(data.cart);
+        }
+    }
 }
 
 async function removeCartItem(cartKey) {
@@ -315,7 +320,12 @@ async function removeCartItem(cartKey) {
         body: JSON.stringify({ cart_key: cartKey })
     });
     const data = await res.json();
-    if (data.cart) renderCart(data.cart);
+    if (data.cart) {
+        renderCart(data.cart);
+        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+            window.renderCheckoutSummary(data.cart);
+        }
+    }
 }
 
 async function openProductModal(productId) {
@@ -1693,7 +1703,7 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         try { updateAppNavHighlight(window.location.href); } catch (e) {}
         const mainEl = document.querySelector('main');
-        if (mainEl) {
+        if (mainEl && isPjaxEligibleAppUrl(window.location.href)) {
             const footerEl = document.querySelector('footer');
             _tbAppPageCache.set(normalizeAppUrl(window.location.href), {
                 title: document.title,
