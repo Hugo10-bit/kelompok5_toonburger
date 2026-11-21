@@ -553,3 +553,141 @@ input[type="password"]::-ms-clear {
     }
 }
 
+/* 9. Custom SweetAlert2 for Auth Modals (Toon Burger Figma Design) */
+.tb-auth-swal-container {
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+.tb-auth-popup {
+    border-radius: 28px !important;
+    padding: 36px 30px 28px 30px !important;
+    max-width: 360px !important;
+    width: 90% !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18) !important;
+    background: #ffffff !important;
+    font-family: 'Poppins', sans-serif !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+/* DARK MODE MODAL CARD */
+html.dark .tb-auth-popup,
+.dark .tb-auth-popup {
+    background: #373737 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.tb-popup-content {
+    text-align: center;
+}
+
+.tb-popup-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 22px;
+}
+
+.tb-popup-icon-box {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tb-icon-svg {
+    width: 90px;
+    height: 90px;
+}
+
+/* Success Green Scalloped Badge */
+.tb-badge-success {
+    color: #489467;
+    filter: drop-shadow(0 12px 18px rgba(72, 148, 103, 0.42));
+}
+
+/* Error Red Triangle Warning */
+.tb-triangle-error {
+    color: #CC3333;
+    filter: drop-shadow(0 12px 18px rgba(204, 51, 51, 0.45));
+}
+
+.tb-symbol-svg {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    inset: 0;
+}
+
+/* Title */
+.tb-popup-title {
+    font-size: 21px;
+    font-weight: 700;
+    color: #222222;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.01em;
+}
+
+html.dark .tb-popup-title,
+.dark .tb-popup-title {
+    color: #FFFFFF !important;
+}
+
+/* Description / Subtitle */
+.tb-popup-desc {
+    font-size: 13px;
+    color: #777777;
+    line-height: 1.55;
+    margin: 0 auto;
+    max-width: 275px;
+}
+
+html.dark .tb-popup-desc,
+.dark .tb-popup-desc {
+    color: #B2B2B2 !important;
+}
+
+/* BUTTONS */
+.tb-auth-btn-success {
+    background-color: #446360 !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 30px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin-top: 20px !important;
+    display: inline-block !important;
+    box-shadow: 0 4px 10px rgba(68, 99, 96, 0.25) !important;
+}
+
+.tb-auth-btn-success:hover {
+    background-color: #36504D !important;
+    transform: translateY(-1px);
+}
+
+.tb-auth-btn-error {
+    background-color: #CC3333 !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 30px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin-top: 20px !important;
+    display: inline-block !important;
+    box-shadow: 0 4px 10px rgba(204, 51, 51, 0.25) !important;
+}
+
+.tb-auth-btn-error:hover {
+    background-color: #B32828 !important;
+    transform: translateY(-1px);
+}
+
+
+

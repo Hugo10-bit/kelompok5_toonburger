@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
     Route::get('/orders/{order_number}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order_number}/reorder', [OrderController::class, 'reorder'])->name('orders.reorder');
     Route::post('/orders/{order_number}/midtrans-token', [OrderController::class, 'createMidtransToken'])->name('orders.midtrans.token');
     Route::post('/orders/{order_number}/sync-payment', [OrderController::class, 'syncMidtransPayment'])->name('orders.payment.sync');
     Route::get('/orders/{order_number}/payment-status', [OrderController::class, 'paymentStatus'])->name('orders.payment.status');

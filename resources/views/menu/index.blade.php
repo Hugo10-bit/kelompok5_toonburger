@@ -50,12 +50,17 @@
             @endforeach
         </div>
 
-        @if($products->isEmpty())
-            <div class="bg-white rounded-[20px] sm:rounded-[24px] border-2 border-black shadow-[4px_4px_0px_#3d5d56] sm:shadow-[6px_6px_0px_#3d5d56] p-8 sm:p-12 text-center max-w-lg mx-auto space-y-3 sm:space-y-4 toon-reveal">
-                <div class="text-3xl sm:text-4xl">🍔</div>
-                <h3 class="font-bold text-base sm:text-lg text-gray-900">Menu Tidak Ditemukan</h3>
-                <p class="text-xs text-gray-500 max-w-xs mx-auto">Menu yang Anda cari tidak tersedia. Silakan cek menu favorit lainnya.</p>
-                <a href="{{ route('menu') }}" class="inline-block bg-[#27443E] hover:bg-[#1E3631] text-white text-xs font-medium px-5 py-2.5 rounded-lg transition shadow-xs">
+        @if($products->isEmpty() || request()->has('empty'))
+            <div class="py-12 sm:py-20 text-center max-w-md mx-auto flex flex-col items-center justify-center toon-reveal">
+                <img src="{{ asset('images/empty-menu.png') }}"
+                     alt="Menu Tidak Ditemukan"
+                     width="210"
+                     height="190"
+                     loading="lazy"
+                     class="w-44 sm:w-52 h-auto mx-auto mb-5 object-contain">
+                <h3 class="font-bold text-xl sm:text-2xl text-[#333333] dark:text-white tracking-tight">Menu Tidak Ditemukan.</h3>
+                <p class="text-xs sm:text-sm text-[#7A7A7A] dark:text-gray-300 max-w-sm mx-auto mt-2 leading-relaxed">Tidak ada menu yang cocok dengan kata kunci tersebut. Periksa kembali ejaan atau cari menu lainnya.</p>
+                <a href="{{ route('menu') }}" class="mt-5 inline-flex items-center justify-center bg-[#3F5E5A] hover:bg-[#324C48] text-white text-xs sm:text-[13px] font-semibold px-6 py-2.5 rounded-lg transition shadow-xs">
                     Lihat Semua Menu
                 </a>
             </div>

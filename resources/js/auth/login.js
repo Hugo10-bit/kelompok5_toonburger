@@ -355,6 +355,89 @@ window.addEventListener('pageshow', function (event) {
     }
 });
 
+function showLoginSuccessModal(redirectUrl = null) {
+    const isEn = (localStorage.getItem('toon_lang') === 'en');
+    const targetUrl = redirectUrl || document.body.dataset.dashboardUrl || '/dashboard';
+
+    return Swal.fire({
+        html: `
+            <div class="tb-popup-content">
+                <div class="tb-popup-icon-wrap">
+                    <div class="tb-popup-icon-box">
+                        <!-- Scalloped Badge (Green) -->
+                        <svg viewBox="0 0 100 100" class="tb-icon-svg tb-badge-success" fill="currentColor">
+                            <path d="M 50.0 14.0 A 14 14 0 0 1 71.2 20.9 A 14 14 0 0 1 84.2 38.9 A 14 14 0 0 1 84.2 61.1 A 14 14 0 0 1 71.2 79.1 A 14 14 0 0 1 50.0 86.0 A 14 14 0 0 1 28.8 79.1 A 14 14 0 0 1 15.8 61.1 A 14 14 0 0 1 15.8 38.9 A 14 14 0 0 1 28.8 20.9 A 14 14 0 0 1 50.0 14.0 Z" />
+                        </svg>
+                        <!-- White Checkmark -->
+                        <svg viewBox="0 0 100 100" class="tb-symbol-svg">
+                            <path d="M37 51 L46 60 L64 41" fill="none" stroke="#ffffff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="tb-popup-title">${isEn ? 'Login Succesful!' : 'Login Berhasil!'}</h3>
+                <p class="tb-popup-desc">
+                    ${isEn
+                        ? 'Your account has been connected. You will be automatically redirected to the main page.'
+                        : 'Akunmu sudah terhubung. Kamu akan diarahkan ke halaman utama secara otomatis.'}
+                </p>
+            </div>
+        `,
+        showConfirmButton: true,
+        confirmButtonText: isEn ? 'Continue' : 'Lanjutkan',
+        buttonsStyling: false,
+        customClass: {
+            container: 'tb-auth-swal-container',
+            popup: 'tb-auth-popup',
+            confirmButton: 'tb-auth-btn-success'
+        },
+        timer: 2200,
+        timerProgressBar: false,
+        allowOutsideClick: false
+    }).then(() => {
+        window.location.href = targetUrl;
+    });
+}
+
+function showLoginErrorModal(customMsg = null) {
+    const isEn = (localStorage.getItem('toon_lang') === 'en');
+    const defaultMsg = isEn
+        ? "The email or password you entered doesn't match. Please double-check and try again."
+        : "Email atau kata sandi yang kamu masukkan belum sesuai. Coba cek dan ulangi lagi ya.";
+    const errorMsg = customMsg || defaultMsg;
+
+    return Swal.fire({
+        html: `
+            <div class="tb-popup-content">
+                <div class="tb-popup-icon-wrap">
+                    <div class="tb-popup-icon-box">
+                        <!-- Rounded Red Warning Triangle -->
+                        <svg viewBox="0 0 100 100" class="tb-icon-svg tb-triangle-error" fill="currentColor">
+                            <path d="M 44.5 24.5 L 19.5 69.5 C 16.5 75 20.5 81.5 27 81.5 L 73 81.5 C 79.5 81.5 83.5 75 80.5 69.5 L 55.5 24.5 C 52.5 19 47.5 19 44.5 24.5 Z" />
+                        </svg>
+                        <!-- White Exclamation Mark -->
+                        <svg viewBox="0 0 100 100" class="tb-symbol-svg">
+                            <line x1="50" y1="41" x2="50" y2="58" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+                            <circle cx="50" cy="70" r="3.2" fill="#ffffff" />
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="tb-popup-title">${isEn ? 'Login Failed!' : 'Login Gagal!'}</h3>
+                <p class="tb-popup-desc">
+                    ${errorMsg}
+                </p>
+            </div>
+        `,
+        showConfirmButton: true,
+        confirmButtonText: isEn ? 'Try again' : 'Coba lagi',
+        buttonsStyling: false,
+        customClass: {
+            container: 'tb-auth-swal-container',
+            popup: 'tb-auth-popup',
+            confirmButton: 'tb-auth-btn-error'
+        }
+    });
+}
+
 // Login form submission with SweetAlert2 cooldown delay & feedback
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.querySelector('#login-form-panel form');
@@ -392,56 +475,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok && data.success) {
                     isLoggingIn = true;
                     try { localStorage.removeItem('tb_logged_out'); } catch (e) {}
-
-                    const isEnLogin = (localStorage.getItem('toon_lang') === 'en');
-                    let timerInterval;
-                    Swal.fire({
-                        icon: 'success',
-                        title: isEnLogin ? 'Login Successful!' : 'Login Berhasil!',
-                        html: isEnLogin
-                            ? 'Welcome back! Redirecting to dashboard in <b></b> seconds...'
-                            : 'Selamat datang kembali! Mengalihkan ke dashboard dalam <b></b> detik...',
-                        timer: 1500,
-                        timerProgressBar: true,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            const b = Swal.getPopup().querySelector('b');
-                            timerInterval = setInterval(() => {
-                                if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                            }, 100);
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval);
-                        }
-                    }).then(() => {
-                        window.location.href = data.redirect || document.body.dataset.dashboardUrl || '/dashboard';
-                    });
+                    showLoginSuccessModal(data.redirect);
                 } else {
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
                     }
-                    const isEnLogin = (localStorage.getItem('toon_lang') === 'en');
-                    let errorMsg = isEnLogin
-                        ? 'The username or password you entered is incorrect!'
-                        : 'Username atau password yang Anda masukkan salah!';
-                    if (!isEnLogin && data.errors) {
+                    const isEn = (localStorage.getItem('toon_lang') === 'en');
+                    let errorMsg = null;
+
+                    if (!isEn && data.errors) {
                         const firstKey = Object.keys(data.errors)[0];
                         if (firstKey && data.errors[firstKey][0]) {
                             errorMsg = data.errors[firstKey][0];
                         }
-                    } else if (!isEnLogin && data.message) {
+                    } else if (!isEn && data.message && !data.message.includes('CSRF')) {
                         errorMsg = data.message;
                     }
 
-                    Swal.fire({
-                        icon: 'error',
-                        title: isEnLogin ? 'Login Failed' : 'Login Gagal',
-                        text: errorMsg,
-                        confirmButtonColor: '#466967',
-                        confirmButtonText: isEnLogin ? 'Try Again' : 'Coba Lagi'
-                    });
+                    showLoginErrorModal(errorMsg);
                 }
             })
             .catch(() => {
@@ -463,4 +515,6 @@ Object.assign(window, {
     switchToRegister,
     switchToLogin,
     togglePasswordVisibility,
+    showLoginSuccessModal,
+    showLoginErrorModal,
 });
