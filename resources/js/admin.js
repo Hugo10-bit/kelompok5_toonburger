@@ -1603,37 +1603,51 @@ window.addEventListener('pageshow', function () {
         const prevScrollY = window.scrollY;
         const prevMainScrollTop = curMain.scrollTop;
 
-        if (doc.title) {
-            document.title = doc.title;
-        }
+        // Smooth fade-out before replacing content
+        curMain.classList.add('tb-main-fade-out');
 
-        curMain.innerHTML = newMain.innerHTML;
-        updateAdminNavHighlight(targetUrl);
-        closeAllHeaderDropdowns();
-        closeMobileAdminSidebarIfOpen();
-        document.body.style.overflow = '';
+        setTimeout(() => {
+            if (doc.title) {
+                document.title = doc.title;
+            }
 
-        if (pushHistory && normalizeAdminUrl(window.location.href) !== targetUrl) {
-            history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
-        }
+            curMain.innerHTML = newMain.innerHTML;
+            updateAdminNavHighlight(targetUrl);
+            closeAllHeaderDropdowns();
+            closeMobileAdminSidebarIfOpen();
+            document.body.style.overflow = '';
 
-        if (preserveScroll) {
-            window.scrollTo({ top: prevScrollY, behavior: 'instant' });
-            curMain.scrollTop = prevMainScrollTop;
-        } else {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-        runScriptsInContainer(curMain);
-        if (typeof window.initAutoDismissAlerts === 'function') {
-            window.initAutoDismissAlerts();
-        }
+            if (pushHistory && normalizeAdminUrl(window.location.href) !== targetUrl) {
+                history.pushState({ tbAdminUrl: targetUrl }, doc.title || document.title, targetUrl);
+            }
 
-        _cachedI18nNodes = null;
-        _cachedCurrencyNodes = null;
-        _cachedAttrNodes = null;
-        if (window._tbLang === 'US' || window._tbLang === 'EN') {
-            applyTranslations('EN');
-        }
+            if (preserveScroll) {
+                window.scrollTo({ top: prevScrollY, behavior: 'instant' });
+                curMain.scrollTop = prevMainScrollTop;
+            } else {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+            runScriptsInContainer(curMain);
+            if (typeof window.initAutoDismissAlerts === 'function') {
+                window.initAutoDismissAlerts();
+            }
+
+            _cachedI18nNodes = null;
+            _cachedCurrencyNodes = null;
+            _cachedAttrNodes = null;
+            if (window._tbLang === 'US' || window._tbLang === 'EN') {
+                applyTranslations('EN');
+            }
+
+            // Smooth fade-in
+            curMain.classList.remove('tb-main-fade-out');
+            curMain.classList.add('tb-main-fade-in');
+
+            setTimeout(() => {
+                curMain.classList.remove('tb-main-fade-in');
+            }, 240);
+        }, 100);
+
         return true;
     }
 
