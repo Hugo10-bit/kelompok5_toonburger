@@ -15,19 +15,16 @@ const ADMIN_CONFIG = document.body.dataset;
 function closeMobileAdminSidebarIfOpen() {
     const sidebar = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-sidebar-backdrop');
-    const bottomNav = document.getElementById('admin-bottom-nav');
     if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
         sidebar.classList.add('-translate-x-full');
         if (backdrop) backdrop.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
-        if (bottomNav) bottomNav.classList.remove('translate-y-full');
     }
 }
 
 function toggleAdminSidebar() {
     const sidebar = document.getElementById('admin-sidebar');
     const backdrop = document.getElementById('admin-sidebar-backdrop');
-    const bottomNav = document.getElementById('admin-bottom-nav');
     if (!sidebar || !backdrop) return;
 
     // Close open header/profile dropdowns so they never overlap the mobile sidebar
@@ -38,7 +35,6 @@ function toggleAdminSidebar() {
         sidebar.classList.remove('-translate-x-full');
         backdrop.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
-        if (bottomNav) bottomNav.classList.add('translate-y-full');
     } else {
         closeMobileAdminSidebarIfOpen();
     }
@@ -1578,15 +1574,6 @@ window.addEventListener('pageshow', function () {
                 (active
                     ? 'bg-[#40605D] text-white font-medium shadow-xs'
                     : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900');
-        });
-
-        const bottomLinks = document.querySelectorAll('nav.md\\:hidden a[href]');
-        bottomLinks.forEach((a) => {
-            const active = matchesNavPath(a.getAttribute('href'));
-            a.className = 'flex-1 flex flex-col items-center justify-center gap-1 py-2.5 min-h-[56px] transition tb-focus-ring ' +
-                (active
-                    ? 'text-[#385A56] dark:text-[#8CC0B9]'
-                    : 'text-[#5F6672] dark:text-[#C4C9D0] active:text-[#385A56]');
         });
     }
 
