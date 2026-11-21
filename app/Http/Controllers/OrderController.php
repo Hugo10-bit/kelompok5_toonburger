@@ -521,20 +521,108 @@ class OrderController extends Controller
     /**
      * Customer past orders history.
      */
-    public function myOrders()
+    public function myOrders(Request $request)
     {
-        $orders = Order::with(['items', 'table'])
+        $sort = $request->query('sort', 'latest');
+        $relations = ['items', 'table'];
+        if (Schema::hasTable('products')) {
+            $relations[] = 'items.product';
+        }
+
+        $query = Order::with($relations)
             ->where(function ($q) {
                 if (Auth::check()) {
                     $q->where('user_id', Auth::id());
                 } else {
                     $q->where('id', 0); // empty for unauthenticated
                 }
-            })
-            ->latest()
-            ->paginate(10);
+            });
 
-        return view('orders.index', compact('orders'));
+        if ($sort === 'oldest') {
+            $query->oldest();
+        } else {
+            $query->latest();
+        }
+
+        $orders = $query->paginate(10)->withQueryString();
+
+        $productsByName = Schema::hasTable('products')
+            ? \App\Models\Product::all(['id', 'name', 'image'])->keyBy(fn ($p) => strtolower(trim($p->name)))
+            : collect();
+
+        return view('orders.index', compact('orders', 'sort', 'productsByName'));
+    }
+
+    /**
+     * Re-add items from a previous order into the customer's cart.
+     */
+    public function reorder(Request $request, $order_number)
+    {
+        if (! Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        if ($blocked = $this->guardStoreOpen($request)) {
+            return $blocked;
+        }
+
+        $relations = ['items'];
+        if (Schema::hasTable('products')) {
+            $relations[] = 'items.product';
+        }
+
+        $order = Order::with($relations)
+            ->where('order_number', $order_number)
+            ->firstOrFail();
+
+        $this->authorizeOrderOwner($order);
+
+        $cart = session()->get('cart', []);
+        $addedCount = 0;
+
+        foreach ($order->items as $orderItem) {
+            $product = $orderItem->product;
+            if (! $product && Schema::hasTable('products')) {
+                $product = \App\Models\Product::where('name', $orderItem->product_name)->first();
+            }
+
+            if ($product && ! $product->is_available) {
+                continue;
+            }
+
+            $pid = $product ? $product->id : ($orderItem->product_id ?: 0);
+            $unitPrice = $product ? (float) $product->price : (float) $orderItem->price;
+            $qty = max(1, (int) $orderItem->quantity);
+            $notes = (string) ($orderItem->notes ?? '');
+            $cartKey = $pid . '_' . md5(json_encode([]) . $notes);
+
+            if (isset($cart[$cartKey])) {
+                $cart[$cartKey]['quantity'] = min(100, $cart[$cartKey]['quantity'] + $qty);
+                $cart[$cartKey]['total_price'] = $cart[$cartKey]['quantity'] * $cart[$cartKey]['unit_price'];
+            } else {
+                $cart[$cartKey] = [
+                    'cart_key' => $cartKey,
+                    'product_id' => $pid,
+                    'name' => $product ? $product->name : $orderItem->product_name,
+                    'image' => ($product && $product->image && ! str_starts_with($product->image, 'data:')) ? $product->image : null,
+                    'base_price' => $unitPrice,
+                    'unit_price' => $unitPrice,
+                    'quantity' => $qty,
+                    'total_price' => $unitPrice * $qty,
+                    'options' => [],
+                    'notes' => $notes,
+                ];
+            }
+            $addedCount++;
+        }
+
+        session()->put('cart', $cart);
+
+        if ($addedCount === 0) {
+            return redirect()->route('menu')->with('error', 'Menu pada pesanan tersebut sedang habis atau tidak tersedia.');
+        }
+
+        return redirect()->route('orders.checkout')->with('success', 'Menu dari pesanan #' . $order->order_number . ' telah dimasukkan ke keranjang!');
     }
 
     /**
