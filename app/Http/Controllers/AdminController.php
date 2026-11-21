@@ -622,9 +622,10 @@ class AdminController extends Controller
     public function deleteProduct($id)
     {
         $product = Product::findOrFail($id);
+        $name = $product->name;
         $product->delete();
 
-        return back()->with('success', 'Menu berhasil dihapus.');
+        return back()->with('success', "Menu '{$name}' berhasil dihapus.");
     }
 
     /**

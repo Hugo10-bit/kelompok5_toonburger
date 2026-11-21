@@ -610,26 +610,26 @@
 
         <!-- Flash alerts -->
         @if(session('success'))
-            <div class="alert-auto-dismiss p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <div class="alert-auto-dismiss p-4 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                     </svg>
                     <span>{{ session('success') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 text-base font-medium p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 dark:text-emerald-400 text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert-auto-dismiss p-4 bg-red-50 border border-red-200 text-[#DE3B28] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <div class="alert-auto-dismiss p-4 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-800 text-[#DE3B28] dark:text-red-300 text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
                 <span class="flex items-center gap-2">
-                    <svg class="w-4 h-4 text-[#DE3B28] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 text-[#DE3B28] dark:text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <span>{{ session('error') }}</span>
                 </span>
-                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] text-base font-medium p-1 cursor-pointer">&times;</button>
+                <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-[#DE3B28] dark:text-red-400 text-base font-medium p-1 cursor-pointer">&times;</button>
             </div>
         @endif
 
@@ -686,29 +686,84 @@
 
     @if(session('store_status_toast'))
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const toastData = @json(session('store_status_toast'));
-                if (typeof window.showStoreStatusToast === 'function') {
-                    window.showStoreStatusToast(toastData);
-                } else if (typeof Swal !== 'undefined') {
-                    const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                    const isOpen = Boolean(toastData.is_open);
-                    const reason = toastData.reason || '';
-                    Swal.fire({
-                        icon: isOpen ? 'success' : 'warning',
-                        title: isOpen
-                            ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
-                            : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!'),
-                        text: isOpen
-                            ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
-                            : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`),
-                        confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
-                        confirmButtonText: isEn ? 'Got it' : 'Mengerti',
-                        timer: 3500,
-                        timerProgressBar: true
-                    });
+            (function () {
+                function showToast() {
+                    const toastData = @json(session('store_status_toast'));
+                    if (typeof window.showStoreStatusToast === 'function') {
+                        window.showStoreStatusToast(toastData);
+                    } else if (typeof Swal !== 'undefined') {
+                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+                        const isOpen = Boolean(toastData.is_open);
+                        const reason = toastData.reason || '';
+                        Swal.fire({
+                            icon: isOpen ? 'success' : 'warning',
+                            title: isOpen
+                                ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
+                                : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!'),
+                            text: isOpen
+                                ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
+                                : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`),
+                            confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
+                            confirmButtonText: isEn ? 'Got it' : 'Mengerti',
+                            timer: 3500,
+                            timerProgressBar: true
+                        });
+                    }
                 }
-            });
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', showToast);
+                } else {
+                    showToast();
+                }
+            })();
+        </script>
+    @elseif(session('success'))
+        <script>
+            (function () {
+                function showSuccessAlert() {
+                    if (typeof Swal !== 'undefined') {
+                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+                        Swal.fire({
+                            icon: 'success',
+                            title: isEn ? 'Success!' : 'Berhasil!',
+                            text: @json(session('success')),
+                            confirmButtonColor: '#415C58',
+                            confirmButtonText: isEn ? 'OK' : 'Selesai',
+                            timer: 3500,
+                            timerProgressBar: true
+                        });
+                    }
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', showSuccessAlert);
+                } else {
+                    showSuccessAlert();
+                }
+            })();
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            (function () {
+                function showErrorAlert() {
+                    if (typeof Swal !== 'undefined') {
+                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
+                        Swal.fire({
+                            icon: 'error',
+                            title: isEn ? 'Failed!' : 'Gagal!',
+                            text: @json(session('error')),
+                            confirmButtonColor: '#DE3B28',
+                            confirmButtonText: isEn ? 'Close' : 'Tutup',
+                        });
+                    }
+                }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', showErrorAlert);
+                } else {
+                    showErrorAlert();
+                }
+            })();
         </script>
     @endif
 </body>

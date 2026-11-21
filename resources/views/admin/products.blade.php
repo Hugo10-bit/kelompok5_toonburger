@@ -138,7 +138,7 @@
                                 <path d="M15 5l4 4"></path>
                             </svg>
                         </button>
-                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
+                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <path d="M3 6h18"></path>
                                 <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
@@ -231,7 +231,7 @@
                                         <path d="M15 5l4 4"></path>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M3 6h18"></path>
                                         <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
