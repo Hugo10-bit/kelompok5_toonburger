@@ -743,13 +743,15 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:60',
             'email' => 'required|email|max:60|unique:users,email,' . $user->id,
-            'phone_number' => 'nullable|string|max:15',
+            'phone_number' => ['nullable', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:15'],
             'address' => 'nullable|string|max:500',
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
             'avatar_data' => 'nullable|string|max:4194304',
             'current_password' => 'nullable|current_password',
             'password' => 'nullable|string|min:6|confirmed',
         ], [
+            'phone_number.regex' => 'Nomor telepon hanya boleh berisi angka.',
+            'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',
             'avatar.image' => 'Foto profil wajib berupa file gambar JPG atau PNG.',
             'avatar.mimes' => 'Format foto profil hanya diperbolehkan JPG atau PNG.',
             'avatar.max' => 'Ukuran foto profil maksimal 4 MB.',

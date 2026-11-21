@@ -130,20 +130,21 @@ class MenuController extends Controller
         $request->merge([
             'name' => trim((string) $request->input('name', '')),
             'email' => strtolower(trim((string) $request->input('email', ''))),
-            'phone' => \App\Support\PhoneFormatter::format((string) $request->input('phone', '')) ?? '',
+            'phone' => trim((string) $request->input('phone', '')),
             'message' => trim((string) $request->input('message', '')),
         ]);
 
         $validated = $request->validate([
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:120',
-            'phone' => 'required|string|max:30',
+            'phone' => ['required', 'regex:/^[0-9]+(-[0-9]+)*$/', 'max:30'],
             'message' => 'required|string|max:2000',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Alamat email wajib diisi.',
             'email.email' => 'Format alamat email tidak valid.',
             'phone.required' => 'Nomor telepon wajib diisi.',
+            'phone.regex' => 'Nomor telepon hanya boleh berisi angka.',
             'message.required' => 'Pesan wajib diisi.',
         ]);
 
@@ -151,7 +152,7 @@ class MenuController extends Controller
             'user_id' => Auth::id(),
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
+            'phone' => \App\Support\PhoneFormatter::format($validated['phone']) ?? $validated['phone'],
             'message' => $validated['message'],
             'is_read' => false,
         ]);

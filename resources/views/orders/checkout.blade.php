@@ -78,6 +78,9 @@
                             <input type="tel"
                                    id="customer_phone"
                                    name="customer_phone"
+                                   inputmode="numeric"
+                                   pattern="[0-9]+(-[0-9]+)*"
+                                   maxlength="15"
                                    required
                                    value="{{ Auth::user()->phone_number ?? '' }}"
                                    placeholder="Nomor Telfon Anda"

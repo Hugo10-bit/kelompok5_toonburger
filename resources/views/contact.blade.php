@@ -245,8 +245,8 @@
                     <div class="bg-white rounded-t-[24px] sm:rounded-t-[34px] pt-8 sm:pt-12 px-4 sm:px-10 pb-6 sm:pb-7 border-x border-t border-gray-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
                         <h2 class="text-2xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
-                            LET'S GET IN TOUCH<br>
-                            WITH US!
+                            <span data-i18n-app="contact_form_heading_1">YUK, NGOBROL BARENG</span><br>
+                            <span data-i18n-app="contact_form_heading_2">TOON BURGER!</span>
                         </h2>
 
                         <!-- Dashed Divider -->
@@ -283,10 +283,12 @@
                                 <input type="tel"
                                        id="contact-phone"
                                        name="phone"
+                                       inputmode="numeric"
+                                       pattern="[0-9]+(-[0-9]+)*"
                                        value="{{ old('phone', Auth::user()->phone_number ?? '') }}"
                                        required
                                        maxlength="30"
-                                       placeholder="08xxx-xxx-xxx"
+                                       placeholder="08xx-xxxx-xxxx"
                                        class="w-full bg-white border border-[#71827D] rounded-lg px-4 py-2.5 sm:py-3 text-xs sm:text-sm text-gray-800 placeholder-[#7A8782] focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] outline-none transition">
                             </div>
 
