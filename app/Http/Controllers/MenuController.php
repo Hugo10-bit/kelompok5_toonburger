@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
-    public const CATALOG_CACHE_KEY = 'tb_catalog_v3';
+    public const CATALOG_CACHE_KEY = 'tb_catalog_v4';
 
     /**
      * Cache active categories and available products to eliminate repeated catalog DB roundtrips.
@@ -51,7 +51,17 @@ class MenuController extends Controller
 
         $bestSellers = $products
             ->where('is_featured', true)
-            ->sortByDesc(fn ($p) => [$p->updated_at?->timestamp ?? 0, $p->id])
+            ->sortBy(function ($p) {
+                return match ($p->id) {
+                    1 => 1,
+                    4 => 2,
+                    5 => 3,
+                    8 => 4,
+                    2 => 5,
+                    3 => 6,
+                    default => 10 + $p->id,
+                };
+            })
             ->take(4)
             ->values();
 
