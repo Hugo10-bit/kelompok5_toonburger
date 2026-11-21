@@ -60,7 +60,7 @@
                     @endif
                 </button>
 
-                <div id="msg-filter-menu" class="hidden absolute right-0 sm:left-auto mt-2 w-56 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
+                <div id="msg-filter-menu" class="hidden absolute left-0 sm:left-auto sm:right-0 mt-2 w-56 max-w-[calc(100vw-2.5rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
                     <a href="{{ $buildMessageUrl(['status' => 'all']) }}"
                        class="flex items-center justify-between px-4 py-2.5 text-sm {{ $status === 'all' ? 'bg-gray-100/90 dark:bg-[#3A3A3A] text-[#27443E] dark:text-white font-semibold' : 'text-gray-700 dark:text-[#E5E5E5] hover:bg-gray-100 dark:hover:bg-[#3A3A3A]' }} transition">
                         <span data-i18n="messages_filter_all">Semua Status</span>
@@ -96,7 +96,7 @@
                     <span data-i18n="btn_sort">Sortir</span>
                 </button>
 
-                <div id="msg-sort-menu" class="hidden absolute right-0 mt-2 w-52 max-w-[calc(100vw-3rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
+                <div id="msg-sort-menu" class="hidden absolute left-0 sm:left-auto sm:right-0 mt-2 w-52 max-w-[calc(100vw-2.5rem)] bg-white dark:bg-[#2B2B2B] rounded-2xl shadow-2xl border border-gray-100 dark:border-[#555555] py-2 z-50 animate-modal-pop">
                     <a href="{{ $buildMessageUrl(['sort' => 'latest']) }}"
                        class="block px-4 py-2.5 text-sm {{ $sort === 'latest' ? 'bg-gray-100/90 dark:bg-[#3A3A3A] text-[#27443E] dark:text-white font-semibold' : 'text-gray-700 dark:text-[#E5E5E5] hover:bg-gray-100 dark:hover:bg-[#3A3A3A]' }} transition"
                        data-i18n="msg_sort_latest">Terbaru</a>
@@ -330,13 +330,13 @@
     @endif
 
     <!-- Message Detail Modal -->
-    <div id="messageDetailModal" onclick="if (event.target === this) closeMessageDetailModal()" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px] hidden flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A] animate-modal-pop">
-            <div class="flex items-center justify-between gap-3 mb-5">
+    <div id="messageDetailModal" onclick="if (event.target === this) closeMessageDetailModal()" class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-[2px] hidden items-center justify-center p-4" style="height: 100dvh;">
+        <div id="messageDetailModalCard" class="bg-white dark:bg-[#2B2B2B] rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl relative max-h-[85dvh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A] animate-modal-pop">
+            <div class="flex items-center justify-between gap-3 mb-4 sm:mb-5">
                 <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="msg_detail_title">Detail Pesan Pelanggan</h3>
                 <button type="button"
                         onclick="closeMessageDetailModal()"
-                        class="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] text-gray-700 dark:text-gray-200 flex items-center justify-center font-semibold text-lg cursor-pointer shrink-0 transition"
+                        class="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] text-gray-700 dark:text-gray-200 flex items-center justify-center font-semibold text-lg cursor-pointer shrink-0 transition"
                         aria-label="Tutup">&times;</button>
             </div>
 
@@ -372,23 +372,23 @@
                 </div>
             </div>
 
-            <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 border-t border-gray-100 dark:border-[#444444]">
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-gray-100 dark:border-[#444444]">
                 <button type="button"
                         onclick="deleteActiveMessage()"
-                        class="px-3.5 py-2 rounded-xl text-xs font-medium text-[#DE3B28] dark:text-[#FCA5A5] bg-red-50 dark:bg-[#4A2626] hover:bg-red-100 dark:hover:bg-[#5E2E2E] transition cursor-pointer"
+                        class="px-3.5 py-2.5 min-h-[40px] rounded-xl text-xs font-medium text-[#DE3B28] dark:text-[#FCA5A5] bg-red-50 dark:bg-[#4A2626] hover:bg-red-100 dark:hover:bg-[#5E2E2E] transition cursor-pointer"
                         data-i18n="msg_delete">
                     Hapus
                 </button>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 ml-auto">
                     <button type="button"
                             id="msg-modal-toggle-btn"
                             onclick="toggleActiveMessageStatus()"
-                            class="px-4 py-2 rounded-xl text-xs font-medium text-gray-700 dark:text-white bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] transition cursor-pointer">
+                            class="px-3.5 sm:px-4 py-2.5 min-h-[40px] rounded-xl text-xs font-medium text-gray-700 dark:text-white bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] transition cursor-pointer whitespace-nowrap">
                         Tandai Belum Dibaca
                     </button>
                     <button type="button"
                             onclick="closeMessageDetailModal()"
-                            class="px-4 py-2 rounded-xl text-xs font-medium text-white bg-[#415C58] hover:bg-[#344B48] transition cursor-pointer"
+                            class="px-4 py-2.5 min-h-[40px] rounded-xl text-xs font-medium text-white bg-[#415C58] hover:bg-[#344B48] transition cursor-pointer whitespace-nowrap"
                             data-i18n="msg_close">
                         Tutup
                     </button>

@@ -1,5 +1,6 @@
 import './admin/categories';
 import './admin/dashboard';
+import './admin/flash-alerts';
 import './admin/messages';
 import './admin/order-detail';
 import './admin/orders';
@@ -1917,6 +1918,8 @@ window.addEventListener('pageshow', function () {
 })();
 
 Object.assign(window, {
+    pushAdminOverlayHistory,
+    releaseAdminOverlayHistory,
     toggleAdminSidebar,
     confirmLogout,
     closeLogoutModal,

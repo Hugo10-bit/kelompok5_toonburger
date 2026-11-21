@@ -122,9 +122,77 @@ window.toggleMessageStatus = async function toggleMessageStatus(id, btn) {
     btn.disabled = false;
 };
 
-window.openMessageDetailModal = async function openMessageDetailModal(el) {
+function ensureMessageModalInBody() {
+    const modals = document.querySelectorAll('#messageDetailModal');
+    if (modals.length > 1) {
+        // Remove stale portaled copies before moving the fresh one to body
+        modals.forEach((m) => {
+            if (m.parentElement === document.body) {
+                m.remove();
+            }
+        });
+    }
     const modal = document.getElementById('messageDetailModal');
+    if (modal && modal.parentElement !== document.body) {
+        document.body.appendChild(modal);
+    }
+    return modal;
+}
+
+function bindMessageModalSwipe() {
+    const card = document.getElementById('messageDetailModalCard');
+    if (!card || card.dataset.swipeBound) return;
+    card.dataset.swipeBound = '1';
+
+    let startX = 0;
+    let startY = 0;
+    let lastDy = 0;
+    let tracking = false;
+
+    card.addEventListener('touchstart', (e) => {
+        if (window.innerWidth >= 1024 || e.touches.length !== 1) return;
+        if (card.scrollTop > 4) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        lastDy = 0;
+        tracking = true;
+    }, { passive: true });
+
+    card.addEventListener('touchmove', (e) => {
+        if (!tracking || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12) {
+            tracking = false;
+            card.style.transform = '';
+            return;
+        }
+        if (dy > 0) {
+            lastDy = dy;
+            card.style.transition = 'none';
+            card.style.transform = `translateY(${Math.min(140, dy * 0.65)}px)`;
+        }
+    }, { passive: true });
+
+    const finish = () => {
+        if (!tracking) return;
+        tracking = false;
+        card.style.transition = '';
+        card.style.transform = '';
+        if (lastDy >= 65) {
+            window.closeMessageDetailModal(false);
+        }
+        lastDy = 0;
+    };
+
+    card.addEventListener('touchend', finish, { passive: true });
+    card.addEventListener('touchcancel', finish, { passive: true });
+}
+
+window.openMessageDetailModal = async function openMessageDetailModal(el) {
+    const modal = ensureMessageModalInBody();
     if (!modal) return;
+    bindMessageModalSwipe();
     const target = el ? (el.dataset?.message ? el : el.closest('[data-message]')) : null;
     if (!target || !target.dataset.message) return;
     let data;
@@ -163,7 +231,11 @@ window.openMessageDetailModal = async function openMessageDetailModal(el) {
 
     renderModalStatus(activeIsRead);
     modal.classList.remove('hidden');
+    modal.classList.add('flex');
     document.body.style.overflow = 'hidden';
+    if (typeof window.pushAdminOverlayHistory === 'function') {
+        window.pushAdminOverlayHistory('msg-detail-modal', window.closeMessageDetailModal);
+    }
 
     // Auto-mark as read when opened if currently unread
     if (!activeIsRead && activeStatusUrl) {
@@ -171,12 +243,16 @@ window.openMessageDetailModal = async function openMessageDetailModal(el) {
     }
 };
 
-window.closeMessageDetailModal = function closeMessageDetailModal() {
+window.closeMessageDetailModal = function closeMessageDetailModal(fromPopstate = false) {
     const modal = document.getElementById('messageDetailModal');
     if (modal) {
         modal.classList.add('hidden');
+        modal.classList.remove('flex');
     }
     document.body.style.overflow = '';
+    if (typeof window.releaseAdminOverlayHistory === 'function') {
+        window.releaseAdminOverlayHistory('msg-detail-modal', fromPopstate);
+    }
 };
 
 window.toggleActiveMessageStatus = async function toggleActiveMessageStatus() {
@@ -217,6 +293,15 @@ window.deleteActiveMessage = function deleteActiveMessage() {
 };
 
 export function initAdminMessages() {
+    // Clean up any stale portaled modal if we navigated away from messages page
+    if (!document.getElementById('msg-filter-wrap')) {
+        const stale = document.querySelector('body > #messageDetailModal');
+        if (stale) stale.remove();
+    } else {
+        ensureMessageModalInBody();
+        bindMessageModalSwipe();
+    }
+
     if (!window._tbAdminMessagesGlobalBound) {
         window._tbAdminMessagesGlobalBound = true;
 
@@ -238,8 +323,7 @@ export function initAdminMessages() {
             if (e.key === 'Escape') {
                 const m = document.getElementById('messageDetailModal');
                 if (m && !m.classList.contains('hidden')) {
-                    m.classList.add('hidden');
-                    document.body.style.overflow = '';
+                    window.closeMessageDetailModal(false);
                 }
             }
         });

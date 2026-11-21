@@ -639,87 +639,14 @@
         </main>
     </div>
 
-    @if(session('store_status_toast'))
-        <script>
-            (function () {
-                function showToast() {
-                    const toastData = @json(session('store_status_toast'));
-                    if (typeof window.showStoreStatusToast === 'function') {
-                        window.showStoreStatusToast(toastData);
-                    } else if (typeof Swal !== 'undefined') {
-                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                        const isOpen = Boolean(toastData.is_open);
-                        const reason = toastData.reason || '';
-                        Swal.fire({
-                            icon: isOpen ? 'success' : 'warning',
-                            title: isOpen
-                                ? (isEn ? 'Outlet Successfully Opened!' : 'Outlet Berhasil Dibuka!')
-                                : (isEn ? 'Outlet Successfully Closed!' : 'Outlet Berhasil Ditutup!'),
-                            text: isOpen
-                                ? (isEn ? 'Customers can now add items to cart and checkout on Toon Burger website.' : 'Toko kembali BUKA. Pelanggan sudah dapat melakukan pemesanan dan checkout kembali di website Toon Burger.')
-                                : (isEn ? `Outlet is temporarily closed (${reason}). Customer orders are now paused.` : `Toko berhasil DITUTUP sementara (${reason}). Pemesanan pelanggan dinonaktifkan.`),
-                            confirmButtonColor: isOpen ? '#40605D' : '#DC2626',
-                            confirmButtonText: isEn ? 'Got it' : 'Mengerti',
-                            timer: 3500,
-                            timerProgressBar: true
-                        });
-                    }
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', showToast);
-                } else {
-                    showToast();
-                }
-            })();
-        </script>
-    @elseif(session('success'))
-        <script>
-            (function () {
-                function showSuccessAlert() {
-                    if (typeof Swal !== 'undefined') {
-                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                        Swal.fire({
-                            icon: 'success',
-                            title: isEn ? 'Success!' : 'Berhasil!',
-                            text: @json(session('success')),
-                            confirmButtonColor: '#415C58',
-                            confirmButtonText: isEn ? 'OK' : 'Selesai',
-                            timer: 3500,
-                            timerProgressBar: true
-                        });
-                    }
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', showSuccessAlert);
-                } else {
-                    showSuccessAlert();
-                }
-            })();
-        </script>
-    @endif
-
-    @if(session('error'))
-        <script>
-            (function () {
-                function showErrorAlert() {
-                    if (typeof Swal !== 'undefined') {
-                        const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
-                        Swal.fire({
-                            icon: 'error',
-                            title: isEn ? 'Failed!' : 'Gagal!',
-                            text: @json(session('error')),
-                            confirmButtonColor: '#DE3B28',
-                            confirmButtonText: isEn ? 'Close' : 'Tutup',
-                        });
-                    }
-                }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', showErrorAlert);
-                } else {
-                    showErrorAlert();
-                }
-            })();
-        </script>
+    @if(session('store_status_toast') || session('success') || session('error'))
+        <div id="admin-flash-data"
+             class="hidden"
+             aria-hidden="true"
+             @if(session('store_status_toast')) data-store-status-toast="{{ json_encode(session('store_status_toast')) }}" @endif
+             @if(!session('store_status_toast') && session('success')) data-flash-success="{{ session('success') }}" @endif
+             @if(session('error')) data-flash-error="{{ session('error') }}" @endif>
+        </div>
     @endif
 </body>
 </html>
