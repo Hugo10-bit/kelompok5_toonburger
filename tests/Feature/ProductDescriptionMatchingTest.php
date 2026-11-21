@@ -60,5 +60,15 @@ class ProductDescriptionMatchingTest extends TestCase
         ]);
         $this->assertStringNotContainsString('Beef patty', $fries->description);
         $this->assertStringContainsString('kentang', strtolower($fries->description));
+
+        // Test Chicken Wings resolution
+        $wings = new Product([
+            'id' => 24,
+            'name' => 'Hot Chicken Wings',
+            'slug' => 'hot-chicken-wings',
+            'description' => '6 Potong Ayam Dan Saus Pedas Ala Toon',
+        ]);
+        $this->assertStringContainsString('sayap ayam', strtolower($wings->description));
+        $this->assertStringContainsString('pedas', strtolower($wings->description));
     }
 }

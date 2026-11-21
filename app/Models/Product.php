@@ -62,6 +62,8 @@ class Product extends Model
             21 => 'Minuman manis bernuansa permen kapas (cotton candy) yang playful dan lembut, penuh warna ceria nan segar.',
             22 => 'Kentang goreng renyah di luar dan lembut di dalam, ditaburi garam gurih pas sebagai camilan pendamping burger.',
             23 => 'Kentang goreng renyah keemasan yang disiram limpahan saus keju cheddar leleh gurih dan taburan rempah lezat.',
+            24 => '6 potong sayap ayam goreng krispi renyah berbalut lumuran saus pedas spesial ala Toon Burger yang gurih, membakar lidah, dan nagih.',
+            25 => '6 potong sayap ayam krispi keemasan berselimut saus smokey BBQ karamel gurih manis dengan aroma rempah panggang istimewa.',
         ];
 
         if ($id && isset($map[(int) $id])) {
@@ -112,6 +114,17 @@ class Product extends Model
             return $map[20];
         }
 
+        // Chicken Wings
+        if (str_contains($needle, 'wing') || str_contains($needle, 'sayap')) {
+            if (str_contains($needle, 'bbq')) {
+                return $map[25];
+            }
+            if (str_contains($needle, 'hot') || str_contains($needle, 'pedas') || str_contains($needle, 'spicy')) {
+                return $map[24];
+            }
+            return '6 potong sayap ayam goreng krispi renyah nan juicy dengan racikan bumbu rempah pilihan khas dapur Toon Burger.';
+        }
+
         // Burgers & Hotdogs
         if (str_contains($needle, 'hot-dog') || str_contains($needle, 'hotdog')) {
             if (str_contains($needle, 'classic')) {
@@ -153,6 +166,8 @@ class Product extends Model
             'cocok buat kamu yang produktivitas tinggi',
             'kopi dengan rasa semanis dirimu',
             'minuman rasa cotton candy',
+            '6 potong ayam dan saus pedas ala toon',
+            '6 potong ayam dan saus bbq',
         ];
 
         $lowerRaw = strtolower($raw);
