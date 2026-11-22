@@ -222,6 +222,10 @@ function applyLanguage(lang) {
     if (sunIcon) sunIcon.setAttribute('title', t.themeLightTooltip);
     const moonIcon = document.getElementById('theme-moon-icon');
     if (moonIcon) moonIcon.setAttribute('title', t.themeDarkTooltip);
+
+    if (typeof renderLoginThrottleUI === 'function') {
+        renderLoginThrottleUI();
+    }
 }
 
 // Close dropdown when clicking outside
@@ -398,12 +402,107 @@ function showLoginSuccessModal(redirectUrl = null) {
     });
 }
 
-function showLoginErrorModal(customMsg = null) {
-    const isEn = (localStorage.getItem('toon_lang') === 'en');
+let _loginLockoutUntil = 0;
+let _loginLockoutInterval = null;
+
+function isLoginEn() {
+    return (localStorage.getItem('toon_lang') || 'id') === 'en';
+}
+
+function extractThrottleSeconds(msg) {
+    if (!msg || typeof msg !== 'string') return 0;
+    const isThrottle = /too many|terlalu banyak/i.test(msg);
+    if (!isThrottle) return 0;
+    const match = msg.match(/(\d+)\s*(?:seconds?|detik)/i);
+    return match ? parseInt(match[1], 10) : 0;
+}
+
+function getThrottlePopupHtml(seconds) {
+    const isEn = isLoginEn();
+    if (seconds > 0) {
+        return isEn
+            ? `Too many login attempts. Please try again in <strong>${seconds}</strong> ${seconds === 1 ? 'second' : 'seconds'}.`
+            : `Terlalu banyak percobaan login. Silakan coba lagi dalam <strong>${seconds}</strong> detik.`;
+    }
+    return isEn
+        ? 'Cooldown finished. You can try logging in again now.'
+        : 'Waktu tunggu selesai. Kamu sudah bisa mencoba login kembali.';
+}
+
+function getThrottleInlineHtml(seconds) {
+    const isEn = isLoginEn();
+    const clockSvg = '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2"/></svg>';
+    const text = isEn
+        ? `Too many login attempts. Try again in ${seconds} ${seconds === 1 ? 'second' : 'seconds'}.`
+        : `Terlalu banyak percobaan login. Coba lagi dalam ${seconds} detik.`;
+    return `${clockSvg}<span>${text}</span>`;
+}
+
+function getRemainingLockoutSeconds() {
+    if (!_loginLockoutUntil) return 0;
+    return Math.max(0, Math.ceil((_loginLockoutUntil - Date.now()) / 1000));
+}
+
+function renderLoginThrottleUI() {
+    const remaining = getRemainingLockoutSeconds();
+    const timerEl = document.getElementById('login-throttle-timer');
+    const popupTextEl = document.getElementById('tb-throttle-popup-text');
+    const loginForm = document.querySelector('#login-form-panel form');
+    const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
+
+    if (remaining > 0) {
+        if (timerEl) {
+            timerEl.innerHTML = getThrottleInlineHtml(remaining);
+            timerEl.classList.remove('hidden');
+            timerEl.classList.add('flex');
+        }
+        if (popupTextEl) {
+            popupTextEl.innerHTML = getThrottlePopupHtml(remaining);
+        }
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+        }
+    } else {
+        if (timerEl) {
+            timerEl.classList.add('hidden');
+            timerEl.classList.remove('flex');
+            timerEl.innerHTML = '';
+        }
+        if (popupTextEl) {
+            popupTextEl.innerHTML = getThrottlePopupHtml(0);
+        }
+        if (submitBtn && _loginLockoutUntil > 0) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+        _loginLockoutUntil = 0;
+        if (_loginLockoutInterval) {
+            clearInterval(_loginLockoutInterval);
+            _loginLockoutInterval = null;
+        }
+    }
+}
+
+function startLoginThrottleCountdown(seconds) {
+    if (!seconds || seconds <= 0) return;
+    _loginLockoutUntil = Date.now() + seconds * 1000;
+    renderLoginThrottleUI();
+    if (_loginLockoutInterval) {
+        clearInterval(_loginLockoutInterval);
+    }
+    _loginLockoutInterval = setInterval(renderLoginThrottleUI, 1000);
+}
+
+function showLoginErrorModal(customMsg = null, throttleSeconds = 0) {
+    const isEn = isLoginEn();
     const defaultMsg = isEn
         ? "The email or password you entered doesn't match. Please double-check and try again."
         : "Email atau kata sandi yang kamu masukkan belum sesuai. Coba cek dan ulangi lagi ya.";
-    const errorMsg = customMsg || defaultMsg;
+    const isThrottle = throttleSeconds > 0;
+    const descHtml = isThrottle
+        ? `<p id="tb-throttle-popup-text" class="tb-popup-desc">${getThrottlePopupHtml(throttleSeconds)}</p>`
+        : `<p class="tb-popup-desc">${customMsg || defaultMsg}</p>`;
 
     return Swal.fire({
         html: `
@@ -422,9 +521,7 @@ function showLoginErrorModal(customMsg = null) {
                     </div>
                 </div>
                 <h3 class="tb-popup-title">${isEn ? 'Login Failed!' : 'Login Gagal!'}</h3>
-                <p class="tb-popup-desc">
-                    ${errorMsg}
-                </p>
+                ${descHtml}
             </div>
         `,
         showConfirmButton: true,
@@ -442,10 +539,25 @@ function showLoginErrorModal(customMsg = null) {
 document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.querySelector('#login-form-panel form');
     if (loginForm) {
+        // If server rendered a throttle error alert on initial load, start the live countdown immediately
+        const serverAlert = document.querySelector('[role="alert"]');
+        if (serverAlert) {
+            const initThrottle = extractThrottleSeconds(serverAlert.textContent || '');
+            if (initThrottle > 0) {
+                startLoginThrottleCountdown(initThrottle);
+            }
+        }
+
         let isLoggingIn = false;
         loginForm.addEventListener('submit', function (e) {
             if (isLoggingIn) return;
             e.preventDefault();
+
+            const remaining = getRemainingLockoutSeconds();
+            if (remaining > 0) {
+                showLoginErrorModal(null, remaining);
+                return;
+            }
 
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             const emailInput = document.getElementById('login-email');
@@ -481,19 +593,27 @@ document.addEventListener('DOMContentLoaded', function () {
                         submitBtn.disabled = false;
                         submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
                     }
-                    const isEn = (localStorage.getItem('toon_lang') === 'en');
-                    let errorMsg = null;
+                    const isEn = isLoginEn();
+                    let rawError = null;
 
-                    if (!isEn && data.errors) {
+                    if (data.errors) {
                         const firstKey = Object.keys(data.errors)[0];
                         if (firstKey && data.errors[firstKey][0]) {
-                            errorMsg = data.errors[firstKey][0];
+                            rawError = data.errors[firstKey][0];
                         }
-                    } else if (!isEn && data.message && !data.message.includes('CSRF')) {
-                        errorMsg = data.message;
+                    } else if (data.message && !data.message.includes('CSRF')) {
+                        rawError = data.message;
                     }
 
-                    showLoginErrorModal(errorMsg);
+                    const throttleSeconds = extractThrottleSeconds(rawError);
+                    if (throttleSeconds > 0) {
+                        startLoginThrottleCountdown(throttleSeconds);
+                        showLoginErrorModal(null, throttleSeconds);
+                    } else {
+                        const isGenericAuthError = rawError && /credentials do not match|username, email, atau password/i.test(rawError);
+                        const displayMsg = (!isEn && rawError && !isGenericAuthError) ? rawError : null;
+                        showLoginErrorModal(displayMsg, 0);
+                    }
                 }
             })
             .catch(() => {

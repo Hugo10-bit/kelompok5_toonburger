@@ -245,6 +245,10 @@
                                 </svg>
                             </button>
                         </div>
+                        <p id="login-throttle-timer"
+                           class="hidden mt-2 text-xs font-semibold text-[#C83E2B] dark:text-[#FCA5A5] items-center gap-1.5"
+                           role="status"
+                           aria-live="polite"></p>
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
