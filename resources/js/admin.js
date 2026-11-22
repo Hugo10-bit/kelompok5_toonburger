@@ -184,9 +184,9 @@ function openDeleteModal(actionUrl, itemName = 'data ini') {
         if (message) {
             const lang = window._tbLang || 'ID';
             if (lang === 'ID') {
-                message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Tindakan ini tidak dapat dibatalkan.`;
+                message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Data yang dihapus dapat dipulihkan kembali melalui tombol Urungkan (Undo).`;
             } else {
-                message.textContent = `Are you sure you want to delete ${itemName}? This action cannot be undone.`;
+                message.textContent = `Are you sure you want to delete ${itemName}? You can restore deleted items via the Undo button.`;
             }
         }
         modal.classList.remove('hidden');

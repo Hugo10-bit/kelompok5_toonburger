@@ -23,6 +23,14 @@
                     @foreach($categories as $cat)
                         <button type="button" data-category="{{ strtolower($cat->name) }}" onclick="applyCategoryFilter(this.dataset.category)" class="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-100 dark:hover:bg-[#3A3A3A] transition cursor-pointer">{{ $cat->name }}</button>
                     @endforeach
+                    <div class="border-t border-gray-100 dark:border-[#444444] my-1"></div>
+                    <a href="{{ route('admin.products', ['filter' => ($filter ?? 'active') === 'trashed' ? 'active' : 'trashed']) }}" class="w-full flex items-center justify-between px-4 py-2.5 text-sm {{ ($filter ?? 'active') === 'trashed' ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200 font-semibold' : 'text-gray-600 dark:text-[#D4D4D4] hover:bg-gray-100 dark:hover:bg-[#3A3A3A]' }} transition cursor-pointer">
+                        <span class="inline-flex items-center gap-2">
+                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            <span>Menu Terhapus</span>
+                        </span>
+                        <span class="text-xs px-2 py-0.5 rounded-full {{ ($trashedCount ?? 0) > 0 ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200 font-bold' : 'text-gray-400' }}">({{ $trashedCount ?? 0 }})</span>
+                    </a>
                 </div>
             </div>
 
@@ -38,6 +46,18 @@
             </button>
         </div>
     </div>
+
+    @if(($filter ?? 'active') === 'trashed')
+        <div class="mb-5 p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-900 dark:text-amber-200 shadow-xs">
+            <div class="flex items-center gap-2.5">
+                <svg class="w-5 h-5 text-amber-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span>Menampilkan <b>{{ $products->count() }} menu yang terhapus</b>. Klik tombol <b>Pulihkan (Undo)</b> pada menu yang ingin dikembalikan.</span>
+            </div>
+            <a href="{{ route('admin.products') }}" class="inline-flex items-center justify-center px-3.5 py-1.5 rounded-xl bg-white dark:bg-[#2B2B2B] border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-200 font-semibold hover:bg-amber-100 dark:hover:bg-[#3D3D3D] transition shadow-2xs shrink-0">
+                Kembali ke Menu Aktif
+            </a>
+        </div>
+    @endif
 
     @if($errors->any())
         <div class="alert-auto-dismiss mb-5 p-4 bg-red-50 dark:bg-[#4A2626] border border-red-200 dark:border-red-900/60 text-[#DE3B28] dark:text-[#FCA5A5] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
@@ -148,30 +168,43 @@
                 </div>
 
                 <div class="flex items-center justify-between gap-2 pt-2.5 border-t border-gray-100 dark:border-[#4A4A4A]">
-                    <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
-                        @csrf @method('PATCH')
-                        <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] px-3 py-1.5 min-h-[36px] rounded-xl cursor-pointer">
-                            <span class="w-2.5 h-2.5 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }} dark:ring-1 dark:ring-white"></span>
-                            <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
-                        </button>
-                    </form>
-                    <div class="flex items-center gap-2">
-                        <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Edit">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                <path d="M15 5l4 4"></path>
-                            </svg>
-                        </button>
-                        <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M3 6h18"></path>
-                                <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
-                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                                <line x1="10" y1="11" x2="10" y2="17"></line>
-                                <line x1="14" y1="11" x2="14" y2="17"></line>
-                            </svg>
-                        </button>
-                    </div>
+                    @if($prod->trashed())
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300">
+                            Terhapus
+                        </span>
+                        <form method="POST" action="{{ route('admin.products.restore', $prod->id) }}" class="inline">
+                            @csrf
+                            <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs transition cursor-pointer">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 0 1 5 5v2m0 0l-3-3m3 3l3-3M3 10l3-3m-3 3l3 3"/></svg>
+                                <span>Pulihkan (Undo)</span>
+                            </button>
+                        </form>
+                    @else
+                        <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
+                            @csrf @method('PATCH')
+                            <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-[#E5E5E5] bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] px-3 py-1.5 min-h-[36px] rounded-xl cursor-pointer">
+                                <span class="w-2.5 h-2.5 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }} dark:ring-1 dark:ring-white"></span>
+                                <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
+                            </button>
+                        </form>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white bg-gray-50 dark:bg-[#2C2C2C] border border-gray-200 dark:border-[#4F4F4F] rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Edit">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                    <path d="M15 5l4 4"></path>
+                                </svg>
+                            </button>
+                            <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 bg-red-50/60 dark:bg-[#4A2626] border border-red-200/80 dark:border-red-900/50 rounded-xl min-w-[38px] min-h-[38px] inline-flex items-center justify-center transition-colors cursor-pointer" title="Hapus">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    @endif
                 </div>
             </div>
         @empty
@@ -239,32 +272,50 @@
                             <span data-i18n="currency">Rp</span> {{ number_format($prod->price, 0, ',', '.') }}
                         </td>
                         <td class="py-4 px-5 whitespace-nowrap">
-                            <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
-                                @csrf @method('PATCH')
-                                <button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-[#E5E5E5] hover:opacity-80 cursor-pointer" title="Klik untuk ubah status">
-                                    <span class="w-2.5 h-2.5 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }} dark:ring-1 dark:ring-white"></span>
-                                    <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
-                                </button>
-                            </form>
+                            @if($prod->trashed())
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300">
+                                    Terhapus
+                                </span>
+                            @else
+                                <form action="{{ route('admin.products.toggle', $prod->id) }}" method="POST" class="inline">
+                                    @csrf @method('PATCH')
+                                    <button type="submit" class="inline-flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-[#E5E5E5] hover:opacity-80 cursor-pointer" title="Klik untuk ubah status">
+                                        <span class="w-2.5 h-2.5 rounded-full {{ $prod->is_available ? 'bg-[#689F38]' : 'bg-[#E53935]' }} dark:ring-1 dark:ring-white"></span>
+                                        <span data-i18n="{{ $prod->is_available ? 'st_avail' : 'st_empty' }}">{{ $prod->is_available ? 'Tersedia' : 'Habis' }}</span>
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                         <td class="py-4 px-5">
-                            <div class="flex items-center justify-center gap-5">
-                                <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
-                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                                        <path d="M15 5l4 4"></path>
-                                    </svg>
-                                </button>
-                                <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
-                                    <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M3 6h18"></path>
-                                        <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
-                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                                    </svg>
-                                </button>
-                            </div>
+                            @if($prod->trashed())
+                                <div class="flex items-center justify-center">
+                                    <form method="POST" action="{{ route('admin.products.restore', $prod->id) }}" class="inline">
+                                        @csrf
+                                        <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs transition cursor-pointer" title="Pulihkan Menu Ini">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 0 1 5 5v2m0 0l-3-3m3 3l3-3M3 10l3-3m-3 3l3 3"/></svg>
+                                            <span>Pulihkan (Undo)</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center gap-5">
+                                    <button type="button" onclick="openEditModal({{ json_encode($prodEditPayload) }}, this)" class="text-[#757575] dark:text-[#D4D4D4] hover:text-gray-900 dark:hover:text-white transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Edit">
+                                        <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                            <path d="M15 5l4 4"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="button" onclick="openDeleteModal('{{ route('admin.products.delete', $prod->id) }}', 'menu {{ addslashes($prod->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                        <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+                                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                     @empty

@@ -403,9 +403,13 @@ class AdminController extends Controller
     public function products(Request $request)
     {
         $search = trim($request->query('search', $request->query('q', '')));
-        $query = Product::with('category')
+        $filter = $request->query('filter', 'active');
+
+        $query = ($filter === 'trashed') ? Product::onlyTrashed() : Product::query();
+        $query->with('category')
             ->whereHas('category', fn($q) => $q->where('is_active', true))
             ->orderBy('id', 'asc');
+
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
                 $q->whereLike('name', "%{$search}%")
@@ -415,8 +419,9 @@ class AdminController extends Controller
 
         $products = $query->get();
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
+        $trashedCount = Product::onlyTrashed()->count();
 
-        return view('admin.products', compact('products', 'categories', 'search'));
+        return view('admin.products', compact('products', 'categories', 'search', 'filter', 'trashedCount'));
     }
 
     /**

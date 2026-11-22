@@ -105,7 +105,7 @@
             </h3>
 
             <p id="delete-modal-message" class="text-gray-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto mb-6 sm:mb-7" data-i18n="delete_desc">
-                Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
+                Apakah Anda yakin ingin menghapus data ini? Data yang dihapus dapat dipulihkan kembali melalui tombol Urungkan (Undo).
             </p>
 
             <div class="flex flex-wrap items-center justify-center gap-3">
