@@ -629,10 +629,10 @@ class AdminController extends Controller
         $product = Product::findOrFail($id);
         $name = $product->name;
 
-        // Store snapshot in session for undo fallback
-        $snapshot = $product->attributesToArray();
-        session()->put("undo_deleted_product_{$id}", $snapshot);
-
+        // Model uses SoftDeletes so the row is safely preserved in the database.
+        // Never put raw attributes (especially base64/data URI images) into session,
+        // because with SESSION_DRIVER=cookie on serverless (Vercel) it causes
+        // "Header overflow" error when Set-Cookie exceeds the HTTP header buffer limit.
         $product->delete();
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
@@ -660,15 +660,7 @@ class AdminController extends Controller
             $product->restore();
             $name = $product->name;
         } else {
-            // Fallback from session snapshot if hard-deleted
-            $snapshot = session()->get("undo_deleted_product_{$id}");
-            if ($snapshot) {
-                unset($snapshot['deleted_at']);
-                \Illuminate\Support\Facades\DB::table('products')->updateOrInsert(['id' => $id], $snapshot);
-                $name = $snapshot['name'] ?? 'Menu';
-            } else {
-                return back()->with('error', 'Data menu tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
-            }
+            return back()->with('error', 'Data menu tidak dapat dipulihkan atau sudah dihapus permanen.');
         }
 
         if ($product && $product->category_id) {
@@ -773,9 +765,7 @@ class AdminController extends Controller
         }
         $name = $category->name;
 
-        $snapshot = $category->attributesToArray();
-        session()->put("undo_deleted_category_{$id}", $snapshot);
-
+        // Model uses SoftDeletes, row is safely preserved in DB.
         $category->delete();
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
@@ -803,14 +793,7 @@ class AdminController extends Controller
             $category->restore();
             $name = $category->name;
         } else {
-            $snapshot = session()->get("undo_deleted_category_{$id}");
-            if ($snapshot) {
-                unset($snapshot['deleted_at']);
-                \Illuminate\Support\Facades\DB::table('categories')->updateOrInsert(['id' => $id], $snapshot);
-                $name = $snapshot['name'] ?? 'Kategori';
-            } else {
-                return back()->with('error', 'Data kategori tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
-            }
+            return back()->with('error', 'Data kategori tidak dapat dipulihkan atau sudah dihapus permanen.');
         }
 
         session()->forget("undo_deleted_category_{$id}");
