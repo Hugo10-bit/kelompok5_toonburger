@@ -739,6 +739,50 @@
 
     @yield('admin_modals')
 
+    <!-- Undo Notification Toast (Kanan Bawah) -->
+    @if(session('undo_action'))
+        <div id="undo-toast"
+             class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[99999] max-w-[calc(100vw-2.5rem)] sm:max-w-md bg-[#253936] text-white rounded-2xl shadow-2xl p-4 border border-[#3E5C57] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 animate-modal-pop select-none transition-all duration-300"
+             role="alert">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-[#1E2E2C] text-[#34D399] flex items-center justify-center shrink-0 border border-[#2D4542]">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-xs sm:text-sm font-semibold text-white leading-tight">
+                        <span id="undo-toast-label">{{ session('undo_action')['label'] ?? 'Data' }}</span> <span data-i18n="deleted_success_suffix">berhasil dihapus</span>
+                    </p>
+                    <p class="text-[11px] text-gray-300 mt-0.5" data-i18n="undo_toast_hint">
+                        Salah hapus? Kamu bisa mengembalikannya sekarang.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
+                <form method="POST" action="{{ session('undo_action')['url'] }}" class="inline" onsubmit="handleUndoSubmit(this)">
+                    @csrf
+                    <button type="submit"
+                            id="undo-btn"
+                            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-95 text-gray-950 text-xs font-bold transition shadow-md cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 0 1 5 5v2m0 0l-3-3m3 3l3-3M3 10l3-3m-3 3l3 3"/>
+                        </svg>
+                        <span data-i18n="btn_undo">Urungkan (Undo)</span>
+                    </button>
+                </form>
+                <button type="button"
+                        onclick="dismissUndoToast()"
+                        class="text-gray-400 hover:text-white p-1.5 rounded-lg transition cursor-pointer"
+                        title="Tutup">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
 
     @if(session('store_status_toast') || session('success') || session('error') || session('undo_action'))
         <div id="admin-flash-data"
