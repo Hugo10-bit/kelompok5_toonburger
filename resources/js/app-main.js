@@ -1650,7 +1650,12 @@ if (document.readyState === 'loading') {
         if (searchDropdown) searchDropdown.classList.add('hidden');
 
         if (pushHistory && normalizeAppUrl(window.location.href) !== normalizeAppUrl(url)) {
-            window.history.pushState({ tbAppPjax: true, url: url, scrollY: currentScrollY }, payload.title, url);
+            const nextState = { tbAppPjax: true, url: url, scrollY: currentScrollY };
+            if (window.history.state && window.history.state.tbOverlay) {
+                window.history.replaceState(nextState, payload.title, url);
+            } else {
+                window.history.pushState(nextState, payload.title, url);
+            }
         }
 
         updateAppNavHighlight(url);
@@ -1768,6 +1773,12 @@ if (document.readyState === 'loading') {
 
         e.preventDefault();
         _tbOverlayStack.length = 0;
+        const openMobileMenu = document.getElementById('mobile-nav-menu');
+        if (openMobileMenu) openMobileMenu.classList.add('hidden');
+        const openUserMenu = document.getElementById('user-dropdown-menu');
+        if (openUserMenu) openUserMenu.classList.add('hidden');
+        const openUserArrow = document.getElementById('user-menu-arrow');
+        if (openUserArrow) openUserArrow.classList.remove('rotate-180');
         window.tbAppNavigate(link.href, true, preserveScroll);
     });
 
@@ -2116,6 +2127,14 @@ const _tbPhraseMap = {
     'Password baru': 'New Password',
     'Masukkan Password': 'Enter Password',
     'Konfirmasi Password': 'Confirm Password',
+    'Password cocok': 'Passwords match',
+    'Konfirmasi password tidak cocok': 'Passwords do not match',
+    'Ketik ulang konfirmasi password secara manual': 'Please retype password confirmation manually',
+    'Tampilkan Password': 'Show Password',
+    'Sembunyikan Password': 'Hide Password',
+    'Nomor telepon hanya boleh berisi angka.': 'Phone number may only contain digits.',
+    'Password berhasil diperbarui! Silakan login kembali dengan password baru Anda.': 'Password updated successfully! Please log in again with your new password.',
+    'Password admin berhasil diperbarui! Silakan login kembali dengan password baru Anda.': 'Admin password updated successfully! Please log in again with your new password.',
     'Konfirmasi Simpan Profil': 'Confirm Save Profile',
     'Apakah Anda yakin ingin menyimpan perubahan pada profil ini?': 'Are you sure you want to save changes to this profile?',
     'Ya, Simpan': 'Yes, Save',
@@ -2127,7 +2146,6 @@ const _tbPhraseMap = {
     'Jam Tutup': 'Closed for the Day',
     'Sudah Jam Tutup': 'Closed for the Day',
     'Stok Habis': 'Out of Stock',
-    'Istirahat Sebentar': 'Short Break',
     'Tutup Sementara': 'Temporarily Closed',
     'Tutup Mendadak': 'Temporarily Closed',
 
@@ -2209,6 +2227,9 @@ const _tbAppTranslations = {
         contact_message_label: 'Pesan',
         contact_form_heading_1: 'YUK, NGOBROL BARENG',
         contact_form_heading_2: 'TOON BURGER!',
+        profile_pass_match: 'Password cocok',
+        profile_pass_mismatch: 'Konfirmasi password tidak cocok',
+        profile_pass_paste_blocked: 'Ketik ulang konfirmasi password secara manual',
         logout_title: 'Konfirmasi Logout',
         logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
         logout_cancel: 'Batalkan',
@@ -2247,6 +2268,9 @@ const _tbAppTranslations = {
         contact_message_label: 'Message',
         contact_form_heading_1: 'LET\'S GET IN TOUCH',
         contact_form_heading_2: 'WITH US!',
+        profile_pass_match: 'Passwords match',
+        profile_pass_mismatch: 'Passwords do not match',
+        profile_pass_paste_blocked: 'Please retype password confirmation manually',
         logout_title: 'Confirm Logout',
         logout_desc: 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
         logout_cancel: 'Cancel',
@@ -2767,6 +2791,7 @@ Object.assign(window, {
     animateCartBadge,
     showCartToast,
     toggleMobileNav,
+    closeMobileNav,
     toggleUserDropdown,
     toggleNavLangDropdown,
     selectNavLanguage,

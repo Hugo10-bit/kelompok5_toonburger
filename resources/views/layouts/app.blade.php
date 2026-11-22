@@ -455,22 +455,22 @@
                     </div>
 
                     <div class="space-y-1">
-                        <a href="{{ route('home') }}" data-page-transition onclick="toggleMobileNav()"
+                        <a href="{{ route('home') }}" data-page-transition onclick="closeMobileNav(true)"
                            class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                             {{ request()->routeIs('home', 'welcome') || request()->is('/') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                             <span data-i18n-app="nav_home">Beranda</span>
                         </a>
-                        <a href="{{ route('menu') }}" data-page-transition onclick="toggleMobileNav()"
+                        <a href="{{ route('menu') }}" data-page-transition onclick="closeMobileNav(true)"
                            class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                             {{ request()->routeIs('menu*') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                             <span data-i18n-app="nav_menu">Menu</span>
                         </a>
-                        <a href="{{ route('about') }}" data-page-transition onclick="toggleMobileNav()"
+                        <a href="{{ route('about') }}" data-page-transition onclick="closeMobileNav(true)"
                            class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                             {{ request()->routeIs('about') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                             <span data-i18n-app="nav_about">Tentang</span>
                         </a>
-                        <a href="{{ route('contact') }}" data-page-transition onclick="toggleMobileNav()"
+                        <a href="{{ route('contact') }}" data-page-transition onclick="closeMobileNav(true)"
                            class="block px-4 py-2 rounded-xl transition font-roboto font-medium
                                             {{ request()->routeIs('contact') ? 'bg-[#3b6e64]/10 text-[#3b6e64]' : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100' }}">
                             <span data-i18n-app="nav_contact">Kontak</span>
@@ -498,11 +498,11 @@
 
                     @guest
                         <div class="mt-2.5 pt-2.5 border-t border-gray-100 flex items-center gap-2 font-roboto font-medium">
-                            <a href="{{ route('login') }}" onclick="toggleMobileNav()"
+                            <a href="{{ route('login') }}" onclick="closeMobileNav(true)"
                                class="flex-1 text-center min-h-[40px] inline-flex items-center justify-center px-3 py-2 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 text-xs font-roboto font-medium transition">
                                 <span data-i18n-app="nav_login">Login</span>
                             </a>
-                            <a href="{{ route('register') }}" onclick="toggleMobileNav()"
+                            <a href="{{ route('register') }}" onclick="closeMobileNav(true)"
                                class="flex-1 text-center min-h-[40px] inline-flex items-center justify-center px-3 py-2 rounded-xl bg-[#F5A623] hover:bg-[#E0961F] text-slate-900 text-xs font-roboto font-medium transition shadow-xs">
                                 <span data-i18n-app="nav_signin">Sign In</span>
                             </a>
