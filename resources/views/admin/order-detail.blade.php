@@ -495,7 +495,7 @@
 
 @if($order->hasPaymentProof())
 <div id="admin-proof-lightbox"
-     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-xs hidden"
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 hidden"
      onclick="if(event.target === this) this.classList.add('hidden')">
     <div class="max-w-xl w-full bg-white dark:bg-[#2B2B2B] rounded-3xl p-4 shadow-2xl space-y-3">
         <div class="flex items-center justify-between">

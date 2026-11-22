@@ -329,8 +329,8 @@
     </div>
     @endif
 
-    <div id="productModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-3 sm:p-4">
-        <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-xl relative max-h-[90vh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A]">
+    <div id="productModal" onclick="if (event.target === this) closeModal()" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-gray-200/90 dark:border-[#4A4A4A]">
             <div class="flex items-center justify-between gap-2 mb-4">
                 <h3 id="modalTitle" class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="mod_prod_add">Tambah Produk Baru</h3>
                 <button type="button" onclick="closeModal()" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-[#3C3C3C] hover:bg-gray-200 dark:hover:bg-[#4A4A4A] text-gray-700 dark:text-gray-200 flex items-center justify-center font-semibold text-lg cursor-pointer shrink-0 transition" aria-label="Tutup">&times;</button>
