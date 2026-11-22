@@ -623,9 +623,60 @@ class AdminController extends Controller
     {
         $product = Product::findOrFail($id);
         $name = $product->name;
+
+        // Store snapshot in session for undo fallback
+        $snapshot = $product->attributesToArray();
+        session()->put("undo_deleted_product_{$id}", $snapshot);
+
         $product->delete();
 
-        return back()->with('success', "Menu '{$name}' berhasil dihapus.");
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
+
+        return back()->with([
+            'success' => "Menu '{$name}' berhasil dihapus.",
+            'undo_action' => [
+                'type' => 'product',
+                'id' => $id,
+                'name' => $name,
+                'url' => route('admin.products.restore', $id),
+                'label' => "Menu '{$name}'",
+            ],
+        ]);
+    }
+
+    /**
+     * Restore deleted product (Undo delete).
+     */
+    public function restoreProduct($id)
+    {
+        $product = Product::withTrashed()->find($id);
+
+        if ($product) {
+            $product->restore();
+            $name = $product->name;
+        } else {
+            // Fallback from session snapshot if hard-deleted
+            $snapshot = session()->get("undo_deleted_product_{$id}");
+            if ($snapshot) {
+                unset($snapshot['deleted_at']);
+                \Illuminate\Support\Facades\DB::table('products')->updateOrInsert(['id' => $id], $snapshot);
+                $name = $snapshot['name'] ?? 'Menu';
+            } else {
+                return back()->with('error', 'Data menu tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
+            }
+        }
+
+        if ($product && $product->category_id) {
+            $cat = Category::withTrashed()->find($product->category_id);
+            if ($cat && method_exists($cat, 'trashed') && $cat->trashed()) {
+                $cat->restore();
+            }
+        }
+
+        session()->forget("undo_deleted_product_{$id}");
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
+
+        return back()->with('success', "Menu '{$name}' berhasil dipulihkan!");
     }
 
     /**
@@ -715,9 +766,52 @@ class AdminController extends Controller
         if ($category->products()->count() > 0) {
             return back()->with('error', "Kategori '{$category->name}' masih memiliki menu produk dan tidak dapat dihapus.");
         }
+        $name = $category->name;
+
+        $snapshot = $category->attributesToArray();
+        session()->put("undo_deleted_category_{$id}", $snapshot);
+
         $category->delete();
 
-        return back()->with('success', "Kategori '{$category->name}' berhasil dihapus.");
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
+
+        return back()->with([
+            'success' => "Kategori '{$name}' berhasil dihapus.",
+            'undo_action' => [
+                'type' => 'category',
+                'id' => $id,
+                'name' => $name,
+                'url' => route('admin.categories.restore', $id),
+                'label' => "Kategori '{$name}'",
+            ],
+        ]);
+    }
+
+    /**
+     * Restore deleted category (Undo delete).
+     */
+    public function restoreCategory($id)
+    {
+        $category = Category::withTrashed()->find($id);
+
+        if ($category) {
+            $category->restore();
+            $name = $category->name;
+        } else {
+            $snapshot = session()->get("undo_deleted_category_{$id}");
+            if ($snapshot) {
+                unset($snapshot['deleted_at']);
+                \Illuminate\Support\Facades\DB::table('categories')->updateOrInsert(['id' => $id], $snapshot);
+                $name = $snapshot['name'] ?? 'Kategori';
+            } else {
+                return back()->with('error', 'Data kategori tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
+            }
+        }
+
+        session()->forget("undo_deleted_category_{$id}");
+        \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
+
+        return back()->with('success', "Kategori '{$name}' berhasil dipulihkan!");
     }
 
     /**

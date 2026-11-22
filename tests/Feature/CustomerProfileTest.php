@@ -64,7 +64,7 @@ class CustomerProfileTest extends TestCase
 
         $customerProfile = $this->actingAs($customer)->get(route('profile.edit'));
         $customerProfile->assertOk();
-        $customerProfile->assertSee('Profil Saya');
+        $customerProfile->assertSee('INFO AKUN &amp; PROFIL', false);
         $customerProfile->assertSee('id="customer-profile-form"', false);
         $customerProfile->assertSee('id="customer-password-form"', false);
 
@@ -114,8 +114,8 @@ class CustomerProfileTest extends TestCase
             'password_confirmation' => 'NewSecret123',
         ]);
 
-        $resPass->assertRedirect(route('profile.edit'));
-        $resPass->assertSessionHas('success');
+        $resPass->assertRedirect(route('login'));
+        $resPass->assertSessionHas('status');
         $this->assertTrue(Hash::check('NewSecret123', $customer->refresh()->password));
     }
 

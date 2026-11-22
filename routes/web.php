@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
             Route::match(['post', 'put'], '/products/{id}', [AdminController::class, 'updateProduct']);
             Route::match(['post', 'patch'], '/products/{id}/toggle', [AdminController::class, 'toggleProduct'])->name('products.toggle');
             Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('products.delete');
+            Route::post('/products/{id}/restore', [AdminController::class, 'restoreProduct'])->name('products.restore');
 
             Route::get('/tables', [AdminController::class, 'tables'])->name('tables');
             Route::post('/tables/{id}/status', [AdminController::class, 'updateTableStatus'])->name('tables.status');
@@ -93,6 +94,7 @@ Route::middleware('auth')->group(function () {
             Route::match(['post', 'put'], '/categories/{id}/update', [AdminController::class, 'updateCategory'])->name('categories.update');
             Route::match(['post', 'put'], '/categories/{id}', [AdminController::class, 'updateCategory']);
             Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+            Route::post('/categories/{id}/restore', [AdminController::class, 'restoreCategory'])->name('categories.restore');
 
             Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
             Route::match(['post', 'patch'], '/messages/{id}/status', [AdminController::class, 'updateMessageStatus'])->name('messages.status');

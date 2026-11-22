@@ -4,7 +4,45 @@ function isAdminEnglish() {
         || localStorage.getItem('tb_admin_lang') === 'US';
 }
 
+window.dismissUndoToast = function () {
+    const toast = document.getElementById('undo-toast');
+    if (toast) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(16px)';
+        setTimeout(() => toast.remove(), 300);
+    }
+};
+
+window.handleUndoSubmit = function (form) {
+    const btn = form.querySelector('#undo-btn');
+    if (btn) {
+        btn.disabled = true;
+        const isEn = isAdminEnglish();
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>${isEn ? 'Restoring...' : 'Memulihkan...'}</span>`;
+    }
+};
+
+function initUndoToast() {
+    const toast = document.getElementById('undo-toast');
+    if (toast) {
+        const isEn = isAdminEnglish();
+        const hintEl = toast.querySelector('[data-i18n="undo_toast_hint"]');
+        const suffixEl = toast.querySelector('[data-i18n="deleted_success_suffix"]');
+        const btnText = toast.querySelector('[data-i18n="btn_undo"]');
+        if (isEn) {
+            if (hintEl) hintEl.textContent = 'Deleted by mistake? You can restore it now.';
+            if (suffixEl) suffixEl.textContent = 'successfully deleted';
+            if (btnText) btnText.textContent = 'Undo';
+        }
+        setTimeout(() => {
+            window.dismissUndoToast();
+        }, 10000);
+    }
+}
+
 function showAdminFlashAlerts() {
+    initUndoToast();
+
     const el = document.getElementById('admin-flash-data');
     if (!el || el.dataset.consumed === '1') return;
     el.dataset.consumed = '1';

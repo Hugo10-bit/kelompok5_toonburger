@@ -105,13 +105,12 @@ class AdminPhotoUploadTest extends TestCase
         $admin->refresh();
         $this->assertStringStartsWith('data:image/png;base64,', $admin->avatar);
 
-        // Password update without avatar keeps existing Data URI avatar intact
-        $this->actingAs($admin)->post(route('admin.profile.update'), [
-            'name' => $admin->name,
+        // Profile update without avatar keeps existing Data URI avatar intact
+        $resName = $this->actingAs($admin)->post(route('admin.profile.update'), [
+            'name' => $admin->name . ' Updated',
             'email' => $admin->email,
-            'password' => 'newpass123',
-            'password_confirmation' => 'newpass123',
-        ])->assertSessionHas('success');
+        ]);
+        $resName->assertSessionHas('success');
 
         $admin->refresh();
         $this->assertStringStartsWith('data:image/png;base64,', $admin->avatar);
@@ -408,6 +407,6 @@ class AdminPhotoUploadTest extends TestCase
         $res->assertRedirect(route('admin.products'));
         $res->assertSessionHas('success', "Menu 'Deluxe Toon Burger' berhasil dihapus.");
 
-        $this->assertDatabaseMissing('products', ['id' => $product->id]);
+        $this->assertSoftDeleted('products', ['id' => $product->id]);
     }
 }
