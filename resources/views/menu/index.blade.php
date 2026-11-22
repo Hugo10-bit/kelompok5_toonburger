@@ -75,7 +75,8 @@
                     @endphp
                     @include('partials.product-card', [
                         'productId' => $product->id,
-                        'image' => $product->image,
+                        'image' => $product->image_url,
+                        'imageUrl' => $product->image_url,
                         'badge' => $badge,
                         'name' => $product->name,
                         'description' => $product->description,

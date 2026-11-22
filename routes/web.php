@@ -16,6 +16,7 @@ Route::get('/about', [MenuController::class, 'about'])->name('about');
 Route::get('/contact', [MenuController::class, 'contact'])->name('contact');
 Route::post('/contact', [MenuController::class, 'storeContact'])->name('contact.store');
 Route::get('/product/{id}', [MenuController::class, 'show'])->name('product.show');
+Route::get('/product-image/{product}', [MenuController::class, 'productImage'])->name('product.image');
 
 Route::get('/gofood', function () {
     return redirect()->away('https://gofood.co.id/en/banjarmasin/restaurant/toon-burger-banjarbaru-utara-jln-berlian-7d536afb-38c5-46a8-8a80-e3171a0d6ce9');

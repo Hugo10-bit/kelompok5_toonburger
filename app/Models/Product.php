@@ -195,7 +195,23 @@ class Product extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return ImageDataUriService::toAssetUrl($this->image, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
+        $rawImage = trim((string) $this->image);
+
+        // 1. If explicitly stored as a static path or external URL (not base64 data URI)
+        if ($rawImage !== '' && !str_starts_with($rawImage, 'data:image/')) {
+            return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
+        }
+
+        // 2. If matching static file exists in public/images/products/, serve fast CDN asset
+        $slug = $this->slug ?: \Illuminate\Support\Str::slug($this->name);
+        foreach (["images/products/{$slug}.jpg", "images/products/{$slug}.png", "images/products/{$slug}.webp"] as $candidate) {
+            if (file_exists(public_path($candidate))) {
+                return asset($candidate);
+            }
+        }
+
+        // 3. Fallback to raw data URI or ImageDataUriService
+        return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
     }
 
     public function category(): BelongsTo
