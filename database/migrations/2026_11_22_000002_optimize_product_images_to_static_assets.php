@@ -13,6 +13,7 @@ return new class extends Migration
     {
         $map = [
             'soda' => 'images/products/soda.jpg',
+            'soft-drink' => 'images/products/soda.jpg',
             'taro' => 'images/products/taro.jpg',
             'matcha' => 'images/products/matcha.jpg',
             'red-velvet' => 'images/products/red-velvet.jpg',
@@ -20,6 +21,7 @@ return new class extends Migration
             'kopi-gula-aren' => 'images/products/kopi-gula-aren.jpg',
             'salted-caramel' => 'images/products/salted-caramel.jpg',
             'lycee-tea' => 'images/products/lycee-tea.jpg',
+            'lyce-tea' => 'images/products/lycee-tea.jpg',
             'cotton-candy' => 'images/products/cotton-candy.jpg',
             'french-fries' => 'images/products/french-fries.jpg',
             'chessy-french-fries' => 'images/products/chessy-french-fries.jpg',

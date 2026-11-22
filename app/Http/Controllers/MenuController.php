@@ -405,10 +405,20 @@ class MenuController extends Controller
      */
     public function productImage(Product $product)
     {
-        $slug = $product->slug ?: \Illuminate\Support\Str::slug($product->name);
-        foreach (["images/products/{$slug}.jpg", "images/products/{$slug}.png", "images/products/{$slug}.webp"] as $candidate) {
-            if (file_exists(public_path($candidate))) {
-                return redirect(asset($candidate), 301);
+        $slug = $product->slug ?: '';
+        $nameSlug = \Illuminate\Support\Str::slug($product->name);
+        $candidateSlugs = array_filter(array_unique([
+            $slug,
+            $nameSlug,
+            (str_contains($slug, 'soda') || str_contains($nameSlug, 'soda') || str_contains($slug, 'soft-drink')) ? 'soda' : null,
+            (str_contains($slug, 'lyc') || str_contains($nameSlug, 'lyc')) ? 'lycee-tea' : null,
+        ]));
+
+        foreach ($candidateSlugs as $cSlug) {
+            foreach (["images/products/{$cSlug}.jpg", "images/products/{$cSlug}.png", "images/products/{$cSlug}.webp"] as $candidate) {
+                if (file_exists(public_path($candidate))) {
+                    return redirect(asset($candidate), 301);
+                }
             }
         }
 
