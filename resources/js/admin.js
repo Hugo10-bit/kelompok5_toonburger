@@ -616,6 +616,9 @@ const _tbTranslations = {
         prof_save: 'Simpan',
         prof_new_pass: 'Password baru',
         prof_conf_pass: 'Konfirmasi Password',
+        prof_pass_match: 'Password cocok',
+        prof_pass_mismatch: 'Konfirmasi password tidak cocok',
+        prof_pass_paste_blocked: 'Ketik ulang konfirmasi password secara manual',
         prof_new_pass_ph: 'Masukkan Password',
         prof_conf_pass_ph: 'Konfirmasi Password',
         ord_title: 'Proses pesanan',
@@ -681,7 +684,6 @@ const _tbTranslations = {
         store_close_modal_desc: 'Pelanggan tidak akan bisa melakukan checkout saat toko berstatus tutup.',
         store_close_reason_label: 'Pilih alasan cepat (opsional tampil di web):',
         store_reason_out_of_stock: 'Stok Habis',
-        store_reason_short_break: 'Istirahat Sebentar',
         store_reason_closing_hours: 'Jam Tutup',
         store_reason_sudden_close: 'Tutup Sementara',
         store_close_confirm: 'Ya, Tutup Toko',
@@ -939,6 +941,9 @@ const _tbTranslations = {
         prof_save: 'Save',
         prof_new_pass: 'New password',
         prof_conf_pass: 'Confirm password',
+        prof_pass_match: 'Passwords match',
+        prof_pass_mismatch: 'Passwords do not match',
+        prof_pass_paste_blocked: 'Please retype password confirmation manually',
         prof_new_pass_ph: 'Enter password',
         prof_conf_pass_ph: 'Confirm password',
         ord_title: 'Order Processing',
@@ -1004,7 +1009,6 @@ const _tbTranslations = {
         store_close_modal_desc: 'Customers will not be able to check out while the store is closed.',
         store_close_reason_label: 'Choose a quick reason (shown on the website):',
         store_reason_out_of_stock: 'Out of Stock',
-        store_reason_short_break: 'Short Break',
         store_reason_closing_hours: 'Closed for the Day',
         store_reason_sudden_close: 'Temporarily Closed',
         store_close_confirm: 'Yes, Close Store',
@@ -1023,12 +1027,12 @@ let _cachedI18nNodes = null;
 let _cachedCurrencyNodes = null;
 let _cachedAttrNodes = null;
 
-function applyTranslations(lang) {
+function applyTranslations(lang, forceRefresh = false) {
     const isEn = (lang === 'EN' || lang === 'US');
     const dict = _tbTranslations[isEn ? 'EN' : 'ID'] || _tbTranslations['ID'];
     const currencyStr = isEn ? 'IDR' : 'Rp';
 
-    if (!_cachedI18nNodes) {
+    if (forceRefresh || !_cachedI18nNodes) {
         _cachedI18nNodes = Array.from(document.querySelectorAll('[data-i18n]'));
         _cachedCurrencyNodes = Array.from(document.querySelectorAll('[data-i18n="currency"], [data-currency], .currency-prefix'));
         _cachedAttrNodes = Array.from(document.querySelectorAll('[data-i18n-attr]'));

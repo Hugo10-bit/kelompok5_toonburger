@@ -80,7 +80,11 @@ class StoreSetting extends Model
             return self::DEFAULT_CLOSED_REASON;
         }
 
-        if (strcasecmp($reason, 'Tutup Mendadak') === 0) {
+        if (
+            strcasecmp($reason, 'Tutup Mendadak') === 0
+            || strcasecmp($reason, 'Istirahat Sebentar') === 0
+            || strcasecmp($reason, 'Istirahat Sementara') === 0
+        ) {
             return 'Tutup Sementara';
         }
 

@@ -169,7 +169,6 @@
                 @php
                     $quickReasons = [
                         'Stok Habis' => 'store_reason_out_of_stock',
-                        'Istirahat Sebentar' => 'store_reason_short_break',
                         'Jam Tutup' => 'store_reason_closing_hours',
                         'Tutup Sementara' => 'store_reason_sudden_close',
                     ];
