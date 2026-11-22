@@ -637,7 +637,7 @@ class AdminController extends Controller
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
-        return back()->with([
+        return redirect()->route('admin.products')->with([
             'success' => "Menu '{$name}' berhasil dihapus.",
             'undo_action' => [
                 'type' => 'product',
@@ -660,7 +660,7 @@ class AdminController extends Controller
             $product->restore();
             $name = $product->name;
         } else {
-            return back()->with('error', 'Data menu tidak dapat dipulihkan atau sudah dihapus permanen.');
+            return redirect()->route('admin.products')->with('error', 'Data menu tidak dapat dipulihkan atau sudah dihapus permanen.');
         }
 
         if ($product && $product->category_id) {
@@ -673,7 +673,7 @@ class AdminController extends Controller
         session()->forget("undo_deleted_product_{$id}");
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
-        return back()->with('success', "Menu '{$name}' berhasil dipulihkan!");
+        return redirect()->route('admin.products')->with('success', "Menu '{$name}' berhasil dipulihkan!");
     }
 
     /**
@@ -770,7 +770,7 @@ class AdminController extends Controller
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
-        return back()->with([
+        return redirect()->route('admin.categories')->with([
             'success' => "Kategori '{$name}' berhasil dihapus.",
             'undo_action' => [
                 'type' => 'category',
@@ -793,13 +793,13 @@ class AdminController extends Controller
             $category->restore();
             $name = $category->name;
         } else {
-            return back()->with('error', 'Data kategori tidak dapat dipulihkan atau sudah dihapus permanen.');
+            return redirect()->route('admin.categories')->with('error', 'Data kategori tidak dapat dipulihkan atau sudah dihapus permanen.');
         }
 
         session()->forget("undo_deleted_category_{$id}");
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
-        return back()->with('success', "Kategori '{$name}' berhasil dipulihkan!");
+        return redirect()->route('admin.categories')->with('success', "Kategori '{$name}' berhasil dipulihkan!");
     }
 
     /**
