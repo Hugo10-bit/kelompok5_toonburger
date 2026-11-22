@@ -153,7 +153,10 @@
                 <input type="password"
                        id="profile-confirm-password"
                        name="password_confirmation"
-                       autocomplete="new-password"
+                       autocomplete="off"
+                       readonly
+                       data-lpignore="true"
+                       data-1p-ignore="true"
                        placeholder="Konfirmasi Password"
                        data-i18n-attr="placeholder:prof_conf_pass_ph"
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl pl-5 pr-12 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">

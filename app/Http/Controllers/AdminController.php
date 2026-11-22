@@ -763,6 +763,12 @@ class AdminController extends Controller
                 ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
         }
 
+        if ($request->filled('password') && \Illuminate\Support\Facades\Hash::check((string) $request->password, (string) $user->password)) {
+            return back()
+                ->withErrors(['password' => 'Password baru harus berbeda dari password saat ini.'])
+                ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
+        }
+
         $resolved = $imageService->resolveJpgOrPngDataUri($request, ['avatar'], 'avatar_data', 512);
         if ($resolved['error'] !== null) {
             return back()

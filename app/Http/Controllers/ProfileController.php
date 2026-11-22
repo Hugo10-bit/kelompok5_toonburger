@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -62,6 +63,12 @@ class ProfileController extends Controller
         if ($validator->fails()) {
             return redirect()->route('profile.edit')
                 ->withErrors($validator)
+                ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
+        }
+
+        if ($request->filled('password') && Hash::check((string) $request->password, (string) $user->password)) {
+            return redirect()->route('profile.edit')
+                ->withErrors(['password' => 'Password baru harus berbeda dari password saat ini.'])
                 ->withInput($request->except(['avatar_data', 'avatar', 'password', 'password_confirmation']));
         }
 

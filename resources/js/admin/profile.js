@@ -73,10 +73,37 @@ function bindAdminPasswordMatchStatus() {
 
     if (confirmInput.dataset.matchBound !== 'true') {
         confirmInput.dataset.matchBound = 'true';
-        passInput.addEventListener('input', updateMatchStatus);
+
+        // Unlock readonly only when the user explicitly interacts with the confirm field
+        // so mobile password managers only autofill the new password field.
+        const unlockConfirmField = () => {
+            if (confirmInput.hasAttribute('readonly')) {
+                confirmInput.removeAttribute('readonly');
+            }
+        };
+        confirmInput.addEventListener('pointerdown', unlockConfirmField);
+        confirmInput.addEventListener('touchstart', unlockConfirmField, { passive: true });
+        confirmInput.addEventListener('focus', unlockConfirmField);
+        confirmInput.addEventListener('blur', () => {
+            if (!confirmInput.value) {
+                confirmInput.setAttribute('readonly', 'readonly');
+            }
+        });
+
+        passInput.addEventListener('input', () => {
+            if (document.activeElement !== confirmInput && confirmInput.value && confirmInput.value === passInput.value) {
+                confirmInput.value = '';
+            }
+            updateMatchStatus();
+        });
         passInput.addEventListener('copy', (e) => e.preventDefault());
         passInput.addEventListener('cut', (e) => e.preventDefault());
-        confirmInput.addEventListener('input', updateMatchStatus);
+        confirmInput.addEventListener('input', () => {
+            if (document.activeElement !== confirmInput) {
+                confirmInput.value = '';
+            }
+            updateMatchStatus();
+        });
         confirmInput.addEventListener('paste', (e) => {
             e.preventDefault();
             showPasteBlockedNotice();

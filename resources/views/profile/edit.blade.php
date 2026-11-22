@@ -183,7 +183,10 @@
                         <input type="password"
                                id="customer-profile-confirm-password"
                                name="password_confirmation"
-                               autocomplete="new-password"
+                               autocomplete="off"
+                               readonly
+                               data-lpignore="true"
+                               data-1p-ignore="true"
                                placeholder="Konfirmasi Password"
                                class="w-full border-0 border-b border-gray-300 focus:border-[#385652] bg-transparent pl-1 pr-10 py-2 text-xs sm:text-[13.5px] font-normal text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-0 transition">
                         <button type="button"

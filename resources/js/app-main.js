@@ -2115,6 +2115,9 @@ const _tbPhraseMap = {
     'Tekan ⌘ Cmd + Scroll untuk zoom peta': 'Press ⌘ Cmd + Scroll to zoom the map',
 
     // Customer Profile Page
+    'INFO AKUN & PROFIL': 'ACCOUNT & PROFILE INFO',
+    'Kelola data diri, alamat, dan keamanan akun Toon Burger kamu.': 'Manage your personal details, address, and Toon Burger account security.',
+    'Password baru harus berbeda dari password saat ini.': 'New password must be different from your current password.',
     'Profil Saya': 'My Profile',
     'Profil': 'Profile',
     'Kelola informasi akun dan profil Anda': 'Manage your account and profile information',
