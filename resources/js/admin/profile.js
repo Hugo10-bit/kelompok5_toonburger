@@ -1,8 +1,97 @@
 import { isValidJpgOrPngFile, dataUrlToFile, attachFileToInput } from './image-upload';
 import { openAvatarCropperModal } from './avatar-cropper';
 
+const ADMIN_EYE_OPEN_SVG = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>';
+const ADMIN_EYE_OFF_SVG = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>';
+
+function isAdminProfileEn() {
+    return window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US';
+}
+
+window.toggleAdminPasswordVisibility = function toggleAdminPasswordVisibility(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const willShow = input.type === 'password';
+    input.type = willShow ? 'text' : 'password';
+    const icon = btn ? btn.querySelector('.eye-icon') : null;
+    if (icon) {
+        icon.innerHTML = willShow ? ADMIN_EYE_OFF_SVG : ADMIN_EYE_OPEN_SVG;
+    }
+    if (btn) {
+        const isEn = isAdminProfileEn();
+        btn.setAttribute(
+            'aria-label',
+            willShow
+                ? (isEn ? 'Hide Password' : 'Sembunyikan Password')
+                : (isEn ? 'Show Password' : 'Tampilkan Password')
+        );
+    }
+};
+
+function bindAdminPasswordMatchStatus() {
+    const passInput = document.getElementById('profile-new-password');
+    const confirmInput = document.getElementById('profile-confirm-password');
+    const statusEl = document.getElementById('admin-password-match-status');
+    if (!passInput || !confirmInput || !statusEl) return;
+
+    const syncAdminTranslation = () => {
+        if (typeof window.applyTranslations === 'function') {
+            window.applyTranslations(window._tbLang || localStorage.getItem('tb_admin_lang') || 'ID', true);
+        }
+    };
+
+    const updateMatchStatus = () => {
+        const pass1 = passInput.value || '';
+        const pass2 = confirmInput.value || '';
+
+        if (!pass2) {
+            statusEl.classList.add('hidden');
+            statusEl.classList.remove('flex', 'text-emerald-600', 'dark:text-emerald-400', 'text-[#DE3B28]', 'dark:text-[#FCA5A5]');
+            statusEl.innerHTML = '';
+            return;
+        }
+
+        const isMatch = pass1.length > 0 && pass1 === pass2;
+        statusEl.classList.remove('hidden', 'text-emerald-600', 'dark:text-emerald-400', 'text-[#DE3B28]', 'dark:text-[#FCA5A5]');
+        statusEl.classList.add('flex');
+        if (isMatch) {
+            statusEl.classList.add('text-emerald-600', 'dark:text-emerald-400');
+            statusEl.innerHTML = '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span data-i18n="prof_pass_match">Password cocok</span>';
+        } else {
+            statusEl.classList.add('text-[#DE3B28]', 'dark:text-[#FCA5A5]');
+            statusEl.innerHTML = '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span data-i18n="prof_pass_mismatch">Konfirmasi password tidak cocok</span>';
+        }
+        syncAdminTranslation();
+    };
+
+    const showPasteBlockedNotice = () => {
+        statusEl.classList.remove('hidden', 'text-emerald-600', 'dark:text-emerald-400', 'text-[#DE3B28]', 'dark:text-[#FCA5A5]');
+        statusEl.classList.add('flex', 'text-[#DE3B28]', 'dark:text-[#FCA5A5]');
+        statusEl.innerHTML = '<svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg><span data-i18n="prof_pass_paste_blocked">Ketik ulang konfirmasi password secara manual</span>';
+        syncAdminTranslation();
+    };
+
+    if (confirmInput.dataset.matchBound !== 'true') {
+        confirmInput.dataset.matchBound = 'true';
+        passInput.addEventListener('input', updateMatchStatus);
+        passInput.addEventListener('copy', (e) => e.preventDefault());
+        passInput.addEventListener('cut', (e) => e.preventDefault());
+        confirmInput.addEventListener('input', updateMatchStatus);
+        confirmInput.addEventListener('paste', (e) => {
+            e.preventDefault();
+            showPasteBlockedNotice();
+        });
+        confirmInput.addEventListener('drop', (e) => {
+            e.preventDefault();
+            showPasteBlockedNotice();
+        });
+    }
+    updateMatchStatus();
+}
+
 function initAdminProfile() {
     if (!document.getElementById('profile-confirm-modal')) return;
+    bindAdminPasswordMatchStatus();
     let _onProfileConfirm = null;
     let _onProfileCancel = null;
     let pendingAvatarCompression = Promise.resolve('');

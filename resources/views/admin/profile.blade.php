@@ -126,23 +126,51 @@
 
         <div>
             <label for="profile-new-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_new_pass">Password baru</label>
-            <input type="password"
-                   id="profile-new-password"
-                   name="password"
-                   placeholder="Masukkan Password"
-                   data-i18n-attr="placeholder:prof_new_pass_ph"
-                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+            <div class="relative">
+                <input type="password"
+                       id="profile-new-password"
+                       name="password"
+                       autocomplete="new-password"
+                       placeholder="Masukkan Password"
+                       data-i18n-attr="placeholder:prof_new_pass_ph"
+                       class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl pl-5 pr-12 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+                <button type="button"
+                        onclick="toggleAdminPasswordVisibility('profile-new-password', this)"
+                        class="absolute inset-y-0 right-2 w-9 flex items-center justify-center text-gray-400 hover:text-[#415C58] dark:text-gray-400 dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#415C58] rounded-lg transition-colors cursor-pointer"
+                        aria-label="Tampilkan Password">
+                    <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </button>
+            </div>
             @error('password') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
         <div>
             <label for="profile-confirm-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_conf_pass">Konfirmasi Password</label>
-            <input type="password"
-                   id="profile-confirm-password"
-                   name="password_confirmation"
-                   placeholder="Konfirmasi Password"
-                   data-i18n-attr="placeholder:prof_conf_pass_ph"
-                   class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl px-5 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+            <div class="relative">
+                <input type="password"
+                       id="profile-confirm-password"
+                       name="password_confirmation"
+                       autocomplete="new-password"
+                       placeholder="Konfirmasi Password"
+                       data-i18n-attr="placeholder:prof_conf_pass_ph"
+                       class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl pl-5 pr-12 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
+                <button type="button"
+                        onclick="toggleAdminPasswordVisibility('profile-confirm-password', this)"
+                        class="absolute inset-y-0 right-2 w-9 flex items-center justify-center text-gray-400 hover:text-[#415C58] dark:text-gray-400 dark:hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#415C58] rounded-lg transition-colors cursor-pointer"
+                        aria-label="Tampilkan Password">
+                    <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </button>
+            </div>
+            <p id="admin-password-match-status"
+               class="hidden mt-1.5 text-xs font-semibold items-center gap-1.5"
+               role="status"
+               aria-live="polite"></p>
         </div>
 
         <div class="pt-1">

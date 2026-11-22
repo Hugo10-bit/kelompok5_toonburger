@@ -787,12 +787,21 @@ class AdminController extends Controller
             $user->avatar = $resolved['data_uri'];
         }
 
-        if ($request->filled('password')) {
+        $passwordChanged = $request->filled('password');
+        if ($passwordChanged) {
             $user->password = bcrypt($request->password);
             $user->setRememberToken(Str::random(60));
         }
 
         ImageDataUriService::saveWithLongTextFallback('users', 'avatar', fn () => $user->save());
+
+        if ($passwordChanged) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('status', 'Password admin berhasil diperbarui! Silakan login kembali dengan password baru Anda.');
+        }
 
         return back()->with('success', 'Profil admin berhasil diperbarui!');
     }

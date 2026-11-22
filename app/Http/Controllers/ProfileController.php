@@ -6,6 +6,7 @@ use App\Services\ImageDataUriService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -91,12 +92,21 @@ class ProfileController extends Controller
             $user->avatar = $resolved['data_uri'];
         }
 
-        if ($request->filled('password')) {
+        $passwordChanged = $request->filled('password');
+        if ($passwordChanged) {
             $user->password = bcrypt($request->password);
             $user->setRememberToken(\Illuminate\Support\Str::random(60));
         }
 
         ImageDataUriService::saveWithLongTextFallback('users', 'avatar', fn () => $user->save());
+
+        if ($passwordChanged) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('status', 'Password berhasil diperbarui! Silakan login kembali dengan password baru Anda.');
+        }
 
         return redirect()->route('profile.edit')->with('success', 'Profil berhasil diperbarui!');
     }
