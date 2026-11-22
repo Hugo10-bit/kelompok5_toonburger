@@ -342,10 +342,14 @@
                                 </p>
                             </div>
 
-                            <div class="pt-3 {{ $s['watermark'] }}" aria-hidden="true">
-                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
-                                </svg>
+                            <div class="pt-3" aria-hidden="true">
+                                <img src="{{ asset('images/toon-head.png') }}"
+                                     alt=""
+                                     width="28"
+                                     height="28"
+                                     loading="lazy"
+                                     decoding="async"
+                                     class="w-7 h-7 object-contain opacity-30 select-none pointer-events-none">
                             </div>
                         </article>
                     @endforeach
@@ -375,10 +379,14 @@
                                 </p>
                             </div>
 
-                            <div class="pt-3 {{ $s['watermark'] }}" aria-hidden="true">
-                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
-                                </svg>
+                            <div class="pt-3" aria-hidden="true">
+                                <img src="{{ asset('images/toon-head.png') }}"
+                                     alt=""
+                                     width="28"
+                                     height="28"
+                                     loading="lazy"
+                                     decoding="async"
+                                     class="w-7 h-7 object-contain opacity-30 select-none pointer-events-none">
                             </div>
                         </article>
                     @endforeach
@@ -413,10 +421,14 @@
                             </p>
                         </div>
 
-                        <div class="hidden sm:block pt-3 {{ $s['watermark'] }}" aria-hidden="true">
-                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M18 3h-2v3h-3l1 14h6l1-14h-3V3zM7 11c-2.76 0-5 1.79-5 4h10c0-2.21-2.24-4-5-4zm-5 6c0 1.66 1.34 3 3 3h4c1.66 0 3-1.34 3-3H2z"/>
-                            </svg>
+                        <div class="pt-2.5 sm:pt-3" aria-hidden="true">
+                            <img src="{{ asset('images/toon-head.png') }}"
+                                 alt=""
+                                 width="28"
+                                 height="28"
+                                 loading="lazy"
+                                 decoding="async"
+                                 class="w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-30 select-none pointer-events-none">
                         </div>
                     </article>
                 @endforeach
