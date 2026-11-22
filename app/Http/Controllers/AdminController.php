@@ -1007,6 +1007,22 @@ class AdminController extends Controller
     {
         $contactMessage = ContactMessage::findOrFail($id);
         $senderName = $contactMessage->name;
+
+        // Save snapshot into session for instant undo
+        session()->put("undo_deleted_message_{$id}", [
+            'id' => $contactMessage->id,
+            'user_id' => $contactMessage->user_id,
+            'name' => $contactMessage->name,
+            'phone' => $contactMessage->phone,
+            'email' => $contactMessage->email,
+            'message' => $contactMessage->message,
+            'avatar' => $contactMessage->avatar,
+            'is_read' => $contactMessage->is_read,
+            'read_at' => $contactMessage->read_at,
+            'created_at' => $contactMessage->created_at,
+            'updated_at' => $contactMessage->updated_at,
+        ]);
+
         $contactMessage->delete();
 
         if ($request->expectsJson()) {
@@ -1016,6 +1032,32 @@ class AdminController extends Controller
             ]);
         }
 
-        return back()->with('success', "Pesan dari {$senderName} berhasil dihapus.");
+        return back()->with('success', "Pesan dari {$senderName} berhasil dihapus.")
+            ->with('undo_action', [
+                'type' => 'message',
+                'id' => $id,
+                'name' => "Pesan {$senderName}",
+                'url' => route('admin.messages.restore', $id),
+                'label' => "Pesan {$senderName}",
+            ]);
+    }
+
+    /**
+     * Restore a deleted message via Undo.
+     */
+    public function restoreMessage(Request $request, $id)
+    {
+        $snapshot = session()->get("undo_deleted_message_{$id}");
+        if ($snapshot) {
+            \Illuminate\Support\Facades\DB::table('contact_messages')->updateOrInsert(
+                ['id' => $snapshot['id']],
+                $snapshot
+            );
+            session()->forget("undo_deleted_message_{$id}");
+
+            return back()->with('success', "Pesan dari '{$snapshot['name']}' berhasil dipulihkan!");
+        }
+
+        return back()->with('error', 'Data pesan tidak ditemukan untuk dipulihkan atau masa undo telah kedaluwarsa.');
     }
 }

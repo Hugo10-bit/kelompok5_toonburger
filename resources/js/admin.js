@@ -137,6 +137,7 @@ function submitLogoutForm() {
 
 function handleGlobalDeleteSubmit(e, form) {
     if (e) e.preventDefault();
+    window._onDeleteModalCancelled = null;
     closeDeleteModal();
     const isEn = (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
 
@@ -202,6 +203,11 @@ function closeDeleteModal() {
         modal.classList.remove('flex');
         modal.style.display = 'none';
         document.body.style.overflow = '';
+    }
+    if (typeof window._onDeleteModalCancelled === 'function') {
+        const cb = window._onDeleteModalCancelled;
+        window._onDeleteModalCancelled = null;
+        cb();
     }
 }
 

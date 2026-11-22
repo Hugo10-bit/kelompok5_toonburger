@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
             Route::match(['post', 'patch'], '/messages/{id}/status', [AdminController::class, 'updateMessageStatus'])->name('messages.status');
             Route::delete('/messages/{id}', [AdminController::class, 'deleteMessage'])->name('messages.delete');
+            Route::post('/messages/{id}/restore', [AdminController::class, 'restoreMessage'])->name('messages.restore');
 
             Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
             Route::match(['post', 'put'], '/profile', [AdminController::class, 'updateProfile'])->name('profile.update');

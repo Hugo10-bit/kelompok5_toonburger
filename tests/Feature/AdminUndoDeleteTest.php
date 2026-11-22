@@ -153,9 +153,56 @@ class AdminUndoDeleteTest extends TestCase
         // Guest restore attempts
         $this->post(route('admin.products.restore', $product->id))->assertRedirect(route('login'));
         $this->post(route('admin.categories.restore', $category->id))->assertRedirect(route('login'));
+        $this->post(route('admin.messages.restore', 999))->assertRedirect(route('login'));
 
         // Regular user restore attempts
         $this->actingAs($regularUser)->post(route('admin.products.restore', $product->id))->assertRedirect(route('menu'));
         $this->actingAs($regularUser)->post(route('admin.categories.restore', $category->id))->assertRedirect(route('menu'));
+        $this->actingAs($regularUser)->post(route('admin.messages.restore', 999))->assertRedirect(route('menu'));
+    }
+
+    public function test_admin_can_delete_message_and_undo_restores_it(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $message = \App\Models\ContactMessage::create([
+            'name' => 'Peter Parker',
+            'email' => 'budisantoso@gmail.com',
+            'phone' => '0813-6767-6767',
+            'message' => 'Zixus X Rakha, Minta Game GTA 6 sama PS5 PRO SLIM',
+            'is_read' => true,
+        ]);
+
+        $this->assertDatabaseHas('contact_messages', ['id' => $message->id]);
+
+        // 1. Delete message
+        $deleteRes = $this->actingAs($admin)
+            ->from(route('admin.messages'))
+            ->delete(route('admin.messages.delete', $message->id));
+
+        $deleteRes->assertRedirect(route('admin.messages'));
+        $deleteRes->assertSessionHas('success');
+        $deleteRes->assertSessionHas('undo_action');
+
+        $undoAction = session('undo_action');
+        $this->assertEquals('message', $undoAction['type']);
+        $this->assertEquals($message->id, $undoAction['id']);
+        $this->assertEquals(route('admin.messages.restore', $message->id), $undoAction['url']);
+
+        $this->assertDatabaseMissing('contact_messages', ['id' => $message->id]);
+
+        // 2. Undo restore
+        $restoreRes = $this->actingAs($admin)
+            ->from(route('admin.messages'))
+            ->post(route('admin.messages.restore', $message->id));
+
+        $restoreRes->assertRedirect(route('admin.messages'));
+        $restoreRes->assertSessionHas('success', "Pesan dari 'Peter Parker' berhasil dipulihkan!");
+
+        $this->assertDatabaseHas('contact_messages', [
+            'id' => $message->id,
+            'name' => 'Peter Parker',
+            'message' => 'Zixus X Rakha, Minta Game GTA 6 sama PS5 PRO SLIM',
+        ]);
     }
 }

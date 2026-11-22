@@ -1,7 +1,9 @@
 let activeMessageId = null;
 let activeStatusUrl = '';
 let activeDeleteUrl = '';
+let activeSenderName = '';
 let activeIsRead = false;
+let lastOpenedMessageEl = null;
 
 const isEn = () => (window._tbLang === 'US' || window._tbLang === 'EN' || localStorage.getItem('tb_admin_lang') === 'US');
 
@@ -205,7 +207,9 @@ window.openMessageDetailModal = async function openMessageDetailModal(el) {
     activeMessageId = data.id;
     activeStatusUrl = data.status_url || '';
     activeDeleteUrl = data.delete_url || '';
+    activeSenderName = data.name || '';
     activeIsRead = Boolean(data.is_read);
+    lastOpenedMessageEl = target;
 
     const avatarWrap = document.getElementById('msg-modal-avatar');
     const nameEl = document.getElementById('msg-modal-name');
@@ -265,11 +269,30 @@ window.toggleActiveMessageStatus = async function toggleActiveMessageStatus() {
 
 window.deleteActiveMessage = function deleteActiveMessage() {
     if (!activeDeleteUrl) return;
-    const form = document.getElementById('msg-delete-form');
+
+    const deleteUrl = activeDeleteUrl;
+    const sender = activeSenderName
+        ? (isEn() ? `message from ${activeSenderName}` : `pesan dari ${activeSenderName}`)
+        : (isEn() ? 'this message' : 'pesan ini');
+
+    // Close detail modal immediately so it does not overlap / ketimpa with confirmation modal
+    window.closeMessageDetailModal(false);
+
+    if (typeof window.openDeleteModal === 'function') {
+        window._onDeleteModalCancelled = () => {
+            if (lastOpenedMessageEl) {
+                window.openMessageDetailModal(lastOpenedMessageEl);
+            }
+        };
+        window.openDeleteModal(deleteUrl, sender);
+        return;
+    }
+
+    const form = document.getElementById('msg-delete-form') || document.getElementById('global-delete-form');
     if (!form) return;
 
     const submitDelete = () => {
-        form.setAttribute('action', activeDeleteUrl);
+        form.setAttribute('action', deleteUrl);
         form.submit();
     };
 
@@ -285,10 +308,16 @@ window.deleteActiveMessage = function deleteActiveMessage() {
             cancelButtonText: isEn() ? 'Cancel' : 'Batal',
             customClass: { popup: 'rounded-3xl' },
         }).then((result) => {
-            if (result.isConfirmed) submitDelete();
+            if (result.isConfirmed) {
+                submitDelete();
+            } else if (lastOpenedMessageEl) {
+                window.openMessageDetailModal(lastOpenedMessageEl);
+            }
         });
-    } else if (confirm(isEn() ? 'Delete this message?' : 'Hapus pesan ini?')) {
+    } else if (confirm(isEn() ? `Delete ${sender}?` : `Hapus ${sender}?`)) {
         submitDelete();
+    } else if (lastOpenedMessageEl) {
+        window.openMessageDetailModal(lastOpenedMessageEl);
     }
 };
 
