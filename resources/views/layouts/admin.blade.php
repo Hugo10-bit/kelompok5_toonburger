@@ -737,6 +737,8 @@
         </main>
     </div>
 
+    @yield('admin_modals')
+
 
     @if(session('store_status_toast') || session('success') || session('error') || session('undo_action'))
         <div id="admin-flash-data"

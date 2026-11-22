@@ -313,8 +313,8 @@ html.dark #logout-confirm-modal .bg-white,
 html.dark #delete-confirm-modal .bg-white,
 html.dark #store-close-modal .bg-white,
 html.dark #store-open-modal .bg-white,
-html.dark #productModal > .bg-white,
-html.dark #catModal > .bg-white {
+html.dark #productModal .bg-white,
+html.dark #catModal .bg-white {
     background-color: #303030 !important;
     border-color: #4A4A4A !important;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;

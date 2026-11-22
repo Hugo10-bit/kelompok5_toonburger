@@ -342,9 +342,20 @@
         </div>
     @endif
 
-    <!-- Message Detail Modal -->
-    <div id="messageDetailModal" onclick="if (event.target === this) closeMessageDetailModal()" class="fixed inset-0 z-[9999] bg-black/50 hidden items-center justify-center p-4" style="height: 100dvh;">
-        <div id="messageDetailModalCard" class="bg-white dark:bg-[#2B2B2B] rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl relative max-h-[85dvh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A] animate-modal-pop">
+    <!-- Hidden Delete Form -->
+    <form id="msg-delete-form" method="POST" action="" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
+</div>
+@endsection
+
+@section('admin_modals')
+    <!-- Message Detail Modal (Full viewport backdrop) -->
+    <div id="messageDetailModal" class="fixed inset-0 z-[99999] hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-black/60 transition-opacity duration-200" onclick="closeMessageDetailModal()"></div>
+
+        <div id="messageDetailModalCard" class="relative bg-white dark:bg-[#2B2B2B] rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl z-10 max-h-[85dvh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A] animate-modal-pop my-auto">
             <div class="flex items-center justify-between gap-3 mb-4 sm:mb-5">
                 <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="msg_detail_title">Detail Pesan Pelanggan</h3>
                 <button type="button"
@@ -409,11 +420,4 @@
             </div>
         </div>
     </div>
-
-    <!-- Hidden Delete Form -->
-    <form id="msg-delete-form" method="POST" action="" class="hidden">
-        @csrf
-        @method('DELETE')
-    </form>
-</div>
 @endsection
