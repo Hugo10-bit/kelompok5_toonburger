@@ -629,10 +629,6 @@ class AdminController extends Controller
         $product = Product::findOrFail($id);
         $name = $product->name;
 
-        // Model uses SoftDeletes so the row is safely preserved in the database.
-        // Never put raw attributes (especially base64/data URI images) into session,
-        // because with SESSION_DRIVER=cookie on serverless (Vercel) it causes
-        // "Header overflow" error when Set-Cookie exceeds the HTTP header buffer limit.
         $product->delete();
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
@@ -660,17 +656,16 @@ class AdminController extends Controller
             $product->restore();
             $name = $product->name;
         } else {
-            return redirect()->route('admin.products')->with('error', 'Data menu tidak dapat dipulihkan atau sudah dihapus permanen.');
+            return redirect()->route('admin.products')->with('error', 'Data menu tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
         }
 
-        if ($product && $product->category_id) {
+        if ($product->category_id) {
             $cat = Category::withTrashed()->find($product->category_id);
             if ($cat && method_exists($cat, 'trashed') && $cat->trashed()) {
                 $cat->restore();
             }
         }
 
-        session()->forget("undo_deleted_product_{$id}");
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
         return redirect()->route('admin.products')->with('success', "Menu '{$name}' berhasil dipulihkan!");
@@ -765,7 +760,6 @@ class AdminController extends Controller
         }
         $name = $category->name;
 
-        // Model uses SoftDeletes, row is safely preserved in DB.
         $category->delete();
 
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
@@ -793,10 +787,9 @@ class AdminController extends Controller
             $category->restore();
             $name = $category->name;
         } else {
-            return redirect()->route('admin.categories')->with('error', 'Data kategori tidak dapat dipulihkan atau sudah dihapus permanen.');
+            return redirect()->route('admin.categories')->with('error', 'Data kategori tidak dapat dipulihkan atau masa undo telah kedaluwarsa.');
         }
 
-        session()->forget("undo_deleted_category_{$id}");
         \Illuminate\Support\Facades\Cache::forget(MenuController::CATALOG_CACHE_KEY);
 
         return redirect()->route('admin.categories')->with('success', "Kategori '{$name}' berhasil dipulihkan!");
@@ -1004,7 +997,7 @@ class AdminController extends Controller
             'phone' => $contactMessage->phone,
             'email' => $contactMessage->email,
             'message' => $contactMessage->message,
-            'avatar' => $contactMessage->avatar,
+            'avatar' => (is_string($contactMessage->avatar) && str_starts_with($contactMessage->avatar, 'data:')) ? null : $contactMessage->avatar,
             'is_read' => $contactMessage->is_read,
             'read_at' => $contactMessage->read_at,
             'created_at' => $contactMessage->created_at,

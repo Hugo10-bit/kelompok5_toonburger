@@ -25,8 +25,6 @@ window.handleUndoSubmit = function (form) {
 function initUndoToast() {
     const toast = document.getElementById('undo-toast');
     if (toast) {
-        toast.style.display = 'flex';
-        toast.style.opacity = '1';
         const isEn = isAdminEnglish();
         const hintEl = toast.querySelector('[data-i18n="undo_toast_hint"]');
         const suffixEl = toast.querySelector('[data-i18n="deleted_success_suffix"]');
@@ -36,29 +34,27 @@ function initUndoToast() {
             if (suffixEl) suffixEl.textContent = 'successfully deleted';
             if (btnText) btnText.textContent = 'Undo';
         }
-        clearTimeout(window._tbUndoToastTimer);
-        window._tbUndoToastTimer = setTimeout(() => {
+        setTimeout(() => {
             window.dismissUndoToast();
-        }, 12000);
+        }, 10000);
     }
 }
 
-function withSwal(callback) {
+function withSwal(cb) {
     if (typeof Swal !== 'undefined') {
-        callback(Swal);
-        return;
+        cb(Swal);
+    } else {
+        let attempts = 0;
+        const interval = setInterval(() => {
+            attempts++;
+            if (typeof Swal !== 'undefined') {
+                clearInterval(interval);
+                cb(Swal);
+            } else if (attempts >= 30) {
+                clearInterval(interval);
+            }
+        }, 100);
     }
-    let elapsed = 0;
-    const interval = setInterval(() => {
-        elapsed += 50;
-        if (typeof Swal !== 'undefined') {
-            clearInterval(interval);
-            callback(Swal);
-        } else if (elapsed >= 3000) {
-            clearInterval(interval);
-            console.warn('SweetAlert2 CDN unavailable or delayed.');
-        }
-    }, 50);
 }
 
 function showAdminFlashAlerts() {
@@ -73,13 +69,13 @@ function showAdminFlashAlerts() {
     const successMsg = el.dataset.flashSuccess;
     const errorMsg = el.dataset.flashError;
 
-    withSwal((SwalInstance) => {
-        if (undoActionRaw) {
-            try {
-                const undoData = JSON.parse(undoActionRaw);
-                const isEn = isAdminEnglish();
-                const itemName = undoData.name || undoData.label || (isEn ? 'Item' : 'Data');
+    if (undoActionRaw) {
+        try {
+            const undoData = JSON.parse(undoActionRaw);
+            const isEn = isAdminEnglish();
+            const itemName = undoData.name || undoData.label || (isEn ? 'Item' : 'Data');
 
+            withSwal((SwalInstance) => {
                 SwalInstance.fire({
                     icon: 'success',
                     title: isEn ? 'Successfully Deleted!' : 'Berhasil Dihapus!',
@@ -116,15 +112,17 @@ function showAdminFlashAlerts() {
                         }
                     }
                 });
-            } catch (e) {
-                console.error('Failed to parse undoAction:', e);
-            }
-        } else if (storeToastRaw) {
-            try {
-                const toastData = JSON.parse(storeToastRaw);
-                if (typeof window.showStoreStatusToast === 'function') {
-                    window.showStoreStatusToast(toastData);
-                } else {
+            });
+        } catch (e) {
+            console.error('Failed to parse undoAction:', e);
+        }
+    } else if (storeToastRaw) {
+        try {
+            const toastData = JSON.parse(storeToastRaw);
+            if (typeof window.showStoreStatusToast === 'function') {
+                window.showStoreStatusToast(toastData);
+            } else {
+                withSwal((SwalInstance) => {
                     const isEn = isAdminEnglish();
                     const isOpen = Boolean(toastData.is_open);
                     const reason = toastData.reason || '';
@@ -141,11 +139,13 @@ function showAdminFlashAlerts() {
                         timer: 3500,
                         timerProgressBar: true,
                     });
-                }
-            } catch (e) {
-                console.error('Failed to parse store_status_toast:', e);
+                });
             }
-        } else if (successMsg) {
+        } catch (e) {
+            console.error('Failed to parse store_status_toast:', e);
+        }
+    } else if (successMsg) {
+        withSwal((SwalInstance) => {
             const isEn = isAdminEnglish();
             SwalInstance.fire({
                 icon: 'success',
@@ -156,9 +156,11 @@ function showAdminFlashAlerts() {
                 timer: 3500,
                 timerProgressBar: true,
             });
-        }
+        });
+    }
 
-        if (errorMsg) {
+    if (errorMsg) {
+        withSwal((SwalInstance) => {
             const isEn = isAdminEnglish();
             SwalInstance.fire({
                 icon: 'error',
@@ -167,8 +169,8 @@ function showAdminFlashAlerts() {
                 confirmButtonColor: '#DE3B28',
                 confirmButtonText: isEn ? 'Close' : 'Tutup',
             });
-        }
-    });
+        });
+    }
 }
 
 window.showAdminFlashAlerts = showAdminFlashAlerts;

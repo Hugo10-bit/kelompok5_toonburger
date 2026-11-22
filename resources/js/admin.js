@@ -1685,22 +1685,6 @@ window.addEventListener('pageshow', function () {
             }
 
             curMain.innerHTML = newMain.innerHTML;
-
-            // Sync flash alerts & undo toast if present in newly loaded page
-            const newUndoToast = doc.querySelector('#undo-toast');
-            const curUndoToast = document.querySelector('#undo-toast');
-            if (curUndoToast) curUndoToast.remove();
-            if (newUndoToast) {
-                document.body.appendChild(newUndoToast.cloneNode(true));
-            }
-
-            const newFlashData = doc.querySelector('#admin-flash-data');
-            const curFlashData = document.querySelector('#admin-flash-data');
-            if (curFlashData) curFlashData.remove();
-            if (newFlashData) {
-                document.body.appendChild(newFlashData.cloneNode(true));
-            }
-
             updateAdminNavHighlight(targetUrl);
             closeAllHeaderDropdowns();
             closeMobileAdminSidebarIfOpen();

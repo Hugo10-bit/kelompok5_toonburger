@@ -787,7 +787,7 @@
              aria-hidden="true"
              @if(session('store_status_toast')) data-store-status-toast='@json(session('store_status_toast'))' @endif
              @if(session('undo_action')) data-undo-action='@json(session('undo_action'))' @endif
-             @if(session('success')) data-flash-success="{{ session('success') }}" @endif
+             @if(!session('store_status_toast') && !session('undo_action') && session('success')) data-flash-success="{{ session('success') }}" @endif
              @if(session('error')) data-flash-error="{{ session('error') }}" @endif>
         </div>
     @endif
