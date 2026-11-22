@@ -186,7 +186,7 @@
     <!-- Modal Konfirmasi Edit Profil Admin -->
     <div id="profile-confirm-modal"
          class="fixed inset-0 z-[99999] hidden items-center justify-center p-4">
-        <div class="fixed inset-0 bg-black/10 transition-opacity duration-200"
+        <div class="fixed inset-0 bg-black/50 transition-opacity duration-200"
              onclick="closeProfileConfirmModal()"></div>
 
         <div class="relative bg-white dark:bg-[#303030] rounded-[28px] sm:rounded-[32px] shadow-2xl p-6 sm:p-10 max-w-[440px] w-full text-center z-10 select-none animate-modal-pop border border-gray-100 dark:border-[#4A4A4A] mx-auto my-auto">

@@ -343,7 +343,7 @@
     @endif
 
     <!-- Message Detail Modal -->
-    <div id="messageDetailModal" onclick="if (event.target === this) closeMessageDetailModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" style="height: 100dvh;">
+    <div id="messageDetailModal" onclick="if (event.target === this) closeMessageDetailModal()" class="fixed inset-0 z-[9999] bg-black/50 hidden items-center justify-center p-4" style="height: 100dvh;">
         <div id="messageDetailModalCard" class="bg-white dark:bg-[#2B2B2B] rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl relative max-h-[85dvh] overflow-y-auto border border-gray-100 dark:border-[#4A4A4A] animate-modal-pop">
             <div class="flex items-center justify-between gap-3 mb-4 sm:mb-5">
                 <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white" data-i18n="msg_detail_title">Detail Pesan Pelanggan</h3>

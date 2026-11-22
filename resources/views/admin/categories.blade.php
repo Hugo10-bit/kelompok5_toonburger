@@ -100,7 +100,7 @@
     </div>
     @endif
 
-    <div id="catModal" onclick="if (event.target === this) closeCatModal()" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div id="catModal" onclick="if (event.target === this) closeCatModal()" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-[#2B2B2B] rounded-2xl max-w-sm w-full p-6 shadow-2xl relative border border-gray-200/90 dark:border-[#4A4A4A]">
             <h3 id="catModalTitle" class="text-lg font-bold text-gray-900 dark:text-white mb-4" data-i18n="mod_cat_add">Tambah Kategori</h3>
 
