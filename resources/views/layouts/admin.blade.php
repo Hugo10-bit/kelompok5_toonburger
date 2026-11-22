@@ -334,53 +334,152 @@
             </nav>
         </div>
 
-        <!-- Bottom Operational Status Widget -->
+        <!-- Bottom Operational Status Segmented Toggle -->
         @php
             $isStoreOpen = $storeSetting->is_open ?? true;
-            $storeHours = $storeSetting->operating_hours ?? '17:00–22:00 WITA';
             $closedReasonText = method_exists($storeSetting, 'displayReason') ? $storeSetting->displayReason() : 'Jam Tutup';
         @endphp
-        <div class="pt-4 mt-4 border-t border-gray-200/75 dark:border-[#3F3F3F]">
-            <div class="rounded-2xl border p-4 space-y-2.5 transition-colors {{ $isStoreOpen ? 'border-gray-200/90 dark:border-[#4A4A4A] bg-[#F8FAFC] dark:bg-[#383838]' : 'border-red-200 dark:border-red-900/60 bg-red-50/75 dark:bg-[#4A2626]/40' }}">
-                <div class="flex items-center justify-between gap-2">
-                    <span class="text-xs font-bold text-gray-800 dark:text-white tracking-tight" data-i18n="store_status_label">Status Operasional</span>
-                    @if($isStoreOpen)
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wide bg-emerald-100 text-emerald-700 dark:bg-[#1E453B] dark:text-[#6EE7B7] shrink-0">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <span data-i18n="store_open_badge">BUKA</span>
-                        </span>
-                    @else
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-bold tracking-wide bg-red-100 text-red-700 dark:bg-[#5E2828] dark:text-[#FCA5A5] shrink-0">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span>
-                            <span data-i18n="store_closed_badge">TUTUP</span>
-                        </span>
-                    @endif
-                </div>
+        <div class="tb-store-widget -mx-5 px-4 pt-5 mt-4">
+            <style>
+                .tb-store-widget {
+                    border-top: 1px solid #E4E4E4;
+                }
+                html.dark .tb-store-widget {
+                    border-top-color: #3F3F3F;
+                }
+                .tb-store-pill-track {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 4px;
+                    padding: 4px;
+                    border-radius: 9999px;
+                    background-color: #EDF0F0;
+                }
+                html.dark .tb-store-pill-track {
+                    background-color: #242424 !important;
+                }
+                .tb-store-pill-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    padding: 9px 6px;
+                    border-radius: 9999px;
+                    font-size: 11.5px;
+                    font-weight: 500;
+                    line-height: 1.2;
+                    white-space: nowrap;
+                    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+                    border: none;
+                    background: transparent;
+                }
+                @media (min-width: 1280px) {
+                    .tb-store-pill-btn {
+                        gap: 6px;
+                        padding: 9px 8px;
+                        font-size: 12px;
+                    }
+                }
+                .tb-store-pill-btn svg {
+                    width: 15px;
+                    height: 15px;
+                    flex-shrink: 0;
+                }
+                .tb-store-pill-btn.is-active-open {
+                    background-color: #FFFFFF !important;
+                    color: #3E8E5A !important;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                    cursor: default;
+                }
+                html.dark .tb-store-pill-btn.is-active-open {
+                    background-color: #383838 !important;
+                    color: #4ADE80 !important;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+                }
+                .tb-store-pill-btn.is-active-closed {
+                    background-color: #FFFFFF !important;
+                    color: #DC2626 !important;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+                    cursor: default;
+                }
+                html.dark .tb-store-pill-btn.is-active-closed {
+                    background-color: #383838 !important;
+                    color: #F87171 !important;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+                }
+                .tb-store-pill-btn.is-inactive {
+                    color: #7A8086 !important;
+                    cursor: pointer;
+                }
+                .tb-store-pill-btn.is-inactive:hover {
+                    color: #374151 !important;
+                    background-color: rgba(255, 255, 255, 0.45) !important;
+                }
+                html.dark .tb-store-pill-btn.is-inactive {
+                    color: #9CA3AF !important;
+                }
+                html.dark .tb-store-pill-btn.is-inactive:hover {
+                    color: #FFFFFF !important;
+                    background-color: #323232 !important;
+                }
+                .tb-store-caption {
+                    margin-top: 10px;
+                    font-size: 10.5px;
+                    font-weight: 400;
+                    color: #A1A6AD;
+                    text-align: center;
+                    line-height: 1.35;
+                }
+                html.dark .tb-store-caption {
+                    color: #9CA3AF;
+                }
+                .tb-store-caption.is-closed {
+                    font-weight: 500;
+                    color: #DC2626;
+                }
+                html.dark .tb-store-caption.is-closed {
+                    color: #FCA5A5;
+                }
+            </style>
 
-                @if($isStoreOpen)
-                    <p class="text-xs text-gray-500 dark:text-[#BDBDBD] leading-relaxed">
-                        <span class="block" data-i18n="store_active_desc">Website aktif menerima pesanan</span>
-                        <span class="block font-medium text-gray-600 dark:text-gray-300 mt-0.5">&bull; {{ $storeHours }}</span>
-                    </p>
-                    <button type="button"
-                            onclick="openStoreToggleModal('close')"
-                            class="tb-store-toggle-btn w-full py-2.5 px-3.5 rounded-xl border border-gray-300 dark:border-[#525252] bg-white dark:bg-[#2E2E2E] hover:bg-red-50 hover:border-red-300 hover:text-red-700 dark:hover:bg-[#4A2626] dark:hover:text-[#FCA5A5] text-[13px] font-semibold text-gray-700 dark:text-gray-200 transition cursor-pointer active:scale-98"
-                            data-i18n="store_close_btn">
-                        Tutup Toko
-                    </button>
-                @else
-                    <p class="text-xs text-red-700/90 dark:text-[#FCA5A5] leading-relaxed">
-                        <span class="block font-medium" data-i18n="store_closed_desc">Pemesanan pelanggan dinonaktifkan</span>
-                        <span class="block mt-0.5">&bull; {{ $closedReasonText }}</span>
-                    </p>
-                    <button type="button"
-                            onclick="openStoreToggleModal('open')"
-                            class="tb-store-toggle-btn tb-store-reopen-btn w-full py-2.5 px-3.5 rounded-xl bg-[#40605D] hover:bg-[#344B48] text-white text-[13px] font-semibold transition shadow-2xs cursor-pointer active:scale-98"
-                            data-i18n="store_open_btn">
-                        Buka Toko
-                    </button>
-                @endif
+            <div class="tb-store-pill-track" role="group" aria-label="Status Operasional Toko">
+                <!-- Buka Toko -->
+                <button type="button"
+                        @if(!$isStoreOpen) onclick="openStoreToggleModal('open')" @else aria-pressed="true" @endif
+                        class="tb-store-pill-btn {{ $isStoreOpen ? 'is-active-open' : 'is-inactive' }}">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/>
+                    </svg>
+                    <span data-i18n="store_open_btn">Buka Toko</span>
+                </button>
+
+                <!-- Tutup Toko -->
+                <button type="button"
+                        @if($isStoreOpen) onclick="openStoreToggleModal('close')" @else aria-pressed="true" @endif
+                        class="tb-store-pill-btn {{ !$isStoreOpen ? 'is-active-closed' : 'is-inactive' }}">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <defs>
+                            <mask id="tb-store-off-mask">
+                                <rect width="24" height="24" fill="white"/>
+                                <line x1="2.2" y1="2.2" x2="21.8" y2="21.8" stroke="black" stroke-width="4.2" stroke-linecap="round"/>
+                            </mask>
+                        </defs>
+                        <path mask="url(#tb-store-off-mask)" d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/>
+                        <line x1="2.2" y1="2.2" x2="21.8" y2="21.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span data-i18n="store_close_btn">Tutup Toko</span>
+                </button>
             </div>
+
+            @if($isStoreOpen)
+                <p class="tb-store-caption" data-i18n="store_active_caption">
+                    Website Akan Aktif Menerima Pesanan
+                </p>
+            @else
+                <p class="tb-store-caption is-closed">
+                    <span data-i18n="store_closed_caption">Pemesanan Pelanggan Dinonaktifkan</span> ({{ $closedReasonText }})
+                </p>
+            @endif
         </div>
     </aside>
 
