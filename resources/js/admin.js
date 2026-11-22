@@ -184,9 +184,9 @@ function openDeleteModal(actionUrl, itemName = 'data ini') {
         if (message) {
             const lang = window._tbLang || 'ID';
             if (lang === 'ID') {
-                message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}? Data yang dihapus dapat dipulihkan kembali melalui tombol Urungkan (Undo).`;
+                message.textContent = `Apakah Anda yakin ingin menghapus ${itemName}?`;
             } else {
-                message.textContent = `Are you sure you want to delete ${itemName}? You can restore deleted items via the Undo button.`;
+                message.textContent = `Are you sure you want to delete ${itemName}?`;
             }
         }
         modal.classList.remove('hidden');
@@ -396,7 +396,7 @@ const _tbTranslations = {
         logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
         logout_confirm_btn: 'Ya, Logout',
         delete_title: 'Konfirmasi Hapus',
-        delete_desc: 'Apakah Anda yakin ingin menghapus data ini? Anda masih dapat membatalkannya melalui tombol Undo sesaat setelah dihapus.',
+        delete_desc: 'Apakah Anda yakin ingin menghapus data ini?',
         delete_confirm_btn: 'Ya, Hapus',
         cancel: 'Batalkan',
         btn_undo: 'Urungkan (Undo)',
@@ -727,7 +727,7 @@ const _tbTranslations = {
         logout_desc: 'Are you sure you want to log out? You will need to log in again to access the admin panel.',
         logout_confirm_btn: 'Yes, Logout',
         delete_title: 'Confirm Delete',
-        delete_desc: 'Are you sure you want to delete this item? You can still undo this action right after deletion.',
+        delete_desc: 'Are you sure you want to delete this item?',
         delete_confirm_btn: 'Yes, Delete',
         cancel: 'Cancel',
         btn_undo: 'Undo',

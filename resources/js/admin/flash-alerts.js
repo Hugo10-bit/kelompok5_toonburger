@@ -80,37 +80,14 @@ function showAdminFlashAlerts() {
                     icon: 'success',
                     title: isEn ? 'Successfully Deleted!' : 'Berhasil Dihapus!',
                     html: `
-                        <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">${isEn ? `<b>${itemName}</b> was successfully deleted.` : `<b>${itemName}</b> berhasil dihapus.`}</p>
-                        <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">${isEn ? 'Deleted by mistake? Click Undo to restore it immediately.' : 'Salah hapus? Klik tombol Urungkan untuk mengembalikannya.'}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">${isEn ? `<b>${itemName}</b> was successfully deleted.` : `<b>${itemName}</b> berhasil dihapus.`}</p>
                     `,
-                    showCancelButton: true,
-                    confirmButtonColor: '#F59E0B',
-                    cancelButtonColor: '#415C58',
-                    confirmButtonText: isEn ? '↩ Undo' : '↩ Urungkan (Undo)',
-                    cancelButtonText: isEn ? 'Dismiss' : 'Selesai',
-                    timer: 10000,
+                    showCancelButton: false,
+                    confirmButtonColor: '#415C58',
+                    confirmButtonText: isEn ? 'OK' : 'Selesai',
+                    timer: 3500,
                     timerProgressBar: true,
                     customClass: { popup: 'rounded-3xl' },
-                }).then((result) => {
-                    if (result.isConfirmed && undoData.url) {
-                        const undoForm = document.querySelector('#undo-toast form');
-                        if (undoForm) {
-                            handleUndoSubmit(undoForm);
-                            undoForm.submit();
-                        } else {
-                            const tempForm = document.createElement('form');
-                            tempForm.method = 'POST';
-                            tempForm.action = undoData.url;
-                            const csrfInput = document.createElement('input');
-                            csrfInput.type = 'hidden';
-                            csrfInput.name = '_token';
-                            const metaCsrf = document.querySelector('meta[name="csrf-token"]');
-                            csrfInput.value = metaCsrf ? metaCsrf.getAttribute('content') : '';
-                            tempForm.appendChild(csrfInput);
-                            document.body.appendChild(tempForm);
-                            tempForm.submit();
-                        }
-                    }
                 });
             });
         } catch (e) {
