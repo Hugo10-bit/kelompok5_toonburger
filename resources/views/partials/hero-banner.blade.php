@@ -4,7 +4,9 @@
     $subtitle = $subtitle ?? 'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.';
     $ctaHref = $ctaHref ?? route('menu');
     $deliveryHref = $deliveryHref ?? route('gofood');
-    $revealClass = $revealClass ?? 'toon-reveal-left';
+    $isHome = $isHome ?? false;
+    $revealClass = $isHome ? '' : ($revealClass ?? 'toon-reveal-left');
+    $rightRevealClass = $isHome ? '' : 'toon-reveal-right reveal-delay-150';
 @endphp
 
 <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
@@ -72,22 +74,26 @@
 
                 <!-- Left: Headline + Subtitle + Buttons -->
                 <div class="lg:col-span-6 space-y-2.5 sm:space-y-4 pb-2 sm:pb-6 lg:pb-10 {{ $revealClass }}">
-                    <h1 class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] drop-shadow-sm text-[30px] sm:text-5xl {{ $headlineDesktopClass }}"
+                    <h1 @if($isHome) data-gsap-text="hero-heading" @endif
+                        class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] drop-shadow-sm text-[30px] sm:text-5xl {{ $headlineDesktopClass }}"
                         style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                         {!! $headline !!}
                     </h1>
 
-                    <p class="text-[13px] sm:text-sm md:text-base text-white/90 leading-relaxed max-w-[300px] sm:max-w-md">
+                    <p @if($isHome) data-gsap-text="hero-subtitle" @endif
+                       class="text-[13px] sm:text-sm md:text-base text-white/90 leading-relaxed max-w-[300px] sm:max-w-md">
                         {{ $subtitle }}
                     </p>
 
                     <!-- CTA Buttons: Pickup Order & Delivery Order -->
                     <div class="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-1 sm:pt-2">
                         <a href="{{ $ctaHref }}"
+                           @if($isHome) data-gsap-text="hero-cta" @endif
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                             Pickup Order
                         </a>
                         <a href="{{ $deliveryHref }}"
+                           @if($isHome) data-gsap-text="hero-cta" @endif
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                             Delivery Order
                         </a>
@@ -95,7 +101,7 @@
                 </div>
 
                 <!-- Right: Burger + Speech Bubble Cluster -->
-                <div class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pt-7 sm:pt-8 lg:pt-10 pb-3 sm:pb-6 lg:pb-8 lg:pl-12 xl:pl-16 toon-reveal-right reveal-delay-150">
+                <div @if($isHome) data-motion-card="hero-burger" @endif class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pt-7 sm:pt-8 lg:pt-10 pb-3 sm:pb-6 lg:pb-8 lg:pl-12 xl:pl-16 {{ $rightRevealClass }}">
                     <div class="relative select-none -translate-x-6 sm:translate-x-0">
 
                         <!-- Hero Double/Triple Cheeseburger -->

@@ -23,13 +23,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/css/app.css', 'resources/js/auth/login.js'])
 </head>
-<body class="min-h-screen md:h-full w-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg flex flex-col md:flex-row overflow-x-clip md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
+<body class="min-h-screen md:h-full w-full login-dots-bg flex flex-col md:flex-row overflow-x-clip md:overflow-hidden m-0 p-0 relative transition-colors duration-200"
       data-register-url="{{ route('register') }}"
       data-login-url="{{ route('login') }}"
       data-dashboard-url="{{ route('dashboard') }}">
 
     <!-- ═══ LEFT PANEL: BRANDED TOON BURGER BANNER (PERFECTLY SYMMETRICAL & SEAMLESS TO REFERENCE PHOTO) ═══ -->
-    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full bg-[#F1D9B3] dark:bg-[#324B48] retro-grid-bg login-light-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
+    <div class="w-full md:w-[calc(48%+3rem)] lg:w-[calc(48%+3rem)] xl:w-[calc(47%+3rem)] md:-mr-12 h-auto md:h-screen min-h-[460px] md:min-h-full login-dots-bg relative flex flex-col justify-between overflow-hidden p-0 flex-shrink-0 select-none z-10 transition-colors duration-200">
 
         <!-- TOP CURVED ARC (Extends under card for seamless rounded-tl curve) -->
         <div class="relative w-full z-10">
@@ -200,18 +200,18 @@
 
             <!-- ── 1. LOGIN FORM ("Welcome Back!") ── -->
             <div id="login-form-panel" class="{{ $currentMode === 'login' ? 'block' : 'hidden' }} transition-all duration-300">
-                <div class="mb-7">
-                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="login-title">Selamat Datang Kembali!</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
+                <div class="mb-8">
+                    <h2 class="text-2xl sm:text-[28px] md:text-[30px] font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="login-title">Selamat Datang Kembali!</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1.5" id="login-subtitle">Tolong isi detail anda terlebih dahulu.</p>
                 </div>
 
-                <form action="{{ route('login') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
+                <form action="{{ route('login') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-5 text-xs">
                     @csrf
                     <input type="hidden" name="form_type" value="login">
 
                     <!-- Username / Email Field -->
                     <div>
-                        <label for="login-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-email-label">Username</label>
+                        <label for="login-email" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="login-email-label">Username</label>
                         <input type="text"
                                name="email"
                                id="login-email"
@@ -220,12 +220,12 @@
                                autocomplete="username"
                                placeholder="Masukkan Username"
                                value="{{ old('form_type') === 'login' ? old('email', old('username')) : '' }}"
-                               class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-transparent dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl px-4 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                               class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none px-0 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                     </div>
 
                     <!-- Password Field -->
                     <div>
-                        <label for="login-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1.5" id="login-password-label">Password</label>
+                        <label for="login-password" class="block text-xs font-semibold text-gray-800 dark:text-gray-300 mb-1" id="login-password-label">Password</label>
                         <div class="relative">
                             <input type="password"
                                    name="password"
@@ -234,10 +234,10 @@
                                    autocomplete="current-password"
                                    placeholder="Masukkan Password"
                                    value=""
-                                   class="w-full bg-[#EBF2FE] hover:bg-[#E3EDFE] focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-transparent dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white font-medium placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                                   class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none pl-0 pr-9 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('login-password', this)"
-                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-8 flex items-center justify-end text-gray-600 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -252,25 +252,25 @@
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between text-xs pt-1">
+                    <div class="flex items-center justify-between text-xs pt-0.5">
                         <label class="flex items-center gap-2 cursor-pointer select-none text-gray-700 dark:text-gray-300 font-medium">
-                            <input type="checkbox" name="remember" value="1" checked class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-300">
+                            <input type="checkbox" name="remember" value="1" checked class="w-4 h-4 rounded-[3px] text-[#466967] dark:bg-transparent dark:border-gray-500 focus:ring-[#466967] dark:focus:ring-0 border-gray-400">
                             <span id="remember-label-text">Ingat Saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-500 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
+                        <a href="{{ route('password.request') }}" id="forgot-pass-link" class="text-xs text-gray-600 dark:text-gray-400 hover:text-[#466967] dark:hover:text-gray-200 font-medium transition focus:outline-none focus:underline">
                             Lupa Password?
                         </a>
                     </div>
 
                     <!-- Login Button -->
-                    <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="login-btn-text">Login</span>
                         </button>
                     </div>
 
                     <!-- Toggle to Register -->
-                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-3">
+                    <p class="text-center text-xs text-gray-400 dark:text-gray-400 pt-2">
                         <span id="no-account-text">Belum Punya Akun?</span>
                         <button type="button" onclick="switchToRegister()" id="switch-to-register-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Daftar Sekarang
@@ -282,8 +282,8 @@
             <!-- ── 2. CREATE ACCOUNT FORM ("Create Account") ── -->
             <div id="register-form-panel" class="{{ $currentMode === 'register' ? 'block' : 'hidden' }} transition-all duration-300">
                 <div class="mb-7">
-                    <h2 class="text-2xl sm:text-[28px] md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="register-title">Buat Akun</h2>
-                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
+                    <h2 class="text-2xl sm:text-[28px] md:text-[30px] font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap" id="register-title">Buat Akun</h2>
+                    <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-normal mt-1.5" id="register-subtitle">Bergabung dengan keluarga Toon Burger</p>
                 </div>
 
                 <form action="{{ route('register') }}" method="POST" onsubmit="localStorage.removeItem('tb_logged_out')" class="space-y-4 text-xs">
@@ -301,8 +301,8 @@
                                    autocomplete="username"
                                    placeholder="Masukkan username anda"
                                    value="{{ old('form_type') === 'register' ? old('username') : '' }}"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
-                            <span class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center pointer-events-none text-gray-400" aria-hidden="true">
+                                   class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none pl-0 pr-9 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
+                            <span class="absolute inset-y-0 right-0 w-8 flex items-center justify-end pointer-events-none text-gray-500 dark:text-gray-400" aria-hidden="true">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
@@ -320,7 +320,7 @@
                                autocomplete="email"
                                placeholder="Masukkan email anda"
                                value="{{ old('form_type') === 'register' ? old('email') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                               class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none px-0 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                     </div>
 
                     <!-- Mobile Number -->
@@ -335,7 +335,7 @@
                                autocomplete="tel"
                                placeholder="Masukkan nomor telepon anda"
                                value="{{ old('form_type') === 'register' ? old('phone_number') : '' }}"
-                               class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl p-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                               class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none px-0 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                     </div>
 
                     <!-- Password -->
@@ -348,10 +348,10 @@
                                    required
                                    autocomplete="new-password"
                                    placeholder="Masukkan password (min. 6 karakter)"
-                                   class="w-full bg-gray-50 hover:bg-gray-100/70 focus:bg-white dark:bg-[#252525] dark:hover:bg-[#2B2B2B] dark:focus:bg-[#1E1E1E] border border-gray-200 dark:border-[#484848] focus:border-[#466967] dark:focus:border-[#5C8986] rounded-xl pl-4 pr-11 py-3 min-h-[44px] text-xs sm:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-[#5C8986]/40 transition">
+                                   class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none pl-0 pr-9 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"
-                                    class="absolute inset-y-0 right-2 sm:right-2.5 w-8 flex items-center justify-center text-gray-400 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
+                                    class="absolute inset-y-0 right-0 w-8 flex items-center justify-end text-gray-600 hover:text-[#466967] dark:text-gray-400 dark:hover:text-white focus:outline-none focus:text-[#466967] dark:focus:text-white transition-colors cursor-pointer"
                                     aria-label="Tampilkan Password">
                                 <svg class="w-5 h-5 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -363,13 +363,13 @@
 
                     <!-- Sign Up / Register Button -->
                     <div class="pt-3">
-                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3.5 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
+                        <button type="submit" class="w-full bg-[#466967] hover:bg-[#344E4C] dark:bg-[#40605D] dark:hover:bg-[#35524F] text-white font-medium py-3 px-6 rounded-lg shadow-sm hover:shadow transition active:scale-98 min-h-[44px] text-sm flex items-center justify-center gap-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#466967] dark:focus:ring-gray-400 focus:ring-offset-2 dark:focus:ring-offset-[#313131]">
                             <span id="register-btn-text">Daftar</span>
                         </button>
                     </div>
 
                     <!-- Toggle to Login -->
-                    <p class="text-center text-xs text-gray-500 dark:text-gray-400 pt-2">
+                    <p class="text-center text-xs text-gray-400 dark:text-gray-400 pt-2">
                         <span id="have-account-text">Sudah punya akun?</span>
                         <button type="button" onclick="switchToLogin()" id="switch-to-login-btn" class="text-[#466967] dark:text-gray-300 dark:hover:text-white hover:underline font-medium ml-1 cursor-pointer focus:outline-none focus:underline">
                             Login Sekarang

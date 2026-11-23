@@ -3,7 +3,7 @@
 @section('title', 'Toon Burger - Setiap Gigitan Punya Cerita!')
 
 @section('content')
-<div class="space-y-0 pb-0">
+<div data-home-page class="space-y-0 pb-0">
 
     <!-- ═══════════════════════════════════════════════
          1. HERO SECTION (Sesuai Foto 5)
@@ -13,7 +13,7 @@
         'headlineDesktopClass' => 'lg:text-[56px] xl:text-[64px]',
         'ctaHref' => route('menu'),
         'deliveryHref' => route('gofood'),
-        'revealClass' => 'toon-reveal-left',
+        'isHome' => true,
     ])
 
     <!-- Section: Kenapa Toon Burger (Matching Figma exactly with enlarged spacious cards) -->
@@ -73,30 +73,32 @@
             </div>
         @endif
 
-        <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2 mb-7 sm:mb-14 toon-reveal-up">
-            <h2 class="text-xl sm:text-3xl lg:text-[38px] text-[#243F3B] uppercase tracking-wide"
+        <div class="max-w-3xl mx-auto relative z-20 text-center space-y-2 mb-7 sm:mb-14">
+            <h2 data-gsap-text="section-title"
+                class="text-xl sm:text-3xl lg:text-[38px] text-[#243F3B] uppercase tracking-wide"
                 style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                 KENAPA TOON BURGER?
             </h2>
 
-            <p class="text-[11.5px] sm:text-sm text-gray-500 max-w-xl mx-auto leading-relaxed">
+            <p data-gsap-text="section-subtitle"
+               class="text-[11.5px] sm:text-sm text-gray-500 max-w-xl mx-auto leading-relaxed">
                 Nikmati sensasi kelezatan burger terbaik dengan daging pilihan dan bahan segar yang siap memuaskan rasa lapar Anda kapan saja.
             </p>
         </div>
 
-        <div class="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 relative z-20">
+        <div data-motion-grid="why" class="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 relative z-20">
 
             <!-- Card 1: 100% Daging -->
-            <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-75">
+            <div data-motion-card="why" class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-shadow duration-300 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)]">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border-2 border-[#F5C2C2] bg-[#FDF2F2] flex items-center justify-center text-[#E03A3A] mb-2 sm:mb-3 shrink-0">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 13C22 14.11 21.11 15 20 15H4C3.46957 15 2.96086 14.7893 2.58579 14.4142C2.21071 14.0391 2 13.5304 2 13C2 12.4696 2.21071 11.9609 2.58579 11.5858C2.96086 11.2107 3.46957 11 4 11H13L15.5 13L18 11H20C20.5304 11 21.0391 11.2107 21.4142 11.5858C21.7893 11.9609 22 12.4696 22 13ZM12 3C3 3 3 9 3 9H21C21 9 21 3 12 3ZM3 18C3 19.66 4.34 21 6 21H18C19.66 21 21 19.66 21 18V17H3V18Z" fill="#CE3523"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
+                <h3 data-gsap-text="card" class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
                     Terbuat dari 100% Daging
                 </h3>
-                <p class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
+                <p data-gsap-text="card" class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
                     Nikmati patty berkualitas yang dibuat dari 100% daging pilihan.
                 </p>
                 <svg class="hidden sm:block absolute -bottom-3 -right-3 w-20 h-20 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -105,16 +107,16 @@
             </div>
 
             <!-- Card 2: Bahan Segar Setiap Hari -->
-            <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-150">
+            <div data-motion-card="why" class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-shadow duration-300 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)]">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border-2 border-[#BDE0D8] bg-[#F0F7F5] flex items-center justify-center text-[#2E7A6B] mb-2 sm:mb-3 shrink-0">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.0153 3.94237L15.2523 4.17937L15.4943 3.99137C15.7472 3.75845 16.0536 3.59151 16.3864 3.50534C16.7193 3.41917 17.0682 3.41643 17.4023 3.49737C17.8605 3.76145 18.2136 4.17535 18.4023 4.66937L18.4613 4.83937H19.1683L19.1363 4.69737C19.0387 4.31975 18.8659 3.96571 18.6283 3.65643C18.3906 3.34714 18.0931 3.08898 17.7533 2.89737C17.362 2.7102 16.9185 2.66256 16.4963 2.76237C16.175 2.83235 15.8659 2.94999 15.5793 3.11137C15.2924 3.27526 15.0224 3.4672 14.7733 3.68437C14.8462 3.77734 14.9272 3.86368 15.0153 3.94237ZM5.53833 4.84137L5.59633 4.67137C5.78565 4.17599 6.14033 3.76125 6.60033 3.49737C6.93372 3.41479 7.28251 3.4173 7.61467 3.50466C7.94683 3.59203 8.25172 3.76145 8.50133 3.99737L8.74333 4.18037L8.98033 3.94337C9.06839 3.86274 9.14904 3.77438 9.22133 3.67937C8.94707 3.4387 8.64728 3.22879 8.32733 3.05337C7.79919 2.7775 7.1999 2.66803 6.60833 2.73937C6.17972 2.89847 5.79659 3.1601 5.4924 3.50142C5.18822 3.84273 4.97224 4.25334 4.86333 4.69737L4.83133 4.84537H5.53833V4.84137ZM20.9483 7.32437C20.9381 7.14406 20.9158 6.96465 20.8813 6.78737C20.8578 6.53992 20.7821 6.30029 20.659 6.08434C20.536 5.86839 20.3684 5.68103 20.1675 5.53468C19.9666 5.38833 19.7369 5.28633 19.4937 5.23542C19.2504 5.18451 18.9991 5.18585 18.7563 5.23937C18.0064 5.36749 17.3227 5.7478 16.8183 6.31737L16.3793 6.74237L16.6433 6.97537L16.9073 7.20837L17.2833 6.83637C17.7122 6.32327 18.3242 5.99755 18.9893 5.92837C19.1545 5.89573 19.3253 5.90711 19.4847 5.96134C19.6441 6.01558 19.7864 6.11077 19.8973 6.23737C20.1353 6.53836 20.2452 6.92095 20.2033 7.30237C20.1351 8.07729 19.9117 8.83056 19.5463 9.51737C19.3853 9.93337 19.2333 10.3674 19.2013 10.4794C19.1388 11.0141 19.1938 11.5561 19.3623 12.0674C19.5489 12.7063 19.5946 13.3781 19.4963 14.0364C19.2801 14.7005 18.9017 15.3003 18.3953 15.7814C18.1392 16.0117 17.9319 16.2911 17.7859 16.6031C17.6399 16.915 17.5581 17.2532 17.5453 17.5974C17.5482 17.9233 17.4772 18.2456 17.3378 18.5401C17.1984 18.8347 16.9941 19.0939 16.7403 19.2984C16.4408 19.6065 16.0987 19.8702 15.7243 20.0814C15.7397 19.9975 15.7702 19.9172 15.8143 19.8444C16.2726 18.8646 16.6613 17.8538 16.9773 16.8194C17.2459 15.9704 17.7279 15.2046 18.3773 14.5954C18.7273 14.2204 18.7673 14.1174 18.6203 13.9694C18.4353 13.7864 18.2793 13.8804 17.7913 14.4524C17.7079 14.5618 17.6134 14.6623 17.5093 14.7524C17.4733 14.7164 18.2743 11.1454 18.6013 9.90237C18.7723 9.24037 18.7943 9.10237 18.7543 9.00237C18.718 8.91991 18.6503 8.85527 18.5663 8.82264C18.4823 8.79002 18.3888 8.79208 18.3063 8.82837C18.1583 8.89037 18.1403 8.92837 17.8763 9.81237C17.7823 10.1204 17.6033 10.6624 17.4763 11.0204C17.0203 12.2954 17.0383 12.2504 17.0073 12.1334C16.983 12.0068 16.9709 11.8782 16.9713 11.7494C16.9467 11.2658 16.8798 10.7853 16.7713 10.3134C16.7223 10.1614 16.7043 10.1474 16.5433 10.1474C16.2793 10.1474 16.2613 10.2054 16.3553 10.8724C16.4637 11.6817 16.4891 12.4999 16.4313 13.3144C16.3944 13.8028 16.2493 14.277 16.0063 14.7024C15.586 15.6713 15.1402 16.629 14.6693 17.5744L14.4633 17.9744V17.0254C14.375 16.2824 14.5541 15.5323 14.9683 14.9094C15.5396 13.939 15.7623 12.8026 15.5993 11.6884C15.3847 10.9535 15.4339 10.1668 15.7383 9.46437C16.093 8.68682 16.2816 7.8439 16.2923 6.98937C16.3156 6.47987 16.2064 5.97305 15.9753 5.51837C15.767 5.14612 15.4816 4.82259 15.1383 4.56937L14.6823 4.16937L14.4023 3.57137C14.2818 3.21839 14.0776 2.89986 13.8071 2.643C13.5367 2.38613 13.208 2.19858 12.8493 2.09637C12.3994 2.00278 11.9379 1.97717 11.4803 2.02037C10.9678 2.09111 10.4945 2.33408 10.1383 2.70937C9.91566 2.96818 9.73451 3.25999 9.60133 3.57437L9.31533 4.16937L8.85933 4.56937C8.51604 4.82259 8.23069 5.14612 8.02233 5.51837C7.79007 5.97238 7.67947 6.47886 7.70133 6.98837C7.71855 7.87325 7.9191 8.74494 8.29033 9.54837C8.57194 10.2274 8.61114 10.9828 8.40133 11.6874C8.23811 12.8015 8.46039 13.9379 9.03133 14.9084C9.44596 15.5312 9.62533 16.2813 9.53733 17.0244V17.9734L9.33133 17.5734C8.85236 16.6118 8.39887 15.6378 7.97133 14.6524C7.74007 14.2398 7.60312 13.7812 7.57033 13.3094C7.51312 12.4962 7.53892 11.6793 7.64733 10.8714C7.73633 10.2184 7.72333 10.1554 7.47133 10.1334C7.35033 10.1244 7.30133 10.1424 7.26533 10.2044C7.15509 10.5961 7.08638 10.9983 7.06033 11.4044C7.04633 11.6044 7.02433 11.8744 7.00633 12.0044L6.98433 12.2504L6.85433 11.9144C6.63533 11.3464 6.24633 10.2144 6.09833 9.72237C5.86133 8.93937 5.83833 8.88637 5.69833 8.82837C5.65737 8.80918 5.61299 8.79836 5.56779 8.79654C5.5226 8.79472 5.47749 8.80194 5.43512 8.81777C5.39274 8.8336 5.35395 8.85773 5.32102 8.88874C5.28809 8.91975 5.26168 8.95702 5.24333 8.99837C5.20333 9.09837 5.22533 9.24037 5.39533 9.89837C5.72233 11.1414 6.52233 14.7124 6.48733 14.7484C6.38326 14.6583 6.28876 14.5578 6.20533 14.4484C5.71733 13.8764 5.56133 13.7824 5.37733 13.9654C5.22933 14.1134 5.27033 14.2204 5.56933 14.5384C5.93062 14.9145 6.25852 15.3214 6.54933 15.7544C6.77692 16.0876 6.93945 16.4608 7.02833 16.8544C7.34012 17.8778 7.72614 18.8771 8.18333 19.8444C8.22716 19.9173 8.25732 19.9976 8.27233 20.0814C7.89814 19.8708 7.55601 19.6078 7.25633 19.3004C6.99313 19.0809 6.78255 18.8051 6.64011 18.4934C6.49767 18.1817 6.42701 17.842 6.43333 17.4994C6.33333 16.6634 6.22333 16.4704 5.35033 15.4864C4.97123 15.0653 4.68351 14.5702 4.50533 14.0324C4.40246 13.3745 4.44686 12.702 4.63533 12.0634C4.8016 11.5529 4.85784 11.0131 4.80033 10.4794C4.695 10.1553 4.57995 9.8345 4.45533 9.51737C4.09001 8.83056 3.86658 8.07729 3.79833 7.30237C3.7553 6.92149 3.86377 6.53896 4.10033 6.23737C4.2113 6.11077 4.35361 6.01558 4.51298 5.96134C4.67235 5.90711 4.84318 5.89573 5.00833 5.92837C5.67312 5.9978 6.2847 6.3235 6.71333 6.83637L7.08833 7.20837L7.35233 6.97537L7.61733 6.74737L7.29033 6.41637C6.9969 6.05269 6.62738 5.75769 6.20775 5.55211C5.78811 5.34652 5.32854 5.23534 4.86133 5.22637C4.61272 5.19903 4.36144 5.24236 4.13633 5.35137C3.76707 5.53756 3.46863 5.83916 3.28633 6.21037C3.19953 6.42618 3.13811 6.65136 3.10333 6.88137C3.04261 7.12467 3.03646 7.3784 3.08533 7.62437C3.2783 8.39215 3.52799 9.14455 3.83233 9.87537C3.95874 10.1701 4.05328 10.4775 4.11433 10.7924C4.09587 11.1847 4.03893 11.5742 3.94433 11.9554C3.73008 12.6492 3.68313 13.3839 3.80733 14.0994C4.06928 15 4.56996 15.8131 5.25633 16.4524C5.59963 16.8321 5.78679 17.3275 5.78033 17.8394C5.79024 18.3467 5.9627 18.8374 6.27233 19.2394C6.85909 19.9861 7.60707 20.5905 8.46033 21.0074C8.76475 21.1719 9.05655 21.3587 9.33333 21.5664C9.4741 21.6843 9.6254 21.7891 9.78533 21.8794L10.0083 22.0004H13.9913L14.2143 21.8794C14.3762 21.7881 14.5291 21.682 14.6713 21.5624C14.8531 21.4143 15.0475 21.2824 15.2523 21.1684C16.0039 20.8144 16.6905 20.3364 17.2833 19.7544C17.5623 19.5165 17.7893 19.2237 17.9502 18.8942C18.111 18.5647 18.2023 18.2057 18.2183 17.8394C18.2129 17.3289 18.4 16.8351 18.7423 16.4564C19.4288 15.8147 19.9309 15.0008 20.1963 14.0994C20.3192 13.3821 20.2702 12.646 20.0533 11.9514C19.9739 11.5939 19.9141 11.2324 19.8743 10.8684C19.98 10.2497 20.1761 9.64995 20.4563 9.08837C20.6991 8.52524 20.8646 7.93186 20.9483 7.32437ZM13.7403 17.3474C13.7726 17.9421 13.732 18.5385 13.6193 19.1234C13.5735 19.2912 13.5167 19.4559 13.4493 19.6164C13.3693 19.7594 13.3643 19.7164 13.1723 17.0334C12.9833 14.4124 12.9793 14.2964 13.0503 14.0814C13.2889 13.4382 13.6326 12.839 14.0673 12.3084C14.2673 12.0764 14.2863 11.9084 14.1383 11.8034C14.0869 11.7659 14.0272 11.7412 13.9643 11.7314C13.571 12.0455 13.25 12.4409 13.0233 12.8904L12.9163 13.0904L12.8853 12.8264C12.8611 12.53 12.8418 12.2333 12.8273 11.9364L12.7953 11.3094L12.9833 10.8844C13.2754 10.2291 13.6372 9.6072 14.0623 9.02937C14.3223 8.68537 14.4163 8.52937 14.4163 8.42937C14.4163 8.28637 14.3163 8.20037 14.1523 8.20037C13.6547 8.62137 13.2545 9.14545 12.9793 9.73637C12.7953 10.0534 12.7153 10.1524 12.7013 10.0944C12.6714 9.87452 12.6537 9.65317 12.6483 9.43137C12.5922 9.0833 12.6306 8.72656 12.7593 8.39837C13.0076 7.63148 13.3795 6.91032 13.8603 6.26337C14.1513 5.88737 14.1153 5.61936 13.7843 5.65437C13.6593 5.66837 13.6003 5.72637 13.3363 6.09337C13.1369 6.37503 12.9558 6.66931 12.7943 6.97437C12.721 7.13681 12.6312 7.29129 12.5263 7.43537C12.5033 7.43537 12.4903 7.36837 12.4903 7.28737C12.4903 6.87137 12.3423 4.80037 12.3023 4.69737C12.2672 4.61734 12.2018 4.55451 12.1205 4.52264C12.0391 4.49077 11.9484 4.49247 11.8683 4.52737C11.7914 4.56063 11.7294 4.62118 11.6943 4.69737C11.6533 4.79737 11.5013 6.87137 11.5063 7.28737C11.5063 7.36837 11.4923 7.43537 11.4753 7.43537C11.3641 7.29464 11.2722 7.13958 11.2023 6.97437C11.041 6.67071 10.8603 6.37777 10.6613 6.09737C10.3973 5.73037 10.3393 5.67237 10.2143 5.65837C9.88333 5.62337 9.84733 5.88637 10.1383 6.25837C10.6178 6.90785 10.9892 7.63048 11.2383 8.39837C11.367 8.72483 11.4057 9.07985 11.3503 9.42636C11.3449 9.64817 11.3272 9.86951 11.2973 10.0894C11.2833 10.1474 11.2033 10.0484 11.0193 9.73137C10.7442 9.14127 10.3444 8.61789 9.84733 8.19736C9.54733 8.19736 9.49433 8.45837 9.73133 8.75337C10.2415 9.40048 10.6698 10.1082 11.0063 10.8604L11.2063 11.3074L11.1743 11.9344C11.1563 12.2784 11.1303 12.6764 11.1163 12.8244L11.0853 13.0884L10.9773 12.8884C10.7513 12.439 10.431 12.0437 10.0383 11.7294C9.9707 11.7347 9.90688 11.7629 9.8573 11.8092C9.80772 11.8555 9.7753 11.9173 9.76533 11.9844C9.79404 12.1053 9.85444 12.2165 9.94033 12.3064C10.3893 12.8562 10.7389 13.4803 10.9733 14.1504C10.9879 15.1192 10.9385 16.088 10.8253 17.0504C10.6373 19.7084 10.6333 19.7514 10.5523 19.6104C10.485 19.4499 10.4282 19.2852 10.3823 19.1174C10.2738 18.532 10.2335 17.936 10.2623 17.3414C10.2263 15.7084 10.2303 15.7414 9.78833 14.8534C9.51053 14.3419 9.29404 13.7995 9.14333 13.2374C8.99199 12.7198 8.98438 12.1709 9.12133 11.6494C9.30044 10.9503 9.26773 10.2138 9.02733 9.53337C8.91581 9.21073 8.80248 8.88873 8.68733 8.56737C8.47374 8.10784 8.37021 7.60485 8.38496 7.09832C8.39972 6.59179 8.53235 6.09568 8.77233 5.64937C8.94454 5.45091 9.13212 5.26634 9.33333 5.09737C9.73127 4.79983 10.0356 4.3945 10.2103 3.92937C10.3243 3.68324 10.458 3.44679 10.6103 3.22237C10.8135 3.00311 11.074 2.84514 11.3623 2.76637C11.7761 2.68886 12.2006 2.68886 12.6143 2.76637C12.9101 2.84325 13.1776 3.00323 13.3853 3.22737C13.5376 3.45179 13.6714 3.68824 13.7853 3.93437C13.9601 4.3954 14.2647 4.7959 14.6623 5.08737C14.8666 5.26116 15.0565 5.45111 15.2303 5.65537C15.4696 6.10192 15.6018 6.59796 15.6165 7.10435C15.6313 7.61074 15.5282 8.11364 15.3153 8.57337C15.2153 8.84636 15.0643 9.28036 14.9703 9.53936C14.7457 10.1793 14.7086 10.8701 14.8633 11.5304C15.0949 12.6822 14.8616 13.8789 14.2143 14.8594C13.7713 15.7504 13.7763 15.7144 13.7403 17.3474Z" fill="#40605E"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
+                <h3 data-gsap-text="card" class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
                     Bahan Segar Setiap Hari
                 </h3>
-                <p class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
+                <p data-gsap-text="card" class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
                     Selalu fresh setiap hari, karena rasa terbaik dimulai dari bahan berkualitas.
                 </p>
                 <svg class="hidden sm:block absolute -bottom-3 -right-3 w-20 h-20 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -123,16 +125,16 @@
             </div>
 
             <!-- Card 3: Pesanan Cepat -->
-            <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-225">
+            <div data-motion-card="why" class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-shadow duration-300 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)]">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border-2 border-[#FDE68A] bg-[#FFFBEB] flex items-center justify-center text-[#D97706] mb-2 sm:mb-3 shrink-0">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M13 2L4 14h7l-2 8 9-12h-7l2-8z"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
+                <h3 data-gsap-text="card" class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
                     Pesanan Cepat
                 </h3>
-                <p class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
+                <p data-gsap-text="card" class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
                     Disiapkan dengan cepat tanpa mengorbankan kualitas dan cita rasa.
                 </p>
                 <svg class="hidden sm:block absolute -bottom-3 -right-3 w-20 h-20 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -141,17 +143,17 @@
             </div>
 
             <!-- Card 4: Porsi Bikin Kenyang -->
-            <div class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)] toon-reveal-pop reveal-delay-300">
+            <div data-motion-card="why" class="bg-white rounded-[18px] sm:rounded-[30px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.45)] sm:shadow-[6px_7px_0px_rgba(0,0,0,0.5)] p-3.5 sm:p-6 min-h-0 sm:min-h-[215px] text-left flex flex-col justify-start relative overflow-hidden transition-shadow duration-300 hover:shadow-[8px_9px_0px_rgba(39,68,62,0.85)]">
                 <div class="w-8 h-8 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl border-2 border-[#BFDBFE] bg-[#EFF6FF] flex items-center justify-center text-[#2563EB] mb-2 sm:mb-3 shrink-0">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.2499 6.00025H17.2541ZM22.4788 4.50025H18.2104L18.6285 2.82868L20.4248 2.21697C20.8068 2.08712 21.0342 1.68118 20.924 1.29306C20.896 1.19542 20.8484 1.1045 20.7842 1.0258C20.72 0.947105 20.6404 0.882273 20.5504 0.83524C20.4603 0.788207 20.3617 0.759954 20.2604 0.752192C20.1591 0.744431 20.0573 0.757325 19.9612 0.790091L17.7581 1.54009C17.6394 1.58055 17.5328 1.6501 17.448 1.74238C17.3631 1.83467 17.3028 1.94675 17.2724 2.06837L16.6645 4.50025H10.521C10.1174 4.50025 9.77103 4.81056 9.75087 5.21415C9.74598 5.31556 9.76174 5.4169 9.79717 5.51204C9.83261 5.60718 9.887 5.69413 9.95704 5.76763C10.0271 5.84113 10.1113 5.89965 10.2046 5.93963C10.2979 5.97962 10.3984 6.00024 10.4999 6.00025H10.6288L10.6757 6.40618C10.6868 6.50098 10.7323 6.58842 10.8036 6.65186C10.8749 6.7153 10.967 6.75031 11.0624 6.75025C12.8906 6.75025 14.5152 7.26118 15.7556 8.22775C16.4454 8.7593 17.0047 9.44152 17.3906 10.2223C17.6066 10.6614 17.766 11.1263 17.8649 11.6056C17.8846 11.699 17.94 11.781 18.0191 11.8343C18.6568 12.267 19.1272 12.9048 19.3522 13.6419C19.5771 14.3789 19.5431 15.1707 19.2557 15.8857C19.2223 15.9685 19.2198 16.0605 19.2487 16.1449C19.4147 16.6208 19.4997 17.1212 19.4999 17.6252C19.4999 18.6724 19.1437 19.6704 18.4968 20.4354C18.1301 20.872 17.6687 21.2194 17.1477 21.4512C17.0576 21.4909 16.9867 21.5645 16.9504 21.656C16.7557 22.1632 16.4808 22.6358 16.1362 23.0557C16.1218 23.0728 16.1126 23.0935 16.1097 23.1156C16.1067 23.1377 16.1101 23.1601 16.1195 23.1804C16.1288 23.2006 16.1437 23.2177 16.1625 23.2298C16.1812 23.2418 16.203 23.2483 16.2252 23.2484H18.532C19.0967 23.2461 19.6402 23.0324 20.0553 22.6495C20.4704 22.2665 20.7271 21.7421 20.7749 21.1793L22.3781 6.00025H22.4999C22.6015 6.00036 22.7021 5.97984 22.7955 5.93991C22.889 5.89998 22.9733 5.84149 23.0434 5.76797C23.1136 5.69446 23.168 5.60746 23.2035 5.51226C23.239 5.41706 23.2548 5.31564 23.2499 5.21415C23.2302 4.81056 22.8824 4.50025 22.4788 4.50025Z" fill="#357196"/>
                         <path d="M5.09484 15C5.24277 14.9993 5.38936 15.0279 5.52614 15.0843C5.66292 15.1406 5.78718 15.2235 5.89172 15.3281L6.61875 16.0552C6.63616 16.0726 6.65684 16.0864 6.67961 16.0959C6.70237 16.1053 6.72677 16.1101 6.75141 16.1101C6.77605 16.1101 6.80045 16.1053 6.82321 16.0959C6.84597 16.0864 6.86665 16.0726 6.88406 16.0552L7.60969 15.3281C7.71423 15.2235 7.83849 15.1406 7.97527 15.0843C8.11205 15.0279 8.25864 14.9993 8.40656 15H17.6213C17.6705 15.0005 17.7194 14.9913 17.765 14.9729C17.8107 14.9545 17.8524 14.9273 17.8875 14.8928C17.9227 14.8583 17.9507 14.8173 17.97 14.772C17.9893 14.7267 17.9995 14.678 18 14.6287V14.625C17.9995 14.1929 17.85 13.7742 17.5768 13.4395C17.3035 13.1048 16.9232 12.8745 16.5 12.7875C16.4616 11.3958 15.8906 10.2309 14.8355 9.4125C13.8595 8.65125 12.5555 8.25 11.0625 8.25H7.6875C4.48969 8.25 2.32359 10.0673 2.25 12.7875C1.82677 12.8745 1.44649 13.1048 1.17325 13.4395C0.900011 13.7742 0.750529 14.1929 0.750001 14.625C0.750001 14.7245 0.78951 14.8198 0.859836 14.8902C0.930162 14.9605 1.02554 15 1.125 15H5.09484ZM8.71594 16.5C8.66668 16.5 8.61789 16.5096 8.57237 16.5284C8.52685 16.5473 8.48548 16.5749 8.45063 16.6097L7.41281 17.648C7.23701 17.8237 6.99859 17.9225 6.75 17.9225C6.50141 17.9225 6.263 17.8237 6.08719 17.648L5.04938 16.6097C5.01452 16.5749 4.97316 16.5473 4.92763 16.5284C4.88211 16.5096 4.83332 16.5 4.78406 16.5H1.53094C1.35476 16.4992 1.18398 16.5608 1.04879 16.6737C0.913602 16.7867 0.822711 16.9438 0.792188 17.1173C0.76398 17.2851 0.749868 17.4549 0.750001 17.625C0.750001 19.0589 1.74047 20.227 2.96531 20.25C3.07922 20.9587 3.35484 21.5991 3.76969 22.1002C4.38328 22.8413 5.27531 23.25 6.28125 23.25H12.4688C13.4747 23.25 14.3667 22.8413 14.9803 22.0992C15.3952 21.5981 15.6708 20.9578 15.7847 20.2491C17.0095 20.227 18 19.0589 18 17.6241C18.0001 17.454 17.986 17.2842 17.9578 17.1164C17.9271 16.9431 17.8361 16.7861 17.7009 16.6734C17.5658 16.5606 17.3951 16.4992 17.2191 16.5H8.71594Z" fill="#357196"/>
                     </svg>
                 </div>
-                <h3 class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
+                <h3 data-gsap-text="card" class="font-extrabold text-xs sm:text-[17px] text-gray-900 leading-snug">
                     Porsi Bikin Kenyang
                 </h3>
-                <p class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
+                <p data-gsap-text="card" class="text-[11px] sm:text-[13px] text-gray-500 leading-snug sm:leading-relaxed pt-1.5 sm:pt-2 relative z-10">
                     Porsi pas dan mengenyangkan, cocok untuk menemani rasa lapar kapan saja.
                 </p>
                 <svg class="hidden sm:block absolute -bottom-3 -right-3 w-20 h-20 text-gray-900 opacity-[0.05] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
@@ -165,7 +167,7 @@
     </section>
 
     <!-- Yellow Ribbon with TOONBURGER ★ (Animated marquee on mobile, static on tablet/laptop) -->
-    <div class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none toon-reveal">
+    <div data-gsap-text="ribbon" class="w-full bg-[#F5B027] py-3.5 overflow-hidden select-none">
         <div class="toonburger-ribbon-track whitespace-nowrap text-base sm:text-lg font-black text-[#1E2E2B] uppercase tracking-wider flex items-center"
              style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
             <div class="flex items-center shrink-0">
@@ -188,18 +190,20 @@
         <div class="max-w-7xl mx-auto">
 
             <!-- Section Header -->
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 toon-reveal-up">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
                 <div>
-                    <h2 class="font-brand text-2xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
+                    <h2 data-gsap-text="section-title"
+                        class="font-brand text-2xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
                         style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                         BEST SELLER
                     </h2>
-                    <p class="text-[11.5px] sm:text-sm text-gray-600 mt-1 max-w-lg">
+                    <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-sm text-gray-600 mt-1 max-w-lg">
                         Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.
                     </p>
                 </div>
 
                 <a href="{{ route('menu') }}"
+                   data-gsap-text="cta"
                    class="min-h-[36px] sm:min-h-[44px] self-start sm:self-auto border-2 border-black bg-white rounded-xl px-3.5 py-1.5 sm:px-4 sm:py-2 font-medium text-xs sm:text-sm text-gray-900 shadow-[2px_2px_0px_#000] hover:bg-gray-50 transition cursor-pointer inline-flex items-center gap-1.5 shrink-0">
                     <span>Lihat Semua</span>
                     <span>&rarr;</span>
@@ -208,14 +212,8 @@
 
             <!-- Dynamic Best Seller Product Cards Grid -->
             @php
-                $revealDelays = [
-                    'toon-reveal-pop reveal-delay-75',
-                    'toon-reveal-pop reveal-delay-150',
-                    'toon-reveal-pop reveal-delay-225',
-                    'toon-reveal-pop reveal-delay-300',
-                ];
                 $bestSellerCards = (isset($bestSellers) && $bestSellers->isNotEmpty())
-                    ? $bestSellers->take(4)->values()->map(function ($prod, $idx) use ($revealDelays) {
+                    ? $bestSellers->take(4)->values()->map(function ($prod) {
                         return [
                             'id' => $prod->id,
                             'image' => $prod->image_url ?: asset('images/burger-bg.jpg'),
@@ -224,13 +222,12 @@
                             'name' => $prod->name,
                             'description' => $prod->description ?: 'Pilihan favorit terbaik dari dapur Toon Burger.',
                             'price' => $prod->price,
-                            'revealClass' => $revealDelays[$idx % count($revealDelays)],
                         ];
                     })->all()
                     : [];
             @endphp
             @if(!empty($bestSellerCards) && !request()->has('empty'))
-                <div class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                <div data-motion-grid="products" class="mt-5 sm:mt-8 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                     @foreach($bestSellerCards as $bs)
                         @include('partials.product-card', [
                             'productId' => $bs['id'],
@@ -239,21 +236,21 @@
                             'name' => $bs['name'],
                             'description' => $bs['description'],
                             'price' => $bs['price'],
-                            'revealClass' => $bs['revealClass'],
+                            'isHome' => true,
                         ])
                     @endforeach
                 </div>
             @else
-                <div class="mt-5 sm:mt-8 py-10 sm:py-16 text-center max-w-md mx-auto flex flex-col items-center justify-center toon-reveal">
+                <div class="mt-5 sm:mt-8 py-10 sm:py-16 text-center max-w-md mx-auto flex flex-col items-center justify-center">
                     <img src="{{ asset('images/empty-menu.png') }}"
                          alt="Menu Tidak Ditemukan"
                          width="210"
                          height="190"
                          loading="lazy"
                          class="w-44 sm:w-52 h-auto mx-auto mb-5 object-contain">
-                    <h3 class="font-bold text-xl sm:text-2xl text-[#333333] dark:text-white tracking-tight">Menu Tidak Ditemukan.</h3>
-                    <p class="text-xs sm:text-sm text-[#7A7A7A] dark:text-gray-300 max-w-sm mx-auto mt-2 leading-relaxed">Tidak ada menu yang cocok dengan kata kunci tersebut. Periksa kembali ejaan atau cari menu lainnya.</p>
-                    <a href="{{ route('menu') }}" class="mt-5 inline-flex items-center justify-center bg-[#3F5E5A] hover:bg-[#324C48] text-white text-xs sm:text-[13px] font-semibold px-6 py-2.5 rounded-lg transition shadow-xs">
+                    <h3 data-gsap-text="section-title" class="font-bold text-xl sm:text-2xl text-[#333333] dark:text-white tracking-tight">Menu Tidak Ditemukan.</h3>
+                    <p data-gsap-text="section-subtitle" class="text-xs sm:text-sm text-[#7A7A7A] dark:text-gray-300 max-w-sm mx-auto mt-2 leading-relaxed">Tidak ada menu yang cocok dengan kata kunci tersebut. Periksa kembali ejaan atau cari menu lainnya.</p>
+                    <a href="{{ route('menu') }}" data-gsap-text="cta" class="mt-5 inline-flex items-center justify-center bg-[#3F5E5A] hover:bg-[#324C48] text-white text-xs sm:text-[13px] font-semibold px-6 py-2.5 rounded-lg transition shadow-xs">
                         Lihat Semua Menu
                     </a>
                 </div>
@@ -262,7 +259,7 @@
             <!-- ═══════════════════════════════════════════════
                  5. NGGAK SEMPAT KE TOKO? GOFOOD AJA! BANNER
                  ═══════════════════════════════════════════════ -->
-            <div class="mt-8 sm:mt-16 bg-white rounded-[20px] sm:rounded-[28px] border-2 border-black shadow-[3px_4px_0px_rgba(168,50,50,0.45)] sm:shadow-[6px_6px_0px_rgba(168,50,50,0.5)] px-4 py-5 sm:px-8 sm:py-11 min-h-0 sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-5 toon-reveal-up">
+            <div data-motion-card="banner" class="mt-8 sm:mt-16 bg-white rounded-[20px] sm:rounded-[28px] border-2 border-black shadow-[3px_4px_0px_rgba(168,50,50,0.45)] sm:shadow-[6px_6px_0px_rgba(168,50,50,0.5)] hover:shadow-[8px_8px_0px_rgba(168,50,50,0.6)] transition-shadow duration-300 px-4 py-5 sm:px-8 sm:py-11 min-h-0 sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-5">
                 <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                     <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-[#cc292b] text-white flex items-center justify-center shrink-0 shadow-xs">
                         <svg class="w-5 h-5 sm:w-7 sm:h-7 text-white" viewBox="0 0 24 24" fill="#FFFFFF" aria-hidden="true">
@@ -271,17 +268,19 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-wide"
+                        <h3 data-gsap-text="banner-title"
+                            class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-gray-900 uppercase tracking-wide"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             NGGAK SEMPAT KE TOKO? GOFOOD AJA!
                         </h3>
-                        <p class="text-[11.5px] sm:text-sm text-gray-500 mt-0.5">
+                        <p data-gsap-text="banner-subtitle" class="text-[11.5px] sm:text-sm text-gray-500 mt-0.5">
                             Burger favoritmu diantar langsung ke rumah, langsung dari aplikasi Gojek
                         </p>
                     </div>
                 </div>
 
                 <a href="{{ route('gofood') }}" target="_blank" rel="noopener noreferrer"
+                   data-gsap-text="cta"
                    class="min-h-[40px] sm:min-h-[44px] w-full sm:w-auto justify-center bg-[#a62b2b] hover:bg-[#8e2424] text-white font-medium text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
                     <span>Buka Gojek</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,26 +298,28 @@
     <section class="w-full py-8 sm:py-16 px-3.5 sm:px-6 lg:px-8 select-none"
              style="background-color: #385850;">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-[22px] sm:rounded-[32px] border-2 border-black shadow-[4px_5px_0px_#1e2f2b] sm:shadow-[8px_8px_0px_#1e2f2b] p-4 sm:p-10 lg:p-12 toon-reveal-up">
+            <div data-motion-card="story" class="bg-white rounded-[22px] sm:rounded-[32px] border-2 border-black shadow-[4px_5px_0px_#1e2f2b] sm:shadow-[8px_8px_0px_#1e2f2b] p-4 sm:p-10 lg:p-12">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8 lg:gap-12 items-center">
 
                     <!-- Left: Text -->
-                    <div class="md:col-span-7 space-y-2.5 sm:space-y-4 toon-reveal-left">
-                        <h2 class="font-brand text-xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase leading-[1.08]"
+                    <div class="md:col-span-7 space-y-2.5 sm:space-y-4">
+                        <h2 data-gsap-text="section-title"
+                            class="font-brand text-xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase leading-[1.08]"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             MENGENAL TOON<br class="hidden sm:inline"> BURGER
                         </h2>
 
-                        <p class="text-[11.5px] sm:text-sm text-gray-600 leading-relaxed pt-1 sm:pt-2">
+                        <p data-gsap-text="body" class="text-[11.5px] sm:text-sm text-gray-600 leading-relaxed pt-1 sm:pt-2">
                             Berawal dari kecintaan kami terhadap burger bergaya klasik Amerika dengan daging beraroma asap yang gurih dan roti brioche harum mentega, Toon Burger hadir membawa nuansa karakter kartun retro yang enerjik, ceria, dan bersahabat bagi siapa saja.
                         </p>
 
-                        <p class="text-[11.5px] sm:text-sm text-gray-600 leading-relaxed">
+                        <p data-gsap-text="body" class="text-[11.5px] sm:text-sm text-gray-600 leading-relaxed">
                             Setiap patty daging sapi digiling dari potongan daging segar berkualitas pilihan, saus diracik segar setiap pagi di dapur restoran, dan kebersihan adalah standar utama kami.
                         </p>
 
                         <div class="pt-1.5 sm:pt-4">
                             <a href="{{ route('about') }}"
+                               data-gsap-text="cta"
                                class="min-h-[38px] sm:min-h-[44px] bg-[#3b5a53] hover:bg-[#2d4741] text-white text-xs sm:text-sm font-medium px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl inline-flex items-center gap-2 shadow-[2px_2px_0px_#000] transition cursor-pointer">
                                 <span>Selengkapnya Tentang Kami</span>
                                 <span>&rarr;</span>
@@ -327,7 +328,7 @@
                     </div>
 
                     <!-- Right: Outdoor Sign Photo with cartoon cat -->
-                    <div class="md:col-span-5 flex justify-center md:justify-end toon-reveal-right reveal-delay-150">
+                    <div data-motion-card="media" class="md:col-span-5 flex justify-center md:justify-end">
                         <div class="w-full max-w-md rounded-xl sm:rounded-2xl overflow-hidden border-2 border-black shadow-[3px_3px_0px_#000] sm:shadow-[4px_4px_0px_#000] mx-auto md:ml-auto">
                             <img src="{{ asset('images/toonburger-outdoor-sign-hq.png') }}"
                                  alt="Toon Burger Sign"
@@ -349,7 +350,7 @@
          ═══════════════════════════════════════════════ -->
     <section class="retro-grid-bg py-7 sm:py-12 px-3.5 sm:px-6 lg:px-8 select-none">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-[20px] sm:rounded-[28px] border-2 border-black shadow-[3px_4px_0px_rgba(61,93,86,0.45)] sm:shadow-[6px_6px_0px_rgba(61,93,86,0.5)] px-4 py-5 sm:px-8 sm:py-11 min-h-0 sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-5 toon-reveal-up">
+            <div data-motion-card="banner" class="bg-white rounded-[20px] sm:rounded-[28px] border-2 border-black shadow-[3px_4px_0px_rgba(61,93,86,0.45)] sm:shadow-[6px_6px_0px_rgba(61,93,86,0.5)] hover:shadow-[8px_8px_0px_rgba(61,93,86,0.6)] transition-shadow duration-300 px-4 py-5 sm:px-8 sm:py-11 min-h-0 sm:min-h-[164px] flex flex-col sm:flex-row items-center justify-between gap-3.5 sm:gap-5">
 
                 <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
                     <!-- Speech bubble question mark icon matching Photo 1 -->
@@ -361,17 +362,19 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-[#27443E] uppercase tracking-wide"
+                        <h3 data-gsap-text="banner-title"
+                            class="font-hegarty font-normal text-sm sm:text-base md:text-lg text-[#27443E] uppercase tracking-wide"
                             style="font-family: 'BBH Hegarty', cursive, sans-serif;">
                             ADA YANG MAU DITANYAIN?
                         </h3>
-                        <p class="text-[11.5px] sm:text-sm text-gray-500 mt-0.5">
+                        <p data-gsap-text="banner-subtitle" class="text-[11.5px] sm:text-sm text-gray-500 mt-0.5">
                             Ada pertanyaan soal menu, lokasi, atau jam buka? Kami siap membantu.
                         </p>
                     </div>
                 </div>
 
                 <a href="{{ route('contact') }}"
+                   data-gsap-text="cta"
                    class="min-h-[40px] sm:min-h-[44px] w-full sm:w-auto justify-center bg-[#3b5a53] hover:bg-[#2d4741] text-white font-medium text-xs sm:text-sm px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl transition shadow-xs flex items-center gap-2 shrink-0 cursor-pointer active:scale-95">
                     <span>Kontak Kami</span>
                 </a>

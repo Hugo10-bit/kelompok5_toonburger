@@ -1769,6 +1769,175 @@ window.addEventListener('pageshow', function () {
         return promise;
     }
 
+    function getAdminRouteSkeletonHtml(targetUrl) {
+        let p = '/admin';
+        try {
+            p = new URL(targetUrl, window.location.origin).pathname.replace(/\/+$/, '') || '/admin';
+        } catch (e) {}
+
+        if (p === '/admin') {
+            const metricCards = Array.from({ length: 4 }).map(() => `
+                <div class="tb-metric-card rounded-[18px] p-4 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-[10px] tb-skeleton shrink-0"></div>
+                        <div class="flex-1 space-y-1.5">
+                            <div class="h-3 w-3/4 rounded-full tb-skeleton"></div>
+                            <div class="h-2.5 w-1/2 rounded-full tb-skeleton"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="h-6 w-24 rounded-full tb-skeleton"></div>
+                        <div class="h-4 w-14 rounded-full tb-skeleton"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            const bars = [45, 65, 80, 55, 70, 90].map(h => `
+                <div class="h-full flex flex-col justify-end items-center">
+                    <div style="height: ${h}%;" class="w-full max-w-[56px] rounded-t-[14px] tb-skeleton"></div>
+                </div>
+            `).join('');
+
+            const bestSellers = Array.from({ length: 4 }).map(() => `
+                <div class="rounded-xl p-2.5 flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-xl tb-skeleton shrink-0"></div>
+                    <div class="flex-1 space-y-1.5">
+                        <div class="h-3.5 w-3/4 rounded-full tb-skeleton"></div>
+                        <div class="h-2.5 w-1/2 rounded-full tb-skeleton"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-7 lg:p-8 space-y-6" aria-hidden="true">
+                    <div class="space-y-2">
+                        <div class="h-7 w-64 max-w-full rounded-xl tb-skeleton"></div>
+                        <div class="h-3.5 w-80 max-w-full rounded-full tb-skeleton"></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 min-[1140px]:grid-cols-4 gap-3 sm:gap-5">
+                        ${metricCards}
+                    </div>
+                    <div class="grid grid-cols-1 min-[1140px]:grid-cols-[minmax(0,2.22fr)_minmax(275px,1fr)] gap-5">
+                        <div class="tb-panel-card rounded-3xl p-5 sm:p-7 space-y-6">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="space-y-2">
+                                    <div class="h-3.5 w-44 rounded-full tb-skeleton"></div>
+                                    <div class="h-6 w-36 rounded-full tb-skeleton"></div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <div class="h-7 w-20 rounded-full tb-skeleton"></div>
+                                    <div class="h-7 w-20 rounded-full tb-skeleton"></div>
+                                </div>
+                            </div>
+                            <div class="h-[210px] grid grid-cols-6 gap-3 items-end pt-4">${bars}</div>
+                        </div>
+                        <div class="tb-panel-card rounded-3xl p-4 sm:p-5 space-y-3">
+                            <div class="h-5 w-32 rounded-full tb-skeleton mb-2"></div>
+                            ${bestSellers}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (p === '/admin/orders') {
+            const orderCards = Array.from({ length: 6 }).map(() => `
+                <div class="bg-white dark:bg-[#3C3C3C] rounded-[22px] border border-gray-200/90 dark:border-[#525252] p-5 space-y-4">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="h-6 w-28 rounded-md tb-skeleton"></div>
+                        <div class="h-6 w-16 rounded-md tb-skeleton"></div>
+                    </div>
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="space-y-1.5 flex-1">
+                            <div class="h-5 w-36 rounded-full tb-skeleton"></div>
+                            <div class="h-3 w-24 rounded-full tb-skeleton"></div>
+                        </div>
+                        <div class="h-6 w-20 rounded-md tb-skeleton"></div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-[#555555] pt-3 space-y-2">
+                        <div class="h-3.5 w-full rounded-full tb-skeleton"></div>
+                        <div class="h-3.5 w-4/5 rounded-full tb-skeleton"></div>
+                    </div>
+                    <div class="border-t border-gray-200 dark:border-[#555555] pt-3 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="h-4 w-12 rounded-full tb-skeleton"></div>
+                            <div class="h-4 w-24 rounded-full tb-skeleton"></div>
+                        </div>
+                        <div class="h-10 w-full rounded-xl tb-skeleton"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 space-y-6" aria-hidden="true">
+                    <div class="space-y-2">
+                        <div class="h-8 w-48 rounded-xl tb-skeleton"></div>
+                        <div class="h-4 w-72 max-w-full rounded-full tb-skeleton"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2.5">
+                        ${Array.from({ length: 5 }).map(() => `<div class="h-10 w-28 rounded-lg tb-skeleton"></div>`).join('')}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                        ${orderCards}
+                    </div>
+                </div>
+            `;
+        }
+
+        if (p.startsWith('/admin/products') || p.startsWith('/admin/categories') || p.startsWith('/admin/messages')) {
+            const rows = Array.from({ length: 6 }).map(() => `
+                <div class="flex items-center justify-between gap-4 py-4 px-4 sm:px-6 border-b border-gray-100 dark:border-[#444444]">
+                    <div class="flex items-center gap-3.5 flex-1 min-w-0">
+                        <div class="w-10 h-10 rounded-xl tb-skeleton shrink-0"></div>
+                        <div class="space-y-1.5 flex-1 max-w-[220px]">
+                            <div class="h-3.5 w-4/5 rounded-full tb-skeleton"></div>
+                            <div class="h-3 w-1/2 rounded-full tb-skeleton"></div>
+                        </div>
+                    </div>
+                    <div class="hidden sm:block h-3.5 w-24 rounded-full tb-skeleton"></div>
+                    <div class="hidden md:block h-3.5 w-20 rounded-full tb-skeleton"></div>
+                    <div class="h-7 w-20 rounded-lg tb-skeleton shrink-0"></div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-4 sm:p-9 lg:p-10 space-y-6 flex-1" aria-hidden="true">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div class="space-y-2">
+                            <div class="h-8 w-56 max-w-full rounded-xl tb-skeleton"></div>
+                            <div class="h-3.5 w-72 max-w-full rounded-full tb-skeleton"></div>
+                        </div>
+                        <div class="flex gap-2.5">
+                            <div class="h-10 w-24 rounded-xl tb-skeleton"></div>
+                            <div class="h-10 w-28 rounded-xl tb-skeleton"></div>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 dark:border-[#555555] rounded-[22px] overflow-hidden">
+                        <div class="h-12 bg-gray-100 dark:bg-[#3A3A3A] border-b border-gray-200 dark:border-[#555555]"></div>
+                        ${rows}
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="bg-white dark:bg-[#2B2B2B] rounded-3xl border border-gray-200/80 dark:border-[#3F3F3F] shadow-xs p-5 sm:p-9 space-y-6" aria-hidden="true">
+                <div class="space-y-2">
+                    <div class="h-7 w-52 rounded-xl tb-skeleton"></div>
+                    <div class="h-3.5 w-72 max-w-full rounded-full tb-skeleton"></div>
+                </div>
+                <div class="space-y-4">
+                    <div class="h-24 rounded-2xl tb-skeleton"></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="h-14 rounded-xl tb-skeleton"></div>
+                        <div class="h-14 rounded-xl tb-skeleton"></div>
+                    </div>
+                    <div class="h-32 rounded-2xl tb-skeleton"></div>
+                </div>
+            </div>
+        `;
+    }
+
     function navigateAdminTo(rawUrl, pushHistory = true, preserveScroll = false) {
         const targetUrl = normalizeAdminUrl(rawUrl);
         if (!targetUrl || !isAdminInternalUrl(targetUrl)) {
@@ -1794,14 +1963,40 @@ window.addEventListener('pageshow', function () {
 
         startAdminLoaderBar();
 
+        let skeletonShownAt = 0;
+        const skeletonTimer = setTimeout(() => {
+            if (seq !== _adminNavSeq) return;
+            const curMain = document.querySelector('main');
+            if (curMain) {
+                curMain.classList.remove('tb-main-fade-out');
+                curMain.innerHTML = getAdminRouteSkeletonHtml(targetUrl);
+                skeletonShownAt = Date.now();
+            }
+        }, 65);
+
         prefetchAdminUrl(targetUrl).then((html) => {
             if (seq !== _adminNavSeq) return;
-            finishAdminLoaderBar();
-            if (html) {
-                swapAdminMainFromHtml(html, targetUrl, pushHistory, preserveScroll);
-            } else {
-                window.location.href = targetUrl;
+            clearTimeout(skeletonTimer);
+
+            const finalizeSwap = () => {
+                if (seq !== _adminNavSeq) return;
+                finishAdminLoaderBar();
+                if (html) {
+                    swapAdminMainFromHtml(html, targetUrl, pushHistory, preserveScroll);
+                } else {
+                    window.location.href = targetUrl;
+                }
+            };
+
+            if (skeletonShownAt > 0) {
+                const elapsed = Date.now() - skeletonShownAt;
+                const remaining = Math.max(0, 180 - elapsed);
+                if (remaining > 0) {
+                    setTimeout(finalizeSwap, remaining);
+                    return;
+                }
             }
+            finalizeSwap();
         });
     }
 

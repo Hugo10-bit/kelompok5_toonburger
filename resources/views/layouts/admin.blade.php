@@ -272,12 +272,12 @@
             </div>
 
             <!-- Primary Navigation Links (Ordered and positioned exactly as mockup) -->
-            <nav class="space-y-2 text-[14.5px] font-medium">
+            <nav class="space-y-1.5 text-[13px] font-medium">
 
                 <!-- 1. Dashboard -->
                 <a href="{{ route('admin.dashboard') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.dashboard') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M560-600q-17 0-28.5-11.5T520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560ZM160-440q-17 0-28.5-11.5T120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160Zm400 320q-17 0-28.5-11.5T520-160v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560Zm-400 0q-17 0-28.5-11.5T120-160v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160Z"/>
                     </svg>
                     <span data-i18n="nav_dashboard">Dashboard</span>
@@ -285,8 +285,8 @@
 
                 <!-- 2. Admin Profile -->
                 <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
                     </svg>
                     <span data-i18n="nav_profile">Profil Admin</span>
@@ -294,8 +294,8 @@
 
                 <!-- 3. Order processing -->
                 <a href="{{ route('admin.orders') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6.5 16.5V3.5L7.8 5L9.1 3.5L10.4 5L11.7 3.5L13 5L14.3 3.5L15.6 5L16.9 3.5L18.2 5L19.5 3.5V20" />
                         <path d="M9 8h5M16.2 8h1.4" stroke-width="2" />
                         <path d="M9 11.5h5M16.2 11.5h1.4" stroke-width="2" />
@@ -307,8 +307,8 @@
 
                 <!-- 4. Product Data -->
                 <a href="{{ route('admin.products') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M160-120q-33 0-56.5-23.5T80-200v-80q0-17 11.5-28.5T120-320h720q17 0 28.5 11.5T880-280v80q0 33-23.5 56.5T800-120H160Zm263-280q-21 20-77 20t-76-20q-20-20-56-20-28 0-45.5 13.5T121-385q-16 5-28.5-6.5T80-420q0-17 11.5-29.5T119-470q17-9 37-19.5t58-10.5q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q36 0 57 10t38 19q16 8 27.5 21t11.5 30q0 17-12 28.5t-28 6.5q-29-8-45.5-21.5T750-420q-36 0-58 20t-78 20q-56 0-77-20t-57-20q-36 0-57 20Zm202.5-426.5q71.5 13.5 128 42t91.5 74Q880-665 880-600q0 17-11.5 28.5T840-560H120q-17 0-28.5-11.5T80-600q0-65 35-110.5t91.5-74q56.5-28.5 128-42T480-840q74 0 145.5 13.5Z"/>
                     </svg>
                     <span data-i18n="nav_products">Data Produk</span>
@@ -316,8 +316,8 @@
 
                 <!-- 5. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
                     </svg>
                     <span data-i18n="nav_categories">Data Kategori</span>
@@ -325,8 +325,8 @@
 
                 <!-- 6. Pesan Terbaru -->
                 <a href="{{ route('admin.messages') }}"
-                   class="flex items-center gap-4 px-5 py-4 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-5 h-5 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
                     </svg>
                     <span data-i18n="nav_messages">Pesan Terbaru</span>
@@ -536,12 +536,23 @@
 
                     <!-- Live Search Results Dropdown -->
                     <div id="header-search-results" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-3 z-50 hidden max-h-96 overflow-y-auto animate-modal-pop">
-                        <div id="header-search-loading" class="hidden text-center py-4 text-xs text-gray-400">
-                            <svg class="w-5 h-5 animate-spin mx-auto text-[#415C58] mb-1" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span data-i18n="searching">Mencari data...</span>
+                        <div id="header-search-loading" class="hidden space-y-2 py-1" aria-hidden="true">
+                            <div class="flex items-center justify-between px-2 py-1 border-b border-gray-100 dark:border-[#4A4A4A]">
+                                <div class="h-3 w-24 rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-20 rounded-full tb-skeleton"></div>
+                            </div>
+                            @for($s = 0; $s < 3; $s++)
+                                <div class="flex items-center justify-between p-2 rounded-xl">
+                                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                                        <div class="w-8 h-8 rounded-lg tb-skeleton shrink-0"></div>
+                                        <div class="space-y-1.5 flex-1 max-w-[200px]">
+                                            <div class="h-3 w-4/5 rounded-full tb-skeleton"></div>
+                                            <div class="h-2.5 w-1/2 rounded-full tb-skeleton"></div>
+                                        </div>
+                                    </div>
+                                    <div class="h-5 w-16 rounded-full tb-skeleton shrink-0"></div>
+                                </div>
+                            @endfor
                         </div>
                         <div id="header-search-content"></div>
                     </div>

@@ -167,10 +167,55 @@ function toggleCartDrawer() {
     }
 }
 
+function initSkeletonImages(root = document) {
+    const imgs = (root || document).querySelectorAll('img[data-skeleton-img]');
+    imgs.forEach(img => {
+        const wrap = img.closest('.tb-skeleton-img-wrap');
+        if (!wrap) return;
+        if (img.complete) {
+            wrap.classList.remove('is-loading');
+            return;
+        }
+        if (img.dataset.skeletonBound === 'true') return;
+        img.dataset.skeletonBound = 'true';
+        const done = () => wrap.classList.remove('is-loading');
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+    });
+}
+
+function getCartSkeletonHtml(count = 2) {
+    return Array.from({ length: count }).map(() => `
+        <div class="bg-[#F4F5F7] rounded-[14px] p-3.5 flex gap-3.5 items-center" aria-hidden="true">
+            <div class="w-[74px] h-[74px] rounded-[10px] tb-skeleton flex-shrink-0"></div>
+            <div class="flex-1 min-w-0 space-y-2">
+                <div class="h-3.5 w-3/4 rounded-full tb-skeleton"></div>
+                <div class="h-3 w-1/3 rounded-full tb-skeleton"></div>
+                <div class="flex items-center justify-between pt-2 border-t border-[#E5E7EB]">
+                    <div class="h-6 w-16 rounded-[6px] tb-skeleton"></div>
+                    <div class="h-3.5 w-16 rounded-full tb-skeleton"></div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+let _cartHydratedOnce = false;
+
 async function refreshCart() {
+    const container = document.getElementById('cart-items-container');
+    const badge = document.getElementById('cart-badge');
+    const badgeCount = badge ? (parseInt(badge.innerText, 10) || 0) : 0;
+
+    if (container && !_cartHydratedOnce && badgeCount > 0) {
+        container.classList.add('max-h-[348px]');
+        container.innerHTML = getCartSkeletonHtml(Math.min(badgeCount, 3));
+    }
+
     try {
         const res = await fetch(APP_CONFIG.cartIndexUrl || '/cart');
         const data = await res.json();
+        _cartHydratedOnce = true;
         renderCart(data);
     } catch (e) {
         console.error(e);
@@ -328,11 +373,41 @@ async function removeCartItem(cartKey) {
     }
 }
 
+let _productModalSeq = 0;
+
+function setProductModalSkeletonState(isLoading) {
+    const skel = document.getElementById('product-modal-skeleton');
+    const body = document.getElementById('product-modal-body');
+    if (skel) {
+        skel.classList.toggle('hidden', !isLoading);
+        skel.classList.toggle('grid', isLoading);
+    }
+    if (body) {
+        body.classList.toggle('hidden', isLoading);
+    }
+}
+
 async function openProductModal(productId) {
+    const seq = ++_productModalSeq;
+    const modal = document.getElementById('product-modal');
+    const backdrop = document.getElementById('product-modal-backdrop');
+
+    if (modal && backdrop) {
+        setProductModalSkeletonState(true);
+        modal.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+        pushMobileOverlayHistory('product-modal', closeProductModal);
+    }
+
     try {
         const res = await fetch(`/product/${productId}`);
         const data = await res.json();
-        if (!data.success) return;
+        if (seq !== _productModalSeq) return;
+        if (!data.success) {
+            closeProductModal();
+            return;
+        }
 
         currentModalProduct = data.product;
         document.getElementById('modal-product-id').value = currentModalProduct.id;
@@ -357,11 +432,21 @@ async function openProductModal(productId) {
             autoTranslateDynamicElements([modalNameEl, modalDescEl].filter(Boolean), true);
         }
         document.getElementById('modal-product-price').innerText = (currentModalProduct.formatted_price || formatRupiah(currentModalProduct.price)).toUpperCase();
-        document.getElementById('modal-product-image').src = resolveMediaUrl(currentModalProduct.image_url || currentModalProduct.image);
 
+        const modalImg = document.getElementById('modal-product-image');
         const cardBg = document.getElementById('modal-product-card-bg');
         if (cardBg) {
             cardBg.style.backgroundColor = currentModalProduct.bg || '#FFC83B';
+        }
+        if (modalImg) {
+            const targetSrc = resolveMediaUrl(currentModalProduct.image_url || currentModalProduct.image);
+            if (cardBg) cardBg.classList.add('is-loading');
+            modalImg.onload = () => { if (cardBg) cardBg.classList.remove('is-loading'); };
+            modalImg.onerror = () => { if (cardBg) cardBg.classList.remove('is-loading'); };
+            modalImg.src = targetSrc;
+            if (modalImg.complete && modalImg.naturalWidth > 0 && cardBg) {
+                cardBg.classList.remove('is-loading');
+            }
         }
 
         const qtyEl = document.getElementById('modal-quantity');
@@ -414,16 +499,17 @@ async function openProductModal(productId) {
         if (typeof window.applyAppTranslations === 'function' && (window._tbAppLang === 'EN' || window._tbAppLang === 'US')) {
             window.applyAppTranslations('EN');
         }
-        document.getElementById('product-modal').classList.remove('hidden');
-        document.getElementById('product-modal-backdrop').classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-        pushMobileOverlayHistory('product-modal', closeProductModal);
+        setProductModalSkeletonState(false);
     } catch (e) {
         console.error(e);
+        if (seq === _productModalSeq) {
+            closeProductModal();
+        }
     }
 }
 
 function closeProductModal(fromPopstate = false) {
+    _productModalSeq++;
     const modal = document.getElementById('product-modal');
     const backdrop = document.getElementById('product-modal-backdrop');
     if (modal) modal.classList.add('hidden');
@@ -1416,6 +1502,7 @@ function initAllAppEffects() {
     initScrollReveal();
     initScrollEffects();
     initSmoothWheelScroll();
+    initSkeletonImages(document);
     formatAllPhoneInputs(document);
 }
 
@@ -1672,6 +1759,7 @@ if (document.readyState === 'loading') {
         initHeroParallax();
         initScrollReveal();
         initScrollEffects();
+        initSkeletonImages(mainEl);
         if (typeof window.initAutoDismissAlerts === 'function') {
             window.initAutoDismissAlerts();
         }
@@ -1684,6 +1772,195 @@ if (document.readyState === 'loading') {
         return true;
     }
 
+    let _appLoaderHideTimer = null;
+
+    function startAppLoaderBar() {
+        const bar = document.getElementById('app-loader-bar');
+        if (!bar) return;
+        if (_appLoaderHideTimer) {
+            clearTimeout(_appLoaderHideTimer);
+            _appLoaderHideTimer = null;
+        }
+        bar.style.opacity = '1';
+        bar.style.transform = 'scaleX(0.32)';
+        window.requestAnimationFrame(() => {
+            bar.style.transform = 'scaleX(0.78)';
+        });
+    }
+
+    function finishAppLoaderBar() {
+        const bar = document.getElementById('app-loader-bar');
+        if (!bar) return;
+        bar.style.transform = 'scaleX(1)';
+        _appLoaderHideTimer = setTimeout(() => {
+            bar.style.opacity = '0';
+            setTimeout(() => {
+                if (bar.style.opacity === '0') {
+                    bar.style.transform = 'scaleX(0)';
+                }
+            }, 220);
+        }, 120);
+    }
+
+    function getProductCardsSkeletonHtml(count = 8) {
+        const cards = Array.from({ length: count }).map(() => `
+            <div class="bg-white rounded-[18px] sm:rounded-[24px] border-2 border-black/15 p-2.5 sm:p-4 flex flex-col justify-between" aria-hidden="true">
+                <div>
+                    <div class="w-full aspect-[1.35] sm:aspect-[1.45] rounded-xl sm:rounded-2xl tb-skeleton"></div>
+                    <div class="pt-2.5 sm:pt-3 space-y-2">
+                        <div class="h-2.5 w-16 rounded-full tb-skeleton"></div>
+                        <div class="h-4 w-4/5 rounded-full tb-skeleton"></div>
+                        <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                        <div class="h-3 w-2/3 rounded-full tb-skeleton"></div>
+                    </div>
+                </div>
+                <div class="pt-2.5 sm:pt-3 mt-2.5 sm:mt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                    <div class="h-4 w-20 rounded-full tb-skeleton"></div>
+                    <div class="h-8 sm:h-10 w-14 sm:w-16 rounded-lg sm:rounded-[11px] tb-skeleton"></div>
+                </div>
+            </div>
+        `).join('');
+        return `<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">${cards}</div>`;
+    }
+
+    function getPublicRouteSkeletonHtml(targetUrl) {
+        let pathname = '/home';
+        try {
+            pathname = new URL(targetUrl, window.location.origin).pathname;
+        } catch (e) {}
+
+        const heroSkeleton = `
+            <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
+                <div class="w-full pt-[122px] sm:pt-36 lg:pt-40 pb-10 sm:pb-14" style="background-color: #385850;">
+                    <div class="max-w-7xl mx-auto px-5 sm:px-10 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-6 space-y-4">
+                            <div class="h-9 sm:h-14 w-4/5 rounded-2xl bg-white/15 animate-pulse"></div>
+                            <div class="h-9 sm:h-14 w-3/5 rounded-2xl bg-white/15 animate-pulse"></div>
+                            <div class="h-4 w-full max-w-sm rounded-full bg-white/10 animate-pulse"></div>
+                            <div class="flex gap-3 pt-2">
+                                <div class="h-10 w-32 rounded-xl bg-white/20 animate-pulse"></div>
+                                <div class="h-10 w-32 rounded-xl bg-white/15 animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-6 flex justify-center">
+                            <div class="w-40 h-36 sm:w-52 sm:h-44 rounded-3xl bg-white/15 animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        if (pathname.startsWith('/menu')) {
+            return `
+                <div class="space-y-0 pb-0" aria-hidden="true">
+                    ${heroSkeleton}
+                    <div class="retro-grid-bg pt-6 sm:pt-10 pb-10 sm:pb-14">
+                        <div class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-6">
+                            <div class="space-y-2 pt-2">
+                                <div class="h-8 sm:h-10 w-48 rounded-xl tb-skeleton-warm"></div>
+                                <div class="h-3.5 w-72 max-w-full rounded-full tb-skeleton-warm"></div>
+                            </div>
+                            <div class="flex items-center gap-2.5 overflow-hidden pb-1">
+                                <div class="h-9 w-20 rounded-full tb-skeleton-warm shrink-0"></div>
+                                <div class="h-9 w-28 rounded-full tb-skeleton-warm shrink-0"></div>
+                                <div class="h-9 w-24 rounded-full tb-skeleton-warm shrink-0"></div>
+                                <div class="h-9 w-24 rounded-full tb-skeleton-warm shrink-0"></div>
+                            </div>
+                            ${getProductCardsSkeletonHtml(8)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (pathname.startsWith('/about')) {
+            return `
+                <div class="-mt-[88px] sm:-mt-[96px] pt-[98px] sm:pt-[126px] pb-14 px-3.5 sm:px-6 lg:px-8" style="background-color: #FAF3E3;" aria-hidden="true">
+                    <div class="max-w-6xl mx-auto space-y-8">
+                        <div class="bg-white rounded-[20px] sm:rounded-[26px] border border-black/15 p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                            <div class="lg:col-span-6 grid grid-cols-2 gap-3 sm:gap-4">
+                                <div class="rounded-2xl aspect-[4/3] sm:aspect-[351/429] tb-skeleton"></div>
+                                <div class="rounded-2xl aspect-[4/3] sm:aspect-[351/429] tb-skeleton"></div>
+                            </div>
+                            <div class="lg:col-span-6 space-y-3">
+                                <div class="h-8 w-64 rounded-xl tb-skeleton"></div>
+                                <div class="h-3.5 w-full rounded-full tb-skeleton"></div>
+                                <div class="h-3.5 w-11/12 rounded-full tb-skeleton"></div>
+                                <div class="h-3.5 w-4/5 rounded-full tb-skeleton"></div>
+                                <div class="h-3.5 w-10/12 rounded-full tb-skeleton"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-5 py-4">
+                            <div class="h-16 rounded-2xl tb-skeleton-warm"></div>
+                            <div class="h-16 rounded-2xl tb-skeleton-warm"></div>
+                            <div class="h-16 rounded-2xl tb-skeleton-warm"></div>
+                            <div class="h-16 rounded-2xl tb-skeleton-warm"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (pathname.startsWith('/contact')) {
+            return `
+                <div class="-mt-[88px] sm:-mt-[96px] pt-[98px] sm:pt-[126px] pb-14 px-3.5 sm:px-6 lg:px-8" style="background-color: #FAF3E3;" aria-hidden="true">
+                    <div class="max-w-6xl mx-auto space-y-8">
+                        <div class="bg-white rounded-[20px] sm:rounded-[26px] border border-black/15 p-5 sm:p-8 space-y-5">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div class="space-y-2">
+                                    <div class="h-7 w-72 max-w-full rounded-xl tb-skeleton"></div>
+                                    <div class="h-3.5 w-80 max-w-full rounded-full tb-skeleton"></div>
+                                </div>
+                                <div class="flex gap-2.5">
+                                    <div class="h-9 w-40 rounded-lg tb-skeleton"></div>
+                                    <div class="h-9 w-28 rounded-lg tb-skeleton"></div>
+                                </div>
+                            </div>
+                            <div class="w-full h-[240px] sm:h-[380px] rounded-2xl tb-skeleton-warm"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="space-y-0 pb-0" aria-hidden="true">
+                ${heroSkeleton}
+                <div class="retro-grid-bg py-10 sm:py-14 px-3.5 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto space-y-8">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+                            <div class="h-44 sm:h-52 rounded-[24px] bg-white border border-black/10 p-5 space-y-3">
+                                <div class="w-10 h-10 rounded-xl tb-skeleton"></div>
+                                <div class="h-4 w-3/4 rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-2/3 rounded-full tb-skeleton"></div>
+                            </div>
+                            <div class="h-44 sm:h-52 rounded-[24px] bg-white border border-black/10 p-5 space-y-3">
+                                <div class="w-10 h-10 rounded-xl tb-skeleton"></div>
+                                <div class="h-4 w-3/4 rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-2/3 rounded-full tb-skeleton"></div>
+                            </div>
+                            <div class="h-44 sm:h-52 rounded-[24px] bg-white border border-black/10 p-5 space-y-3">
+                                <div class="w-10 h-10 rounded-xl tb-skeleton"></div>
+                                <div class="h-4 w-3/4 rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-2/3 rounded-full tb-skeleton"></div>
+                            </div>
+                            <div class="h-44 sm:h-52 rounded-[24px] bg-white border border-black/10 p-5 space-y-3">
+                                <div class="w-10 h-10 rounded-xl tb-skeleton"></div>
+                                <div class="h-4 w-3/4 rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                                <div class="h-3 w-2/3 rounded-full tb-skeleton"></div>
+                            </div>
+                        </div>
+                        ${getProductCardsSkeletonHtml(4)}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
     window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false) {
         const key = normalizeAppUrl(url);
         const seq = ++_navSeq;
@@ -1691,17 +1968,59 @@ if (document.readyState === 'loading') {
 
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
+            finishAppLoaderBar();
             applyAppPayload(url, cached, pushHistory, preserveScroll);
             return;
         }
 
+        startAppLoaderBar();
+
+        let skeletonShownAt = 0;
+        const targetPath = (() => {
+            try { return new URL(key, window.location.origin).pathname; } catch (e) { return ''; }
+        })();
+        const currentPath = window.location.pathname;
+        const menuResultsContainer = document.getElementById('menu-results-container');
+        const isMenuGridOnlyFilter = currentPath.startsWith('/menu') && targetPath.startsWith('/menu') && Boolean(menuResultsContainer);
+
+        const skeletonTimer = setTimeout(() => {
+            if (seq !== _navSeq) return;
+            if (isMenuGridOnlyFilter && menuResultsContainer) {
+                menuResultsContainer.innerHTML = getProductCardsSkeletonHtml(8);
+                skeletonShownAt = Date.now();
+            } else {
+                const mainEl = document.querySelector('main');
+                if (mainEl) {
+                    mainEl.innerHTML = getPublicRouteSkeletonHtml(key);
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                    skeletonShownAt = Date.now();
+                }
+            }
+        }, 65);
+
         prefetchAppUrl(key).then(payload => {
             if (seq !== _navSeq) return;
-            if (payload) {
-                applyAppPayload(url, payload, pushHistory, preserveScroll);
-            } else {
-                window.location.href = url;
+            clearTimeout(skeletonTimer);
+
+            const finalizeSwap = () => {
+                if (seq !== _navSeq) return;
+                finishAppLoaderBar();
+                if (payload) {
+                    applyAppPayload(url, payload, pushHistory, preserveScroll);
+                } else {
+                    window.location.href = url;
+                }
+            };
+
+            if (skeletonShownAt > 0) {
+                const elapsed = Date.now() - skeletonShownAt;
+                const remaining = Math.max(0, 180 - elapsed);
+                if (remaining > 0) {
+                    setTimeout(finalizeSwap, remaining);
+                    return;
+                }
             }
+            finalizeSwap();
         });
     };
 
@@ -2205,7 +2524,7 @@ const _tbAppTranslations = {
         nav_about: 'Tentang',
         nav_contact: 'Kontak',
         nav_orders: 'Pesanan Saya',
-        nav_profile: 'Profil',
+        nav_profile: 'Profile',
         nav_admin: 'Dashboard Admin',
         nav_logout: 'Logout',
         nav_search_placeholder: 'Cheese Burger...',
@@ -2560,13 +2879,13 @@ function updateAppLangUI(code) {
     const profileFlagEl = document.getElementById('profile-lang-flag');
     const profileLabelEl = document.getElementById('profile-lang-label');
     if (profileFlagEl) profileFlagEl.innerHTML = getAppFlagSvg(isEn, 'circle-flag-profile-dd');
-    if (profileLabelEl) profileLabelEl.textContent = isEn ? 'English' : 'Indonesia';
+    if (profileLabelEl) profileLabelEl.textContent = isEn ? 'English' : 'Bahasa Indonesia';
 
     // Mobile dropdown single language switch button (guests)
     const mobileFlagEl = document.getElementById('mobile-lang-flag');
     const mobileLabelEl = document.getElementById('mobile-lang-label');
     if (mobileFlagEl) mobileFlagEl.innerHTML = getAppFlagSvg(isEn, 'circle-flag-mobile-dd');
-    if (mobileLabelEl) mobileLabelEl.textContent = isEn ? 'English' : 'Indonesia';
+    if (mobileLabelEl) mobileLabelEl.textContent = isEn ? 'English' : 'Bahasa Indonesia';
 }
 
 function setAppLanguage(lang) {
@@ -2812,6 +3131,7 @@ Object.assign(window, {
     initScrollReveal,
     initScrollEffects,
     initSmoothWheelScroll,
+    initSkeletonImages,
     initAllAppEffects,
     translateEntirePage,
     applyAppTranslations,

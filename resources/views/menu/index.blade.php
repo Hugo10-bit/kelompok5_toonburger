@@ -50,6 +50,7 @@
             @endforeach
         </div>
 
+        <div id="menu-results-container">
         @if($products->isEmpty() || request()->has('empty'))
             <div class="py-12 sm:py-20 text-center max-w-md mx-auto flex flex-col items-center justify-center toon-reveal">
                 <img src="{{ asset('images/empty-menu.png') }}"
@@ -65,7 +66,7 @@
                 </a>
             </div>
         @else
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div id="menu-products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 @foreach($products as $product)
                     @php
                         $categoryName = $product->category->name ?? ($cardMetadata[$product->id]['badge'] ?? 'BURGER');
@@ -88,6 +89,7 @@
                 @endforeach
             </div>
         @endif
+        </div>
 
     </div>
 </div>

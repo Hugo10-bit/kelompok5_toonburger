@@ -108,6 +108,20 @@
 
                 <!-- Map Viewport (Interactive Leaflet Map with Coordinate-Locked Custom Pin) -->
                 <div class="mt-4 sm:mt-5 relative w-full h-[240px] sm:h-[380px] lg:h-[420px] rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200 bg-gray-100">
+                    <div id="contact-map-skeleton" class="absolute inset-0 z-20 p-4 flex flex-col justify-between bg-[#F3EFE4] transition-opacity duration-300" aria-hidden="true">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="h-8 w-44 rounded-xl tb-skeleton-warm"></div>
+                            <div class="h-7 w-24 rounded-full tb-skeleton-warm hidden sm:block"></div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center gap-2.5 my-auto">
+                            <div class="w-10 h-10 rounded-full tb-skeleton-warm"></div>
+                            <div class="h-4 w-36 rounded-full tb-skeleton-warm"></div>
+                        </div>
+                        <div class="flex items-end justify-between">
+                            <div class="h-3 w-32 rounded-full tb-skeleton-warm"></div>
+                            <div class="w-8 h-16 rounded-lg tb-skeleton-warm"></div>
+                        </div>
+                    </div>
                     <div id="live-leaflet-map" class="w-full h-full z-10"></div>
                 </div>
 
