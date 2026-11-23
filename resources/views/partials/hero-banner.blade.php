@@ -88,13 +88,13 @@
                     <div class="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-1 sm:pt-2">
                         <a href="{{ $ctaHref }}"
                            @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
-                           class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
-                            Pickup Order
+                           class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] whitespace-nowrap cursor-pointer">
+                            Ambil Sendiri
                         </a>
                         <a href="{{ $deliveryHref }}"
                            @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
-                           class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
-                            Delivery Order
+                           class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition whitespace-nowrap cursor-pointer">
+                            Pesan Antar
                         </a>
                     </div>
                 </div>
