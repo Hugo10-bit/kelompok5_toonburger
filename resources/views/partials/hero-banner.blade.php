@@ -4,9 +4,9 @@
     $subtitle = $subtitle ?? 'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.';
     $ctaHref = $ctaHref ?? route('menu');
     $deliveryHref = $deliveryHref ?? route('gofood');
-    $isHome = $isHome ?? false;
-    $revealClass = $isHome ? '' : ($revealClass ?? 'toon-reveal-left');
-    $rightRevealClass = $isHome ? '' : 'toon-reveal-right reveal-delay-150';
+    $isAnimatedHero = ($isHome ?? false) || ($animateMotion ?? false);
+    $revealClass = $isAnimatedHero ? '' : ($revealClass ?? 'toon-reveal-left');
+    $rightRevealClass = $isAnimatedHero ? '' : 'toon-reveal-right reveal-delay-150';
 @endphp
 
 <section id="hero-section" class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
@@ -15,13 +15,12 @@
         <div class="relative overflow-hidden w-full pt-[122px] sm:pt-36 lg:pt-40 min-h-0 sm:min-h-[520px] flex flex-col justify-between"
              style="background-color: #385850;">
 
-            <!-- Concentric / wavy retro background curves -->
-            <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1000 500">
-                <path d="M-100,50 C200,20 400,120 700,70 C900,30 1100,100 1200,80" fill="none" stroke="#fff" stroke-width="1.5"/>
-                <path d="M-100,120 C200,90 400,190 700,140 C900,100 1100,170 1200,150" fill="none" stroke="#fff" stroke-width="1.5"/>
-                <path d="M-100,190 C200,160 400,260 700,210 C900,170 1100,240 1200,220" fill="none" stroke="#fff" stroke-width="1.5"/>
-                <path d="M-100,260 C200,230 400,330 700,280 C900,240 1100,310 1200,290" fill="none" stroke="#fff" stroke-width="1.5"/>
-            </svg>
+            <!-- Hero SVG Background Pattern -->
+            <img src="{{ asset('images/hero-pattern.svg') }}"
+                 alt=""
+                 aria-hidden="true"
+                 decoding="async"
+                 class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none">
 
             <!-- Comic Sparkles (Desktop coordinates preserved; safe framing on mobile) -->
             <img src="{{ asset('images/star-sparkle.png') }}"
@@ -74,13 +73,13 @@
 
                 <!-- Left: Headline + Subtitle + Buttons -->
                 <div class="lg:col-span-6 space-y-2.5 sm:space-y-4 pb-2 sm:pb-6 lg:pb-10 {{ $revealClass }}">
-                    <h1 @if($isHome) data-gsap-text="hero-heading" @endif
+                    <h1 @if($isAnimatedHero) data-gsap-text="hero-heading" @endif
                         class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] drop-shadow-sm text-[30px] sm:text-5xl {{ $headlineDesktopClass }}"
                         style="font-family: 'Luckiest Guy', cursive, sans-serif;">
                         {!! $headline !!}
                     </h1>
 
-                    <p @if($isHome) data-gsap-text="hero-subtitle" @endif
+                    <p @if($isAnimatedHero) data-gsap-text="hero-subtitle" @endif
                        class="text-[13px] sm:text-sm md:text-base text-white/90 leading-relaxed max-w-[300px] sm:max-w-md">
                         {{ $subtitle }}
                     </p>
@@ -88,12 +87,12 @@
                     <!-- CTA Buttons: Pickup Order & Delivery Order -->
                     <div class="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-1 sm:pt-2">
                         <a href="{{ $ctaHref }}"
-                           @if($isHome) data-gsap-text="hero-cta" @endif
+                           @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] cursor-pointer">
                             Pickup Order
                         </a>
                         <a href="{{ $deliveryHref }}"
-                           @if($isHome) data-gsap-text="hero-cta" @endif
+                           @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-white/80 bg-[#385850] hover:bg-[#2d4741] text-white transition cursor-pointer">
                             Delivery Order
                         </a>
@@ -101,7 +100,7 @@
                 </div>
 
                 <!-- Right: Burger + Speech Bubble Cluster -->
-                <div @if($isHome) data-motion-card="hero-burger" @endif class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pt-7 sm:pt-8 lg:pt-10 pb-3 sm:pb-6 lg:pb-8 lg:pl-12 xl:pl-16 {{ $rightRevealClass }}">
+                <div @if($isAnimatedHero) data-motion-card="hero-burger" @endif class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pt-7 sm:pt-8 lg:pt-10 pb-3 sm:pb-6 lg:pb-8 lg:pl-12 xl:pl-16 {{ $rightRevealClass }}">
                     <div class="relative select-none -translate-x-6 sm:translate-x-0">
 
                         <!-- Hero Double/Triple Cheeseburger -->

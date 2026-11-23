@@ -433,8 +433,17 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.sticky-review-card:hover {
+.sticky-review-card[data-motion-card="review"] {
+    transition: box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sticky-review-card:not([data-motion-card="review"]):hover {
     transform: translateY(-4px) rotate(0deg) !important;
+    box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
+    z-index: 20;
+}
+
+.sticky-review-card[data-motion-card="review"]:hover {
     box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
     z-index: 20;
 }

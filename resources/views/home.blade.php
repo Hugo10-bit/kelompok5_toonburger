@@ -3,7 +3,7 @@
 @section('title', 'Toon Burger - Setiap Gigitan Punya Cerita!')
 
 @section('content')
-<div data-home-page class="space-y-0 pb-0">
+<div data-home-page data-gsap-motion-page="home" class="space-y-0 pb-0">
 
     <!-- ═══════════════════════════════════════════════
          1. HERO SECTION (Sesuai Foto 5)

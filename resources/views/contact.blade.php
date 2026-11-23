@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<div>
+<div data-gsap-motion-page="contact">
 
     <!-- ═══════════════════════════════════════════════
          1. TOP MAP SECTION ON 3D PERSPECTIVE GRID
@@ -59,24 +59,25 @@
         </div>
 
         <!-- Map Card -->
-        <div class="relative z-10 max-w-6xl mx-auto toon-reveal">
+        <div data-motion-card="story" class="relative z-10 max-w-6xl mx-auto">
             <div class="bg-white rounded-[20px] sm:rounded-[26px] border-[1.5px] border-black shadow-[3px_4px_0px_#8F9693] sm:shadow-[5px_6px_0px_#8F9693] p-4 sm:p-8">
 
                 <!-- Header Row -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
                     <div>
-                        <h1 class="text-lg sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
+                        <h1 data-gsap-text="hero-heading"
+                            class="text-lg sm:text-2xl lg:text-[26px] text-[#27443E] uppercase tracking-wide leading-tight"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             TEMUKAN LOKASI OUTLET KAMI!
                         </h1>
-                        <p class="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1">
+                        <p data-gsap-text="hero-subtitle" class="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1">
                             Kami hadir lebih dekat dengan Anda. Mampir dan nikmati pengalaman<br class="hidden sm:inline">
                             terbaik bersama kami!
                         </p>
                     </div>
 
                     <!-- Right Controls -->
-                    <div class="flex flex-wrap items-center gap-2.5 self-start md:self-center">
+                    <div data-gsap-text="hero-cta" class="flex flex-wrap items-center gap-2.5 self-start md:self-center">
                         <!-- Segmented Toggle: Peta Jalan / Satelit Google -->
                         <div class="bg-[#EBEBEB] p-1 rounded-lg inline-flex items-center border border-gray-200/80">
                             <button type="button"
@@ -137,22 +138,23 @@
 
             <!-- Left Column: FAQ Accordion -->
             <div class="lg:col-span-6">
-                <div class="toon-reveal">
-                    <h2 class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
+                <div>
+                    <h2 data-gsap-text="section-title"
+                        class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase leading-[1.14] tracking-wide"
                         style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                         PERTANYAAN YANG<br>
                         SERING DITANYAKAN
                     </h2>
-                    <p class="text-[11.5px] sm:text-[13px] text-[#4A6B65]/85 mt-2 mb-5 sm:mb-7 leading-relaxed max-w-md">
+                    <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-[13px] text-[#4A6B65]/85 mt-2 mb-5 sm:mb-7 leading-relaxed max-w-md">
                         Masih ragu dan punya pertanyaan sebelum memesan? Temukan semua jawabannya di sini.
                     </p>
                 </div>
 
-                <div class="space-y-2.5 sm:space-y-3.5" id="faq-accordion-list">
+                <div data-motion-grid="faq" class="space-y-2.5 sm:space-y-3.5" id="faq-accordion-list">
                     <!-- FAQ 1 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 50ms;">
+                    <div data-motion-card="faq" class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition-shadow duration-300 hover:shadow-sm">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
-                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                            <span data-gsap-text="card" class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -168,9 +170,9 @@
                     </div>
 
                     <!-- FAQ 2 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 100ms;">
+                    <div data-motion-card="faq" class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition-shadow duration-300 hover:shadow-sm">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
-                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                            <span data-gsap-text="card" class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -186,9 +188,9 @@
                     </div>
 
                     <!-- FAQ 3 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 150ms;">
+                    <div data-motion-card="faq" class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition-shadow duration-300 hover:shadow-sm">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
-                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                            <span data-gsap-text="card" class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -204,9 +206,9 @@
                     </div>
 
                     <!-- FAQ 4 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 200ms;">
+                    <div data-motion-card="faq" class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition-shadow duration-300 hover:shadow-sm">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
-                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                            <span data-gsap-text="card" class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Apakah Toon Burger melayani pesan antar langsung lewat website ini?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -222,9 +224,9 @@
                     </div>
 
                     <!-- FAQ 5 -->
-                    <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 250ms;">
+                    <div data-motion-card="faq" class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition-shadow duration-300 hover:shadow-sm">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
-                            <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
+                            <span data-gsap-text="card" class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
                                 Bagaimana jika saya terlambat mengambil pesanan di outlet?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -242,7 +244,7 @@
             </div>
 
             <!-- Right Column: Clipboard Contact Card -->
-            <div class="lg:col-span-6 pt-5 sm:pt-6 toon-reveal" style="transition-delay: 150ms;">
+            <div data-motion-card="story" class="lg:col-span-6 pt-5 sm:pt-6">
                 <div class="relative mx-auto w-full">
 
                     <!-- Top Tan Clipboard Clip Illustration -->
@@ -257,7 +259,8 @@
 
                     <!-- White Card Body -->
                     <div class="bg-white rounded-t-[24px] sm:rounded-t-[34px] pt-8 sm:pt-12 px-4 sm:px-10 pb-6 sm:pb-7 border-x border-t border-gray-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] relative z-10">
-                        <h2 class="text-2xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
+                        <h2 data-gsap-text="section-title"
+                            class="text-2xl sm:text-4xl text-[#27443E] uppercase leading-[1.12] tracking-wide"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             <span data-i18n-app="contact_form_heading_1">YUK, NGOBROL BARENG</span><br>
                             <span data-i18n-app="contact_form_heading_2">TOON BURGER!</span>
@@ -269,7 +272,7 @@
                         <form id="contact-form" action="{{ route('contact.store') }}" method="POST" onsubmit="handleContactSubmit(event)" class="space-y-4">
                             @csrf
                             <div>
-                                <label for="contact-name" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
+                                <label data-gsap-text="body" for="contact-name" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nama Lengkap</label>
                                 <input type="text"
                                        id="contact-name"
                                        name="name"
@@ -281,7 +284,7 @@
                             </div>
 
                             <div>
-                                <label for="contact-email" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Email</label>
+                                <label data-gsap-text="body" for="contact-email" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Email</label>
                                 <input type="email"
                                        id="contact-email"
                                        name="email"
@@ -293,7 +296,7 @@
                             </div>
 
                             <div>
-                                <label for="contact-phone" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nomor Telefon</label>
+                                <label data-gsap-text="body" for="contact-phone" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Nomor Telefon</label>
                                 <input type="tel"
                                        id="contact-phone"
                                        name="phone"
@@ -307,7 +310,7 @@
                             </div>
 
                             <div>
-                                <label for="contact-message" data-i18n-app="contact_message_label" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
+                                <label data-gsap-text="body" for="contact-message" data-i18n-app="contact_message_label" class="block text-xs sm:text-[13px] font-bold text-gray-800 mb-1.5">Pesan</label>
                                 <textarea id="contact-message"
                                           name="message"
                                           rows="3"
@@ -320,6 +323,7 @@
                             <div class="pt-2">
                                 <button type="submit"
                                         id="contact-submit-btn"
+                                        data-gsap-text="cta"
                                         class="w-full bg-[#385A56] hover:bg-[#2C4945] active:scale-[0.99] disabled:opacity-65 disabled:cursor-not-allowed text-white font-medium text-xs sm:text-sm py-3.5 rounded-lg transition flex items-center justify-center gap-2.5 cursor-pointer shadow-xs">
                                     <span>Kirim Pesan</span>
                                     <svg class="w-4 h-4 text-white -rotate-12 translate-y-[-1px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">

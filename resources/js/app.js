@@ -1,5 +1,5 @@
 import './app-main';
-import './pages/home';
+import './pages/public-animations';
 import './pages/about';
 import './pages/contact';
 import './pages/checkout';

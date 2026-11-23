@@ -3,7 +3,7 @@
 @section('title', 'Tentang Kami - Toon Burger')
 
 @section('content')
-<div>
+<div data-gsap-motion-page="about">
     {{-- Negative top margin pulls the perspective grid behind the sticky translucent navbar, matching contact.blade.php. --}}
     <section class="relative overflow-hidden -mt-[88px] sm:-mt-[96px] pt-[98px] sm:pt-[126px] pb-7 sm:pb-14 lg:pb-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E2D9C5]"
              style="background-color: #FAF3E3;">
@@ -47,7 +47,7 @@
             </svg>
         </div>
 
-        <div class="relative z-10 max-w-6xl mx-auto toon-reveal">
+        <div data-motion-card="story" class="relative z-10 max-w-6xl mx-auto">
             <div class="bg-white rounded-[20px] sm:rounded-[26px] border-[1.5px] border-black shadow-[3px_4px_0px_#8F9693] sm:shadow-[5px_6px_0px_#8F9693] p-3.5 sm:p-6 lg:p-7">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center">
 
@@ -73,16 +73,17 @@
                     </div>
 
                     <div class="lg:col-span-6 space-y-2.5 sm:space-y-4 lg:pr-3 py-0.5 sm:py-1">
-                        <h1 class="text-lg sm:text-3xl lg:text-[30px] text-[#27443E] uppercase tracking-wide leading-tight"
+                        <h1 data-gsap-text="hero-heading"
+                            class="text-lg sm:text-3xl lg:text-[30px] text-[#27443E] uppercase tracking-wide leading-tight"
                             style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                             TENTANG TOON BURGER
                         </h1>
 
-                        <p class="text-[11.5px] sm:text-[13.5px] text-[#4B5563] leading-relaxed">
+                        <p data-gsap-text="body" class="text-[11.5px] sm:text-[13.5px] text-[#4B5563] leading-relaxed">
                             Toon Burger lahir dari mimpi sederhana: menciptakan burger yang tidak hanya mengenyangkan perut, tetapi juga menghadirkan kebahagiaan sejati seperti saat menonton kartun favorit di masa kecil.
                         </p>
 
-                        <p class="text-[11.5px] sm:text-[13.5px] text-[#4B5563] leading-relaxed">
+                        <p data-gsap-text="body" class="text-[11.5px] sm:text-[13.5px] text-[#4B5563] leading-relaxed">
                             Banyak burger modern kehilangan jati dirinya, seperti daging yang kering, roti yang terlalu manis, atau saus buatan pabrik yang serba instan. Di Toon Burger, kami memilih jalur yang berbeda: kami menggunakan <strong class="font-semibold text-[#1F2937]">100% daging sapi lokal pilihan</strong> tanpa campuran tepung, memanggang roti brioche mentega lembut setiap pagi, dan meracik saus khas dapur kami dari nol.
                         </p>
                     </div>
@@ -95,39 +96,39 @@
     <section aria-label="Capaian Toon Burger"
              class="w-full border-b border-[#E2D9C5] py-5 sm:py-9 lg:py-10 px-3.5 sm:px-6 lg:px-8"
              style="background-color: #FAF3E3;">
-        <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-4 sm:gap-y-6 sm:gap-x-8 toon-reveal">
-            <div class="flex flex-col items-center text-center">
-                <span class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+        <div data-motion-grid="stats" class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-4 sm:gap-y-6 sm:gap-x-8">
+            <div data-motion-card="stat" class="flex flex-col items-center text-center">
+                <span data-gsap-text="card" class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     15.000+
                 </span>
-                <span class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
+                <span data-gsap-text="card" class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
                     Burger Terjual &amp; Ludes
                 </span>
             </div>
 
-            <div class="flex flex-col items-center text-center">
-                <span class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+            <div data-motion-card="stat" class="flex flex-col items-center text-center">
+                <span data-gsap-text="card" class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     100%
                 </span>
-                <span class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
+                <span data-gsap-text="card" class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
                     Terbuat dari daging asli
                 </span>
             </div>
 
-            <div class="flex flex-col items-center text-center">
-                <span class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+            <div data-motion-card="stat" class="flex flex-col items-center text-center">
+                <span data-gsap-text="card" class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     90%
                 </span>
-                <span class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
+                <span data-gsap-text="card" class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
                     Kepuasan Pelanggan
                 </span>
             </div>
 
-            <div class="flex flex-col items-center text-center">
-                <span class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
+            <div data-motion-card="stat" class="flex flex-col items-center text-center">
+                <span data-gsap-text="card" class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-[#111827] tracking-tight leading-none">
                     5.0/5.0
                 </span>
-                <span class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
+                <span data-gsap-text="card" class="text-[11px] sm:text-xs text-[#57534E] font-medium mt-1 sm:mt-1.5">
                     Rating pelanggan di Gofood
                 </span>
             </div>
@@ -135,7 +136,7 @@
     </section>
 
     <section class="orders-dot-bg py-7 sm:py-13 lg:py-16 px-3.5 sm:px-6 lg:px-8 border-b border-[#E2D9C5]">
-        <div class="max-w-6xl mx-auto toon-reveal">
+        <div data-motion-card="story" class="max-w-6xl mx-auto">
             <div id="about-visi-misi-carousel"
                  role="region"
                  aria-roledescription="carousel"
@@ -235,42 +236,49 @@
                 'quote' => 'Telat mau nyobain karena baru kesampaian, enakk bangett baru tau sayur selada dkk ya disaus makanya gurih bangett, next bakal order lagi',
                 'theme' => 'yellow',
                 'tilt' => 'lg:rotate-[2.4deg]',
+                'tiltDeg' => 2.4,
             ],
             [
                 'name' => 'Bram',
                 'quote' => 'Rasa udah improve, udah engga ada dominan asam lagi dan sudah balance, saus signature nya sudah mulai berasa, good job',
                 'theme' => 'green',
                 'tilt' => 'lg:-rotate-[1.5deg]',
+                'tiltDeg' => -1.5,
             ],
             [
                 'name' => 'Hasnul',
                 'quote' => 'Enak bangett burgernyaaa, menunya dilengkapin lagi plisssssss',
                 'theme' => 'cream',
                 'tilt' => 'lg:rotate-[2deg]',
+                'tiltDeg' => 2,
             ],
             [
                 'name' => 'Nadya Nabilah',
                 'quote' => 'Tertau karna iklan, baru pertama nyoba eh seenak ituuu, balik lagi besokk',
                 'theme' => 'yellow',
                 'tilt' => 'lg:-rotate-[1.6deg]',
+                'tiltDeg' => -1.6,
             ],
             [
                 'name' => 'Jihan',
                 'quote' => 'Enak bangettttttt, kejunyaaaaaaaa',
                 'theme' => 'cream',
                 'tilt' => 'lg:-rotate-[2.8deg]',
+                'tiltDeg' => -2.8,
             ],
             [
                 'name' => 'Ayu Dewi Fortuna',
                 'quote' => 'Enakk sekali burgernya dan red velvet nya enak juga',
                 'theme' => 'yellow',
                 'tilt' => 'lg:rotate-[1.3deg]',
+                'tiltDeg' => 1.3,
             ],
             [
                 'name' => 'Anindya Esti',
                 'quote' => 'Selalu enak, bestttt burger in townn!!!',
                 'theme' => 'green',
                 'tilt' => 'lg:-rotate-[1.8deg]',
+                'tiltDeg' => -1.8,
             ],
         ];
 
@@ -305,23 +313,24 @@
     <section class="retro-grid-bg py-8 sm:py-16 lg:py-20 px-3.5 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
 
-            <div class="text-center max-w-4xl mx-auto mb-6 sm:mb-12 lg:mb-14 toon-reveal">
-                <h2 class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase tracking-wide leading-tight"
+            <div class="text-center max-w-4xl mx-auto mb-6 sm:mb-12 lg:mb-14">
+                <h2 data-gsap-text="section-title"
+                    class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase tracking-wide leading-tight"
                     style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                     KATA MEREKA YANG UDAH NYOBA!
                 </h2>
-                <p class="text-[11.5px] sm:text-[13px] text-[#57534E] leading-relaxed mt-1.5 sm:mt-2 inline-flex items-baseline sm:items-center justify-center gap-2">
+                <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-[13px] text-[#57534E] leading-relaxed mt-1.5 sm:mt-2 inline-flex items-baseline sm:items-center justify-center gap-2">
                     <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#57534E] shrink-0 -translate-y-[1px] sm:translate-y-0" aria-hidden="true"></span>
                     <span>Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.</span>
                 </p>
             </div>
 
             {{-- Desktop uses the 4 + 3 staggered sticky-note wall; tablet reflows to a 2-column grid; phone stacks cleanly. --}}
-            <div class="hidden lg:block space-y-5 toon-reveal">
-                <div class="grid grid-cols-4 gap-3.5">
+            <div class="hidden lg:block space-y-5">
+                <div data-motion-grid="reviews" class="grid grid-cols-4 gap-3.5">
                     @foreach(array_slice($reviews, 0, 4) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <article class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
+                        <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
                             <div class="w-full flex flex-col items-center">
                                 <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
                                     @for($i = 0; $i < 5; $i++)
@@ -331,13 +340,13 @@
                                     @endfor
                                 </div>
 
-                                <h3 class="font-bold text-xs {{ $s['name'] }} mt-4">
+                                <h3 data-gsap-text="card" class="font-bold text-xs {{ $s['name'] }} mt-4">
                                     {{ $review['name'] }}
                                 </h3>
 
                                 <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
 
-                                <p class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
+                                <p data-gsap-text="card" class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
                                     "{{ $review['quote'] }}"
                                 </p>
                             </div>
@@ -355,10 +364,10 @@
                     @endforeach
                 </div>
 
-                <div class="grid grid-cols-3 gap-4 max-w-[760px] mx-auto">
+                <div data-motion-grid="reviews" class="grid grid-cols-3 gap-4 max-w-[760px] mx-auto">
                     @foreach(array_slice($reviews, 4, 3) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <article class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
+                        <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
                             <div class="w-full flex flex-col items-center">
                                 <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
                                     @for($i = 0; $i < 5; $i++)
@@ -368,13 +377,13 @@
                                     @endfor
                                 </div>
 
-                                <h3 class="font-bold text-xs {{ $s['name'] }} mt-4">
+                                <h3 data-gsap-text="card" class="font-bold text-xs {{ $s['name'] }} mt-4">
                                     {{ $review['name'] }}
                                 </h3>
 
                                 <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
 
-                                <p class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
+                                <p data-gsap-text="card" class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
                                     "{{ $review['quote'] }}"
                                 </p>
                             </div>
@@ -393,14 +402,15 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 lg:hidden toon-reveal">
+            <div data-motion-grid="reviews" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 lg:hidden">
                 @foreach($reviews as $idx => $review)
                     @php
                         $s = $themeStyles[$review['theme']];
                         $mobileTilt = $idx % 2 === 0 ? 'sm:rotate-[1deg]' : 'sm:-rotate-[1deg]';
+                        $mobileTiltDeg = $idx % 2 === 0 ? 1 : -1;
                         $lastSpan = $idx === count($reviews) - 1 ? 'sm:col-span-2 sm:max-w-[calc(50%-0.625rem)] sm:mx-auto w-full' : '';
                     @endphp
-                    <article class="sticky-review-card relative {{ $s['bg'] }} {{ $mobileTilt }} {{ $lastSpan }} border-2 sm:border-[2.5px] border-white rounded-lg shadow-[0_6px_16px_-4px_rgba(30,46,43,0.18)] sm:shadow-[0_10px_22px_-6px_rgba(30,46,43,0.2)] p-3.5 sm:p-5 min-h-0 sm:min-h-[210px] flex flex-col items-center justify-between text-center">
+                    <article data-motion-card="review" data-tilt-deg="{{ $mobileTiltDeg }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $mobileTilt }} {{ $lastSpan }} border-2 sm:border-[2.5px] border-white rounded-lg shadow-[0_6px_16px_-4px_rgba(30,46,43,0.18)] sm:shadow-[0_10px_22px_-6px_rgba(30,46,43,0.2)] p-3.5 sm:p-5 min-h-0 sm:min-h-[210px] flex flex-col items-center justify-between text-center">
                         <div class="w-full flex flex-col items-center">
                             <div class="flex items-center justify-center gap-1 sm:gap-1.5 {{ $s['star'] }}" aria-label="Rating 5 dari 5 bintang">
                                 @for($i = 0; $i < 5; $i++)
@@ -410,13 +420,13 @@
                                 @endfor
                             </div>
 
-                            <h3 class="font-bold text-xs sm:text-[13px] {{ $s['name'] }} mt-2 sm:mt-3.5">
+                            <h3 data-gsap-text="card" class="font-bold text-xs sm:text-[13px] {{ $s['name'] }} mt-2 sm:mt-3.5">
                                 {{ $review['name'] }}
                             </h3>
 
                             <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-1.5 sm:my-2.5" aria-hidden="true"></div>
 
-                            <p class="text-[11.5px] sm:text-xs leading-snug sm:leading-relaxed font-medium {{ $s['quote'] }}">
+                            <p data-gsap-text="card" class="text-[11.5px] sm:text-xs leading-snug sm:leading-relaxed font-medium {{ $s['quote'] }}">
                                 "{{ $review['quote'] }}"
                             </p>
                         </div>

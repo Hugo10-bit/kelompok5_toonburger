@@ -243,6 +243,14 @@
                                             </svg>
                                             <span data-i18n-app="nav_profile">Profile</span>
                                         </a>
+                                    @else
+                                        <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition">
+                                            <svg class="w-[18px] h-[18px] text-gray-800 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                                <circle cx="12" cy="8" r="4"/>
+                                            </svg>
+                                            <span data-i18n-app="nav_admin_edit_profile">Edit Profile</span>
+                                        </a>
                                     @endif
 
                                     <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition">
@@ -252,6 +260,13 @@
                                         </svg>
                                         <span data-i18n-app="nav_orders">Pesanan Saya</span>
                                     </a>
+
+                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition text-[#3b6e64]">
+                                            <svg class="w-[18px] h-[18px] text-[#3b6e64] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                            <span data-i18n-app="nav_admin">Dashboard Admin</span>
+                                        </a>
+                                    @endif
 
                                     <button type="button"
                                             id="profile-lang-toggle-btn"
@@ -269,13 +284,6 @@
                                         </span>
                                         <span id="profile-lang-label">Bahasa Indonesia</span>
                                     </button>
-
-                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition text-[#3b6e64]">
-                                            <svg class="w-[18px] h-[18px] text-[#3b6e64] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                                            <span data-i18n-app="nav_admin">Dashboard Admin</span>
-                                        </a>
-                                    @endif
                                 </div>
 
                                 <div class="border-t border-gray-200/80 py-1.5">
