@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Http;
 
 class MenuController extends Controller
 {
-    public const CATALOG_CACHE_KEY = 'tb_catalog_v4';
+    public const CATALOG_CACHE_KEY = 'tb_catalog_v5';
 
     /**
      * Cache active categories and available products to eliminate repeated catalog DB roundtrips.
@@ -270,6 +270,7 @@ class MenuController extends Controller
         $productData['badge'] = $meta['badge'];
         $productData['bg'] = $meta['bg'];
         $productData['description'] = $desc;
+        $productData['image'] = $product->image_url;
         $productData['image_url'] = $product->image_url;
         $productData['formatted_price'] = 'Rp ' . number_format($product->price, 0, ',', '.');
 
@@ -397,5 +398,43 @@ class MenuController extends Controller
         }
 
         return null;
+    }
+
+    /**
+     * Stream a product image binary with immutable client/CDN caching headers.
+     */
+    public function productImage(Product $product)
+    {
+        $slug = $product->slug ?: '';
+        $nameSlug = \Illuminate\Support\Str::slug($product->name);
+        $candidateSlugs = array_filter(array_unique([
+            $slug,
+            $nameSlug,
+            (str_contains($slug, 'soda') || str_contains($nameSlug, 'soda') || str_contains($slug, 'soft-drink')) ? 'soda' : null,
+            (str_contains($slug, 'lyc') || str_contains($nameSlug, 'lyc')) ? 'lycee-tea' : null,
+        ]));
+
+        foreach ($candidateSlugs as $cSlug) {
+            foreach (["images/products/{$cSlug}.jpg", "images/products/{$cSlug}.png", "images/products/{$cSlug}.webp"] as $candidate) {
+                if (file_exists(public_path($candidate))) {
+                    return redirect(asset($candidate), 301);
+                }
+            }
+        }
+
+        $image = trim((string) $product->image);
+        if (str_starts_with($image, 'data:image/') && preg_match('/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/', $image, $m)) {
+            $ext = strtolower($m[1]);
+            $mime = $ext === 'png' ? 'image/png' : ($ext === 'webp' ? 'image/webp' : 'image/jpeg');
+            $binary = base64_decode($m[2]);
+            return response($binary, 200, [
+                'Content-Type' => $mime,
+                'Content-Length' => strlen($binary),
+                'Cache-Control' => 'public, max-age=31536000, immutable',
+                'ETag' => '"' . md5($binary) . '"',
+            ]);
+        }
+
+        return redirect(asset('images/burger-bg.jpg'));
     }
 }

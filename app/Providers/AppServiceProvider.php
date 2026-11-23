@@ -32,6 +32,17 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
+        if (config('app.env') === 'production') {
+            \Illuminate\Support\Facades\Cache::remember('tb_auto_migrate_static_images_v1', 86400, function () {
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                } catch (\Throwable $e) {
+                    // Gracefully ignore if already migrated or during cold start
+                }
+                return true;
+            });
+        }
+
         View::composer([
             'layouts.admin',
             'layouts.app',

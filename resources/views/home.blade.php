@@ -218,7 +218,8 @@
                     ? $bestSellers->take(4)->values()->map(function ($prod, $idx) use ($revealDelays) {
                         return [
                             'id' => $prod->id,
-                            'image' => $prod->image ?: 'images/burger-bg.jpg',
+                            'image' => $prod->image_url ?: asset('images/burger-bg.jpg'),
+                            'imageUrl' => $prod->image_url ?: asset('images/burger-bg.jpg'),
                             'badge' => strtoupper($prod->category?->name ?? 'MENU'),
                             'name' => $prod->name,
                             'description' => $prod->description ?: 'Pilihan favorit terbaik dari dapur Toon Burger.',

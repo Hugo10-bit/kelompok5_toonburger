@@ -195,7 +195,33 @@ class Product extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return ImageDataUriService::toAssetUrl($this->image, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
+        $rawImage = trim((string) $this->image);
+
+        // 1. If explicitly stored as a static path or external URL (not base64 data URI)
+        if ($rawImage !== '' && !str_starts_with($rawImage, 'data:image/')) {
+            return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
+        }
+
+        // 2. If matching static file exists in public/images/products/, serve fast CDN asset
+        $slug = $this->slug ?: '';
+        $nameSlug = \Illuminate\Support\Str::slug($this->name);
+        $candidateSlugs = array_filter(array_unique([
+            $slug,
+            $nameSlug,
+            (str_contains($slug, 'soda') || str_contains($nameSlug, 'soda') || str_contains($slug, 'soft-drink')) ? 'soda' : null,
+            (str_contains($slug, 'lyc') || str_contains($nameSlug, 'lyc')) ? 'lycee-tea' : null,
+        ]));
+
+        foreach ($candidateSlugs as $cSlug) {
+            foreach (["images/products/{$cSlug}.jpg", "images/products/{$cSlug}.png", "images/products/{$cSlug}.webp"] as $candidate) {
+                if (file_exists(public_path($candidate))) {
+                    return asset($candidate);
+                }
+            }
+        }
+
+        // 3. Fallback to raw data URI or ImageDataUriService
+        return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
     }
 
     public function category(): BelongsTo
