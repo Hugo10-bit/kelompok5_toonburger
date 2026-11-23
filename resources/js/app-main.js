@@ -1717,7 +1717,7 @@ if (document.readyState === 'loading') {
         }
     }
 
-    function applyAppPayload(url, payload, pushHistory, preserveScroll = false) {
+    function applyAppPayload(url, payload, pushHistory, preserveScroll = false, scrollTarget = null) {
         const mainEl = document.querySelector('main');
         if (!mainEl || !payload) return false;
 
@@ -1749,6 +1749,16 @@ if (document.readyState === 'loading') {
         if (preserveScroll) {
             window.scrollTo({ top: currentScrollY, left: currentScrollX, behavior: 'instant' });
             if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(currentScrollY);
+        } else if (scrollTarget) {
+            const targetEl = document.querySelector(scrollTarget);
+            if (targetEl) {
+                const topOffset = Math.max(0, targetEl.getBoundingClientRect().top + window.scrollY - 96);
+                window.scrollTo({ top: topOffset, left: 0, behavior: 'instant' });
+                if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(topOffset);
+            } else {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(0);
+            }
         } else {
             window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(0);
@@ -1961,7 +1971,7 @@ if (document.readyState === 'loading') {
         `;
     }
 
-    window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false) {
+    window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false, scrollTarget = null) {
         const key = normalizeAppUrl(url);
         const seq = ++_navSeq;
         updateAppNavHighlight(key);
@@ -1969,7 +1979,7 @@ if (document.readyState === 'loading') {
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
             finishAppLoaderBar();
-            applyAppPayload(url, cached, pushHistory, preserveScroll);
+            applyAppPayload(url, cached, pushHistory, preserveScroll, scrollTarget);
             return;
         }
 
@@ -2006,7 +2016,7 @@ if (document.readyState === 'loading') {
                 if (seq !== _navSeq) return;
                 finishAppLoaderBar();
                 if (payload) {
-                    applyAppPayload(url, payload, pushHistory, preserveScroll);
+                    applyAppPayload(url, payload, pushHistory, preserveScroll, scrollTarget);
                 } else {
                     window.location.href = url;
                 }
@@ -2089,6 +2099,7 @@ if (document.readyState === 'loading') {
         if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
 
         const preserveScroll = link.hasAttribute('data-preserve-scroll');
+        const scrollTarget = link.getAttribute('data-scroll-target') || null;
 
         e.preventDefault();
         _tbOverlayStack.length = 0;
@@ -2098,7 +2109,7 @@ if (document.readyState === 'loading') {
         if (openUserMenu) openUserMenu.classList.add('hidden');
         const openUserArrow = document.getElementById('user-menu-arrow');
         if (openUserArrow) openUserArrow.classList.remove('rotate-180');
-        window.tbAppNavigate(link.href, true, preserveScroll);
+        window.tbAppNavigate(link.href, true, preserveScroll, scrollTarget);
     });
 
     // Intercept GET search/filter forms pointing to internal public routes

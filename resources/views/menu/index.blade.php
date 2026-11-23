@@ -90,6 +90,10 @@
                     ])
                 @endforeach
             </div>
+
+            @if ($products->hasPages())
+                {{ $products->links('vendor.pagination.toonburger', ['scrollTarget' => '#semua-menu']) }}
+            @endif
         @endif
         </div>
 

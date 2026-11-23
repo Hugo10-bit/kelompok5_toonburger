@@ -134,7 +134,25 @@ class MenuController extends Controller
             });
         }
 
-        $products = $products->values();
+        $filteredProducts = $products->values();
+        $perPage = 12;
+        $totalFiltered = $filteredProducts->count();
+        $lastPage = max(1, (int) ceil($totalFiltered / $perPage));
+        $currentPage = \Illuminate\Pagination\Paginator::resolveCurrentPage('page');
+        $currentPage = max(1, min($currentPage, $lastPage));
+
+        $products = new \Illuminate\Pagination\LengthAwarePaginator(
+            $filteredProducts->forPage($currentPage, $perPage)->values(),
+            $totalFiltered,
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(),
+            ]
+        );
+        $products->onEachSide(1);
+
         $tables = collect();
 
         return view('menu.index', compact('categories', 'products', 'selectedCategory', 'search', 'tableNum', 'tables', 'cardMetadata', 'totalAllProducts'));

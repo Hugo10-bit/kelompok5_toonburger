@@ -22,35 +22,21 @@
                  decoding="async"
                  class="absolute inset-0 w-full h-full object-cover pointer-events-none select-none">
 
-            <!-- Comic Sparkles (Desktop coordinates preserved; safe framing on mobile) -->
+            <!-- Comic Sparkles (Desktop coordinates aligned with reference layout; safe framing on mobile) -->
             <img src="{{ asset('images/star-sparkle.png') }}"
                  alt="Sparkle"
                  width="24"
                  height="24"
                  decoding="async"
                  class="comic-sparkle hidden sm:block absolute pointer-events-none select-none z-10 w-6 h-auto"
-                 style="top: 24%; left: 3%;">
-            <img src="{{ asset('images/star-sparkle.png') }}"
-                 alt="Sparkle"
-                 width="20"
-                 height="20"
-                 decoding="async"
-                 class="comic-sparkle hidden sm:block absolute pointer-events-none select-none z-10 w-5 h-auto"
-                 style="top: 42%; left: 52%;">
-            <img src="{{ asset('images/star-sparkle.png') }}"
-                 alt="Sparkle"
-                 width="20"
-                 height="20"
-                 decoding="async"
-                 class="comic-sparkle hidden sm:block absolute pointer-events-none select-none z-10 w-5 h-auto"
-                 style="bottom: 16%; right: 23%;">
+                 style="top: 25%; left: 3%;">
             <img src="{{ asset('images/star-sparkle.png') }}"
                  alt="Sparkle"
                  width="24"
                  height="24"
                  decoding="async"
                  class="comic-sparkle hidden sm:block absolute pointer-events-none select-none z-10 w-6 h-auto"
-                 style="bottom: 12%; left: 40%;">
+                 style="bottom: 16%; left: 41%;">
 
             <!-- Mobile-only balanced sparkles flanking burger cluster without touching text or checkered border -->
             <img src="{{ asset('images/star-sparkle.png') }}"
@@ -68,11 +54,11 @@
                  class="comic-sparkle sm:hidden absolute pointer-events-none select-none z-10 w-3.5 h-auto"
                  style="bottom: 19%; right: 11%;">
 
-            <!-- Content Grid -->
-            <div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 items-center px-5 sm:px-10 lg:px-12 pt-1 sm:pt-6 pb-4 sm:pb-8">
+            <!-- Content Container -->
+            <div class="relative z-10 max-w-[1560px] 2xl:max-w-[1680px] mx-auto w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 px-5 sm:px-8 lg:px-10 xl:px-14 pt-1 sm:pt-4 lg:pt-2 pb-4 sm:pb-8 lg:pb-10">
 
                 <!-- Left: Headline + Subtitle + Buttons -->
-                <div class="lg:col-span-6 space-y-2.5 sm:space-y-4 pb-2 sm:pb-6 lg:pb-10 {{ $revealClass }}">
+                <div class="w-full lg:max-w-[540px] xl:max-w-[600px] space-y-2.5 sm:space-y-4 pb-2 sm:pb-4 lg:pb-0 {{ $revealClass }}">
                     <h1 @if($isAnimatedHero) data-gsap-text="hero-heading" @endif
                         class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] drop-shadow-sm text-[30px] sm:text-5xl {{ $headlineDesktopClass }}"
                         style="font-family: 'Luckiest Guy', cursive, sans-serif;">
@@ -100,13 +86,13 @@
                 </div>
 
                 <!-- Right: Burger + Speech Bubble Cluster -->
-                <div @if($isAnimatedHero) data-motion-card="hero-burger" @endif class="lg:col-span-6 relative flex justify-center lg:justify-start items-center pt-7 sm:pt-8 lg:pt-10 pb-3 sm:pb-6 lg:pb-8 lg:pl-12 xl:pl-16 {{ $rightRevealClass }}">
-                    <div class="relative select-none -translate-x-6 sm:translate-x-0">
+                <div @if($isAnimatedHero) data-motion-card="hero-burger" @endif class="relative flex justify-center lg:justify-end items-center shrink-0 pt-7 sm:pt-8 lg:pt-0 pb-3 sm:pb-6 lg:pb-0 lg:pr-[240px] xl:pr-[284px] {{ $rightRevealClass }}">
+                    <div class="relative select-none -translate-x-6 sm:-translate-x-16 md:-translate-x-20 lg:translate-x-0">
 
                         <!-- Hero Double/Triple Cheeseburger -->
                         <div class="relative z-10 flex justify-center items-end">
-                            <!-- Small comic white accent lines above burger -->
-                            <div class="absolute -top-3 left-[18%] flex gap-1 opacity-80 pointer-events-none z-20">
+                            <!-- Small comic white accent lines above top-left of burger -->
+                            <div class="absolute -top-2.5 left-[4%] -rotate-[24deg] flex gap-1 opacity-85 pointer-events-none z-20">
                                 <span class="w-1 h-2.5 bg-white rounded-full -rotate-12"></span>
                                 <span class="w-1 h-3 bg-white rounded-full"></span>
                                 <span class="w-1 h-2.5 bg-white rounded-full rotate-12"></span>
@@ -118,22 +104,38 @@
                                  fetchpriority="high"
                                  loading="eager"
                                  decoding="async"
-                                 width="200"
-                                 height="175"
-                                 class="w-[136px] sm:w-[175px] md:w-[190px] lg:w-[200px] xl:w-[215px] h-auto object-contain cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
+                                 width="285"
+                                 height="250"
+                                 class="w-[144px] sm:w-[190px] md:w-[210px] lg:w-[240px] xl:w-[285px] h-auto object-contain cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105 active:scale-95 drop-shadow-[0_12px_24px_rgba(0,0,0,0.35)] select-none">
                         </div>
 
+                        <!-- Desktop Sparkle: between upper burger & speech bubble -->
+                        <img src="{{ asset('images/star-sparkle.png') }}"
+                             alt="Sparkle"
+                             width="20"
+                             height="20"
+                             decoding="async"
+                             class="comic-sparkle hidden sm:block absolute -top-6 lg:-top-7 left-[92%] lg:left-[95%] pointer-events-none select-none z-10 w-5 h-auto">
+
+                        <!-- Desktop Sparkle: below speech bubble / right of burger bottom -->
+                        <img src="{{ asset('images/star-sparkle.png') }}"
+                             alt="Sparkle"
+                             width="20"
+                             height="20"
+                             decoding="async"
+                             class="comic-sparkle hidden sm:block absolute bottom-1 lg:bottom-2 left-[112%] lg:left-[116%] pointer-events-none select-none z-10 w-5 h-auto">
+
                         <!-- Starburst Comic Speech Bubble ("VERY CHEESE BURGER") -->
-                        <div class="absolute -top-7 sm:-top-16 md:-top-20 lg:-top-[86px] xl:-top-[92px] left-[76%] sm:left-[85%] md:left-[92%] lg:left-[98%] xl:left-[100%] z-20 pointer-events-auto cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105">
+                        <div class="absolute -top-7 sm:-top-10 md:-top-11 lg:-top-7 xl:-top-9 left-[76%] sm:left-[88%] md:left-[94%] lg:left-[108%] xl:left-[110%] z-20 pointer-events-auto cursor-pointer transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105">
                             <img id="hero-badge-img"
                                  src="{{ asset('images/very-cheese-badge.png') }}"
                                  alt="VERY CHEESE BURGER"
                                  fetchpriority="high"
                                  loading="eager"
                                  decoding="async"
-                                 width="240"
-                                 height="145"
-                                 class="w-[132px] sm:w-[180px] md:w-[205px] lg:w-[225px] xl:w-[240px] max-w-none h-auto object-contain drop-shadow-md select-none">
+                                 width="255"
+                                 height="154"
+                                 class="w-[132px] sm:w-[180px] md:w-[205px] lg:w-[220px] xl:w-[255px] max-w-none h-auto object-contain drop-shadow-md select-none">
                         </div>
 
                     </div>
