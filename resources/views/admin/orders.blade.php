@@ -208,7 +208,7 @@
                     <div class="mb-3.5 flex items-center justify-between gap-2 flex-wrap">
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
-                            <span class="text-[11px] text-gray-400 dark:text-gray-300 font-medium">📅 {{ $order->created_at->format('d M Y, H:i') }}</span>
+                            <span class="text-[11px] text-gray-400 dark:text-gray-300 font-medium">{{ $order->created_at->format('d M Y, H:i') }}</span>
                         </div>
                         @if($order->payment_status === 'paid')
                             <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#D1FAE5]/70 dark:bg-[#1E453B] text-[#065F46] dark:text-[#34D399]" data-i18n="order_detail_paid">Lunas</span>
@@ -226,7 +226,7 @@
                     <div class="flex items-start justify-between gap-2 mb-3.5">
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white leading-tight break-words">{{ $order->customer_name }}</h3>
-                            <p class="text-xs text-gray-400 dark:text-gray-300 mt-1" data-mins-ago="{{ $minsAgo }}">🕒 {{ $timeDisplay }}</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-300 mt-1" data-mins-ago="{{ $minsAgo }}">{{ $timeDisplay }}</p>
                         </div>
                         <span class="px-2.5 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-semibold inline-flex items-center gap-1.5 shrink-0 {{ $badgeConfig['bg'] }}">
                             {!! $badgeConfig['icon'] !!}
