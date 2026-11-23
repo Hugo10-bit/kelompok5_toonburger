@@ -251,7 +251,7 @@ function initAdminProfile() {
         });
     };
 
-    // Form 1: Admin Profile form submission
+    // Admin Profile & Password Unified Form Submission
     const profileForm = document.getElementById('admin-profile-form');
     if (profileForm && profileForm.dataset.profileBound !== 'true') {
         profileForm.dataset.profileBound = 'true';
@@ -263,6 +263,31 @@ function initAdminProfile() {
                 return;
             }
 
+            const pass1 = document.getElementById('profile-new-password')?.value || '';
+            const pass2 = document.getElementById('profile-confirm-password')?.value || '';
+
+            if (pass1) {
+                if (pass1.length < 8) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Password Kurang Panjang',
+                        text: 'Password baru minimal harus 8 karakter.',
+                        confirmButtonColor: '#415C58'
+                    });
+                    return;
+                }
+
+                if (pass1 !== pass2) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Konfirmasi Password Tidak Cocok',
+                        text: 'Konfirmasi password harus sama persis dengan password baru.',
+                        confirmButtonColor: '#415C58'
+                    });
+                    return;
+                }
+            }
+
             const avatarInput = document.getElementById('profile-avatar-input');
             const avatarDataInput = document.getElementById('profile-avatar-data');
             const hasNewAvatar = Boolean(
@@ -270,13 +295,27 @@ function initAdminProfile() {
                 || (avatarDataInput && avatarDataInput.value.startsWith('data:image/'))
             );
 
-            const message = hasNewAvatar
-                ? 'Apakah Anda yakin ingin menyimpan perubahan data dan foto profil admin ini?'
-                : 'Apakah Anda yakin ingin menyimpan perubahan informasi profil admin ini?';
+            let modalType = 'profile';
+            let title = 'Konfirmasi Simpan Profil';
+            let message = 'Apakah Anda yakin ingin menyimpan perubahan informasi profil admin ini?';
+
+            if (hasNewAvatar && pass1) {
+                modalType = 'avatar';
+                title = 'Konfirmasi Simpan Profil & Password';
+                message = 'Apakah Anda yakin ingin menyimpan perubahan data, foto profil, dan password admin ini?';
+            } else if (hasNewAvatar) {
+                modalType = 'avatar';
+                title = 'Konfirmasi Simpan Profil';
+                message = 'Apakah Anda yakin ingin menyimpan perubahan data dan foto profil admin ini?';
+            } else if (pass1) {
+                modalType = 'password';
+                title = 'Konfirmasi Ubah Password';
+                message = 'Apakah Anda yakin ingin memperbarui data dan password akun admin ini?';
+            }
 
             window.openProfileConfirmModal({
-                type: hasNewAvatar ? 'avatar' : 'profile',
-                title: 'Konfirmasi Simpan Profil',
+                type: modalType,
+                title: title,
                 message: message,
                 confirmText: 'Ya, Simpan',
                 onConfirm: function () {
@@ -300,7 +339,7 @@ function initAdminProfile() {
                     if (typeof Swal !== 'undefined') {
                         let timerInterval;
                         Swal.fire({
-                            title: 'Menyimpan Profil...',
+                            title: pass1 ? 'Menyimpan & Memperbarui Password...' : 'Menyimpan Profil...',
                             html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
                             timer: 1500,
                             timerProgressBar: true,
@@ -322,78 +361,6 @@ function initAdminProfile() {
                     } else {
                         finalizeProfileSubmit();
                     }
-                }
-            });
-        });
-    }
-
-    // Form 2: Admin Password form submission
-    const passwordForm = document.getElementById('admin-password-form');
-    if (passwordForm && passwordForm.dataset.passwordBound !== 'true') {
-        passwordForm.dataset.passwordBound = 'true';
-        passwordForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const pass1 = document.getElementById('profile-new-password')?.value || '';
-            const pass2 = document.getElementById('profile-confirm-password')?.value || '';
-
-            if (!pass1) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Password Baru Kosong',
-                    text: 'Silakan masukkan password baru Anda terlebih dahulu.',
-                    confirmButtonColor: '#415C58'
-                });
-                return;
-            }
-
-            if (pass1.length < 6) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Password Kurang Panjang',
-                    text: 'Password baru minimal harus 6 karakter.',
-                    confirmButtonColor: '#415C58'
-                });
-                return;
-            }
-
-            if (pass1 !== pass2) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Konfirmasi Password Tidak Cocok',
-                    text: 'Konfirmasi password harus sama persis dengan password baru.',
-                    confirmButtonColor: '#415C58'
-                });
-                return;
-            }
-
-            window.openProfileConfirmModal({
-                type: 'password',
-                title: 'Konfirmasi Ubah Password',
-                message: 'Apakah Anda yakin ingin memperbarui password akun admin?',
-                confirmText: 'Ya, Ubah Password',
-                onConfirm: function () {
-                    let timerInterval;
-                    Swal.fire({
-                        title: 'Memperbarui Password...',
-                        html: 'Sedang memproses password baru admin dalam <b></b> detik...',
-                        timer: 1500,
-                        timerProgressBar: true,
-                        allowOutsideClick: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                            const b = Swal.getPopup().querySelector('b');
-                            timerInterval = setInterval(() => {
-                                if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
-                            }, 100);
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval);
-                        }
-                    }).then(() => {
-                        passwordForm.submit();
-                    });
                 }
             });
         });

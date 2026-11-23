@@ -922,13 +922,15 @@ class AdminController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:4096',
             'avatar_data' => 'nullable|string|max:4194304',
             'current_password' => 'nullable|current_password',
-            'password' => 'nullable|string|min:6|confirmed',
+            'password' => 'nullable|string|min:8|confirmed',
         ], [
             'phone_number.regex' => 'Nomor telepon hanya boleh berisi angka.',
             'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',
             'avatar.image' => 'Foto profil wajib berupa file gambar JPG atau PNG.',
             'avatar.mimes' => 'Format foto profil hanya diperbolehkan JPG atau PNG.',
             'avatar.max' => 'Ukuran foto profil maksimal 4 MB.',
+            'password.min' => 'Password baru minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
         if ($validator->fails()) {

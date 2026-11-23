@@ -11,6 +11,7 @@
         <p class="text-xs sm:text-[16px] text-gray-500 dark:text-[#D4D4D4] mt-1.5" data-i18n="prof_sub">Kelola informasi akun dan profil admin</p>
     </div>
 
+    <!-- Avatar Preview & Change Trigger -->
     <div class="flex items-center gap-4 sm:gap-5 pt-1 pb-2 min-w-0">
         <div class="relative shrink-0 select-none">
             <button type="button"
@@ -51,6 +52,7 @@
         </div>
     </div>
 
+    <!-- Single Combined Form for Admin Profile & Password -->
     <form id="admin-profile-form" action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data" class="space-y-5 text-sm">
         @csrf
         <input type="hidden" name="avatar_data" id="profile-avatar-data" value="">
@@ -61,8 +63,7 @@
                class="hidden"
                onchange="handleAdminAvatarChange(this)">
 
-               
-
+        <!-- Username -->
         <div>
             <label for="profile-username" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_username">Username</label>
             <input type="text"
@@ -74,6 +75,7 @@
             @error('name') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
+        <!-- Email & Phone Number Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7">
             <div>
                 <label for="profile-email" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_email">Email</label>
@@ -100,6 +102,7 @@
             </div>
         </div>
 
+        <!-- Address -->
         <div>
             <label for="profile-address" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_address">Alamat</label>
             <input type="text"
@@ -110,28 +113,15 @@
             @error('address') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
-        <div class="pt-1">
-            <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3.5 px-6 rounded-xl w-full min-h-[48px] shadow-2xs transition text-sm select-none cursor-pointer" data-i18n="prof_save">
-                Simpan
-            </button>
-        </div>
-    </form>
-
-    <form id="admin-password-form" action="{{ route('admin.profile.update') }}" method="POST" class="space-y-5 pt-6 text-sm">
-        @csrf
-        <input type="hidden" name="name" value="{{ $user?->name ?: 'Toon Burger' }}">
-        <input type="hidden" name="email" value="{{ $user?->email ?: 'Toonburger@gmail.com' }}">
-        <input type="hidden" name="phone_number" value="{{ $user?->phone_number ?: '085780153872' }}">
-        <input type="hidden" name="address" value="{{ $user?->address ?: 'Loktabat Utara, Kec. Banjarbaru Utara, Kota Banjar Baru, Kalimantan Selatan 70714' }}">
-
-        <div>
+        <!-- Password Baru -->
+        <div class="pt-2">
             <label for="profile-new-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_new_pass">Password baru</label>
             <div class="relative">
                 <input type="password"
                        id="profile-new-password"
                        name="password"
                        autocomplete="new-password"
-                       placeholder="Masukkan Password"
+                       placeholder="Masukkan Password (kosongkan jika tidak ingin mengubah)"
                        data-i18n-attr="placeholder:prof_new_pass_ph"
                        class="w-full bg-white dark:bg-[#383838] border border-gray-200 dark:border-[#525252] rounded-xl pl-5 pr-12 py-3.5 min-h-[48px] text-sm font-normal placeholder-gray-400 dark:placeholder-[#9E9E9E] focus:outline-none focus:border-[#415C58] transition text-gray-800 dark:text-white">
                 <button type="button"
@@ -147,6 +137,7 @@
             @error('password') <span class="text-[#DE3B28] text-xs font-semibold mt-1 block">{{ $message }}</span> @enderror
         </div>
 
+        <!-- Konfirmasi Password -->
         <div>
             <label for="profile-confirm-password" class="block font-bold text-gray-800 dark:text-[#E5E5E5] mb-2 text-xs sm:text-[13px]" data-i18n="prof_conf_pass">Konfirmasi Password</label>
             <div class="relative">
@@ -176,7 +167,8 @@
                aria-live="polite"></p>
         </div>
 
-        <div class="pt-1">
+        <!-- Satu Tombol Simpan Terpadu di Paling Bawah -->
+        <div class="pt-3 sm:pt-4">
             <button type="submit" class="bg-[#415C58] hover:bg-[#344B48] active:scale-[0.99] text-white font-medium py-3.5 px-6 rounded-xl w-full min-h-[48px] shadow-2xs transition text-sm select-none cursor-pointer" data-i18n="prof_save">
                 Simpan
             </button>
