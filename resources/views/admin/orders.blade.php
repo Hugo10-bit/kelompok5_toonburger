@@ -204,12 +204,9 @@
 
             <div class="bg-white dark:bg-[#3C3C3C] rounded-[22px] sm:rounded-[26px] border border-gray-200/90 dark:border-[#525252] shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.35)] p-4 sm:p-6 flex flex-col justify-between">
                 <div>
-                    <!-- Order number & date time -->
+                    <!-- Order number & payment badge -->
                     <div class="mb-3.5 flex items-center justify-between gap-2 flex-wrap">
-                        <div class="flex items-center gap-1.5 flex-wrap">
-                            <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
-                            <span class="text-[11px] text-gray-400 dark:text-gray-300 font-medium">{{ $order->created_at->format('d M Y, H:i') }}</span>
-                        </div>
+                        <span class="bg-[#F0F2F5] dark:bg-[#4F4F4F] text-gray-800 dark:text-white font-mono font-bold text-xs px-3 py-1.5 rounded-md inline-block tracking-wide">{{ $order->order_number }}</span>
                         @if($order->payment_status === 'paid')
                             <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#D1FAE5]/70 dark:bg-[#1E453B] text-[#065F46] dark:text-[#34D399]" data-i18n="order_detail_paid">Lunas</span>
                         @elseif($order->isAwaitingPaymentVerification())
