@@ -195,7 +195,7 @@
                     <h2 data-gsap-text="section-title"
                         class="font-brand text-2xl sm:text-4xl lg:text-5xl text-[#27443e] uppercase tracking-wide"
                         style="font-family: 'BBH Hegarty', cursive, sans-serif;">
-                        BEST SELLER
+                        MENU ANDALAN
                     </h2>
                     <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-sm text-gray-600 mt-1 max-w-lg">
                         Sudah jadi favorit banyak pelanggan, sekarang saatnya kamu mencoba menu yang paling banyak dipesan.

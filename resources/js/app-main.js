@@ -108,7 +108,7 @@ function pushMobileOverlayHistory(id, closeFn) {
     _tbOverlayStack.push({ id, closeFn });
     try {
         window.history.pushState({ ...(window.history.state || {}), tbOverlay: id }, '', window.location.href);
-    } catch (_) {}
+    } catch (_) { }
 }
 
 function releaseMobileOverlayHistory(id, fromPopstate = false) {
@@ -972,7 +972,7 @@ function closeLogoutModal() {
 function submitLogoutForm() {
     try {
         localStorage.setItem('tb_logged_out', '1');
-    } catch (e) {}
+    } catch (e) { }
     closeLogoutModal();
 
     const isEn = (window._tbAppLang === 'EN' || window._tbAppLang === 'US');
@@ -1072,17 +1072,17 @@ if (homeSearchInput) {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-            .then(res => res.json())
-            .then(data => {
-                if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
-                renderHomeSearchResults(data, q);
-            })
-            .catch(() => {
-                if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
-                if (homeSearchContent) {
-                    homeSearchContent.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">Gagal memuat hasil menu.</div>`;
-                }
-            });
+                .then(res => res.json())
+                .then(data => {
+                    if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
+                    renderHomeSearchResults(data, q);
+                })
+                .catch(() => {
+                    if (homeSearchLoading) homeSearchLoading.classList.add('hidden');
+                    if (homeSearchContent) {
+                        homeSearchContent.innerHTML = `<div class="text-xs text-gray-500 py-3 text-center">Gagal memuat hasil menu.</div>`;
+                    }
+                });
         }, 200);
     });
 
@@ -1574,7 +1574,7 @@ if (document.readyState === 'loading') {
         try {
             const p = new URL(targetUrl, window.location.origin).pathname;
             targetPath = p === '/' ? '/home' : p;
-        } catch (e) {}
+        } catch (e) { }
 
         // Desktop Navbar Links
         document.querySelectorAll('header nav a[href]').forEach(a => {
@@ -1586,7 +1586,7 @@ if (document.readyState === 'loading') {
                 } else {
                     a.className = 'px-4 py-1.5 rounded-full transition text-sm font-roboto font-medium text-white/80 hover:text-white hover:bg-white/10';
                 }
-            } catch (e) {}
+            } catch (e) { }
         });
 
         // Mobile Dropdown Menu Links
@@ -1599,7 +1599,7 @@ if (document.readyState === 'loading') {
                 } else {
                     a.className = 'block px-4 py-2 rounded-xl transition font-roboto font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100';
                 }
-            } catch (e) {}
+            } catch (e) { }
         });
 
         // Mobile Bottom Dock Links
@@ -1614,7 +1614,7 @@ if (document.readyState === 'loading') {
                     a.classList.remove('text-[#27443E]', 'font-black');
                     a.classList.add('text-gray-500', 'font-medium');
                 }
-            } catch (e) {}
+            } catch (e) { }
         });
     }
 
@@ -1651,23 +1651,23 @@ if (document.readyState === 'loading') {
                 'Accept': 'text/html,application/xhtml+xml'
             }
         })
-        .then(res => {
-            if (!res.ok || (res.redirected && res.url.includes('/login'))) return null;
-            return res.text();
-        })
-        .then(html => {
-            _tbAppInFlight.delete(key);
-            if (!html) return null;
-            const payload = extractAppPagePayload(html);
-            if (payload) {
-                _tbAppPageCache.set(key, payload);
-            }
-            return payload;
-        })
-        .catch(() => {
-            _tbAppInFlight.delete(key);
-            return null;
-        });
+            .then(res => {
+                if (!res.ok || (res.redirected && res.url.includes('/login'))) return null;
+                return res.text();
+            })
+            .then(html => {
+                _tbAppInFlight.delete(key);
+                if (!html) return null;
+                const payload = extractAppPagePayload(html);
+                if (payload) {
+                    _tbAppPageCache.set(key, payload);
+                }
+                return payload;
+            })
+            .catch(() => {
+                _tbAppInFlight.delete(key);
+                return null;
+            });
 
         _tbAppInFlight.set(key, promise);
         return promise;
@@ -1827,7 +1827,7 @@ if (document.readyState === 'loading') {
         let pathname = '/home';
         try {
             pathname = new URL(targetUrl, window.location.origin).pathname;
-        } catch (e) {}
+        } catch (e) { }
 
         const heroSkeleton = `
             <section class="relative overflow-hidden -mt-[105px] sm:-mt-[112px]">
@@ -2025,7 +2025,7 @@ if (document.readyState === 'loading') {
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-        try { updateAppNavHighlight(window.location.href); } catch (e) {}
+        try { updateAppNavHighlight(window.location.href); } catch (e) { }
         const mainEl = document.querySelector('main');
         if (mainEl && isPjaxEligibleAppUrl(window.location.href)) {
             const footerEl = document.querySelector('footer');
@@ -2183,6 +2183,7 @@ const _tbPhraseMap = {
     'Porsi pas dan mengenyangkan, cocok untuk menemani rasa lapar kapan saja.': 'Generous and filling portions, perfect for satisfying your hunger anytime.',
 
     // Best Seller Section & Home Page
+    'MENU ANDALAN': 'BEST SELLER',
     'BEST SELLER': 'BEST SELLERS',
     'SEMUA MENU': 'ALL MENUS',
     'Semua Menu': 'All Menus',
@@ -2271,7 +2272,7 @@ const _tbPhraseMap = {
     'WITH US!': 'WITH US!',
     'Nama Lengkap': 'Full Name',
     'Nama Lengkap Anda': 'Your Full Name',
-    'emailanda@gmail.com':'youremail@gmail.com',
+    'emailanda@gmail.com': 'youremail@gmail.com',
     'Nomor Telefon': 'Phone Number',
     'Pesan': 'Order',
     'Tulis Pesan Anda Disini....': 'Write your message here...',
@@ -2702,7 +2703,7 @@ function translateEntirePage(lang) {
                 el.setAttribute('placeholder', el.dataset.tbOriginalPlaceholder);
             }
         });
-    } catch (err) {}
+    } catch (err) { }
 
     // 3. Process [data-i18n-app] elements
     const dict = _tbAppTranslations[code] || _tbAppTranslations['ID'];
@@ -2745,7 +2746,7 @@ function getAutoEnCache() {
 function saveAutoEnCache(cacheObj) {
     try {
         localStorage.setItem(TB_AUTO_EN_CACHE_KEY, JSON.stringify(cacheObj));
-    } catch (e) {}
+    } catch (e) { }
 }
 
 async function autoTranslateDynamicElements(elements, isEn) {
@@ -2899,7 +2900,7 @@ function setAppLanguage(lang) {
         localStorage.setItem('tb_lang', code);
         localStorage.setItem('tb_admin_lang', isEn ? 'US' : 'ID');
         localStorage.setItem('toon_lang', isEn ? 'en' : 'id');
-    } catch (e) {}
+    } catch (e) { }
 
     translateEntirePage(code);
     window.dispatchEvent(new CustomEvent('tb:applangchange', { detail: { lang: code } }));
@@ -2951,7 +2952,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             updateAppLangUI('ID');
         }
-    } catch (e) {}
+    } catch (e) { }
 });
 
 // Reload page on Back / Forward navigation only if user logged out
@@ -2961,13 +2962,13 @@ window.addEventListener('pageshow', function () {
             localStorage.removeItem('tb_logged_out');
             window.location.reload();
         }
-    } catch (e) {}
+    } catch (e) { }
 });
 
 // Register Service Worker for offline & Laragon down handling
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').catch(() => { });
     });
 }
 
