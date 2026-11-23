@@ -479,7 +479,7 @@
     @endif
 
     <!-- MAIN CONTENT -->
-    <main class="flex-1">
+    <main class="flex-1 relative z-10">
         @yield('content')
     </main>
 

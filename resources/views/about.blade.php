@@ -238,7 +238,7 @@
                 'tilt' => 'lg:rotate-[2deg]',
                 'tiltDeg' => 2,
                 'offset' => 'lg:-translate-y-1.5',
-                'z' => 'z-10',
+                'z' => 'z-[1]',
             ],
             [
                 'name' => 'D****',
@@ -247,7 +247,7 @@
                 'tilt' => 'lg:-rotate-[1.5deg]',
                 'tiltDeg' => -1.5,
                 'offset' => 'lg:translate-y-0.5',
-                'z' => 'z-20',
+                'z' => 'z-[2]',
             ],
             [
                 'name' => 'Nawwaf',
@@ -256,7 +256,7 @@
                 'tilt' => 'lg:rotate-[1.8deg]',
                 'tiltDeg' => 1.8,
                 'offset' => 'lg:-translate-y-0.5',
-                'z' => 'z-30',
+                'z' => 'z-[3]',
             ],
             [
                 'name' => 'Widya Nuriana',
@@ -265,7 +265,7 @@
                 'tilt' => 'lg:-rotate-[1.6deg]',
                 'tiltDeg' => -1.6,
                 'offset' => 'lg:translate-y-1',
-                'z' => 'z-40',
+                'z' => 'z-[4]',
             ],
             [
                 'name' => 'Jihan',
@@ -274,7 +274,7 @@
                 'tilt' => 'lg:-rotate-[2.5deg]',
                 'tiltDeg' => -2.5,
                 'offset' => 'lg:translate-y-2',
-                'z' => 'z-20',
+                'z' => 'z-[2]',
             ],
             [
                 'name' => 'Ayu Dewi Fortuna',
@@ -283,7 +283,7 @@
                 'tilt' => 'lg:rotate-[1.2deg]',
                 'tiltDeg' => 1.2,
                 'offset' => 'lg:-translate-y-1',
-                'z' => 'z-10',
+                'z' => 'z-[1]',
             ],
             [
                 'name' => 'Anindya Esti',
@@ -292,7 +292,7 @@
                 'tilt' => 'lg:-rotate-[1.8deg]',
                 'tiltDeg' => -1.8,
                 'offset' => 'lg:translate-y-1',
-                'z' => 'z-30',
+                'z' => 'z-[3]',
             ],
         ];
 
@@ -340,7 +340,7 @@
                 <div data-motion-grid="reviews" class="grid grid-cols-4 max-w-[960px] mx-auto">
                     @foreach(array_slice($reviews, 0, 4) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <div class="relative -mx-1 {{ $review['offset'] }} {{ $review['z'] }} hover:z-50">
+                        <div class="relative -mx-1 {{ $review['offset'] }} {{ $review['z'] }} hover:z-[10]">
                             <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[3px] border-white rounded-[4px] shadow-[0_10px_22px_-5px_rgba(30,46,43,0.22)] p-5 min-h-[228px] flex flex-col items-center justify-between text-center">
                                 <div class="w-full flex flex-col items-center">
                                     <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-0.5" aria-label="Rating 5 dari 5 bintang">
@@ -379,7 +379,7 @@
                 <div data-motion-grid="reviews" class="grid grid-cols-3 gap-2 max-w-[730px] mx-auto">
                     @foreach(array_slice($reviews, 4, 3) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <div class="relative -mx-0.5 {{ $review['offset'] }} {{ $review['z'] }} hover:z-50">
+                        <div class="relative -mx-0.5 {{ $review['offset'] }} {{ $review['z'] }} hover:z-[10]">
                             <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[3px] border-white rounded-[4px] shadow-[0_10px_22px_-5px_rgba(30,46,43,0.22)] p-5 min-h-[228px] flex flex-col items-center justify-between text-center">
                                 <div class="w-full flex flex-col items-center">
                                     <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-0.5" aria-label="Rating 5 dari 5 bintang">
