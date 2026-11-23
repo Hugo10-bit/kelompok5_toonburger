@@ -214,7 +214,10 @@ class MenuController extends Controller
             'category',
             'reviews' => fn ($q) => $q->latest(),
             'reviews.user:id,name,avatar',
-        ])->where('is_available', true)->findOrFail($id);
+        ])
+            ->where('is_available', true)
+            ->whereHas('category', fn ($q) => $q->where('is_active', true))
+            ->findOrFail($id);
 
         $cardMetadata = [
             1  => ['badge' => 'CHEESE BURGER',  'bg' => '#FFC83B'],
@@ -222,7 +225,7 @@ class MenuController extends Controller
             3  => ['badge' => 'BEEF BURGER',    'bg' => '#E51D1D'],
             4  => ['badge' => 'CHEESE BURGER',  'bg' => '#A4D477'],
             5  => ['badge' => 'CHICKEN BURGER', 'bg' => '#BFE1FD'],
-            6  => ['badge' => 'CHICKEN BURGER', 'bg' => '#FFC83B'],
+            6  => ['badge' => 'CHICKEN BURGER', 'bg' => '#F67A24'],
             7  => ['badge' => 'HOT DOG',        'bg' => '#D5C8F6'],
             8  => ['badge' => 'SNACKS',         'bg' => '#F5B8DC'],
             9  => ['badge' => 'MINUMAN',        'bg' => '#FED7AA'],
@@ -405,6 +408,29 @@ class MenuController extends Controller
      */
     public function productImage(Product $product)
     {
+        $image = trim((string) $product->image);
+
+        if (str_starts_with($image, 'data:image/') && preg_match('/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/', $image, $m)) {
+            $ext = strtolower($m[1]);
+            $mime = $ext === 'png' ? 'image/png' : ($ext === 'webp' ? 'image/webp' : 'image/jpeg');
+            $binary = base64_decode($m[2], true);
+            if ($binary !== false && $binary !== '') {
+                return response($binary, 200, [
+                    'Content-Type' => $mime,
+                    'Content-Length' => strlen($binary),
+                    'Cache-Control' => 'public, max-age=31536000, immutable',
+                    'ETag' => '"' . md5($binary) . '"',
+                ]);
+            }
+        }
+
+        if ($image !== '' && ! str_starts_with($image, 'data:image/')) {
+            $resolved = \App\Services\ImageDataUriService::toAssetUrl($image);
+            if ($resolved) {
+                return redirect($resolved, 302);
+            }
+        }
+
         $slug = $product->slug ?: '';
         $nameSlug = \Illuminate\Support\Str::slug($product->name);
         $candidateSlugs = array_filter(array_unique([
@@ -420,19 +446,6 @@ class MenuController extends Controller
                     return redirect(asset($candidate), 301);
                 }
             }
-        }
-
-        $image = trim((string) $product->image);
-        if (str_starts_with($image, 'data:image/') && preg_match('/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/', $image, $m)) {
-            $ext = strtolower($m[1]);
-            $mime = $ext === 'png' ? 'image/png' : ($ext === 'webp' ? 'image/webp' : 'image/jpeg');
-            $binary = base64_decode($m[2]);
-            return response($binary, 200, [
-                'Content-Type' => $mime,
-                'Content-Length' => strlen($binary),
-                'Cache-Control' => 'public, max-age=31536000, immutable',
-                'ETag' => '"' . md5($binary) . '"',
-            ]);
         }
 
         return redirect(asset('images/burger-bg.jpg'));

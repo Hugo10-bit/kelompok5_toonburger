@@ -737,7 +737,9 @@
         </main>
     </div>
 
-    @yield('admin_modals')
+    <div id="admin-page-modals">
+        @yield('admin_modals')
+    </div>
 
     <!-- Undo Notification Toast (Kanan Bawah: Putih di Light Mode, Dark Mode Ready, Button Ijo) -->
     @if(session('undo_action'))

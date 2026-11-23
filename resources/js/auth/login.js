@@ -378,7 +378,7 @@ function showLoginSuccessModal(redirectUrl = null) {
                         </svg>
                     </div>
                 </div>
-                <h3 class="tb-popup-title">${isEn ? 'Login Succesful!' : 'Login Berhasil!'}</h3>
+                <h3 class="tb-popup-title">${isEn ? 'Login Successful!' : 'Login Berhasil!'}</h3>
                 <p class="tb-popup-desc">
                     ${isEn
                         ? 'Your account has been connected. You will be automatically redirected to the main page.'
@@ -494,6 +494,15 @@ function startLoginThrottleCountdown(seconds) {
     _loginLockoutInterval = setInterval(renderLoginThrottleUI, 1000);
 }
 
+function escapeLoginHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function showLoginErrorModal(customMsg = null, throttleSeconds = 0) {
     const isEn = isLoginEn();
     const defaultMsg = isEn
@@ -502,7 +511,7 @@ function showLoginErrorModal(customMsg = null, throttleSeconds = 0) {
     const isThrottle = throttleSeconds > 0;
     const descHtml = isThrottle
         ? `<p id="tb-throttle-popup-text" class="tb-popup-desc">${getThrottlePopupHtml(throttleSeconds)}</p>`
-        : `<p class="tb-popup-desc">${customMsg || defaultMsg}</p>`;
+        : `<p class="tb-popup-desc">${escapeLoginHtml(customMsg || defaultMsg)}</p>`;
 
     return Swal.fire({
         html: `

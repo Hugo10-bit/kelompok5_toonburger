@@ -175,7 +175,7 @@
                     <div class="faq-item bg-white rounded-xl border border-gray-300/90 overflow-hidden transition toon-reveal" style="transition-delay: 150ms;">
                         <button type="button" onclick="toggleFaqItem(this)" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 cursor-pointer">
                             <span class="text-xs sm:text-[13px] font-bold text-[#27443E] leading-snug">
-                                Bisakah saya mengubah atau membatalkan pesanan yang sudah dibayar?
+                                Metode pembayaran apa saja yang tersedia di Toon Burger?
                             </span>
                             <svg class="faq-chevron w-4 h-4 text-gray-500 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
@@ -184,7 +184,7 @@
                         <div class="faq-body hidden">
                             <div class="border-t border-gray-200 mx-5"></div>
                             <p class="px-5 pt-3.5 pb-4 text-[11.5px] sm:text-xs text-gray-500 leading-relaxed">
-                                Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.
+                                Kami menerima pembayaran melalui QRIS (GoPay, OVO, Dana, ShopeePay, dan m-Banking) serta pembayaran tunai langsung di kasir saat pengambilan pesanan.
                             </p>
                         </div>
                     </div>

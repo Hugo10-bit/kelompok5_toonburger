@@ -127,7 +127,7 @@ window.toggleMessageStatus = async function toggleMessageStatus(id, btn) {
 function ensureMessageModalInBody() {
     const modals = document.querySelectorAll('#messageDetailModal');
     if (modals.length > 1) {
-        // Remove stale portaled copies before moving the fresh one to body
+        // Remove stale portaled copies before keeping the fresh one
         modals.forEach((m) => {
             if (m.parentElement === document.body) {
                 m.remove();
@@ -135,8 +135,9 @@ function ensureMessageModalInBody() {
         });
     }
     const modal = document.getElementById('messageDetailModal');
-    if (modal && modal.parentElement !== document.body) {
-        document.body.appendChild(modal);
+    const pageModalsHost = document.getElementById('admin-page-modals');
+    if (modal && modal.parentElement !== document.body && modal.parentElement !== pageModalsHost) {
+        (pageModalsHost || document.body).appendChild(modal);
     }
     return modal;
 }
@@ -220,7 +221,12 @@ window.openMessageDetailModal = async function openMessageDetailModal(el) {
 
     if (avatarWrap) {
         if (data.avatar_url) {
-            avatarWrap.innerHTML = `<img src="${data.avatar_url}" alt="" class="w-full h-full object-cover">`;
+            avatarWrap.textContent = '';
+            const img = document.createElement('img');
+            img.src = data.avatar_url;
+            img.alt = '';
+            img.className = 'w-full h-full object-cover';
+            avatarWrap.appendChild(img);
             avatarWrap.className = 'w-11 h-11 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-[#555555]';
         } else {
             avatarWrap.textContent = data.initials || 'TB';

@@ -1340,7 +1340,7 @@ if (searchInput) {
         if (searchLoading) searchLoading.classList.remove('hidden');
         if (searchContent) searchContent.innerHTML = '';
 
-        const adminSearchUrl = ADMIN_CONFIG.adminSearchUrl || '/admin/search/live';
+        const adminSearchUrl = ADMIN_CONFIG.adminSearchUrl || '/admin/search-live';
         searchDebounceTimer = setTimeout(() => {
             searchAbortController = new AbortController();
             fetch(`${adminSearchUrl}?q=${encodeURIComponent(query)}`, {
@@ -1685,6 +1685,13 @@ window.addEventListener('pageshow', function () {
             }
 
             curMain.innerHTML = newMain.innerHTML;
+
+            const newModals = doc.getElementById('admin-page-modals');
+            const curModals = document.getElementById('admin-page-modals');
+            if (curModals) {
+                curModals.innerHTML = newModals ? newModals.innerHTML : '';
+            }
+
             updateAdminNavHighlight(targetUrl);
             closeAllHeaderDropdowns();
             closeMobileAdminSidebarIfOpen();
