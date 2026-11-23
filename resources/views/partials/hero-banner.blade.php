@@ -1,6 +1,6 @@
 @php
     $headline = $headline ?? 'SETIAP GIGITAN<br>PUNYA CERITA!';
-    $headlineDesktopClass = $headlineDesktopClass ?? 'lg:text-[56px] xl:text-[64px]';
+    $headlineDesktopClass = $headlineDesktopClass ?? 'lg:text-[62px] xl:text-[72px]';
     $subtitle = $subtitle ?? 'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.';
     $ctaHref = $ctaHref ?? route('menu');
     $deliveryHref = $deliveryHref ?? route('gofood');
@@ -29,7 +29,7 @@
                  height="24"
                  decoding="async"
                  class="comic-sparkle hidden sm:block absolute pointer-events-none select-none z-10 w-6 h-auto"
-                 style="top: 25%; left: 3%;">
+                 style="top: 24%; left: 4%;">
             <img src="{{ asset('images/star-sparkle.png') }}"
                  alt="Sparkle"
                  width="24"
@@ -55,18 +55,18 @@
                  style="bottom: 19%; right: 11%;">
 
             <!-- Content Container -->
-            <div class="relative z-10 max-w-[1560px] 2xl:max-w-[1680px] mx-auto w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 px-5 sm:px-8 lg:px-10 xl:px-14 pt-1 sm:pt-4 lg:pt-2 pb-4 sm:pb-8 lg:pb-10">
+            <div class="relative z-10 max-w-[1400px] xl:max-w-[1440px] mx-auto w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-8 px-5 sm:px-8 lg:px-12 xl:px-16 pt-1 sm:pt-4 lg:pt-2 pb-4 sm:pb-8 lg:pb-10">
 
                 <!-- Left: Headline + Subtitle + Buttons -->
-                <div class="w-full lg:max-w-[540px] xl:max-w-[600px] space-y-2.5 sm:space-y-4 pb-2 sm:pb-4 lg:pb-0 {{ $revealClass }}">
+                <div class="w-full lg:max-w-[580px] xl:max-w-[660px] space-y-2.5 sm:space-y-4 pb-2 sm:pb-4 lg:pb-0 {{ $revealClass }}">
                     <h1 @if($isAnimatedHero) data-gsap-text="hero-heading" @endif
-                        class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] drop-shadow-sm text-[30px] sm:text-5xl {{ $headlineDesktopClass }}"
-                        style="font-family: 'Luckiest Guy', cursive, sans-serif;">
+                        class="font-brand text-white uppercase leading-[0.96] sm:leading-[0.95] text-[34px] sm:text-[54px] {{ $headlineDesktopClass }}"
+                        style="font-family: 'Luckiest Guy', cursive, sans-serif; text-shadow: 4px 4px 0px #000000;">
                         {!! $headline !!}
                     </h1>
 
                     <p @if($isAnimatedHero) data-gsap-text="hero-subtitle" @endif
-                       class="text-[13px] sm:text-sm md:text-base text-white/90 leading-relaxed max-w-[300px] sm:max-w-md">
+                       class="text-[14px] sm:text-base md:text-lg lg:text-[18px] text-white/90 leading-relaxed max-w-[330px] sm:max-w-lg">
                         {{ $subtitle }}
                     </p>
 

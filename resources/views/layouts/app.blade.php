@@ -20,7 +20,7 @@
     <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Roboto + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Nunito:wght@900&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Nunito:wght@900&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- SweetAlert2 CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -184,7 +184,7 @@
                     <button type="button"
                             onclick="toggleCartDrawer()"
                             id="cart-btn"
-                            class="relative w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 flex items-center justify-center text-black shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
+                            class="relative w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-black shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
                             aria-label="Keranjang Belanja">
                         <svg class="w-5 h-5 text-black" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="black"/>
@@ -626,9 +626,9 @@
                             <div class="h-16 w-full rounded-xl tb-skeleton"></div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-3 pt-1">
-                        <div class="h-9 w-24 rounded-xl tb-skeleton shrink-0"></div>
-                        <div class="h-9 flex-1 max-w-[200px] rounded-xl tb-skeleton"></div>
+                    <div class="flex items-center gap-2.5 sm:gap-3 pt-1 w-full">
+                        <div class="h-11 w-24 rounded-xl tb-skeleton shrink-0"></div>
+                        <div class="h-11 flex-1 rounded-xl tb-skeleton"></div>
                     </div>
                 </div>
             </div>
@@ -656,12 +656,12 @@
                         </span>
 
                         <!-- Product Name -->
-                        <h3 id="modal-product-name" class="font-black text-xl sm:text-2xl text-[#2D3B36] uppercase leading-tight mt-1">
+                        <h3 id="modal-product-name" class="font-black text-xl sm:text-2xl text-[#40605E] uppercase leading-tight mt-1">
                             Burger Name
                         </h3>
 
                         <!-- Price -->
-                        <div id="modal-product-price" class="font-extrabold text-base sm:text-lg text-[#2D3B36] mt-1.5 tracking-tight">
+                        <div id="modal-product-price" class="font-extrabold text-base sm:text-lg text-[#466967] mt-1.5 tracking-tight">
                             RP 0
                         </div>
 
@@ -690,10 +690,10 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Action Row: Stepper [-] 1 [+] and Compact Add to Cart Button -->
-                    <div class="flex items-center gap-2.5 sm:gap-3 mt-4 sm:mt-5 pt-1">
+                    <!-- Bottom Action Row: Stepper [-] 1 [+] and Add to Cart Button -->
+                    <div class="flex items-center gap-2.5 sm:gap-3 mt-4 sm:mt-5 pt-1 w-full">
                         <!-- Stepper [-] 1 [+] (Tombol Kurang & Tambah Burger) -->
-                        <div class="inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 py-1 shadow-2xs gap-2 shrink-0">
+                        <div class="h-11 inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 shadow-2xs gap-2 shrink-0">
                             <button type="button"
                                     onclick="adjustModalQty(-1)"
                                     class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-medium transition cursor-pointer select-none"
@@ -705,19 +705,19 @@
                                     aria-label="Tambah burger">&plus;</button>
                         </div>
 
-                        <!-- CTA Button (Dikecilkan, Ringkas & Proporsional) -->
+                        <!-- CTA Button -->
                         @if(!$isStoreOpen)
                             <button type="button"
                                     id="modal-submit-btn"
                                     onclick="submitAddToCart()"
-                                    class="bg-gray-300 text-gray-600 font-semibold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-2xs cursor-not-allowed whitespace-nowrap">
+                                    class="h-11 flex-1 min-w-0 bg-gray-300 text-gray-600 font-semibold text-xs px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-2xs cursor-not-allowed whitespace-nowrap">
                                 <span>Outlet Sedang Tutup</span>
                             </button>
                         @else
                             <button type="button"
                                     id="modal-submit-btn"
                                     onclick="submitAddToCart()"
-                                    class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
+                                    class="h-11 flex-1 min-w-0 bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
                                 <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
                                 <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="currentColor"/>

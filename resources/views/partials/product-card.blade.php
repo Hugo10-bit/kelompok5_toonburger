@@ -40,7 +40,7 @@
     </div>
 
     <div class="pt-2 sm:pt-3 flex items-center justify-between gap-1.5 border-t border-gray-100 mt-2 sm:mt-3">
-        <span @if($isMotionCard) data-gsap-text="card" @endif class="font-black text-xs sm:text-base text-gray-900 whitespace-nowrap">
+        <span @if($isMotionCard) data-gsap-text="card" @endif class="font-roboto font-bold text-xs sm:text-base text-gray-900 whitespace-nowrap">
             Rp {{ number_format($price, 0, ',', '.') }}
         </span>
         @if(isset($storeSetting) && $storeSetting->isClosed())
