@@ -53,7 +53,7 @@
 
                     <div class="lg:col-span-6 grid grid-cols-2 gap-2.5 sm:gap-4">
                         <div class="rounded-xl sm:rounded-2xl overflow-hidden bg-[#141414] aspect-[4/3] sm:aspect-[351/429]">
-                            <img src="{{ asset('images/about-burger-1.png') }}"
+                            <img src="{{ asset('images/about-burger-1.webp') }}"
                                  alt="Burger daging sapi panggang Toon Burger dengan keju leleh dan beef strip renyah"
                                  width="351"
                                  height="429"
@@ -62,7 +62,7 @@
                                  class="w-full h-full object-cover">
                         </div>
                         <div class="rounded-xl sm:rounded-2xl overflow-hidden bg-[#24120A] aspect-[4/3] sm:aspect-[351/429]">
-                            <img src="{{ asset('images/about-burger-2.png') }}"
+                            <img src="{{ asset('images/about-burger-2.webp') }}"
                                  alt="Detail lelehan dua macam keju dan daging asap panggang di dalam roti brioche"
                                  width="351"
                                  height="429"
@@ -145,7 +145,7 @@
 
                 <div class="absolute inset-0">
                     <img data-slide-photo="0"
-                         src="{{ asset('images/about-visi.png') }}"
+                         src="{{ asset('images/about-visi.webp') }}"
                          alt="Hidangan lengkap burger sapi, ayam goreng renyah, kentang goreng, dan saus racikan dapur Toon Burger"
                          width="1010"
                          height="350"
@@ -154,7 +154,7 @@
                          class="about-slide-photo is-active absolute inset-0 w-full h-full object-cover object-[58%_center] sm:object-center">
 
                     <img data-slide-photo="1"
-                         src="{{ asset('images/about-misi.png') }}"
+                         src="{{ asset('images/about-misi.webp') }}"
                          alt="Pelanggan menikmati double smash burger hangat dengan keju leleh dan bawang karamel"
                          width="1010"
                          height="350"
