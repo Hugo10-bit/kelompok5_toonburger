@@ -1641,12 +1641,12 @@ window.addEventListener('pageshow', function () {
         }
 
         const sidebarLinks = document.querySelectorAll('#admin-sidebar nav a[href]');
+        const activeClasses = ['bg-[#40605D]', 'text-white', 'font-medium', 'shadow-xs'];
+        const inactiveClasses = ['text-[#374151]', 'hover:bg-gray-100/80', 'hover:text-gray-900'];
         sidebarLinks.forEach((a) => {
             const active = matchesNavPath(a.getAttribute('href'));
-            a.className = 'flex items-center gap-4 px-5 py-4 transition rounded-full ' +
-                (active
-                    ? 'bg-[#40605D] text-white font-medium shadow-xs'
-                    : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900');
+            a.classList.remove(...(active ? inactiveClasses : activeClasses));
+            a.classList.add(...(active ? activeClasses : inactiveClasses));
         });
     }
 
