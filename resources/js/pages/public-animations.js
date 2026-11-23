@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 let activeCleanup = null;
 
 function isReducedMotionPreferred() {
-    return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || window.innerWidth < 640;
 }
 
 function isAlreadyScrolledAboveViewport(el) {

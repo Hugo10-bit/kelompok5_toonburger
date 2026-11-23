@@ -239,9 +239,9 @@
     <!-- Main Dark Forest Green Card with Rounded Top matching design reference -->
     <div class="tb-footer-card pointer-events-auto">
 
-        <!-- SVG Pattern Background -->
+        <!-- SVG/WebP Pattern Background -->
         <div class="tb-footer-pattern-wrap">
-            <img src="{{ asset('images/footer-pattern.svg') }}"
+            <img src="{{ asset('images/footer-pattern.webp') }}"
                  alt=""
                  aria-hidden="true"
                  class="absolute inset-0 w-full h-full object-cover object-top pointer-events-none select-none"

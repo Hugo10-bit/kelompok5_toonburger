@@ -213,7 +213,7 @@ class Product extends Model
         ]));
 
         foreach ($candidateSlugs as $cSlug) {
-            foreach (["images/products/{$cSlug}.jpg", "images/products/{$cSlug}.png", "images/products/{$cSlug}.webp"] as $candidate) {
+            foreach (["images/products/{$cSlug}.webp", "images/products/{$cSlug}.jpg", "images/products/{$cSlug}.png"] as $candidate) {
                 if (file_exists(public_path($candidate))) {
                     return asset($candidate);
                 }
