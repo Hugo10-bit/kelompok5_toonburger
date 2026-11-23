@@ -232,80 +232,91 @@
     @php
         $reviews = [
             [
-                'name' => 'Putri Arina',
-                'quote' => 'Telat mau nyobain karena baru kesampaian, enakk bangett baru tau sayur selada dkk ya disaus makanya gurih bangett, next bakal order lagi',
+                'name' => 'Virina Arisa',
+                'quote' => 'First time nyobain karena baru kesampean, sukak banget!!! buns nya super lembut dan ga ekspek isiannya geude bangettt, next bakal order lagi❤️',
                 'theme' => 'yellow',
-                'tilt' => 'lg:rotate-[2.4deg]',
-                'tiltDeg' => 2.4,
+                'tilt' => 'lg:rotate-[2deg]',
+                'tiltDeg' => 2,
+                'offset' => 'lg:-translate-y-1.5',
+                'z' => 'z-10',
             ],
             [
-                'name' => 'Bram',
-                'quote' => 'Rasa udah improve, udah engga ada dominan asam lagi dan sudah balance, saus signature nya sudah mulai berasa, good job',
+                'name' => 'D****',
+                'quote' => 'Rasa udah improve, udah engga ada dominan asam lagi dan sudah balance, rasa signature nya suudah mulai terasa, good job',
                 'theme' => 'green',
                 'tilt' => 'lg:-rotate-[1.5deg]',
                 'tiltDeg' => -1.5,
+                'offset' => 'lg:translate-y-0.5',
+                'z' => 'z-20',
             ],
             [
-                'name' => 'Hasnul',
-                'quote' => 'Enak bangett burgernyaaa, menunya dilengkapin lagi plisssssss',
+                'name' => 'Nawwaf',
+                'quote' => 'Enak bangettt burgernyaaa, menunya dilengkapin lagi plisssssss',
                 'theme' => 'cream',
-                'tilt' => 'lg:rotate-[2deg]',
-                'tiltDeg' => 2,
+                'tilt' => 'lg:rotate-[1.8deg]',
+                'tiltDeg' => 1.8,
+                'offset' => 'lg:-translate-y-0.5',
+                'z' => 'z-30',
             ],
             [
-                'name' => 'Nadya Nabilah',
-                'quote' => 'Tertau karna iklan, baru pertama nyoba eh seenak ituuu, balik lagi besokk',
+                'name' => 'Widya Nuriana',
+                'quote' => 'Sedap kalikk lahh, baru pertama nyoba lah aku!!!!! mau balik lagi besokkkk 😍😍',
                 'theme' => 'yellow',
                 'tilt' => 'lg:-rotate-[1.6deg]',
                 'tiltDeg' => -1.6,
+                'offset' => 'lg:translate-y-1',
+                'z' => 'z-40',
             ],
             [
                 'name' => 'Jihan',
-                'quote' => 'Enak bangettttttt, kejunyaaaaaaaa',
+                'quote' => 'Enak bangetttttttt kacawwwwwwww 😍😍😍😍',
                 'theme' => 'cream',
-                'tilt' => 'lg:-rotate-[2.8deg]',
-                'tiltDeg' => -2.8,
+                'tilt' => 'lg:-rotate-[2.5deg]',
+                'tiltDeg' => -2.5,
+                'offset' => 'lg:translate-y-2',
+                'z' => 'z-20',
             ],
             [
                 'name' => 'Ayu Dewi Fortuna',
-                'quote' => 'Enakk sekali burgernya dan red velvet nya enak juga',
+                'quote' => 'Enakk sukaa burgernyaa dan red velvet nya enak juga',
                 'theme' => 'yellow',
-                'tilt' => 'lg:rotate-[1.3deg]',
-                'tiltDeg' => 1.3,
+                'tilt' => 'lg:rotate-[1.2deg]',
+                'tiltDeg' => 1.2,
+                'offset' => 'lg:-translate-y-1',
+                'z' => 'z-10',
             ],
             [
                 'name' => 'Anindya Esti',
-                'quote' => 'Selalu enak, bestttt burger in townn!!!',
+                'quote' => 'Selalu enak, bestttt burger in townn!!! ❤️👍',
                 'theme' => 'green',
                 'tilt' => 'lg:-rotate-[1.8deg]',
                 'tiltDeg' => -1.8,
+                'offset' => 'lg:translate-y-1',
+                'z' => 'z-30',
             ],
         ];
 
         $themeStyles = [
             'yellow' => [
-                'bg' => 'bg-[#F4BE1E]',
-                'star' => 'text-[#1E2E2B]',
-                'name' => 'text-[#1E2E2B]',
-                'quote' => 'text-[#243733]',
-                'divider' => 'border-[#1E2E2B]/25',
-                'watermark' => 'text-[#1E2E2B]/15',
+                'bg' => 'bg-[#EEB50A]',
+                'star' => 'text-white',
+                'name' => 'text-white',
+                'quote' => 'text-white/95',
+                'divider' => 'border-white/45',
             ],
             'green' => [
                 'bg' => 'bg-[#3B5954]',
                 'star' => 'text-white',
                 'name' => 'text-white',
                 'quote' => 'text-[#F1F6F5]',
-                'divider' => 'border-white/30',
-                'watermark' => 'text-white/15',
+                'divider' => 'border-white/35',
             ],
             'cream' => [
-                'bg' => 'bg-[#F6EBB9]',
+                'bg' => 'bg-[#F5ECC1]',
                 'star' => 'text-[#2D4C46]',
                 'name' => 'text-[#1E2E2B]',
                 'quote' => 'text-[#2A413D]',
-                'divider' => 'border-[#27443E]/25',
-                'watermark' => 'text-[#27443E]/15',
+                'divider' => 'border-[#27443E]/30',
             ],
         ];
     @endphp
@@ -313,91 +324,94 @@
     <section class="retro-grid-bg py-8 sm:py-16 lg:py-20 px-3.5 sm:px-6 lg:px-8">
         <div class="max-w-5xl mx-auto">
 
-            <div class="text-center max-w-4xl mx-auto mb-6 sm:mb-12 lg:mb-14">
+            <div class="text-center max-w-4xl mx-auto mb-6 sm:mb-9 lg:mb-10">
                 <h2 data-gsap-text="section-title"
-                    class="text-xl sm:text-3xl lg:text-[34px] text-[#27443E] uppercase tracking-wide leading-tight"
+                    class="text-xl sm:text-3xl lg:text-[36px] text-[#27443E] uppercase tracking-wide leading-tight"
                     style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
                     KATA MEREKA YANG UDAH NYOBA!
                 </h2>
-                <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-[13px] text-[#57534E] leading-relaxed mt-1.5 sm:mt-2 inline-flex items-baseline sm:items-center justify-center gap-2">
-                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#57534E] shrink-0 -translate-y-[1px] sm:translate-y-0" aria-hidden="true"></span>
-                    <span>Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.</span>
+                <p data-gsap-text="section-subtitle" class="text-[11.5px] sm:text-[13px] text-[#57534E] leading-relaxed mt-1.5 sm:mt-2">
+                    Karena rasa yang enak nggak bohong, intip apa kata mereka yang udah ngerasain kenyang puasnya burger racikan dapur kami.
                 </p>
             </div>
 
             {{-- Desktop uses the 4 + 3 staggered sticky-note wall; tablet reflows to a 2-column grid; phone stacks cleanly. --}}
-            <div class="hidden lg:block space-y-5">
-                <div data-motion-grid="reviews" class="grid grid-cols-4 gap-3.5">
+            <div class="hidden lg:block space-y-2.5">
+                <div data-motion-grid="reviews" class="grid grid-cols-4 max-w-[960px] mx-auto">
                     @foreach(array_slice($reviews, 0, 4) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
-                            <div class="w-full flex flex-col items-center">
-                                <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
-                                    @for($i = 0; $i < 5; $i++)
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
-                                        </svg>
-                                    @endfor
+                        <div class="relative -mx-1 {{ $review['offset'] }} {{ $review['z'] }} hover:z-50">
+                            <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[3px] border-white rounded-[4px] shadow-[0_10px_22px_-5px_rgba(30,46,43,0.22)] p-5 min-h-[228px] flex flex-col items-center justify-between text-center">
+                                <div class="w-full flex flex-col items-center">
+                                    <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-0.5" aria-label="Rating 5 dari 5 bintang">
+                                        @for($i = 0; $i < 5; $i++)
+                                            <svg class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
+                                            </svg>
+                                        @endfor
+                                    </div>
+
+                                    <h3 data-gsap-text="card" class="font-semibold text-[12px] {{ $s['name'] }} mt-3.5">
+                                        {{ $review['name'] }}
+                                    </h3>
+
+                                    <div class="w-[84%] border-t border-dashed {{ $s['divider'] }} my-2" aria-hidden="true"></div>
+
+                                    <p data-gsap-text="card" class="text-[11px] leading-[1.45] font-normal {{ $s['quote'] }}">
+                                        "{{ $review['quote'] }}"
+                                    </p>
                                 </div>
 
-                                <h3 data-gsap-text="card" class="font-bold text-xs {{ $s['name'] }} mt-4">
-                                    {{ $review['name'] }}
-                                </h3>
-
-                                <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
-
-                                <p data-gsap-text="card" class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
-                                    "{{ $review['quote'] }}"
-                                </p>
-                            </div>
-
-                            <div class="pt-3" aria-hidden="true">
-                                <img src="{{ asset('images/toon-head.png') }}"
-                                     alt=""
-                                     width="28"
-                                     height="28"
-                                     loading="lazy"
-                                     decoding="async"
-                                     class="w-7 h-7 object-contain opacity-30 select-none pointer-events-none">
-                            </div>
-                        </article>
+                                <div class="pt-2.5" aria-hidden="true">
+                                    <img src="{{ asset('images/toon-head.png') }}"
+                                         alt=""
+                                         width="28"
+                                         height="28"
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="w-7 h-7 object-contain opacity-20 grayscale select-none pointer-events-none">
+                                </div>
+                            </article>
+                        </div>
                     @endforeach
                 </div>
 
-                <div data-motion-grid="reviews" class="grid grid-cols-3 gap-4 max-w-[760px] mx-auto">
+                <div data-motion-grid="reviews" class="grid grid-cols-3 gap-2 max-w-[730px] mx-auto">
                     @foreach(array_slice($reviews, 4, 3) as $review)
                         @php $s = $themeStyles[$review['theme']]; @endphp
-                        <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[2.5px] border-white rounded-[6px] shadow-[0_12px_24px_-6px_rgba(30,46,43,0.22)] p-5 min-h-[245px] flex flex-col items-center justify-between text-center">
-                            <div class="w-full flex flex-col items-center">
-                                <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-1" aria-label="Rating 5 dari 5 bintang">
-                                    @for($i = 0; $i < 5; $i++)
-                                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
-                                        </svg>
-                                    @endfor
+                        <div class="relative -mx-0.5 {{ $review['offset'] }} {{ $review['z'] }} hover:z-50">
+                            <article data-motion-card="review" data-tilt-deg="{{ $review['tiltDeg'] }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $review['tilt'] }} border-[3px] border-white rounded-[4px] shadow-[0_10px_22px_-5px_rgba(30,46,43,0.22)] p-5 min-h-[228px] flex flex-col items-center justify-between text-center">
+                                <div class="w-full flex flex-col items-center">
+                                    <div class="flex items-center justify-center gap-1.5 {{ $s['star'] }} mt-0.5" aria-label="Rating 5 dari 5 bintang">
+                                        @for($i = 0; $i < 5; $i++)
+                                            <svg class="w-[17px] h-[17px] fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
+                                            </svg>
+                                        @endfor
+                                    </div>
+
+                                    <h3 data-gsap-text="card" class="font-semibold text-[12px] {{ $s['name'] }} mt-3.5">
+                                        {{ $review['name'] }}
+                                    </h3>
+
+                                    <div class="w-[84%] border-t border-dashed {{ $s['divider'] }} my-2" aria-hidden="true"></div>
+
+                                    <p data-gsap-text="card" class="text-[11px] leading-[1.45] font-normal {{ $s['quote'] }}">
+                                        "{{ $review['quote'] }}"
+                                    </p>
                                 </div>
 
-                                <h3 data-gsap-text="card" class="font-bold text-xs {{ $s['name'] }} mt-4">
-                                    {{ $review['name'] }}
-                                </h3>
-
-                                <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-2.5" aria-hidden="true"></div>
-
-                                <p data-gsap-text="card" class="text-[11.5px] leading-relaxed font-medium {{ $s['quote'] }}">
-                                    "{{ $review['quote'] }}"
-                                </p>
-                            </div>
-
-                            <div class="pt-3" aria-hidden="true">
-                                <img src="{{ asset('images/toon-head.png') }}"
-                                     alt=""
-                                     width="28"
-                                     height="28"
-                                     loading="lazy"
-                                     decoding="async"
-                                     class="w-7 h-7 object-contain opacity-30 select-none pointer-events-none">
-                            </div>
-                        </article>
+                                <div class="pt-2.5" aria-hidden="true">
+                                    <img src="{{ asset('images/toon-head.png') }}"
+                                         alt=""
+                                         width="28"
+                                         height="28"
+                                         loading="lazy"
+                                         decoding="async"
+                                         class="w-7 h-7 object-contain opacity-20 grayscale select-none pointer-events-none">
+                                </div>
+                            </article>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -410,23 +424,23 @@
                         $mobileTiltDeg = $idx % 2 === 0 ? 1 : -1;
                         $lastSpan = $idx === count($reviews) - 1 ? 'sm:col-span-2 sm:max-w-[calc(50%-0.625rem)] sm:mx-auto w-full' : '';
                     @endphp
-                    <article data-motion-card="review" data-tilt-deg="{{ $mobileTiltDeg }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $mobileTilt }} {{ $lastSpan }} border-2 sm:border-[2.5px] border-white rounded-lg shadow-[0_6px_16px_-4px_rgba(30,46,43,0.18)] sm:shadow-[0_10px_22px_-6px_rgba(30,46,43,0.2)] p-3.5 sm:p-5 min-h-0 sm:min-h-[210px] flex flex-col items-center justify-between text-center">
+                    <article data-motion-card="review" data-tilt-deg="{{ $mobileTiltDeg }}" class="sticky-review-card relative {{ $s['bg'] }} {{ $mobileTilt }} {{ $lastSpan }} border-2 sm:border-[3px] border-white rounded-[4px] shadow-[0_6px_16px_-4px_rgba(30,46,43,0.18)] sm:shadow-[0_10px_22px_-5px_rgba(30,46,43,0.22)] p-3.5 sm:p-5 min-h-0 sm:min-h-[210px] flex flex-col items-center justify-between text-center">
                         <div class="w-full flex flex-col items-center">
                             <div class="flex items-center justify-center gap-1 sm:gap-1.5 {{ $s['star'] }}" aria-label="Rating 5 dari 5 bintang">
                                 @for($i = 0; $i < 5; $i++)
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                                    <svg class="w-3.5 h-3.5 sm:w-[17px] sm:h-[17px] fill-current" viewBox="0 0 20 20" aria-hidden="true">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.18 3.63a1 1 0 00.95.69h3.817c.969 0 1.371 1.24.588 1.81l-3.088 2.244a1 1 0 00-.364 1.118l1.18 3.63c.3.921-.755 1.688-1.54 1.118l-3.088-2.244a1 1 0 00-1.175 0l-3.088 2.244c-.784.57-1.838-.197-1.539-1.118l1.18-3.63a1 1 0 00-.364-1.118L2.52 9.057c-.783-.57-.38-1.81.588-1.81h3.817a1 1 0 00.95-.69l1.174-3.63z"/>
                                     </svg>
                                 @endfor
                             </div>
 
-                            <h3 data-gsap-text="card" class="font-bold text-xs sm:text-[13px] {{ $s['name'] }} mt-2 sm:mt-3.5">
+                            <h3 data-gsap-text="card" class="font-semibold text-xs sm:text-[13px] {{ $s['name'] }} mt-2 sm:mt-3.5">
                                 {{ $review['name'] }}
                             </h3>
 
-                            <div class="w-4/5 border-t border-dashed {{ $s['divider'] }} my-1.5 sm:my-2.5" aria-hidden="true"></div>
+                            <div class="w-[84%] border-t border-dashed {{ $s['divider'] }} my-1.5 sm:my-2" aria-hidden="true"></div>
 
-                            <p data-gsap-text="card" class="text-[11.5px] sm:text-xs leading-snug sm:leading-relaxed font-medium {{ $s['quote'] }}">
+                            <p data-gsap-text="card" class="text-[11.5px] sm:text-xs leading-snug sm:leading-[1.45] font-normal {{ $s['quote'] }}">
                                 "{{ $review['quote'] }}"
                             </p>
                         </div>
@@ -438,7 +452,7 @@
                                  height="28"
                                  loading="lazy"
                                  decoding="async"
-                                 class="w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-30 select-none pointer-events-none">
+                                 class="w-6 h-6 sm:w-7 sm:h-7 object-contain opacity-20 grayscale select-none pointer-events-none">
                         </div>
                     </article>
                 @endforeach
