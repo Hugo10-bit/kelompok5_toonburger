@@ -2190,6 +2190,8 @@ const _tbPhraseMap = {
     'MAU MAKAN': 'WHAT DO YOU',
     'APA HARI INI?': 'WANT TO EAT?',
     'Nikmati perpaduan rasa, tekstur, dan bahan pilihan dalam setiap hidangan.': 'Enjoy the blend of flavors, textures, and premium ingredients in every dish.',
+    'Ambil di tempat': 'Pickup Order',
+    'Ambil di Tempat': 'Pickup Order',
     'Ambil Sendiri': 'Pickup Order',
     'Pesan Antar': 'Delivery Order',
     'Pickup Order': 'Pickup Order',

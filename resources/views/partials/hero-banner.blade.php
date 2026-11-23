@@ -75,7 +75,7 @@
                         <a href="{{ $ctaHref }}"
                            @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
                            class="min-h-[38px] sm:min-h-[44px] inline-flex items-center justify-center font-medium text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl border border-black/80 bg-[#f5a623] hover:bg-[#e0961f] text-black shadow-[2px_2px_0px_#000] transition active:translate-x-[1px] active:translate-y-[1px] whitespace-nowrap cursor-pointer">
-                            Ambil Sendiri
+                            Ambil di tempat
                         </a>
                         <a href="{{ $deliveryHref }}"
                            @if($isAnimatedHero) data-gsap-text="hero-cta" @endif
