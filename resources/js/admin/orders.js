@@ -94,3 +94,145 @@ window.confirmCancelOrder = function (btn, orderNumber) {
         }
     });
 };
+
+// ==========================================================================
+// Realtime Live Clock & Relative Order Time Updater (WITA - Asia/Makassar)
+// ==========================================================================
+function updateRealtimeClock() {
+    const clockEl = document.getElementById('realtime-clock');
+    if (!clockEl) return;
+    try {
+        const now = new Date();
+        const witaString = new Intl.DateTimeFormat('id-ID', {
+            timeZone: 'Asia/Makassar',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        }).format(now);
+        clockEl.textContent = `${witaString.replace(/\./g, ':')} WITA`;
+    } catch (e) {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const witaDate = new Date(utc + (3600000 * 8));
+        const hh = String(witaDate.getHours()).padStart(2, '0');
+        const mm = String(witaDate.getMinutes()).padStart(2, '0');
+        const ss = String(witaDate.getSeconds()).padStart(2, '0');
+        clockEl.textContent = `${hh}:${mm}:${ss} WITA`;
+    }
+}
+
+function updateRealtimeOrderTimes() {
+    const els = document.querySelectorAll('.order-time-display[data-timestamp]');
+    if (!els.length) return;
+
+    const nowMs = Date.now();
+    els.forEach((el) => {
+        const createdMs = parseInt(el.dataset.timestamp, 10);
+        if (isNaN(createdMs)) return;
+
+        const diffSecs = Math.max(0, Math.floor((nowMs - createdMs) / 1000));
+        const diffMins = Math.floor(diffSecs / 60);
+        const isToday = el.dataset.isToday === 'true';
+        const isYesterday = el.dataset.isYesterday === 'true';
+        const timeWita = el.dataset.timeWita || '';
+        const dateWita = el.dataset.dateWita || '';
+
+        let text = '';
+        if (isToday) {
+            if (diffMins < 1) {
+                text = `Baru saja • ${timeWita}`;
+            } else if (diffMins < 60) {
+                text = `${diffMins} Menit yang lalu • ${timeWita}`;
+            } else {
+                text = `Hari ini, ${timeWita}`;
+            }
+        } else if (isYesterday) {
+            text = `Kemarin, ${timeWita}`;
+        } else {
+            text = `${dateWita}, ${timeWita}`;
+        }
+
+        if (el.textContent.trim() !== text.trim()) {
+            el.textContent = text;
+        }
+    });
+}
+
+// ==========================================================================
+// Background Realtime Order Polling (Seamless Auto-Sync without Reload)
+// ==========================================================================
+let _orderPollInterval = null;
+let _clockInterval = null;
+
+function initOrdersRealtime() {
+    const ordersGrid = document.getElementById('orders-cards-container');
+    if (!ordersGrid) {
+        if (_orderPollInterval) { clearInterval(_orderPollInterval); _orderPollInterval = null; }
+        if (_clockInterval) { clearInterval(_clockInterval); _clockInterval = null; }
+        return;
+    }
+
+    updateRealtimeClock();
+    updateRealtimeOrderTimes();
+
+    if (!_clockInterval) {
+        _clockInterval = setInterval(() => {
+            updateRealtimeClock();
+            updateRealtimeOrderTimes();
+        }, 1000);
+    }
+
+    if (!_orderPollInterval) {
+        _orderPollInterval = setInterval(pollOrdersBackground, 15000);
+    }
+}
+
+async function pollOrdersBackground() {
+    if (document.hidden || document.querySelector('.swal2-shown') || document.querySelector('#catModal:not(.hidden)')) {
+        return;
+    }
+
+    const ordersGrid = document.getElementById('orders-cards-container');
+    const tabsContainer = document.getElementById('orders-status-tabs');
+    if (!ordersGrid || !tabsContainer) return;
+
+    try {
+        const res = await fetch(window.location.href, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'text/html'
+            },
+            cache: 'no-store'
+        });
+
+        if (!res.ok) return;
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const newGrid = doc.getElementById('orders-cards-container');
+        const newTabs = doc.getElementById('orders-status-tabs');
+
+        if (newGrid && newGrid.innerHTML.trim() !== ordersGrid.innerHTML.trim()) {
+            ordersGrid.innerHTML = newGrid.innerHTML;
+            updateRealtimeOrderTimes();
+        }
+
+        if (newTabs && newTabs.innerHTML.trim() !== tabsContainer.innerHTML.trim()) {
+            tabsContainer.innerHTML = newTabs.innerHTML;
+        }
+    } catch (e) {
+        // Silently ignore background poll errors
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initOrdersRealtime);
+window.addEventListener('tb:admin:pjax:loaded', initOrdersRealtime);
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+        updateRealtimeClock();
+        updateRealtimeOrderTimes();
+        pollOrdersBackground();
+    }
+});

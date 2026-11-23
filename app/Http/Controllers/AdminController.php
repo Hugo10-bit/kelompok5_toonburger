@@ -261,25 +261,35 @@ class AdminController extends Controller
             $query->where('status', $status);
         }
 
-        // Filter Tanggal
-        $applyDateFilter = function ($q) use ($dateFilter, $startDate, $endDate) {
+        // Filter Tanggal disesuaikan dengan zona waktu WITA (Asia/Makassar, UTC+8)
+        $tz = 'Asia/Makassar';
+        $nowWita = now()->timezone($tz);
+
+        $applyDateFilter = function ($q) use ($dateFilter, $startDate, $endDate, $tz, $nowWita) {
             if ($dateFilter === 'today') {
-                $q->whereDate('created_at', now()->today());
+                $start = $nowWita->copy()->startOfDay()->setTimezone('UTC');
+                $end = $nowWita->copy()->endOfDay()->setTimezone('UTC');
+                $q->whereBetween('created_at', [$start, $end]);
             } elseif ($dateFilter === 'yesterday') {
-                $q->whereDate('created_at', now()->subDay()->toDateString());
+                $start = $nowWita->copy()->subDay()->startOfDay()->setTimezone('UTC');
+                $end = $nowWita->copy()->subDay()->endOfDay()->setTimezone('UTC');
+                $q->whereBetween('created_at', [$start, $end]);
             } elseif ($dateFilter === 'week') {
-                $q->where('created_at', '>=', now()->subDays(7)->startOfDay());
+                $start = $nowWita->copy()->subDays(7)->startOfDay()->setTimezone('UTC');
+                $q->where('created_at', '>=', $start);
             } elseif ($dateFilter === 'month') {
-                $q->where('created_at', '>=', now()->startOfMonth());
+                $start = $nowWita->copy()->startOfMonth()->setTimezone('UTC');
+                $q->where('created_at', '>=', $start);
             } elseif (!empty($startDate) && !empty($endDate)) {
-                $q->whereBetween('created_at', [
-                    \Carbon\Carbon::parse($startDate)->startOfDay(),
-                    \Carbon\Carbon::parse($endDate)->endOfDay()
-                ]);
+                $start = \Carbon\Carbon::parse($startDate, $tz)->startOfDay()->setTimezone('UTC');
+                $end = \Carbon\Carbon::parse($endDate, $tz)->endOfDay()->setTimezone('UTC');
+                $q->whereBetween('created_at', [$start, $end]);
             } elseif (!empty($startDate)) {
-                $q->where('created_at', '>=', \Carbon\Carbon::parse($startDate)->startOfDay());
+                $start = \Carbon\Carbon::parse($startDate, $tz)->startOfDay()->setTimezone('UTC');
+                $q->where('created_at', '>=', $start);
             } elseif (!empty($endDate)) {
-                $q->where('created_at', '<=', \Carbon\Carbon::parse($endDate)->endOfDay());
+                $end = \Carbon\Carbon::parse($endDate, $tz)->endOfDay()->setTimezone('UTC');
+                $q->where('created_at', '<=', $end);
             }
         };
 

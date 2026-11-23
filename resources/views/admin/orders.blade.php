@@ -24,16 +24,23 @@
             </p>
         </div>
 
-        <!-- Sorting selector -->
-        <div class="flex items-center gap-2 self-start md:self-auto">
-            <label for="order-sort-select" class="text-xs font-semibold text-gray-600 dark:text-gray-300 whitespace-nowrap">Urutan:</label>
-            <select id="order-sort-select"
-                    onchange="handleOrderSortChange(this.value)"
-                    class="bg-white dark:bg-[#383838] border border-gray-300 dark:border-[#555555] rounded-xl px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 focus:ring-[#415C58] focus:border-[#415C58] cursor-pointer shadow-2xs">
-                <option value="newest" {{ ($sort ?? 'newest') === 'newest' ? 'selected' : '' }}>Terbaru Masuk (Default)</option>
-                <option value="oldest" {{ ($sort ?? '') === 'oldest' ? 'selected' : '' }}>Terlama Masuk (Antrian)</option>
-                <option value="priority" {{ ($sort ?? '') === 'priority' ? 'selected' : '' }}>Prioritas Status (Menunggu & Dimasak Duluan)</option>
-            </select>
+        <!-- Realtime Clock & Sorting selector -->
+        <div class="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="realtime-clock" class="font-mono">--:--:-- WITA</span>
+            </span>
+
+            <div class="flex items-center gap-1.5">
+                <label for="order-sort-select" class="text-xs font-semibold text-gray-600 dark:text-gray-300 whitespace-nowrap">Urutan:</label>
+                <select id="order-sort-select"
+                        onchange="handleOrderSortChange(this.value)"
+                        class="bg-white dark:bg-[#383838] border border-gray-300 dark:border-[#555555] rounded-xl px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 focus:ring-[#415C58] focus:border-[#415C58] cursor-pointer shadow-2xs">
+                    <option value="newest" {{ ($sort ?? 'newest') === 'newest' ? 'selected' : '' }}>Terbaru Masuk (Default)</option>
+                    <option value="oldest" {{ ($sort ?? '') === 'oldest' ? 'selected' : '' }}>Terlama Masuk (Antrian)</option>
+                    <option value="priority" {{ ($sort ?? '') === 'priority' ? 'selected' : '' }}>Prioritas Status (Menunggu & Dimasak Duluan)</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -113,7 +120,7 @@
     </div>
 
     <!-- Status Tabs (Mempertahankan Filter Tanggal & Sortir) -->
-    <div class="flex flex-wrap items-center gap-2 sm:gap-3.5 mb-6 sm:mb-8">
+    <div id="orders-status-tabs" class="flex flex-wrap items-center gap-2 sm:gap-3.5 mb-6 sm:mb-8">
         @php
             $tabQueryParams = request()->except(['page']);
         @endphp
@@ -140,7 +147,7 @@
     </div>
 
     <!-- Orders Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-7 flex-1">
+    <div id="orders-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-7 flex-1">
         @forelse((request()->has('empty') ? collect([]) : $orders) as $order)
             @php
                 $badgeConfig = match($order->status) {
@@ -189,16 +196,23 @@
                     default => null,
                 };
 
-                $isCreatedToday = $order->created_at->isToday();
-                $isCreatedYesterday = $order->created_at->isYesterday();
-                $minsAgo = max(1, (int) abs(now()->diffInMinutes($order->created_at)));
-                
+                $witaCreated = $order->created_at->timezone('Asia/Makassar');
+                $nowWita = now()->timezone('Asia/Makassar');
+                $isCreatedToday = $witaCreated->isSameDay($nowWita);
+                $isCreatedYesterday = $witaCreated->copy()->addDay()->isSameDay($nowWita);
+                $diffSeconds = max(0, $nowWita->diffInSeconds($witaCreated));
+                $minsAgo = (int) floor($diffSeconds / 60);
+
                 if ($isCreatedToday) {
-                    $timeDisplay = $minsAgo < 60 ? ($minsAgo . ' Menit yang lalu') : ('Hari ini, ' . $order->created_at->format('H:i'));
+                    $timeDisplay = $minsAgo < 1 
+                        ? ('Baru saja • ' . $witaCreated->format('H:i') . ' WITA') 
+                        : ($minsAgo < 60 
+                            ? ($minsAgo . ' Menit yang lalu • ' . $witaCreated->format('H:i') . ' WITA') 
+                            : ('Hari ini, ' . $witaCreated->format('H:i') . ' WITA'));
                 } elseif ($isCreatedYesterday) {
-                    $timeDisplay = 'Kemarin, ' . $order->created_at->format('H:i');
+                    $timeDisplay = 'Kemarin, ' . $witaCreated->format('H:i') . ' WITA';
                 } else {
-                    $timeDisplay = $order->created_at->format('d M Y, H:i');
+                    $timeDisplay = $witaCreated->format('d M Y, H:i') . ' WITA';
                 }
             @endphp
 
@@ -223,7 +237,12 @@
                     <div class="flex items-start justify-between gap-2 mb-3.5">
                         <div class="min-w-0 flex-1">
                             <h3 class="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white leading-tight break-words">{{ $order->customer_name }}</h3>
-                            <p class="text-xs text-gray-400 dark:text-gray-300 mt-1" data-mins-ago="{{ $minsAgo }}">{{ $timeDisplay }}</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-300 mt-1 order-time-display"
+                               data-timestamp="{{ $witaCreated->getTimestamp() * 1000 }}"
+                               data-time-wita="{{ $witaCreated->format('H:i') }} WITA"
+                               data-date-wita="{{ $witaCreated->format('d M Y') }}"
+                               data-is-today="{{ $isCreatedToday ? 'true' : 'false' }}"
+                               data-is-yesterday="{{ $isCreatedYesterday ? 'true' : 'false' }}">{{ $timeDisplay }}</p>
                         </div>
                         <span class="px-2.5 sm:px-3 py-1 rounded-md text-[11px] sm:text-xs font-semibold inline-flex items-center gap-1.5 shrink-0 {{ $badgeConfig['bg'] }}">
                             {!! $badgeConfig['icon'] !!}
