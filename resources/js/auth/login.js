@@ -290,14 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
     initAutoDismissAlerts();
 
     if (localStorage.getItem('tb_logged_out') === '1') {
-        const warnAlert = document.getElementById('alert-warning');
-        if (warnAlert) {
-            warnAlert.classList.remove('hidden');
-            warnAlert.classList.add('flex');
-            setTimeout(function () {
-                dismissAlert(warnAlert);
-            }, 3500);
-        }
         localStorage.removeItem('tb_logged_out');
     }
 });
@@ -338,14 +330,6 @@ function togglePasswordVisibility(inputId, btn) {
 // Reload page on Back / Forward navigation to prevent displaying cached authenticated views after logout
 window.addEventListener('pageshow', function (event) {
     if (localStorage.getItem('tb_logged_out') === '1') {
-        const warnAlert = document.getElementById('alert-warning');
-        if (warnAlert) {
-            warnAlert.classList.remove('hidden');
-            warnAlert.classList.add('flex');
-            setTimeout(function () {
-                dismissAlert(warnAlert);
-            }, 3500);
-        }
         localStorage.removeItem('tb_logged_out');
     }
 

@@ -58,28 +58,28 @@
 
             <!-- 4 BURGERS: PRECISELY SIZED & POSITIONED WITH PERFECT SYMMETRY IN VISIBLE CONTAINER -->
             <!-- 1. Top-Left Burger: Small (~52px) -->
-            <img src="{{ asset('images/floating-burger.png') }}"
+            <img src="{{ asset('images/hero-burger.png') }}"
                  alt="Burger"
                  decoding="async"
                  style="transform: rotate(-15deg);"
                  class="absolute top-[26%] left-6 sm:left-8 md:left-9 w-12 sm:w-14 lg:w-16 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 2. Top-Right Burger: BIG (~100px) -->
-            <img src="{{ asset('images/floating-burger.png') }}"
+            <img src="{{ asset('images/hero-burger.png') }}"
                  alt="Burger"
                  decoding="async"
                  style="transform: rotate(14deg);"
                  class="absolute top-[17%] right-6 sm:right-8 md:right-10 w-20 sm:w-24 lg:w-28 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 3. Bottom-Left Burger: BIGGEST (~130px) -->
-            <img src="{{ asset('images/floating-burger.png') }}"
+            <img src="{{ asset('images/hero-burger.png') }}"
                  alt="Burger"
                  decoding="async"
                  style="transform: rotate(-10deg);"
                  class="absolute bottom-[23%] left-6 sm:left-8 md:left-9 w-24 sm:w-28 md:w-32 lg:w-36 h-auto drop-shadow-md pointer-events-none select-none">
 
             <!-- 4. Bottom-Right Burger: Small (~52px) -->
-            <img src="{{ asset('images/floating-burger.png') }}"
+            <img src="{{ asset('images/hero-burger.png') }}"
                  alt="Burger"
                  decoding="async"
                  style="transform: rotate(18deg);"
@@ -122,28 +122,6 @@
         <div class="w-full max-w-sm sm:max-w-md mx-auto my-auto py-4">
 
             <!-- FLASH ALERTS -->
-            @if(session('warning'))
-                <div id="alert-warning" class="alert-auto-dismiss mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
-                    <div class="flex items-center gap-2.5">
-                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                        </svg>
-                        <span id="alert-warning-text">{{ session('warning') }}</span>
-                    </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-medium p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
-                </div>
-            @else
-                <div id="alert-warning" class="hidden alert-auto-dismiss mb-5 p-3.5 bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/80 text-amber-900 dark:text-amber-200 text-xs font-bold rounded-xl items-center justify-between shadow-xs" role="alert">
-                    <div class="flex items-center gap-2.5">
-                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                        </svg>
-                        <span id="alert-warning-text">Wajib login terlebih dahulu.</span>
-                    </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-amber-700 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100 font-medium p-1 cursor-pointer transition-colors" aria-label="Tutup notifikasi">&times;</button>
-                </div>
-            @endif
-
             @if(session('error'))
                 <div class="alert-auto-dismiss mb-5 p-3.5 bg-red-50 dark:bg-red-950/60 border border-red-200 dark:border-red-700/80 text-red-800 dark:text-red-200 text-xs font-bold rounded-xl flex items-center justify-between shadow-xs" role="alert">
                     <div class="flex items-center gap-2">
@@ -161,16 +139,6 @@
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ session('status') }}</span>
-                    </div>
-                    <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-medium hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
-                </div>
-            @endif
-
-            @if(session('success'))
-                <div class="alert-auto-dismiss mb-5 p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-200 text-xs font-bold rounded-xl flex justify-between items-center shadow-xs" role="alert">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        <span>{{ session('success') }}</span>
                     </div>
                     <button type="button" onclick="dismissAlert(this.closest('.alert-auto-dismiss'))" class="text-emerald-600 font-medium hover:text-emerald-900 dark:text-emerald-300 dark:hover:text-emerald-100 cursor-pointer p-1" aria-label="Tutup notifikasi">&times;</button>
                 </div>
