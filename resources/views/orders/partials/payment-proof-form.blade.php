@@ -46,15 +46,6 @@
         </label>
     </div>
 
-    <div>
-        <input type="text"
-               name="payment_proof_note"
-               maxlength="255"
-               value="{{ old('payment_proof_note', $order->payment_proof_note) }}"
-               placeholder="Nama pengirim / catatan transfer (opsional)"
-               class="w-full bg-white border border-gray-300 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#385850] focus:ring-1 focus:ring-[#385850] transition">
-    </div>
-
     <div id="{{ $prefix }}-client-error" class="hidden text-[11px] font-semibold text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2"></div>
 
     <button type="submit"
