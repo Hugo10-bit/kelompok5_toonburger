@@ -236,13 +236,17 @@ class AdminController extends Controller
     {
         $status = $request->query('status', 'all');
         $search = trim($request->query('search', $request->query('q', '')));
+        $dateFilter = $request->query('date', 'all');
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $sort = $request->query('sort', 'newest');
 
         $relations = ['items', 'table', 'user'];
         if (\Illuminate\Support\Facades\Schema::hasTable('payments')) {
             $relations[] = 'payment';
         }
 
-        $query = Order::with($relations)->orderBy('id', 'asc');
+        $query = Order::with($relations);
 
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
@@ -257,11 +261,55 @@ class AdminController extends Controller
             $query->where('status', $status);
         }
 
-        $orders = $query->get();
+        // Filter Tanggal
+        $applyDateFilter = function ($q) use ($dateFilter, $startDate, $endDate) {
+            if ($dateFilter === 'today') {
+                $q->whereDate('created_at', now()->today());
+            } elseif ($dateFilter === 'yesterday') {
+                $q->whereDate('created_at', now()->subDay()->toDateString());
+            } elseif ($dateFilter === 'week') {
+                $q->where('created_at', '>=', now()->subDays(7)->startOfDay());
+            } elseif ($dateFilter === 'month') {
+                $q->where('created_at', '>=', now()->startOfMonth());
+            } elseif (!empty($startDate) && !empty($endDate)) {
+                $q->whereBetween('created_at', [
+                    \Carbon\Carbon::parse($startDate)->startOfDay(),
+                    \Carbon\Carbon::parse($endDate)->endOfDay()
+                ]);
+            } elseif (!empty($startDate)) {
+                $q->where('created_at', '>=', \Carbon\Carbon::parse($startDate)->startOfDay());
+            } elseif (!empty($endDate)) {
+                $q->where('created_at', '<=', \Carbon\Carbon::parse($endDate)->endOfDay());
+            }
+        };
 
-        $statusCounts = Order::selectRaw('status, COUNT(*) as aggregate')
-            ->groupBy('status')
-            ->pluck('aggregate', 'status');
+        $applyDateFilter($query);
+
+        // Pengurutan (Sorting)
+        if ($sort === 'oldest') {
+            $query->orderBy('created_at', 'asc')->orderBy('id', 'asc');
+        } elseif ($sort === 'priority') {
+            $query->orderByRaw("
+                CASE 
+                    WHEN status = 'pending' THEN 1
+                    WHEN status IN ('confirmed', 'preparing') THEN 2
+                    WHEN status = 'ready' THEN 3
+                    WHEN status = 'completed' THEN 4
+                    ELSE 5
+                END ASC
+            ")->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+        } else {
+            // Default: Pesanan Terbaru di paling atas
+            $query->orderBy('created_at', 'desc')->orderBy('id', 'desc');
+        }
+
+        // Paginasi: 18 pesanan per halaman (scalable untuk jangka panjang bertahun-tahun)
+        $orders = $query->paginate(18)->withQueryString();
+
+        // Hitung statistik status berdasarkan filter tanggal yang aktif
+        $countsQuery = Order::selectRaw('status, COUNT(*) as aggregate');
+        $applyDateFilter($countsQuery);
+        $statusCounts = $countsQuery->groupBy('status')->pluck('aggregate', 'status');
 
         $countPending = (int) ($statusCounts['pending'] ?? 0);
         $countConfirmed = (int) ($statusCounts['confirmed'] ?? 0);
@@ -288,6 +336,10 @@ class AdminController extends Controller
             'status',
             'counts',
             'search',
+            'dateFilter',
+            'startDate',
+            'endDate',
+            'sort',
             'countAll',
             'countPending',
             'countCooking',
@@ -434,6 +486,19 @@ class AdminController extends Controller
      */
     public function storeProduct(Request $request, ImageDataUriService $imageService)
     {
+        if ($request->has('price')) {
+            $rawPrice = preg_replace('/[^\d]/', '', (string) $request->price);
+            if ($rawPrice !== '') {
+                $request->merge(['price' => (float) $rawPrice]);
+            }
+        }
+        if ($request->filled('original_price')) {
+            $rawOrig = preg_replace('/[^\d]/', '', (string) $request->original_price);
+            if ($rawOrig !== '') {
+                $request->merge(['original_price' => (float) $rawOrig]);
+            }
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:80',
             'category_id' => 'required|exists:categories,id',
@@ -519,6 +584,19 @@ class AdminController extends Controller
     public function updateProduct(Request $request, $id, ImageDataUriService $imageService)
     {
         $product = Product::findOrFail($id);
+
+        if ($request->has('price')) {
+            $rawPrice = preg_replace('/[^\d]/', '', (string) $request->price);
+            if ($rawPrice !== '') {
+                $request->merge(['price' => (float) $rawPrice]);
+            }
+        }
+        if ($request->filled('original_price')) {
+            $rawOrig = preg_replace('/[^\d]/', '', (string) $request->original_price);
+            if ($rawOrig !== '') {
+                $request->merge(['original_price' => (float) $rawOrig]);
+            }
+        }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:80',

@@ -283,16 +283,7 @@
                     <span data-i18n="nav_dashboard">Dashboard</span>
                 </a>
 
-                <!-- 2. Admin Profile -->
-                <a href="{{ route('admin.profile') }}"
-                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
-                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
-                    </svg>
-                    <span data-i18n="nav_profile">Profil Admin</span>
-                </a>
-
-                <!-- 3. Order processing -->
+                <!-- 2. Order processing -->
                 <a href="{{ route('admin.orders') }}"
                    class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.orders*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -305,7 +296,7 @@
                     <span data-i18n="nav_orders">Proses Pesanan</span>
                 </a>
 
-                <!-- 4. Product Data -->
+                <!-- 3. Product Data -->
                 <a href="{{ route('admin.products') }}"
                    class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.products*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
@@ -314,7 +305,7 @@
                     <span data-i18n="nav_products">Data Produk</span>
                 </a>
 
-                <!-- 5. Product Categories -->
+                <!-- 4. Product Categories -->
                 <a href="{{ route('admin.categories') }}"
                    class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.categories*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -323,13 +314,22 @@
                     <span data-i18n="nav_categories">Data Kategori</span>
                 </a>
 
-                <!-- 6. Pesan Terbaru -->
+                <!-- 5. Pesan Terbaru -->
                 <a href="{{ route('admin.messages') }}"
                    class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.messages*') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
                     <svg class="w-4 h-4 flex-shrink-0" viewBox="0 -960 960 960" fill="currentColor">
                         <path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Z"/>
                     </svg>
                     <span data-i18n="nav_messages">Pesan Terbaru</span>
+                </a>
+
+                <!-- 6. Admin Profile -->
+                <a href="{{ route('admin.profile') }}"
+                   class="flex items-center gap-3 px-4 py-2.5 transition rounded-full {{ request()->routeIs('admin.profile') ? 'bg-[#40605D] text-white font-medium shadow-xs' : 'text-[#374151] hover:bg-gray-100/80 hover:text-gray-900' }}">
+                    <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z" clip-rule="evenodd"/>
+                    </svg>
+                    <span data-i18n="nav_profile">Profil Admin</span>
                 </a>
             </nav>
         </div>

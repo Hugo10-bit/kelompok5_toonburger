@@ -315,7 +315,7 @@
                                    id="register-password"
                                    required
                                    autocomplete="new-password"
-                                   placeholder="Masukkan password (min. 6 karakter)"
+                                   placeholder="Masukkan password (min. 8 karakter)"
                                    class="auth-underline-input w-full bg-transparent border-0 border-b border-gray-400/90 dark:border-gray-500 focus:border-[#466967] dark:focus:border-[#8CC0B9] rounded-none pl-0 pr-9 py-2.5 text-xs sm:text-sm text-gray-900 dark:text-white font-normal placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-0 transition">
                             <button type="button"
                                     onclick="togglePasswordVisibility('register-password', this)"

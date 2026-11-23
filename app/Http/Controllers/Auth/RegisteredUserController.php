@@ -46,7 +46,7 @@ class RegisteredUserController extends Controller
             $request->merge(['username' => $candidate]);
         }
 
-        $passwordRules = ['required', 'string', 'min:6'];
+        $passwordRules = ['required', 'string', 'min:8'];
         if ($request->has('password_confirmation')) {
             $passwordRules[] = 'confirmed';
         }
@@ -64,7 +64,7 @@ class RegisteredUserController extends Controller
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 6 karakter.',
+            'password.min' => 'Password minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
             'phone_number.regex' => 'Nomor telepon hanya boleh berisi angka.',
             'phone_number.max' => 'Nomor telepon maksimal 15 karakter.',

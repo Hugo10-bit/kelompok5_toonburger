@@ -365,7 +365,7 @@
                         <div>
                             <label class="block text-xs font-bold text-gray-700 dark:text-[#E0E0E0] mb-1" data-i18n="lbl_prod_price">Harga (Rp)</label>
                             <div class="relative">
-                                <input type="number" name="price" id="prod_price" required min="1000" max="1000000" step="1" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg pl-3 pr-10 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33000">
+                                <input type="text" inputmode="numeric" name="price" id="prod_price" required autocomplete="off" class="w-full border border-gray-200 dark:border-[#555555] rounded-lg pl-3 pr-10 py-2 text-sm focus:ring-[#415C58] focus:border-[#415C58]" placeholder="33.000">
                                 <div class="absolute inset-y-1 right-1 flex flex-col w-6 rounded-md overflow-hidden border border-gray-200 dark:border-[#555555] bg-gray-100/90 dark:bg-[#3A3A3A]">
                                     <button type="button" id="prod_price_up" tabindex="-1" aria-label="Tambah harga 500" class="flex-1 flex items-center justify-center text-gray-600 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-[#4A4A4A] active:bg-gray-300 dark:active:bg-[#555555] transition cursor-pointer border-b border-gray-200 dark:border-[#555555]">
                                         <svg class="w-2.5 h-2.5" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 3L10 8H2L6 3Z"/></svg>
@@ -375,7 +375,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block">Min. Rp 1.000 &mdash; Maks. Rp 1.000.000</span>
+                            <span class="text-[10.5px] text-gray-400 dark:text-[#A0A0A0] mt-1 block">Min. Rp 1.000 &mdash; Maks. Rp 1.000.000 (Otomatis titik ribuan)</span>
                         </div>
                     </div>
 

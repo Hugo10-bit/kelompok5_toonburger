@@ -14,20 +14,50 @@ function initAdminProducts() {
     let prodSortAsc = null;
     let pendingProductImageCompression = Promise.resolve('');
 
+    function formatRupiah(num) {
+        if (num === null || num === undefined || num === '') return '';
+        const digits = String(num).replace(/\D/g, '');
+        if (!digits) return '';
+        return parseInt(digits, 10).toLocaleString('id-ID');
+    }
+
+    function parseRupiah(str) {
+        if (!str) return 0;
+        const digits = String(str).replace(/\D/g, '');
+        return digits ? parseInt(digits, 10) : 0;
+    }
+
     if (priceInputEl && priceInputEl.dataset.stepBound !== 'true') {
         priceInputEl.dataset.stepBound = 'true';
 
+        priceInputEl.addEventListener('input', function () {
+            const raw = parseRupiah(this.value);
+            if (raw === 0 && !this.value.includes('0')) {
+                this.value = '';
+                return;
+            }
+            const oldLen = this.value.length;
+            const cursorPos = this.selectionEnd || 0;
+            const formatted = formatRupiah(raw);
+            this.value = formatted;
+            const newLen = formatted.length;
+            const newPos = Math.max(0, cursorPos + (newLen - oldLen));
+            try {
+                this.setSelectionRange(newPos, newPos);
+            } catch (_) {}
+        });
+
         const stepPriceBy = (delta) => {
-            const min = parseInt(priceInputEl.min, 10) || 1000;
-            const max = parseInt(priceInputEl.max, 10) || 1000000;
-            const current = parseInt(priceInputEl.value, 10);
+            const min = 1000;
+            const max = 1000000;
+            const current = parseRupiah(priceInputEl.value);
             let next;
-            if (isNaN(current)) {
-                next = min;
+            if (!current) {
+                next = delta > 0 ? min : min;
             } else {
                 next = Math.min(max, Math.max(min, current + delta));
             }
-            priceInputEl.value = String(next);
+            priceInputEl.value = formatRupiah(next);
             priceInputEl.dispatchEvent(new Event('input', { bubbles: true }));
             priceInputEl.dispatchEvent(new Event('change', { bubbles: true }));
         };
@@ -224,7 +254,7 @@ function initAdminProducts() {
         }
         document.getElementById('prod_name').value = product.name;
         document.getElementById('prod_cat').value = product.category_id;
-        document.getElementById('prod_price').value = product.price;
+        document.getElementById('prod_price').value = formatRupiah(product.price);
         document.getElementById('prod_desc').value = product.description || '';
         document.getElementById('prod_avail').checked = product.is_available == 1;
         document.getElementById('prod_pop').checked = product.is_popular == 1;
@@ -243,7 +273,7 @@ function initAdminProducts() {
 
             const priceInput = document.getElementById('prod_price');
             if (priceInput) {
-                const price = parseFloat(priceInput.value);
+                const price = parseRupiah(priceInput.value);
                 if (isNaN(price) || price < 1000 || price > 1000000) {
                     e.preventDefault();
                     if (typeof Swal !== 'undefined') {
@@ -260,6 +290,7 @@ function initAdminProducts() {
                     priceInput.focus();
                     return false;
                 }
+                priceInput.value = price;
             }
 
             // Jeda proses saat mengedit atau menambahkan produk
