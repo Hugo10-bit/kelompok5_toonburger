@@ -271,13 +271,23 @@
                          class="w-full h-full object-cover">
                 </button>
                 <div>
-                    <div class="text-xs font-bold text-[#1F2937]">Bukti Pembayaran Terkirim</div>
+                    <div class="flex items-center gap-2">
+                        <div class="text-xs font-bold text-[#1F2937]">Bukti Pembayaran Terkirim</div>
+                        <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 font-extrabold text-[10.5px] px-2.5 py-0.5 rounded-full">
+                            MENUNGGU VERIFIKASI ADMIN
+                        </span>
+                    </div>
                     <p class="text-[11px] text-[#737373] mt-0.5">
                         @if($order->payment_proof_uploaded_at)
                             Dikirim pada {{ $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA •
                         @endif
                         Menunggu konfirmasi Admin / Kasir.
                     </p>
+                    @if($order->payment_proof_note)
+                        <p class="text-xs text-gray-700 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100 mt-1">
+                            Catatan: {{ $order->payment_proof_note }}
+                        </p>
+                    @endif
                 </div>
             </div>
 
