@@ -18,7 +18,7 @@
         </div>
         <div class="flex justify-between">
             <span>Waktu:</span>
-            <span>{{ $order->created_at->format('d/m/Y H:i') }}</span>
+            <span>{{ $order->created_at->timezone('Asia/Makassar')->format('d/m/Y H:i') }} WITA</span>
         </div>
         <div class="flex justify-between">
             <span>Kasir/Staff:</span>
@@ -110,7 +110,7 @@
                     {{ $order->order_number }}
                 </span>
                 <span class="text-xs text-gray-400 dark:text-[#BDBDBD] font-medium">
-                    {{ $order->created_at->format('d M Y, H.i') }} WITA
+                    {{ $order->created_at->timezone('Asia/Makassar')->format('d M Y, H.i') }} WITA
                 </span>
             </div>
         </div>

@@ -39,7 +39,7 @@ class AdminController extends Controller
             'jan_jun' => [
                 ['id_month' => 'Jan', 'en_month' => 'Jan', 'date_id' => 'Jan 2026', 'date_en' => 'Jan 2026', 'pct' => 50, 'val_id' => 'Rp 4.900.000', 'val_en' => 'IDR 4,900,000'],
                 ['id_month' => 'Feb', 'en_month' => 'Feb', 'date_id' => 'Feb 2026', 'date_en' => 'Feb 2026', 'pct' => 62, 'val_id' => 'Rp 6.200.000', 'val_en' => 'IDR 6,200,000'],
-                ['id_month' => 'Mar', 'en_month' => 'Mar', 'date_id' => 'Jan 2026', 'date_en' => 'Jan 2026', 'pct' => 86, 'val_id' => 'Rp 5.000.000', 'val_en' => 'IDR 5,000,000'],
+                ['id_month' => 'Mar', 'en_month' => 'Mar', 'date_id' => 'Mar 2026', 'date_en' => 'Mar 2026', 'pct' => 86, 'val_id' => 'Rp 8.600.000', 'val_en' => 'IDR 8,600,000'],
                 ['id_month' => 'Apr', 'en_month' => 'Apr', 'date_id' => 'Apr 2026', 'date_en' => 'Apr 2026', 'pct' => 77, 'val_id' => 'Rp 7.700.000', 'val_en' => 'IDR 7,700,000'],
                 ['id_month' => 'Mei', 'en_month' => 'May', 'date_id' => 'Mei 2026', 'date_en' => 'May 2026', 'pct' => 54, 'val_id' => 'Rp 5.400.000', 'val_en' => 'IDR 5,400,000'],
                 ['id_month' => 'Jun', 'en_month' => 'Jun', 'date_id' => 'Jun 2026', 'date_en' => 'Jun 2026', 'pct' => 84, 'val_id' => 'Rp 8.400.000', 'val_en' => 'IDR 8,400,000'],
@@ -56,7 +56,7 @@ class AdminController extends Controller
 
         $topProducts = collect([
             (object) [
-                'product_name' => 'Cheese Chiken Burger',
+                'product_name' => 'Cheese Chicken Burger',
                 'search_term' => 'Cheese',
                 'total_qty' => 179,
                 'image' => 'images/products/cheese-chicken-burger.png',
@@ -405,10 +405,15 @@ class AdminController extends Controller
         $search = trim($request->query('search', $request->query('q', '')));
         $filter = $request->query('filter', 'active');
 
-        $query = ($filter === 'trashed') ? Product::onlyTrashed() : Product::query();
-        $query->with('category')
-            ->whereHas('category', fn($q) => $q->where('is_active', true))
-            ->orderBy('id', 'asc');
+        if ($filter === 'trashed') {
+            $query = Product::onlyTrashed()
+                ->with(['category' => fn ($q) => $q->withTrashed()])
+                ->orderBy('id', 'asc');
+        } else {
+            $query = Product::with('category')
+                ->whereHas('category', fn ($q) => $q->where('is_active', true))
+                ->orderBy('id', 'asc');
+        }
 
         if (!empty($search)) {
             $query->where(function($q) use ($search) {
@@ -479,9 +484,17 @@ class AdminController extends Controller
         $isAvailable = $request->has('is_available') ? $request->boolean('is_available') : true;
         $isFeatured = $isAvailable && ($request->boolean('is_featured') || $request->boolean('is_popular'));
 
+        $slugBase = Str::limit(Str::slug($request->name), 70, '') ?: 'menu';
+        $slug = $slugBase;
+        $slugSuffix = 1;
+        while (Product::withTrashed()->where('slug', $slug)->exists()) {
+            $slug = Str::limit($slugBase, 70, '') . '-' . ($slugSuffix > 1 ? $slugSuffix : rand(100, 999));
+            $slugSuffix++;
+        }
+
         $createdProduct = ImageDataUriService::saveWithLongTextFallback('products', 'image', fn () => Product::create([
             'name' => $request->name,
-            'slug' => Str::limit(Str::slug($request->name), 75, '') . '-' . rand(100, 999),
+            'slug' => $slug,
             'category_id' => $request->category_id,
             'price' => $request->price,
             'original_price' => $request->original_price,
@@ -561,10 +574,10 @@ class AdminController extends Controller
             'name' => $request->name,
             'category_id' => $request->category_id,
             'price' => $request->price,
-            'original_price' => $request->original_price,
+            'original_price' => $request->has('original_price') ? $request->original_price : $product->original_price,
             'description' => $request->description,
-            'calories' => $request->calories,
-            'prep_time_minutes' => $request->prep_time_minutes,
+            'calories' => $request->has('calories') ? $request->calories : $product->calories,
+            'prep_time_minutes' => $request->has('prep_time_minutes') ? $request->prep_time_minutes : $product->prep_time_minutes,
             'image' => $imagePath,
             'is_featured' => $isFeatured,
             'is_available' => $isAvailable,
@@ -718,9 +731,17 @@ class AdminController extends Controller
 
         $maxSort = Category::max('sort_order') ?? 0;
 
+        $catSlugBase = Str::limit(Str::slug($request->name), 32, '') ?: 'kategori';
+        $catSlug = $catSlugBase;
+        $catSuffix = 1;
+        while (Category::withTrashed()->where('slug', $catSlug)->exists()) {
+            $catSlug = Str::limit($catSlugBase, 30, '') . '-' . ($catSuffix > 1 ? $catSuffix : rand(10, 99));
+            $catSuffix++;
+        }
+
         Category::create([
             'name' => $request->name,
-            'slug' => Str::limit(Str::slug($request->name), 36, '') . '-' . rand(10, 99),
+            'slug' => $catSlug,
             'sort_order' => $request->sort_order ?? ($maxSort + 1),
             'is_active' => true,
         ]);
@@ -857,11 +878,13 @@ class AdminController extends Controller
         if ($emailChanged) {
             $user->email_verified_at = null;
         }
-        if ($request->filled('phone_number')) {
-            $user->phone_number = \App\Support\PhoneFormatter::format((string) $request->phone_number);
+        if ($request->has('phone_number')) {
+            $user->phone_number = $request->filled('phone_number')
+                ? \App\Support\PhoneFormatter::format((string) $request->phone_number)
+                : null;
         }
-        if ($request->filled('address')) {
-            $user->address = $request->address;
+        if ($request->has('address')) {
+            $user->address = $request->filled('address') ? trim((string) $request->address) : null;
         }
 
         if ($resolved['provided']) {
@@ -998,10 +1021,10 @@ class AdminController extends Controller
             'email' => $contactMessage->email,
             'message' => $contactMessage->message,
             'avatar' => (is_string($contactMessage->avatar) && str_starts_with($contactMessage->avatar, 'data:')) ? null : $contactMessage->avatar,
-            'is_read' => $contactMessage->is_read,
-            'read_at' => $contactMessage->read_at,
-            'created_at' => $contactMessage->created_at,
-            'updated_at' => $contactMessage->updated_at,
+            'is_read' => (bool) $contactMessage->is_read,
+            'read_at' => $contactMessage->read_at?->toDateTimeString(),
+            'created_at' => $contactMessage->created_at?->toDateTimeString(),
+            'updated_at' => $contactMessage->updated_at?->toDateTimeString(),
         ]);
 
         $contactMessage->delete();

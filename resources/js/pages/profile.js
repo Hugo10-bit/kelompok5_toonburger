@@ -501,6 +501,7 @@ function initCustomerProfilePage() {
                     };
 
                     if (typeof window.Swal !== 'undefined') {
+                        let timerInterval;
                         window.Swal.fire({
                             title: pText('Menyimpan Profil...', 'Saving Profile...'),
                             html: pText(
@@ -514,9 +515,12 @@ function initCustomerProfilePage() {
                             didOpen: () => {
                                 window.Swal.showLoading();
                                 const b = window.Swal.getPopup().querySelector('b');
-                                setInterval(() => {
+                                timerInterval = setInterval(() => {
                                     if (b) b.textContent = Math.ceil(window.Swal.getTimerLeft() / 1000) || 1;
                                 }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
                             },
                         }).then(() => {
                             finalizeProfileSubmit();
@@ -570,6 +574,7 @@ function initCustomerProfilePage() {
                 confirmText: pText('Ya, Ubah Password', 'Yes, Change Password'),
                 onConfirm: function () {
                     if (typeof window.Swal !== 'undefined') {
+                        let timerInterval;
                         window.Swal.fire({
                             title: pText('Memperbarui Password...', 'Updating Password...'),
                             html: pText(
@@ -583,9 +588,12 @@ function initCustomerProfilePage() {
                             didOpen: () => {
                                 window.Swal.showLoading();
                                 const b = window.Swal.getPopup().querySelector('b');
-                                setInterval(() => {
+                                timerInterval = setInterval(() => {
                                     if (b) b.textContent = Math.ceil(window.Swal.getTimerLeft() / 1000) || 1;
                                 }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
                             },
                         }).then(() => {
                             passwordForm.submit();

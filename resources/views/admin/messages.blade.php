@@ -177,7 +177,9 @@
                                 <span data-msg-label data-i18n="{{ $msg->is_read ? 'msg_status_read' : 'msg_status_unread' }}">{{ $msg->is_read ? 'Dibaca' : 'Belum Dibaca' }}</span>
                             </button>
                             <button type="button"
-                                    onclick="event.stopPropagation(); openDeleteModal('{{ route('admin.messages.delete', $msg->id) }}', 'pesan dari {{ addslashes($msg->name) }}')"
+                                    data-delete-url="{{ route('admin.messages.delete', $msg->id) }}"
+                                    data-delete-label="pesan dari {{ $msg->name }}"
+                                    onclick="event.stopPropagation(); openDeleteModal(this.dataset.deleteUrl, this.dataset.deleteLabel)"
                                     class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 p-1 rounded-lg transition cursor-pointer inline-flex items-center justify-center"
                                     title="Hapus Pesan">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -293,7 +295,9 @@
                                             </svg>
                                         </button>
                                         <button type="button"
-                                                onclick="event.stopPropagation(); openDeleteModal('{{ route('admin.messages.delete', $msg->id) }}', 'pesan dari {{ addslashes($msg->name) }}')"
+                                                data-delete-url="{{ route('admin.messages.delete', $msg->id) }}"
+                                                data-delete-label="pesan dari {{ $msg->name }}"
+                                                onclick="event.stopPropagation(); openDeleteModal(this.dataset.deleteUrl, this.dataset.deleteLabel)"
                                                 class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-[#4A2626] p-1.5 rounded-lg transition cursor-pointer inline-flex items-center justify-center"
                                                 title="Hapus Pesan">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

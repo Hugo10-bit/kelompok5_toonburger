@@ -105,7 +105,7 @@
                                 {{ $order->order_number }}
                             </div>
                             <div class="text-[11px] text-gray-400 mt-0.5">
-                                {{ $order->created_at->translatedFormat('d M Y, H:i') }} WITA
+                                {{ $order->created_at->timezone('Asia/Makassar')->translatedFormat('d M Y, H:i') }} WITA
                             </div>
                         </div>
 

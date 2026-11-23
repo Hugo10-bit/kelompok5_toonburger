@@ -298,6 +298,7 @@ function initAdminProfile() {
                     };
 
                     if (typeof Swal !== 'undefined') {
+                        let timerInterval;
                         Swal.fire({
                             title: 'Menyimpan Profil...',
                             html: 'Sedang memproses perubahan profil admin dalam <b></b> detik...',
@@ -308,9 +309,12 @@ function initAdminProfile() {
                             didOpen: () => {
                                 Swal.showLoading();
                                 const b = Swal.getPopup().querySelector('b');
-                                setInterval(() => {
+                                timerInterval = setInterval(() => {
                                     if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
                                 }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
                             }
                         }).then(() => {
                             finalizeProfileSubmit();
@@ -369,6 +373,7 @@ function initAdminProfile() {
                 message: 'Apakah Anda yakin ingin memperbarui password akun admin?',
                 confirmText: 'Ya, Ubah Password',
                 onConfirm: function () {
+                    let timerInterval;
                     Swal.fire({
                         title: 'Memperbarui Password...',
                         html: 'Sedang memproses password baru admin dalam <b></b> detik...',
@@ -379,9 +384,12 @@ function initAdminProfile() {
                         didOpen: () => {
                             Swal.showLoading();
                             const b = Swal.getPopup().querySelector('b');
-                            setInterval(() => {
+                            timerInterval = setInterval(() => {
                                 if (b) b.textContent = Math.ceil(Swal.getTimerLeft() / 1000) || 1;
                             }, 100);
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval);
                         }
                     }).then(() => {
                         passwordForm.submit();

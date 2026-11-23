@@ -67,7 +67,7 @@
             </h3>
 
             <p data-i18n-app="logout_desc" class="text-[#555C68] text-sm sm:text-[14px] leading-relaxed max-w-xs mx-auto mb-7 font-normal">
-                Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.
+                Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk melakukan pemesanan dan melihat riwayat pesanan.
             </p>
 
             <div class="flex items-center justify-center gap-3.5">
@@ -191,7 +191,7 @@
                         </svg>
                         <span id="cart-badge"
                               class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#DE3B28] text-white text-[10.5px] font-extrabold flex items-center justify-center border-2 border-white leading-none shadow-xs">
-                            {{ session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
+                            {{ auth()->check() && session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
                         </span>
                     </button>
 
@@ -499,7 +499,7 @@
 
     <!-- CART FLOATING CARD -->
     @php
-        $initialCartCount = session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0;
+        $initialCartCount = auth()->check() && session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0;
     @endphp
     <div id="cart-backdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300"></div>
     <div id="cart-drawer" class="fixed top-16 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-4 w-auto sm:w-[92vw] max-w-[385px] bg-white rounded-[20px] shadow-2xl border border-gray-200/80 z-50 flex flex-col max-h-[calc(100vh-5.5rem)] overflow-hidden pointer-events-none opacity-0 invisible" style="transform: scale(0.95) translateY(-8px); transition: transform 0.38s cubic-bezier(0.22,1,0.36,1), opacity 0.32s ease;">

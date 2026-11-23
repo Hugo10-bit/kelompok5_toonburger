@@ -66,7 +66,7 @@
                                    id="customer_name"
                                    name="customer_name"
                                    required
-                                   value="{{ Auth::user()->name ?? Auth::user()->username ?? '' }}"
+                                   value="{{ old('customer_name', Auth::user()->name ?? Auth::user()->username ?? '') }}"
                                    placeholder="Nama Lengkap Anda"
                                    class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition">
                         </div>
@@ -82,7 +82,7 @@
                                    pattern="[0-9]+(-[0-9]+)*"
                                    maxlength="15"
                                    required
-                                   value="{{ Auth::user()->phone_number ?? '' }}"
+                                   value="{{ old('customer_phone', Auth::user()->phone_number ?? '') }}"
                                    placeholder="Nomor Telfon Anda"
                                    class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition">
                         </div>
@@ -95,7 +95,7 @@
                                       name="notes"
                                       rows="3"
                                       placeholder="Contoh: saus dipisah, tanpa selada..."
-                                      class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition resize-none"></textarea>
+                                      class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#27443E] focus:ring-1 focus:ring-[#27443E] transition resize-none">{{ old('notes') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -113,13 +113,14 @@
 
                     <div class="border-b border-gray-200/90 my-4 sm:my-5"></div>
 
+                    @php $selectedPaymentMethod = old('payment_method', 'qris'); @endphp
                     <div class="grid grid-cols-1 gap-3.5">
                         <!-- QRIS -->
                         <label class="relative flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer transition select-none hover:border-gray-300 has-[:checked]:border-[#27443E] has-[:checked]:ring-1 has-[:checked]:ring-[#27443E]">
                             <input type="radio"
                                    name="payment_method"
                                    value="qris"
-                                   checked
+                                   @checked($selectedPaymentMethod === 'qris')
                                    class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
                                 <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">QRIS</div>
@@ -132,6 +133,7 @@
                             <input type="radio"
                                    name="payment_method"
                                    value="cash"
+                                   @checked($selectedPaymentMethod === 'cash')
                                    class="text-[#27443E] focus:ring-[#27443E] accent-[#27443E] w-4 h-4 cursor-pointer">
                             <div>
                                 <div class="font-bold text-xs sm:text-[13px] text-gray-900 leading-snug">Tunai</div>

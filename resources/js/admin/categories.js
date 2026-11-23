@@ -27,7 +27,7 @@ function initAdminCategories() {
         if (!catModal || !catForm || !catTitle || !catMethod) return;
         const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
         catTitle.innerText = isEn ? 'Add Category' : 'Tambah Kategori';
-        catForm.action = catForm.dataset.storeUrl || '/admin/categories';
+        catForm.action = catForm.dataset.storeUrl || '/admin/categories/store';
         catMethod.value = 'POST';
         catForm.reset();
         catModal.classList.remove('hidden');
@@ -47,7 +47,8 @@ function initAdminCategories() {
         if (catModal) catModal.classList.add('hidden');
     };
 
-    if (catForm) {
+    if (catForm && catForm.dataset.catBound !== 'true') {
+        catForm.dataset.catBound = 'true';
         let isSubmitting = false;
         catForm.addEventListener('submit', function (e) {
             if (isSubmitting) return;

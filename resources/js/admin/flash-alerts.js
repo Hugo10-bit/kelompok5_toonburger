@@ -57,6 +57,15 @@ function withSwal(cb) {
     }
 }
 
+function escapeFlashHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function showAdminFlashAlerts() {
     initUndoToast();
 
@@ -73,7 +82,7 @@ function showAdminFlashAlerts() {
         try {
             const undoData = JSON.parse(undoActionRaw);
             const isEn = isAdminEnglish();
-            const itemName = undoData.name || undoData.label || (isEn ? 'Item' : 'Data');
+            const itemName = escapeFlashHtml(undoData.name || undoData.label || (isEn ? 'Item' : 'Data'));
 
             withSwal((SwalInstance) => {
                 SwalInstance.fire({
