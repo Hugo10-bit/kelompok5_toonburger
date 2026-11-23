@@ -10,7 +10,7 @@
          ═══════════════════════════════════════════════ -->
     @include('partials.hero-banner', [
         'headline' => 'SETIAP GIGITAN<br>PUNYA CERITA!',
-        'headlineDesktopClass' => 'lg:text-[56px] xl:text-[64px]',
+        'headlineDesktopClass' => 'lg:text-[62px] xl:text-[72px]',
         'ctaHref' => route('menu'),
         'deliveryHref' => route('gofood'),
         'isHome' => true,

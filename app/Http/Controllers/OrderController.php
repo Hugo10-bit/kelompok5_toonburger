@@ -168,7 +168,7 @@ class OrderController extends Controller
                     'status' => 'pending',
                     'payment_details' => [
                         'created_by' => Auth::check() ? Auth::user()->name : 'Guest',
-                        'order_type' => $request->order_type,
+                        'order_type' => $orderType,
                     ],
                 ]);
             }
@@ -568,7 +568,7 @@ class OrderController extends Controller
 
         $relations = ['items'];
         if (Schema::hasTable('products')) {
-            $relations[] = 'items.product';
+            $relations[] = 'items.product.category';
         }
 
         $order = Order::with($relations)
@@ -583,16 +583,16 @@ class OrderController extends Controller
         foreach ($order->items as $orderItem) {
             $product = $orderItem->product;
             if (! $product && Schema::hasTable('products')) {
-                $product = \App\Models\Product::where('name', $orderItem->product_name)->first();
+                $product = \App\Models\Product::with('category')->where('name', $orderItem->product_name)->first();
             }
 
-            if ($product && ! $product->is_available) {
+            if (! $product || ! $product->is_available || ! $product->category || ! $product->category->is_active) {
                 continue;
             }
 
-            $pid = $product ? $product->id : ($orderItem->product_id ?: 0);
-            $unitPrice = $product ? (float) $product->price : (float) $orderItem->price;
-            $qty = max(1, (int) $orderItem->quantity);
+            $pid = $product->id;
+            $unitPrice = (float) $product->price;
+            $qty = max(1, min(100, (int) $orderItem->quantity));
             $notes = (string) ($orderItem->notes ?? '');
             $cartKey = $pid . '_' . md5(json_encode([]) . $notes);
 
@@ -603,8 +603,8 @@ class OrderController extends Controller
                 $cart[$cartKey] = [
                     'cart_key' => $cartKey,
                     'product_id' => $pid,
-                    'name' => $product ? $product->name : $orderItem->product_name,
-                    'image' => ($product && $product->image && ! str_starts_with($product->image, 'data:')) ? $product->image : null,
+                    'name' => $product->name,
+                    'image' => ($product->image && ! str_starts_with($product->image, 'data:')) ? $product->image : null,
                     'base_price' => $unitPrice,
                     'unit_price' => $unitPrice,
                     'quantity' => $qty,
@@ -633,7 +633,7 @@ class OrderController extends Controller
         $order = Order::with('items')->where('order_number', $order_number)->firstOrFail();
         $this->authorizeOrderOwner($order);
 
-        if ($order->status !== 'completed' && $order->payment_status !== 'paid') {
+        if ($order->status === 'cancelled' || ($order->status !== 'completed' && $order->payment_status !== 'paid')) {
             abort(422, 'Ulasan hanya dapat dikirim untuk pesanan yang sudah selesai atau lunas.');
         }
 

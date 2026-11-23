@@ -1,3 +1,4 @@
+@php $errors = $errors ?? new \Illuminate\Support\ViewErrorBag; @endphp
 @extends('layouts.admin')
 
 @section('title', 'Data Kategori - Toon Burger Admin')
@@ -22,6 +23,18 @@
             </button>
         </div>
     </div>
+
+    @if($errors->any())
+        <div class="alert-auto-dismiss mb-5 p-4 bg-red-50 dark:bg-[#4A2626] border border-red-200 dark:border-red-900/60 text-[#DE3B28] dark:text-[#FCA5A5] text-xs font-semibold rounded-2xl flex justify-between items-center shadow-xs" role="alert">
+            <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>{{ $errors->first() }}</span>
+            </span>
+            <button type="button" onclick="this.closest('.alert-auto-dismiss')?.remove()" class="text-base font-medium p-1 cursor-pointer" aria-label="Tutup">&times;</button>
+        </div>
+    @endif
 
     @php
         $previewEmpty = request()->has('empty');
@@ -77,7 +90,7 @@
                                         <path d="M15 5l4 4"></path>
                                     </svg>
                                 </button>
-                                <button type="button" onclick="openDeleteModal('{{ route('admin.categories.delete', $cat->id) }}', 'kategori {{ addslashes($cat->name) }}')" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
+                                <button type="button" data-delete-url="{{ route('admin.categories.delete', $cat->id) }}" data-delete-label="kategori {{ $cat->name }}" onclick="openDeleteModal(this.dataset.deleteUrl, this.dataset.deleteLabel)" class="text-[#D9534F] dark:text-[#F87171] hover:text-red-700 dark:hover:text-red-400 transition-colors p-1.5 cursor-pointer inline-flex items-center justify-center" title="Hapus">
                                     <svg class="w-5 h-5" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M3 6h18"></path>
                                         <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>

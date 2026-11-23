@@ -43,36 +43,44 @@ class CartController extends Controller
 
         $productIds = array_values(array_unique(array_filter(array_column($cart, 'product_id'))));
         $dbProducts = ! empty($productIds)
-            ? Product::whereIn('id', $productIds)->get(['id', 'name', 'price', 'image', 'is_available'])->keyBy('id')
+            ? Product::with('category')->whereIn('id', $productIds)->get(['id', 'category_id', 'name', 'price', 'image', 'is_available'])->keyBy('id')
             : collect();
 
         $subtotal = 0;
         $items = [];
-        foreach ($cart as $item) {
+        $cartPruned = false;
+        foreach ($cart as $cartKey => $item) {
             $pid = $item['product_id'] ?? null;
             $dbProd = $pid !== null ? $dbProducts->get($pid) : null;
+            if (! $dbProd || ! $dbProd->is_available || ($dbProd->category && ! $dbProd->category->is_active) || ! $dbProd->category) {
+                unset($cart[$cartKey]);
+                $cartPruned = true;
+                continue;
+            }
             $optExtra = 0.0;
             if (! empty($item['options']) && is_array($item['options'])) {
                 foreach ($item['options'] as $opt) {
                     $optExtra += (float) ($opt['additional_price'] ?? 0);
                 }
             }
-            if ($dbProd) {
-                $item['name'] = $dbProd->name;
-                $item['base_price'] = (float) $dbProd->price;
-                $item['unit_price'] = (float) $dbProd->price + $optExtra;
-            }
+            $item['name'] = $dbProd->name;
+            $item['base_price'] = (float) $dbProd->price;
+            $item['unit_price'] = (float) $dbProd->price + $optExtra;
             $qty = max(1, min(100, (int) ($item['quantity'] ?? 1)));
             $item['quantity'] = $qty;
             $item['total_price'] = (float) $item['unit_price'] * $qty;
             $subtotal += $item['total_price'];
 
-            $rawImage = ($dbProd && ! empty($dbProd->image))
+            $rawImage = ! empty($dbProd->image)
                 ? $dbProd->image
                 : ($item['image'] ?? null);
             $item['image'] = $rawImage;
             $item['image_url'] = ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg');
             $items[] = $item;
+        }
+
+        if ($cartPruned) {
+            session()->put('cart', $cart);
         }
 
         $discount = 0;

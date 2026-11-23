@@ -14,7 +14,7 @@
                 <span class="bg-gray-900 text-white font-mono text-xs font-bold px-3 py-1 rounded-lg">
                     {{ $order->order_number }}
                 </span>
-                <span class="text-xs text-gray-500">{{ $order->created_at->format('d M Y, H:i') }} WIB</span>
+                <span class="text-xs text-gray-500">{{ $order->created_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Status & Bukti Pesanan</h1>
         </div>
@@ -337,7 +337,7 @@
                 </div>
             @endif
             <div class="flex justify-between">
-                <span>Pajak Restoran PB1 (10%):</span>
+                <span>Pajak PPN (11%):</span>
                 <span class="font-semibold text-gray-900">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
             </div>
             <div class="flex justify-between text-base font-black text-gray-900 pt-3 border-t border-gray-200">

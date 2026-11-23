@@ -7,7 +7,7 @@
 
     @include('partials.hero-banner', [
         'headline' => 'MAU MAKAN<br>APA HARI INI?',
-        'headlineDesktopClass' => 'lg:text-[52px] xl:text-[60px]',
+        'headlineDesktopClass' => 'lg:text-[58px] xl:text-[68px]',
         'ctaHref' => '#semua-menu',
         'deliveryHref' => route('gofood'),
         'animateMotion' => true,
@@ -90,6 +90,10 @@
                     ])
                 @endforeach
             </div>
+
+            @if ($products->hasPages())
+                {{ $products->links('vendor.pagination.toonburger', ['scrollTarget' => '#semua-menu']) }}
+            @endif
         @endif
         </div>
 

@@ -188,7 +188,7 @@ function initAdminProducts() {
         if (!modal || !form || !title || !methodInput) return;
         const isEn = (window._tbLang === 'US' || localStorage.getItem('tb_admin_lang') === 'US');
         title.innerText = isEn ? 'Add New Product' : 'Tambah Produk Baru';
-        form.action = form.dataset.storeUrl || '/admin/products';
+        form.action = form.dataset.storeUrl || '/admin/products/store';
         methodInput.value = 'POST';
         form.reset();
         if (imageInput) {

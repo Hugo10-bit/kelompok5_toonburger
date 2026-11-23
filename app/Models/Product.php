@@ -197,12 +197,12 @@ class Product extends Model
     {
         $rawImage = trim((string) $this->image);
 
-        // 1. If explicitly stored as a static path or external URL (not base64 data URI)
-        if ($rawImage !== '' && !str_starts_with($rawImage, 'data:image/')) {
+        // 1. Respect any explicitly stored image (static path, external URL, or admin-uploaded data URI)
+        if ($rawImage !== '') {
             return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
         }
 
-        // 2. If matching static file exists in public/images/products/, serve fast CDN asset
+        // 2. When image is empty, try matching a static file in public/images/products/
         $slug = $this->slug ?: '';
         $nameSlug = \Illuminate\Support\Str::slug($this->name);
         $candidateSlugs = array_filter(array_unique([
@@ -220,8 +220,8 @@ class Product extends Model
             }
         }
 
-        // 3. Fallback to raw data URI or ImageDataUriService
-        return ImageDataUriService::toAssetUrl($rawImage, 'images/burger-bg.jpg') ?? asset('images/burger-bg.jpg');
+        // 3. Default fallback image
+        return asset('images/burger-bg.jpg');
     }
 
     public function category(): BelongsTo

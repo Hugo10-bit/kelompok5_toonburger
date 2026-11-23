@@ -343,33 +343,49 @@ function renderCart(cart) {
 }
 
 async function updateCartQty(cartKey, qty) {
-    const res = await fetch(APP_CONFIG.cartUpdateUrl || '/cart/update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
-        body: JSON.stringify({ cart_key: cartKey, quantity: qty })
-    });
-    const data = await res.json();
-    if (handleStoreClosedApiResponse(res, data)) return;
-    if (data.cart) {
-        renderCart(data.cart);
-        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
-            window.renderCheckoutSummary(data.cart);
+    try {
+        const res = await fetch(APP_CONFIG.cartUpdateUrl || '/cart/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            body: JSON.stringify({ cart_key: cartKey, quantity: qty })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (handleStoreClosedApiResponse(res, data)) return;
+        if (res.ok && data.cart) {
+            renderCart(data.cart);
+            if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+                window.renderCheckoutSummary(data.cart);
+            }
         }
+    } catch (e) {
+        console.error(e);
     }
 }
 
 async function removeCartItem(cartKey) {
-    const res = await fetch(APP_CONFIG.cartRemoveUrl || '/cart/remove', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
-        body: JSON.stringify({ cart_key: cartKey })
-    });
-    const data = await res.json();
-    if (data.cart) {
-        renderCart(data.cart);
-        if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
-            window.renderCheckoutSummary(data.cart);
+    try {
+        const res = await fetch(APP_CONFIG.cartRemoveUrl || '/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
+            body: JSON.stringify({ cart_key: cartKey })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.cart) {
+            renderCart(data.cart);
+            if (typeof window.renderCheckoutSummary === 'function' && document.getElementById('checkout-items-list')) {
+                window.renderCheckoutSummary(data.cart);
+            }
         }
+    } catch (e) {
+        console.error(e);
     }
 }
 
@@ -523,6 +539,7 @@ function adjustModalQty(delta) {
     if (!qtyEl) return;
     let val = parseInt(qtyEl.innerText || '1') + delta;
     if (val < 1) val = 1;
+    if (val > 100) val = 100;
     qtyEl.innerText = val;
     recalculateModalPrice();
 }
@@ -578,7 +595,11 @@ async function submitAddToCart() {
 
         const res = await fetch(APP_CONFIG.cartAddUrl || '/cart/add', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
             body: JSON.stringify({
                 product_id: currentModalProduct.id,
                 quantity: qty,
@@ -587,7 +608,7 @@ async function submitAddToCart() {
             })
         });
 
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (handleStoreClosedApiResponse(res, data)) {
             return;
@@ -676,7 +697,7 @@ function flyToCart(originElement) {
     }, 820);
 }
 
-async function quickAddToCart(productId) {
+async function quickAddToCart(productId, evt = null) {
     if (isStoreClosedClient()) {
         promptStoreClosed();
         return;
@@ -688,17 +709,24 @@ async function quickAddToCart(productId) {
     }
 
     try {
-        const clickedEl = (window.event && window.event.target) ? window.event.target.closest('button, .group, div') : null;
+        const triggerEvent = evt || (typeof window !== 'undefined' ? window.event : null);
+        const clickedEl = (triggerEvent && triggerEvent.target && typeof triggerEvent.target.closest === 'function')
+            ? triggerEvent.target.closest('button, .group, div')
+            : null;
         if (clickedEl) {
             flyToCart(clickedEl);
         }
 
         const res = await fetch(APP_CONFIG.cartAddUrl || '/cart/add', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': CSRF_TOKEN },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': CSRF_TOKEN
+            },
             body: JSON.stringify({ product_id: productId, quantity: 1 })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (handleStoreClosedApiResponse(res, data)) {
             return;
@@ -1064,7 +1092,7 @@ if (homeSearchInput) {
         if (homeSearchLoading) homeSearchLoading.classList.remove('hidden');
         if (homeSearchContent) homeSearchContent.innerHTML = '';
 
-        const searchUrl = APP_CONFIG.menuSearchUrl || '/menu/search/live';
+        const searchUrl = APP_CONFIG.menuSearchUrl || '/search-menu';
         homeSearchDebounce = setTimeout(() => {
             fetch(`${searchUrl}?q=${encodeURIComponent(q)}`, {
                 headers: {
@@ -1717,7 +1745,7 @@ if (document.readyState === 'loading') {
         }
     }
 
-    function applyAppPayload(url, payload, pushHistory, preserveScroll = false) {
+    function applyAppPayload(url, payload, pushHistory, preserveScroll = false, scrollTarget = null) {
         const mainEl = document.querySelector('main');
         if (!mainEl || !payload) return false;
 
@@ -1749,6 +1777,16 @@ if (document.readyState === 'loading') {
         if (preserveScroll) {
             window.scrollTo({ top: currentScrollY, left: currentScrollX, behavior: 'instant' });
             if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(currentScrollY);
+        } else if (scrollTarget) {
+            const targetEl = document.querySelector(scrollTarget);
+            if (targetEl) {
+                const topOffset = Math.max(0, targetEl.getBoundingClientRect().top + window.scrollY - 96);
+                window.scrollTo({ top: topOffset, left: 0, behavior: 'instant' });
+                if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(topOffset);
+            } else {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(0);
+            }
         } else {
             window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
             if (typeof window.tbSmoothScrollReset === 'function') window.tbSmoothScrollReset(0);
@@ -1961,7 +1999,7 @@ if (document.readyState === 'loading') {
         `;
     }
 
-    window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false) {
+    window.tbAppNavigate = function (url, pushHistory = true, preserveScroll = false, scrollTarget = null) {
         const key = normalizeAppUrl(url);
         const seq = ++_navSeq;
         updateAppNavHighlight(key);
@@ -1969,7 +2007,7 @@ if (document.readyState === 'loading') {
         const cached = _tbAppPageCache.get(key);
         if (cached && (Date.now() - cached.ts < CACHE_TTL_MS)) {
             finishAppLoaderBar();
-            applyAppPayload(url, cached, pushHistory, preserveScroll);
+            applyAppPayload(url, cached, pushHistory, preserveScroll, scrollTarget);
             return;
         }
 
@@ -2006,7 +2044,7 @@ if (document.readyState === 'loading') {
                 if (seq !== _navSeq) return;
                 finishAppLoaderBar();
                 if (payload) {
-                    applyAppPayload(url, payload, pushHistory, preserveScroll);
+                    applyAppPayload(url, payload, pushHistory, preserveScroll, scrollTarget);
                 } else {
                     window.location.href = url;
                 }
@@ -2089,6 +2127,7 @@ if (document.readyState === 'loading') {
         if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
 
         const preserveScroll = link.hasAttribute('data-preserve-scroll');
+        const scrollTarget = link.getAttribute('data-scroll-target') || null;
 
         e.preventDefault();
         _tbOverlayStack.length = 0;
@@ -2098,7 +2137,7 @@ if (document.readyState === 'loading') {
         if (openUserMenu) openUserMenu.classList.add('hidden');
         const openUserArrow = document.getElementById('user-menu-arrow');
         if (openUserArrow) openUserArrow.classList.remove('rotate-180');
-        window.tbAppNavigate(link.href, true, preserveScroll);
+        window.tbAppNavigate(link.href, true, preserveScroll, scrollTarget);
     });
 
     // Intercept GET search/filter forms pointing to internal public routes
@@ -2263,6 +2302,8 @@ const _tbPhraseMap = {
     'Karena tim dapur langsung memanggang burger begitu pesanan masuk, pembatalan tidak dapat dilakukan setelah pesanan masuk tahap Cooking. Untuk perubahan mendesak, segera hubungi admin via tombol WhatsApp di website.': 'Because our kitchen team starts grilling burgers immediately upon receiving an order, cancellations cannot be made once cooking starts. For urgent changes, please contact our admin immediately via WhatsApp.',
     'Bisakah saya custom pesanan, misal tanpa acar/bawang atau ekstra keju?': 'Can I customize my order, e.g. no pickles/onions or extra cheese?',
     'Tentu bisa! Saat memilih menu di halaman katalog, Anda dapat menyesuaikan tambahan topping seperti ekstra keju atau menuliskan catatan khusus untuk koki sebelum memasukkan menu ke keranjang.': 'Of course! When choosing a menu item in the catalog, you can customize extra toppings or write special notes for the chef before adding to your cart.',
+    'Metode pembayaran apa saja yang tersedia di Toon Burger?': 'What payment methods are available at Toon Burger?',
+    'Kami menerima pembayaran melalui QRIS (GoPay, OVO, Dana, ShopeePay, dan m-Banking) serta pembayaran tunai langsung di kasir saat pengambilan pesanan.': 'We accept QRIS payments (GoPay, OVO, Dana, ShopeePay, and mobile banking) as well as cash directly at the cashier when picking up your order.',
     'Apakah Toon Burger melayani pesan antar langsung lewat website ini?': 'Does Toon Burger offer direct delivery orders through this website?',
     'Ya! Kami melayani pesan antar langsung melalui website ini untuk area Banjarbaru dan sekitarnya, maupun pemesanan untuk diambil sendiri di outlet (Takeaway).': 'Yes! We serve direct delivery through this website for Banjarbaru and surrounding areas, as well as takeaway pickup at our outlet.',
     'Bagaimana jika saya terlambat mengambil pesanan di outlet?': 'What if I am late picking up my order at the outlet?',
@@ -2342,6 +2383,7 @@ const _tbPhraseMap = {
     'Direct wallet checkout': 'Direct wallet checkout',
     'Ringkasan Pesanan': 'Order Summary',
     'Subtotal Menu:': 'Menu Subtotal:',
+    'Pajak PPN (11%):': 'VAT Tax (11%):',
     'Pajak Restoran PB1 (10%):': 'Restaurant Tax PB1 (10%):',
     'Total Tagihan:': 'Total Bill:',
     'Bayar Sekarang': 'Pay Now',
@@ -2410,6 +2452,7 @@ const _tbPhraseMap = {
     'berhasil ditambahkan ke keranjang!': 'successfully added to cart!',
     'Buka': 'View',
     'Konfirmasi Logout': 'Confirm Logout',
+    'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk melakukan pemesanan dan melihat riwayat pesanan.': 'Are you sure you want to log out of your account? You will need to log back in to place orders and view your order history.',
     'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.': 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
     'Batalkan': 'Cancel',
     'Ya, Logout': 'Yes, Log Out',
@@ -2557,7 +2600,7 @@ const _tbAppTranslations = {
         profile_pass_mismatch: 'Konfirmasi password tidak cocok',
         profile_pass_paste_blocked: 'Ketik ulang konfirmasi password secara manual',
         logout_title: 'Konfirmasi Logout',
-        logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk mengakses halaman admin.',
+        logout_desc: 'Apakah Anda yakin ingin keluar dari akun? Anda perlu login kembali untuk melakukan pemesanan dan melihat riwayat pesanan.',
         logout_cancel: 'Batalkan',
         logout_confirm: 'Ya, Logout',
         footer_nav: 'NAVIGASI',
@@ -2599,7 +2642,7 @@ const _tbAppTranslations = {
         profile_pass_mismatch: 'Passwords do not match',
         profile_pass_paste_blocked: 'Please retype password confirmation manually',
         logout_title: 'Confirm Logout',
-        logout_desc: 'Are you sure you want to log out of your account? You will need to log back in to access the system.',
+        logout_desc: 'Are you sure you want to log out of your account? You will need to log back in to place orders and view your order history.',
         logout_cancel: 'Cancel',
         logout_confirm: 'Yes, Log Out',
         footer_nav: 'NAVIGATION',
