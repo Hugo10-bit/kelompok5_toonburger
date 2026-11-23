@@ -1745,6 +1745,20 @@ if (document.readyState === 'loading') {
         }
     }
 
+    function initPillsScrollTracker(root = document) {
+        const wrap = root.querySelector('[data-gsap-pills]');
+        if (!wrap || wrap._tbScrollTracked) return;
+        wrap._tbScrollTracked = true;
+        let t = null;
+        wrap.addEventListener('scroll', () => {
+            if (t) clearTimeout(t);
+            t = setTimeout(() => {
+                window._tbPillsScrollLeft = wrap.scrollLeft;
+                sessionStorage.setItem('tb_pills_scroll', String(wrap.scrollLeft));
+            }, 60);
+        }, { passive: true });
+    }
+
     function applyAppPayload(url, payload, pushHistory, preserveScroll = false, scrollTarget = null) {
         const mainEl = document.querySelector('main');
         if (!mainEl || !payload) return false;
@@ -1752,8 +1766,68 @@ if (document.readyState === 'loading') {
         const currentScrollY = preserveScroll ? window.scrollY : 0;
         const currentScrollX = preserveScroll ? window.scrollX : 0;
 
-        document.title = payload.title;
-        mainEl.innerHTML = payload.mainHtml;
+        const existingPillsWrap = mainEl.querySelector('[data-gsap-pills]');
+        const savedPillsScroll = (window._tbPillsScrollLeft !== undefined)
+            ? window._tbPillsScrollLeft
+            : (existingPillsWrap ? existingPillsWrap.scrollLeft : null);
+
+        const existingMenuResults = document.getElementById('menu-results-container');
+        const targetPath = (() => {
+            try { return new URL(url, window.location.origin).pathname; } catch (e) { return ''; }
+        })();
+        const isMenuSubNavigation = Boolean(
+            existingPillsWrap && existingMenuResults &&
+            window.location.pathname.startsWith('/menu') &&
+            targetPath.startsWith('/menu')
+        );
+
+        let inPlaceMenuUpdated = false;
+        if (isMenuSubNavigation) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(payload.mainHtml, 'text/html');
+            const newMenuResults = doc.getElementById('menu-results-container');
+            const newPillsWrap = doc.querySelector('[data-gsap-pills]');
+
+            if (newMenuResults && newPillsWrap) {
+                document.title = payload.title;
+                existingMenuResults.innerHTML = newMenuResults.innerHTML;
+
+                // Update pills in-place so container DOM node and scroll position remain completely intact
+                existingPillsWrap.innerHTML = newPillsWrap.innerHTML;
+                const scrollPosToRestore = (savedPillsScroll !== null && savedPillsScroll >= 0)
+                    ? savedPillsScroll
+                    : (sessionStorage.getItem('tb_pills_scroll') ? parseInt(sessionStorage.getItem('tb_pills_scroll'), 10) : 0);
+
+                if (scrollPosToRestore !== null && !isNaN(scrollPosToRestore)) {
+                    existingPillsWrap.scrollLeft = scrollPosToRestore;
+                }
+
+                inPlaceMenuUpdated = true;
+            }
+        }
+
+        if (!inPlaceMenuUpdated) {
+            document.title = payload.title;
+            mainEl.innerHTML = payload.mainHtml;
+
+            // Immediately restore pills horizontal scroll if present in newly rendered HTML
+            const newPillsWrap = mainEl.querySelector('[data-gsap-pills]');
+            if (newPillsWrap) {
+                const targetScroll = (savedPillsScroll !== null && savedPillsScroll >= 0)
+                    ? savedPillsScroll
+                    : (sessionStorage.getItem('tb_pills_scroll') ? parseInt(sessionStorage.getItem('tb_pills_scroll'), 10) : null);
+                if (targetScroll !== null && !isNaN(targetScroll) && targetScroll > 0) {
+                    newPillsWrap.scrollLeft = targetScroll;
+                } else {
+                    const activePill = newPillsWrap.querySelector('[data-active-category="true"]');
+                    if (activePill && activePill.dataset.categorySlug !== 'all') {
+                        const offset = activePill.offsetLeft - (newPillsWrap.clientWidth / 2) + (activePill.offsetWidth / 2);
+                        newPillsWrap.scrollLeft = Math.max(0, offset);
+                    }
+                }
+            }
+        }
+
         const currentFooter = document.querySelector('footer');
         if (currentFooter && payload.footerClass) {
             currentFooter.className = payload.footerClass;
@@ -1798,6 +1872,7 @@ if (document.readyState === 'loading') {
         initScrollReveal();
         initScrollEffects();
         initSkeletonImages(mainEl);
+        initPillsScrollTracker(mainEl);
         if (typeof window.initAutoDismissAlerts === 'function') {
             window.initAutoDismissAlerts();
         }
@@ -2064,6 +2139,7 @@ if (document.readyState === 'loading') {
 
     document.addEventListener('DOMContentLoaded', () => {
         try { updateAppNavHighlight(window.location.href); } catch (e) { }
+        try { initPillsScrollTracker(document); } catch (e) { }
         const mainEl = document.querySelector('main');
         if (mainEl && isPjaxEligibleAppUrl(window.location.href)) {
             const footerEl = document.querySelector('footer');
@@ -2125,6 +2201,33 @@ if (document.readyState === 'loading') {
         if (!link) return;
         const rawHref = link.getAttribute('href');
         if (link.target === '_blank' || link.hasAttribute('download') || !isPjaxEligibleAppUrl(rawHref)) return;
+
+        const pillLink = link.closest('[data-gsap-pills] a');
+        if (pillLink) {
+            const wrap = pillLink.closest('[data-gsap-pills]');
+            if (wrap) {
+                if (pillLink.dataset.categorySlug === 'all') {
+                    window._tbPillsScrollLeft = 0;
+                    sessionStorage.setItem('tb_pills_scroll', '0');
+                    wrap.scrollLeft = 0;
+                } else {
+                    const pillRect = pillLink.getBoundingClientRect();
+                    const wrapRect = wrap.getBoundingClientRect();
+                    let targetScroll = wrap.scrollLeft;
+
+                    if (pillRect.right > wrapRect.right - 12) {
+                        targetScroll += (pillRect.right - wrapRect.right + 24);
+                    } else if (pillRect.left < wrapRect.left + 12) {
+                        targetScroll -= (wrapRect.left - pillRect.left + 24);
+                    }
+
+                    targetScroll = Math.max(0, targetScroll);
+                    wrap.scrollLeft = targetScroll;
+                    window._tbPillsScrollLeft = targetScroll;
+                    sessionStorage.setItem('tb_pills_scroll', String(targetScroll));
+                }
+            }
+        }
 
         const preserveScroll = link.hasAttribute('data-preserve-scroll');
         const scrollTarget = link.getAttribute('data-scroll-target') || null;

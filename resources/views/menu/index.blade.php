@@ -29,14 +29,16 @@
                 </p>
             </div>
 
-        <div data-gsap-pills class="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar pb-2 pt-0.5 scroll-smooth snap-x snap-mandatory touch-pan-x" style="-webkit-overflow-scrolling: touch;">
+        <div data-gsap-pills class="flex items-center gap-2 sm:gap-3 overflow-x-auto hide-scrollbar pb-2 pt-0.5 touch-pan-x" style="-webkit-overflow-scrolling: touch;">
             @php
                 $isAllActive = ($selectedCategory === 'all' || empty($selectedCategory));
             @endphp
             <a href="{{ route('menu', array_filter(['q' => $search, 'table' => $tableNum])) }}"
                data-preserve-scroll
                data-gsap-text="pill"
-               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[34px] sm:min-h-[40px] active:scale-95">
+               data-category-slug="all"
+               @if($isAllActive) data-active-category="true" @endif
+               class="{{ $isAllActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer min-h-[34px] sm:min-h-[40px] active:scale-95">
                 <span>Semua</span>
             </a>
 
@@ -47,11 +49,32 @@
                 <a href="{{ route('menu', array_filter(['category' => $category->slug, 'q' => $search, 'table' => $tableNum])) }}"
                    data-preserve-scroll
                    data-gsap-text="pill"
-                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer snap-start min-h-[34px] sm:min-h-[40px] active:scale-95">
+                   data-category-slug="{{ $category->slug }}"
+                   @if($isActive) data-active-category="true" @endif
+                   class="{{ $isActive ? 'bg-[#27443E] text-white border-[1.5px] border-black shadow-[2px_3px_0px_#1B302B]' : 'bg-white text-gray-800 border-[1.5px] border-black/80 hover:bg-gray-50 shadow-[1px_2px_0px_rgba(0,0,0,0.15)]' }} px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-medium inline-flex items-center justify-center transition shrink-0 cursor-pointer min-h-[34px] sm:min-h-[40px] active:scale-95">
                     <span>{{ $category->name }}</span>
                 </a>
             @endforeach
         </div>
+        <script>
+            (function() {
+                try {
+                    var w = document.querySelector('[data-gsap-pills]');
+                    if (w) {
+                        var s = window._tbPillsScrollLeft !== undefined ? window._tbPillsScrollLeft : sessionStorage.getItem('tb_pills_scroll');
+                        if (s !== null && parseInt(s, 10) > 0) {
+                            w.scrollLeft = parseInt(s, 10);
+                        } else {
+                            var act = w.querySelector('[data-active-category="true"]');
+                            if (act && act.dataset.categorySlug !== 'all') {
+                                var off = act.offsetLeft - (w.clientWidth / 2) + (act.offsetWidth / 2);
+                                w.scrollLeft = Math.max(0, off);
+                            }
+                        }
+                    }
+                } catch(e) {}
+            })();
+        </script>
 
         <div id="menu-results-container">
         @if($products->isEmpty() || request()->has('empty'))

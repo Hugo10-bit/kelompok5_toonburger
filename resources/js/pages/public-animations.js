@@ -225,26 +225,44 @@ function setupGsapTextAnimations(root) {
 
         const pillsWrap = root.querySelector('[data-gsap-pills]');
         if (pillsWrap) {
-            const pills = pillsWrap.querySelectorAll('[data-gsap-text="pill"]');
-            if (pills.length) {
-                gsap.fromTo(
-                    pills,
-                    { y: 12, opacity: 0, scale: 0.94 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 0.42,
-                        stagger: 0.045,
-                        ease: 'back.out(1.4)',
-                        clearProps: 'transform',
-                        scrollTrigger: {
-                            trigger: pillsWrap,
-                            start: 'top 92%',
-                            once: true,
-                        },
-                    }
-                );
+            // Restore horizontal scroll position immediately if available
+            const savedScroll = (window._tbPillsScrollLeft !== undefined)
+                ? window._tbPillsScrollLeft
+                : (sessionStorage.getItem('tb_pills_scroll') !== null ? parseInt(sessionStorage.getItem('tb_pills_scroll'), 10) : null);
+            if (savedScroll !== null && !isNaN(savedScroll) && savedScroll > 0) {
+                pillsWrap.scrollLeft = savedScroll;
+            } else {
+                const activePill = pillsWrap.querySelector('[data-active-category="true"]');
+                if (activePill && activePill.dataset.categorySlug !== 'all') {
+                    const offset = activePill.offsetLeft - (pillsWrap.clientWidth / 2) + (activePill.offsetWidth / 2);
+                    pillsWrap.scrollLeft = Math.max(0, offset);
+                }
+            }
+
+            // Animate only once on initial entrance, never re-animate on category switches
+            if (!pillsWrap.dataset.pillsAnimated) {
+                pillsWrap.dataset.pillsAnimated = 'true';
+                const pills = pillsWrap.querySelectorAll('[data-gsap-text="pill"]');
+                if (pills.length) {
+                    gsap.fromTo(
+                        pills,
+                        { y: 12, opacity: 0, scale: 0.94 },
+                        {
+                            y: 0,
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.42,
+                            stagger: 0.045,
+                            ease: 'back.out(1.4)',
+                            clearProps: 'transform',
+                            scrollTrigger: {
+                                trigger: pillsWrap,
+                                start: 'top 92%',
+                                once: true,
+                            },
+                        }
+                    );
+                }
             }
         }
 
