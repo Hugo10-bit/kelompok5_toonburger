@@ -118,10 +118,14 @@
                                 @endphp
                                 <div class="flex items-center justify-between gap-3">
                                     <div class="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
-                                        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden flex items-center justify-center shrink-0"
+                                        <div class="tb-skeleton-img-wrap is-loading w-11 h-11 sm:w-12 sm:h-12 rounded-xl overflow-hidden flex items-center justify-center shrink-0"
                                              style="background-color: {{ $thumb['bg'] }};">
+                                            <div class="tb-skeleton-img-overlay tb-skeleton" aria-hidden="true"></div>
                                             <img src="{{ \App\Services\ImageDataUriService::toAssetUrl($thumb['img'], 'images/burger-bg.jpg') }}"
                                                  alt="{{ $item->product_name }}"
+                                                 data-skeleton-img
+                                                 onload="this.parentElement.classList.remove('is-loading')"
+                                                 onerror="this.parentElement.classList.remove('is-loading')"
                                                  width="48"
                                                  height="48"
                                                  loading="lazy"

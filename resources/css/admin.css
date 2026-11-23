@@ -753,4 +753,57 @@ html.dark .tb-bestseller-footer:hover {
     }
 }
 
+/* 8. Admin Skeleton Loaders */
+@keyframes tbAdminSkeletonShimmer {
+    0% {
+        transform: translate3d(-100%, 0, 0);
+    }
+    100% {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.tb-skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: #E5E7EB;
+}
+
+.tb-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translate3d(-100%, 0, 0);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.65) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: tbAdminSkeletonShimmer 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform;
+    pointer-events: none;
+}
+
+html.dark .tb-skeleton {
+    background-color: #464646 !important;
+}
+
+html.dark .tb-skeleton::after {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tb-skeleton::after {
+        animation: none !important;
+        display: none;
+    }
+}
+
+
 

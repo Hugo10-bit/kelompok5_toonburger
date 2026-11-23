@@ -6,10 +6,26 @@
     let storeMarker = null;
     let currentTileLayer = null;
 
+    function hideMapSkeleton() {
+        const skel = document.getElementById('contact-map-skeleton');
+        if (!skel || skel.dataset.hidden === 'true') return;
+        skel.dataset.hidden = 'true';
+        skel.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            if (skel && skel.parentElement) skel.classList.add('hidden');
+        }, 320);
+    }
+
     function initLiveMap() {
         const container = document.getElementById('live-leaflet-map');
-        if (!container || typeof L === 'undefined') return;
-        if (container._leaflet_id) return;
+        if (!container || typeof L === 'undefined') {
+            setTimeout(hideMapSkeleton, 1200);
+            return;
+        }
+        if (container._leaflet_id) {
+            hideMapSkeleton();
+            return;
+        }
 
         if (map) {
             try { map.remove(); } catch (e) {}
@@ -30,6 +46,10 @@
             maxZoom: 20,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
         }).addTo(map);
+
+        currentTileLayer.once('load', hideMapSkeleton);
+        map.whenReady(() => setTimeout(hideMapSkeleton, 450));
+        setTimeout(hideMapSkeleton, 2200);
 
         const storeIcon = L.divIcon({
             className: 'custom-toon-pin',

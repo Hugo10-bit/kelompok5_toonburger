@@ -20,7 +20,7 @@
     <!-- Google Fonts: BBH Hegarty + Bebas Neue + Poppins + Roboto + Nunito + Luckiest Guy -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Nunito:wght@900&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Hegarty&family=Bebas+Neue&family=Luckiest+Guy&family=Nunito:wght@900&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- SweetAlert2 CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -45,6 +45,7 @@
       data-empty-cart-img="{{ asset('images/empty-cart.png') }}"
       data-toon-head-img="{{ asset('images/toon-head.png') }}"
       data-logo-img="{{ asset('images/logo.png') }}">
+    <div id="app-loader-bar"></div>
 
     <!-- Modal Konfirmasi Logout -->
     <div id="logout-confirm-modal"
@@ -130,49 +131,60 @@
                     </a>
                 </nav>
 
-                <!-- Search bar -->
-                <div class="relative hidden md:block w-48 sm:w-60 lg:w-72 xl:w-80">
-                    <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
-                        <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        <input type="text"
-                               name="q"
-                               id="home-navbar-search"
-                               placeholder="Cheese Burger..."
-                               data-i18n-app-attr="placeholder:nav_search_placeholder"
-                               autocomplete="off"
-                               class="nav-search-input bg-transparent border-0 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:outline-none focus:ring-0 w-full font-normal">
-                        <button type="button"
-                                id="home-search-clear"
-                                onclick="clearHomeNavbarSearch()"
-                                class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
-                                aria-label="Bersihkan pencarian">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                <div class="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+                    <!-- Search bar -->
+                    <div class="relative hidden md:block w-48 sm:w-60 lg:w-64 xl:w-80">
+                        <form action="{{ route('menu') }}" method="GET" class="w-full bg-[#F5F6FA] hover:bg-white focus-within:bg-white focus-within:ring-2 focus-within:ring-white/50 rounded-full px-4 py-2 flex items-center gap-2.5 transition shadow-2xs">
+                            <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                             </svg>
-                        </button>
-                    </form>
+                            <input type="text"
+                                   name="q"
+                                   id="home-navbar-search"
+                                   placeholder="Cheese Burger..."
+                                   data-i18n-app-attr="placeholder:nav_search_placeholder"
+                                   autocomplete="off"
+                                   class="nav-search-input bg-transparent border-0 text-xs sm:text-sm text-gray-800 placeholder-gray-400 outline-none focus:outline-none focus:ring-0 w-full font-normal">
+                            <button type="button"
+                                    id="home-search-clear"
+                                    onclick="clearHomeNavbarSearch()"
+                                    class="hidden text-gray-400 hover:text-gray-600 p-0.5 rounded-full transition focus:outline-none"
+                                    aria-label="Bersihkan pencarian">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </form>
 
-                    <!-- Live search dropdown -->
-                    <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
-                        <div id="home-search-loading" class="hidden text-center py-3 text-xs text-gray-400">
-                            <svg class="w-4 h-4 animate-spin mx-auto text-[#3b6e64] mb-1" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            <span data-i18n-app="nav_search_searching">Mencari menu...</span>
+                        <!-- Live search dropdown -->
+                        <div id="home-search-dropdown" class="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl border border-gray-200 shadow-2xl p-2.5 z-50 hidden max-h-80 overflow-y-auto animate-modal-pop">
+                            <div id="home-search-loading" class="hidden space-y-1.5 py-1" aria-hidden="true">
+                                <div class="px-2 py-1 flex items-center justify-between border-b border-gray-100">
+                                    <div class="h-3 w-24 rounded-full tb-skeleton"></div>
+                                    <div class="h-3 w-20 rounded-full tb-skeleton"></div>
+                                </div>
+                                @for($s = 0; $s < 3; $s++)
+                                    <div class="flex items-center justify-between p-2 rounded-xl">
+                                        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                                            <div class="w-9 h-9 rounded-lg tb-skeleton shrink-0"></div>
+                                            <div class="space-y-1.5 flex-1 max-w-[150px]">
+                                                <div class="h-3 w-4/5 rounded-full tb-skeleton"></div>
+                                                <div class="h-2.5 w-1/2 rounded-full tb-skeleton"></div>
+                                            </div>
+                                        </div>
+                                        <div class="h-6 w-12 rounded-lg tb-skeleton shrink-0"></div>
+                                    </div>
+                                @endfor
+                            </div>
+                            <div id="home-search-content"></div>
                         </div>
-                        <div id="home-search-content"></div>
                     </div>
-                </div>
 
-                <div class="flex items-center gap-3 sm:gap-4 shrink-0">
                     <!-- Cart drawer button -->
                     <button type="button"
                             onclick="toggleCartDrawer()"
                             id="cart-btn"
-                            class="relative w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 flex items-center justify-center text-black shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
+                            class="relative w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-black shadow-xs transition active:scale-95 focus:outline-none cursor-pointer shrink-0"
                             aria-label="Keranjang Belanja">
                         <svg class="w-5 h-5 text-black" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="black"/>
@@ -182,75 +194,6 @@
                             {{ auth()->check() && session('cart') ? array_sum(array_column(session('cart'), 'quantity')) : 0 }}
                         </span>
                     </button>
-
-                    <!-- Desktop language selector (between Cart and Profile/Login) -->
-                    <div class="relative select-none hidden lg:block" id="nav-lang-container">
-                        <button type="button"
-                                id="nav-lang-btn"
-                                onclick="toggleNavLangDropdown(event)"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                aria-label="Pilih Bahasa"
-                                class="h-10 px-2.5 sm:px-3 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-white text-xs font-semibold inline-flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer shrink-0">
-                            <span id="nav-lang-flag" class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-white/30 shrink-0" aria-hidden="true">
-                                <svg class="w-full h-full" viewBox="0 0 64 64">
-                                    <clipPath id="circle-flag-nav-btn-init"><circle cx="32" cy="32" r="32"/></clipPath>
-                                    <g clip-path="url(#circle-flag-nav-btn-init)">
-                                        <path fill="#E11B22" d="M0 0h64v32H0z"/>
-                                        <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <span id="nav-lang-code" class="tracking-wide">ID</span>
-                            <svg id="nav-lang-chevron" class="w-3.5 h-3.5 text-white/80 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-
-                        <div id="nav-lang-dropdown" class="hidden absolute right-0 top-full mt-2.5 w-44 bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-2 z-50 animate-modal-pop">
-                            <button type="button" onclick="selectNavLanguage('ID')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition cursor-pointer">
-                                <span class="flex items-center gap-2.5">
-                                    <span class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
-                                        <svg class="w-full h-full" viewBox="0 0 64 64">
-                                            <clipPath id="circle-flag-nav-dd-id"><circle cx="32" cy="32" r="32"/></clipPath>
-                                            <g clip-path="url(#circle-flag-nav-dd-id)">
-                                                <path fill="#E11B22" d="M0 0h64v32H0z"/>
-                                                <path fill="#FFFFFF" d="M0 32h64v32H0z"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span>Indonesia</span>
-                                </span>
-                                <svg id="nav-lang-check-id" class="w-4 h-4 text-[#27443E]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                            </button>
-                            <button type="button" onclick="selectNavLanguage('EN')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-gray-800 hover:bg-gray-100 transition mt-1 cursor-pointer">
-                                <span class="flex items-center gap-2.5">
-                                    <span class="w-5 h-5 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0" aria-hidden="true">
-                                        <svg class="w-full h-full" viewBox="0 0 64 64">
-                                            <clipPath id="circle-flag-nav-dd-us"><circle cx="32" cy="32" r="32"/></clipPath>
-                                            <g clip-path="url(#circle-flag-nav-dd-us)">
-                                                <path fill="#B22234" d="M0 0h64v64H0z"/>
-                                                <path stroke="#FFF" stroke-width="5" d="M0 7.5h64M0 17.5h64M0 27.5h64M0 37.5h64M0 47.5h64M0 57.5h64"/>
-                                                <path fill="#3C3B6E" d="M0 0h32v35H0z"/>
-                                                <circle cx="8" cy="8" r="1.5" fill="#FFF"/>
-                                                <circle cx="16" cy="8" r="1.5" fill="#FFF"/>
-                                                <circle cx="24" cy="8" r="1.5" fill="#FFF"/>
-                                                <circle cx="12" cy="14" r="1.5" fill="#FFF"/>
-                                                <circle cx="20" cy="14" r="1.5" fill="#FFF"/>
-                                                <circle cx="8" cy="20" r="1.5" fill="#FFF"/>
-                                                <circle cx="16" cy="20" r="1.5" fill="#FFF"/>
-                                                <circle cx="24" cy="20" r="1.5" fill="#FFF"/>
-                                                <circle cx="12" cy="26" r="1.5" fill="#FFF"/>
-                                                <circle cx="20" cy="26" r="1.5" fill="#FFF"/>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                    <span>English</span>
-                                </span>
-                                <svg id="nav-lang-check-en" class="w-4 h-4 text-[#27443E] hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                            </button>
-                        </div>
-                    </div>
 
                     @auth
                         @php $navUserInitials = strtoupper(substr(Auth::user()->name ?? 'Tb', 0, 2)); @endphp
@@ -290,55 +233,38 @@
                                 </svg>
                             </button>
 
-                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 animate-modal-pop">
-                                <div class="px-2 py-2 border-b border-gray-100 pb-3 mb-2 flex items-center gap-3">
-                                    <button type="button"
-                                            onclick="triggerNavbarAvatarPicker(event)"
-                                            title="Ubah Foto Profil"
-                                            aria-label="Ubah Foto Profil"
-                                            class="relative shrink-0 group cursor-pointer focus:outline-none">
-                                        <div data-user-avatar-slot
-                                             data-user-initials="{{ $navUserInitials }}"
-                                             class="w-11 h-11 rounded-full bg-[#FFA000] text-white flex items-center justify-center font-bold text-sm overflow-hidden shadow-xs">
-                                            @if(!empty(Auth::user()->avatar))
-                                                <img src="{{ Auth::user()->avatar_url }}"
-                                                     alt="Avatar"
-                                                     class="w-full h-full object-cover">
-                                            @else
-                                                {{ $navUserInitials }}
-                                            @endif
-                                        </div>
-                                        <span class="w-5 h-5 rounded-full bg-[#D1D5DB] group-hover:bg-[#BFC5CE] border-2 border-white flex items-center justify-center text-gray-700 absolute -bottom-0.5 -right-0.5 shadow-2xs transition group-active:scale-95">
-                                            <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2.5 w-60 bg-white rounded-2xl shadow-2xl border border-gray-200/80 overflow-hidden z-50 animate-modal-pop font-roboto">
+                                <div class="py-1.5 text-[13.5px] font-medium text-gray-900">
+                                    @if(!Auth::user()->isAdmin() && !Auth::user()->isStaff())
+                                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition">
+                                            <svg class="w-[18px] h-[18px] text-gray-800 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                                <circle cx="12" cy="8" r="4"/>
                                             </svg>
-                                        </span>
-                                    </button>
-                                    <div class="min-w-0 flex-1">
-                                        <div data-user-name-slot class="font-bold text-xs text-gray-900 truncate">
-                                            {{ Auth::user()->name }}
-                                        </div>
-                                        <div data-user-email-slot class="text-[11px] text-gray-400 truncate">
-                                            {{ Auth::user()->email }}
-                                        </div>
-                                        <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F0] text-[#10B981] capitalize">
-                                            {{ Auth::user()->role }}
-                                        </span>
-                                    </div>
-                                </div>
+                                            <span data-i18n-app="nav_profile">Profile</span>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition">
+                                            <svg class="w-[18px] h-[18px] text-gray-800 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M20 21a8 8 0 0 0-16 0"/>
+                                                <circle cx="12" cy="8" r="4"/>
+                                            </svg>
+                                            <span data-i18n-app="nav_admin_edit_profile">Edit Profile</span>
+                                        </a>
+                                    @endif
 
-                                <div class="space-y-1 text-xs font-roboto font-medium text-gray-700">
-                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                    <a href="{{ route('orders.index') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition">
+                                        <svg class="w-[18px] h-[18px] text-gray-800 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                                            <rect x="5" y="4" width="14" height="17" rx="2"/>
+                                            <path d="M9 4V2.8A.8.8 0 0 1 9.8 2h4.4a.8.8 0 0 1 .8.8V4"/>
+                                        </svg>
                                         <span data-i18n-app="nav_orders">Pesanan Saya</span>
                                     </a>
 
-                                    @if(!Auth::user()->isAdmin() && !Auth::user()->isStaff())
-                                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition">
-                                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                            </svg>
-                                            <span data-i18n-app="nav_profile">Profil</span>
+                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
+                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition text-[#3b6e64]">
+                                            <svg class="w-[18px] h-[18px] text-[#3b6e64] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                            <span data-i18n-app="nav_admin">Dashboard Admin</span>
                                         </a>
                                     @endif
 
@@ -346,8 +272,8 @@
                                             id="profile-lang-toggle-btn"
                                             onclick="toggleAppLanguage(event)"
                                             aria-label="Ganti Bahasa"
-                                            class="lg:hidden w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-left cursor-pointer">
-                                        <span id="profile-lang-flag" class="w-4 h-4 rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0 pointer-events-none" aria-hidden="true">
+                                            class="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition text-left cursor-pointer">
+                                        <span id="profile-lang-flag" class="w-[18px] h-[18px] rounded-full overflow-hidden inline-flex items-center justify-center border border-gray-200 shrink-0 pointer-events-none" aria-hidden="true">
                                             <svg class="w-full h-full" viewBox="0 0 64 64">
                                                 <clipPath id="circle-flag-profile-dd-init"><circle cx="32" cy="32" r="32"/></clipPath>
                                                 <g clip-path="url(#circle-flag-profile-dd-init)">
@@ -356,21 +282,18 @@
                                                 </g>
                                             </svg>
                                         </span>
-                                        <span id="profile-lang-label">Indonesia</span>
+                                        <span id="profile-lang-label">Bahasa Indonesia</span>
                                     </button>
+                                </div>
 
-                                    @if(Auth::user()->isAdmin() || Auth::user()->isStaff())
-                                        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-gray-100 transition text-[#3b6e64] font-medium">
-                                            <svg class="w-4 h-4 text-[#3b6e64]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                                            <span data-i18n-app="nav_admin">Dashboard Admin</span>
-                                        </a>
-                                    @endif
-                                    <div class="border-t border-gray-100 mt-2 pt-2">
-                                        <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-600 hover:bg-red-50 text-xs font-medium transition">
-                                            <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                                            <span data-i18n-app="nav_logout">Logout</span>
-                                        </button>
-                                    </div>
+                                <div class="border-t border-gray-200/80 py-1.5">
+                                    <button type="button" onclick="confirmLogout(event)" class="w-full flex items-center gap-3 px-4 py-2.5 text-[13.5px] font-medium text-[#C93B2B] hover:bg-red-50 transition cursor-pointer">
+                                        <svg class="w-[18px] h-[18px] text-[#C93B2B] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M15 3h-7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7"/>
+                                            <path d="M10 12h11m-3-3 3 3-3 3"/>
+                                        </svg>
+                                        <span data-i18n-app="nav_logout">Logout</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -491,7 +414,7 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <span id="mobile-lang-label">Indonesia</span>
+                                <span id="mobile-lang-label">Bahasa Indonesia</span>
                             </button>
                         @endguest
                     </div>
@@ -589,23 +512,39 @@
 
         <!-- Scrollable Burger Orders Container (Only this section scrolls!) -->
         <div id="cart-items-container" class="overflow-y-auto px-5 pt-4 pb-2 space-y-3.5 {{ $initialCartCount > 0 ? 'max-h-[348px]' : '' }}">
-            <div class="py-7 px-4 flex flex-col items-center text-center">
-                <img src="{{ asset('images/empty-cart.png') }}"
-                     alt="Keranjang Kosong"
-                     class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
-                <h4 data-i18n-app="cart_empty_title" class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
-                    Keranjangmu masih kosong nih
-                </h4>
-                <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
-                    <span data-i18n-app="cart_empty_sub1" class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
-                    <span data-i18n-app="cart_empty_sub2" class="block">perut kosongmu hari ini</span>
-                </p>
-                <button type="button"
-                        onclick="startOrderFromCart()"
-                        class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-medium text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
-                    <span data-i18n-app="cart_empty_btn">Mulai Pesan Sekarang</span>
-                </button>
-            </div>
+            @if($initialCartCount > 0)
+                @for($c = 0; $c < min($initialCartCount, 3); $c++)
+                    <div class="bg-[#F4F5F7] rounded-[14px] p-3.5 flex gap-3.5 items-center" aria-hidden="true">
+                        <div class="w-[74px] h-[74px] rounded-[10px] tb-skeleton flex-shrink-0"></div>
+                        <div class="flex-1 min-w-0 space-y-2">
+                            <div class="h-3.5 w-3/4 rounded-full tb-skeleton"></div>
+                            <div class="h-3 w-1/3 rounded-full tb-skeleton"></div>
+                            <div class="flex items-center justify-between pt-2 border-t border-[#E5E7EB]">
+                                <div class="h-6 w-16 rounded-[6px] tb-skeleton"></div>
+                                <div class="h-3.5 w-16 rounded-full tb-skeleton"></div>
+                            </div>
+                        </div>
+                    </div>
+                @endfor
+            @else
+                <div class="py-7 px-4 flex flex-col items-center text-center">
+                    <img src="{{ asset('images/empty-cart.png') }}"
+                         alt="Keranjang Kosong"
+                         class="w-[175px] h-auto object-contain mx-auto mb-6 select-none pointer-events-none">
+                    <h4 data-i18n-app="cart_empty_title" class="font-semibold text-[#52565E] text-[18px] leading-snug tracking-tight">
+                        Keranjangmu masih kosong nih
+                    </h4>
+                    <p class="text-[13px] text-[#737373] leading-[1.5] mt-1.5 mx-auto font-normal">
+                        <span data-i18n-app="cart_empty_sub1" class="block sm:whitespace-nowrap">Yuk, pilih burger favoritmu dan mulai ngisi</span>
+                        <span data-i18n-app="cart_empty_sub2" class="block">perut kosongmu hari ini</span>
+                    </p>
+                    <button type="button"
+                            onclick="startOrderFromCart()"
+                            class="mt-6 bg-[#3E5B56] hover:bg-[#324B47] active:scale-95 text-white font-medium text-[13.5px] px-8 py-3 rounded-[10px] transition cursor-pointer inline-flex items-center justify-center min-h-[44px] shadow-2xs">
+                        <span data-i18n-app="cart_empty_btn">Mulai Pesan Sekarang</span>
+                    </button>
+                </div>
+            @endif
         </div>
 
         <!-- Fixed Bottom Footer (Subtotal Menu + Checkout Button stay fixed and never scroll) -->
@@ -669,13 +608,40 @@
                 </svg>
             </button>
 
+            <!-- Product Modal Skeleton (shown immediately while fetching /product/{id}) -->
+            <div id="product-modal-skeleton" class="hidden grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7 items-stretch" aria-hidden="true">
+                <div class="w-full aspect-[1.1] sm:aspect-auto sm:h-full min-h-[220px] sm:min-h-[300px] md:min-h-[320px] rounded-[22px] tb-skeleton"></div>
+                <div class="flex flex-col justify-between pt-1 sm:pt-0 space-y-5">
+                    <div class="space-y-3">
+                        <div class="h-3 w-20 rounded-full tb-skeleton"></div>
+                        <div class="h-7 w-4/5 rounded-xl tb-skeleton"></div>
+                        <div class="h-5 w-28 rounded-full tb-skeleton"></div>
+                        <div class="space-y-2 pt-1">
+                            <div class="h-3 w-full rounded-full tb-skeleton"></div>
+                            <div class="h-3 w-11/12 rounded-full tb-skeleton"></div>
+                            <div class="h-3 w-3/5 rounded-full tb-skeleton"></div>
+                        </div>
+                        <div class="pt-2 space-y-2">
+                            <div class="h-3.5 w-32 rounded-full tb-skeleton"></div>
+                            <div class="h-16 w-full rounded-xl tb-skeleton"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2.5 sm:gap-3 pt-1 w-full">
+                        <div class="h-11 w-24 rounded-xl tb-skeleton shrink-0"></div>
+                        <div class="h-11 flex-1 rounded-xl tb-skeleton"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- 2-Column Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7 items-stretch">
+            <div id="product-modal-body" class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-7 items-stretch">
                 <!-- Left Column: Product Image on Colored Card Background -->
                 <div id="modal-product-card-bg"
-                     class="w-full aspect-[1.1] sm:aspect-auto sm:h-full min-h-[220px] sm:min-h-[300px] md:min-h-[320px] rounded-[22px] overflow-hidden flex items-center justify-center p-5 sm:p-6 relative transition-colors duration-300"
+                     class="tb-skeleton-img-wrap w-full aspect-[1.1] sm:aspect-auto sm:h-full min-h-[220px] sm:min-h-[300px] md:min-h-[320px] rounded-[22px] overflow-hidden flex items-center justify-center p-5 sm:p-6 relative transition-colors duration-300"
                      style="background-color: #FFC83B;">
+                    <div id="modal-product-img-skeleton" class="tb-skeleton-img-overlay tb-skeleton" aria-hidden="true"></div>
                     <img id="modal-product-image"
+                         data-skeleton-img
                          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E"
                          alt="Product"
                          class="w-full max-w-[210px] sm:max-w-[250px] h-auto object-contain drop-shadow-[0_14px_22px_rgba(0,0,0,0.18)] select-none">
@@ -690,12 +656,12 @@
                         </span>
 
                         <!-- Product Name -->
-                        <h3 id="modal-product-name" class="font-black text-xl sm:text-2xl text-[#2D3B36] uppercase leading-tight mt-1">
+                        <h3 id="modal-product-name" class="font-black text-xl sm:text-2xl text-[#40605E] uppercase leading-tight mt-1">
                             Burger Name
                         </h3>
 
                         <!-- Price -->
-                        <div id="modal-product-price" class="font-extrabold text-base sm:text-lg text-[#2D3B36] mt-1.5 tracking-tight">
+                        <div id="modal-product-price" class="font-extrabold text-base sm:text-lg text-[#466967] mt-1.5 tracking-tight">
                             RP 0
                         </div>
 
@@ -724,10 +690,10 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Action Row: Stepper [-] 1 [+] and Compact Add to Cart Button -->
-                    <div class="flex items-center gap-2.5 sm:gap-3 mt-4 sm:mt-5 pt-1">
+                    <!-- Bottom Action Row: Stepper [-] 1 [+] and Add to Cart Button -->
+                    <div class="flex items-center gap-2.5 sm:gap-3 mt-4 sm:mt-5 pt-1 w-full">
                         <!-- Stepper [-] 1 [+] (Tombol Kurang & Tambah Burger) -->
-                        <div class="inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 py-1 shadow-2xs gap-2 shrink-0">
+                        <div class="h-11 inline-flex items-center border border-gray-200 rounded-xl bg-white px-2 shadow-2xs gap-2 shrink-0">
                             <button type="button"
                                     onclick="adjustModalQty(-1)"
                                     class="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-900 text-xs font-medium transition cursor-pointer select-none"
@@ -739,19 +705,19 @@
                                     aria-label="Tambah burger">&plus;</button>
                         </div>
 
-                        <!-- CTA Button (Dikecilkan, Ringkas & Proporsional) -->
+                        <!-- CTA Button -->
                         @if(!$isStoreOpen)
                             <button type="button"
                                     id="modal-submit-btn"
                                     onclick="submitAddToCart()"
-                                    class="bg-gray-300 text-gray-600 font-semibold text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-2xs cursor-not-allowed whitespace-nowrap">
+                                    class="h-11 flex-1 min-w-0 bg-gray-300 text-gray-600 font-semibold text-xs px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-2xs cursor-not-allowed whitespace-nowrap">
                                 <span>Outlet Sedang Tutup</span>
                             </button>
                         @else
                             <button type="button"
                                     id="modal-submit-btn"
                                     onclick="submitAddToCart()"
-                                    class="bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs py-2 px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
+                                    class="h-11 flex-1 min-w-0 bg-[#385850] hover:bg-[#2C463F] active:scale-[0.98] text-white font-medium text-xs px-3.5 sm:px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition whitespace-nowrap">
                                 <span data-i18n-app="modal_add_btn">Tambahkan ke keranjang</span>
                                 <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path d="M27.7188 8.28125C27.5312 8.09375 27.2917 8 27 8H22C21.9583 6.29167 21.375 4.875 20.25 3.75C18.5625 2.0625 17.7094 2.04062 16 2C14.2917 2.04167 12.875 2.625 11.75 3.75C10.0625 5.4375 10.0406 6.29063 10 8H5C4.70833 8 4.46875 8.09375 4.28125 8.28125C4.09375 8.46875 4 8.70833 4 9V29C4 29.2917 4.09375 29.5312 4.28125 29.7188C4.5625 30 4.70938 30 5 30H27C27.2917 30 27.5312 29.9062 27.7188 29.7188C28 29.4375 28 29.2906 28 29V9C28 8.70833 27.9062 8.46875 27.7188 8.28125ZM13.1719 5.17188C13.5412 4.79762 13.9817 4.50111 14.4674 4.29984C14.9531 4.09857 15.4742 3.99662 16 4C17.125 4.02083 18.0677 4.41146 18.8281 5.17188C19.9688 6.3125 19.9781 6.875 20 8H12C12.0208 6.875 12.4115 5.93229 13.1719 5.17188ZM26 28H6V10H10V14H12V10H20V14H22V10H26V28Z" fill="currentColor"/>

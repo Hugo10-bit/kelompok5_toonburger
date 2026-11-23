@@ -140,6 +140,24 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     background-color: #F1D9B3 !important;
 }
 
+.login-dots-bg {
+    background-color: #F1D9B3;
+    background-image: radial-gradient(circle, rgba(70, 105, 103, 0.14) 1.4px, transparent 1.6px);
+    background-size: 10px 10px;
+}
+
+.dark .login-dots-bg {
+    background-color: #324B48;
+    background-image: radial-gradient(circle, rgba(241, 217, 179, 0.13) 1.4px, transparent 1.6px);
+    background-size: 10px 10px;
+}
+
+.auth-underline-input:focus,
+.auth-underline-input:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .checkerboard-pattern {
     background-image:
         linear-gradient(45deg, #466967 25%, transparent 25%),
@@ -415,8 +433,17 @@ html:not(.dark) .login-light-bg.retro-grid-bg {
     transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.sticky-review-card:hover {
+.sticky-review-card[data-motion-card="review"] {
+    transition: box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sticky-review-card:not([data-motion-card="review"]):hover {
     transform: translateY(-4px) rotate(0deg) !important;
+    box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
+    z-index: 20;
+}
+
+.sticky-review-card[data-motion-card="review"]:hover {
     box-shadow: 0 16px 28px -8px rgba(30, 46, 43, 0.28);
     z-index: 20;
 }
@@ -481,18 +508,32 @@ input:-webkit-autofill:focus {
     transition: background-color 5000s ease-in-out 0s;
 }
 
+#login-form-panel input:-webkit-autofill,
+#login-form-panel input:-webkit-autofill:hover,
+#login-form-panel input:-webkit-autofill:active,
+#login-form-panel input:-webkit-autofill:focus,
 #register-form-panel input:-webkit-autofill,
-#register-form-panel input:-webkit-autofill:hover, 
-#register-form-panel input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 1000px #F9FAFB inset !important;
-    -webkit-text-fill-color: #111827 !important;
-    caret-color: #111827 !important;
-}
-
+#register-form-panel input:-webkit-autofill:hover,
+#register-form-panel input:-webkit-autofill:active,
 #register-form-panel input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
     -webkit-text-fill-color: #111827 !important;
     caret-color: #111827 !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.dark #login-form-panel input:-webkit-autofill,
+.dark #login-form-panel input:-webkit-autofill:hover,
+.dark #login-form-panel input:-webkit-autofill:active,
+.dark #login-form-panel input:-webkit-autofill:focus,
+.dark #register-form-panel input:-webkit-autofill,
+.dark #register-form-panel input:-webkit-autofill:hover,
+.dark #register-form-panel input:-webkit-autofill:active,
+.dark #register-form-panel input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #313131 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .dark input:-webkit-autofill,
@@ -688,6 +729,109 @@ html.dark .tb-popup-desc,
     background-color: #B32828 !important;
     transform: translateY(-1px);
 }
+
+/* 10. Skeleton Loaders & Top Navigation Progress Bar */
+#app-loader-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3.5px;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(90deg, #F5B027, #385850, #DE3B28);
+    z-index: 99999;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+    pointer-events: none;
+    opacity: 0;
+}
+
+@keyframes tbSkeletonShimmer {
+    0% {
+        transform: translate3d(-100%, 0, 0);
+    }
+    100% {
+        transform: translate3d(100%, 0, 0);
+    }
+}
+
+.tb-skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: #E8EAED;
+}
+
+.tb-skeleton-warm {
+    position: relative;
+    overflow: hidden;
+    background-color: #EAE1CE;
+}
+
+.tb-skeleton::after,
+.tb-skeleton-warm::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translate3d(-100%, 0, 0);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.62) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: tbSkeletonShimmer 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform;
+    pointer-events: none;
+}
+
+.dark .tb-skeleton,
+.dark .tb-skeleton-warm {
+    background-color: #454545;
+}
+
+.dark .tb-skeleton::after,
+.dark .tb-skeleton-warm::after {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.tb-skeleton-img-wrap {
+    position: relative;
+}
+
+.tb-skeleton-img-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tb-skeleton-img-wrap.is-loading .tb-skeleton-img-overlay {
+    opacity: 1;
+}
+
+.tb-skeleton-img-wrap [data-skeleton-img] {
+    transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1), transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tb-skeleton-img-wrap.is-loading [data-skeleton-img] {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tb-skeleton::after,
+    .tb-skeleton-warm::after {
+        animation: none !important;
+        display: none;
+    }
+}
+
 
 
 

@@ -1,13 +1,24 @@
-<div class="bg-white rounded-[18px] sm:rounded-[24px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.5)] sm:shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_0px_rgba(39,68,62,0.85)] sm:hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-2.5 sm:p-4 flex flex-col justify-between group hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] {{ $revealClass ?? 'toon-reveal' }}"
+@php
+    $isMotionCard = ($isHome ?? false) || ($animateMotion ?? false);
+    $cardMotionClass = $isMotionCard
+        ? 'transition-shadow duration-300'
+        : 'hover:-translate-y-1 transition-[transform,box-shadow] duration-[520ms] ease-[cubic-bezier(0.22,1,0.36,1)] ' . ($revealClass ?? 'toon-reveal');
+@endphp
+<div @if($isMotionCard) data-motion-card="product" @endif
+     class="bg-white rounded-[18px] sm:rounded-[24px] border-2 border-black shadow-[3px_4px_0px_rgba(0,0,0,0.5)] sm:shadow-[6px_6px_0px_rgba(0,0,0,0.5)] hover:shadow-[6px_6px_0px_rgba(39,68,62,0.85)] sm:hover:shadow-[8px_8px_0px_rgba(39,68,62,0.85)] p-2.5 sm:p-4 flex flex-col justify-between group {{ $cardMotionClass }}"
      @if(!empty($cardStyle)) style="{{ $cardStyle }}" @endif>
     <div onclick="openProductModal({{ $productId }})" class="cursor-pointer">
-        <div class="w-full aspect-[1.35] sm:aspect-[1.45] rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100"
+        <div class="tb-skeleton-img-wrap is-loading w-full aspect-[1.35] sm:aspect-[1.45] rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100"
              @if(!empty($bgColor)) style="background-color: {{ $bgColor }};" @endif>
             @php
                 $resolvedCardImg = $imageUrl ?? ($image ? \App\Services\ImageDataUriService::toAssetUrl($image, 'images/burger-bg.jpg') : asset('images/burger-bg.jpg'));
             @endphp
+            <div class="tb-skeleton-img-overlay tb-skeleton" aria-hidden="true"></div>
             <img src="{{ $resolvedCardImg }}"
                  alt="{{ $name }}"
+                 data-skeleton-img
+                 onload="this.parentElement.classList.remove('is-loading')"
+                 onerror="this.parentElement.classList.remove('is-loading')"
                  loading="lazy"
                  decoding="async"
                  width="600"
@@ -16,20 +27,20 @@
         </div>
 
         <div class="pt-2 sm:pt-3 pb-0.5 sm:pb-1">
-            <span class="text-[9.5px] sm:text-[11px] font-bold text-[#D97706] uppercase tracking-wide block truncate">
+            <span @if($isMotionCard) data-gsap-text="card" @endif class="text-[9.5px] sm:text-[11px] font-bold text-[#D97706] uppercase tracking-wide block truncate">
                 {{ $badge }}
             </span>
-            <h3 data-auto-translate="true" class="font-bold text-xs sm:text-base text-gray-900 mt-0.5 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-[#27443E] transition-colors duration-[420ms]">
+            <h3 @if($isMotionCard) data-gsap-text="card" @endif data-auto-translate="true" class="font-bold text-xs sm:text-base text-gray-900 mt-0.5 leading-snug line-clamp-1 sm:line-clamp-none group-hover:text-[#27443E] transition-colors duration-[420ms]">
                 {{ $name }}
             </h3>
-            <p data-auto-translate="true" class="text-[10.5px] sm:text-xs text-gray-500 line-clamp-2 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">
+            <p @if($isMotionCard) data-gsap-text="card" @endif data-auto-translate="true" class="text-[10.5px] sm:text-xs text-gray-500 line-clamp-2 leading-snug sm:leading-relaxed mt-0.5 sm:mt-1">
                 {{ $description }}
             </p>
         </div>
     </div>
 
     <div class="pt-2 sm:pt-3 flex items-center justify-between gap-1.5 border-t border-gray-100 mt-2 sm:mt-3">
-        <span class="font-black text-xs sm:text-base text-gray-900 whitespace-nowrap">
+        <span @if($isMotionCard) data-gsap-text="card" @endif class="font-roboto font-bold text-xs sm:text-base text-gray-900 whitespace-nowrap">
             Rp {{ number_format($price, 0, ',', '.') }}
         </span>
         @if(isset($storeSetting) && $storeSetting->isClosed())
