@@ -4,41 +4,178 @@
 @section('footer_bg', 'orders-dot-bg')
 
 @section('content')
-<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-12 sm:pb-16 print:mt-0 print:pt-4">
+@php
+    $stepperSteps = [
+        1 => 'Menunggu',
+        2 => 'Dimasak',
+        3 => 'Siap Saji',
+        4 => 'Selesai',
+    ];
+    $currentStep = match ($order->status) {
+        'pending' => 1,
+        'confirmed', 'preparing' => 2,
+        'ready' => 3,
+        'completed' => 4,
+        default => 0,
+    };
+    $progressPercent = $currentStep >= 1 ? (($currentStep - 1) / (count($stepperSteps) - 1)) * 100 : 0;
+
+    $paymentMethodLabel = match (strtolower((string) $order->payment_method)) {
+        'qris' => 'Qris',
+        'cash' => 'Cash',
+        'transfer', 'bank_transfer' => 'Transfer Bank',
+        'ewallet', 'e_wallet' => 'E-Wallet',
+        default => ucwords(str_replace('_', ' ', (string) $order->payment_method)),
+    };
+
+    $orderTypeLabel = match (strtolower((string) $order->order_type)) {
+        'takeaway', 'pickup', 'pickup_order' => 'Pickup Order',
+        'delivery', 'delivery_order' => 'Delivery Order',
+        'dine_in' => 'Dine In' . ($order->table ? ' (' . $order->table->table_number . ')' : ''),
+        default => ucwords(str_replace('_', ' ', (string) $order->order_type)),
+    };
+
+    $statusMeta = match ($order->status) {
+        'pending' => [
+            'dot' => 'bg-[#F4BD22]',
+            'text' => 'Menunggu Konfirmasi Dapur',
+        ],
+        'confirmed', 'preparing' => [
+            'dot' => 'bg-[#EF4444]',
+            'text' => 'Pesanan Sedang Dimasak',
+        ],
+        'ready' => [
+            'dot' => 'bg-[#22C55E]',
+            'text' => $order->order_type === 'delivery' ? 'Pesanan Siap Diantar!' : 'Pesanan Siap Diambil di Kasir!',
+        ],
+        'completed' => [
+            'dot' => 'bg-[#3B82F6]',
+            'text' => 'Pesanan Selesai & Telah Diambil',
+        ],
+        'cancelled' => [
+            'dot' => 'bg-[#DC2626]',
+            'text' => 'Pesanan Dibatalkan',
+        ],
+        default => [
+            'dot' => 'bg-gray-400',
+            'text' => ucfirst((string) $order->status),
+        ],
+    };
+
+    $orderLevelNote = trim((string) ($order->notes ?? ''));
+    $itemNoteList = $order->items
+        ->pluck('notes')
+        ->map(fn ($n) => trim((string) $n))
+        ->filter()
+        ->unique()
+        ->values()
+        ->all();
+    $displayOrderNote = $orderLevelNote !== '' ? $orderLevelNote : implode('; ', $itemNoteList);
+    $showIndividualItemNotes = $orderLevelNote !== '';
+
+    $isUnpaidActive = $order->payment_status !== 'paid' && $order->status !== 'cancelled';
+    $shouldPollStatus = !in_array($order->status, ['completed', 'cancelled'], true) || $isUnpaidActive;
+@endphp
+
+<div class="orders-dot-bg min-h-screen -mt-[88px] sm:-mt-[96px] pt-[112px] sm:pt-[124px] pb-14 sm:pb-20 print:mt-0 print:pt-4">
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- Top Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    @if($shouldPollStatus)
+        <div id="midtrans-payment-config"
+             class="hidden"
+             data-order-number="{{ $order->order_number }}"
+             data-order-status="{{ $order->status }}"
+             data-payment-status="{{ $order->payment_status }}"
+             data-payment-method="{{ $order->payment_method }}"
+             data-proof-state="{{ $order->hasPaymentProof() ? 'uploaded' : (!empty($order->payment_proof_rejected_reason) ? 'rejected' : 'none') }}"
+             data-midtrans-configured="{{ !empty($midtransConfigured) ? 'true' : 'false' }}"
+             data-snap-script-url="{{ $snapScriptUrl ?? '' }}"
+             data-client-key="{{ $midtransClientKey ?? '' }}"
+             data-snap-token="{{ $order->snap_token ?? '' }}"
+             data-snap-redirect-url="{{ $order->snap_redirect_url ?? '' }}"
+             data-token-url="{{ route('orders.midtrans.token', $order->order_number) }}"
+             data-sync-url="{{ route('orders.payment.sync', $order->order_number) }}"
+             data-status-url="{{ route('orders.payment.status', $order->order_number) }}"></div>
+    @endif
+
+    <!-- Top Header Row -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-            <div class="flex items-center gap-2">
-                <span class="bg-gray-900 text-white font-mono text-xs font-bold px-3 py-1 rounded-lg">
+            <div class="flex flex-wrap items-center gap-2.5">
+                <span class="bg-[#2B302E] text-white font-mono text-[11px] font-semibold px-3 py-1 rounded-md tracking-wide">
                     {{ $order->order_number }}
                 </span>
-                <span class="text-xs text-gray-500">{{ $order->created_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA</span>
+                <span class="text-xs text-[#6B7280] font-normal">
+                    {{ $order->created_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA
+                </span>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mt-1">Status & Bukti Pesanan</h1>
+            <h1 class="font-brand text-[26px] sm:text-[34px] lg:text-[38px] text-[#3B5954] uppercase tracking-wide leading-[1.08] mt-1.5"
+                style="font-family: 'BBH Hegarty', 'Luckiest Guy', cursive;">
+                STATUS &amp; BUKTI PESANAN
+            </h1>
         </div>
 
-        <div class="flex items-center gap-2 no-print">
-            <button onclick="window.print()" class="bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 font-medium text-xs px-4 py-2.5 rounded-xl transition shadow-xs flex items-center gap-1.5 cursor-pointer">
-                Cetak Struk
-            </button>
-            <a href="{{ route('menu') }}" class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-medium text-xs px-4 py-2.5 rounded-xl transition shadow-xs">
-                + Pesan Lagi
-            </a>
+        <!-- Single Context-Aware Action Button (Tampilkan Qris / Simpan/cetak struk) -->
+        <div class="flex items-center gap-2 self-start sm:self-end no-print">
+            @if($isUnpaidActive && !empty($midtransConfigured) && $order->payment_method !== 'cash')
+                <button type="button"
+                        id="btn-midtrans-pay"
+                        onclick="window.payWithMidtrans(false)"
+                        class="border border-[#6B7280]/80 bg-transparent hover:bg-white/80 text-[#2B302E] font-medium text-xs sm:text-[13px] px-4 py-2.5 rounded-lg inline-flex items-center gap-2.5 transition cursor-pointer active:scale-[0.98] whitespace-nowrap">
+                    <span>Tampilkan {{ $paymentMethodLabel }}</span>
+                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <path d="M14 14h3v3h-3zM20 14v3h-1M14 20h3M20 20h1"/>
+                    </svg>
+                </button>
+            @elseif($isUnpaidActive && $order->payment_method === 'qris')
+                <button type="button"
+                        onclick="window.openQrisModal()"
+                        class="border border-[#6B7280]/80 bg-transparent hover:bg-white/80 text-[#2B302E] font-medium text-xs sm:text-[13px] px-4 py-2.5 rounded-lg inline-flex items-center gap-2.5 transition cursor-pointer active:scale-[0.98] whitespace-nowrap">
+                    <span>Tampilkan Qris</span>
+                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <path d="M14 14h3v3h-3zM20 14v3h-1M14 20h3M20 20h1"/>
+                    </svg>
+                </button>
+            @elseif($isUnpaidActive && $order->payment_method !== 'cash')
+                <button type="button"
+                        onclick="window.openPaymentProofModal()"
+                        class="border border-[#6B7280]/80 bg-transparent hover:bg-white/80 text-[#2B302E] font-medium text-xs sm:text-[13px] px-4 py-2.5 rounded-lg inline-flex items-center gap-2.5 transition cursor-pointer active:scale-[0.98] whitespace-nowrap">
+                    <span>{{ $order->hasPaymentProof() ? 'Ganti Bukti Bayar' : 'Upload Bukti Bayar' }}</span>
+                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </button>
+            @else
+                <button type="button"
+                        onclick="window.print()"
+                        class="border border-[#6B7280]/80 bg-transparent hover:bg-white/80 text-[#2B302E] font-medium text-xs sm:text-[13px] px-4 py-2.5 rounded-lg inline-flex items-center gap-2.5 transition cursor-pointer active:scale-[0.98] whitespace-nowrap">
+                    <span>Simpan/cetak struk</span>
+                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M6 9V3h12v6"/>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                        <rect x="6" y="14" width="12" height="7" rx="1"/>
+                    </svg>
+                </button>
+            @endif
         </div>
     </div>
 
-        <!-- Top Bar -->
-
     @if($errors->any())
-        <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-2xl flex items-center justify-between shadow-2xs" role="alert">
+        <div class="mb-5 p-4 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-2xl flex items-center justify-between shadow-2xs" role="alert">
             <span>{{ $errors->first() }}</span>
         </div>
     @endif
 
-    @if($order->payment_status !== 'paid' && $order->status !== 'cancelled' && !empty($order->payment_proof_rejected_reason) && !$order->hasPaymentProof())
-        <div class="mb-6 p-4 sm:p-5 bg-red-50 border border-red-200 text-red-900 rounded-2xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4" role="alert">
+    @if($isUnpaidActive && !empty($order->payment_proof_rejected_reason) && !$order->hasPaymentProof())
+        <div class="mb-5 p-4 sm:p-5 bg-red-50 border border-red-200 text-red-900 rounded-2xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print" role="alert">
             <div class="space-y-1">
                 <span class="inline-block bg-red-100 text-red-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     Bukti Pembayaran Perlu Diunggah Ulang
@@ -55,246 +192,170 @@
         </div>
     @endif
 
-    <!-- LIVE KITCHEN STATUS STEPPER -->
-    @php
-        $statuses = ['pending' => 'Menunggu', 'confirmed' => 'Dikonfirmasi', 'preparing' => 'Dimasak', 'ready' => 'Siap Saji', 'completed' => 'Selesai'];
-        $statusKeys = array_keys($statuses);
-        $currentIndex = array_search($order->status, $statusKeys);
-        if ($currentIndex === false && $order->status === 'cancelled') $currentIndex = -1;
-    @endphp
-
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs mb-8">
-        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+    <!-- CARD 1: LIVE KITCHEN STATUS & 4-STEP PROGRESS STEPPER -->
+    <div class="bg-white rounded-[22px] sm:rounded-[26px] px-5 py-6 sm:px-8 sm:py-7 border border-[#E5E0D4] shadow-[0_6px_24px_rgba(30,46,43,0.04)] mb-6">
+        <div class="flex items-start justify-between gap-4">
             <div>
-                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Status Dapur</span>
-                <div class="text-lg font-black text-gray-900 flex items-center gap-2">
-                    @if($order->status === 'pending')
-                        <span class="w-3 h-3 rounded-full bg-yellow-400 animate-ping"></span> Menunggu Konfirmasi Dapur
-                    @elseif($order->status === 'confirmed')
-                        <span class="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></span> Pesanan Telah Dikonfirmasi
-                    @elseif($order->status === 'preparing')
-                        <span class="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></span> Koki Sedang Memasak Pesanan Anda
-                    @elseif($order->status === 'ready')
-                        <span class="w-3 h-3 rounded-full bg-green-500"></span> Pesanan Siap Diambil / Diantar
-                    @elseif($order->status === 'completed')
-                        <span class="w-3 h-3 rounded-full bg-green-600"></span> Pesanan Selesai
-                    @elseif($order->status === 'cancelled')
-                        <span class="w-3 h-3 rounded-full bg-red-600"></span> Pesanan Dibatalkan
-                    @endif
+                <span class="text-[11px] sm:text-xs text-[#9CA3AF] font-normal block">Status Dapur</span>
+                <div class="mt-1 flex items-center gap-2 text-sm sm:text-[15px] font-bold text-[#1F2937]">
+                    <span class="w-2 h-2 rounded-full {{ $statusMeta['dot'] }} shrink-0"></span>
+                    <span>{{ $statusMeta['text'] }}</span>
                 </div>
             </div>
 
             <!-- Payment Status Pill -->
-            <div class="text-right">
-                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">Status Pembayaran</span>
+            <div class="text-right shrink-0">
+                <span class="text-[11px] sm:text-xs text-[#9CA3AF] font-normal block mb-1">Status Pembayaran</span>
                 @if($order->payment_status === 'paid')
-                    <span class="inline-flex items-center gap-1 bg-green-100 text-green-800 font-extrabold text-xs px-3 py-1 rounded-full">
-                        LUNAS ({{ strtoupper($order->payment_method) }})
+                    <span class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#E1F3E8] text-[#2F855A] font-semibold text-[11px]">
+                        Lunas ({{ $paymentMethodLabel }})
                     </span>
                 @elseif($order->isAwaitingPaymentVerification())
-                    <span class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 font-extrabold text-xs px-3 py-1 rounded-full">
-                        MENUNGGU VERIFIKASI ADMIN
+                    <span class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#FEF3C7] text-[#B45309] font-semibold text-[11px]">
+                        Menunggu Verifikasi
+                    </span>
+                @elseif($order->status === 'cancelled')
+                    <span class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#FEE2E2] text-[#B91C1C] font-semibold text-[11px]">
+                        Dibatalkan
                     </span>
                 @else
-                    <span class="inline-flex items-center gap-1 bg-red-100 text-red-800 font-extrabold text-xs px-3 py-1 rounded-full">
-                        BELUM DIBAYAR
+                    <span class="inline-flex items-center px-3 py-0.5 rounded-full bg-[#F5C6C6] text-[#B93838] font-semibold text-[11px]">
+                        Belum Bayar ({{ $paymentMethodLabel }})
                     </span>
                 @endif
             </div>
         </div>
 
-        <!-- Progress Bar Stepper -->
-        <div class="relative flex items-center justify-between">
-            <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-gray-200 w-full z-0 rounded-full"></div>
-            <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-bites-yellow z-0 rounded-full transition-all duration-500" 
-                 style="width: {{ $currentIndex >= 0 ? ($currentIndex / (count($statusKeys) - 1)) * 100 : 0 }}%;"></div>
-
-            @foreach($statuses as $key => $label)
-                @php
-                    $stepIdx = array_search($key, $statusKeys);
-                    $isDone = $currentIndex >= $stepIdx;
-                    $isCurrent = $currentIndex === $stepIdx;
-                @endphp
-                <div class="relative z-10 flex flex-col items-center">
-                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs transition {{ $isDone ? 'bg-bites-yellow text-bites-dark shadow-md ring-4 ring-yellow-100' : 'bg-gray-200 text-gray-500' }}">
-                        {{ $stepIdx + 1 }}
-                    </div>
-                    <span class="text-[10px] sm:text-xs font-bold mt-2 text-center {{ $isCurrent ? 'text-bites-red font-black' : ($isDone ? 'text-gray-900' : 'text-gray-400') }}">
-                        {{ $label }}
-                    </span>
+        <!-- 4-Step Progress Stepper -->
+        <div class="mt-8 sm:mt-10 px-2 sm:px-10 pb-1">
+            <div class="relative">
+                <!-- Background Connector Track -->
+                <div class="absolute top-[20px] sm:top-[24px] left-[20px] right-[20px] sm:left-[24px] sm:right-[24px] h-[3.5px] sm:h-1 bg-[#D4D4D4] rounded-full z-0"></div>
+                <!-- Active Gold Progress Bar -->
+                <div class="absolute top-[20px] sm:top-[24px] left-[20px] right-[20px] sm:left-[24px] sm:right-[24px] h-[3.5px] sm:h-1 z-0">
+                    <div class="h-full bg-[#F4BD22] rounded-full transition-all duration-500"
+                         style="width: {{ $progressPercent }}%;"></div>
                 </div>
-            @endforeach
+
+                <!-- Step Nodes -->
+                <div class="relative z-10 flex items-start justify-between">
+                    @foreach($stepperSteps as $stepNum => $stepLabel)
+                        @php
+                            $isCompleted = $currentStep >= $stepNum;
+                            $isCurrent = $currentStep === $stepNum;
+                        @endphp
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-base sm:text-lg font-semibold transition-all duration-300 {{ $isCurrent ? 'bg-[#F4BD22] text-[#1F2937] ring-[5px] ring-[#F4BD22]/30' : ($isCompleted ? 'bg-[#F4BD22] text-[#1F2937]' : 'bg-[#B7B7B7] text-[#3F3F46]') }}">
+                                {{ $stepNum }}
+                            </div>
+                            <span class="mt-2.5 text-[11px] sm:text-xs text-center whitespace-nowrap {{ $isCurrent ? 'font-semibold text-[#3B5954]' : ($isCompleted ? 'font-semibold text-[#1F2937]' : 'font-medium text-[#9CA3AF]') }}">
+                                {{ $stepLabel }}
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- PAYMENT PROMPT IF UNPAID (MIDTRANS GATEWAY OR MANUAL IN-SYSTEM VERIFICATION) -->
-    @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
-        <div id="midtrans-payment-config"
-             data-order-number="{{ $order->order_number }}"
-             data-payment-status="{{ $order->payment_status }}"
-             data-payment-method="{{ $order->payment_method }}"
-             data-proof-state="{{ $order->hasPaymentProof() ? 'uploaded' : (!empty($order->payment_proof_rejected_reason) ? 'rejected' : 'none') }}"
-             data-midtrans-configured="{{ !empty($midtransConfigured) ? 'true' : 'false' }}"
-             data-snap-script-url="{{ $snapScriptUrl ?? '' }}"
-             data-client-key="{{ $midtransClientKey ?? '' }}"
-             data-snap-token="{{ $order->snap_token ?? '' }}"
-             data-snap-redirect-url="{{ $order->snap_redirect_url ?? '' }}"
-             data-token-url="{{ route('orders.midtrans.token', $order->order_number) }}"
-             data-sync-url="{{ route('orders.payment.sync', $order->order_number) }}"
-             data-status-url="{{ route('orders.payment.status', $order->order_number) }}"
-             class="bg-[#253B36] border border-[#385850]/60 rounded-3xl p-6 text-white shadow-lg mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div class="space-y-2">
-                <span class="inline-block bg-[#1B2C28] text-[#EBD8A4] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                    @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
-                        Pembayaran Otomatis
-                    @elseif($order->hasPaymentProof())
-                        Bukti Pembayaran Terkirim
-                    @else
-                        Menunggu Pembayaran
-                    @endif
-                </span>
-                <h3 class="text-xl font-black text-white">Total Tagihan: Rp {{ number_format($order->total_amount, 0, ',', '.') }}</h3>
-                <p class="text-xs text-white/90">
-                    Metode: <strong class="uppercase text-[#EBD8A4]">{{ str_replace('_', ' ', $order->payment_method) }}</strong>.
-                    @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
-                        Selesaikan pembayaran — status pesanan akan otomatis berubah menjadi <strong>LUNAS</strong> setelah transfer diterima.
-                    @elseif($order->payment_method === 'cash')
-                        Silakan lakukan pembayaran tunai langsung ke kasir Toon Burger saat mengambil pesanan.
-                    @elseif($order->hasPaymentProof())
-                        Bukti pembayaran Anda sudah diterima sistem{{ $order->payment_proof_uploaded_at ? ' pada ' . $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') . ' WITA' : '' }}. Menunggu konfirmasi dari Admin / Kasir.
-                    @else
-                        Scan QRIS / transfer sesuai nominal di atas, lalu unggah bukti pembayaran langsung ke sistem agar Admin dapat segera mengonfirmasi.
-                    @endif
-                </p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-center gap-3">
-                @if(!empty($midtransConfigured) && $order->payment_method !== 'cash')
-                    <button type="button"
-                            id="btn-midtrans-pay"
-                            onclick="window.payWithMidtrans(false)"
-                            class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold text-xs px-6 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
-                        Bayar Sekarang ({{ strtoupper($order->payment_method === 'qris' ? 'QRIS' : str_replace('_', ' ', $order->payment_method)) }})
-                    </button>
-                @elseif($order->payment_method !== 'cash')
-                    @if($order->payment_method === 'qris')
-                        <button type="button"
-                                onclick="window.openQrisModal()"
-                                class="bg-bites-yellow hover:bg-bites-yellow-dark text-bites-dark font-bold text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-md whitespace-nowrap cursor-pointer">
-                            {{ $order->hasPaymentProof() ? 'Lihat Kode QRIS' : 'Tampilkan Kode QRIS' }}
-                        </button>
-                    @endif
-                    <button type="button"
-                            onclick="window.openPaymentProofModal()"
-                            class="bg-[#1B2C28] text-white hover:bg-[#14211E] border border-white/20 font-medium text-xs px-5 py-3 min-h-[44px] rounded-xl transition shadow-xs whitespace-nowrap inline-flex items-center justify-center cursor-pointer">
-                        {{ $order->hasPaymentProof() ? 'Ganti / Upload Ulang Bukti' : 'Upload Bukti Pembayaran' }}
-                    </button>
-                @endif
-            </div>
-        </div>
-    @endif
-
-    @if($order->hasPaymentProof())
-        <div class="bg-white rounded-3xl p-6 border border-gray-200/80 shadow-xs mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-            <div class="flex items-start gap-4">
+    <!-- COMPACT UPLOADED PROOF CARD (Shown only while awaiting admin verification) -->
+    @if($order->isAwaitingPaymentVerification())
+        <div class="bg-white rounded-[22px] sm:rounded-[26px] px-5 py-4 sm:px-7 sm:py-5 border border-[#E5E0D4] shadow-[0_6px_24px_rgba(30,46,43,0.04)] mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 no-print">
+            <div class="flex items-center gap-3.5">
                 <button type="button"
                         onclick="window.openProofLightbox()"
-                        class="w-20 h-20 rounded-2xl border border-gray-200 bg-gray-50 overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer shadow-2xs"
+                        class="w-14 h-14 rounded-xl border border-gray-200 bg-gray-50 overflow-hidden shrink-0 hover:opacity-90 transition cursor-pointer"
                         title="Klik untuk memperbesar bukti pembayaran">
                     <img src="{{ $order->payment_proof }}"
                          alt="Bukti Pembayaran {{ $order->order_number }}"
                          class="w-full h-full object-cover">
                 </button>
-                <div class="space-y-1.5">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="text-xs font-black text-gray-900">Bukti Pembayaran Terkirim</span>
-                        @if($order->payment_status === 'paid')
-                            <span class="bg-green-100 text-green-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
-                                Terverifikasi Lunas
-                            </span>
-                        @else
-                            <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
-                                Menunggu Konfirmasi Admin
-                            </span>
+                <div>
+                    <div class="text-xs font-bold text-[#1F2937]">Bukti Pembayaran Terkirim</div>
+                    <p class="text-[11px] text-[#737373] mt-0.5">
+                        @if($order->payment_proof_uploaded_at)
+                            Dikirim pada {{ $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA •
                         @endif
-                    </div>
-                    @if($order->payment_proof_uploaded_at)
-                        <p class="text-[11px] text-gray-500">
-                            Dikirim pada {{ $order->payment_proof_uploaded_at->timezone('Asia/Makassar')->format('d M Y, H:i') }} WITA
-                        </p>
-                    @endif
-                    @if($order->payment_proof_note)
-                        <p class="text-xs text-gray-700 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">
-                            Catatan: {{ $order->payment_proof_note }}
-                        </p>
-                    @endif
+                        Menunggu konfirmasi Admin / Kasir.
+                    </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2.5 self-end sm:self-center shrink-0">
+            <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
                 <button type="button"
                         onclick="window.openProofLightbox()"
-                        class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
+                        class="bg-[#F0F0F0] hover:bg-gray-200 text-[#2B302E] font-medium text-xs px-3.5 py-2 rounded-lg transition cursor-pointer">
                     Lihat Foto
                 </button>
-                @if($order->payment_status !== 'paid' && $order->status !== 'cancelled')
-                    <button type="button"
-                            onclick="window.openPaymentProofModal()"
-                            class="bg-[#385850] hover:bg-[#2C463F] text-white font-semibold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
-                        Ganti Bukti
-                    </button>
-                @endif
+                <button type="button"
+                        onclick="window.openPaymentProofModal()"
+                        class="bg-[#3B5954] hover:bg-[#2F4844] text-white font-medium text-xs px-3.5 py-2 rounded-lg transition cursor-pointer">
+                    Ganti Bukti
+                </button>
             </div>
         </div>
     @endif
 
-    <!-- INVOICE RECEIPT DETAILS -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-xs space-y-6">
-        
-        <!-- Header Info -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-6 border-b border-gray-100 text-xs">
-            <div>
-                <span class="text-gray-400 font-medium block">Tipe Pesanan</span>
-                <span class="font-extrabold text-gray-900 uppercase">
-                    {{ str_replace('_', ' ', $order->order_type) }}
-                    @if($order->table)
-                        ({{ $order->table->table_number }})
-                    @endif
+    <!-- CARD 2: INVOICE RECEIPT DETAILS -->
+    <div class="bg-white rounded-[22px] sm:rounded-[26px] px-5 py-6 sm:px-8 sm:py-7 border border-[#E5E0D4] shadow-[0_6px_24px_rgba(30,46,43,0.04)] space-y-5">
+
+        <!-- 4-Column Order Meta Info -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+            <div class="text-left">
+                <span class="text-[11px] text-[#9CA3AF] font-normal block">Tipe Pesanan</span>
+                <span class="text-xs sm:text-[13px] font-bold text-[#1F2937] mt-0.5 block">
+                    {{ $orderTypeLabel }}
                 </span>
             </div>
-            <div>
-                <span class="text-gray-400 font-medium block">Nama Pemesan</span>
-                <span class="font-extrabold text-gray-900">{{ $order->customer_name }}</span>
+            <div class="sm:text-center">
+                <span class="text-[11px] text-[#9CA3AF] font-normal block">Nama Pemesan</span>
+                <span class="text-xs sm:text-[13px] font-bold text-[#1F2937] mt-0.5 block">
+                    {{ $order->customer_name }}
+                </span>
             </div>
-            <div>
-                <span class="text-gray-400 font-medium block">No. Telepon</span>
-                <span class="font-extrabold text-gray-900">{{ $order->customer_phone }}</span>
+            <div class="sm:text-center">
+                <span class="text-[11px] text-[#9CA3AF] font-normal block">No. Telepon</span>
+                <span class="text-xs sm:text-[13px] font-bold text-[#1F2937] mt-0.5 block">
+                    {{ $order->customer_phone }}
+                </span>
             </div>
-            <div>
-                <span class="text-gray-400 font-medium block">Metode Pembayaran</span>
-                <span class="font-extrabold text-gray-900 uppercase">{{ $order->payment_method }}</span>
+            <div class="sm:text-right">
+                <span class="text-[11px] text-[#9CA3AF] font-normal block">Metode Pembayaran</span>
+                <span class="text-xs sm:text-[13px] font-bold text-[#1F2937] mt-0.5 block">
+                    {{ $paymentMethodLabel }}
+                </span>
             </div>
         </div>
 
+        <!-- Catatan Pesanan Box -->
+        <div class="bg-[#F0F0F0] rounded-xl px-4 py-3.5 text-left">
+            <span class="block text-xs font-bold text-[#1F2937]">Catatan Pesanan</span>
+            <p class="text-xs text-[#737373] mt-1 leading-relaxed">
+                {{ $displayOrderNote !== '' ? $displayOrderNote : 'Tidak ada catatan pesanan' }}
+            </p>
+        </div>
+
         @if($order->delivery_address)
-            <div class="bg-gray-50 p-3 rounded-xl text-xs">
-                <span class="font-bold text-gray-600 block">Alamat Pengiriman:</span>
-                <p class="text-gray-800 mt-0.5">{{ $order->delivery_address }}</p>
+            <div class="bg-[#F0F0F0] rounded-xl px-4 py-3.5 text-left">
+                <span class="block text-xs font-bold text-[#1F2937]">Alamat Pengiriman</span>
+                <p class="text-xs text-[#737373] mt-1 leading-relaxed">{{ $order->delivery_address }}</p>
             </div>
         @endif
 
-        <!-- Items Table -->
+        <!-- Rincian Pesanan -->
         <div>
-            <h4 class="font-black text-xs text-gray-400 uppercase tracking-wider mb-3">Rincian Menu yang Dipesan</h4>
-            <div class="space-y-3">
+            <h4 class="text-xs font-semibold text-[#1F2937] mb-2.5">Rincian Pesanan</h4>
+            <div class="space-y-2.5">
                 @foreach($order->items as $item)
-                    <div class="flex items-start justify-between gap-4 p-3.5 rounded-2xl bg-gray-50/70 border border-gray-100 text-xs">
-                        <div class="flex-1">
-                            <h5 class="font-bold text-gray-900 text-sm">{{ $item->product_name }}</h5>
-                            <span class="text-gray-500 font-semibold">{{ $item->quantity }}x @ Rp {{ number_format($item->price, 0, ',', '.') }}</span>
-                            
+                    <div class="flex items-center justify-between gap-4 px-4 py-3.5 rounded-xl bg-[#F0F0F0] text-xs">
+                        <div class="flex-1 min-w-0">
+                            <h5 class="font-bold text-[#1F2937] text-xs sm:text-[13px] leading-snug">{{ $item->product_name }}</h5>
+                            <span class="text-[11px] sm:text-xs text-[#8C8C8C] font-normal block mt-0.5">
+                                {{ $item->quantity }}x Rp {{ number_format($item->price, 0, ',', '.') }}
+                            </span>
+
                             @if($item->options->isNotEmpty())
-                                <div class="mt-1 flex flex-wrap gap-1">
+                                <div class="mt-1.5 flex flex-wrap gap-1">
                                     @foreach($item->options as $opt)
                                         <span class="bg-white px-2 py-0.5 rounded border border-gray-200 text-[10px] text-gray-600">
                                             + {{ $opt->option_value_name }}
@@ -303,20 +364,23 @@
                                 </div>
                             @endif
 
-                            @if($item->notes)
-                                <div class="text-[11px] text-amber-700 italic mt-1">Catatan: "{{ $item->notes }}"</div>
+                            @if($showIndividualItemNotes && $item->notes)
+                                <div class="text-[11px] text-[#737373] italic mt-1">Catatan: "{{ $item->notes }}"</div>
                             @endif
 
                             @if($order->status === 'completed' && $item->product_id)
-                                <div class="mt-2">
-                                    <button type="button" data-product-name="{{ $item->product_name }}" onclick="openReviewModal({{ (int) $item->product_id }}, this.dataset.productName)" class="text-[11px] font-medium text-bites-red hover:underline inline-flex items-center gap-1 cursor-pointer">
+                                <div class="mt-2 no-print">
+                                    <button type="button"
+                                            data-product-name="{{ $item->product_name }}"
+                                            onclick="openReviewModal({{ (int) $item->product_id }}, this.dataset.productName)"
+                                            class="text-[11px] font-semibold text-[#3B5954] hover:underline inline-flex items-center gap-1 cursor-pointer">
                                         Beri Ulasan Menu Ini
                                     </button>
                                 </div>
                             @endif
                         </div>
 
-                        <div class="font-black text-gray-900 text-sm whitespace-nowrap">
+                        <div class="font-bold text-[#1F2937] text-xs sm:text-[13px] whitespace-nowrap shrink-0">
                             Rp {{ number_format($item->subtotal, 0, ',', '.') }}
                         </div>
                     </div>
@@ -324,25 +388,25 @@
             </div>
         </div>
 
-        <!-- Total Calculation -->
-        <div class="pt-4 border-t border-gray-100 space-y-2 text-xs text-gray-600">
-            <div class="flex justify-between">
+        <!-- Totals Breakdown -->
+        <div class="pt-2 space-y-2 text-xs sm:text-[13px]">
+            <div class="flex items-center justify-between text-[#737373]">
                 <span>Subtotal Menu:</span>
-                <span class="font-semibold text-gray-900">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+                <span class="font-medium">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
             </div>
             @if($order->discount_amount > 0)
-                <div class="flex justify-between text-green-600 font-bold">
+                <div class="flex items-center justify-between text-[#2F855A] font-medium">
                     <span>Diskon Promo / Kupon:</span>
                     <span>- Rp {{ number_format($order->discount_amount, 0, ',', '.') }}</span>
                 </div>
             @endif
-            <div class="flex justify-between">
+            <div class="flex items-center justify-between text-[#737373]">
                 <span>Pajak PPN (11%):</span>
-                <span class="font-semibold text-gray-900">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
+                <span class="font-medium">Rp {{ number_format($order->tax_amount, 0, ',', '.') }}</span>
             </div>
-            <div class="flex justify-between text-base font-black text-gray-900 pt-3 border-t border-gray-200">
-                <span>Total Pembayaran:</span>
-                <span class="text-bites-red font-black text-xl">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+            <div class="flex items-center justify-between pt-3.5 mt-3 border-t border-[#E5E7EB] text-sm sm:text-[15px] font-bold text-[#1F2937]">
+                <span>Total</span>
+                <span>Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
             </div>
         </div>
 

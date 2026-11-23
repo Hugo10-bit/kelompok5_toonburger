@@ -401,7 +401,12 @@ function startPaymentPolling(config) {
         paymentPollingInterval = null;
     }
 
-    if (!config || config.paymentStatus === 'paid' || !config.statusUrl) {
+    if (!config || !config.statusUrl) {
+        return;
+    }
+
+    const isDoneOrder = config.orderStatus === 'completed' || config.orderStatus === 'cancelled';
+    if (config.paymentStatus === 'paid' && isDoneOrder) {
         return;
     }
 
@@ -420,8 +425,12 @@ function startPaymentPolling(config) {
             });
             if (!res.ok) return;
             const data = await res.json();
-            if (data.payment_status === 'paid') {
+            if (currentCfg.paymentStatus !== 'paid' && data.payment_status === 'paid') {
                 handlePaidRedirect();
+            } else if (data.status && currentCfg.orderStatus && data.status !== currentCfg.orderStatus) {
+                clearInterval(paymentPollingInterval);
+                paymentPollingInterval = null;
+                window.location.reload();
             } else if (currentCfg.proofState === 'uploaded' && data.proof_rejected) {
                 clearInterval(paymentPollingInterval);
                 paymentPollingInterval = null;
